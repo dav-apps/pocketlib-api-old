@@ -1,0 +1,8 @@
+{
+	"type": "function",
+	"name": "render_errors",
+	"params": [
+		"errors",
+		"status"
+	]
+}

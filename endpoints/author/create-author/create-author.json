@@ -1,4 +1,5 @@
 {
+	"type": "endpoint",
 	"path": "author",
 	"method": "POST"
 }
