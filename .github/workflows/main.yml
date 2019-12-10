@@ -1,0 +1,16 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Deploy the api to the dav Backend
+      uses: Dav2070/dav-api-deployment-action@master
+      with:
+        base-url: ${{ secrets.API_BASE_URL }}
+        api-id: ${{ secrets.API_ID }}
+        auth: ${{ secrets.AUTH }}
