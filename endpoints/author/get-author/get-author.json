@@ -1,0 +1,5 @@
+{
+	"type": "endpoint",
+	"path": "author/:id",
+	"method": "GET"
+}
