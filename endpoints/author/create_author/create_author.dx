@@ -1,0 +1,33 @@
+(var json (parse_json (get_body)))
+(var status 201)
+
+(# Get the jwt)
+(var jwt (get_header Authorization))
+(if (is_nil jwt) (
+	(# Show error for missing jwt)
+	(func render_errors ((list (get_error 2102)) 400))
+))
+
+(# Make sure content type is json)
+(var content_type (get_header Content-Type))
+(func validate_json (content_type))
+
+(# Decode the jwt)
+(var decoded_jwt (func validate_jwt (jwt)))
+
+(# Validate missing fields)
+(func render_validation_errors ((list 
+	(func validate_first_name_missing (json.first_name)) 
+	(func validate_last_name_missing (json.last_name))
+	(func validate_bio_missing (json.bio))
+)))
+
+(# Validate too short and too long fields)
+(func render_validation_errors ((list
+	(func validate_first_name_too_short (json.first_name))
+	(func validate_first_name_too_long (json.first_name))
+	(func validate_last_name_too_short (json.last_name))
+	(func validate_last_name_too_long (json.last_name))
+	(func validate_bio_too_short (json.bio))
+	(func validate_bio_too_long (json.bio))
+)))
