@@ -3,5 +3,6 @@
 	"name": "validate_json",
 	"params": [
 		"content_type"
-	]
+	],
+	"source": "./validate_json.dx"
 }
