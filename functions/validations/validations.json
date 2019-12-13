@@ -1,0 +1,52 @@
+{
+	"type": "functions",
+	"functions": [
+		{
+			"name": "validate_first_name_missing",
+			"params": ["first_name"],
+			"source": "./first_name/validate_first_name_missing.dx"
+		},
+		{
+			"name": "validate_last_name_missing",
+			"params": ["last_name"],
+			"source": "./last_name/validate_last_name_missing.dx"
+		},
+		{
+			"name": "validate_bio_missing",
+			"params": ["bio"],
+			"source": "./bio/validate_bio_missing.dx"
+		},
+
+		{
+			"name": "validate_first_name_too_short",
+			"params": ["first_name"],
+			"source": "./first_name/validate_first_name_too_short.dx"
+		},
+		{
+			"name": "validate_last_name_too_short",
+			"params": ["last_name"],
+			"source": "./last_name/validate_last_name_too_short.dx"
+		},
+		{
+			"name": "validate_bio_too_short",
+			"params": ["bio"],
+			"source": "./bio/validate_bio_too_short.dx"
+		},
+
+		{
+			"name": "validate_first_name_too_long",
+			"params": ["first_name"],
+			"source": "./first_name/validate_first_name_too_long.dx"
+		},
+		{
+			"name": "validate_last_name_too_long",
+			"params": ["last_name"],
+			"source": "./last_name/validate_last_name_too_long.dx"
+		},
+		{
+			"name": "validate_bio_too_long",
+			"params": ["bio"],
+			"source": "./bio/validate_bio_too_long.dx"
+		}
+	]
+}

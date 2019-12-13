@@ -1,0 +1,4 @@
+(# params: last_name: string)
+(if (is_nil last_name)
+	(hash (error (get_error 2104)) (status 400))
+)
