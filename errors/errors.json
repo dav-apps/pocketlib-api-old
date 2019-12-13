@@ -14,12 +14,18 @@
 		{"code": 2104, "message": "Missing field: last_name"},
 		{"code": 2105, "message": "Missing field: bio"},
 
-		{"code": 2201, "message": "Field too short: first_name"},
-		{"code": 2202, "message": "Field too short: last_name"},
-		{"code": 2203, "message": "Field too short: bio"},
+		{"code": 2201, "message": "Field has wrong type: auth"},
+		{"code": 2202, "message": "Field has wrong type: jwt"},
+		{"code": 2203, "message": "Field has wrong type: first_name"},
+		{"code": 2204, "message": "Field has wrong type: last_name"},
+		{"code": 2205, "message": "Field has wrong type: bio"},
 
-		{"code": 2301, "message": "Field too long: first_name"},
-		{"code": 2302, "message": "Field too long: last_name"},
-		{"code": 2303, "message": "Field too long: bio"}
+		{"code": 2301, "message": "Field too short: first_name"},
+		{"code": 2302, "message": "Field too short: last_name"},
+		{"code": 2303, "message": "Field too short: bio"},
+
+		{"code": 2401, "message": "Field too long: first_name"},
+		{"code": 2402, "message": "Field too long: last_name"},
+		{"code": 2403, "message": "Field too long: bio"}
 	]
 }

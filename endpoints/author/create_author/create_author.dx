@@ -22,6 +22,13 @@
 	(func validate_bio_missing (json.bio))
 )))
 
+(# Validate field types)
+(func render_validation_errors ((list
+	(func validate_first_name_wrong_type (json.first_name))
+	(func validate_last_name_wrong_type (json.last_name))
+	(func validate_bio_wrong_type (json.bio))
+)))
+
 (# Validate too short and too long fields)
 (func render_validation_errors ((list
 	(func validate_first_name_too_short (json.first_name))

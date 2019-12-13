@@ -18,6 +18,22 @@
 		},
 
 		{
+			"name": "validate_first_name_wrong_type",
+			"params": ["first_name"],
+			"source": "./first_name/validate_first_name_wrong_type.dx"
+		},
+		{
+			"name": "validate_last_name_wrong_type",
+			"params": ["last_name"],
+			"source": "./last_name/validate_last_name_wrong_type.dx"
+		},
+		{
+			"name": "validate_bio_wrong_type",
+			"params": ["bio"],
+			"source": "./bio/validate_bio_wrong_type.dx"
+		},
+
+		{
 			"name": "validate_first_name_too_short",
 			"params": ["first_name"],
 			"source": "./first_name/validate_first_name_too_short.dx"
