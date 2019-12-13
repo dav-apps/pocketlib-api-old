@@ -1,0 +1,8 @@
+{
+	"type": "function",
+	"name": "render_validation_errors",
+	"params": [
+		"validations"
+	],
+	"source": "./render_validation_errors.dx"
+}

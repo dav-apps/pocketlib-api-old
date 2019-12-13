@@ -4,5 +4,6 @@
 	"params": [
 		"errors",
 		"status"
-	]
+	],
+	"source": "./render_errors.dx"
 }
