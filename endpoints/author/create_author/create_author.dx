@@ -1,5 +1,8 @@
 (var json (parse_json (get_body)))
-(var status 201)
+
+(var first_name json.first_name)
+(var last_name json.last_name)
+(var bio json.bio)
 
 (# Get the jwt)
 (var jwt (get_header Authorization))
@@ -17,29 +20,35 @@
 
 (# Validate missing fields)
 (func render_validation_errors ((list 
-	(func validate_first_name_missing (json.first_name)) 
-	(func validate_last_name_missing (json.last_name))
-	(func validate_bio_missing (json.bio))
+	(func validate_first_name_missing (first_name)) 
+	(func validate_last_name_missing (last_name))
+	(func validate_bio_missing (bio))
 )))
 
 (# Validate field types)
 (func render_validation_errors ((list
-	(func validate_first_name_wrong_type (json.first_name))
-	(func validate_last_name_wrong_type (json.last_name))
-	(func validate_bio_wrong_type (json.bio))
+	(func validate_first_name_wrong_type (first_name))
+	(func validate_last_name_wrong_type (last_name))
+	(func validate_bio_wrong_type (bio))
 )))
 
 (# Validate too short and too long fields)
 (func render_validation_errors ((list
-	(func validate_first_name_too_short (json.first_name))
-	(func validate_first_name_too_long (json.first_name))
-	(func validate_last_name_too_short (json.last_name))
-	(func validate_last_name_too_long (json.last_name))
-	(func validate_bio_too_short (json.bio))
-	(func validate_bio_too_long (json.bio))
+	(func validate_first_name_too_short (first_name))
+	(func validate_first_name_too_long (first_name))
+	(func validate_last_name_too_short (last_name))
+	(func validate_last_name_too_long (last_name))
+	(func validate_bio_too_short (bio))
+	(func validate_bio_too_long (bio))
 )))
 
 (# Check if the user is already an author)
 (func render_validation_errors ((list
 	(func validate_user_is_already_author (decoded_jwt.user_id))
 )))
+
+(# Create the author table object)
+(var author_obj (func create_author_table_object (decoded_jwt.user_id (hash (first_name first_name) (last_name last_name) (bio bio)))))
+
+(# Render the result)
+(render_json (hash (uuid author_obj.uuid) (first_name first_name) (last_name last_name) (bio bio)) 201)
