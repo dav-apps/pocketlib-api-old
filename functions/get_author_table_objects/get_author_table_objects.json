@@ -1,0 +1,6 @@
+{
+	"type": "function",
+	"name": "get_author_table_objects",
+	"params": [],
+	"source": "./get_author_table_objects.dx"
+}
