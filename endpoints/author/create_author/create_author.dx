@@ -38,3 +38,8 @@
 	(func validate_bio_too_short (json.bio))
 	(func validate_bio_too_long (json.bio))
 )))
+
+(# Check if the user is already an author)
+(func render_validation_errors ((list
+	(func validate_user_is_already_author (decoded_jwt.user_id))
+)))
