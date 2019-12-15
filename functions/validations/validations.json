@@ -2,6 +2,12 @@
 	"type": "functions",
 	"functions": [
 		{
+			"name": "validate_user_is_already_author",
+			"params": ["user_id"],
+			"source": "./misc/validate_user_is_already_author.dx"
+		},
+		
+		{
 			"name": "validate_first_name_missing",
 			"params": ["first_name"],
 			"source": "./first_name/validate_first_name_missing.dx"
