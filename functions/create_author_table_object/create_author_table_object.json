@@ -1,0 +1,6 @@
+{
+	"type": "function",
+	"name": "create_author_table_object",
+	"params": ["user_id", "properties"],
+	"source": "./create_author_table_object.dx"
+}

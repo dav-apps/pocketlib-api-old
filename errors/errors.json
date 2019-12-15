@@ -3,7 +3,9 @@
 	"errors": [
 		{"code": 1101, "message": "Authentication failed"},
 		{"code": 1102, "message": "Action not allowed"},
-		{"code": 1103, "message": "The user is already an author"},
+		{"code": 1103, "message": "Unexpected error"},
+		{"code": 1104, "message": "Content-Type not supported"},
+		{"code": 1105, "message": "The user is already an author"},
 
 		{"code": 1301, "message": "JWT expired"},
 		{"code": 1302, "message": "JWT invalid"},

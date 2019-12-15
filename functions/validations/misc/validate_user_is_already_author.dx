@@ -3,5 +3,5 @@
 
 (if (table_objects.length > 0) (
 	(# Render User is already author error)
-	(hash (error (get_error 1103)) (status 400))
+	(hash (error (get_error 1105)) (status 400))
 ))
