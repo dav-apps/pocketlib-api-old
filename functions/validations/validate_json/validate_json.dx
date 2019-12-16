@@ -1,5 +1,0 @@
-(# params: content_type: string)
-(if (content_type != "application/json") (
-	(# Show error for content type)
-	(func render_errors ((list (get_error 1104)) 415))
-))

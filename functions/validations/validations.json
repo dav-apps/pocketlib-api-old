@@ -11,6 +11,21 @@
 			"params": ["dev_id"],
 			"source": "./misc/validate_dev_is_pocketlib_dev.dx"
 		},
+		{
+			"name": "validate_content_type_json",
+			"params": ["content_type"],
+			"source": "./misc/validate_content_type_json.dx"
+		},
+		{
+			"name": "decode_jwt",
+			"params": ["jwt"],
+			"source": "./jwt/decode_jwt.dx"
+		},
+		{
+			"name": "validate_jwt_missing",
+			"params": ["jwt"],
+			"source": "./jwt/validate_jwt_missing.dx"
+		},
 		
 		{
 			"name": "validate_first_name_missing",

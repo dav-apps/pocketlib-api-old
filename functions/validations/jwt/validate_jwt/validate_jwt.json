@@ -1,8 +1,0 @@
-{
-	"type": "function",
-	"name": "validate_jwt",
-	"params": [
-		"jwt"
-	],
-	"source": "./validate_jwt.dx"
-}
