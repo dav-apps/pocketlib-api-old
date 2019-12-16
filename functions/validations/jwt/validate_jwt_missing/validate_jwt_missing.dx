@@ -1,0 +1,5 @@
+(# params: jwt: string)
+(if (is_nil jwt) (
+	(# Show error for missing jwt)
+	(hash (error (get_error 2102)) (status 400))
+))

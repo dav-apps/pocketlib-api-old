@@ -1,0 +1,6 @@
+{
+	"type": "function",
+	"name": "validate_jwt_missing",
+	"params": ["jwt"],
+	"source": "./validate_jwt_missing.dx"
+}
