@@ -1,6 +1,0 @@
-{
-	"type": "endpoint",
-	"path": "author/:id",
-	"method": "GET",
-	"source": "./get_author.dx"
-}

@@ -29,6 +29,8 @@
 
 		{"code": 2401, "message": "Field too long: first_name"},
 		{"code": 2402, "message": "Field too long: last_name"},
-		{"code": 2403, "message": "Field too long: bio"}
+		{"code": 2403, "message": "Field too long: bio"},
+
+		{"code": 2801, "message": "Resource does not exist: Author"}
 	]
 }
