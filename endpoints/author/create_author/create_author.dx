@@ -11,11 +11,12 @@
 )))
 
 (# Make sure content type is json)
-(var content_type (get_header Content-Type))
-(func validate_json (content_type))
+(func render_validation_errors ((list
+	(func validate_content_type_json ((get_header Content-Type)))
+)))
 
 (# Decode the jwt)
-(var decoded_jwt (func validate_jwt (jwt)))
+(var decoded_jwt (func decode_jwt (jwt)))
 
 (# Validate the dev)
 (func render_validation_errors ((list
