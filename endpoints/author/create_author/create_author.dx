@@ -17,6 +17,11 @@
 (# Decode the jwt)
 (var decoded_jwt (func validate_jwt (jwt)))
 
+(# Validate the dev)
+(func render_validation_errors ((list
+	(func validate_dev_is_pocketlib_dev (decoded_jwt.dev_id))
+)))
+
 (# Validate missing fields)
 (func render_validation_errors ((list 
 	(func validate_first_name_missing (first_name)) 

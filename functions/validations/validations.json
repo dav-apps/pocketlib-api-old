@@ -6,6 +6,11 @@
 			"params": ["user_id"],
 			"source": "./misc/validate_user_is_already_author.dx"
 		},
+		{
+			"name": "validate_dev_is_pocketlib_dev",
+			"params": ["dev_id"],
+			"source": "./misc/validate_dev_is_pocketlib_dev.dx"
+		},
 		
 		{
 			"name": "validate_first_name_missing",
