@@ -40,6 +40,31 @@ describe("CreateAuthor endpoint", () => {
 		assert.fail();
 	});
 
+	it("should not create author if jwt is for another app", async () => {
+		try{
+			await axios.default({
+				method: 'post',
+				url: createAuthorEndpointUrl,
+				headers: {
+					Authorization: constants.davClassLibraryTestUserJWT,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					first_name: "Dav",
+					last_name: "Tester",
+					bio: "Hello World"
+				}
+			});
+		}catch(error){
+			assert.equal(403, error.response.status);
+			assert.equal(1, error.response.data.errors.length);
+			assert.equal(1102, error.response.data.errors[0].code);
+			return;
+		}
+
+		assert.fail();
+	});
+
 	it("should not create author without required properties", async () => {
 		try{
 			await axios.default({
