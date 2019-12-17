@@ -1,7 +1,7 @@
 {
 	"type": "tests",
 	"tests": [
-		"./src/author/create_author.spec.js",
+		"./src/author/set_author_of_user.spec.js",
 		"./src/author/get_author_of_user.spec.js"
 	]
 }

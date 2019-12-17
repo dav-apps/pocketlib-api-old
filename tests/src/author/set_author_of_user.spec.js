@@ -4,11 +4,11 @@ var constants = require("../constants");
 
 const createAuthorEndpointUrl = `${constants.apiBaseUrl}/api/1/call/author`;
 
-describe("CreateAuthor endpoint", () => {
-	it("should not create author without jwt", async () => {
+describe("SetAuthorOfUser endpoint", () => {
+	it("should not set author without jwt", async () => {
 		try{
 			await axios.default({
-				method: 'post',
+				method: 'put',
 				url: createAuthorEndpointUrl
 			});
 		}catch(error){
@@ -21,10 +21,10 @@ describe("CreateAuthor endpoint", () => {
 		assert.fail();
 	});
 
-	it("should not create author without content type json", async () => {
+	it("should not set author without content type json", async () => {
 		try{
 			await axios.default({
-				method: 'post',
+				method: 'put',
 				url: createAuthorEndpointUrl,
 				headers: {
 					Authorization: constants.davUserJWT
@@ -40,10 +40,10 @@ describe("CreateAuthor endpoint", () => {
 		assert.fail();
 	});
 
-	it("should not create author if jwt is for another app", async () => {
+	it("should not set author if jwt is for another app", async () => {
 		try{
 			await axios.default({
-				method: 'post',
+				method: 'put',
 				url: createAuthorEndpointUrl,
 				headers: {
 					Authorization: constants.davClassLibraryTestUserJWT,
@@ -65,10 +65,10 @@ describe("CreateAuthor endpoint", () => {
 		assert.fail();
 	});
 
-	it("should not create author without required properties", async () => {
+	it("should not set author without required properties", async () => {
 		try{
 			await axios.default({
-				method: 'post',
+				method: 'put',
 				url: createAuthorEndpointUrl,
 				headers: {
 					Authorization: constants.davUserJWT,
@@ -87,10 +87,10 @@ describe("CreateAuthor endpoint", () => {
 		assert.fail();
 	});
 
-	it("should not create author with properties with wrong types", async () => {
+	it("should not set author with properties with wrong types", async () => {
 		try{
 			await axios.default({
-				method: 'post',
+				method: 'put',
 				url: createAuthorEndpointUrl,
 				headers: {
 					Authorization: constants.davUserJWT,
@@ -114,10 +114,10 @@ describe("CreateAuthor endpoint", () => {
 		assert.fail();
 	});
 
-	it("should not create author with too short properties", async () => {
+	it("should not set author with too short properties", async () => {
 		try{
 			await axios.default({
-				method: 'post',
+				method: 'put',
 				url: createAuthorEndpointUrl,
 				headers: {
 					Authorization: constants.davUserJWT,
@@ -141,10 +141,10 @@ describe("CreateAuthor endpoint", () => {
 		assert.fail();
 	});
 
-	it("should not create author with too long properties", async () => {
+	it("should not set author with too long properties", async () => {
 		try{
 			await axios.default({
-				method: 'post',
+				method: 'put',
 				url: createAuthorEndpointUrl,
 				headers: {
 					Authorization: constants.davUserJWT,
@@ -168,10 +168,10 @@ describe("CreateAuthor endpoint", () => {
 		assert.fail();
 	});
 
-	it("should not create author if the user is already an author", async () => {
+	it("should not set author if the user is already an author", async () => {
 		try{
 			await axios.default({
-				method: 'post',
+				method: 'put',
 				url: createAuthorEndpointUrl,
 				headers: {
 					Authorization: constants.authorUserJWT,
@@ -193,7 +193,7 @@ describe("CreateAuthor endpoint", () => {
 		assert.fail();
 	});
 
-	it("should create author", async () => {
+	it("should set author", async () => {
 		let firstName = "Dav";
 		let lastName = "Tester";
 		let bio = "Hello World";
@@ -201,7 +201,7 @@ describe("CreateAuthor endpoint", () => {
 
 		try{
 			response = await axios.default({
-				method: 'post',
+				method: 'put',
 				url: createAuthorEndpointUrl,
 				headers: {
 					Authorization: constants.davUserJWT,
