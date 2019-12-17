@@ -1,11 +1,8 @@
 var assert = require('assert');
 var axios = require('axios');
+var constants = require("../constants");
 
-const apiBaseUrl = "http://localhost:3111/v1";
-const createAuthorEndpointUrl = `${apiBaseUrl}/api/1/call/author`;
-const authorTableId = 19;
-const davUserJWT = "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImRhdkBkYXYtYXBwcy50ZWNoIiwidXNlcl9pZCI6MSwiZGV2X2lkIjoxLCJleHAiOjM3NTYxMDE3NjAwfQ.6LvizKcYttmWGLwGFS4A2nhSu6aOs8O9_pa2StxTQqE.3";
-const authorUserJWT = "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImF1dGhvckBkYXYtYXBwcy50ZWNoIiwidXNlcl9pZCI6NiwiZGV2X2lkIjoxLCJleHAiOjM3NTYxMDE3NjAwfQ.npXRbu87twmlyqBSPuGb1qOn7Mh1ug_j0qEQiLz3N6U.2";
+const createAuthorEndpointUrl = `${constants.apiBaseUrl}/api/1/call/author`;
 
 describe("CreateAuthor endpoint", () => {
 	it("should not create author without jwt", async () => {
@@ -30,7 +27,7 @@ describe("CreateAuthor endpoint", () => {
 				method: 'post',
 				url: createAuthorEndpointUrl,
 				headers: {
-					Authorization: davUserJWT
+					Authorization: constants.davUserJWT
 				}
 			});
 		}catch(error){
@@ -49,7 +46,7 @@ describe("CreateAuthor endpoint", () => {
 				method: 'post',
 				url: createAuthorEndpointUrl,
 				headers: {
-					Authorization: davUserJWT,
+					Authorization: constants.davUserJWT,
 					'Content-Type': 'application/json'
 				}
 			});
@@ -71,7 +68,7 @@ describe("CreateAuthor endpoint", () => {
 				method: 'post',
 				url: createAuthorEndpointUrl,
 				headers: {
-					Authorization: davUserJWT,
+					Authorization: constants.davUserJWT,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -98,7 +95,7 @@ describe("CreateAuthor endpoint", () => {
 				method: 'post',
 				url: createAuthorEndpointUrl,
 				headers: {
-					Authorization: davUserJWT,
+					Authorization: constants.davUserJWT,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -125,7 +122,7 @@ describe("CreateAuthor endpoint", () => {
 				method: 'post',
 				url: createAuthorEndpointUrl,
 				headers: {
-					Authorization: davUserJWT,
+					Authorization: constants.davUserJWT,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -152,7 +149,7 @@ describe("CreateAuthor endpoint", () => {
 				method: 'post',
 				url: createAuthorEndpointUrl,
 				headers: {
-					Authorization: authorUserJWT,
+					Authorization: constants.authorUserJWT,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -182,7 +179,7 @@ describe("CreateAuthor endpoint", () => {
 				method: 'post',
 				url: createAuthorEndpointUrl,
 				headers: {
-					Authorization: davUserJWT,
+					Authorization: constants.davUserJWT,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -202,16 +199,16 @@ describe("CreateAuthor endpoint", () => {
 		assert.equal(bio, response.data.bio);
 
 		// Delete the author
-		await deleteAuthorOfUser(davUserJWT);
+		await deleteAuthorOfUser(constants.davUserJWT);
 	});
 });
 
-async function deleteAuthorOfUser(jwt) {
+async function deleteAuthorOfUser(jwt){
 	try{
 		// First, get the author table
 		let response = await axios.default({
 			method: 'get',
-			url: `${apiBaseUrl}/apps/table/${authorTableId}`,
+			url: `${constants.apiBaseUrl}/apps/table/${constants.authorTableId}`,
 			headers: {
 				Authorization: jwt
 			}
@@ -224,7 +221,7 @@ async function deleteAuthorOfUser(jwt) {
 		// Delete the first table object
 		await axios.default({
 			method: 'delete',
-			url: `${apiBaseUrl}/apps/object/${tableObjects[0].id}`,
+			url: `${constants.apiBaseUrl}/apps/object/${tableObjects[0].id}`,
 			headers: {
 				Authorization: jwt
 			}

@@ -1,6 +1,6 @@
 {
 	"type": "tests",
 	"tests": [
-		"./create_author.spec.js"
+		"./src/author/create_author.spec.js"
 	]
 }
