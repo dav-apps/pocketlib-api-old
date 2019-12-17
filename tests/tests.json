@@ -1,0 +1,6 @@
+{
+	"type": "tests",
+	"tests": [
+		"./create_author.spec.js"
+	]
+}
