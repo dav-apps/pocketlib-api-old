@@ -2,14 +2,22 @@ var assert = require('assert');
 var axios = require('axios');
 var constants = require("../constants");
 
-const createAuthorEndpointUrl = `${constants.apiBaseUrl}/api/1/call/author`;
+const setAuthorEndpointUrl = `${constants.apiBaseUrl}/api/1/call/author`;
+
+beforeEach(() => {
+	resetAuthors();
+});
+
+afterEach(() => {
+	resetAuthors();
+});
 
 describe("SetAuthorOfUser endpoint", () => {
 	it("should not set author without jwt", async () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: createAuthorEndpointUrl
+				url: setAuthorEndpointUrl
 			});
 		}catch(error){
 			assert.equal(400, error.response.status);
@@ -25,7 +33,7 @@ describe("SetAuthorOfUser endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: createAuthorEndpointUrl,
+				url: setAuthorEndpointUrl,
 				headers: {
 					Authorization: constants.davUserJWT
 				}
@@ -44,7 +52,7 @@ describe("SetAuthorOfUser endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: createAuthorEndpointUrl,
+				url: setAuthorEndpointUrl,
 				headers: {
 					Authorization: constants.davClassLibraryTestUserJWT,
 					'Content-Type': 'application/json'
@@ -65,11 +73,11 @@ describe("SetAuthorOfUser endpoint", () => {
 		assert.fail();
 	});
 
-	it("should not set author without required properties", async () => {
+	it("should not create author without required properties", async () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: createAuthorEndpointUrl,
+				url: setAuthorEndpointUrl,
 				headers: {
 					Authorization: constants.davUserJWT,
 					'Content-Type': 'application/json'
@@ -87,11 +95,11 @@ describe("SetAuthorOfUser endpoint", () => {
 		assert.fail();
 	});
 
-	it("should not set author with properties with wrong types", async () => {
+	it("should not create author with properties with wrong types", async () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: createAuthorEndpointUrl,
+				url: setAuthorEndpointUrl,
 				headers: {
 					Authorization: constants.davUserJWT,
 					'Content-Type': 'application/json'
@@ -114,11 +122,38 @@ describe("SetAuthorOfUser endpoint", () => {
 		assert.fail();
 	});
 
-	it("should not set author with too short properties", async () => {
+	it("should not update author with properties with wrong types", async () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: createAuthorEndpointUrl,
+				url: setAuthorEndpointUrl,
+				headers: {
+					Authorization: constants.authorUserJWT,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					first_name: 12,
+					last_name: 23.45,
+					bio: true
+				}
+			})
+		}catch(error){
+			assert.equal(400, error.response.status);
+			assert.equal(3, error.response.data.errors.length);
+			assert.equal(2203, error.response.data.errors[0].code);
+			assert.equal(2204, error.response.data.errors[1].code);
+			assert.equal(2205, error.response.data.errors[2].code);
+			return;
+		}
+
+		assert.fail();
+	});
+
+	it("should not create author with too short properties", async () => {
+		try{
+			await axios.default({
+				method: 'put',
+				url: setAuthorEndpointUrl,
 				headers: {
 					Authorization: constants.davUserJWT,
 					'Content-Type': 'application/json'
@@ -141,11 +176,11 @@ describe("SetAuthorOfUser endpoint", () => {
 		assert.fail();
 	});
 
-	it("should not set author with too long properties", async () => {
+	it("should not create author with too long properties", async () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: createAuthorEndpointUrl,
+				url: setAuthorEndpointUrl,
 				headers: {
 					Authorization: constants.davUserJWT,
 					'Content-Type': 'application/json'
@@ -168,32 +203,7 @@ describe("SetAuthorOfUser endpoint", () => {
 		assert.fail();
 	});
 
-	it("should not set author if the user is already an author", async () => {
-		try{
-			await axios.default({
-				method: 'put',
-				url: createAuthorEndpointUrl,
-				headers: {
-					Authorization: constants.authorUserJWT,
-					'Content-Type': 'application/json'
-				},
-				data: {
-					first_name: "Dav",
-					last_name: "Tester",
-					bio: "Hello World"
-				}
-			});
-		}catch(error){
-			assert.equal(400, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1105, error.response.data.errors[0].code);
-			return;
-		}
-
-		assert.fail();
-	});
-
-	it("should set author", async () => {
+	it("should create author", async () => {
 		let firstName = "Dav";
 		let lastName = "Tester";
 		let bio = "Hello World";
@@ -202,7 +212,7 @@ describe("SetAuthorOfUser endpoint", () => {
 		try{
 			response = await axios.default({
 				method: 'put',
-				url: createAuthorEndpointUrl,
+				url: setAuthorEndpointUrl,
 				headers: {
 					Authorization: constants.davUserJWT,
 					'Content-Type': 'application/json'
@@ -217,42 +227,99 @@ describe("SetAuthorOfUser endpoint", () => {
 			assert.fail();
 		}
 
-		assert.equal(201, response.status);
+		assert.equal(200, response.status);
 		assert(response.data.uuid != null);
 		assert.equal(firstName, response.data.first_name);
 		assert.equal(lastName, response.data.last_name);
 		assert.equal(bio, response.data.bio);
+	});
 
-		// Delete the author
-		await deleteAuthorOfUser(constants.davUserJWT);
+	it("should update author", async () => {
+		let firstName = "Test";
+		let bio = "Author description";
+		let response;
+
+		try{
+			response = await axios.default({
+				method: 'put',
+				url: setAuthorEndpointUrl,
+				headers: {
+					Authorization: constants.authorUserJWT,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					first_name: firstName,
+					bio
+				}
+			});
+		}catch(error){
+			assert.fail();
+		}
+
+		assert.equal(200, response.status);
+		assert.equal(constants.authorUserAuthor.uuid, response.data.uuid);
+		assert.equal(firstName, response.data.first_name);
+		assert.equal(constants.authorUserAuthor.lastName, response.data.last_name);
+		assert.equal(bio, response.data.bio);
 	});
 });
 
-async function deleteAuthorOfUser(jwt){
+async function resetAuthors(){
+	// Delete the author of dav user
+	// Get the author table
+	let authorObjUuid;
+	let response;
+
 	try{
-		// First, get the author table
-		let response = await axios.default({
+		response = await axios.default({
 			method: 'get',
 			url: `${constants.apiBaseUrl}/apps/table/${constants.authorTableId}`,
 			headers: {
-				Authorization: jwt
+				Authorization: constants.davUserJWT
 			}
 		});
 
-		// Return if there are no table objects
-		let tableObjects = response.data.table_objects;
-		if(tableObjects.length == 0) return;
+		if(response.data.table_objects.length > 0){
+			authorObjUuid = response.data.table_objects[0].uuid;
+		}
+	}catch(error){
+		console.log("Error in trying to get the author table");
+		console.log(error)
+	}
 
-		// Delete the first table object
+	if(authorObjUuid){
+		// Delete the author object
+		try{
+			await axios.default({
+				method: 'delete',
+				url: `${constants.apiBaseUrl}/apps/object/${authorObjUuid}`,
+				headers: {
+					Authorization: constants.davUserJWT
+				}
+			});
+		}catch(error){
+			console.log("Error in trying to delete the author object");
+			console.log(error);
+		}
+	}
+
+	// Reset the author of author user
+	try{
 		await axios.default({
-			method: 'delete',
-			url: `${constants.apiBaseUrl}/apps/object/${tableObjects[0].id}`,
+			method: 'put',
+			url: `${constants.apiBaseUrl}/apps/object/${constants.authorUserAuthor.uuid}`,
 			headers: {
-				Authorization: jwt
+				Authorization: constants.authorUserJWT,
+				'Content-Type': 'application/json'
+			},
+			data: {
+				first_name: constants.authorUserAuthor.firstName,
+				last_name: constants.authorUserAuthor.lastName,
+				bio: constants.authorUserAuthor.bio
 			}
 		});
 	}catch(error){
-		console.log("Error when trying to delete author of user:")
+		console.log("Error in resetting the author of the author user");
 		console.log(error);
 	}
 }
