@@ -2,6 +2,7 @@
 	"type": "tests",
 	"tests": [
 		"./src/author/set_author_of_user.spec.js",
-		"./src/author/get_author_of_user.spec.js"
+		"./src/author/get_author_of_user.spec.js",
+		"./src/store_book/create_store_book.spec.js"
 	]
 }

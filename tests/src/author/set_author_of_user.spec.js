@@ -284,7 +284,7 @@ async function resetAuthors(){
 		}
 	}catch(error){
 		console.log("Error in trying to get the author table");
-		console.log(error)
+		console.log(error.response.data);
 	}
 
 	if(authorObjUuid){
@@ -299,7 +299,7 @@ async function resetAuthors(){
 			});
 		}catch(error){
 			console.log("Error in trying to delete the author object");
-			console.log(error);
+			console.log(error.response.data);
 		}
 	}
 
@@ -320,6 +320,6 @@ async function resetAuthors(){
 		});
 	}catch(error){
 		console.log("Error in resetting the author of the author user");
-		console.log(error);
+		console.log(error.response.data);
 	}
 }
