@@ -1,7 +1,0 @@
-(# params: user_id: int)
-(var table_objects (func get_author_table_objects (user_id)))
-
-(if (table_objects.length > 0) (
-	(# Render User is already author error)
-	(hash (error (get_error 1106)) (status 400))
-))

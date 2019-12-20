@@ -6,7 +6,6 @@
 		{"code": 1103, "message": "Unexpected error"},
 		{"code": 1104, "message": "Content-Type not supported"},
 		{"code": 1105, "message": "The user is not an author"},
-		{"code": 1106, "message": "The user is already an author"},
 
 		{"code": 1301, "message": "JWT expired"},
 		{"code": 1302, "message": "JWT invalid"},

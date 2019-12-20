@@ -2,11 +2,6 @@
 	"type": "functions",
 	"functions": [
 		{
-			"name": "validate_user_is_already_author",
-			"params": ["user_id"],
-			"source": "./misc/validate_user_is_already_author.dx"
-		},
-		{
 			"name": "validate_dev_is_pocketlib_dev",
 			"params": ["dev_id"],
 			"source": "./misc/validate_dev_is_pocketlib_dev.dx"
@@ -21,12 +16,12 @@
 			"params": ["jwt"],
 			"source": "./jwt/decode_jwt.dx"
 		},
+		
 		{
 			"name": "validate_jwt_missing",
 			"params": ["jwt"],
 			"source": "./jwt/validate_jwt_missing.dx"
 		},
-		
 		{
 			"name": "validate_first_name_missing",
 			"params": ["first_name"],
