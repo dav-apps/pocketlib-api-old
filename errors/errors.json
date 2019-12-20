@@ -5,7 +5,8 @@
 		{"code": 1102, "message": "Action not allowed"},
 		{"code": 1103, "message": "Unexpected error"},
 		{"code": 1104, "message": "Content-Type not supported"},
-		{"code": 1105, "message": "The user is already an author"},
+		{"code": 1105, "message": "The user is not an author"},
+		{"code": 1106, "message": "The user is already an author"},
 
 		{"code": 1301, "message": "JWT expired"},
 		{"code": 1302, "message": "JWT invalid"},
@@ -16,20 +17,24 @@
 		{"code": 2103, "message": "Missing field: first_name"},
 		{"code": 2104, "message": "Missing field: last_name"},
 		{"code": 2105, "message": "Missing field: bio"},
+		{"code": 2106, "message": "Missing field: title"},
 
 		{"code": 2201, "message": "Field has wrong type: auth"},
 		{"code": 2202, "message": "Field has wrong type: jwt"},
 		{"code": 2203, "message": "Field has wrong type: first_name"},
 		{"code": 2204, "message": "Field has wrong type: last_name"},
 		{"code": 2205, "message": "Field has wrong type: bio"},
+		{"code": 2206, "message": "Field has wrong type: title"},
 
 		{"code": 2301, "message": "Field too short: first_name"},
 		{"code": 2302, "message": "Field too short: last_name"},
 		{"code": 2303, "message": "Field too short: bio"},
+		{"code": 2304, "message": "Field too short: title"},
 
 		{"code": 2401, "message": "Field too long: first_name"},
 		{"code": 2402, "message": "Field too long: last_name"},
 		{"code": 2403, "message": "Field too long: bio"},
+		{"code": 2404, "message": "Field too long: title"},
 
 		{"code": 2801, "message": "Resource does not exist: Session"},
 		{"code": 2802, "message": "Resource does not exist: Author"}

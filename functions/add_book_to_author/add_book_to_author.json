@@ -1,0 +1,6 @@
+{
+	"type": "function",
+	"name": "add_book_to_author",
+	"params": ["author", "uuid"],
+	"source": "./add_book_to_author.dx"
+}

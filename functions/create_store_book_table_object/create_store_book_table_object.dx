@@ -1,0 +1,14 @@
+(# params: user_id: int, properties: hash)
+(catch (
+	(TableObject.create user_id env.STORE_BOOK_TABLE_ID properties)
+) (
+	(var error errors#0)
+
+	(if (error.code == 0) (
+		(# Table does not exist, render unexpected error)
+		(func render_validation_errors ((list (hash (error (get_error 1103)) (status 500)))))
+	) else (
+		(# Action not allowed)
+		(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
+	))
+))

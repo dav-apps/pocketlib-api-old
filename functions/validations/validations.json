@@ -42,6 +42,11 @@
 			"params": ["bio"],
 			"source": "./bio/validate_bio_missing.dx"
 		},
+		{
+			"name": "validate_title_missing",
+			"params": ["title"],
+			"source": "./title/validate_title_missing.dx"
+		},
 
 		{
 			"name": "validate_first_name_wrong_type",
@@ -57,6 +62,11 @@
 			"name": "validate_bio_wrong_type",
 			"params": ["bio"],
 			"source": "./bio/validate_bio_wrong_type.dx"
+		},
+		{
+			"name": "validate_title_wrong_type",
+			"params": ["title"],
+			"source": "./title/validate_title_wrong_type.dx"
 		},
 
 		{
@@ -74,6 +84,11 @@
 			"params": ["bio"],
 			"source": "./bio/validate_bio_too_short.dx"
 		},
+		{
+			"name": "validate_title_too_short",
+			"params": ["title"],
+			"source": "./title/validate_title_too_short.dx"
+		},
 
 		{
 			"name": "validate_first_name_too_long",
@@ -89,6 +104,11 @@
 			"name": "validate_bio_too_long",
 			"params": ["bio"],
 			"source": "./bio/validate_bio_too_long.dx"
+		},
+		{
+			"name": "validate_title_too_long",
+			"params": ["title"],
+			"source": "./title/validate_title_too_long.dx"
 		}
 	]
 }

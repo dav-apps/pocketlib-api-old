@@ -1,0 +1,58 @@
+(var json (parse_json (get_body)))
+
+(var title json.title)
+
+(# Get the jwt)
+(var jwt (get_header Authorization))
+(func render_validation_errors ((list
+	(func validate_jwt_missing (jwt))
+)))
+
+(# Make sure content type is json)
+(func render_validation_errors ((list
+	(func validate_content_type_json ((get_header Content-Type)))
+)))
+
+(# Decode the jwt)
+(var decoded_jwt (func decode_jwt (jwt)))
+
+(# Validate the dev)
+(func render_validation_errors ((list
+	(func validate_dev_is_pocketlib_dev (decoded_jwt.dev_id))
+)))
+
+(# Validate missing fields)
+(func render_validation_errors ((list
+	(func validate_title_missing (title))
+)))
+
+(# Validate the property type)
+(func render_validation_errors ((list
+	(func validate_title_wrong_type (title))
+)))
+
+(# Validate the property length)
+(func render_validation_errors ((list
+	(func validate_title_too_short (title))
+)))
+
+(func render_validation_errors ((list
+	(func validate_title_too_long (title))
+)))
+
+(# Get the author of the user)
+(var authors (func get_author_table_objects (decoded_jwt.user_id)))
+(if (authors.length == 0) (
+	(# Render User is not an author error)
+	(func render_validation_errors ((list (hash (error (get_error 1105)) (status 400)))))
+))
+
+(var author authors#0)
+
+(# Create the store book)
+(var store_book (func create_store_book_table_object (decoded_jwt.user_id (hash (title title) (author author.uuid)))))
+
+(# Update the author with the book)
+(func add_book_to_author (author store_book.uuid))
+
+(render_json (hash (uuid store_book.uuid) (title title)) 201)
