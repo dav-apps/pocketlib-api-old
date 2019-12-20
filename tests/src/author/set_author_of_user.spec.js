@@ -22,7 +22,7 @@ describe("SetAuthorOfUser endpoint", () => {
 		}catch(error){
 			assert.equal(400, error.response.status);
 			assert.equal(1, error.response.data.errors.length);
-			assert.equal(2102, error.response.data.errors[0].code);
+			assert.equal(2101, error.response.data.errors[0].code);
 			return;
 		}
 
@@ -86,9 +86,9 @@ describe("SetAuthorOfUser endpoint", () => {
 		}catch(error){
 			assert.equal(400, error.response.status);
 			assert.equal(3, error.response.data.errors.length);
-			assert.equal(2103, error.response.data.errors[0].code);
-			assert.equal(2104, error.response.data.errors[1].code);
-			assert.equal(2105, error.response.data.errors[2].code);
+			assert.equal(2102, error.response.data.errors[0].code);
+			assert.equal(2103, error.response.data.errors[1].code);
+			assert.equal(2104, error.response.data.errors[2].code);
 			return;
 		}
 
@@ -113,9 +113,9 @@ describe("SetAuthorOfUser endpoint", () => {
 		}catch(error){
 			assert.equal(400, error.response.status);
 			assert.equal(3, error.response.data.errors.length);
-			assert.equal(2203, error.response.data.errors[0].code);
-			assert.equal(2204, error.response.data.errors[1].code);
-			assert.equal(2205, error.response.data.errors[2].code);
+			assert.equal(2201, error.response.data.errors[0].code);
+			assert.equal(2202, error.response.data.errors[1].code);
+			assert.equal(2203, error.response.data.errors[2].code);
 			return;
 		}
 
@@ -140,9 +140,9 @@ describe("SetAuthorOfUser endpoint", () => {
 		}catch(error){
 			assert.equal(400, error.response.status);
 			assert.equal(3, error.response.data.errors.length);
-			assert.equal(2203, error.response.data.errors[0].code);
-			assert.equal(2204, error.response.data.errors[1].code);
-			assert.equal(2205, error.response.data.errors[2].code);
+			assert.equal(2201, error.response.data.errors[0].code);
+			assert.equal(2202, error.response.data.errors[1].code);
+			assert.equal(2203, error.response.data.errors[2].code);
 			return;
 		}
 

@@ -14,7 +14,7 @@ describe("CreateStoreBook endpoint", () => {
 		}catch(error){
 			assert.equal(400, error.response.status);
 			assert.equal(1, error.response.data.errors.length);
-			assert.equal(2102, error.response.data.errors[0].code);
+			assert.equal(2101, error.response.data.errors[0].code);
 			return;
 		}
 
@@ -73,7 +73,7 @@ describe("CreateStoreBook endpoint", () => {
 		}catch(error){
 			assert.equal(400, error.response.status);
 			assert.equal(1, error.response.data.errors.length);
-			assert.equal(2106, error.response.data.errors[0].code);
+			assert.equal(2105, error.response.data.errors[0].code);
 			return;
 		}
 
@@ -88,10 +88,15 @@ describe("CreateStoreBook endpoint", () => {
 				headers: {
 					Authorization: constants.authorUserJWT,
 					'Content-Type': 'application/json'
+				},
+				data: {
+					title: false
 				}
 			});
 		}catch(error){
-
+			assert.equal(400, error.response.status);
+			assert.equal(1, error.response.data.errors.length);
+			assert.equal(2204, error.response.data.errors[0].code);
 			return;
 		}
 
