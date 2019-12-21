@@ -4,12 +4,12 @@ var constants = require("../constants");
 
 const setAuthorEndpointUrl = `${constants.apiBaseUrl}/api/1/call/author`;
 
-beforeEach(() => {
-	resetAuthors();
+beforeEach(async () => {
+	await resetAuthors();
 });
 
-afterEach(() => {
-	resetAuthors();
+afterEach(async () => {
+	await resetAuthors();
 });
 
 describe("SetAuthorOfUser endpoint", () => {

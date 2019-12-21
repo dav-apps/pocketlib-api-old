@@ -4,12 +4,12 @@ var constants = require("../constants");
 
 const createStoreBookEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/book`;
 
-beforeEach(() => {
-	resetStoreBooks();
+beforeEach(async () => {
+	await resetStoreBooks();
 });
 
-afterEach(() => {
-	resetStoreBooks();
+afterEach(async () => {
+	await resetStoreBooks();
 });
 
 describe("CreateStoreBook endpoint", () => {
@@ -111,6 +111,31 @@ describe("CreateStoreBook endpoint", () => {
 		assert.fail();
 	});
 
+	it("should not create store book with optional properties with wrong types", async () => {
+		try{
+			await axios.default({
+				method: 'post',
+				url: createStoreBookEndpointUrl,
+				headers: {
+					Authorization: constants.authorUserJWT,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					title: 12,
+					description: true
+				}
+			});
+		}catch(error){
+			assert.equal(400, error.response.status);
+			assert.equal(2, error.response.data.errors.length);
+			assert.equal(2204, error.response.data.errors[0].code);
+			assert.equal(2205, error.response.data.errors[1].code);
+			return;
+		}
+
+		assert.fail();
+	});
+
 	it("should not create store book with too short properties", async () => {
 		try{
 			await axios.default({
@@ -134,6 +159,31 @@ describe("CreateStoreBook endpoint", () => {
 		assert.fail();
 	});
 
+	it("should not create store book with too short optional properties", async () => {
+		try{
+			await axios.default({
+				method: 'post',
+				url: createStoreBookEndpointUrl,
+				headers: {
+					Authorization: constants.authorUserJWT,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					title: "a",
+					description: "a"
+				}
+			});
+		}catch(error){
+			assert.equal(400, error.response.status);
+			assert.equal(2, error.response.data.errors.length);
+			assert.equal(2304, error.response.data.errors[0].code);
+			assert.equal(2305, error.response.data.errors[1].code);
+			return;
+		}
+
+		assert.fail();
+	});
+
 	it("should not create store book with too long properties", async () => {
 		try{
 			await axios.default({
@@ -151,6 +201,31 @@ describe("CreateStoreBook endpoint", () => {
 			assert.equal(400, error.response.status);
 			assert.equal(1, error.response.data.errors.length);
 			assert.equal(2404, error.response.data.errors[0].code);
+			return;
+		}
+
+		assert.fail();
+	});
+
+	it("should not create store book with too long optional properties", async () => {
+		try{
+			await axios.default({
+				method: 'post',
+				url: createStoreBookEndpointUrl,
+				headers: {
+					Authorization: constants.authorUserJWT,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					title: "a".repeat(50),
+					description: "a".repeat(510)
+				}
+			});
+		}catch(error){
+			assert.equal(400, error.response.status);
+			assert.equal(2, error.response.data.errors.length);
+			assert.equal(2404, error.response.data.errors[0].code);
+			assert.equal(2405, error.response.data.errors[1].code);
 			return;
 		}
 
@@ -203,6 +278,34 @@ describe("CreateStoreBook endpoint", () => {
 		assert.equal(201, response.status);
 		assert(response.data.uuid != null);
 		assert.equal(title, response.data.title);
+	});
+
+	it("should create store book with optional properties", async () => {
+		let title = "Hello World";
+		let description = "Hello World";
+		let response;
+
+		try{
+			response = await axios.default({
+				method: 'post',
+				url: createStoreBookEndpointUrl,
+				headers: {
+					Authorization: constants.authorUserJWT,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					title,
+					description
+				}
+			});
+		}catch(error){
+			assert.fail();
+		}
+
+		assert.equal(201, response.status);
+		assert(response.data.uuid != null);
+		assert.equal(title, response.data.title);
+		assert.equal(description, response.data.description);
 	});
 });
 
