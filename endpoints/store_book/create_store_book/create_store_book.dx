@@ -1,6 +1,7 @@
 (var json (parse_json (get_body)))
 
 (var title json.title)
+(var description json.description)
 
 (# Get the jwt)
 (var jwt (get_header Authorization))
@@ -29,15 +30,18 @@
 (# Validate the property type)
 (func render_validation_errors ((list
 	(func validate_title_wrong_type (title))
+	(if (!(is_nil description)) (func validate_description_wrong_type (description)))
 )))
 
 (# Validate the property length)
 (func render_validation_errors ((list
 	(func validate_title_too_short (title))
+	(if (!(is_nil description)) (func validate_description_too_short (description)))
 )))
 
 (func render_validation_errors ((list
 	(func validate_title_too_long (title))
+	(if (!(is_nil description)) (func validate_description_too_long (description)))
 )))
 
 (# Get the author of the user)
@@ -50,9 +54,21 @@
 (var author authors#0)
 
 (# Create the store book)
-(var store_book (func create_store_book_table_object (decoded_jwt.user_id (hash (title title) (author author.uuid)))))
+(var store_book_properties (hash (title title) (author author.uuid)))
+(if (!(is_nil description)) (
+	(var store_book_properties.description description)
+	(up store_book_properties)
+))
+
+(var store_book (func create_store_book_table_object (decoded_jwt.user_id store_book_properties)))
 
 (# Update the author with the book)
 (func add_book_to_author (author store_book.uuid))
 
-(render_json (hash (uuid store_book.uuid) (title title)) 201)
+(var result (hash (uuid store_book.uuid) (title title)))
+(if (!(is_nil description)) (
+	(var result.description description)
+	(up result)
+))
+
+(render_json result 201)

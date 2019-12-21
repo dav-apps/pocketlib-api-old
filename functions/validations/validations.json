@@ -63,6 +63,11 @@
 			"params": ["title"],
 			"source": "./title/validate_title_wrong_type.dx"
 		},
+		{
+			"name": "validate_description_wrong_type",
+			"params": ["description"],
+			"source": "./description/validate_description_wrong_type.dx"
+		},
 
 		{
 			"name": "validate_first_name_too_short",
@@ -84,6 +89,11 @@
 			"params": ["title"],
 			"source": "./title/validate_title_too_short.dx"
 		},
+		{
+			"name": "validate_description_too_short",
+			"params": ["description"],
+			"source": "./description/validate_description_too_short.dx"
+		},
 
 		{
 			"name": "validate_first_name_too_long",
@@ -104,6 +114,11 @@
 			"name": "validate_title_too_long",
 			"params": ["title"],
 			"source": "./title/validate_title_too_long.dx"
+		},
+		{
+			"name": "validate_description_too_long",
+			"params": ["description"],
+			"source": "./description/validate_description_too_long.dx"
 		}
 	]
 }

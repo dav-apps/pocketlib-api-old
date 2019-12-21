@@ -1,0 +1,4 @@
+(# params: description: string)
+(if (description.length > 500)
+	(hash (error (get_error 2405)) (status 400))
+)
