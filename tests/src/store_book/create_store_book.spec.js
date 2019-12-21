@@ -4,6 +4,14 @@ var constants = require("../constants");
 
 const createStoreBookEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/book`;
 
+beforeEach(() => {
+	resetStoreBooks();
+});
+
+afterEach(() => {
+	resetStoreBooks();
+});
+
 describe("CreateStoreBook endpoint", () => {
 	it("should not create store book without jwt", async () => {
 		try{
@@ -197,3 +205,65 @@ describe("CreateStoreBook endpoint", () => {
 		assert.equal(title, response.data.title);
 	});
 });
+
+async function resetStoreBooks(){
+	// Delete all store books that are not part of the default test database
+	let response;
+	let storeBookObjects;
+
+	try{
+		response = await axios.default({
+			method: 'get',
+			url: `${constants.apiBaseUrl}/apps/table/${constants.storeBookTableId}`,
+			headers: {
+				Authorization: constants.authorUserJWT
+			}
+		});
+
+		storeBookObjects = response.data.table_objects;
+	}catch(error){
+		console.log("Error in trying the get the store book table");
+		console.log(error.response.data);
+	}
+
+	if(storeBookObjects){
+		for(let tableObject of storeBookObjects){
+			if(tableObject.uuid == constants.authorUserAuthor.books[0].uuid) continue;
+
+			// Delete the table object
+			try{
+				await axios.default({
+					method: 'delete',
+					url: `${constants.apiBaseUrl}/apps/object/${tableObject.uuid}`,
+					headers: {
+						Authorization: constants.authorUserJWT
+					}
+				});
+			}catch(error){
+				console.log("Error in trying to delete a store book object");
+				console.log(error.response.data);
+			}
+		}
+	}
+
+	// Reset the store books
+	for(let book of constants.authorUserAuthor.books){
+		try{
+			await axios.default({
+				method: 'put',
+				url: `${constants.apiBaseUrl}/apps/object/${book.uuid}`,
+				headers: {
+					Authorization: constants.authorUserJWT,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					author: constants.authorUserAuthor.uuid,
+					title: book.title
+				}
+			});
+		}catch(error){
+			console.log("Error in resetting a store book");
+			console.log(error.response.data);
+		}
+	}
+}

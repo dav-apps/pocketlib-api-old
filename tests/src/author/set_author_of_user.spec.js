@@ -267,8 +267,8 @@ describe("SetAuthorOfUser endpoint", () => {
 async function resetAuthors(){
 	// Delete the author of dav user
 	// Get the author table
-	let authorObjUuid;
 	let response;
+	let authorObjUuid;
 
 	try{
 		response = await axios.default({
