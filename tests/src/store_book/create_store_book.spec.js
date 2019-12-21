@@ -350,7 +350,11 @@ async function resetStoreBooks(){
 	}
 
 	// Reset the store books
+	let bookUuids = [];
+
 	for(let book of constants.authorUserAuthor.books){
+		bookUuids.push(book.uuid);
+
 		try{
 			await axios.default({
 				method: 'put',
@@ -368,5 +372,23 @@ async function resetStoreBooks(){
 			console.log("Error in resetting a store book");
 			console.log(error.response.data);
 		}
+	}
+
+	// Reset the books property of the author
+	try{
+		await axios.default({
+			method: 'put',
+			url: `${constants.apiBaseUrl}/apps/object/${constants.authorUserAuthor.uuid}`,
+			headers: {
+				Authorization: constants.authorUserJWT,
+				'Content-Type': 'application/json'
+			},
+			data: {
+				books: bookUuids.join(',')
+			}
+		});
+	}catch(error){
+		console.log("Error in resetting the books property of the author");
+		console.log(error.response.data);
 	}
 }

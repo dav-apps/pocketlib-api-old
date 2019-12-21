@@ -19,8 +19,28 @@
 	(func render_validation_errors ((list (hash (error (get_error 1105)) (status 400)))))
 ))
 
-(# Return the author)
 (var author authors#0)
-(var result (hash (uuid author.uuid) (first_name author.properties.first_name) (last_name author.properties.last_name) (bio author.properties.bio)))
+
+(# Get the books of the author)
+(var books_string author.properties.books)
+(var books (list))
+
+(if (!(is_nil books_string)) (
+	(var book_uuids (books_string.split ","))
+
+	(for uuid in book_uuids (
+		(var book (TableObject.get uuid))
+		
+		(if (!(is_nil book)) (
+			(books.push (hash (uuid book.uuid) (title book.properties.title)))
+			(up books)
+		))
+		(up books)
+	))
+	(up books)
+))
+
+(# Return the author)
+(var result (hash (uuid author.uuid) (first_name author.properties.first_name) (last_name author.properties.last_name) (bio author.properties.bio) (books books)))
 
 (render_json result 200)

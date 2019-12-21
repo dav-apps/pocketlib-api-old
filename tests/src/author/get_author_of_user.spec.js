@@ -79,5 +79,9 @@ describe("GetAuthorOfUser endpoint", () => {
 		assert.equal(constants.authorUserAuthor.firstName, response.data.first_name);
 		assert.equal(constants.authorUserAuthor.lastName, response.data.last_name);
 		assert.equal(constants.authorUserAuthor.bio, response.data.bio);
+
+		assert.equal(1, response.data.books.length);
+		assert.equal(constants.authorUserAuthor.books[0].uuid, response.data.books[0].uuid);
+		assert.equal(constants.authorUserAuthor.books[0].title, response.data.books[0].title);
 	});
 });
