@@ -12,7 +12,8 @@ module.exports = {
 		bio: "Dear reader, I'm sorry to tell you that I wrote some very unpleasant tales that you definitely should not read, if you want to further live a healthy life.",
 		books: [{
 			uuid: "1cf6fc5f-8fa5-4972-895d-8b1d6552d41c",
-			title: "A Series of Unfortunate Events - Book the First"
+			title: "A Series of Unfortunate Events - Book the First",
+			description: "Dear Reader, I'm sorry to say that the book you are holding in your hands is extremely unpleasant. It tells an unhappy tale about three very unlucky children."
 		}]
 	}
 }

@@ -436,7 +436,8 @@ async function resetStoreBooks(){
 				},
 				data: {
 					author: constants.authorUserAuthor.uuid,
-					title: book.title
+					title: book.title,
+					description: book.description
 				}
 			});
 		}catch(error){
