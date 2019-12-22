@@ -278,6 +278,41 @@ describe("CreateStoreBook endpoint", () => {
 		assert.equal(201, response.status);
 		assert(response.data.uuid != null);
 		assert.equal(title, response.data.title);
+
+		// Check if the data was correctly saved in the database
+		// Get the author
+		let authorObjResponse;
+		try{
+			authorObjResponse = await axios.default({
+				method: 'get',
+				url: `${constants.apiBaseUrl}/apps/object/${constants.authorUserAuthor.uuid}`,
+				headers: {
+					Authorization: constants.authorUserJWT
+				}
+			});
+		}catch(error){
+			assert.fail();
+		}
+		
+		assert.equal([constants.authorUserAuthor.books[0].uuid, response.data.uuid].join(','), authorObjResponse.data.properties.books);
+		
+		// Get the store book
+		let storeBookObjResponse;
+		try{
+			storeBookObjResponse = await axios.default({
+				method: 'get',
+				url: `${constants.apiBaseUrl}/apps/object/${response.data.uuid}`,
+				headers: {
+					Authorization: constants.authorUserJWT
+				}
+			});
+		}catch(error){
+			assert.fail();
+		}
+
+		assert.equal(response.data.uuid, storeBookObjResponse.data.uuid);
+		assert.equal(title, storeBookObjResponse.data.properties.title);
+		assert.equal(constants.authorUserAuthor.uuid, storeBookObjResponse.data.properties.author);
 	});
 
 	it("should create store book with optional properties", async () => {
@@ -306,6 +341,42 @@ describe("CreateStoreBook endpoint", () => {
 		assert(response.data.uuid != null);
 		assert.equal(title, response.data.title);
 		assert.equal(description, response.data.description);
+
+		// Check if the data was correctly saved in the database
+		// Get the author
+		let authorObjResponse;
+		try{
+			authorObjResponse = await axios.default({
+				method: 'get',
+				url: `${constants.apiBaseUrl}/apps/object/${constants.authorUserAuthor.uuid}`,
+				headers: {
+					Authorization: constants.authorUserJWT
+				}
+			});
+		}catch(error){
+			assert.fail();
+		}
+
+		assert.equal([constants.authorUserAuthor.books[0].uuid, response.data.uuid].join(','), authorObjResponse.data.properties.books);
+
+		// Get the store book
+		let storeBookObjResponse;
+		try{
+			storeBookObjResponse = await axios.default({
+				method: 'get',
+				url: `${constants.apiBaseUrl}/apps/object/${response.data.uuid}`,
+				headers: {
+					Authorization: constants.authorUserJWT
+				}
+			});
+		}catch(error){
+			assert.fail();
+		}
+
+		assert.equal(response.data.uuid, storeBookObjResponse.data.uuid);
+		assert.equal(title, storeBookObjResponse.data.properties.title);
+		assert.equal(description, storeBookObjResponse.data.properties.description);
+		assert.equal(constants.authorUserAuthor.uuid, storeBookObjResponse.data.properties.author);
 	});
 });
 
