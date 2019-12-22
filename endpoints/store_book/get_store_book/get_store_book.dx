@@ -1,0 +1,24 @@
+(# Get the jwt)
+(var jwt (get_header Authorization))
+(func render_validation_errors ((list
+	(func validate_jwt_missing (jwt))
+)))
+
+(# Decode the jwt)
+(var decoded_jwt (func decode_jwt (jwt)))
+
+(# Validate the dev)
+(func render_validation_errors ((list
+	(func validate_dev_is_pocketlib_dev (decoded_jwt.dev_id))
+)))
+
+(# Get the store book)
+(var store_book (TableObject.get uuid))
+
+(if (is_nil store_book) (
+	(# Render Resource does not exist: StoreBook)
+	(func render_validation_errors ((list (hash (error (get_error 2803)) (status 404)))))
+))
+
+(# Return the store book)
+(render_json (hash (uuid store_book.uuid) (title store_book.properties.title) (description store_book.properties.description)) 200)

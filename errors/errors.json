@@ -36,6 +36,7 @@
 		{"code": 2405, "message": "Field too long: description"},
 
 		{"code": 2801, "message": "Resource does not exist: Session"},
-		{"code": 2802, "message": "Resource does not exist: Author"}
+		{"code": 2802, "message": "Resource does not exist: Author"},
+		{"code": 2803, "message": "Resource does not exist: StoreBook"}
 	]
 }
