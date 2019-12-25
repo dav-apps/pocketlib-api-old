@@ -1,15 +1,16 @@
 var assert = require('assert');
 var axios = require('axios');
-var constants = require("../constants");
+var constants = require('../constants');
+var utils = require('../utils');
 
 const setAuthorEndpointUrl = `${constants.apiBaseUrl}/api/1/call/author`;
 
 beforeEach(async () => {
-	await resetAuthors();
+	await utils.resetAuthors();
 });
 
 afterEach(async () => {
-	await resetAuthors();
+	await utils.resetAuthors();
 });
 
 describe("SetAuthorOfUser endpoint", () => {
@@ -263,63 +264,3 @@ describe("SetAuthorOfUser endpoint", () => {
 		assert.equal(bio, response.data.bio);
 	});
 });
-
-async function resetAuthors(){
-	// Delete the author of dav user
-	// Get the author table
-	let response;
-	let authorObjUuid;
-
-	try{
-		response = await axios.default({
-			method: 'get',
-			url: `${constants.apiBaseUrl}/apps/table/${constants.authorTableId}`,
-			headers: {
-				Authorization: constants.davUserJWT
-			}
-		});
-
-		if(response.data.table_objects.length > 0){
-			authorObjUuid = response.data.table_objects[0].uuid;
-		}
-	}catch(error){
-		console.log("Error in trying to get the author table");
-		console.log(error.response.data);
-	}
-
-	if(authorObjUuid){
-		// Delete the author object
-		try{
-			await axios.default({
-				method: 'delete',
-				url: `${constants.apiBaseUrl}/apps/object/${authorObjUuid}`,
-				headers: {
-					Authorization: constants.davUserJWT
-				}
-			});
-		}catch(error){
-			console.log("Error in trying to delete the author object");
-			console.log(error.response.data);
-		}
-	}
-
-	// Reset the author of author user
-	try{
-		await axios.default({
-			method: 'put',
-			url: `${constants.apiBaseUrl}/apps/object/${constants.authorUserAuthor.uuid}`,
-			headers: {
-				Authorization: constants.authorUserJWT,
-				'Content-Type': 'application/json'
-			},
-			data: {
-				first_name: constants.authorUserAuthor.firstName,
-				last_name: constants.authorUserAuthor.lastName,
-				bio: constants.authorUserAuthor.bio
-			}
-		});
-	}catch(error){
-		console.log("Error in resetting the author of the author user");
-		console.log(error.response.data);
-	}
-}
