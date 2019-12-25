@@ -1,0 +1,66 @@
+(var json (parse_json (get_body)))
+
+(var title json.title)
+(var description json.description)
+
+(# Get the jwt)
+(var jwt (get_header Authorization))
+(func render_validation_errors ((list
+	(func validate_jwt_missing (jwt))
+)))
+
+(# Make sure content type is json)
+(func render_validation_errors ((list
+	(func validate_content_type_json ((get_header Content-Type)))
+)))
+
+(# Decode the jwt)
+(var decoded_jwt (func decode_jwt (jwt)))
+
+(# Validate the dev)
+(func render_validation_errors ((list
+	(func validate_dev_is_pocketlib_dev (decoded_jwt.dev_id))
+)))
+
+(# Get the store book)
+(var store_book (TableObject.get uuid))
+
+(if (is_nil store_book) (
+	(# Render Resource does not exist: StoreBook)
+	(func render_validation_errors ((list (hash (error (get_error 2803)) (status 404)))))
+))
+
+(# Get the author of the store book)
+(var author (TableObject.get store_book.properties.author))
+
+(if (is_nil author) (
+	(# Resource does not exist: Author)
+	(func render_validation_errors ((list (hash (error (get_error 2802)) (status 404)))))
+))
+
+(# Check if the store book belongs to the author of the user)
+(if (decoded_jwt.user_id != author.user_id) (
+	(# Action not allowed)
+	(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
+))
+
+(# Validate the property types)
+(func render_validation_errors ((list
+	(if (!(is_nil title)) (func validate_title_wrong_type (title)))
+	(if (!(is_nil description)) (func validate_description_wrong_type (description)))
+)))
+
+(# Validate the property length)
+(func render_validation_errors ((list
+	(if (!(is_nil title)) (func validate_title_too_short (title)))
+	(if (!(is_nil title)) (func validate_title_too_long (title)))
+	(if (!(is_nil description)) (func validate_description_too_short (description)))
+	(if (!(is_nil description)) (func validate_description_too_long (description)))
+)))
+
+(# Set the values)
+(if (!(is_nil title)) (var store_book.properties.title title))
+(if (!(is_nil description)) (var store_book.properties.description description))
+
+(# Return the store book)
+(render_json (hash (uuid store_book.uuid) (title store_book.properties.title) (description store_book.properties.description)) 200)
