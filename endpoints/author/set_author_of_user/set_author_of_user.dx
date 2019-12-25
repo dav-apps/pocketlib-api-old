@@ -68,16 +68,13 @@
 	)))
 
 	(# Validate the property length)
-	(func render_validatiion_errors ((list
-		(if (! (is_nil first_name)) (
-			((func validate_first_name_too_short (first_name)) or (func validate_first_name_too_long (first_name)))
-		))
-		(if (! (is_nil last_name)) (
-			((func validate_last_name_too_short (last_name)) or (func validate_last_name_too_long (last_name)))
-		))
-		(if (! (is_nil bio)) (
-			((func validate_bio_too_short (bio)) or (func validate_bio_too_long (bio)))
-		))
+	(func render_validation_errors ((list
+		(if (!(is_nil first_name)) (func validate_first_name_too_short (first_name)))
+		(if (!(is_nil first_name)) (func validate_first_name_too_long (first_name)))
+		(if (!(is_nil last_name)) (func validate_last_name_too_short (last_name)))
+		(if (!(is_nil last_name)) (func validate_last_name_too_long (last_name)))
+		(if (!(is_nil bio)) (func validate_bio_too_short (bio)))
+		(if (!(is_nil bio)) (func validate_bio_too_long (bio)))
 	)))
 
 	(# Set the values)
