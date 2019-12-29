@@ -2,6 +2,7 @@
 
 (var title json.title)
 (var description json.description)
+(var language json.language)
 
 (# Get the jwt)
 (var jwt (get_header Authorization))
@@ -48,6 +49,7 @@
 (func render_validation_errors ((list
 	(if (!(is_nil title)) (func validate_title_wrong_type (title)))
 	(if (!(is_nil description)) (func validate_description_wrong_type (description)))
+	(if (!(is_nil language)) (func validate_language_wrong_type (language)))
 )))
 
 (# Validate the property length)
@@ -58,9 +60,20 @@
 	(if (!(is_nil description)) (func validate_description_too_long (description)))
 )))
 
+(# Validate the language)
+(func render_validation_errors ((list
+	(if (!(is_nil language)) (func validate_language_supported (language)))
+)))
+
 (# Set the values)
 (if (!(is_nil title)) (var store_book.properties.title title))
 (if (!(is_nil description)) (var store_book.properties.description description))
+(if (!(is_nil language)) (var store_book.properties.language language))
 
 (# Return the store book)
-(render_json (hash (uuid store_book.uuid) (title store_book.properties.title) (description store_book.properties.description)) 200)
+(render_json (hash 
+	(uuid store_book.uuid) 
+	(title store_book.properties.title) 
+	(description store_book.properties.description)
+	(language store_book.properties.language)
+) 200)
