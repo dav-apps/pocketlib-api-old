@@ -81,8 +81,9 @@ describe("CreateStoreBook endpoint", () => {
 			});
 		}catch(error){
 			assert.equal(400, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
+			assert.equal(2, error.response.data.errors.length);
 			assert.equal(2105, error.response.data.errors[0].code);
+			assert.equal(2106, error.response.data.errors[1].code);
 			return;
 		}
 
@@ -99,13 +100,15 @@ describe("CreateStoreBook endpoint", () => {
 					'Content-Type': 'application/json'
 				},
 				data: {
-					title: false
+					title: false,
+					language: 23
 				}
 			});
 		}catch(error){
 			assert.equal(400, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
+			assert.equal(2, error.response.data.errors.length);
 			assert.equal(2204, error.response.data.errors[0].code);
+			assert.equal(2206, error.response.data.errors[1].code);
 			return;
 		}
 
@@ -123,14 +126,16 @@ describe("CreateStoreBook endpoint", () => {
 				},
 				data: {
 					title: 12,
-					description: true
+					description: true,
+					language: false
 				}
 			});
 		}catch(error){
 			assert.equal(400, error.response.status);
-			assert.equal(2, error.response.data.errors.length);
+			assert.equal(3, error.response.data.errors.length);
 			assert.equal(2204, error.response.data.errors[0].code);
 			assert.equal(2205, error.response.data.errors[1].code);
+			assert.equal(2206, error.response.data.errors[2].code);
 			return;
 		}
 
@@ -147,7 +152,8 @@ describe("CreateStoreBook endpoint", () => {
 					'Content-Type': 'application/json'
 				},
 				data: {
-					title: "a"
+					title: "a",
+					language: "en"
 				}
 			});
 		}catch(error){
@@ -171,7 +177,8 @@ describe("CreateStoreBook endpoint", () => {
 				},
 				data: {
 					title: "a",
-					description: "a"
+					description: "a",
+					language: "en"
 				}
 			});
 		}catch(error){
@@ -195,7 +202,8 @@ describe("CreateStoreBook endpoint", () => {
 					'Content-Type': 'application/json'
 				},
 				data: {
-					title: "a".repeat(50)
+					title: "a".repeat(50),
+					language: "en"
 				}
 			});
 		}catch(error){
@@ -219,7 +227,8 @@ describe("CreateStoreBook endpoint", () => {
 				},
 				data: {
 					title: "a".repeat(50),
-					description: "a".repeat(510)
+					description: "a".repeat(2010),
+					language: "de"
 				}
 			});
 		}catch(error){
@@ -227,6 +236,30 @@ describe("CreateStoreBook endpoint", () => {
 			assert.equal(2, error.response.data.errors.length);
 			assert.equal(2404, error.response.data.errors[0].code);
 			assert.equal(2405, error.response.data.errors[1].code);
+			return;
+		}
+
+		assert.fail();
+	});
+
+	it("should not create store book with not supported language", async () => {
+		try{
+			await axios.default({
+				method: 'post',
+				url: createStoreBookEndpointUrl,
+				headers: {
+					Authorization: constants.authorUserJWT,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					title: "Hello World",
+					language: "blabla"
+				}
+			})
+		}catch(error){
+			assert.equal(400, error.response.status);
+			assert.equal(1, error.response.data.errors.length);
+			assert.equal(1106, error.response.data.errors[0].code);
 			return;
 		}
 
@@ -243,7 +276,8 @@ describe("CreateStoreBook endpoint", () => {
 					'Content-Type': 'application/json'
 				},
 				data: {
-					title: "Hello World"
+					title: "Hello World",
+					language: "de"
 				}
 			});
 		}catch(error){
@@ -258,6 +292,7 @@ describe("CreateStoreBook endpoint", () => {
 
 	it("should create store book", async () => {
 		let title = "Hello World";
+		let language = "de";
 		let response;
 
 		try{
@@ -269,7 +304,8 @@ describe("CreateStoreBook endpoint", () => {
 					'Content-Type': 'application/json'
 				},
 				data: {
-					title
+					title,
+					language
 				}
 			});
 		}catch(error){
@@ -279,6 +315,8 @@ describe("CreateStoreBook endpoint", () => {
 		assert.equal(201, response.status);
 		assert(response.data.uuid != null);
 		assert.equal(title, response.data.title);
+		assert.equal(null, response.data.description);
+		assert.equal(language, response.data.language);
 
 		// Check if the data was correctly saved in the database
 		// Get the author
@@ -313,12 +351,14 @@ describe("CreateStoreBook endpoint", () => {
 
 		assert.equal(response.data.uuid, storeBookObjResponse.data.uuid);
 		assert.equal(title, storeBookObjResponse.data.properties.title);
+		assert.equal(language, storeBookObjResponse.data.properties.language);
 		assert.equal(constants.authorUserAuthor.uuid, storeBookObjResponse.data.properties.author);
 	});
 
 	it("should create store book with optional properties", async () => {
 		let title = "Hello World";
 		let description = "Hello World";
+		let language = "en";
 		let response;
 
 		try{
@@ -331,7 +371,8 @@ describe("CreateStoreBook endpoint", () => {
 				},
 				data: {
 					title,
-					description
+					description,
+					language
 				}
 			});
 		}catch(error){
@@ -342,6 +383,7 @@ describe("CreateStoreBook endpoint", () => {
 		assert(response.data.uuid != null);
 		assert.equal(title, response.data.title);
 		assert.equal(description, response.data.description);
+		assert.equal(language, response.data.language);
 
 		// Check if the data was correctly saved in the database
 		// Get the author
@@ -377,6 +419,7 @@ describe("CreateStoreBook endpoint", () => {
 		assert.equal(response.data.uuid, storeBookObjResponse.data.uuid);
 		assert.equal(title, storeBookObjResponse.data.properties.title);
 		assert.equal(description, storeBookObjResponse.data.properties.description);
+		assert.equal(language, storeBookObjResponse.data.properties.language);
 		assert.equal(constants.authorUserAuthor.uuid, storeBookObjResponse.data.properties.author);
 	});
 });

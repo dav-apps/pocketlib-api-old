@@ -13,7 +13,8 @@ module.exports = {
 		books: [{
 			uuid: "1cf6fc5f-8fa5-4972-895d-8b1d6552d41c",
 			title: "A Series of Unfortunate Events - Book the First",
-			description: "Dear Reader, I'm sorry to say that the book you are holding in your hands is extremely unpleasant. It tells an unhappy tale about three very unlucky children."
+			description: "Dear Reader, I'm sorry to say that the book you are holding in your hands is extremely unpleasant. It tells an unhappy tale about three very unlucky children.",
+			language: "en"
 		}]
 	}
 }
