@@ -2,6 +2,7 @@
 
 (var title json.title)
 (var description json.description)
+(var language json.language)
 
 (# Get the jwt)
 (var jwt (get_header Authorization))
@@ -25,12 +26,14 @@
 (# Validate missing fields)
 (func render_validation_errors ((list
 	(func validate_title_missing (title))
+	(func validate_language_missing (language))
 )))
 
 (# Validate the property type)
 (func render_validation_errors ((list
 	(func validate_title_wrong_type (title))
 	(if (!(is_nil description)) (func validate_description_wrong_type (description)))
+	(func validate_language_wrong_type (language))
 )))
 
 (# Validate the property length)
@@ -44,6 +47,11 @@
 	(if (!(is_nil description)) (func validate_description_too_long (description)))
 )))
 
+(# Validate the language)
+(func render_validation_errors ((list
+	(func validate_language_supported (language))
+)))
+
 (# Get the author of the user)
 (var authors (func get_author_table_objects (decoded_jwt.user_id)))
 (if (authors.length == 0) (
@@ -54,7 +62,7 @@
 (var author authors#0)
 
 (# Create the store book)
-(var store_book_properties (hash (title title) (author author.uuid)))
+(var store_book_properties (hash (author author.uuid) (title title) (language language)))
 (if (!(is_nil description)) (
 	(var store_book_properties.description description)
 	(up store_book_properties)
@@ -65,7 +73,7 @@
 (# Update the author with the book)
 (func add_book_to_author (author store_book.uuid))
 
-(var result (hash (uuid store_book.uuid) (title title)))
+(var result (hash (uuid store_book.uuid) (title title) (language language)))
 (if (!(is_nil description)) (
 	(var result.description description)
 	(up result)
