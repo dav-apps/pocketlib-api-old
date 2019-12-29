@@ -21,4 +21,4 @@
 ))
 
 (# Return the store book)
-(render_json (hash (uuid store_book.uuid) (title store_book.properties.title) (description store_book.properties.description)) 200)
+(render_json (hash (uuid store_book.uuid) (title store_book.properties.title) (description store_book.properties.description) (language store_book.properties.language)) 200)

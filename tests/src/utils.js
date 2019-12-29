@@ -118,7 +118,8 @@ async function resetStoreBooks(){
 				data: {
 					author: constants.authorUserAuthor.uuid,
 					title: book.title,
-					description: book.description
+					description: book.description,
+					language: book.language
 				}
 			});
 		}catch(error){
