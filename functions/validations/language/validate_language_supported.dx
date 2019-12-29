@@ -1,0 +1,5 @@
+(# params: language: string)
+(if (!((language == "en") or (language == "de"))) (
+	(# Language not supported)
+	(hash (error (get_error 1106)) (status 400))
+))

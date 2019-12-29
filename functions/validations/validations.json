@@ -12,6 +12,11 @@
 			"source": "./misc/validate_content_type_json.dx"
 		},
 		{
+			"name": "validate_language_supported",
+			"params": ["language"],
+			"source": "./language/validate_language_supported.dx"
+		},
+		{
 			"name": "decode_jwt",
 			"params": ["jwt"],
 			"source": "./jwt/decode_jwt.dx"
@@ -42,6 +47,11 @@
 			"params": ["title"],
 			"source": "./title/validate_title_missing.dx"
 		},
+		{
+			"name": "validate_language_missing",
+			"params": ["language"],
+			"source": "./language/validate_language_missing.dx"
+		},
 
 		{
 			"name": "validate_first_name_wrong_type",
@@ -67,6 +77,11 @@
 			"name": "validate_description_wrong_type",
 			"params": ["description"],
 			"source": "./description/validate_description_wrong_type.dx"
+		},
+		{
+			"name": "validate_language_wrong_type",
+			"params": ["language"],
+			"source": "./language/validate_language_wrong_type.dx"
 		},
 
 		{

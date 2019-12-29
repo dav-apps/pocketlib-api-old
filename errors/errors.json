@@ -6,6 +6,7 @@
 		{"code": 1103, "message": "Unexpected error"},
 		{"code": 1104, "message": "Content-Type not supported"},
 		{"code": 1105, "message": "The user is not an author"},
+		{"code": 1106, "message": "Language not supported"},
 
 		{"code": 1301, "message": "JWT expired"},
 		{"code": 1302, "message": "JWT invalid"},
@@ -16,12 +17,14 @@
 		{"code": 2103, "message": "Missing field: last_name"},
 		{"code": 2104, "message": "Missing field: bio"},
 		{"code": 2105, "message": "Missing field: title"},
+		{"code": 2106, "message": "Missing field: language"},
 
 		{"code": 2201, "message": "Field has wrong type: first_name"},
 		{"code": 2202, "message": "Field has wrong type: last_name"},
 		{"code": 2203, "message": "Field has wrong type: bio"},
 		{"code": 2204, "message": "Field has wrong type: title"},
 		{"code": 2205, "message": "Field has wrong type: description"},
+		{"code": 2206, "message": "Field has wrong type: language"},
 
 		{"code": 2301, "message": "Field too short: first_name"},
 		{"code": 2302, "message": "Field too short: last_name"},
