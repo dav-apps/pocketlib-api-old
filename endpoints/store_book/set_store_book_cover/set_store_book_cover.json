@@ -1,0 +1,6 @@
+{
+	"type": "endpoint",
+	"path": "store/book/:uuid/cover",
+	"method": "PUT",
+	"source": "./set_store_book_cover.dx"
+}
