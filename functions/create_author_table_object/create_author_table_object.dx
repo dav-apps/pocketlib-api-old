@@ -6,8 +6,8 @@
 ) (
 	(var error errors#0)
 	
-	(if (error.code == 0) (
-		(# Table does not exist, render unexpected error)
+	(if (((error.code == 0) or (error.code == 2)) or (error.code == 3)) (
+		(# Table or user does not exist, or object didn't save)
 		(func render_validation_errors ((list (hash (error (get_error 1103)) (status 500)))))
 	) else (
 		(# Action not allowed)
