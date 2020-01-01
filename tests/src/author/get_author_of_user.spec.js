@@ -80,8 +80,10 @@ describe("GetAuthorOfUser endpoint", () => {
 		assert.equal(constants.authorUserAuthor.lastName, response.data.last_name);
 		assert.equal(constants.authorUserAuthor.bio, response.data.bio);
 
-		assert.equal(1, response.data.books.length);
+		assert.equal(2, response.data.books.length);
 		assert.equal(constants.authorUserAuthor.books[0].uuid, response.data.books[0].uuid);
 		assert.equal(constants.authorUserAuthor.books[0].title, response.data.books[0].title);
+		assert.equal(constants.authorUserAuthor.books[1].uuid, response.data.books[1].uuid);
+		assert.equal(constants.authorUserAuthor.books[1].title, response.data.books[1].title);
 	});
 });

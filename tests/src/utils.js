@@ -83,7 +83,40 @@ async function resetStoreBooks(){
 
 	if(storeBookObjects){
 		for(let tableObject of storeBookObjects){
-			if(tableObject.uuid == constants.authorUserAuthor.books[0].uuid) continue;
+			if(tableObject.uuid == constants.authorUserAuthor.books[0].uuid || 
+				tableObject.uuid == constants.authorUserAuthor.books[1].uuid) continue;
+
+			// Get the table object
+			let tableObjectResult;
+
+			try{
+				tableObjectResult = await axios.default({
+					method: 'get',
+					url: `${constants.apiBaseUrl}/apps/object/${tableObject.uuid}`,
+					headers: {
+						Authorization: constants.authorUserJWT
+					}
+				});
+			}catch(error){
+				console.log("Error in trying to get a store book object");
+				console.log(error.response.data);
+			}
+
+			if(tableObjectResult.data.properties.cover){
+				// Delete the cover
+				try{
+					await axios.default({
+						method: 'delete',
+						url: `${constants.apiBaseUrl}/apps/object/${tableObjectResult.data.properties.cover}`,
+						headers: {
+							Authorization: constants.authorUserJWT
+						}
+					});
+				}catch(error){
+					console.log("Error in trying to delete a store book cover object");
+					console.log(error.response.data);
+				}
+			}
 
 			// Delete the table object
 			try{
@@ -106,6 +139,40 @@ async function resetStoreBooks(){
 
 	for(let book of constants.authorUserAuthor.books){
 		bookUuids.push(book.uuid);
+		let response;
+
+		// Get the store book
+		try{
+			response = await axios.default({
+				method: 'get',
+				url: `${constants.apiBaseUrl}/apps/object/${book.uuid}`,
+				headers: {
+					Authorization: constants.authorUserJWT
+				}
+			});
+		}catch(error){
+			console.log("Error in getting a store book");
+			console.log(response.data);
+			continue;
+		}
+
+		// Delete the cover if the store book has one
+		if(!book.cover && response.data.properties.cover){
+			let coverUuid = response.data.properties.cover;
+
+			try{
+				await axios.default({
+					method: 'delete',
+					url: `${constants.apiBaseUrl}/apps/object/${coverUuid}`,
+					headers: {
+						Authorization: constants.authorUserJWT
+					}
+				});
+			}catch(error){
+				console.log("Error in deleting a cover");
+				console.log(error.response.data);
+			}
+		}
 
 		try{
 			await axios.default({
@@ -119,12 +186,84 @@ async function resetStoreBooks(){
 					author: constants.authorUserAuthor.uuid,
 					title: book.title,
 					description: book.description,
-					language: book.language
+					language: book.language,
+					cover: book.cover ? book.cover : ""
 				}
 			});
 		}catch(error){
-			console.log("Error in resetting a store book");
+			// Create the store book if it does not exist
+			if(error.response.data.errors[0][0] == 2805){
+				try{
+					await axios.default({
+						method: 'post',
+						url: `${constants.apiBaseUrl}/apps/object`,
+						params: {
+							table_id: constants.storeBookTableId,
+							app_id: constants.pocketlibAppId
+						},
+						headers: {
+							Authorization: constants.authorUserJWT,
+							'Content-Type': 'application/json'
+						},
+						data: {
+							uuid: book.uuid,
+							title: book.title,
+							description: book.description,
+							language: book.language,
+							cover: book.cover,
+							author: constants.authorUserAuthor.uuid
+						}
+					});
+				}catch(error){
+					console.log("Error in creating a store book table object");
+					console.log(error.response.data);
+				}
+			}else{
+				console.log("Error in resetting a store book");
+				console.log(error.response.data);
+			}
+
+			return;
+		}
+	}
+
+	// Reset the covers
+	for(let cover of constants.authorUserAuthor.covers){
+		// Get the cover from the server
+		try{
+			await axios.default({
+				method: 'get',
+				url: `${constants.apiBaseUrl}/apps/object/${cover.uuid}`,
+				headers: {
+					Authorization: constants.authorUserJWT
+				}
+			});
+		}catch(error){
+			console.log("Error in getting a cover")
 			console.log(error.response.data);
+			if(error.response.data.errors[0][0] == 2805){
+				// Create the cover
+				try{
+					await axios.default({
+						method: 'post',
+						url: `${constants.apiBaseUrl}/apps/object`,
+						params: {
+							uuid: cover.uuid,
+							table_id: constants.storeBookCoverTableId,
+							app_id: constants.pocketlibAppId,
+							ext: "png"
+						},
+						headers: {
+							Authorization: constants.authorUserJWT,
+							'Content-Type': 'image/png'
+						},
+						data: "Hello World"
+					});
+				}catch(error){
+					console.log("Error in creating a cover");
+					console.log(error.response.data);
+				}
+			}
 		}
 	}
 
