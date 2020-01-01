@@ -11,10 +11,6 @@ beforeEach(async () => {
 	await utils.resetStoreBooks();
 });
 
-afterEach(async () => {
-	await utils.resetStoreBooks();
-});
-
 describe("SetStoreBookCover endpoint", () => {
 	it("should not set store book cover without jwt", async () => {
 		try{

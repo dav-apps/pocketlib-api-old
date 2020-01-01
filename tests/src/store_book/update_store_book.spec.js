@@ -9,10 +9,6 @@ beforeEach(async () => {
 	await utils.resetStoreBooks();
 });
 
-afterEach(async () => {
-	await utils.resetStoreBooks();
-});
-
 describe("UpdateStoreBook endpoint", () => {
 	it("should not update store book without jwt", async () => {
 		try{

@@ -9,10 +9,6 @@ beforeEach(async () => {
 	await utils.resetStoreBooks();
 });
 
-afterEach(async () => {
-	await utils.resetStoreBooks();
-});
-
 describe("CreateStoreBook endpoint", () => {
 	it("should not create store book without jwt", async () => {
 		try{
@@ -295,6 +291,7 @@ describe("CreateStoreBook endpoint", () => {
 		let language = "de";
 		let response;
 
+		// Create the store book
 		try{
 			response = await axios.default({
 				method: 'post',
@@ -332,8 +329,12 @@ describe("CreateStoreBook endpoint", () => {
 		}catch(error){
 			assert.fail();
 		}
+
+		let storeBookUuids = [];
+		constants.authorUserAuthor.books.forEach((storeBook) => storeBookUuids.push(storeBook.uuid));
+		storeBookUuids.push(response.data.uuid);
 		
-		assert.equal([constants.authorUserAuthor.books[0].uuid, response.data.uuid].join(','), authorObjResponse.data.properties.books);
+		assert.equal(storeBookUuids.join(','), authorObjResponse.data.properties.books);
 		
 		// Get the store book
 		let storeBookObjResponse;
@@ -361,6 +362,7 @@ describe("CreateStoreBook endpoint", () => {
 		let language = "en";
 		let response;
 
+		// Create the store book
 		try{
 			response = await axios.default({
 				method: 'post',
@@ -400,7 +402,11 @@ describe("CreateStoreBook endpoint", () => {
 			assert.fail();
 		}
 
-		assert.equal([constants.authorUserAuthor.books[0].uuid, response.data.uuid].join(','), authorObjResponse.data.properties.books);
+		let storeBookUuids = [];
+		constants.authorUserAuthor.books.forEach((storeBook) => storeBookUuids.push(storeBook.uuid));
+		storeBookUuids.push(response.data.uuid);
+
+		assert.equal(storeBookUuids.join(','), authorObjResponse.data.properties.books);
 
 		// Get the store book
 		let storeBookObjResponse;

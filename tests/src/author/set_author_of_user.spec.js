@@ -9,10 +9,6 @@ beforeEach(async () => {
 	await utils.resetAuthors();
 });
 
-afterEach(async () => {
-	await utils.resetAuthors();
-});
-
 describe("SetAuthorOfUser endpoint", () => {
 	it("should not set author without jwt", async () => {
 		try{
