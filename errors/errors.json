@@ -42,6 +42,7 @@
 		{"code": 2801, "message": "Resource does not exist: Session"},
 		{"code": 2802, "message": "Resource does not exist: Author"},
 		{"code": 2803, "message": "Resource does not exist: StoreBook"},
-		{"code": 2804, "message": "Resource does not exist: StoreBookCover"}
+		{"code": 2804, "message": "Resource does not exist: StoreBookCover"},
+		{"code": 2805, "message": "Resource does not exist: StoreBookFile"}
 	]
 }
