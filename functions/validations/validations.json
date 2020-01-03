@@ -17,6 +17,11 @@
 			"source": "./misc/validate_content_type_image.dx"
 		},
 		{
+			"name": "validate_content_type_ebook",
+			"params": ["content_type"],
+			"source": "./misc/validate_content_type_ebook.dx"
+		},
+		{
 			"name": "validate_language_supported",
 			"params": ["language"],
 			"source": "./language/validate_language_supported.dx"

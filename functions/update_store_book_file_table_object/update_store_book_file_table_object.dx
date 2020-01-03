@@ -1,0 +1,24 @@
+(# params: uuid: string, type: string, file: string)
+(catch (
+	(var ext (
+		(if (type == "application/epub+zip") (
+			"epub"
+		) else (
+			"pdf"
+		))
+	))
+	(TableObject.update_file uuid ext type file)
+) (
+	(var error errors#0)
+	
+	(if (error.code == 2) (
+		(# Action not allowed)
+		(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
+	) elseif (error.code == 3) (
+		(# Not enough free storage)
+		(func render_validation_errors ((list (hash (error (get_error 1107)) (status 400)))))
+	) else (
+		(# Unexpected error)
+		(func render_validation_errors ((list (hash (error (get_error 1103)) (status 500)))))
+	))
+))

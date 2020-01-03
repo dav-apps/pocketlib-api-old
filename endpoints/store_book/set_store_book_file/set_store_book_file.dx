@@ -1,0 +1,79 @@
+(var data (get_body))
+
+(# Get the jwt)
+(var jwt (get_header Authorization))
+(func render_validation_errors ((list
+	(func validate_jwt_missing (jwt))
+)))
+
+(# Check if content type is supported)
+(var content_type (get_header Content-Type))
+(func render_validation_errors ((list
+	(func validate_content_type_ebook (content_type))
+)))
+
+(# Decode the jwt)
+(var decoded_jwt (func decode_jwt (jwt)))
+
+(# Validate the dev)
+(func render_validation_errors ((list
+	(func validate_dev_is_pocketlib_dev (decoded_jwt.dev_id))
+)))
+
+(# Get the store book)
+(var store_book (TableObject.get uuid))
+
+(if (is_nil store_book) (
+	(# Render Resource does not exist: StoreBook)
+	(func render_validation_errors ((list (hash (error (get_error 2803)) (status 404)))))
+))
+
+(# Get the author of the store book)
+(var author (TableObject.get store_book.properties.author))
+
+(if (is_nil author) (
+	(# Resource does not exist: Author)
+	(func render_validation_errors ((list (hash (error (get_error 2802)) (status 404)))))
+))
+
+(# Check if the store book belongs to the author of the user)
+(if (decoded_jwt.user_id != author.user_id) (
+	(# Action not allowed)
+	(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
+))
+
+(# Define functions for creating and updating the file table object)
+(def create_file () (
+	(# Create the file table object)
+	(var file (func create_store_book_file_table_object (decoded_jwt.user_id content_type data)))
+
+	(# Update the store book with the uuid of the file table object)
+	(var store_book.properties.file file.uuid)
+))
+
+(def update_file () (
+	(# Update the file of the file table object)
+	(func update_store_book_file_table_object (file.uuid content_type data))
+))
+
+(# Get the file table object of the store book)
+(var file_uuid store_book.properties.file)
+
+(if (is_nil file_uuid) (
+	(# Create the file)
+	(func create_file ())
+) else (
+	(# Try to get the file table object)
+	(var file (TableObject.get file_uuid))
+
+	(if (is_nil file) (
+		(# Create the file)
+		(func create_file ())
+	) else (
+		(# Update the file)
+		(func update_file ())
+	))
+))
+
+(var file (TableObject.get store_book.properties.file))
+(render_json (hash) 200)
