@@ -28,6 +28,7 @@
 		(description store_book.properties.description) 
 		(language store_book.properties.language) 
 		(cover (!(is_nil store_book.properties.cover)))
+		(file (!(is_nil store_book.properties.file)))
 	) 
 	200
 )

@@ -78,5 +78,6 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(constants.authorUserAuthor.books[0].description, response.data.description);
 		assert.equal(constants.authorUserAuthor.books[0].language, response.data.language);
 		assert.equal(false, response.data.cover);
+		assert.equal(false, response.data.cover);
 	});
 });
