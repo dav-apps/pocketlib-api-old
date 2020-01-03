@@ -5,18 +5,18 @@ const fs = require('fs');
 var constants = require('../constants');
 var utils = require('../utils');
 
-const setStoreBookCoverEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/book/{0}/cover`;
+const setStoreBookFileEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/book/{0}/file`;
 
 beforeEach(async () => {
 	await utils.resetStoreBooks();
 });
 
-describe("SetStoreBookCover endpoint", () => {
-	it("should not set store book cover without jwt", async () => {
+describe("SetStoreBookFile endpoint", () => {
+	it("should not set store book file without jwt", async () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: setStoreBookCoverEndpointUrl.replace('{0}', constants.authorUserAuthor.books[0].uuid)
+				url: setStoreBookFileEndpointUrl.replace('{0}', constants.authorUserAuthor.books[0].uuid)
 			});
 		}catch(error){
 			assert.equal(400, error.response.status);
@@ -28,14 +28,14 @@ describe("SetStoreBookCover endpoint", () => {
 		assert.fail();
 	});
 
-	it("should not set store book cover with invalid jwt", async () => {
+	it("should not set store book file with invalid jwt", async () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: setStoreBookCoverEndpointUrl.replace('{0}', constants.authorUserAuthor.books[0].uuid),
+				url: setStoreBookFileEndpointUrl.replace('{0}', constants.authorUserAuthor.books[0].uuid),
 				headers: {
 					Authorization: "blablabla",
-					'Content-Type': 'image/png'
+					'Content-Type': 'application/pdf'
 				}
 			});
 		}catch(error){
@@ -48,11 +48,11 @@ describe("SetStoreBookCover endpoint", () => {
 		assert.fail();
 	});
 
-	it("should not set store book cover without supported image content type", async () => {
+	it("should not set store book file without supported ebook content type", async () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: setStoreBookCoverEndpointUrl.replace('{0}', constants.authorUserAuthor.books[0].uuid),
+				url: setStoreBookFileEndpointUrl.replace('{0}', constants.authorUserAuthor.books[0].uuid),
 				headers: {
 					Authorization: constants.authorUserJWT,
 					'Content-Type': 'application/json'
@@ -68,14 +68,14 @@ describe("SetStoreBookCover endpoint", () => {
 		assert.fail();
 	});
 
-	it("should not set store book cover for store book that does not exist", async () => {
+	it("should not set store book file for store book that does not exist", async () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: setStoreBookCoverEndpointUrl.replace('{0}', "blablabla"),
+				url: setStoreBookFileEndpointUrl.replace('{0}', "blablabla"),
 				headers: {
 					Authorization: constants.authorUserJWT,
-					'Content-Type': 'image/png'
+					'Content-Type': 'application/pdf'
 				}
 			});
 		}catch(error){
@@ -88,14 +88,14 @@ describe("SetStoreBookCover endpoint", () => {
 		assert.fail();
 	});
 
-	it("should not set store book cover for store book that does not belong to the author", async () => {
+	it("should not set store book file for store book that does not belong to the author", async () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: setStoreBookCoverEndpointUrl.replace('{0}', constants.authorUserAuthor.books[0].uuid),
+				url: setStoreBookFileEndpointUrl.replace('{0}', constants.authorUserAuthor.books[0].uuid),
 				headers: {
 					Authorization: constants.davUserJWT,
-					'Content-Type': 'image/jpeg'
+					'Content-Type': 'application/epub+zip'
 				}
 			});
 		}catch(error){
@@ -108,7 +108,7 @@ describe("SetStoreBookCover endpoint", () => {
 		assert.fail();
 	});
 
-	it("should create store book cover", async () => {
+	it("should create store book file", async () => {
 		// Get the store book table object
 		let objResponse;
 
@@ -124,21 +124,21 @@ describe("SetStoreBookCover endpoint", () => {
 			assert.fail();
 		}
 
-		// The store book should not have a cover
+		// The store book should not have a file
 		assert.equal(200, objResponse.status);
-		assert.equal(null, objResponse.data.properties.cover);
+		assert.equal(null, objResponse.data.properties.file);
 
-		// Read the cover file and upload it
-		let filePath = path.resolve(__dirname, '../files/cover.png');
+		// Read the ebook file and upload it
+		let filePath = path.resolve(__dirname, '../files/animal_farm.pdf');
 		let fileContent = fs.readFileSync(filePath);
 
 		try{
 			await axios.default({
 				method: 'put',
-				url: setStoreBookCoverEndpointUrl.replace('{0}', constants.authorUserAuthor.books[0].uuid),
+				url: setStoreBookFileEndpointUrl.replace('{0}', constants.authorUserAuthor.books[0].uuid),
 				headers: {
 					Authorization: constants.authorUserJWT,
-					'Content-Type': 'image/png'
+					'Content-Type': 'application/pdf'
 				},
 				data: fileContent
 			});
@@ -161,17 +161,17 @@ describe("SetStoreBookCover endpoint", () => {
 			assert.fail();
 		}
 
-		// The store book should now have a cover
+		// The store book should not have a file
 		assert.equal(200, objResponse2.status);
-		assert(objResponse2.data.properties.cover != null)
+		assert(objResponse2.data.properties.file != null);
 
-		// Get the cover table object
+		// Get the file table object
 		let objResponse3;
 
 		try{
 			objResponse3 = await axios.default({
 				method: 'get',
-				url: `${constants.apiBaseUrl}/apps/object/${objResponse2.data.properties.cover}`,
+				url: `${constants.apiBaseUrl}/apps/object/${objResponse2.data.properties.file}`,
 				params: {
 					file: true
 				},
@@ -187,19 +187,19 @@ describe("SetStoreBookCover endpoint", () => {
 		assert.equal(objResponse3.data, fileContent);
 	});
 
-	it("should update store book cover", async () => {
+	it("should update store book file", async () => {
 		// Update the cover
-		let setStoreBookCoverResponse;
-		let firstCoverContentType = "image/jpeg";
-		let firstCoverExt = "jpg";
+		let setStoreBookFileResponse;
+		let firstFileContentType = "application/pdf";
+		let firstFileExt = "pdf";
 
 		try{
-			setStoreBookCoverResponse = await axios.default({
+			setStoreBookFileResponse = await axios.default({
 				method: 'put',
-				url: setStoreBookCoverEndpointUrl.replace('{0}', constants.authorUserAuthor.books[1].uuid),
+				url: setStoreBookFileEndpointUrl.replace('{0}', constants.authorUserAuthor.books[1].uuid),
 				headers: {
 					Authorization: constants.authorUserJWT,
-					'Content-Type': firstCoverContentType
+					'Content-Type': firstFileContentType
 				},
 				data: "Labore dicta cupiditate culpa cum harum. Corporis voluptatem debitis eos nam nisi esse in vitae. Molestiae rerum nesciunt sunt sed et dolorum."
 			});
@@ -207,15 +207,15 @@ describe("SetStoreBookCover endpoint", () => {
 			assert.fail();
 		}
 
-		assert.equal(200, setStoreBookCoverResponse.status);
+		assert.equal(200, setStoreBookFileResponse.status);
 
-		// Get the cover of the store book
-		let coverTableObjectResponse;
+		// Get the file of the store book
+		let fileTableObjectResponse;
 
 		try{
-			coverTableObjectResponse = await axios.default({
+			fileTableObjectResponse = await axios.default({
 				method: 'get',
-				url: `${constants.apiBaseUrl}/apps/object/${constants.authorUserAuthor.books[1].cover}`,
+				url: `${constants.apiBaseUrl}/apps/object/${constants.authorUserAuthor.books[1].file}`,
 				headers: {
 					Authorization: constants.authorUserJWT
 				}
@@ -224,18 +224,18 @@ describe("SetStoreBookCover endpoint", () => {
 			assert.fail();
 		}
 
-		// Update the cover a second time
-		let setStoreBookCoverResponse2;
-		let secondCoverContentType = "image/png";
-		let secondCoverExt = "png";
+		// Update the file a second time
+		let setStoreBookFileResponse2;
+		let secondFileContentType = "application/epub+zip";
+		let secondFileExt = "epub";
 
 		try{
-			setStoreBookCoverResponse2 = await axios.default({
+			setStoreBookFileResponse2 = await axios.default({
 				method: 'put',
-				url: setStoreBookCoverEndpointUrl.replace('{0}', constants.authorUserAuthor.books[1].uuid),
+				url: setStoreBookFileEndpointUrl.replace('{0}', constants.authorUserAuthor.books[1].uuid),
 				headers: {
 					Authorization: constants.authorUserJWT,
-					'Content-Type': secondCoverContentType
+					'Content-Type': secondFileContentType
 				},
 				data: "Hello World"
 			});
@@ -243,15 +243,15 @@ describe("SetStoreBookCover endpoint", () => {
 			assert.fail();
 		}
 
-		assert.equal(200, setStoreBookCoverResponse2.status);
+		assert.equal(200, setStoreBookFileResponse2.status);
 
-		// Get the cover table object
-		let coverTableObjectResponse2;
+		// Get the file table object
+		let fileTableObjectResponse2;
 
 		try{
-			coverTableObjectResponse2 = await axios.default({
+			fileTableObjectResponse2 = await axios.default({
 				method: 'get',
-				url: `${constants.apiBaseUrl}/apps/object/${constants.authorUserAuthor.books[1].cover}`,
+				url: `${constants.apiBaseUrl}/apps/object/${constants.authorUserAuthor.books[1].file}`,
 				headers: {
 					Authorization: constants.authorUserJWT
 				}
@@ -259,13 +259,13 @@ describe("SetStoreBookCover endpoint", () => {
 		}catch(error){
 			assert.fail();
 		}
-		
-		assert.equal(firstCoverContentType, coverTableObjectResponse.data.properties.type);
-		assert.equal(firstCoverExt, coverTableObjectResponse.data.properties.ext);
-		assert.equal(secondCoverContentType, coverTableObjectResponse2.data.properties.type);
-		assert.equal(secondCoverExt, coverTableObjectResponse2.data.properties.ext);
-		
-		assert(coverTableObjectResponse.data.properties.size != coverTableObjectResponse2.data.properties.size);
-		assert(coverTableObjectResponse.data.properties.etag != coverTableObjectResponse2.data.properties.etag);
+
+		assert.equal(firstFileContentType, fileTableObjectResponse.data.properties.type);
+		assert.equal(firstFileExt, fileTableObjectResponse.data.properties.ext);
+		assert.equal(secondFileContentType, fileTableObjectResponse2.data.properties.type);
+		assert.equal(secondFileExt, fileTableObjectResponse2.data.properties.ext);
+
+		assert(fileTableObjectResponse.data.properties.size != fileTableObjectResponse2.data.properties.size);
+		assert(fileTableObjectResponse.data.properties.etag != fileTableObjectResponse2.data.properties.etag);
 	});
 });

@@ -118,6 +118,22 @@ async function resetStoreBooks(){
 				}
 			}
 
+			if(tableObjectResult.data.properties.file){
+				// Delete the file
+				try{
+					await axios.default({
+						method: 'delete',
+						url: `${constants.apiBaseUrl}/apps/object/${tableObjectResult.data.properties.file}`,
+						headers: {
+							Authorization: constants.authorUserJWT
+						}
+					});
+				}catch(error){
+					console.log("Error in trying to delete a store book file object");
+					console.log(error.response.data);
+				}
+			}
+
 			// Delete the table object
 			try{
 				await axios.default({
@@ -174,6 +190,24 @@ async function resetStoreBooks(){
 			}
 		}
 
+		// Delete the file if the store book has one
+		if(!book.file && response.data.properties.file){
+			let fileUuid = response.data.properties.file;
+
+			try{
+				await axios.default({
+					method: 'delete',
+					url: `${constants.apiBaseUrl}/apps/object/${fileUuid}`,
+					headers: {
+						Authorization: constants.authorUserJWT
+					}
+				});
+			}catch(error){
+				console.log("Error in deleting a file");
+				console.log(error.response.data);
+			}
+		}
+
 		try{
 			await axios.default({
 				method: 'put',
@@ -187,7 +221,8 @@ async function resetStoreBooks(){
 					title: book.title,
 					description: book.description,
 					language: book.language,
-					cover: book.cover ? book.cover : ""
+					cover: book.cover ? book.cover : "",
+					file: book.file ? book.file : ""
 				}
 			});
 		}catch(error){
@@ -211,6 +246,7 @@ async function resetStoreBooks(){
 							description: book.description,
 							language: book.language,
 							cover: book.cover,
+							file: book.file,
 							author: constants.authorUserAuthor.uuid
 						}
 					});
@@ -241,6 +277,7 @@ async function resetStoreBooks(){
 		}catch(error){
 			console.log("Error in getting a cover")
 			console.log(error.response.data);
+
 			if(error.response.data.errors[0][0] == 2805){
 				// Create the cover
 				try{
@@ -261,6 +298,47 @@ async function resetStoreBooks(){
 					});
 				}catch(error){
 					console.log("Error in creating a cover");
+					console.log(error.response.data);
+				}
+			}
+		}
+	}
+
+	// Reset the files
+	for(let file of constants.authorUserAuthor.files){
+		// Get the file from the server
+		try{
+			await axios.default({
+				method: 'get',
+				url: `${constants.apiBaseUrl}/apps/object/${file.uuid}`,
+				headers: {
+					Authorization: constants.authorUserJWT
+				}
+			});
+		}catch(error){
+			console.log("Error in getting a file");
+			console.log(error.response.data);
+
+			if(error.response.data.errors[0][0] == 2805){
+				// Create the file
+				try{
+					await axios.default({
+						method: 'post',
+						url: `${constants.apiBaseUrl}/apps/object`,
+						params: {
+							uuid: file.uuid,
+							table_id: constants.storeBookFileTableId,
+							app_id: constants.pocketlibAppId,
+							ext: "epub"
+						},
+						headers: {
+							Authorization: constants.authorUserJWT,
+							'Content-Type': 'application/epub+zip'
+						},
+						data: "Hello World"
+					});
+				}catch(error){
+					console.log("Error in creating a file");
 					console.log(error.response.data);
 				}
 			}

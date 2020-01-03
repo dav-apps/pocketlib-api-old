@@ -4,6 +4,7 @@ module.exports = {
 	authorTableId: 19,
 	storeBookTableId: 20,
 	storeBookCoverTableId: 21,
+	storeBookFileTableId: 22,
 	davClassLibraryTestUserJWT: "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImRhdmNsYXNzbGlicmFyeXRlc3RAZGF2LWFwcHMudGVjaCIsInVzZXJfaWQiOjUsImRldl9pZCI6MiwiZXhwIjozNzU2MTA1MDAyMn0.jZpdLre_ZMWGN2VNbZOn2Xg51RLAT6ocGnyM38jljHI.1",
 	davUserJWT: "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImRhdkBkYXYtYXBwcy50ZWNoIiwidXNlcl9pZCI6MSwiZGV2X2lkIjoxLCJleHAiOjM3NTYxMDE3NjAwfQ.6LvizKcYttmWGLwGFS4A2nhSu6aOs8O9_pa2StxTQqE.3",
 	authorUserJWT: "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImF1dGhvckBkYXYtYXBwcy50ZWNoIiwidXNlcl9pZCI6NiwiZGV2X2lkIjoxLCJleHAiOjM3NTYxMDE3NjAwfQ.npXRbu87twmlyqBSPuGb1qOn7Mh1ug_j0qEQiLz3N6U.2",
@@ -24,11 +25,15 @@ module.exports = {
 				title: "A Series of Unfortunate Events - Book the Second",
 				description: "Dear Reader, if you have picked up this book with the hope of finding a simple and cheery tale, I'm afraid you have picked up the wrong book altogether.",
 				language: "de",
-				cover: "bb63e1c9-866c-47b5-b852-e8473df404f3"
+				cover: "bb63e1c9-866c-47b5-b852-e8473df404f3",
+				file: "b7cf0cee-fe8d-4f08-8b6e-d391065f1abb"
 			}
 		],
 		covers: [{
 			uuid: "bb63e1c9-866c-47b5-b852-e8473df404f3"
+		}],
+		files: [{
+			uuid: "b7cf0cee-fe8d-4f08-8b6e-d391065f1abb"
 		}]
 	}
 }
