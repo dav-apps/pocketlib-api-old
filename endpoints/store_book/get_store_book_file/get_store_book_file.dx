@@ -1,0 +1,43 @@
+(# Get the jwt)
+(var jwt (get_header Authorization))
+(func render_validation_errors ((list
+	(func validate_jwt_missing (jwt))
+)))
+
+(# Decode the jwt)
+(var decoded_jwt (func decode_jwt (jwt)))
+
+(# Validate the dev)
+(func render_validation_errors ((list
+	(func validate_dev_is_pocketlib_dev (decoded_jwt.dev_id))
+)))
+
+(# Get the store book)
+(var store_book (TableObject.get uuid))
+
+(if (is_nil store_book) (
+	(# Render Resource does not exist: StoreBook)
+	(func render_validation_errors ((list (hash (error (get_error 2803)) (status 404)))))
+))
+
+(# Define function for rendering no file error)
+(def render_no_file () (
+	(func render_validation_errors ((list (hash (error (get_error 2805)) (status 404)))))
+))
+
+(# Check if the store book has a file)
+(if (is_nil store_book.properties.file) (
+	(func render_no_file ())
+))
+
+(# Get the file)
+(var file_obj (TableObject.get store_book.properties.file))
+
+(if (is_nil file_obj) (
+	(func render_no_file ())
+))
+
+(var file (TableObject.get_file store_book.properties.file))
+
+(# Return the content of the file)
+(render_file file file_obj.properties.type (store_book.properties.title + "." + file_obj.properties.ext) 200)
