@@ -21,6 +21,8 @@
 ))
 
 (# Return the store book)
+(var status (if (is_nil store_book.properties.status) "unpublished" else store_book.properties.status))
+
 (render_json 
 	(hash 
 		(uuid store_book.uuid) 
@@ -29,6 +31,7 @@
 		(language store_book.properties.language) 
 		(cover (!(is_nil store_book.properties.cover)))
 		(file (!(is_nil store_book.properties.file)))
+		(status status)
 	) 
 	200
 )

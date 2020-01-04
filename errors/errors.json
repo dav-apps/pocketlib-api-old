@@ -26,6 +26,7 @@
 		{"code": 2204, "message": "Field has wrong type: title"},
 		{"code": 2205, "message": "Field has wrong type: description"},
 		{"code": 2206, "message": "Field has wrong type: language"},
+		{"code": 2207, "message": "Field has wrong type: published"},
 
 		{"code": 2301, "message": "Field too short: first_name"},
 		{"code": 2302, "message": "Field too short: last_name"},

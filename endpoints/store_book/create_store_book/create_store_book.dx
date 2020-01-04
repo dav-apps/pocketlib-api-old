@@ -73,10 +73,12 @@
 (# Update the author with the book)
 (func add_book_to_author (author store_book.uuid))
 
-(var result (hash (uuid store_book.uuid) (title title) (language language)))
-(if (!(is_nil description)) (
-	(var result.description description)
-	(up result)
-))
-
-(render_json result 201)
+(render_json (hash 
+	(uuid store_book.uuid) 
+	(title store_book.properties.title) 
+	(description store_book.properties.description)
+	(language store_book.properties.language)
+	(cover false)
+	(file false)
+	(status "unpublished")
+) 201)

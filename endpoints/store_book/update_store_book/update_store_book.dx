@@ -3,6 +3,7 @@
 (var title json.title)
 (var description json.description)
 (var language json.language)
+(var published json.published)
 
 (# Get the jwt)
 (var jwt (get_header Authorization))
@@ -50,6 +51,7 @@
 	(if (!(is_nil title)) (func validate_title_wrong_type (title)))
 	(if (!(is_nil description)) (func validate_description_wrong_type (description)))
 	(if (!(is_nil language)) (func validate_language_wrong_type (language)))
+	(if (!(is_nil published)) (func validate_published_wrong_type (published)))
 )))
 
 (# Validate the property length)
@@ -70,10 +72,28 @@
 (if (!(is_nil description)) (var store_book.properties.description description))
 (if (!(is_nil language)) (var store_book.properties.language language))
 
+(if (!(is_nil published)) (
+	(var status store_book.properties.status)
+
+	(if ((is_nil status) or (status == "unpublished")) (
+		(# Change the status of the book to "review")
+		(if published (var store_book.properties.status "review"))
+	) elseif (status == "review") (
+		(if (! published) (var store_book.properties.status "unpublished"))
+	) elseif (status == "published") (
+		(if (! published) (var store_book.properties.status "unpublished"))
+	))
+))
+
 (# Return the store book)
+(var status (if (is_nil store_book.properties.status) "unpublished" else store_book.properties.status))
+
 (render_json (hash 
 	(uuid store_book.uuid) 
 	(title store_book.properties.title) 
 	(description store_book.properties.description)
 	(language store_book.properties.language)
+	(cover (!(is_nil store_book.properties.cover)))
+	(file (!(is_nil store_book.properties.file)))
+	(status status)
 ) 200)
