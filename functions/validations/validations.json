@@ -93,6 +93,11 @@
 			"params": ["language"],
 			"source": "./language/validate_language_wrong_type.dx"
 		},
+		{
+			"name": "validate_published_wrong_type",
+			"params": ["published"],
+			"source": "./published/validate_published_wrong_type.dx"
+		},
 
 		{
 			"name": "validate_first_name_too_short",

@@ -101,15 +101,17 @@ describe("UpdateStoreBook endpoint", () => {
 				data: {
 					title: 23,
 					description: false,
-					language: 2.2
+					language: 2.2,
+					published: "Hello"
 				}
 			});
 		}catch(error){
 			assert.equal(400, error.response.status);
-			assert.equal(3, error.response.data.errors.length);
+			assert.equal(4, error.response.data.errors.length);
 			assert.equal(2204, error.response.data.errors[0].code);
 			assert.equal(2205, error.response.data.errors[1].code);
 			assert.equal(2206, error.response.data.errors[2].code);
+			assert.equal(2207, error.response.data.errors[3].code);
 			return;
 		}
 
@@ -151,7 +153,7 @@ describe("UpdateStoreBook endpoint", () => {
 					'Content-Type': 'application/json'
 				},
 				data: {
-					title: "a".repeat(40),
+					title: "a".repeat(100),
 					description: "a".repeat(2010)
 				}
 			});
@@ -214,6 +216,9 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal(title, response.data.title);
 		assert.equal(constants.authorUserAuthor.books[0].description, response.data.description);
 		assert.equal(constants.authorUserAuthor.books[0].language, response.data.language);
+		assert.equal(false, response.data.cover);
+		assert.equal(false, response.data.file);
+		assert.equal("unpublished", response.data.status);
 
 		// Check if the store book was updated on the server
 		let objResponse;
@@ -260,6 +265,9 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal(constants.authorUserAuthor.books[0].title, response.data.title);
 		assert.equal(description, response.data.description);
 		assert.equal(constants.authorUserAuthor.books[0].language, response.data.language);
+		assert.equal(false, response.data.cover);
+		assert.equal(false, response.data.file);
+		assert.equal("unpublished", response.data.status);
 
 		// Check if the store book was updated on the server
 		let objResponse;
@@ -306,6 +314,9 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal(constants.authorUserAuthor.books[0].title, response.data.title);
 		assert.equal(constants.authorUserAuthor.books[0].description, response.data.description);
 		assert.equal(language, response.data.language);
+		assert.equal(false, response.data.cover);
+		assert.equal(false, response.data.file);
+		assert.equal("unpublished", response.data.status);
 
 		// Check if the store book was updated on the server
 		let objResponse;
@@ -325,5 +336,120 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal(constants.authorUserAuthor.books[0].title, objResponse.data.properties.title);
 		assert.equal(constants.authorUserAuthor.books[0].description, objResponse.data.properties.description);
 		assert.equal(language, objResponse.data.properties.language);
+	});
+
+	it("should publish store book", async () => {
+		let response;
+
+		try{
+			response = await axios.default({
+				method: 'put',
+				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.books[0].uuid),
+				headers: {
+					Authorization: constants.authorUserJWT,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					published: true
+				}
+			});
+		}catch(error){
+			assert.fail();
+		}
+
+		assert.equal(200, response.status);
+		assert.equal(constants.authorUserAuthor.books[0].uuid, response.data.uuid);
+		assert.equal(constants.authorUserAuthor.books[0].title, response.data.title);
+		assert.equal(constants.authorUserAuthor.books[0].description, response.data.description);
+		assert.equal(constants.authorUserAuthor.books[0].language, response.data.language);
+		assert.equal(false, response.data.cover);
+		assert.equal(false, response.data.file);
+		assert.equal("review", response.data.status);
+
+		// Check if the store book was updated on the server
+		let objResponse;
+		try{
+			objResponse = await axios.default({
+				method: 'get',
+				url: `${constants.apiBaseUrl}/apps/object/${constants.authorUserAuthor.books[0].uuid}`,
+				headers: {
+					Authorization: constants.authorUserJWT
+				}
+			});
+		}catch(error){
+			assert.fail();
+		}
+
+		assert.equal(constants.authorUserAuthor.books[0].uuid, objResponse.data.uuid);
+		assert.equal(constants.authorUserAuthor.books[0].title, objResponse.data.properties.title);
+		assert.equal(constants.authorUserAuthor.books[0].description, objResponse.data.properties.description);
+		assert.equal(constants.authorUserAuthor.books[0].language, objResponse.data.properties.language);
+		assert.equal("review", objResponse.data.properties.status);
+	});
+
+	it("should unpublish store book", async () => {
+		// Update the table object with review status
+		try{
+			await axios.default({
+				method: 'put',
+				url: `${constants.apiBaseUrl}/apps/object/${constants.authorUserAuthor.books[0].uuid}`,
+				headers: {
+					Authorization: constants.authorUserJWT,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					status: "review"
+				}
+			});
+		}catch(error){
+			assert.fail();
+		}
+
+		let response;
+
+		try{
+			response = await axios.default({
+				method: 'put',
+				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.books[0].uuid),
+				headers: {
+					Authorization: constants.authorUserJWT,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					published: false
+				}
+			});
+		}catch(error){
+			assert.fail();
+		}
+
+		assert.equal(200, response.status);
+		assert.equal(constants.authorUserAuthor.books[0].uuid, response.data.uuid);
+		assert.equal(constants.authorUserAuthor.books[0].title, response.data.title);
+		assert.equal(constants.authorUserAuthor.books[0].description, response.data.description);
+		assert.equal(constants.authorUserAuthor.books[0].language, response.data.language);
+		assert.equal(false, response.data.cover);
+		assert.equal(false, response.data.file);
+		assert.equal("unpublished", response.data.status);
+
+		// Check if the store book was updated on the server
+		let objResponse;
+		try{
+			objResponse = await axios.default({
+				method: 'get',
+				url: `${constants.apiBaseUrl}/apps/object/${constants.authorUserAuthor.books[0].uuid}`,
+				headers: {
+					Authorization: constants.authorUserJWT
+				}
+			});
+		}catch(error){
+			assert.fail();
+		}
+
+		assert.equal(constants.authorUserAuthor.books[0].uuid, objResponse.data.uuid);
+		assert.equal(constants.authorUserAuthor.books[0].title, objResponse.data.properties.title);
+		assert.equal(constants.authorUserAuthor.books[0].description, objResponse.data.properties.description);
+		assert.equal(constants.authorUserAuthor.books[0].language, objResponse.data.properties.language);
+		assert.equal("unpublished", objResponse.data.properties.status);
 	});
 });

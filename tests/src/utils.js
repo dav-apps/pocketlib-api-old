@@ -222,7 +222,8 @@ async function resetStoreBooks(){
 					description: book.description,
 					language: book.language,
 					cover: book.cover ? book.cover : "",
-					file: book.file ? book.file : ""
+					file: book.file ? book.file : "",
+					status: book.status
 				}
 			});
 		}catch(error){
@@ -247,6 +248,7 @@ async function resetStoreBooks(){
 							language: book.language,
 							cover: book.cover,
 							file: book.file,
+							status: book.status,
 							author: constants.authorUserAuthor.uuid
 						}
 					});

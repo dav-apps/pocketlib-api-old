@@ -1,8 +1,13 @@
 var assert = require('assert');
 var axios = require('axios');
 var constants = require("../constants");
+var utils = require('../utils');
 
 const getStoreBookEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/book/{0}`;
+
+beforeEach(async () => {
+	await utils.resetStoreBooks();
+});
 
 describe("GetStoreBook endpoint", () => {
 	it("should not return store book without jwt", async () => {
@@ -78,6 +83,7 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(constants.authorUserAuthor.books[0].description, response.data.description);
 		assert.equal(constants.authorUserAuthor.books[0].language, response.data.language);
 		assert.equal(false, response.data.cover);
-		assert.equal(false, response.data.cover);
+		assert.equal(false, response.data.file);
+		assert.equal("unpublished", response.data.status);
 	});
 });

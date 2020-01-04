@@ -198,7 +198,7 @@ describe("CreateStoreBook endpoint", () => {
 					'Content-Type': 'application/json'
 				},
 				data: {
-					title: "a".repeat(50),
+					title: "a".repeat(100),
 					language: "en"
 				}
 			});
@@ -222,7 +222,7 @@ describe("CreateStoreBook endpoint", () => {
 					'Content-Type': 'application/json'
 				},
 				data: {
-					title: "a".repeat(50),
+					title: "a".repeat(100),
 					description: "a".repeat(2010),
 					language: "de"
 				}
@@ -314,6 +314,9 @@ describe("CreateStoreBook endpoint", () => {
 		assert.equal(title, response.data.title);
 		assert.equal(null, response.data.description);
 		assert.equal(language, response.data.language);
+		assert.equal(false, response.data.cover);
+		assert.equal(false, response.data.file);
+		assert.equal("unpublished", response.data.status);
 
 		// Check if the data was correctly saved in the database
 		// Get the author
@@ -386,6 +389,9 @@ describe("CreateStoreBook endpoint", () => {
 		assert.equal(title, response.data.title);
 		assert.equal(description, response.data.description);
 		assert.equal(language, response.data.language);
+		assert.equal(false, response.data.cover);
+		assert.equal(false, response.data.file);
+		assert.equal("unpublished", response.data.status);
 
 		// Check if the data was correctly saved in the database
 		// Get the author

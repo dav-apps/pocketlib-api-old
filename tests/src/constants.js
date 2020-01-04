@@ -18,7 +18,8 @@ module.exports = {
 				uuid: "1cf6fc5f-8fa5-4972-895d-8b1d6552d41c",
 				title: "A Series of Unfortunate Events - Book the First",
 				description: "Dear Reader, I'm sorry to say that the book you are holding in your hands is extremely unpleasant. It tells an unhappy tale about three very unlucky children.",
-				language: "en"
+				language: "en",
+				status: "unpublished"
 			},
 			{
 				uuid: "5242102c-b107-4e82-8eb8-bebe2a990436",
@@ -26,7 +27,8 @@ module.exports = {
 				description: "Dear Reader, if you have picked up this book with the hope of finding a simple and cheery tale, I'm afraid you have picked up the wrong book altogether.",
 				language: "de",
 				cover: "bb63e1c9-866c-47b5-b852-e8473df404f3",
-				file: "b7cf0cee-fe8d-4f08-8b6e-d391065f1abb"
+				file: "b7cf0cee-fe8d-4f08-8b6e-d391065f1abb",
+				status: "review"
 			}
 		],
 		covers: [{
