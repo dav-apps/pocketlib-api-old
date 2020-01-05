@@ -341,6 +341,17 @@ async function deleteTableObject(uuid, jwt){
 	}
 }
 
+async function getTableObject(uuid, jwt){
+	return await axios.default({
+		method: 'get',
+		url: `${constants.apiBaseUrl}/apps/object/${uuid}`,
+		headers: {
+			Authorization: jwt
+		}
+	});
+}
+
 module.exports = {
-	resetDatabase
+	resetDatabase,
+	getTableObject
 }
