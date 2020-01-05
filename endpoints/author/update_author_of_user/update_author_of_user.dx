@@ -1,0 +1,69 @@
+(var json (parse_json (get_body)))
+
+(var first_name json.first_name)
+(var last_name json.last_name)
+(var bio json.bio)
+
+(# Get the jwt)
+(var jwt (get_header Authorization))
+(func render_validation_errors ((list
+	(func validate_jwt_missing (jwt))
+)))
+
+(# Make sure content type is json)
+(func render_validation_errors ((list
+	(func validate_content_type_json ((get_header Content-Type)))
+)))
+
+(# Decode the jwt)
+(var decoded_jwt (func decode_jwt (jwt)))
+
+(# Validate the dev)
+(func render_validation_errors ((list
+	(func validate_dev_is_pocketlib_dev (decoded_jwt.dev_id))
+)))
+
+(# Make sure the user is not the first one)
+(if (decoded_jwt.user_id == 1) (
+	(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
+))
+
+(# Get the author of the user)
+(var authors (func get_author_table_objects (decoded_jwt.user_id)))
+
+(if (authors.length == 0) (
+	(func render_validation_errors ((list (hash (error (get_error 1105)) (status 400)))))
+))
+
+(# Update the author)
+(var author authors#0)
+
+(# Validate the property types)
+(func render_validation_errors ((list
+	(if (!(is_nil first_name)) (func validate_first_name_wrong_type (first_name)))
+	(if (!(is_nil last_name)) (func validate_last_name_wrong_type (last_name)))
+	(if (!(is_nil bio)) (func validate_bio_wrong_type (bio)))
+)))
+
+(# Validate the property length)
+(func render_validation_errors ((list
+	(if (!(is_nil first_name)) (func validate_first_name_too_short (first_name)))
+	(if (!(is_nil first_name)) (func validate_first_name_too_long (first_name)))
+	(if (!(is_nil last_name)) (func validate_last_name_too_short (last_name)))
+	(if (!(is_nil last_name)) (func validate_last_name_too_long (last_name)))
+	(if (!(is_nil bio)) (func validate_bio_too_short (bio)))
+	(if (!(is_nil bio)) (func validate_bio_too_long (bio)))
+)))
+
+(# Set the values)
+(if (!(is_nil first_name)) (var author.properties.first_name first_name))
+(if (!(is_nil last_name)) (var author.properties.last_name last_name))
+(if (!(is_nil bio)) (var author.properties.bio bio))
+
+(# Render the result)
+(render_json (hash
+	(uuid author.uuid)
+	(first_name author.properties.first_name)
+	(last_name author.properties.last_name)
+	(bio author.properties.bio)
+) 200)

@@ -1,0 +1,6 @@
+{
+	"type": "endpoint",
+	"path": "author",
+	"method": "PUT",
+	"source": "./update_author_of_user.dx"
+}
