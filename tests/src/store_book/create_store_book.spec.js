@@ -6,7 +6,7 @@ var utils = require('../utils');
 const createStoreBookEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/book`;
 
 beforeEach(async () => {
-	await utils.resetStoreBooks();
+	await utils.resetDatabase();
 });
 
 describe("CreateStoreBook endpoint", () => {
@@ -251,11 +251,11 @@ describe("CreateStoreBook endpoint", () => {
 					title: "Hello World",
 					language: "blabla"
 				}
-			})
+			});
 		}catch(error){
 			assert.equal(400, error.response.status);
 			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1106, error.response.data.errors[0].code);
+			assert.equal(1107, error.response.data.errors[0].code);
 			return;
 		}
 

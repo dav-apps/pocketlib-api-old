@@ -6,7 +6,7 @@ var utils = require('../utils');
 const getStoreBookEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/book/{0}`;
 
 beforeEach(async () => {
-	await utils.resetStoreBooks();
+	await utils.resetDatabase();
 });
 
 describe("GetStoreBook endpoint", () => {

@@ -6,7 +6,7 @@ var utils = require('../utils');
 const getStoreBookCoverEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/book/{0}/cover`;
 
 beforeEach(async () => {
-	await utils.resetStoreBooks();
+	await utils.resetDatabase();
 });
 
 describe("GetStoreBookCover endpoint", () => {
