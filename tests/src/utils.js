@@ -1,45 +1,37 @@
 var axios = require('axios');
 var constants = require('./constants');
 
-async function resetAuthors(){
-	// Delete the author of dav user
-	// Get the author table
-	let response;
-	let authorObjUuid;
+async function resetDatabase(){
+	// Delete Authors
+	await deleteAuthors(constants.davUserJWT);
+	await deleteAuthors(constants.davClassLibraryTestUserPocketLibJWT);
 
-	try{
-		response = await axios.default({
-			method: 'get',
-			url: `${constants.apiBaseUrl}/apps/table/${constants.authorTableId}`,
-			headers: {
-				Authorization: constants.davUserJWT
-			}
-		});
+	// Reset the Author of author user
+	await resetAuthorUserAuthor();
 
-		if(response.data.table_objects.length > 0){
-			authorObjUuid = response.data.table_objects[0].uuid;
-		}
-	}catch(error){
-		console.log("Error in trying to get the author table");
-		console.log(error.response.data);
-	}
+	// Delete StoreBooks
+	await deleteStoreBooks(constants.davUserJWT);
+	await deleteStoreBooks(constants.davClassLibraryTestUserPocketLibJWT);
 
-	if(authorObjUuid){
-		// Delete the author object
-		try{
-			await axios.default({
-				method: 'delete',
-				url: `${constants.apiBaseUrl}/apps/object/${authorObjUuid}`,
-				headers: {
-					Authorization: constants.davUserJWT
-				}
-			});
-		}catch(error){
-			console.log("Error in trying to delete the author object");
-			console.log(error.response.data);
-		}
-	}
+	// Reset the StoreBooks of author user
+	await resetAuthorUserStoreBooks();
 
+	// Delete Covers
+	await deleteStoreBookCovers(constants.davUserJWT);
+	await deleteStoreBookCovers(constants.davClassLibraryTestUserPocketLibJWT);
+
+	// Reset the Covers
+	await resetAuthorUserStoreBookCovers();
+
+	// Delete files
+	await deleteStoreBookFiles(constants.davUserJWT);
+	await deleteStoreBookFiles(constants.davClassLibraryTestUserPocketLibJWT);
+
+	// Reset the Files
+	await resetAuthorUserStoreBookFiles();
+}
+
+async function resetAuthorUserAuthor(){
 	// Reset the author of author user
 	try{
 		await axios.default({
@@ -52,162 +44,19 @@ async function resetAuthors(){
 			data: {
 				first_name: constants.authorUserAuthor.firstName,
 				last_name: constants.authorUserAuthor.lastName,
-				bio: constants.authorUserAuthor.bio
+				bio: constants.authorUserAuthor.bio,
+				books: [constants.authorUserAuthor.books[0].uuid, constants.authorUserAuthor.books[1].uuid].join(',')
 			}
 		});
 	}catch(error){
-		console.log("Error in resetting the author of the author user");
+		console.log("Error in resetting the author of author user");
 		console.log(error.response.data);
 	}
 }
 
-async function resetStoreBooks(){
-	// Delete all store books that are not part of the default test database
-	let response;
-	let storeBookObjects;
-
-	try{
-		response = await axios.default({
-			method: 'get',
-			url: `${constants.apiBaseUrl}/apps/table/${constants.storeBookTableId}`,
-			headers: {
-				Authorization: constants.authorUserJWT
-			}
-		});
-
-		storeBookObjects = response.data.table_objects;
-	}catch(error){
-		console.log("Error in trying the get the store book table");
-		console.log(error.response.data);
-	}
-
-	if(storeBookObjects){
-		for(let tableObject of storeBookObjects){
-			if(tableObject.uuid == constants.authorUserAuthor.books[0].uuid || 
-				tableObject.uuid == constants.authorUserAuthor.books[1].uuid) continue;
-
-			// Get the table object
-			let tableObjectResult;
-
-			try{
-				tableObjectResult = await axios.default({
-					method: 'get',
-					url: `${constants.apiBaseUrl}/apps/object/${tableObject.uuid}`,
-					headers: {
-						Authorization: constants.authorUserJWT
-					}
-				});
-			}catch(error){
-				console.log("Error in trying to get a store book object");
-				console.log(error.response.data);
-			}
-
-			if(tableObjectResult.data.properties.cover){
-				// Delete the cover
-				try{
-					await axios.default({
-						method: 'delete',
-						url: `${constants.apiBaseUrl}/apps/object/${tableObjectResult.data.properties.cover}`,
-						headers: {
-							Authorization: constants.authorUserJWT
-						}
-					});
-				}catch(error){
-					console.log("Error in trying to delete a store book cover object");
-					console.log(error.response.data);
-				}
-			}
-
-			if(tableObjectResult.data.properties.file){
-				// Delete the file
-				try{
-					await axios.default({
-						method: 'delete',
-						url: `${constants.apiBaseUrl}/apps/object/${tableObjectResult.data.properties.file}`,
-						headers: {
-							Authorization: constants.authorUserJWT
-						}
-					});
-				}catch(error){
-					console.log("Error in trying to delete a store book file object");
-					console.log(error.response.data);
-				}
-			}
-
-			// Delete the table object
-			try{
-				await axios.default({
-					method: 'delete',
-					url: `${constants.apiBaseUrl}/apps/object/${tableObject.uuid}`,
-					headers: {
-						Authorization: constants.authorUserJWT
-					}
-				});
-			}catch(error){
-				console.log("Error in trying to delete a store book object");
-				console.log(error.response.data);
-			}
-		}
-	}
-
-	// Reset the store books
-	let bookUuids = [];
-
+async function resetAuthorUserStoreBooks(){
 	for(let book of constants.authorUserAuthor.books){
-		bookUuids.push(book.uuid);
-		let response;
-
-		// Get the store book
-		try{
-			response = await axios.default({
-				method: 'get',
-				url: `${constants.apiBaseUrl}/apps/object/${book.uuid}`,
-				headers: {
-					Authorization: constants.authorUserJWT
-				}
-			});
-		}catch(error){
-			console.log("Error in getting a store book");
-			console.log(response.data);
-			continue;
-		}
-
-		// Delete the cover if the store book has one
-		if(!book.cover && response.data.properties.cover){
-			let coverUuid = response.data.properties.cover;
-
-			try{
-				await axios.default({
-					method: 'delete',
-					url: `${constants.apiBaseUrl}/apps/object/${coverUuid}`,
-					headers: {
-						Authorization: constants.authorUserJWT
-					}
-				});
-			}catch(error){
-				console.log("Error in deleting a cover");
-				console.log(error.response.data);
-			}
-		}
-
-		// Delete the file if the store book has one
-		if(!book.file && response.data.properties.file){
-			let fileUuid = response.data.properties.file;
-
-			try{
-				await axios.default({
-					method: 'delete',
-					url: `${constants.apiBaseUrl}/apps/object/${fileUuid}`,
-					headers: {
-						Authorization: constants.authorUserJWT
-					}
-				});
-			}catch(error){
-				console.log("Error in deleting a file");
-				console.log(error.response.data);
-			}
-		}
-
+		// Reset the StoreBook
 		try{
 			await axios.default({
 				method: 'put',
@@ -223,150 +72,275 @@ async function resetStoreBooks(){
 					language: book.language,
 					cover: book.cover ? book.cover : "",
 					file: book.file ? book.file : "",
-					status: book.status
+					status: book.status ? book.status : ""
 				}
 			});
 		}catch(error){
-			// Create the store book if it does not exist
-			if(error.response.data.errors[0][0] == 2805){
-				try{
-					await axios.default({
-						method: 'post',
-						url: `${constants.apiBaseUrl}/apps/object`,
-						params: {
-							table_id: constants.storeBookTableId,
-							app_id: constants.pocketlibAppId
-						},
-						headers: {
-							Authorization: constants.authorUserJWT,
-							'Content-Type': 'application/json'
-						},
-						data: {
-							uuid: book.uuid,
-							title: book.title,
-							description: book.description,
-							language: book.language,
-							cover: book.cover,
-							file: book.file,
-							status: book.status,
-							author: constants.authorUserAuthor.uuid
-						}
-					});
-				}catch(error){
-					console.log("Error in creating a store book table object");
-					console.log(error.response.data);
-				}
-			}else{
-				console.log("Error in resetting a store book");
-				console.log(error.response.data);
-			}
-
-			return;
+			console.log("Error in resetting a store book");
+			console.log(error.response.data);
 		}
 	}
 
-	// Reset the covers
-	for(let cover of constants.authorUserAuthor.covers){
-		// Get the cover from the server
+	// Get the StoreBook table
+	let response;
+	let storeBooks = [];
+
+	try{
+		response = await axios.default({
+			method: 'get',
+			url: `${constants.apiBaseUrl}/apps/table/${constants.storeBookTableId}`,
+			headers: {
+				Authorization: constants.authorUserJWT
+			}
+		});
+
+		storeBooks = response.data.table_objects;
+	}catch(error){
+		console.log("Error in getting the store book table");
+		console.log(error.response.data);
+	}
+
+	// Delete each store book that is not part of the test database
+	for(let storeBook of storeBooks){
+		if(storeBook.uuid == constants.authorUserAuthor.books[0].uuid) continue;
+		if(storeBook.uuid == constants.authorUserAuthor.books[1].uuid) continue;
+
+		// Delete the store book
+		await deleteTableObject(storeBook.uuid, constants.authorUserJWT);
+	}
+}
+
+async function resetAuthorUserStoreBookCovers(){
+	// Get the cover table
+	let response;
+	let covers = [];
+	let coverExists = false;
+
+	try{
+		response = await axios.default({
+			method: 'get',
+			url: `${constants.apiBaseUrl}/apps/table/${constants.storeBookCoverTableId}`,
+			headers: {
+				Authorization: constants.authorUserJWT
+			}
+		});
+
+		covers = response.data.table_objects;
+	}catch(error){
+		console.log("Error in getting the store book cover table");
+		console.log(error.response.data);
+	}
+
+	// Delete each cover that is not part of the test database
+	for(let cover of covers){
+		if(cover.uuid == constants.authorUserAuthor.covers[0].uuid){
+			coverExists = true;
+		}else{
+			// Delete the cover
+			await deleteTableObject(cover.uuid, constants.authorUserJWT)
+		}
+	}
+
+	if(!coverExists){
+		// Create the cover
 		try{
 			await axios.default({
-				method: 'get',
-				url: `${constants.apiBaseUrl}/apps/object/${cover.uuid}`,
+				method: 'post',
+				url: `${constants.apiBaseUrl}/apps/object`,
+				params: {
+					uuid: constants.authorUserAuthor.covers[0].uuid,
+					table_id: constants.storeBookCoverTableId,
+					app_id: constants.pocketlibAppId,
+					ext: "png"
+				},
 				headers: {
-					Authorization: constants.authorUserJWT
-				}
+					Authorization: constants.authorUserJWT,
+					'Content-Type': 'image/png'
+				},
+				data: "Hello World"
 			});
 		}catch(error){
-			console.log("Error in getting a cover")
+			console.log("Error in creating cover");
 			console.log(error.response.data);
+		}
+	}
+}
 
-			if(error.response.data.errors[0][0] == 2805){
-				// Create the cover
-				try{
-					await axios.default({
-						method: 'post',
-						url: `${constants.apiBaseUrl}/apps/object`,
-						params: {
-							uuid: cover.uuid,
-							table_id: constants.storeBookCoverTableId,
-							app_id: constants.pocketlibAppId,
-							ext: "png"
-						},
-						headers: {
-							Authorization: constants.authorUserJWT,
-							'Content-Type': 'image/png'
-						},
-						data: "Hello World"
-					});
-				}catch(error){
-					console.log("Error in creating a cover");
-					console.log(error.response.data);
-				}
+async function resetAuthorUserStoreBookFiles(){
+	// Get the file table
+	let response;
+	let files = [];
+	let fileExists = false;
+
+	try{
+		response = await axios.default({
+			method: 'get',
+			url: `${constants.apiBaseUrl}/apps/table/${constants.storeBookFileTableId}`,
+			headers: {
+				Authorization: constants.authorUserJWT
 			}
+		});
+
+		files = response.data.table_objects;
+	}catch(error){
+		console.log("Error in getting the store book file table");
+		console.log(error.response.data);
+	}
+
+	// Delete each file that is not part of the test database
+	for(let file of files){
+		if(file.uuid == constants.authorUserAuthor.files[0].uuid){
+			fileExists = true;
+		}else{
+			// Delete the file
+			await deleteTableObject(file.uuid, constants.authorUserJWT);
 		}
 	}
 
-	// Reset the files
-	for(let file of constants.authorUserAuthor.files){
-		// Get the file from the server
+	if(!fileExists){
+		// Create the file
 		try{
 			await axios.default({
-				method: 'get',
-				url: `${constants.apiBaseUrl}/apps/object/${file.uuid}`,
+				method: 'post',
+				url: `${constants.apiBaseUrl}/apps/object`,
+				params: {
+					uuid: constants.authorUserAuthor.files[0].uuid,
+					table_id: constants.storeBookFileTableId,
+					app_id: constants.pocketlibAppId,
+					ext: "pdf"
+				},
 				headers: {
-					Authorization: constants.authorUserJWT
-				}
+					Authorization: constants.authorUserJWT,
+					'Content-Type': 'application/pdf'
+				},
+				data: "Hello World"
 			});
 		}catch(error){
-			console.log("Error in getting a file");
+			console.log("Error in creating file");
 			console.log(error.response.data);
-
-			if(error.response.data.errors[0][0] == 2805){
-				// Create the file
-				try{
-					await axios.default({
-						method: 'post',
-						url: `${constants.apiBaseUrl}/apps/object`,
-						params: {
-							uuid: file.uuid,
-							table_id: constants.storeBookFileTableId,
-							app_id: constants.pocketlibAppId,
-							ext: "epub"
-						},
-						headers: {
-							Authorization: constants.authorUserJWT,
-							'Content-Type': 'application/epub+zip'
-						},
-						data: "Hello World"
-					});
-				}catch(error){
-					console.log("Error in creating a file");
-					console.log(error.response.data);
-				}
-			}
 		}
 	}
+}
 
-	// Reset the books property of the author
+async function deleteAuthors(jwt){
+	// Get the author table
+	let response;
+	let authors = [];
+
+	try{
+		response = await axios.default({
+			method: 'get',
+			url: `${constants.apiBaseUrl}/apps/table/${constants.authorTableId}`,
+			headers: {
+				Authorization: jwt
+			}
+		});
+
+		authors = response.data.table_objects;
+	}catch(error){
+		console.log("Error in getting the author table");
+		console.log(error.response.status);
+	}
+
+	// Delete each author
+	for(let author of authors){
+		await deleteTableObject(author.uuid, jwt);
+	}
+}
+
+async function deleteStoreBooks(jwt){
+	// Get the store book table
+	let response;
+	let storeBooks = [];
+
+	try{
+		response = await axios.default({
+			method: 'get',
+			url: `${constants.apiBaseUrl}/apps/table/${constants.storeBookTableId}`,
+			headers: {
+				Authorization: jwt
+			}
+		});
+
+		storeBooks = response.data.table_objects;
+	}catch(error){
+		console.log("Error in getting the store book table");
+		console.log(error.response.data);
+	}
+
+	// Delete each store book
+	for(let storeBook of storeBooks){
+		await deleteTableObject(storeBook.uuid, jwt);
+	}
+}
+
+async function deleteStoreBookCovers(jwt){
+	// Get the cover table
+	let response;
+	let covers = [];
+
+	try{
+		response = await axios.default({
+			method: 'get',
+			url: `${constants.apiBaseUrl}/apps/table/${constants.storeBookCoverTableId}`,
+			headers: {
+				Authorization: jwt
+			}
+		});
+
+		covers = response.data.table_objects;
+	}catch(error){
+		console.log("Error in getting the store book cover table");
+		console.log(error.response.data);
+	}
+
+	// Delete each cover
+	for(let cover of covers){
+		await deleteTableObject(cover.uuid, jwt);
+	}
+}
+
+async function deleteStoreBookFiles(jwt){
+	// Get the file table
+	let response;
+	let files = [];
+
+	try{
+		response = await axios.default({
+			method: 'get',
+			url: `${constants.apiBaseUrl}/apps/table/${constants.storeBookFileTableId}`,
+			headers: {
+				Authorization: jwt
+			}
+		});
+
+		files = response.data.table_objects;
+	}catch(error){
+		console.log("Error in getting the store book cover table");
+		console.log(error.response.data);
+	}
+
+	// Delete each file
+	for(let file of files){
+		await deleteTableObject(file.uuid);
+	}
+}
+
+async function deleteTableObject(uuid, jwt){
 	try{
 		await axios.default({
-			method: 'put',
-			url: `${constants.apiBaseUrl}/apps/object/${constants.authorUserAuthor.uuid}`,
+			method: 'delete',
+			url: `${constants.apiBaseUrl}/apps/object/${uuid}`,
 			headers: {
-				Authorization: constants.authorUserJWT,
-				'Content-Type': 'application/json'
-			},
-			data: {
-				books: bookUuids.join(',')
+				Authorization: jwt
 			}
 		});
 	}catch(error){
-		console.log("Error in resetting the books property of the author");
+		console.log("Error in deleting a TableObject");
 		console.log(error.response.data);
 	}
 }
 
 module.exports = {
-	resetAuthors,
-	resetStoreBooks
+	resetDatabase
 }
