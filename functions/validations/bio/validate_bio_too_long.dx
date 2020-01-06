@@ -1,4 +1,4 @@
 (# params: bio: string)
-(if (bio.length > 500)
+(if (bio.length > 2000)
 	(hash (error (get_error 2403)) (status 400))
 )
