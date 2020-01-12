@@ -1,0 +1,106 @@
+(var json (parse_json (get_body)))
+
+(var author json.author)
+(var name json.name)
+(var language json.language)
+
+(# Get the jwt)
+(var jwt (get_header Authorization))
+(func render_validation_errors ((list
+	(func validate_jwt_missing (jwt))
+)))
+
+(# Make sure content type is json)
+(func render_validation_errors ((list
+	(func validate_content_type_json ((get_header Content-Type)))
+)))
+
+(# Decode the jwt)
+(var decoded_jwt (func decode_jwt (jwt)))
+
+(# Validate the dev)
+(func render_validation_errors ((list
+	(func validate_dev_is_pocketlib_dev (decoded_jwt.dev_id))
+)))
+
+(# Check if the user is an admin)
+(var is_admin (env.ADMINS.contains decoded_jwt.user_id))
+
+(# Validate missing fields)
+(func render_validation_errors ((list
+	(if is_admin (func validate_author_missing (author)))
+	(func validate_name_missing (name))
+	(func validate_language_missing (language))
+)))
+
+(# Validate property types)
+(func render_validation_errors ((list
+	(if is_admin (func validate_author_wrong_type (author)))
+	(func validate_name_wrong_type (name))
+	(func validate_language_wrong_type (language))
+)))
+
+(# Validate too short and too long fields)
+(func render_validation_errors ((list
+	(if is_admin (func validate_author_too_short (author)))
+	(if is_admin (func validate_author_too_long (author)))
+	(func validate_name_too_short (name))
+	(func validate_name_too_long (name))
+)))
+
+(# Validate the language)
+(func render_validation_errors ((list
+	(func validate_language_supported (language))
+)))
+
+(if is_admin (
+	(catch (
+		(var author_obj (TableObject.get author))
+		(up author_obj)
+	) (
+		(# Action not allowed)
+		(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
+	))
+
+	(if (is_nil author_obj) (
+		(# Author does not exist)
+		(func render_validation_errors ((list (hash (error (get_error 2802)) (status 404)))))
+	))
+	
+	(up author_obj)
+) else (
+	(var authors (func get_author_table_objects (decoded_jwt.user_id)))
+
+	(if (authors.length == 0) (
+	(# Render User is not an author error)
+		(func render_validation_errors ((list (hash (error (get_error 1105)) (status 400)))))
+	))
+
+	(var author_obj authors#0)
+	(up author_obj)
+))
+
+(# Create the collection name)
+(var collection_name_properties (hash
+	(name name)
+	(language language)
+))
+(var collection_name (func create_store_book_collection_name_table_object (decoded_jwt.user_id collection_name_properties)))
+
+(# Create the collection)
+(var collection_properties (hash 
+	(author author_obj.uuid)
+	(names collection_name.uuid)
+))
+(var collection (func create_store_book_collection_table_object (decoded_jwt.user_id collection_properties)))
+
+(# Update the collections property of the author)
+(func add_collection_to_author (author_obj collection.uuid))
+
+(# Render the result)
+(render_json (hash
+	(uuid collection.uuid)
+	(author collection.properties.author)
+	(names (list (hash (name name) (language language))))
+	(books (list))
+) 201)
