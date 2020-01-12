@@ -1,0 +1,4 @@
+(# params: author: string)
+(if (is_nil author)
+	(hash (error (get_error 2107)) (status 400))
+)
