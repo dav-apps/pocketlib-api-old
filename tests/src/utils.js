@@ -3,7 +3,6 @@ var constants = require('./constants');
 
 async function resetDatabase(){
 	// Delete Authors
-	await deleteTableObjectsOfTable(constants.davUserJWT, constants.authorTableId);
 	await deleteTableObjectsOfTable(constants.davClassLibraryTestUserJWT, constants.authorTableId);
 
 	// Reset the Author of author user
@@ -414,6 +413,8 @@ async function deleteTableObjectsOfTable(jwt, tableId){
 				Authorization: jwt
 			}
 		});
+
+		objects = response.data.table_objects;
 	}catch(error){
 		console.log(`Error in getting the table with the id ${tableId}`);
 		console.log(error.response.status);

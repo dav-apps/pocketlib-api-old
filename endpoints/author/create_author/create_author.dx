@@ -22,10 +22,13 @@
 	(func validate_dev_is_pocketlib_dev (decoded_jwt.dev_id))
 )))
 
+(# Check if the user is an admin)
+(var is_admin (env.ADMINS.contains decoded_jwt.user_id))
+
 (# Get the authors of the user)
 (var authors (func get_author_table_objects (decoded_jwt.user_id)))
 
-(if ((decoded_jwt.user_id != 1) and (authors.length > 0)) (
+(if ((! is_admin) and (authors.length > 0)) (
 	(func render_validation_errors ((list (hash (error (get_error 1106)) (status 400)))))
 ))
 
@@ -58,4 +61,5 @@
 	(first_name first_name) 
 	(last_name last_name) 
 	(bio nil)
+	(collections (list))
 ) 201)

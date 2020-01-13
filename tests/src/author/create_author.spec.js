@@ -72,7 +72,7 @@ describe("CreateAuthor endpoint", async () => {
 				method: 'post',
 				url: createAuthorEndpointUrl,
 				headers: {
-					Authorization: constants.davClassLibraryTestUserJWT,
+					Authorization: constants.davClassLibraryTestUserTestAppJWT,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -220,7 +220,7 @@ describe("CreateAuthor endpoint", async () => {
 				method: 'post',
 				url: createAuthorEndpointUrl,
 				headers: {
-					Authorization: constants.davClassLibraryTestUserPocketLibJWT,
+					Authorization: constants.davClassLibraryTestUserJWT,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -236,7 +236,8 @@ describe("CreateAuthor endpoint", async () => {
 		assert(response.data.uuid != null);
 		assert.equal(firstName, response.data.first_name);
 		assert.equal(lastName, response.data.last_name);
-		assert.equal(null, response.data.description);
+		assert.equal(null, response.data.bio);
+		assert.equal(0, response.data.collections.length);
 
 		// Check if the author was correctly created on the server
 		let objResponse;
@@ -245,7 +246,7 @@ describe("CreateAuthor endpoint", async () => {
 				method: 'get',
 				url: `${constants.apiBaseUrl}/apps/object/${response.data.uuid}`,
 				headers: {
-					Authorization: constants.davClassLibraryTestUserPocketLibJWT
+					Authorization: constants.davClassLibraryTestUserJWT
 				}
 			});
 		}catch(error){
@@ -255,11 +256,11 @@ describe("CreateAuthor endpoint", async () => {
 		assert.equal(response.data.uuid, objResponse.data.uuid);
 		assert.equal(response.data.first_name, objResponse.data.properties.first_name);
 		assert.equal(response.data.last_name, objResponse.data.properties.last_name);
-		assert.equal(null, objResponse.data.properties.description);
-		assert.equal(null, objResponse.data.properties.books);
+		assert.equal(null, objResponse.data.properties.bio);
+		assert.equal(null, objResponse.data.properties.collections);
 	});
 
-	it("should create multiple authors if the user is the first user", async () => {
+	it("should create multiple authors if the user is an admin", async () => {
 		// Create first author for first user
 		let response1;
 		let firstName1 = "Neal";
@@ -286,7 +287,8 @@ describe("CreateAuthor endpoint", async () => {
 		assert(response1.data.uuid != null);
 		assert.equal(firstName1, response1.data.first_name);
 		assert.equal(lastName1, response1.data.last_name);
-		assert.equal(null, response1.data.description);
+		assert.equal(null, response1.data.bio);
+		assert.equal(0, response1.data.collections.length);
 
 		// Create second author for first user
 		let response2;
@@ -314,7 +316,8 @@ describe("CreateAuthor endpoint", async () => {
 		assert(response2.data.uuid != null);
 		assert.equal(firstName2, response2.data.first_name)
 		assert.equal(lastName2, response2.data.last_name);
-		assert.equal(null, response2.data.description);
+		assert.equal(null, response2.data.bio);
+		assert.equal(0, response2.data.collections.length);
 
 		// Check if the authors were correctly created on the server
 		let objResponse1;
@@ -335,7 +338,7 @@ describe("CreateAuthor endpoint", async () => {
 		assert.equal(response1.data.first_name, objResponse1.data.properties.first_name);
 		assert.equal(response1.data.last_name, objResponse1.data.properties.last_name);
 		assert.equal(null, objResponse1.data.properties.bio);
-		assert.equal(null, objResponse1.data.properties.books);
+		assert.equal(null, objResponse1.data.properties.collections);
 
 		let objResponse2;
 
@@ -355,6 +358,6 @@ describe("CreateAuthor endpoint", async () => {
 		assert.equal(response2.data.first_name, objResponse2.data.properties.first_name);
 		assert.equal(response2.data.last_name, objResponse2.data.properties.last_name);
 		assert.equal(null, objResponse2.data.properties.bio);
-		assert.equal(null, objResponse2.data.properties.books);
+		assert.equal(null, objResponse2.data.properties.collections);
 	});
 });
