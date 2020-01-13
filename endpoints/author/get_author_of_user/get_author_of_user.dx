@@ -12,35 +12,96 @@
 	(func validate_dev_is_pocketlib_dev (decoded_jwt.dev_id))
 )))
 
-(# Get the author of the user)
-(var authors (func get_author_table_objects (decoded_jwt.user_id)))
-(if (authors.length == 0) (
+(# Check if the user is an admin)
+(var is_admin (env.ADMINS.contains decoded_jwt.user_id))
+
+(# Get the authors of the user)
+(var author_objects (func get_author_table_objects (decoded_jwt.user_id)))
+(if ((author_objects.length == 0) and (! is_admin)) (
 	(# Render Resource does not exist: Author error)
 	(func render_validation_errors ((list (hash (error (get_error 1105)) (status 400)))))
 ))
 
-(var author authors#0)
+(# Define functions for getting the collections of an author)
+(def get_collections (collections_string) (
+	(var collections (list))
 
-(# Get the books of the author)
-(var books_string author.properties.books)
-(var books (list))
+	(if (!(is_nil collections_string)) (
+		(# Get each collection of the author)
+		(var collection_uuids (collections_string.split ","))
 
-(if (!(is_nil books_string)) (
-	(var book_uuids (books_string.split ","))
+		(for uuid in collection_uuids (
+			(var collection (TableObject.get uuid))
 
-	(for uuid in book_uuids (
-		(var book (TableObject.get uuid))
-		
-		(if (!(is_nil book)) (
-			(books.push (hash (uuid book.uuid) (title book.properties.title)))
-			(up books)
+			(if (!(is_nil collection)) (
+				(# Get the names of the collection)
+				(var names_string collection.properties.names)
+				(var names (list))
+
+				(if (!(is_nil names_string)) (
+					(# Get each name of the collection)
+					(var name_uuids (names_string.split ","))
+
+					(for name_uuid in name_uuids (
+						(var name (TableObject.get name_uuid))
+
+						(if (!(is_nil name)) (
+							(names.push (hash (name name.properties.name) (language name.properties.language)))
+							(up names)
+						))
+
+						(up names)
+					))
+
+					(up names)
+				))
+
+				(collections.push (hash (uuid collection.uuid) (names names)))
+				(up collections)
+			))
+
+			(up collections)
 		))
-		(up books)
+
+		(up collections)
 	))
-	(up books)
+
+	(return collections)
 ))
 
-(# Return the author)
-(var result (hash (uuid author.uuid) (first_name author.properties.first_name) (last_name author.properties.last_name) (bio author.properties.bio) (books books)))
+(if is_admin (
+	(var authors (list))
 
-(render_json result 200)
+	(for author in author_objects (
+		(# Get the collections of the author)
+		(var collections (func get_collections (author.properties.collections)))
+
+		(authors.push (hash
+			(uuid author.uuid)
+			(first_name author.properties.first_name)
+			(last_name author.properties.last_name)
+			(bio author.properties.bio)
+			(collections collections)
+		))
+
+		(up authors)
+	))
+
+	(# Render the result)
+	(render_json (hash (authors authors)) 200)
+) else (
+	(var author author_objects#0)
+
+	(# Get the collections of the author)
+	(# var collections_string author.properties.collections)
+	(var collections (func get_collections (author.properties.collections)))
+
+	(# Render the result)
+	(render_json (hash
+		(uuid author.uuid)
+		(first_name author.properties.first_name)
+		(last_name author.properties.last_name)
+		(bio author.properties.bio)
+		(collections collections)
+	) 200)
+))

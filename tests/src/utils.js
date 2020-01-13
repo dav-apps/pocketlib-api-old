@@ -69,7 +69,12 @@ async function resetAuthorUserAuthor(){
 }
 
 async function resetDavUserAuthors(){
+	let testDatabaseAuthors = [];
+
+	// Reset the authors of dav user
 	for(let author of constants.davUserAuthors){
+		testDatabaseAuthors.push(author.uuid);
+
 		try{
 			await axios.default({
 				method: 'put',
@@ -89,6 +94,33 @@ async function resetDavUserAuthors(){
 			console.log(`Error in resetting the author ${author.firstName} ${author.lastName} of dav user`);
 			console.log(error.response.data);
 		}
+	}
+
+	// Get the Author table
+	let response;
+	let authors = [];
+
+	try{
+		response = await axios.default({
+			method: 'get',
+			url: `${constants.apiBaseUrl}/apps/table/${constants.authorTableId}`,
+			headers: {
+				Authorization: constants.davUserJWT
+			}
+		});
+
+		authors = response.data.table_objects;
+	}catch(error){
+		console.log("Error in getting the author table");
+		console.log(error.response.data);
+	}
+
+	// Delete each author that is not part of the test database
+	for(let author of authors){
+		if(testDatabaseAuthors.includes(author.uuid)) continue;
+
+		// Delete the author
+		await deleteTableObject(author.uuid, constants.davUserJWT);
 	}
 }
 
