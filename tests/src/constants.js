@@ -85,7 +85,19 @@ module.exports = {
 			firstName: "George",
 			lastName: "Orwell",
 			bio: "Eric Arthur Blair, better known by his pen name George Orwell, was an English novelist and essayist, journalist and critic. His work is characterised by lucid prose, awareness of social injustice, opposition to totalitarianism, and outspoken support of democratic socialism.",
-			collections: []
+			collections: [
+				{
+					uuid: "921b2d9f-5565-442f-95c0-1658ee57146b",
+					names: [
+						{
+							uuid: "9ffb7b69-b9bc-45bc-ae94-34ec08c427c2",
+							name: "1984",
+							language: "en"
+						}
+					],
+					books: []
+				}
+			]
 		},
 		{
 			uuid: "1dd980fd-ae20-4566-b842-a25e241bfb46",

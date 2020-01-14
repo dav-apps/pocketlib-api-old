@@ -10,18 +10,18 @@ async function resetDatabase(){
 	await resetDavUserAuthors();
 
 	// Delete StoreBookCollections
-	await deleteTableObjectsOfTable(constants.davUserJWT, constants.storeBookCollectionTableId);
 	await deleteTableObjectsOfTable(constants.davClassLibraryTestUserJWT, constants.storeBookCollectionTableId);
 
 	// Reset the StoreBookCollections of the author users
 	await resetAuthorUserStoreBookCollections();
+	await resetDavUserStoreBookCollections();
 
 	// Delete StoreBookCollectionNames
-	await deleteTableObjectsOfTable(constants.davUserJWT, constants.storeBookCollectionNameTableId);
 	await deleteTableObjectsOfTable(constants.davClassLibraryTestUserJWT, constants.storeBookCollectionNameTableId);
 
 	// Reset the StoreBookCollectionNames of the author user
 	await resetAuthorUserStoreBookCollectionNames();
+	await resetDavUserStoreBookCollectionNames();
 
 	// Delete StoreBooks
 	await deleteTableObjectsOfTable(constants.davUserJWT, constants.storeBookTableId);
@@ -47,6 +47,9 @@ async function resetDatabase(){
 
 async function resetAuthorUserAuthor(){
 	// Reset the author of author user
+	let collections = [];
+	constants.authorUserAuthor.collections.forEach(collection => collections.push(collection.uuid));
+
 	try{
 		await axios.default({
 			method: 'put',
@@ -59,7 +62,7 @@ async function resetAuthorUserAuthor(){
 				first_name: constants.authorUserAuthor.firstName,
 				last_name: constants.authorUserAuthor.lastName,
 				bio: constants.authorUserAuthor.bio,
-				collections: [constants.authorUserAuthor.collections[0].uuid, constants.authorUserAuthor.collections[1].uuid].join(',')
+				collections: collections.join(',')
 			}
 		});
 	}catch(error){
@@ -75,6 +78,9 @@ async function resetDavUserAuthors(){
 	for(let author of constants.davUserAuthors){
 		testDatabaseAuthors.push(author.uuid);
 
+		let collections = [];
+		author.collections.forEach(collection => collections.push(collection.uuid));
+
 		try{
 			await axios.default({
 				method: 'put',
@@ -87,7 +93,7 @@ async function resetDavUserAuthors(){
 					first_name: author.firstName,
 					last_name: author.lastName,
 					bio: author.bio,
-					collections: ""
+					collections: collections.join(',')
 				}
 			});
 		}catch(error){
@@ -150,7 +156,7 @@ async function resetAuthorUserStoreBookCollections(){
 					names: names.join(','),
 					books: books.join(',')
 				}
-			})
+			});
 		}catch(error){
 			console.log("Error in resetting a store book collection");
 			console.log(error.response.data);
@@ -182,6 +188,69 @@ async function resetAuthorUserStoreBookCollections(){
 
 		// Delete the collection
 		await deleteTableObject(collection.uuid, constants.authorUserJWT);
+	}
+}
+
+async function resetDavUserStoreBookCollections(){
+	let testDatabaseCollections = [];
+	
+	for(let author of constants.davUserAuthors){
+		for(let collection of author.collections){
+			testDatabaseCollections.push(collection.uuid);
+
+			// Reset the collection
+			let names = [];
+			collection.names.forEach(name => names.push(name.uuid));
+
+			let books = [];
+			collection.books.forEach(book => books.push(book.uuid));
+
+			try{
+				await axios.default({
+					method: 'put',
+					url: `${constants.apiBaseUrl}/apps/object/${collection.uuid}`,
+					headers: {
+						Authorization: constants.davUserJWT,
+						'Content-Type': 'application/json'
+					},
+					data: {
+						author: author.uuid,
+						names: names.join(','),
+						books: books.join(',')
+					}
+				});
+			}catch(error){
+				console.log(`Error in resetting a store book collection of the author ${author.firstName} ${author.lastName}`);
+				console.log(error.response.data);
+			}
+		}
+	}
+
+	// Get the StoreBookCollection table
+	let response;
+	let collections = [];
+
+	try{
+		response = await axios.default({
+			method: 'get',
+			url: `${constants.apiBaseUrl}/apps/table/${constants.storeBookCollectionTableId}`,
+			headers: {
+				Authorization: constants.davUserJWT
+			}
+		});
+
+		collections = response.data.table_objects;
+	}catch(error){
+		console.log("Error in getting the store book collection table");
+		console.log(error.response.data);
+	}
+
+	// Delete each collection that is not part of the test database
+	for(let collection of collections){
+		if(testDatabaseCollections.includes(collection.uuid)) continue;
+
+		// Delete the collection
+		await deleteTableObject(collection.uuid, constants.davUserJWT);
 	}
 }
 
@@ -238,6 +307,64 @@ async function resetAuthorUserStoreBookCollectionNames(){
 
 		// Delete the collection name
 		await deleteTableObject(collectionName.uuid, constants.authorUserJWT);
+	}
+}
+
+async function resetDavUserStoreBookCollectionNames(){
+	let testDatabaseCollectionNames = [];
+
+	for(let author of constants.davUserAuthors){
+		for(let collection of author.collections){
+			for(let collectionName of collection.names){
+				testDatabaseCollectionNames.push(collectionName.uuid);
+
+				// Reset the collection name
+				try{
+					await axios.default({
+						method: 'put',
+						url: `${constants.apiBaseUrl}/apps/object/${collectionName.uuid}`,
+						headers: {
+							Authorization: constants.davUserJWT,
+							'Content-Type': 'application/json'
+						},
+						data: {
+							name: collectionName.name,
+							language: collectionName.language
+						}
+					});
+				}catch(error){
+					console.log("Error in resetting a store book collection name");
+					console.log(error.response.data);
+				}
+			}
+		}
+	}
+
+	// Get the StoreBookCollectionName table
+	let response;
+	let collectionNames = [];
+
+	try{
+		response = await axios.default({
+			method: 'get',
+			url: `${constants.apiBaseUrl}/apps/table/${constants.storeBookCollectionNameTableId}`,
+			headers: {
+				Authorization: constants.davUserJWT
+			}
+		});
+
+		collectionNames = response.data.table_objects;
+	}catch(error){
+		console.log("Error in getting the store book collection name table");
+		console.log(error.response.data);
+	}
+
+	// Delete each collection name that is not part of the test database
+	for(let collectionName of collectionNames){
+		if(testDatabaseCollectionNames.includes(collectionName.uuid)) continue;
+
+		// Delete the collection name
+		await deleteTableObject(collectionName.uuid, constants.davUserJWT);
 	}
 }
 
