@@ -71,7 +71,7 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 				method: 'put',
 				url: updateAuthorEndpointUrl,
 				headers: {
-					Authorization: constants.davClassLibraryTestUserJWT,
+					Authorization: constants.davClassLibraryTestUserTestAppJWT,
 					'Content-Type': 'application/json'
 				}
 			});
@@ -85,7 +85,7 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 		assert.fail();
 	});
 
-	it("should not update author if the user is the first user", async () => {
+	it("should not update author if the user is an admin", async () => {
 		try{
 			await axios.default({
 				method: 'put',
@@ -111,7 +111,7 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 				method: 'put',
 				url: updateAuthorEndpointUrl,
 				headers: {
-					Authorization: constants.davClassLibraryTestUserPocketLibJWT,
+					Authorization: constants.davClassLibraryTestUserJWT,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -234,6 +234,22 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 		assert.equal(firstName, response.data.first_name);
 		assert.equal(constants.authorUserAuthor.lastName, response.data.last_name);
 		assert.equal(constants.authorUserAuthor.bio, response.data.bio);
+		assert.equal(constants.authorUserAuthor.collections.length, response.data.collections.length);
+
+		for(let i = 0; i < constants.authorUserAuthor.collections.length; i++){
+			let collection = constants.authorUserAuthor.collections[i];
+			let responseCollection = response.data.collections[i];
+
+			assert.equal(collection.uuid, responseCollection.uuid);
+
+			for(let j = 0; j < collection.names.length; j++){
+				let name = collection.names[j];
+				let responseName = responseCollection.names[j];
+
+				assert.equal(name.name, responseName.name);
+				assert.equal(name.language, responseName.language);
+			}
+		}
 
 		// Check if the data was updated correctly on the server
 		let objResponse;
@@ -275,6 +291,22 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 		assert.equal(constants.authorUserAuthor.firstName, response.data.first_name);
 		assert.equal(lastName, response.data.last_name);
 		assert.equal(constants.authorUserAuthor.bio, response.data.bio);
+		assert.equal(constants.authorUserAuthor.collections.length, response.data.collections.length);
+
+		for(let i = 0; i < constants.authorUserAuthor.collections.length; i++){
+			let collection = constants.authorUserAuthor.collections[i];
+			let responseCollection = response.data.collections[i];
+
+			assert.equal(collection.uuid, responseCollection.uuid);
+
+			for(let j = 0; j < collection.names.length; j++){
+				let name = collection.names[j];
+				let responseName = responseCollection.names[j];
+
+				assert.equal(name.name, responseName.name);
+				assert.equal(name.language, responseName.language);
+			}
+		}
 
 		// Check if the data was updated correctly on the server
 		let objResponse;
@@ -316,6 +348,22 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 		assert.equal(constants.authorUserAuthor.firstName, response.data.first_name);
 		assert.equal(constants.authorUserAuthor.lastName, response.data.last_name);
 		assert.equal(bio, response.data.bio);
+		assert.equal(constants.authorUserAuthor.collections.length, response.data.collections.length);
+
+		for(let i = 0; i < constants.authorUserAuthor.collections.length; i++){
+			let collection = constants.authorUserAuthor.collections[i];
+			let responseCollection = response.data.collections[i];
+
+			assert.equal(collection.uuid, responseCollection.uuid);
+
+			for(let j = 0; j < collection.names.length; j++){
+				let name = collection.names[j];
+				let responseName = responseCollection.names[j];
+
+				assert.equal(name.name, responseName.name);
+				assert.equal(name.language, responseName.language);
+			}
+		}
 
 		// Check if the data was updated correctly on the server
 		let objResponse;
@@ -361,6 +409,22 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 		assert.equal(firstName, response.data.first_name);
 		assert.equal(lastName, response.data.last_name);
 		assert.equal(bio, response.data.bio);
+		assert.equal(constants.authorUserAuthor.collections.length, response.data.collections.length);
+
+		for(let i = 0; i < constants.authorUserAuthor.collections.length; i++){
+			let collection = constants.authorUserAuthor.collections[i];
+			let responseCollection = response.data.collections[i];
+
+			assert.equal(collection.uuid, responseCollection.uuid);
+
+			for(let j = 0; j < collection.names.length; j++){
+				let name = collection.names[j];
+				let responseName = responseCollection.names[j];
+
+				assert.equal(name.name, responseName.name);
+				assert.equal(name.language, responseName.language);
+			}
+		}
 
 		// Check if the data was updated correctly on the server
 		let objResponse;
