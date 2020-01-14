@@ -22,53 +22,6 @@
 	(func render_validation_errors ((list (hash (error (get_error 1105)) (status 400)))))
 ))
 
-(# Define functions for getting the collections of an author)
-(def get_collections (collections_string) (
-	(var collections (list))
-
-	(if (!(is_nil collections_string)) (
-		(# Get each collection of the author)
-		(var collection_uuids (collections_string.split ","))
-
-		(for uuid in collection_uuids (
-			(var collection (TableObject.get uuid))
-
-			(if (!(is_nil collection)) (
-				(# Get the names of the collection)
-				(var names_string collection.properties.names)
-				(var names (list))
-
-				(if (!(is_nil names_string)) (
-					(# Get each name of the collection)
-					(var name_uuids (names_string.split ","))
-
-					(for name_uuid in name_uuids (
-						(var name (TableObject.get name_uuid))
-
-						(if (!(is_nil name)) (
-							(names.push (hash (name name.properties.name) (language name.properties.language)))
-							(up names)
-						))
-
-						(up names)
-					))
-
-					(up names)
-				))
-
-				(collections.push (hash (uuid collection.uuid) (names names)))
-				(up collections)
-			))
-
-			(up collections)
-		))
-
-		(up collections)
-	))
-
-	(return collections)
-))
-
 (if is_admin (
 	(var authors (list))
 

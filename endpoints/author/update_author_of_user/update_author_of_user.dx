@@ -23,8 +23,10 @@
 	(func validate_dev_is_pocketlib_dev (decoded_jwt.dev_id))
 )))
 
-(# Make sure the user is not the first one)
-(if (decoded_jwt.user_id == 1) (
+(# Check if the user is an admin)
+(var is_admin (env.ADMINS.contains decoded_jwt.user_id))
+
+(if is_admin (
 	(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
 ))
 
@@ -60,10 +62,14 @@
 (if (!(is_nil last_name)) (var author.properties.last_name last_name))
 (if (!(is_nil bio)) (var author.properties.bio bio))
 
+(# Get the collections)
+(var collections (func get_collections (author.properties.collections)))
+
 (# Render the result)
 (render_json (hash
 	(uuid author.uuid)
 	(first_name author.properties.first_name)
 	(last_name author.properties.last_name)
 	(bio author.properties.bio)
+	(collections collections)
 ) 200)
