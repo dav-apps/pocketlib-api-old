@@ -1,0 +1,11 @@
+(# params: collection: TableObject, uuid: string)
+(# Get the books of the collection)
+(var books collection.properties.books)
+
+(if (is_nil books) (
+	(# Add the first book to the books of the collection)
+	(var collection.properties.books uuid)
+) else (
+	(# Add the uuid to the list of books, separated by comma)
+	(var collection.properties.books (books + "," + uuid))
+))

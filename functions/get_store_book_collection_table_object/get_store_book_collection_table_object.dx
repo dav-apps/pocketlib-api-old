@@ -1,0 +1,20 @@
+(# params: uuid: string, user_id: int)
+(catch (
+	(var collection (TableObject.get uuid))
+	(up collection)
+) (
+	(# Access not allowed)
+	(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
+))
+
+(if (is_nil collection) (
+	(return nil)
+) else (
+	(# Check if the table object is a collection and if it belongs to the user)
+	(if ((collection.table_id != env.STORE_BOOK_COLLECTION_TABLE_ID) or (collection.user_id != decoded_jwt.user_id)) (
+		(# Action not allowed)
+		(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
+	))
+	
+	(return collection)
+))

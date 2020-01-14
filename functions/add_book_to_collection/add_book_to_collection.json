@@ -1,0 +1,6 @@
+{
+	"type": "function",
+	"name": "add_book_to_collection",
+	"params": ["collection", "uuid"],
+	"source": "./add_book_to_collection.dx"
+}
