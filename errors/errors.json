@@ -22,6 +22,7 @@
 		{"code": 2106, "message": "Missing field: language"},
 		{"code": 2107, "message": "Missing field: author"},
 		{"code": 2108, "message": "Missing field: name"},
+		{"code": 2109, "message": "Missing field: collection"},
 
 		{"code": 2201, "message": "Field has wrong type: first_name"},
 		{"code": 2202, "message": "Field has wrong type: last_name"},
@@ -32,6 +33,7 @@
 		{"code": 2207, "message": "Field has wrong type: published"},
 		{"code": 2208, "message": "Field has wrong type: author"},
 		{"code": 2209, "message": "Field has wrong type: name"},
+		{"code": 2210, "message": "Field has wrong type: collection"},
 
 		{"code": 2301, "message": "Field too short: first_name"},
 		{"code": 2302, "message": "Field too short: last_name"},
@@ -40,6 +42,7 @@
 		{"code": 2305, "message": "Field too short: description"},
 		{"code": 2306, "message": "Field too short: author"},
 		{"code": 2307, "message": "Field too short: name"},
+		{"code": 2308, "message": "Field too short: collection"},
 
 		{"code": 2401, "message": "Field too long: first_name"},
 		{"code": 2402, "message": "Field too long: last_name"},
@@ -48,11 +51,13 @@
 		{"code": 2405, "message": "Field too long: description"},
 		{"code": 2406, "message": "Field too long: author"},
 		{"code": 2407, "message": "Field too long: name"},
+		{"code": 2408, "message": "Field too long: collection"},
 
 		{"code": 2801, "message": "Resource does not exist: Session"},
 		{"code": 2802, "message": "Resource does not exist: Author"},
 		{"code": 2803, "message": "Resource does not exist: StoreBook"},
 		{"code": 2804, "message": "Resource does not exist: StoreBookCover"},
-		{"code": 2805, "message": "Resource does not exist: StoreBookFile"}
+		{"code": 2805, "message": "Resource does not exist: StoreBookFile"},
+		{"code": 2806, "message": "Resource does not exist: StoreBookCollection"}
 	]
 }

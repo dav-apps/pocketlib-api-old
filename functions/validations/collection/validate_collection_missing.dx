@@ -1,0 +1,4 @@
+(# params: collection: string)
+(if (is_nil collection)
+	(hash (error (get_error 2109)) (status 400))
+)

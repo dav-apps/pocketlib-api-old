@@ -72,6 +72,11 @@
 			"params": ["name"],
 			"source": "./name/validate_name_missing.dx"
 		},
+		{
+			"name": "validate_collection_missing",
+			"params": ["collection"],
+			"source": "./collection/validate_collection_missing.dx"
+		},
 
 		{
 			"name": "validate_first_name_wrong_type",
@@ -118,6 +123,11 @@
 			"params": ["name"],
 			"source": "./name/validate_name_wrong_type.dx"
 		},
+		{
+			"name": "validate_collection_wrong_type",
+			"params": ["collection"],
+			"source": "./collection/validate_collection_wrong_type.dx"
+		},
 
 		{
 			"name": "validate_first_name_too_short",
@@ -154,6 +164,11 @@
 			"params": ["name"],
 			"source": "./name/validate_name_too_short.dx"
 		},
+		{
+			"name": "validate_collection_too_short",
+			"params": ["collection"],
+			"source": "./collection/validate_collection_too_short.dx"
+		},
 
 		{
 			"name": "validate_first_name_too_long",
@@ -189,6 +204,11 @@
 			"name": "validate_name_too_long",
 			"params": ["name"],
 			"source": "./name/validate_name_too_long.dx"
+		},
+		{
+			"name": "validate_collection_too_long",
+			"params": ["collection"],
+			"source": "./collection/validate_collection_too_long.dx"
 		}
 	]
 }

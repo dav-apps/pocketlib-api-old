@@ -1,0 +1,4 @@
+(# params: collection: string)
+(if (collection.length > 200)
+	(hash (error (get_error 2408)) (status 400))
+)
