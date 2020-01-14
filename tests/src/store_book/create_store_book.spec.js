@@ -26,6 +26,31 @@ describe("CreateStoreBook endpoint", () => {
 		assert.fail();
 	});
 
+	it("should not create store book with invalid jwt", async () => {
+		try{
+			await axios.default({
+				method: 'post',
+				url: createStoreBookEndpointUrl,
+				headers: {
+					Authorization: "asdasdasd.asdasd",
+					'Content-Type': 'application/json'
+				},
+				data: {
+					collection: "blabla",
+					title: "Hello World",
+					language: "de"
+				}
+			});
+		}catch(error){
+			assert.equal(401, error.response.status);
+			assert.equal(1, error.response.data.errors.length);
+			assert.equal(1302, error.response.data.errors[0].code);
+			return;
+		}
+
+		assert.fail();
+	});
+
 	it("should not create store book without content type json", async () => {
 		try{
 			await axios.default({
@@ -51,7 +76,7 @@ describe("CreateStoreBook endpoint", () => {
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
-					Authorization: constants.davClassLibraryTestUserJWT,
+					Authorization: constants.davClassLibraryTestUserTestAppJWT,
 					'Content-Type': 'application/json'
 				}
 			});
@@ -77,9 +102,10 @@ describe("CreateStoreBook endpoint", () => {
 			});
 		}catch(error){
 			assert.equal(400, error.response.status);
-			assert.equal(2, error.response.data.errors.length);
-			assert.equal(2105, error.response.data.errors[0].code);
-			assert.equal(2106, error.response.data.errors[1].code);
+			assert.equal(3, error.response.data.errors.length);
+			assert.equal(2109, error.response.data.errors[0].code);
+			assert.equal(2105, error.response.data.errors[1].code);
+			assert.equal(2106, error.response.data.errors[2].code);
 			return;
 		}
 
@@ -96,15 +122,17 @@ describe("CreateStoreBook endpoint", () => {
 					'Content-Type': 'application/json'
 				},
 				data: {
+					collection: 12.2,
 					title: false,
 					language: 23
 				}
 			});
 		}catch(error){
 			assert.equal(400, error.response.status);
-			assert.equal(2, error.response.data.errors.length);
-			assert.equal(2204, error.response.data.errors[0].code);
-			assert.equal(2206, error.response.data.errors[1].code);
+			assert.equal(3, error.response.data.errors.length);
+			assert.equal(2210, error.response.data.errors[0].code);
+			assert.equal(2204, error.response.data.errors[1].code);
+			assert.equal(2206, error.response.data.errors[2].code);
 			return;
 		}
 
@@ -121,6 +149,7 @@ describe("CreateStoreBook endpoint", () => {
 					'Content-Type': 'application/json'
 				},
 				data: {
+					collection: 12.23,
 					title: 12,
 					description: true,
 					language: false
@@ -128,10 +157,11 @@ describe("CreateStoreBook endpoint", () => {
 			});
 		}catch(error){
 			assert.equal(400, error.response.status);
-			assert.equal(3, error.response.data.errors.length);
-			assert.equal(2204, error.response.data.errors[0].code);
-			assert.equal(2205, error.response.data.errors[1].code);
-			assert.equal(2206, error.response.data.errors[2].code);
+			assert.equal(4, error.response.data.errors.length);
+			assert.equal(2210, error.response.data.errors[0].code);
+			assert.equal(2204, error.response.data.errors[1].code);
+			assert.equal(2205, error.response.data.errors[2].code);
+			assert.equal(2206, error.response.data.errors[3].code);
 			return;
 		}
 
@@ -148,14 +178,16 @@ describe("CreateStoreBook endpoint", () => {
 					'Content-Type': 'application/json'
 				},
 				data: {
+					collection: "a",
 					title: "a",
 					language: "en"
 				}
 			});
 		}catch(error){
 			assert.equal(400, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(2304, error.response.data.errors[0].code);
+			assert.equal(2, error.response.data.errors.length);
+			assert.equal(2308, error.response.data.errors[0].code);
+			assert.equal(2304, error.response.data.errors[1].code);
 			return;
 		}
 
@@ -172,6 +204,7 @@ describe("CreateStoreBook endpoint", () => {
 					'Content-Type': 'application/json'
 				},
 				data: {
+					collection: "a",
 					title: "a",
 					description: "a",
 					language: "en"
@@ -179,9 +212,10 @@ describe("CreateStoreBook endpoint", () => {
 			});
 		}catch(error){
 			assert.equal(400, error.response.status);
-			assert.equal(2, error.response.data.errors.length);
-			assert.equal(2304, error.response.data.errors[0].code);
-			assert.equal(2305, error.response.data.errors[1].code);
+			assert.equal(3, error.response.data.errors.length);
+			assert.equal(2308, error.response.data.errors[0].code);
+			assert.equal(2304, error.response.data.errors[1].code);
+			assert.equal(2305, error.response.data.errors[2].code);
 			return;
 		}
 
@@ -198,14 +232,16 @@ describe("CreateStoreBook endpoint", () => {
 					'Content-Type': 'application/json'
 				},
 				data: {
+					collection: "a".repeat(220),
 					title: "a".repeat(100),
 					language: "en"
 				}
 			});
 		}catch(error){
 			assert.equal(400, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(2404, error.response.data.errors[0].code);
+			assert.equal(2, error.response.data.errors.length);
+			assert.equal(2408, error.response.data.errors[0].code);
+			assert.equal(2404, error.response.data.errors[1].code);
 			return;
 		}
 
@@ -222,6 +258,7 @@ describe("CreateStoreBook endpoint", () => {
 					'Content-Type': 'application/json'
 				},
 				data: {
+					collection: "a".repeat(220),
 					title: "a".repeat(100),
 					description: "a".repeat(2010),
 					language: "de"
@@ -229,9 +266,10 @@ describe("CreateStoreBook endpoint", () => {
 			});
 		}catch(error){
 			assert.equal(400, error.response.status);
-			assert.equal(2, error.response.data.errors.length);
-			assert.equal(2404, error.response.data.errors[0].code);
-			assert.equal(2405, error.response.data.errors[1].code);
+			assert.equal(3, error.response.data.errors.length);
+			assert.equal(2408, error.response.data.errors[0].code);
+			assert.equal(2404, error.response.data.errors[1].code);
+			assert.equal(2405, error.response.data.errors[2].code);
 			return;
 		}
 
@@ -248,6 +286,7 @@ describe("CreateStoreBook endpoint", () => {
 					'Content-Type': 'application/json'
 				},
 				data: {
+					collection: constants.authorUserAuthor.collections[0].uuid,
 					title: "Hello World",
 					language: "blabla"
 				}
@@ -268,10 +307,11 @@ describe("CreateStoreBook endpoint", () => {
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
-					Authorization: constants.davUserJWT,
+					Authorization: constants.davClassLibraryTestUserJWT,
 					'Content-Type': 'application/json'
 				},
 				data: {
+					collection: "adsadasdasd",
 					title: "Hello World",
 					language: "de"
 				}
@@ -286,7 +326,85 @@ describe("CreateStoreBook endpoint", () => {
 		assert.fail();
 	});
 
+	it("should not create store book for collection that is not a collection", async () => {
+		try{
+			await axios.default({
+				method: 'post',
+				url: createStoreBookEndpointUrl,
+				headers: {
+					Authorization: constants.authorUserJWT,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					collection: constants.authorUserAuthor.uuid,
+					title: "Hallo Welt",
+					language: "de"
+				}
+			});
+		}catch(error){
+			assert.equal(403, error.response.status);
+			assert.equal(1, error.response.data.errors.length);
+			assert.equal(1102, error.response.data.errors[0].code);
+			return;
+		}
+
+		assert.fail();
+	});
+
+	it("should not create store book for collection that does not belong to the author", async () => {
+		try{
+			await axios.default({
+				method: 'post',
+				url: createStoreBookEndpointUrl,
+				headers: {
+					Authorization: constants.authorUserJWT,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					collection: constants.davUserAuthors[0].collections[0].uuid,
+					title: "Hallo Welt",
+					description: "Hallo Welt",
+					language: "de"
+				}
+			});
+		}catch(error){
+			assert.equal(403, error.response.status);
+			assert.equal(1, error.response.data.errors.length);
+			assert.equal(1102, error.response.data.errors[0].code);
+			return;
+		}
+
+		assert.fail();
+	});
+
+	it("should not create store book for collection that does not exist", async () => {
+		try{
+			await axios.default({
+				method: 'post',
+				url: createStoreBookEndpointUrl,
+				headers: {
+					Authorization: constants.authorUserJWT,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					collection: "asdasdasddas",
+					title: "Hello World",
+					description: "Hello World",
+					language: "en"
+				}
+			});
+		}catch(error){
+			assert.equal(404, error.response.status);
+			assert.equal(1, error.response.data.errors.length);
+			assert.equal(2806, error.response.data.errors[0].code);
+			return;
+		}
+
+		assert.fail();
+	});
+
 	it("should create store book", async () => {
+		let collection = constants.authorUserAuthor.collections[0];
 		let title = "Hello World";
 		let language = "de";
 		let response;
@@ -301,6 +419,7 @@ describe("CreateStoreBook endpoint", () => {
 					'Content-Type': 'application/json'
 				},
 				data: {
+					collection: collection.uuid,
 					title,
 					language
 				}
@@ -311,20 +430,21 @@ describe("CreateStoreBook endpoint", () => {
 
 		assert.equal(201, response.status);
 		assert(response.data.uuid != null);
+		assert.equal(collection.uuid, response.data.collection);
 		assert.equal(title, response.data.title);
 		assert.equal(null, response.data.description);
 		assert.equal(language, response.data.language);
+		assert.equal("unpublished", response.data.status);
 		assert.equal(false, response.data.cover);
 		assert.equal(false, response.data.file);
-		assert.equal("unpublished", response.data.status);
 
 		// Check if the data was correctly saved in the database
-		// Get the author
-		let authorObjResponse;
+		// Get the collection
+		let collectionObjResponse;
 		try{
-			authorObjResponse = await axios.default({
+			collectionObjResponse = await axios.default({
 				method: 'get',
-				url: `${constants.apiBaseUrl}/apps/object/${constants.authorUserAuthor.uuid}`,
+				url: `${constants.apiBaseUrl}/apps/object/${collection.uuid}`,
 				headers: {
 					Authorization: constants.authorUserJWT
 				}
@@ -334,10 +454,10 @@ describe("CreateStoreBook endpoint", () => {
 		}
 
 		let storeBookUuids = [];
-		constants.authorUserAuthor.books.forEach((storeBook) => storeBookUuids.push(storeBook.uuid));
+		for(let book of collection.books) storeBookUuids.push(book.uuid);
 		storeBookUuids.push(response.data.uuid);
 		
-		assert.equal(storeBookUuids.join(','), authorObjResponse.data.properties.books);
+		assert.equal(storeBookUuids.join(','), collectionObjResponse.data.properties.books);
 		
 		// Get the store book
 		let storeBookObjResponse;
@@ -354,12 +474,14 @@ describe("CreateStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.data.uuid, storeBookObjResponse.data.uuid);
+		assert.equal(collection.uuid, storeBookObjResponse.data.properties.collection);
 		assert.equal(title, storeBookObjResponse.data.properties.title);
+		assert.equal(null, storeBookObjResponse.data.properties.description);
 		assert.equal(language, storeBookObjResponse.data.properties.language);
-		assert.equal(constants.authorUserAuthor.uuid, storeBookObjResponse.data.properties.author);
 	});
 
 	it("should create store book with optional properties", async () => {
+		let collection = constants.authorUserAuthor.collections[1];
 		let title = "Hello World";
 		let description = "Hello World";
 		let language = "en";
@@ -375,6 +497,7 @@ describe("CreateStoreBook endpoint", () => {
 					'Content-Type': 'application/json'
 				},
 				data: {
+					collection: collection.uuid,
 					title,
 					description,
 					language
@@ -386,20 +509,21 @@ describe("CreateStoreBook endpoint", () => {
 
 		assert.equal(201, response.status);
 		assert(response.data.uuid != null);
+		assert.equal(collection.uuid, response.data.collection);
 		assert.equal(title, response.data.title);
 		assert.equal(description, response.data.description);
 		assert.equal(language, response.data.language);
+		assert.equal("unpublished", response.data.status);
 		assert.equal(false, response.data.cover);
 		assert.equal(false, response.data.file);
-		assert.equal("unpublished", response.data.status);
 
 		// Check if the data was correctly saved in the database
 		// Get the author
-		let authorObjResponse;
+		let collectionObjResponse;
 		try{
-			authorObjResponse = await axios.default({
+			collectionObjResponse = await axios.default({
 				method: 'get',
-				url: `${constants.apiBaseUrl}/apps/object/${constants.authorUserAuthor.uuid}`,
+				url: `${constants.apiBaseUrl}/apps/object/${collection.uuid}`,
 				headers: {
 					Authorization: constants.authorUserJWT
 				}
@@ -409,10 +533,10 @@ describe("CreateStoreBook endpoint", () => {
 		}
 
 		let storeBookUuids = [];
-		constants.authorUserAuthor.books.forEach((storeBook) => storeBookUuids.push(storeBook.uuid));
+		for(let book of collection.books) storeBookUuids.push(book.uuid);
 		storeBookUuids.push(response.data.uuid);
 
-		assert.equal(storeBookUuids.join(','), authorObjResponse.data.properties.books);
+		assert.equal(storeBookUuids.join(','), collectionObjResponse.data.properties.books);
 
 		// Get the store book
 		let storeBookObjResponse;
@@ -429,9 +553,9 @@ describe("CreateStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.data.uuid, storeBookObjResponse.data.uuid);
+		assert.equal(collection.uuid, storeBookObjResponse.data.properties.collection);
 		assert.equal(title, storeBookObjResponse.data.properties.title);
 		assert.equal(description, storeBookObjResponse.data.properties.description);
 		assert.equal(language, storeBookObjResponse.data.properties.language);
-		assert.equal(constants.authorUserAuthor.uuid, storeBookObjResponse.data.properties.author);
 	});
 });
