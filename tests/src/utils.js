@@ -24,24 +24,24 @@ async function resetDatabase(){
 	await resetDavUserStoreBookCollectionNames();
 
 	// Delete StoreBooks
-	await deleteTableObjectsOfTable(constants.davUserJWT, constants.storeBookTableId);
 	await deleteTableObjectsOfTable(constants.davClassLibraryTestUserJWT, constants.storeBookTableId);
 
-	// Reset the StoreBooks of author user
+	// Reset StoreBooks
 	await resetAuthorUserStoreBooks();
+	await resetDavUserStoreBooks();
 
-	// Delete Covers
+	// Delete StoreBookCovers
 	await deleteTableObjectsOfTable(constants.davUserJWT, constants.storeBookCoverTableId);
 	await deleteTableObjectsOfTable(constants.davClassLibraryTestUserJWT, constants.storeBookCoverTableId);
 
-	// Reset the Covers
+	// Reset StoreBookCovers
 	await resetAuthorUserStoreBookCovers();
 
-	// Delete files
+	// Delete StoreBookFiles
 	await deleteTableObjectsOfTable(constants.davUserJWT, constants.storeBookFileTableId);
 	await deleteTableObjectsOfTable(constants.davClassLibraryTestUserJWT, constants.storeBookFileTableId);
 
-	// Reset the Files
+	// Reset StoreBookFiles
 	await resetAuthorUserStoreBookFiles();
 }
 
@@ -393,7 +393,7 @@ async function resetAuthorUserStoreBooks(){
 						cover: book.cover ? book.cover.uuid : "",
 						file: book.file ? book.file.uuid : ""
 					}
-				})
+				});
 			}catch(error){
 				console.log("Error in resetting a store book");
 				console.log(error.response.data);
@@ -411,6 +411,69 @@ async function resetAuthorUserStoreBooks(){
 			url: `${constants.apiBaseUrl}/apps/table/${constants.storeBookTableId}`,
 			headers: {
 				Authorization: constants.authorUserJWT
+			}
+		});
+
+		storeBooks = response.data.table_objects;
+	}catch(error){
+		console.log("Error in getting the store book table");
+		console.log(error.response.data);
+	}
+
+	// Delete each store book that is not part of the test database
+	for(let storeBook of storeBooks){
+		if(testDatabaseStoreBooks.includes(storeBook.uuid)) continue;
+
+		// Delete the store book
+		await deleteTableObject(storeBook.uuid, constants.authorUserJWT);
+	}
+}
+
+async function resetDavUserStoreBooks(){
+	let testDatabaseStoreBooks = [];
+
+	for(let author of constants.davUserAuthors){
+		for(let collection of author.collections){
+			for(let book of collection.books){
+				testDatabaseStoreBooks.push(book.uuid);
+
+				// Reset the store book
+				try{
+					await axios.default({
+						method: 'put',
+						url: `${constants.apiBaseUrl}/apps/object/${book.uuid}`,
+						headers: {
+							Authorization: constants.davUserJWT,
+							'Content-Type': 'application/json'
+						},
+						data: {
+							collection: collection.uuid,
+							title: book.title,
+							description: book.description,
+							language: book.language,
+							status: book.status,
+							cover: book.cover ? book.cover.uuid : "",
+							file: book.file ? book.file.uuid : ""
+						}
+					});
+				}catch(error){
+					console.log("Error in resetting a store book");
+					console.log(error.response.data);
+				}
+			}
+		}
+	}
+
+	// Get the StoreBook table
+	let response;
+	let storeBooks = [];
+
+	try{
+		response = await axios.default({
+			method: 'get',
+			url: `${constants.apiBaseUrl}/apps/table/${constants.storeBookTableId}`,
+			headers: {
+				Authorization: constants.davUserJWT
 			}
 		});
 

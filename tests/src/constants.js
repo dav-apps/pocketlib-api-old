@@ -95,7 +95,15 @@ module.exports = {
 							language: "en"
 						}
 					],
-					books: []
+					books: [
+						{
+							uuid: "b0e4b01d-d53d-47b5-b5e4-48ea7bab6619",
+							title: "1984",
+							description: "Orwell's novel about the destruction of man by a perfect state machinery has long since become a metaphor for totalitarian conditions that no longer seems in need of explanation.",
+							language: "en",
+							status: "published"
+						}
+					]
 				}
 			]
 		},

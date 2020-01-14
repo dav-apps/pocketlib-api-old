@@ -14,7 +14,7 @@ describe("GetStoreBook endpoint", () => {
 		try{
 			await axios.default({
 				method: 'get',
-				url: getStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.books[0].uuid)
+				url: getStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[0].uuid)
 			});
 		}catch(error){
 			assert.equal(400, error.response.status);
@@ -26,13 +26,32 @@ describe("GetStoreBook endpoint", () => {
 		assert.fail();
 	});
 
+	it("should not return store book with invalid jwt", async () => {
+		try{
+			await axios.default({
+				method: 'get',
+				url: getStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[0].uuid),
+				headers: {
+					Authorization: "asdasdasdasd.asdasdasd"
+				}
+			});
+		}catch(error){
+			assert.equal(401, error.response.status);
+			assert.equal(1, error.response.data.errors.length);
+			assert.equal(1302, error.response.data.errors[0].code);
+			return;
+		}
+
+		assert.fail();
+	});
+
 	it("should not return store book if jwt is for another app", async () => {
 		try{
 			await axios.default({
 				method: 'get',
-				url: getStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.books[0].uuid),
+				url: getStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[0].uuid),
 				headers: {
-					Authorization: constants.davClassLibraryTestUserJWT
+					Authorization: constants.davClassLibraryTestUserTestAppJWT
 				}
 			});
 		}catch(error){
@@ -64,11 +83,14 @@ describe("GetStoreBook endpoint", () => {
 		assert.fail();
 	});
 
-	it("should return store book", async () => {
+	it("should return unpublished store book if the user is the author", async () => {
+		let collection = constants.authorUserAuthor.collections[1];
+		let storeBook = collection.books[0];
+
 		try{
 			response = await axios.default({
 				method: 'get',
-				url: getStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.books[0].uuid),
+				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
 					Authorization: constants.authorUserJWT
 				}
@@ -78,12 +100,192 @@ describe("GetStoreBook endpoint", () => {
 		}
 
 		assert.equal(200, response.status);
-		assert.equal(constants.authorUserAuthor.books[0].uuid, response.data.uuid);
-		assert.equal(constants.authorUserAuthor.books[0].title, response.data.title);
-		assert.equal(constants.authorUserAuthor.books[0].description, response.data.description);
-		assert.equal(constants.authorUserAuthor.books[0].language, response.data.language);
+		assert.equal(storeBook.uuid, response.data.uuid);
+		assert.equal(collection.uuid, response.data.collection);
+		assert.equal(storeBook.title, response.data.title);
+		assert.equal(storeBook.description, response.data.description);
+		assert.equal(storeBook.language, response.data.language);
+		assert.equal("unpublished", response.data.status);
 		assert.equal(false, response.data.cover);
 		assert.equal(false, response.data.file);
+	});
+
+	it("should return unpublished store book if the user is an admin", async () => {
+		let collection = constants.authorUserAuthor.collections[1];
+		let storeBook = collection.books[0];
+
+		try{
+			response = await axios.default({
+				method: 'get',
+				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
+				headers: {
+					Authorization: constants.davUserJWT
+				}
+			});
+		}catch(error){
+			assert.fail();
+		}
+
+		assert.equal(200, response.status);
+		assert.equal(storeBook.uuid, response.data.uuid);
+		assert.equal(collection.uuid, response.data.collection);
+		assert.equal(storeBook.title, response.data.title);
+		assert.equal(storeBook.description, response.data.description);
+		assert.equal(storeBook.language, response.data.language);
 		assert.equal("unpublished", response.data.status);
+		assert.equal(false, response.data.cover);
+		assert.equal(false, response.data.file);
+	});
+
+	it("should not return unpublished store book if the user is not the author", async () => {
+		let collection = constants.authorUserAuthor.collections[1];
+		let storeBook = collection.books[0];
+
+		try{
+			response = await axios.default({
+				method: 'get',
+				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
+				headers: {
+					Authorization: constants.davClassLibraryTestUserJWT
+				}
+			});
+		}catch(error){
+			assert.equal(403, error.response.status);
+			assert.equal(1, error.response.data.errors.length);
+			assert.equal(1102, error.response.data.errors[0].code);
+			return;
+		}
+
+		assert.fail();
+	});
+
+	it("should return store book in review if the user is the author", async () => {
+		let collection = constants.authorUserAuthor.collections[0];
+		let storeBook = collection.books[0];
+
+		try{
+			response = await axios.default({
+				method: 'get',
+				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
+				headers: {
+					Authorization: constants.authorUserJWT
+				}
+			});
+		}catch(error){
+			assert.fail();
+		}
+
+		assert.equal(200, response.status);
+		assert.equal(storeBook.uuid, response.data.uuid);
+		assert.equal(collection.uuid, response.data.collection);
+		assert.equal(storeBook.title, response.data.title);
+		assert.equal(storeBook.description, response.data.description);
+		assert.equal(storeBook.language, response.data.language);
+		assert.equal("review", response.data.status);
+		assert.equal(true, response.data.cover);
+		assert.equal(true, response.data.file);
+	});
+
+	it("should not return store book in review if the user is not the author", async () => {
+		let collection = constants.authorUserAuthor.collections[0];
+		let storeBook = collection.books[0];
+
+		try{
+			response = await axios.default({
+				method: 'get',
+				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
+				headers: {
+					Authorization: constants.davClassLibraryTestUserJWT
+				}
+			});
+		}catch(error){
+			assert.equal(403, error.response.status);
+			assert.equal(1, error.response.data.errors.length);
+			assert.equal(1102, error.response.data.errors[0].code);
+			return;
+		}
+
+		assert.fail();
+	});
+
+	it("should return store book in review if the user is an admin", async () => {
+		let collection = constants.authorUserAuthor.collections[0];
+		let storeBook = collection.books[0];
+
+		try{
+			response = await axios.default({
+				method: 'get',
+				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
+				headers: {
+					Authorization: constants.davUserJWT
+				}
+			});
+		}catch(error){
+			assert.fail();
+		}
+
+		assert.equal(200, response.status);
+		assert.equal(storeBook.uuid, response.data.uuid);
+		assert.equal(collection.uuid, response.data.collection);
+		assert.equal(storeBook.title, response.data.title);
+		assert.equal(storeBook.description, response.data.description);
+		assert.equal(storeBook.language, response.data.language);
+		assert.equal("review", response.data.status);
+		assert.equal(true, response.data.cover);
+		assert.equal(true, response.data.file);
+	});
+
+	it("should return published store book if the user is the author", async () => {
+		let collection = constants.davUserAuthors[0].collections[0];
+		let storeBook = collection.books[0];
+
+		try{
+			response = await axios.default({
+				method: 'get',
+				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
+				headers: {
+					Authorization: constants.davUserJWT
+				}
+			});
+		}catch(error){
+			assert.fail();
+		}
+
+		assert.equal(200, response.status);
+		assert.equal(storeBook.uuid, response.data.uuid);
+		assert.equal(collection.uuid, response.data.collection);
+		assert.equal(storeBook.title, response.data.title);
+		assert.equal(storeBook.description, response.data.description);
+		assert.equal(storeBook.language, response.data.language);
+		assert.equal("published", response.data.status);
+		assert.equal(false, response.data.cover);
+		assert.equal(false, response.data.file);
+	});
+
+	it("should return published store book if the user is not the author", async () => {
+		let collection = constants.davUserAuthors[0].collections[0];
+		let storeBook = collection.books[0];
+
+		try{
+			response = await axios.default({
+				method: 'get',
+				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
+				headers: {
+					Authorization: constants.authorUserJWT
+				}
+			});
+		}catch(error){
+			assert.fail();
+		}
+
+		assert.equal(200, response.status);
+		assert.equal(storeBook.uuid, response.data.uuid);
+		assert.equal(collection.uuid, response.data.collection);
+		assert.equal(storeBook.title, response.data.title);
+		assert.equal(storeBook.description, response.data.description);
+		assert.equal(storeBook.language, response.data.language);
+		assert.equal("published", response.data.status);
+		assert.equal(false, response.data.cover);
+		assert.equal(false, response.data.file);
 	});
 });
