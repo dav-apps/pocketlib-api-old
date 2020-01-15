@@ -1,4 +1,4 @@
-(# params: uuid: string, user_id: int)
+(# params: uuid: string)
 (catch (
 	(var author (TableObject.get uuid))
 	(up author)
@@ -10,8 +10,8 @@
 (if (is_nil author) (
 	(return nil)
 ) else (
-	(# Check if the table object is an author and if it belongs to the user)
-	(if ((author.table_id != env.AUTHOR_TABLE_ID) or (author.user_id != user_id)) (
+	(# Check if the table object is an author)
+	(if (author.table_id != env.AUTHOR_TABLE_ID) (
 		(# Action not allowed)
 		(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
 	))

@@ -41,7 +41,7 @@
 ))
 
 (# Get the author of the collection)
-(var author (func get_author_table_object (collection.properties.author decoded_jwt.user_id)))
+(var author (func get_author_table_object (collection.properties.author)))
 
 (if (is_nil author) (
 	(# Author does not exist)
