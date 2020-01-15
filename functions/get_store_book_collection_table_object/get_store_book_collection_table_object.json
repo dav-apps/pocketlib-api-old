@@ -1,6 +1,6 @@
 {
 	"type": "function",
 	"name": "get_store_book_collection_table_object",
-	"params": ["uuid", "user_id"],
+	"params": ["uuid"],
 	"source": "./get_store_book_collection_table_object.dx"
 }

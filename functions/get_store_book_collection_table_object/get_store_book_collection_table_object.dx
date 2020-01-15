@@ -1,4 +1,4 @@
-(# params: uuid: string, user_id: int)
+(# params: uuid: string)
 (catch (
 	(var collection (TableObject.get uuid))
 	(up collection)
@@ -10,8 +10,8 @@
 (if (is_nil collection) (
 	(return nil)
 ) else (
-	(# Check if the table object is a collection and if it belongs to the user)
-	(if ((collection.table_id != env.STORE_BOOK_COLLECTION_TABLE_ID) or (collection.user_id != user_id)) (
+	(# Check if the table object is a collection)
+	(if (collection.table_id != env.STORE_BOOK_COLLECTION_TABLE_ID) (
 		(# Action not allowed)
 		(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
 	))

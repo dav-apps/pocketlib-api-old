@@ -31,7 +31,7 @@
 	(is_admin or (status == "published")) 
 	or (
 		(# Get the collection of the store book)
-		(var collection (func get_store_book_collection_table_object (store_book.properties.collection store_book.user_id)))
+		(var collection (func get_store_book_collection_table_object (store_book.properties.collection)))
 
 		(# Get the author of the collection)
 		(var author (func get_author_table_object (collection.properties.author store_book.user_id)))
