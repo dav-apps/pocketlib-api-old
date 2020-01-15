@@ -16,7 +16,7 @@ describe("SetStoreBookCover endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: setStoreBookCoverEndpointUrl.replace('{0}', constants.authorUserAuthor.books[0].uuid)
+				url: setStoreBookCoverEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[0].uuid)
 			});
 		}catch(error){
 			assert.equal(400, error.response.status);
@@ -32,7 +32,7 @@ describe("SetStoreBookCover endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: setStoreBookCoverEndpointUrl.replace('{0}', constants.authorUserAuthor.books[0].uuid),
+				url: setStoreBookCoverEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[0].uuid),
 				headers: {
 					Authorization: "blablabla",
 					'Content-Type': 'image/png'
@@ -52,7 +52,7 @@ describe("SetStoreBookCover endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: setStoreBookCoverEndpointUrl.replace('{0}', constants.authorUserAuthor.books[0].uuid),
+				url: setStoreBookCoverEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[0].uuid),
 				headers: {
 					Authorization: constants.authorUserJWT,
 					'Content-Type': 'application/json'
@@ -92,7 +92,7 @@ describe("SetStoreBookCover endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: setStoreBookCoverEndpointUrl.replace('{0}', constants.authorUserAuthor.books[0].uuid),
+				url: setStoreBookCoverEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[0].uuid),
 				headers: {
 					Authorization: constants.davUserJWT,
 					'Content-Type': 'image/jpeg'
@@ -108,16 +108,22 @@ describe("SetStoreBookCover endpoint", () => {
 		assert.fail();
 	});
 
-	it("should create store book cover", async () => {
-		// Get the store book table object
-		let objResponse;
+	it("should create and update store book cover", async () => {
+		await testCreateAndUpdateStoreBook(constants.authorUserAuthor.collections[0].books[1], constants.authorUserJWT);
+	});
 
+	it("should create and update store book cover of store book of an admin", async () => {
+		await testCreateAndUpdateStoreBook(constants.davUserAuthors[0].collections[0].books[0], constants.davUserJWT);
+	});
+
+	async function testCreateAndUpdateStoreBook(storeBook, jwt){
+		// Get the store book table object
 		try{
-			objResponse = await axios.default({
+			getStoreBookObjResponse = await axios.default({
 				method: 'get',
-				url: `${constants.apiBaseUrl}/apps/object/${constants.authorUserAuthor.books[0].uuid}`,
+				url: `${constants.apiBaseUrl}/apps/object/${storeBook.uuid}`,
 				headers: {
-					Authorization: constants.authorUserJWT
+					Authorization: jwt
 				}
 			});
 		}catch(error){
@@ -125,36 +131,38 @@ describe("SetStoreBookCover endpoint", () => {
 		}
 
 		// The store book should not have a cover
-		assert.equal(200, objResponse.status);
-		assert.equal(null, objResponse.data.properties.cover);
+		assert.equal(200, getStoreBookObjResponse.status);
+		assert.equal(null, getStoreBookObjResponse.data.properties.cover);
 
-		// Read the cover file and upload it
+		// Upload the cover (1)
 		let filePath = path.resolve(__dirname, '../files/cover.png');
-		let fileContent = fs.readFileSync(filePath);
+		let firstFileContent = fs.readFileSync(filePath);
+		let firstFileType = "image/png";
+		let firstFileExt = "png";
 
 		try{
 			await axios.default({
 				method: 'put',
-				url: setStoreBookCoverEndpointUrl.replace('{0}', constants.authorUserAuthor.books[0].uuid),
+				url: setStoreBookCoverEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
-					Authorization: constants.authorUserJWT,
-					'Content-Type': 'image/png'
+					Authorization: jwt,
+					'Content-Type': firstFileType
 				},
-				data: fileContent
+				data: firstFileContent
 			});
 		}catch(error){
 			assert.fail();
 		}
 
 		// Get the store book table object
-		let objResponse2;
+		let getStoreBookObjResponse2;
 
 		try{
-			objResponse2 = await axios.default({
+			getStoreBookObjResponse2 = await axios.default({
 				method: 'get',
-				url: `${constants.apiBaseUrl}/apps/object/${constants.authorUserAuthor.books[0].uuid}`,
+				url: `${constants.apiBaseUrl}/apps/object/${storeBook.uuid}`,
 				headers: {
-					Authorization: constants.authorUserJWT
+					Authorization: jwt
 				}
 			});
 		}catch(error){
@@ -162,110 +170,104 @@ describe("SetStoreBookCover endpoint", () => {
 		}
 
 		// The store book should now have a cover
-		assert.equal(200, objResponse2.status);
-		assert(objResponse2.data.properties.cover != null)
+		assert.equal(200, getStoreBookObjResponse2.status);
+		assert(getStoreBookObjResponse2.data.properties.cover != null);
 
-		// Get the cover table object
-		let objResponse3;
+		let coverUuid = getStoreBookObjResponse2.data.properties.cover;
+
+		// Get the cover table object file (1)
+		let getCoverFileObjResponse;
 
 		try{
-			objResponse3 = await axios.default({
+			getCoverFileObjResponse = await axios.default({
 				method: 'get',
-				url: `${constants.apiBaseUrl}/apps/object/${objResponse2.data.properties.cover}`,
+				url: `${constants.apiBaseUrl}/apps/object/${coverUuid}`,
 				params: {
 					file: true
 				},
 				headers: {
-					Authorization: constants.authorUserJWT
+					Authorization: jwt
 				}
 			});
 		}catch(error){
 			assert.fail();
 		}
 
-		assert.equal(200, objResponse3.status);
-		assert.equal(objResponse3.data, fileContent);
-	});
+		assert.equal(getCoverFileObjResponse.data, firstFileContent);
 
-	it("should update store book cover", async () => {
-		// Update the cover
-		let setStoreBookCoverResponse;
-		let firstCoverContentType = "image/jpeg";
-		let firstCoverExt = "jpg";
+		// Get the cover table object (1)
+		let getCoverObjResponse;
 
 		try{
-			setStoreBookCoverResponse = await axios.default({
-				method: 'put',
-				url: setStoreBookCoverEndpointUrl.replace('{0}', constants.authorUserAuthor.books[1].uuid),
-				headers: {
-					Authorization: constants.authorUserJWT,
-					'Content-Type': firstCoverContentType
-				},
-				data: "Labore dicta cupiditate culpa cum harum. Corporis voluptatem debitis eos nam nisi esse in vitae. Molestiae rerum nesciunt sunt sed et dolorum."
-			});
-		}catch(error){
-			assert.fail();
-		}
-
-		assert.equal(200, setStoreBookCoverResponse.status);
-
-		// Get the cover of the store book
-		let coverTableObjectResponse;
-
-		try{
-			coverTableObjectResponse = await axios.default({
+			getCoverObjResponse = await axios.default({
 				method: 'get',
-				url: `${constants.apiBaseUrl}/apps/object/${constants.authorUserAuthor.books[1].cover}`,
+				url: `${constants.apiBaseUrl}/apps/object/${coverUuid}`,
 				headers: {
-					Authorization: constants.authorUserJWT
+					Authorization: jwt
 				}
 			});
 		}catch(error){
 			assert.fail();
 		}
 
-		// Update the cover a second time
-		let setStoreBookCoverResponse2;
-		let secondCoverContentType = "image/png";
-		let secondCoverExt = "png";
+		assert.equal(firstFileType, getCoverObjResponse.data.properties.type);
+		assert.equal(firstFileExt, getCoverObjResponse.data.properties.ext);
+
+		// Update the cover (2)
+		let secondFileType = "image/jpeg";
+		let secondFileExt = "jpg";
+		let secondFileContent = "Labore dicta cupiditate culpa cum harum. Corporis voluptatem debitis eos nam nisi esse in vitae. Molestiae rerum nesciunt sunt sed et dolorum.";
 
 		try{
-			setStoreBookCoverResponse2 = await axios.default({
+			await axios.default({
 				method: 'put',
-				url: setStoreBookCoverEndpointUrl.replace('{0}', constants.authorUserAuthor.books[1].uuid),
+				url: setStoreBookCoverEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
-					Authorization: constants.authorUserJWT,
-					'Content-Type': secondCoverContentType
+					Authorization: jwt,
+					'Content-Type': secondFileType
 				},
-				data: "Hello World"
+				data: secondFileContent
 			});
 		}catch(error){
 			assert.fail();
 		}
 
-		assert.equal(200, setStoreBookCoverResponse2.status);
-
-		// Get the cover table object
-		let coverTableObjectResponse2;
+		// Get the cover table object file (2)
+		let getCoverFileObjResponse2;
 
 		try{
-			coverTableObjectResponse2 = await axios.default({
+			getCoverFileObjResponse2 = await axios.default({
 				method: 'get',
-				url: `${constants.apiBaseUrl}/apps/object/${constants.authorUserAuthor.books[1].cover}`,
+				url: `${constants.apiBaseUrl}/apps/object/${coverUuid}`,
+				params: {
+					file: true
+				},
 				headers: {
-					Authorization: constants.authorUserJWT
+					Authorization: jwt
 				}
 			});
 		}catch(error){
 			assert.fail();
 		}
-		
-		assert.equal(firstCoverContentType, coverTableObjectResponse.data.properties.type);
-		assert.equal(firstCoverExt, coverTableObjectResponse.data.properties.ext);
-		assert.equal(secondCoverContentType, coverTableObjectResponse2.data.properties.type);
-		assert.equal(secondCoverExt, coverTableObjectResponse2.data.properties.ext);
-		
-		assert(coverTableObjectResponse.data.properties.size != coverTableObjectResponse2.data.properties.size);
-		assert(coverTableObjectResponse.data.properties.etag != coverTableObjectResponse2.data.properties.etag);
-	});
+
+		assert.equal(getCoverFileObjResponse2.data, secondFileContent);
+
+		// Get the cover table object (2)
+		let getCoverObjResponse2;
+
+		try{
+			getCoverObjResponse2 = await axios.default({
+				method: 'get',
+				url: `${constants.apiBaseUrl}/apps/object/${coverUuid}`,
+				headers: {
+					Authorization: jwt
+				}
+			});
+		}catch(error){
+			assert.fail();
+		}
+
+		assert.equal(secondFileType, getCoverObjResponse2.data.properties.type);
+		assert.equal(secondFileExt, getCoverObjResponse2.data.properties.ext);
+	}
 });
