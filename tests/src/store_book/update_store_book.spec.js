@@ -14,7 +14,7 @@ describe("UpdateStoreBook endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.books[0].uuid)
+				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[0].uuid)
 			});
 		}catch(error){
 			assert.equal(400, error.response.status);
@@ -26,11 +26,34 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.fail();
 	});
 
+	it("should not update store book with invalid jwt", async () => {
+		try{
+			await axios.default({
+				method: 'put',
+				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[0].uuid),
+				headers: {
+					Authorization: "asdasdasdasdsda",
+					'Content-Type': 'application/json'
+				},
+				data: {
+					title: "Blabla"
+				}
+			});
+		}catch(error){
+			assert.equal(401, error.response.status);
+			assert.equal(1, error.response.data.errors.length);
+			assert.equal(1302, error.response.data.errors[0].code);
+			return;
+		}
+
+		assert.fail();
+	});
+
 	it("should not update store book without content type json", async () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.books[0].uuid),
+				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[0].uuid),
 				headers: {
 					Authorization: constants.authorUserJWT
 				}
@@ -73,7 +96,7 @@ describe("UpdateStoreBook endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.books[0].uuid),
+				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[0].uuid),
 				headers: {
 					Authorization: constants.davUserJWT,
 					'Content-Type': 'application/json'
@@ -93,7 +116,7 @@ describe("UpdateStoreBook endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.books[0].uuid),
+				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[0].uuid),
 				headers: {
 					Authorization: constants.authorUserJWT,
 					'Content-Type': 'application/json'
@@ -122,7 +145,7 @@ describe("UpdateStoreBook endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.books[0].uuid),
+				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[0].uuid),
 				headers: {
 					Authorization: constants.authorUserJWT,
 					'Content-Type': 'application/json'
@@ -147,7 +170,7 @@ describe("UpdateStoreBook endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.books[0].uuid),
+				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[0].uuid),
 				headers: {
 					Authorization: constants.authorUserJWT,
 					'Content-Type': 'application/json'
@@ -172,7 +195,7 @@ describe("UpdateStoreBook endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.books[0].uuid),
+				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[0].uuid),
 				headers: {
 					Authorization: constants.authorUserJWT,
 					'Content-Type': 'application/json'
@@ -192,13 +215,15 @@ describe("UpdateStoreBook endpoint", () => {
 	});
 
 	it("should update title of store book", async () => {
+		let collection = constants.authorUserAuthor.collections[0];
+		let storeBook = collection.books[0];
 		let title = "Updated title";
 		let response;
 
 		try{
 			response = await axios.default({
 				method: 'put',
-				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.books[0].uuid),
+				url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
 					Authorization: constants.authorUserJWT,
 					'Content-Type': 'application/json'
@@ -212,20 +237,21 @@ describe("UpdateStoreBook endpoint", () => {
 		}
 
 		assert.equal(200, response.status);
-		assert.equal(constants.authorUserAuthor.books[0].uuid, response.data.uuid);
+		assert.equal(storeBook.uuid, response.data.uuid);
+		assert.equal(collection.uuid, response.data.collection);
 		assert.equal(title, response.data.title);
-		assert.equal(constants.authorUserAuthor.books[0].description, response.data.description);
-		assert.equal(constants.authorUserAuthor.books[0].language, response.data.language);
-		assert.equal(false, response.data.cover);
-		assert.equal(false, response.data.file);
-		assert.equal("unpublished", response.data.status);
+		assert.equal(storeBook.description, response.data.description);
+		assert.equal(storeBook.language, response.data.language);
+		assert.equal(storeBook.status, response.data.status);
+		assert.equal(true, response.data.cover);
+		assert.equal(true, response.data.file);
 
 		// Check if the store book was updated on the server
 		let objResponse;
 		try{
 			objResponse = await axios.default({
 				method: 'get',
-				url: `${constants.apiBaseUrl}/apps/object/${constants.authorUserAuthor.books[0].uuid}`,
+				url: `${constants.apiBaseUrl}/apps/object/${storeBook.uuid}`,
 				headers: {
 					Authorization: constants.authorUserJWT
 				}
@@ -234,20 +260,22 @@ describe("UpdateStoreBook endpoint", () => {
 			assert.fail();
 		}
 
-		assert.equal(constants.authorUserAuthor.books[0].uuid, objResponse.data.uuid);
+		assert.equal(storeBook.uuid, objResponse.data.uuid);
 		assert.equal(title, objResponse.data.properties.title);
-		assert.equal(constants.authorUserAuthor.books[0].description, objResponse.data.properties.description);
-		assert.equal(constants.authorUserAuthor.books[0].language, objResponse.data.properties.language);
+		assert.equal(storeBook.description, objResponse.data.properties.description);
+		assert.equal(storeBook.language, objResponse.data.properties.language);
 	});
 
 	it("should update description of store book", async () => {
+		let collection = constants.authorUserAuthor.collections[0];
+		let storeBook = collection.books[0];
 		let description = "Updated description";
 		let response;
 
 		try{
 			response = await axios.default({
 				method: 'put',
-				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.books[0].uuid),
+				url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
 					Authorization: constants.authorUserJWT,
 					'Content-Type': 'application/json'
@@ -261,20 +289,21 @@ describe("UpdateStoreBook endpoint", () => {
 		}
 
 		assert.equal(200, response.status);
-		assert.equal(constants.authorUserAuthor.books[0].uuid, response.data.uuid);
-		assert.equal(constants.authorUserAuthor.books[0].title, response.data.title);
+		assert.equal(storeBook.uuid, response.data.uuid);
+		assert.equal(collection.uuid, response.data.collection);
+		assert.equal(storeBook.title, response.data.title);
 		assert.equal(description, response.data.description);
-		assert.equal(constants.authorUserAuthor.books[0].language, response.data.language);
-		assert.equal(false, response.data.cover);
-		assert.equal(false, response.data.file);
-		assert.equal("unpublished", response.data.status);
+		assert.equal(storeBook.language, response.data.language);
+		assert.equal(storeBook.status, response.data.status);
+		assert.equal(true, response.data.cover);
+		assert.equal(true, response.data.file);
 
 		// Check if the store book was updated on the server
 		let objResponse;
 		try{
 			objResponse = await axios.default({
 				method: 'get',
-				url: `${constants.apiBaseUrl}/apps/object/${constants.authorUserAuthor.books[0].uuid}`,
+				url: `${constants.apiBaseUrl}/apps/object/${storeBook.uuid}`,
 				headers: {
 					Authorization: constants.authorUserJWT
 				}
@@ -283,20 +312,22 @@ describe("UpdateStoreBook endpoint", () => {
 			assert.fail();
 		}
 
-		assert.equal(constants.authorUserAuthor.books[0].uuid, objResponse.data.uuid);
-		assert.equal(constants.authorUserAuthor.books[0].title, objResponse.data.properties.title);
+		assert.equal(storeBook.uuid, objResponse.data.uuid);
+		assert.equal(storeBook.title, objResponse.data.properties.title);
 		assert.equal(description, objResponse.data.properties.description);
-		assert.equal(constants.authorUserAuthor.books[0].language, objResponse.data.properties.language);
+		assert.equal(storeBook.language, objResponse.data.properties.language);
 	});
 
 	it("should update language of store book", async () => {
+		let collection = constants.authorUserAuthor.collections[0];
+		let storeBook = collection.books[0];
 		let language = "de";
 		let response;
 
 		try{
 			response = await axios.default({
 				method: 'put',
-				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.books[0].uuid),
+				url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
 					Authorization: constants.authorUserJWT,
 					'Content-Type': 'application/json'
@@ -310,20 +341,21 @@ describe("UpdateStoreBook endpoint", () => {
 		}
 
 		assert.equal(200, response.status);
-		assert.equal(constants.authorUserAuthor.books[0].uuid, response.data.uuid);
-		assert.equal(constants.authorUserAuthor.books[0].title, response.data.title);
-		assert.equal(constants.authorUserAuthor.books[0].description, response.data.description);
+		assert.equal(storeBook.uuid, response.data.uuid);
+		assert.equal(collection.uuid, response.data.collection);
+		assert.equal(storeBook.title, response.data.title);
+		assert.equal(storeBook.description, response.data.description);
 		assert.equal(language, response.data.language);
-		assert.equal(false, response.data.cover);
-		assert.equal(false, response.data.file);
-		assert.equal("unpublished", response.data.status);
+		assert.equal(storeBook.status, response.data.status);
+		assert.equal(true, response.data.cover);
+		assert.equal(true, response.data.file);
 
 		// Check if the store book was updated on the server
 		let objResponse;
 		try{
 			objResponse = await axios.default({
 				method: 'get',
-				url: `${constants.apiBaseUrl}/apps/object/${constants.authorUserAuthor.books[0].uuid}`,
+				url: `${constants.apiBaseUrl}/apps/object/${storeBook.uuid}`,
 				headers: {
 					Authorization: constants.authorUserJWT
 				}
@@ -332,19 +364,77 @@ describe("UpdateStoreBook endpoint", () => {
 			assert.fail();
 		}
 
-		assert.equal(constants.authorUserAuthor.books[0].uuid, objResponse.data.uuid);
-		assert.equal(constants.authorUserAuthor.books[0].title, objResponse.data.properties.title);
-		assert.equal(constants.authorUserAuthor.books[0].description, objResponse.data.properties.description);
+		assert.equal(storeBook.uuid, objResponse.data.uuid);
+		assert.equal(storeBook.title, objResponse.data.properties.title);
+		assert.equal(storeBook.description, objResponse.data.properties.description);
 		assert.equal(language, objResponse.data.properties.language);
 	});
 
-	it("should publish store book", async () => {
+	it("should update store book of an admin", async () => {
+		let collection = constants.davUserAuthors[0].collections[0];
+		let storeBook = collection.books[0];
+		let title = "Updated title";
+		let description = "Updated description";
+		let language = "de";
 		let response;
 
 		try{
 			response = await axios.default({
 				method: 'put',
-				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.books[0].uuid),
+				url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
+				headers: {
+					Authorization: constants.davUserJWT,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					title,
+					description,
+					language
+				}
+			});
+		}catch(error){
+			assert.fail();
+		}
+
+		assert.equal(200, response.status);
+		assert.equal(storeBook.uuid, response.data.uuid);
+		assert.equal(collection.uuid, response.data.collection);
+		assert.equal(title, response.data.title);
+		assert.equal(description, response.data.description);
+		assert.equal(language, response.data.language);
+		assert.equal(storeBook.status, response.data.status);
+		assert.equal(false, response.data.cover);
+		assert.equal(false, response.data.file);
+
+		// Check if the store book was updated on the server
+		let objResponse;
+		try{
+			objResponse = await axios.default({
+				method: 'get',
+				url: `${constants.apiBaseUrl}/apps/object/${storeBook.uuid}`,
+				headers: {
+					Authorization: constants.davUserJWT
+				}
+			});
+		}catch(error){
+			assert.fail();
+		}
+
+		assert.equal(storeBook.uuid, objResponse.data.uuid);
+		assert.equal(title, objResponse.data.properties.title);
+		assert.equal(description, objResponse.data.properties.description);
+		assert.equal(language, objResponse.data.properties.language);
+	});
+
+	it("should publish store book", async () => {
+		let collection = constants.authorUserAuthor.collections[1];
+		let storeBook = collection.books[0];
+		let response;
+
+		try{
+			response = await axios.default({
+				method: 'put',
+				url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
 					Authorization: constants.authorUserJWT,
 					'Content-Type': 'application/json'
@@ -358,20 +448,21 @@ describe("UpdateStoreBook endpoint", () => {
 		}
 
 		assert.equal(200, response.status);
-		assert.equal(constants.authorUserAuthor.books[0].uuid, response.data.uuid);
-		assert.equal(constants.authorUserAuthor.books[0].title, response.data.title);
-		assert.equal(constants.authorUserAuthor.books[0].description, response.data.description);
-		assert.equal(constants.authorUserAuthor.books[0].language, response.data.language);
+		assert.equal(storeBook.uuid, response.data.uuid);
+		assert.equal(collection.uuid, response.data.collection);
+		assert.equal(storeBook.title, response.data.title);
+		assert.equal(storeBook.description, response.data.description);
+		assert.equal(storeBook.language, response.data.language);
+		assert.equal("review", response.data.status);
 		assert.equal(false, response.data.cover);
 		assert.equal(false, response.data.file);
-		assert.equal("review", response.data.status);
 
 		// Check if the store book was updated on the server
 		let objResponse;
 		try{
 			objResponse = await axios.default({
 				method: 'get',
-				url: `${constants.apiBaseUrl}/apps/object/${constants.authorUserAuthor.books[0].uuid}`,
+				url: `${constants.apiBaseUrl}/apps/object/${storeBook.uuid}`,
 				headers: {
 					Authorization: constants.authorUserJWT
 				}
@@ -380,37 +471,22 @@ describe("UpdateStoreBook endpoint", () => {
 			assert.fail();
 		}
 
-		assert.equal(constants.authorUserAuthor.books[0].uuid, objResponse.data.uuid);
-		assert.equal(constants.authorUserAuthor.books[0].title, objResponse.data.properties.title);
-		assert.equal(constants.authorUserAuthor.books[0].description, objResponse.data.properties.description);
-		assert.equal(constants.authorUserAuthor.books[0].language, objResponse.data.properties.language);
+		assert.equal(storeBook.uuid, objResponse.data.uuid);
+		assert.equal(storeBook.title, objResponse.data.properties.title);
+		assert.equal(storeBook.description, objResponse.data.properties.description);
+		assert.equal(storeBook.language, objResponse.data.properties.language);
 		assert.equal("review", objResponse.data.properties.status);
 	});
 
 	it("should unpublish store book", async () => {
-		// Update the table object with review status
-		try{
-			await axios.default({
-				method: 'put',
-				url: `${constants.apiBaseUrl}/apps/object/${constants.authorUserAuthor.books[0].uuid}`,
-				headers: {
-					Authorization: constants.authorUserJWT,
-					'Content-Type': 'application/json'
-				},
-				data: {
-					status: "review"
-				}
-			});
-		}catch(error){
-			assert.fail();
-		}
-
+		let collection = constants.authorUserAuthor.collections[0];
+		let storeBook = collection.books[1];
 		let response;
 
 		try{
 			response = await axios.default({
 				method: 'put',
-				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.books[0].uuid),
+				url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
 					Authorization: constants.authorUserJWT,
 					'Content-Type': 'application/json'
@@ -424,20 +500,21 @@ describe("UpdateStoreBook endpoint", () => {
 		}
 
 		assert.equal(200, response.status);
-		assert.equal(constants.authorUserAuthor.books[0].uuid, response.data.uuid);
-		assert.equal(constants.authorUserAuthor.books[0].title, response.data.title);
-		assert.equal(constants.authorUserAuthor.books[0].description, response.data.description);
-		assert.equal(constants.authorUserAuthor.books[0].language, response.data.language);
+		assert.equal(storeBook.uuid, response.data.uuid);
+		assert.equal(collection.uuid, response.data.collection);
+		assert.equal(storeBook.title, response.data.title);
+		assert.equal(storeBook.description, response.data.description);
+		assert.equal(storeBook.language, response.data.language);
+		assert.equal("unpublished", response.data.status);
 		assert.equal(false, response.data.cover);
 		assert.equal(false, response.data.file);
-		assert.equal("unpublished", response.data.status);
 
 		// Check if the store book was updated on the server
 		let objResponse;
 		try{
 			objResponse = await axios.default({
 				method: 'get',
-				url: `${constants.apiBaseUrl}/apps/object/${constants.authorUserAuthor.books[0].uuid}`,
+				url: `${constants.apiBaseUrl}/apps/object/${storeBook.uuid}`,
 				headers: {
 					Authorization: constants.authorUserJWT
 				}
@@ -446,10 +523,114 @@ describe("UpdateStoreBook endpoint", () => {
 			assert.fail();
 		}
 
-		assert.equal(constants.authorUserAuthor.books[0].uuid, objResponse.data.uuid);
-		assert.equal(constants.authorUserAuthor.books[0].title, objResponse.data.properties.title);
-		assert.equal(constants.authorUserAuthor.books[0].description, objResponse.data.properties.description);
-		assert.equal(constants.authorUserAuthor.books[0].language, objResponse.data.properties.language);
+		assert.equal(storeBook.uuid, objResponse.data.uuid);
+		assert.equal(storeBook.title, objResponse.data.properties.title);
+		assert.equal(storeBook.description, objResponse.data.properties.description);
+		assert.equal(storeBook.language, objResponse.data.properties.language);
+		assert.equal("unpublished", objResponse.data.properties.status);
+	});
+
+	it("should publish store book of an admin", async () => {
+		let collection = constants.davUserAuthors[0].collections[0];
+		let storeBook = collection.books[1];
+		let response;
+
+		try{
+			response = await axios.default({
+				method: 'put',
+				url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
+				headers: {
+					Authorization: constants.davUserJWT,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					published: true
+				}
+			});
+		}catch(error){
+			assert.fail();
+		}
+
+		assert.equal(200, response.status);
+		assert.equal(storeBook.uuid, response.data.uuid);
+		assert.equal(collection.uuid, response.data.collection);
+		assert.equal(storeBook.title, response.data.title);
+		assert.equal(storeBook.description, response.data.description);
+		assert.equal(storeBook.language, response.data.language);
+		assert.equal("review", response.data.status);
+		assert.equal(false, response.data.cover);
+		assert.equal(false, response.data.file);
+
+		// Check if the store book was updated on the server
+		let objResponse;
+		try{
+			objResponse = await axios.default({
+				method: 'get',
+				url: `${constants.apiBaseUrl}/apps/object/${storeBook.uuid}`,
+				headers: {
+					Authorization: constants.davUserJWT
+				}
+			});
+		}catch(error){
+			assert.fail();
+		}
+
+		assert.equal(storeBook.uuid, objResponse.data.uuid);
+		assert.equal(storeBook.title, objResponse.data.properties.title);
+		assert.equal(storeBook.description, objResponse.data.properties.description);
+		assert.equal(storeBook.language, objResponse.data.properties.language);
+		assert.equal("review", objResponse.data.properties.status);
+	});
+
+	it("should unpublish store book of an admin", async () => {
+		let collection = constants.davUserAuthors[0].collections[0];
+		let storeBook = collection.books[0];
+		let response;
+
+		try{
+			response = await axios.default({
+				method: 'put',
+				url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
+				headers: {
+					Authorization: constants.davUserJWT,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					published: false
+				}
+			});
+		}catch(error){
+			assert.fail();
+		}
+
+		assert.equal(200, response.status);
+		assert.equal(storeBook.uuid, response.data.uuid);
+		assert.equal(collection.uuid, response.data.collection);
+		assert.equal(storeBook.title, response.data.title);
+		assert.equal(storeBook.description, response.data.description);
+		assert.equal(storeBook.language, response.data.language);
+		assert.equal("unpublished", response.data.status);
+		assert.equal(false, response.data.cover);
+		assert.equal(false, response.data.file);
+
+		// Check if the store book was updated on the server
+		let objResponse;
+		try{
+			objResponse = await axios.default({
+				method: 'get',
+				url: `${constants.apiBaseUrl}/apps/object/${storeBook.uuid}`,
+				headers: {
+					Authorization: constants.davUserJWT
+				}
+			});
+		}catch(error){
+			assert.fail();
+		}
+
+		assert.equal(storeBook.uuid, objResponse.data.uuid);
+		assert.equal(storeBook.title, objResponse.data.properties.title);
+		assert.equal(storeBook.description, objResponse.data.properties.description);
+		assert.equal(storeBook.language, objResponse.data.properties.language);
 		assert.equal("unpublished", objResponse.data.properties.status);
 	});
 });

@@ -102,6 +102,13 @@ module.exports = {
 							description: "Orwell's novel about the destruction of man by a perfect state machinery has long since become a metaphor for totalitarian conditions that no longer seems in need of explanation.",
 							language: "en",
 							status: "published"
+						},
+						{
+							uuid: "5aa1c310-cbc6-48b4-9000-63315e713d25",
+							title: "Animal Farm",
+							description: "Animal Farm is an allegorical novella by George Orwell, first published in England on 17 August 1945. The book tells the story of a group of farm animals who rebel against their human farmer, hoping to create a society where the animals can be equal, free, and happy.",
+							language: "en",
+							status: "unpublished"
 						}
 					]
 				}
