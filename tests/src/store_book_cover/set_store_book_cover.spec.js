@@ -109,15 +109,17 @@ describe("SetStoreBookCover endpoint", () => {
 	});
 
 	it("should create and update store book cover", async () => {
-		await testCreateAndUpdateStoreBook(constants.authorUserAuthor.collections[0].books[1], constants.authorUserJWT);
+		await testCreateAndUpdateStoreBookCover(constants.authorUserAuthor.collections[0].books[1], constants.authorUserJWT);
 	});
 
 	it("should create and update store book cover of store book of an admin", async () => {
-		await testCreateAndUpdateStoreBook(constants.davUserAuthors[0].collections[0].books[0], constants.davUserJWT);
+		await testCreateAndUpdateStoreBookCover(constants.davUserAuthors[0].collections[0].books[0], constants.davUserJWT);
 	});
 
-	async function testCreateAndUpdateStoreBook(storeBook, jwt){
+	async function testCreateAndUpdateStoreBookCover(storeBook, jwt){
 		// Get the store book table object
+		let getStoreBookObjResponse;
+
 		try{
 			getStoreBookObjResponse = await axios.default({
 				method: 'get',
@@ -131,7 +133,6 @@ describe("SetStoreBookCover endpoint", () => {
 		}
 
 		// The store book should not have a cover
-		assert.equal(200, getStoreBookObjResponse.status);
 		assert.equal(null, getStoreBookObjResponse.data.properties.cover);
 
 		// Upload the cover (1)
@@ -170,7 +171,6 @@ describe("SetStoreBookCover endpoint", () => {
 		}
 
 		// The store book should now have a cover
-		assert.equal(200, getStoreBookObjResponse2.status);
 		assert(getStoreBookObjResponse2.data.properties.cover != null);
 
 		let coverUuid = getStoreBookObjResponse2.data.properties.cover;
