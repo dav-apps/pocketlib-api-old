@@ -4,9 +4,19 @@ var constants = require('../constants');
 var utils = require('../utils');
 
 const createStoreBookCollectionEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/collection`;
+var resetStoreBookCollectionsAndAuthors = false;
 
-beforeEach(async () => {
+before(async () => {
 	await utils.resetDatabase();
+});
+
+afterEach(async () => {
+	if(resetStoreBookCollectionsAndAuthors){
+		await utils.resetStoreBookCollections();
+		await utils.resetStoreBookCollectionNames();
+		await utils.resetAuthors();
+		resetStoreBookCollectionsAndAuthors = false;
+	}
 });
 
 describe("CreateStoreBookCollection endpoint", () => {
@@ -467,6 +477,9 @@ describe("CreateStoreBookCollection endpoint", () => {
 		collections.push(collectionResponse.data.uuid);
 
 		assert.equal(collections.join(','), authorResponse.data.properties.collections);
+
+		// Tidy up
+		resetStoreBookCollectionsAndAuthors = true;
 	});
 
 	it("should create store book collection as admin", async () => {
@@ -560,5 +573,8 @@ describe("CreateStoreBookCollection endpoint", () => {
 		collections.push(collectionResponse.data.uuid);
 
 		assert.equal(collections.join(','), authorResponse.data.properties.collections);
+
+		// Tidy up
+		resetStoreBookCollectionsAndAuthors = true;
 	});
 });
