@@ -1,0 +1,6 @@
+{
+	"type": "function",
+	"name": "get_store_book_table_object",
+	"params": ["uuid"],
+	"source": "./get_store_book_table_object.dx"
+}

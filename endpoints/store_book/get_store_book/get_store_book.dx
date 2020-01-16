@@ -16,7 +16,7 @@
 (var is_admin (env.ADMINS.contains decoded_jwt.user_id))
 
 (# Get the store book)
-(var store_book (TableObject.get uuid))
+(var store_book (func get_store_book_table_object (uuid)))
 
 (if (is_nil store_book) (
 	(# StoreBook does not exist)
