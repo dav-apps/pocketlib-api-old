@@ -4,9 +4,18 @@ var constants = require('../constants');
 var utils = require('../utils');
 
 const createStoreBookEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/book`;
+var resetStoreBooksAndCollections = false;
 
-beforeEach(async () => {
+before(async () => {
 	await utils.resetDatabase();
+});
+
+afterEach(async () => {
+	if(resetStoreBooksAndCollections){
+		await utils.resetStoreBooks();
+		await utils.resetStoreBookCollections();
+		resetStoreBooks = false;
+	}
 });
 
 describe("CreateStoreBook endpoint", () => {
@@ -396,7 +405,7 @@ describe("CreateStoreBook endpoint", () => {
 		}catch(error){
 			assert.equal(404, error.response.status);
 			assert.equal(1, error.response.data.errors.length);
-			assert.equal(2806, error.response.data.errors[0].code);
+			assert.equal(2803, error.response.data.errors[0].code);
 			return;
 		}
 
@@ -478,6 +487,9 @@ describe("CreateStoreBook endpoint", () => {
 		assert.equal(title, storeBookObjResponse.data.properties.title);
 		assert.equal(null, storeBookObjResponse.data.properties.description);
 		assert.equal(language, storeBookObjResponse.data.properties.language);
+
+		// Tidy up
+		resetStoreBooksAndCollections = true;
 	});
 
 	it("should create store book with optional properties", async () => {
@@ -557,5 +569,8 @@ describe("CreateStoreBook endpoint", () => {
 		assert.equal(title, storeBookObjResponse.data.properties.title);
 		assert.equal(description, storeBookObjResponse.data.properties.description);
 		assert.equal(language, storeBookObjResponse.data.properties.language);
+
+		// Tidy up
+		resetStoreBooksAndCollections = true;
 	});
 });

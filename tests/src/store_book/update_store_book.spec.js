@@ -4,9 +4,17 @@ var constants = require('../constants');
 var utils = require('../utils');
 
 const updateStoreBookEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/book/{0}`;
+var resetStoreBooks = false;
 
-beforeEach(async () => {
+before(async () => {
 	await utils.resetDatabase();
+});
+
+afterEach(async () => {
+	if(resetStoreBooks){
+		await utils.resetStoreBooks();
+		resetStoreBooks = false;
+	}
 });
 
 describe("UpdateStoreBook endpoint", () => {
@@ -85,7 +93,7 @@ describe("UpdateStoreBook endpoint", () => {
 		}catch(error){
 			assert.equal(404, error.response.status);
 			assert.equal(1, error.response.data.errors.length);
-			assert.equal(2803, error.response.data.errors[0].code);
+			assert.equal(2805, error.response.data.errors[0].code);
 			return;
 		}
 
@@ -264,6 +272,9 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal(title, objResponse.data.properties.title);
 		assert.equal(storeBook.description, objResponse.data.properties.description);
 		assert.equal(storeBook.language, objResponse.data.properties.language);
+
+		// Tidy up
+		resetStoreBooks = true;
 	});
 
 	it("should update description of store book", async () => {
@@ -316,6 +327,9 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal(storeBook.title, objResponse.data.properties.title);
 		assert.equal(description, objResponse.data.properties.description);
 		assert.equal(storeBook.language, objResponse.data.properties.language);
+
+		// Tidy up
+		resetStoreBooks = true;
 	});
 
 	it("should update language of store book", async () => {
@@ -368,6 +382,9 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal(storeBook.title, objResponse.data.properties.title);
 		assert.equal(storeBook.description, objResponse.data.properties.description);
 		assert.equal(language, objResponse.data.properties.language);
+
+		// Tidy up
+		resetStoreBooks = true;
 	});
 
 	it("should update store book of an admin", async () => {
@@ -424,6 +441,9 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal(title, objResponse.data.properties.title);
 		assert.equal(description, objResponse.data.properties.description);
 		assert.equal(language, objResponse.data.properties.language);
+
+		// Tidy up
+		resetStoreBooks = true;
 	});
 
 	it("should publish store book", async () => {
@@ -476,6 +496,9 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal(storeBook.description, objResponse.data.properties.description);
 		assert.equal(storeBook.language, objResponse.data.properties.language);
 		assert.equal("review", objResponse.data.properties.status);
+
+		// Tidy up
+		resetStoreBooks = true;
 	});
 
 	it("should unpublish store book", async () => {
@@ -528,6 +551,9 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal(storeBook.description, objResponse.data.properties.description);
 		assert.equal(storeBook.language, objResponse.data.properties.language);
 		assert.equal("unpublished", objResponse.data.properties.status);
+
+		// Tidy up
+		resetStoreBooks = true;
 	});
 
 	it("should publish store book of an admin", async () => {
@@ -580,6 +606,9 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal(storeBook.description, objResponse.data.properties.description);
 		assert.equal(storeBook.language, objResponse.data.properties.language);
 		assert.equal("review", objResponse.data.properties.status);
+
+		// Tidy up
+		resetStoreBooks = true;
 	});
 
 	it("should unpublish store book of an admin", async () => {
@@ -632,5 +661,8 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal(storeBook.description, objResponse.data.properties.description);
 		assert.equal(storeBook.language, objResponse.data.properties.language);
 		assert.equal("unpublished", objResponse.data.properties.status);
+
+		// Tidy up
+		resetStoreBooks = true;
 	});
 });
