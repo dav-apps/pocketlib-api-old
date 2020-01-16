@@ -14,7 +14,7 @@ describe("GetStoreBookFile endpoint", () => {
 		try{
 			await axios.default({
 				method: 'get',
-				url: getStoreBookFileEndpointUrl.replace('{0}', constants.authorUserAuthor.books[1].uuid)
+				url: getStoreBookFileEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[1].uuid)
 			});
 		}catch(error){
 			assert.equal(400, error.response.status);
@@ -30,7 +30,7 @@ describe("GetStoreBookFile endpoint", () => {
 		try{
 			await axios.default({
 				method: 'get',
-				url: getStoreBookFileEndpointUrl.replace('{0}', constants.authorUserAuthor.books[1].uuid),
+				url: getStoreBookFileEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[1].uuid),
 				headers: {
 					Authorization: "bkaasdasdfdasd"
 				}
@@ -49,7 +49,131 @@ describe("GetStoreBookFile endpoint", () => {
 		try{
 			await axios.default({
 				method: 'get',
-				url: getStoreBookFileEndpointUrl.replace('{0}', constants.authorUserAuthor.books[1].uuid),
+				url: getStoreBookFileEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[1].uuid),
+				headers: {
+					Authorization: constants.davClassLibraryTestUserTestAppJWT
+				}
+			});
+		}catch(error){
+			assert.equal(403, error.response.status);
+			assert.equal(1, error.response.data.errors.length);
+			assert.equal(1102, error.response.data.errors[0].code);
+			return;
+		}
+
+		assert.fail();
+	});
+
+	it("should not return store book file if the store book has no file", async () => {
+		try{
+			await axios.default({
+				method: 'get',
+				url: getStoreBookFileEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[1].uuid),
+				headers: {
+					Authorization: constants.authorUserJWT
+				}
+			});
+		}catch(error){
+			assert.equal(404, error.response.status);
+			assert.equal(1, error.response.data.errors.length);
+			assert.equal(2805, error.response.data.errors[0].code);
+			return;
+		}
+
+		assert.fail();
+	});
+
+	it("should not return store book file if the store book does not exist", async () => {
+		try{
+			await axios.default({
+				method: 'get',
+				url: getStoreBookFileEndpointUrl.replace('{0}', "asdasdasdsda"),
+				headers: {
+					Authorization: constants.authorUserJWT
+				}
+			});
+		}catch(error){
+			assert.equal(404, error.response.status);
+			assert.equal(1, error.response.data.errors.length);
+			assert.equal(2803, error.response.data.errors[0].code);
+			return;
+		}
+
+		assert.fail();
+	});
+
+	it("should return file of unpublished store book if the user is the author", async () => {
+		let collection = constants.authorUserAuthor.collections[1];
+		let storeBook = collection.books[0];
+		let fileContent = "Lorem ipsum dolor sit amet";
+		let fileType = "application/epub+zip";
+
+		// Set the store book file
+		await setStoreBookFile(storeBook.uuid, fileContent, fileType, constants.authorUserJWT);
+
+		// Try to get the store book file
+		let response;
+
+		try{
+			response = await axios.default({
+				method: 'get',
+				url: getStoreBookFileEndpointUrl.replace('{0}', storeBook.uuid),
+				headers: {
+					Authorization: constants.authorUserJWT
+				}
+			});
+		}catch(error){
+			assert.fail();
+		}
+
+		assert.equal(200, response.status);
+		assert.equal(fileType, response.headers['content-type']);
+		assert.equal(fileContent, response.data);
+	});
+
+	it("should return file of unpublished store book if the user is an admin", async () => {
+		let collection = constants.authorUserAuthor.collections[1];
+		let storeBook = collection.books[0];
+		let fileContent = "Lorem ipsum dolor sit amet";
+		let fileType = "application/epub+zip";
+
+		// Set the store book file
+		await setStoreBookFile(storeBook.uuid, fileContent, fileType, constants.authorUserJWT);
+
+		// Try to get the store book file
+		let response;
+
+		try{
+			response = await axios.default({
+				method: 'get',
+				url: getStoreBookFileEndpointUrl.replace('{0}', storeBook.uuid),
+				headers: {
+					Authorization: constants.davUserJWT
+				}
+			});
+		}catch(error){
+			assert.fail();
+		}
+
+		assert.equal(200, response.status);
+		assert.equal(fileType, response.headers['content-type']);
+		assert.equal(fileContent, response.data);
+	});
+
+	it("should not return file of unpublished store book if the user is not the author", async () => {
+		let collection = constants.authorUserAuthor.collections[1];
+		let storeBook = collection.books[0];
+		let fileContent = "Lorem ipsum dolor sit amet";
+		let fileType = "application/epub+zip";
+
+		// Set the store book file
+		await setStoreBookFile(storeBook.uuid, fileContent, fileType, constants.authorUserJWT);
+
+		// Try to get the store book file
+		try{
+			await axios.default({
+				method: 'get',
+				url: getStoreBookFileEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
 					Authorization: constants.davClassLibraryTestUserJWT
 				}
@@ -64,32 +188,22 @@ describe("GetStoreBookFile endpoint", () => {
 		assert.fail();
 	});
 
-	it("should return store book file", async () => {
+	it("should return file of store book in review if the user is the author", async () => {
+		let collection = constants.authorUserAuthor.collections[0];
+		let storeBook = collection.books[0];
 		let fileContent = "Lorem ipsum dolor sit amet";
-		let contentType = "application/epub+zip";
+		let fileType = "application/epub+zip";
 
-		// Update the store book file
-		try{
-			await axios.default({
-				method: 'put',
-				url: getStoreBookFileEndpointUrl.replace('{0}', constants.authorUserAuthor.books[1].uuid),
-				headers: {
-					Authorization: constants.authorUserJWT,
-					'Content-Type': contentType
-				},
-				data: fileContent
-			});
-		}catch(error){
-			assert.fail();
-		}
+		// Set the store book file
+		await setStoreBookFile(storeBook.uuid, fileContent, fileType, constants.authorUserJWT);
 
-		// Get the store book file
-		let getFileResponse;
+		// Try to get the store book file
+		let response;
 
 		try{
-			getFileResponse = await axios.default({
+			response = await axios.default({
 				method: 'get',
-				url: getStoreBookFileEndpointUrl.replace('{0}', constants.authorUserAuthor.books[1].uuid),
+				url: getStoreBookFileEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
 					Authorization: constants.authorUserJWT
 				}
@@ -98,8 +212,138 @@ describe("GetStoreBookFile endpoint", () => {
 			assert.fail();
 		}
 
-		assert.equal(200, getFileResponse.status);
-		assert.equal(contentType, getFileResponse.headers['content-type']);
-		assert.equal(fileContent, getFileResponse.data);
+		assert.equal(200, response.status);
+		assert.equal(fileType, response.headers['content-type']);
+		assert.equal(fileContent, response.data);
+	});
+
+	it("should not return file of store book in review if the user is not the author", async () => {
+		let collection = constants.authorUserAuthor.collections[0];
+		let storeBook = collection.books[0];
+		let fileContent = "Lorem ipsum dolor sit amet";
+		let fileType = "application/epub+zip";
+
+		// Set the store book file
+		await setStoreBookFile(storeBook.uuid, fileContent, fileType, constants.authorUserJWT);
+
+		// Try to get the store book file
+		try{
+			await axios.default({
+				method: 'get',
+				url: getStoreBookFileEndpointUrl.replace('{0}', storeBook.uuid),
+				headers: {
+					Authorization: constants.davClassLibraryTestUserJWT
+				}
+			});
+		}catch(error){
+			assert.equal(403, error.response.status);
+			assert.equal(1, error.response.data.errors.length);
+			assert.equal(1102, error.response.data.errors[0].code);
+			return;
+		}
+
+		assert.fail();
+	});
+
+	it("should return file of store book in review if the user is an admin", async () => {
+		let collection = constants.authorUserAuthor.collections[0];
+		let storeBook = collection.books[0];
+		let fileContent = "Lorem ipsum dolor sit amet";
+		let fileType = "application/epub+zip";
+
+		// Set the store book file
+		await setStoreBookFile(storeBook.uuid, fileContent, fileType, constants.authorUserJWT);
+
+		// Try to get the store book file
+		let response;
+
+		try{
+			response = await axios.default({
+				method: 'get',
+				url: getStoreBookFileEndpointUrl.replace('{0}', storeBook.uuid),
+				headers: {
+					Authorization: constants.davUserJWT
+				}
+			});
+		}catch(error){
+			assert.fail();
+		}
+
+		assert.equal(200, response.status);
+		assert.equal(fileType, response.headers['content-type']);
+		assert.equal(fileContent, response.data);
+	});
+
+	it("should return file of published store book if the user is the author", async () => {
+		let collection = constants.davUserAuthors[0].collections[0];
+		let storeBook = collection.books[0];
+		let fileContent = "Lorem ipsum dolor sit amet";
+		let fileType = "application/epub+zip";
+
+		// Set the store book file
+		await setStoreBookFile(storeBook.uuid, fileContent, fileType, constants.davUserJWT);
+
+		// Try to get the store book file
+		let response;
+
+		try{
+			response = await axios.default({
+				method: 'get',
+				url: getStoreBookFileEndpointUrl.replace('{0}', storeBook.uuid),
+				headers: {
+					Authorization: constants.davUserJWT
+				}
+			});
+		}catch(error){
+			assert.fail();
+		}
+
+		assert.equal(200, response.status);
+		assert.equal(fileType, response.headers['content-type']);
+		assert.equal(fileContent, response.data);
+	});
+
+	it("should not return file of published store book if the user is not the author", async () => {
+		let collection = constants.davUserAuthors[0].collections[0];
+		let storeBook = collection.books[0];
+		let fileContent = "Lorem ipsum dolor sit amet";
+		let fileType = "application/epub+zip";
+
+		// Set the store book file
+		await setStoreBookFile(storeBook.uuid, fileContent, fileType, constants.davUserJWT);
+
+		// Try to get the store book file
+		try{
+			await axios.default({
+				method: 'get',
+				url: getStoreBookFileEndpointUrl.replace('{0}', storeBook.uuid),
+				headers: {
+					Authorization: constants.authorUserJWT
+				}
+			});
+		}catch(error){
+			assert.equal(403, error.response.status);
+			assert.equal(1, error.response.data.errors.length);
+			assert.equal(1102, error.response.data.errors[0].code);
+			return;
+		}
+
+		assert.fail();
 	});
 });
+
+async function setStoreBookFile(storeBookUuid, coverContent, coverType, authorJWT){
+	try{
+		await axios.default({
+			method: 'put',
+			url: getStoreBookFileEndpointUrl.replace('{0}', storeBookUuid),
+			headers: {
+				Authorization: authorJWT,
+				'Content-Type': coverType
+			},
+			data: coverContent
+		});
+	}catch(error){
+		assert.fail();
+	}
+}

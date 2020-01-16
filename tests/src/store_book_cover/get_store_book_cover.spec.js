@@ -331,20 +331,20 @@ describe("GetStoreBookCover endpoint", () => {
 		assert.equal(coverType, response.headers['content-type']);
 		assert.equal(coverContent, response.data);
 	});
-
-	async function setStoreBookCover(storeBookUuid, coverContent, coverType, authorJWT){
-		try{
-			await axios.default({
-				method: 'put',
-				url: getStoreBookCoverEndpointUrl.replace('{0}', storeBookUuid),
-				headers: {
-					Authorization: authorJWT,
-					'Content-Type': coverType
-				},
-				data: coverContent
-			});
-		}catch(error){
-			assert.fail();
-		}
-	}
 });
+
+async function setStoreBookCover(storeBookUuid, coverContent, coverType, authorJWT){
+	try{
+		await axios.default({
+			method: 'put',
+			url: getStoreBookCoverEndpointUrl.replace('{0}', storeBookUuid),
+			headers: {
+				Authorization: authorJWT,
+				'Content-Type': coverType
+			},
+			data: coverContent
+		});
+	}catch(error){
+		assert.fail();
+	}
+}
