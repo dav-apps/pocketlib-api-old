@@ -71,7 +71,7 @@
 
 (if (is_nil collection_obj) (
 	(# Collection does not exist)
-	(func render_validation_errors ((list (hash (error (get_error 2806)) (status 404)))))
+	(func render_validation_errors ((list (hash (error (get_error 2803)) (status 404)))))
 ))
 
 (# Check if the collection belongs to the user)
