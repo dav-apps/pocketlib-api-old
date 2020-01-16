@@ -6,9 +6,18 @@ var constants = require('../constants');
 var utils = require('../utils');
 
 const setStoreBookFileEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/book/{0}/file`;
+var resetStoreBooksAndStoreBookFiles = false;
 
-beforeEach(async () => {
+before(async () => {
 	await utils.resetDatabase();
+});
+
+afterEach(async () => {
+	if(resetStoreBooksAndStoreBookFiles){
+		await utils.resetStoreBooks();
+		await utils.resetStoreBookFiles();
+		resetStoreBooksAndStoreBookFiles = false;
+	}
 });
 
 describe("SetStoreBookFile endpoint", () => {
@@ -81,7 +90,7 @@ describe("SetStoreBookFile endpoint", () => {
 		}catch(error){
 			assert.equal(404, error.response.status);
 			assert.equal(1, error.response.data.errors.length);
-			assert.equal(2803, error.response.data.errors[0].code);
+			assert.equal(2805, error.response.data.errors[0].code);
 			return;
 		}
 
@@ -110,10 +119,16 @@ describe("SetStoreBookFile endpoint", () => {
 
 	it("should create and update store book file", async () => {
 		await testCreateAndUpdateStoreBookFile(constants.authorUserAuthor.collections[0].books[1], constants.authorUserJWT);
+
+		// Tidy up
+		resetStoreBooksAndStoreBookFiles = true;
 	});
 
 	it("should create and update store book file of store book of an admin", async () => {
 		await testCreateAndUpdateStoreBookFile(constants.davUserAuthors[0].collections[0].books[0], constants.davUserJWT);
+
+		// Tidy up
+		resetStoreBooksAndStoreBookFiles = true;
 	});
 
 	async function testCreateAndUpdateStoreBookFile(storeBook, jwt){

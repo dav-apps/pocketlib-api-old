@@ -4,9 +4,18 @@ var constants = require("../constants");
 var utils = require('../utils');
 
 const getStoreBookFileEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/book/{0}/file`;
+var resetStoreBooksAndStoreBookFiles = false;
 
-beforeEach(async () => {
+before(async () => {
 	await utils.resetDatabase();
+});
+
+afterEach(async () => {
+	if(resetStoreBooksAndStoreBookFiles){
+		await utils.resetStoreBooks();
+		await utils.resetStoreBookFiles();
+		resetStoreBooksAndStoreBookFiles = false;
+	}
 });
 
 describe("GetStoreBookFile endpoint", () => {
@@ -76,7 +85,7 @@ describe("GetStoreBookFile endpoint", () => {
 		}catch(error){
 			assert.equal(404, error.response.status);
 			assert.equal(1, error.response.data.errors.length);
-			assert.equal(2805, error.response.data.errors[0].code);
+			assert.equal(2807, error.response.data.errors[0].code);
 			return;
 		}
 
@@ -95,7 +104,7 @@ describe("GetStoreBookFile endpoint", () => {
 		}catch(error){
 			assert.equal(404, error.response.status);
 			assert.equal(1, error.response.data.errors.length);
-			assert.equal(2803, error.response.data.errors[0].code);
+			assert.equal(2805, error.response.data.errors[0].code);
 			return;
 		}
 
@@ -129,6 +138,9 @@ describe("GetStoreBookFile endpoint", () => {
 		assert.equal(200, response.status);
 		assert.equal(fileType, response.headers['content-type']);
 		assert.equal(fileContent, response.data);
+
+		// Tidy up
+		resetStoreBooksAndStoreBookFiles = true;
 	});
 
 	it("should return file of unpublished store book if the user is an admin", async () => {
@@ -158,6 +170,9 @@ describe("GetStoreBookFile endpoint", () => {
 		assert.equal(200, response.status);
 		assert.equal(fileType, response.headers['content-type']);
 		assert.equal(fileContent, response.data);
+
+		// Tidy up
+		resetStoreBooksAndStoreBookFiles = true;
 	});
 
 	it("should not return file of unpublished store book if the user is not the author", async () => {
@@ -186,6 +201,9 @@ describe("GetStoreBookFile endpoint", () => {
 		}
 
 		assert.fail();
+
+		// Tidy up
+		resetStoreBooksAndStoreBookFiles = true;
 	});
 
 	it("should return file of store book in review if the user is the author", async () => {
@@ -215,6 +233,9 @@ describe("GetStoreBookFile endpoint", () => {
 		assert.equal(200, response.status);
 		assert.equal(fileType, response.headers['content-type']);
 		assert.equal(fileContent, response.data);
+
+		// Tidy up
+		resetStoreBooksAndStoreBookFiles = true;
 	});
 
 	it("should not return file of store book in review if the user is not the author", async () => {
@@ -243,6 +264,9 @@ describe("GetStoreBookFile endpoint", () => {
 		}
 
 		assert.fail();
+
+		// Tidy up
+		resetStoreBooksAndStoreBookFiles = true;
 	});
 
 	it("should return file of store book in review if the user is an admin", async () => {
@@ -272,6 +296,9 @@ describe("GetStoreBookFile endpoint", () => {
 		assert.equal(200, response.status);
 		assert.equal(fileType, response.headers['content-type']);
 		assert.equal(fileContent, response.data);
+
+		// Tidy up
+		resetStoreBooksAndStoreBookFiles = true;
 	});
 
 	it("should return file of published store book if the user is the author", async () => {
@@ -301,6 +328,9 @@ describe("GetStoreBookFile endpoint", () => {
 		assert.equal(200, response.status);
 		assert.equal(fileType, response.headers['content-type']);
 		assert.equal(fileContent, response.data);
+
+		// Tidy up
+		resetStoreBooksAndStoreBookFiles = true;
 	});
 
 	it("should not return file of published store book if the user is not the author", async () => {
@@ -329,6 +359,9 @@ describe("GetStoreBookFile endpoint", () => {
 		}
 
 		assert.fail();
+
+		// Tidy up
+		resetStoreBooksAndStoreBookFiles = true;
 	});
 });
 
