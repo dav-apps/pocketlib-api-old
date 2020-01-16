@@ -2,41 +2,60 @@ var axios = require('axios');
 var constants = require('./constants');
 
 async function resetDatabase(){
+	await resetAuthors();
+	await resetStoreBookCollections();
+	await resetStoreBookCollectionNames();
+	await resetStoreBooks();
+	await resetStoreBookCovers();
+	await resetStoreBookFiles();
+}
+
+async function resetAuthors(){
 	// Delete Authors
 	await deleteTableObjectsOfTable(constants.davClassLibraryTestUserJWT, constants.authorTableId);
 
 	// Reset the Author of author user
 	await resetAuthorUserAuthor();
 	await resetDavUserAuthors();
+}
 
+async function resetStoreBookCollections(){
 	// Delete StoreBookCollections
 	await deleteTableObjectsOfTable(constants.davClassLibraryTestUserJWT, constants.storeBookCollectionTableId);
 
 	// Reset the StoreBookCollections of the author users
 	await resetAuthorUserStoreBookCollections();
 	await resetDavUserStoreBookCollections();
+}
 
+async function resetStoreBookCollectionNames(){
 	// Delete StoreBookCollectionNames
 	await deleteTableObjectsOfTable(constants.davClassLibraryTestUserJWT, constants.storeBookCollectionNameTableId);
 
 	// Reset the StoreBookCollectionNames of the author user
 	await resetAuthorUserStoreBookCollectionNames();
 	await resetDavUserStoreBookCollectionNames();
+}
 
+async function resetStoreBooks(){
 	// Delete StoreBooks
 	await deleteTableObjectsOfTable(constants.davClassLibraryTestUserJWT, constants.storeBookTableId);
 
 	// Reset StoreBooks
 	await resetAuthorUserStoreBooks();
 	await resetDavUserStoreBooks();
+}
 
+async function resetStoreBookCovers(){
 	// Delete StoreBookCovers
 	await deleteTableObjectsOfTable(constants.davUserJWT, constants.storeBookCoverTableId);
 	await deleteTableObjectsOfTable(constants.davClassLibraryTestUserJWT, constants.storeBookCoverTableId);
 
 	// Reset StoreBookCovers
 	await resetAuthorUserStoreBookCovers();
+}
 
+async function resetStoreBookFiles(){
 	// Delete StoreBookFiles
 	await deleteTableObjectsOfTable(constants.davUserJWT, constants.storeBookFileTableId);
 	await deleteTableObjectsOfTable(constants.davClassLibraryTestUserJWT, constants.storeBookFileTableId);
@@ -44,6 +63,7 @@ async function resetDatabase(){
 	// Reset StoreBookFiles
 	await resetAuthorUserStoreBookFiles();
 }
+
 
 async function resetAuthorUserAuthor(){
 	// Reset the author of author user
@@ -675,5 +695,11 @@ async function getTableObject(uuid, jwt){
 
 module.exports = {
 	resetDatabase,
+	resetAuthors,
+	resetStoreBookCollections,
+	resetStoreBookCollectionNames,
+	resetStoreBooks,
+	resetStoreBookCovers,
+	resetStoreBookFiles,
 	getTableObject
 }

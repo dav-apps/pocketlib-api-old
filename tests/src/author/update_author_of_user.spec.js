@@ -4,9 +4,17 @@ var constants = require('../constants');
 var utils = require('../utils');
 
 const updateAuthorEndpointUrl = `${constants.apiBaseUrl}/api/1/call/author`;
+var resetAuthors = false;
 
-beforeEach(async () => {
+before(async () => {
 	await utils.resetDatabase();
+});
+
+afterEach(async () => {
+	if(resetAuthors){
+		await utils.resetAuthors();
+		resetAuthors = false;
+	}
 });
 
 describe("UpdateAuthorOfUser endpoint", async () => {
@@ -264,6 +272,9 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 		assert.equal(firstName, objResponse.data.properties.first_name);
 		assert.equal(constants.authorUserAuthor.lastName, objResponse.data.properties.last_name);
 		assert.equal(constants.authorUserAuthor.bio, objResponse.data.properties.bio);
+
+		// Tidy up
+		resetAuthors = true;
 	});
 
 	it("should update last_name of author", async () => {
@@ -321,6 +332,9 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 		assert.equal(constants.authorUserAuthor.firstName, objResponse.data.properties.first_name);
 		assert.equal(lastName, objResponse.data.properties.last_name);
 		assert.equal(constants.authorUserAuthor.bio, objResponse.data.properties.bio);
+
+		// Tidy up
+		resetAuthors = true;
 	});
 
 	it("should update bio of author", async () => {
@@ -378,6 +392,9 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 		assert.equal(constants.authorUserAuthor.firstName, objResponse.data.properties.first_name);
 		assert.equal(constants.authorUserAuthor.lastName, objResponse.data.properties.last_name);
 		assert.equal(bio, objResponse.data.properties.bio);
+
+		// Tidy up
+		resetAuthors = true;
 	});
 
 	it("should update all properties of author", async () => {
@@ -439,5 +456,8 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 		assert.equal(firstName, objResponse.data.properties.first_name);
 		assert.equal(lastName, objResponse.data.properties.last_name);
 		assert.equal(bio, objResponse.data.properties.bio);
+
+		// Tidy up
+		resetAuthors = true;
 	});
 });

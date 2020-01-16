@@ -5,7 +5,7 @@ var utils = require("../utils");
 
 const getAuthorOfUserEndpointUrl = `${constants.apiBaseUrl}/api/1/call/author`;
 
-beforeEach(async () => {
+before(async () => {
 	await utils.resetDatabase();
 });
 

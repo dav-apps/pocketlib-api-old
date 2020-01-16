@@ -4,9 +4,17 @@ var constants = require('../constants');
 var utils = require('../utils');
 
 const createAuthorEndpointUrl = `${constants.apiBaseUrl}/api/1/call/author`;
+var resetAuthors = false;
 
-beforeEach(async () => {
+before(async () => {
 	await utils.resetDatabase();
+});
+
+afterEach(async () => {
+	if(resetAuthors){
+		await utils.resetAuthors();
+		resetAuthors = false;
+	}
 });
 
 describe("CreateAuthor endpoint", async () => {
@@ -258,6 +266,9 @@ describe("CreateAuthor endpoint", async () => {
 		assert.equal(response.data.last_name, objResponse.data.properties.last_name);
 		assert.equal(null, objResponse.data.properties.bio);
 		assert.equal(null, objResponse.data.properties.collections);
+
+		// Tidy up
+		resetAuthors = true;
 	});
 
 	it("should create multiple authors if the user is an admin", async () => {
@@ -359,5 +370,8 @@ describe("CreateAuthor endpoint", async () => {
 		assert.equal(response2.data.last_name, objResponse2.data.properties.last_name);
 		assert.equal(null, objResponse2.data.properties.bio);
 		assert.equal(null, objResponse2.data.properties.collections);
+
+		// Tidy up
+		resetAuthors = true;
 	});
 });
