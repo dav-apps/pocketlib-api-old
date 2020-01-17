@@ -1,0 +1,22 @@
+(# params: collection_names_string: string)
+(var collection_names (list))
+
+(if (!(is_nil collection_names_string)) (
+	(# Get each name of the collection)
+	(var uuids (collection_names_string.split ","))
+	
+	(for uuid in uuids (
+		(var name (func get_store_book_collection_name_table_object (uuid)))
+
+		(if (!(is_nil name)) (
+			(collection_names.push (hash (name name.properties.name) (language name.properties.language)))
+			(up collection_names)
+		))
+
+		(up collection_names)
+	))
+
+	(up collection_names)
+))
+
+(return collection_names)
