@@ -27,7 +27,7 @@
 
 	(for author in author_objects (
 		(# Get the collections of the author)
-		(var collections (func get_collections (author.properties.collections)))
+		(var collections (func get_collections_by_string (author.properties.collections)))
 
 		(authors.push (hash
 			(uuid author.uuid)
@@ -47,7 +47,7 @@
 
 	(# Get the collections of the author)
 	(# var collections_string author.properties.collections)
-	(var collections (func get_collections (author.properties.collections)))
+	(var collections (func get_collections_by_string (author.properties.collections)))
 
 	(# Render the result)
 	(render_json (hash

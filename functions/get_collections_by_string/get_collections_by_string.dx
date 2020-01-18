@@ -1,0 +1,25 @@
+(# params: collections_string: string)
+(var collections (list))
+
+(if (!(is_nil collections_string)) (
+	(# Get each collection)
+	(var collection_uuids (collections_string.split ","))
+
+	(for uuid in collection_uuids (
+		(var collection (func get_store_book_collection_table_object (uuid)))
+
+		(if (!(is_nil collection)) (
+			(# Get the names of the collection)
+			(var names (func get_collection_names_by_string (collection.properties.names)))
+
+			(collections.push (hash (uuid collection.uuid) (names names)))
+			(up collections)
+		))
+
+		(up collections)
+	))
+
+	(up collections)
+))
+
+(return collections)

@@ -1,0 +1,6 @@
+{
+	"type": "function",
+	"name": "get_collections_by_string",
+	"params": ["collections_string"],
+	"source": "./get_collections_by_string.dx"
+}

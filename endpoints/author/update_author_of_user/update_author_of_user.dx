@@ -63,7 +63,7 @@
 (if (!(is_nil bio)) (var author.properties.bio bio))
 
 (# Get the collections)
-(var collections (func get_collections (author.properties.collections)))
+(var collections (func get_collections_by_string (author.properties.collections)))
 
 (# Render the result)
 (render_json (hash
