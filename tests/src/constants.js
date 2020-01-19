@@ -65,6 +65,11 @@ module.exports = {
 						uuid: "9c2f12ad-0e94-4379-a0d6-7e087380bf5b",
 						name: "A Series of Unfortunate Events - Book the Second",
 						language: "en"
+					},
+					{
+						uuid: "25060c42-e7bf-4187-9712-0a94c51d497c",
+						name: "Eine Reihe betrüblicher Ereignisse - Das Haus der Schlangen",
+						language: "de"
 					}
 				],
 				books: [
@@ -72,8 +77,15 @@ module.exports = {
 						uuid: "5242102c-b107-4e82-8eb8-bebe2a990436",
 						title: "A Series of Unfortunate Events - Book the Second",
 						description: "Dear Reader, if you have picked up this book with the hope of finding a simple and cheery tale, I'm afraid you have picked up the wrong book altogether.",
-						language: "de",
+						language: "en",
 						status: "unpublished"
+					},
+					{
+						uuid: "617833c8-4d0a-4d78-acd0-306a90e346ba",
+						title: "Eine Reihe betrüblicher Ereignisse - Das Haus der Schlangen",
+						description: "Lieber Leser, wenn du dieses Buch zur Hand genommen hast in der Hoffnung, darin Zerstreuung und Vergnügen zu finden, dann liegst du leider völlig falsch.",
+						language: "de",
+						status: "published"
 					}
 				]
 			}
@@ -105,10 +117,29 @@ module.exports = {
 						},
 						{
 							uuid: "5aa1c310-cbc6-48b4-9000-63315e713d25",
+							title: "1984",
+							description: "Orwells Roman über die Zerstörung des Menschen durch eine perfekte Staatsmaschinerie ist längst zu einer scheinbar nicht mehr erklärungsbedürftigen Metapher für totalitäre Verhältnisse geworden.",
+							language: "de",
+							status: "review"
+						}
+					]
+				},
+				{
+					uuid: "21a9045f-4148-4e21-a701-8d19dd865d17",
+					names: [
+						{
+							uuid: "5d8ebd0d-9e62-42bb-8565-963cbb6499d7",
+							name: "Animal Farm",
+							language: "en"
+						}
+					],
+					books: [
+						{
+							uuid: "13836f22-040f-4efd-9f30-9202184b23bf",
 							title: "Animal Farm",
 							description: "Animal Farm is an allegorical novella by George Orwell, first published in England on 17 August 1945. The book tells the story of a group of farm animals who rebel against their human farmer, hoping to create a society where the animals can be equal, free, and happy.",
 							language: "en",
-							status: "unpublished"
+							status: "published"
 						}
 					]
 				}
