@@ -36,7 +36,7 @@
 
 (# Check if the user can access not published books)
 (var can_access ((status == "published") or (
-	(is_admin or author.user_id == decoded_jwt.user_id)
+	(is_admin or (author.user_id == decoded_jwt.user_id))
 )))
 
 (# Get the store books of the collection)
@@ -49,10 +49,13 @@
 	(for store_book in store_books (
 		(if (store_book.status == "published") (
 			(new_store_books.push store_book)
+			(up new_store_books)
 		))
+		(up new_store_books)
 	))
 
 	(var store_books new_store_books)
+	(up store_books)
 ))
 
 (# Render the result)
