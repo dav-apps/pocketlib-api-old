@@ -57,7 +57,7 @@
 	(func render_no_file ())
 ))
 
-(var file (TableObject.get_file store_book.properties.file))
+(var file (func get_table_object_file (store_book.properties.file)))
 
 (# Return the content of the file)
 (render_file file file_obj.properties.type (store_book.properties.title + "." + file_obj.properties.ext) 200)

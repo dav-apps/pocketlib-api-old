@@ -60,7 +60,7 @@
 	(func render_no_cover ())
 ))
 
-(var cover_file (TableObject.get_file store_book.properties.cover))
+(var cover_file (func get_table_object_file (store_book.properties.cover)))
 
 (# Return the content of the file)
 (render_file cover_file cover.properties.type (store_book.properties.title + "." + cover.properties.ext) 200)
