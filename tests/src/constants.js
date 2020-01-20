@@ -2,11 +2,12 @@ module.exports = {
 	apiBaseUrl: "http://localhost:3111/v1",
 	pocketlibAppId: 6,
 	authorTableId: 19,
-	storeBookCollectionTableId: 20,
-	storeBookCollectionNameTableId: 21,
-	storeBookTableId: 22,
-	storeBookCoverTableId: 23,
-	storeBookFileTableId: 24,
+	authorProfileImageTableId: 20,
+	storeBookCollectionTableId: 21,
+	storeBookCollectionNameTableId: 22,
+	storeBookTableId: 23,
+	storeBookCoverTableId: 24,
+	storeBookFileTableId: 25,
 	// User id: 5, Dev id: 2, App id: 3 (davClassLibraryTestApp)
 	davClassLibraryTestUserTestAppJWT: "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImRhdmNsYXNzbGlicmFyeXRlc3RAZGF2LWFwcHMudGVjaCIsInVzZXJfaWQiOjUsImRldl9pZCI6MiwiZXhwIjozNzU2MTA1MDAyMn0.jZpdLre_ZMWGN2VNbZOn2Xg51RLAT6ocGnyM38jljHI.1",
 	// User id: 6, Dev id: 1, App id: 6 (PocketLib)
