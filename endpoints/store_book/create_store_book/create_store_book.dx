@@ -67,7 +67,7 @@
 (var author authors#0)
 
 (# Get the collection)
-(var collection_obj (func get_store_book_collection_table_object (collection)))
+(var collection_obj (func get_table_object (collection env.STORE_BOOK_COLLECTION_TABLE_ID)))
 
 (if (is_nil collection_obj) (
 	(# Collection does not exist)

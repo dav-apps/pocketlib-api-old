@@ -55,7 +55,7 @@
 
 (if is_admin (
 	(catch (
-		(var author_obj (TableObject.get author))
+		(var author_obj (func get_table_object (author env.AUTHOR_TABLE_ID)))
 	) (
 		(# Action not allowed)
 		(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))

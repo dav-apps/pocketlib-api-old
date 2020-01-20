@@ -1,19 +1,19 @@
-(# params: uuid: string)
+(# params: uuid: string, table_id: int)
 (catch (
-	(var author (TableObject.get uuid))
+	(var obj (TableObject.get uuid))
 ) (
 	(# Access not allowed)
 	(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
 ))
 
-(if (is_nil author) (
+(if (is_nil obj) (
 	(return nil)
 ) else (
-	(# Check if the table object is an author)
-	(if (author.table_id != env.AUTHOR_TABLE_ID) (
+	(# Check if the table object belongs to the given table)
+	(if (obj.table_id != table_id) (
 		(# Action not allowed)
 		(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
 	))
 
-	(return author)
+	(return obj)
 ))

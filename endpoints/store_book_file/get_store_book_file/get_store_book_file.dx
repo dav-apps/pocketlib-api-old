@@ -16,7 +16,7 @@
 (var is_admin (env.ADMINS.contains decoded_jwt.user_id))
 
 (# Get the store book)
-(var store_book (func get_store_book_table_object (uuid)))
+(var store_book (func get_table_object (uuid env.STORE_BOOK_TABLE_ID)))
 
 (if (is_nil store_book) (
 	(# Render Resource does not exist: StoreBook)
@@ -29,10 +29,10 @@
 (# Check if the user can access the store book file)
 (if (!(is_admin or ((status != "published") and (
 	(# Get the collection of the store book)
-	(var collection (func get_store_book_collection_table_object (store_book.properties.collection)))
+	(var collection (func get_table_object (store_book.properties.collection env.STORE_BOOK_COLLECTION_TABLE_ID)))
 
 	(# Get the author of the collection)
-	(var author (func get_author_table_object (collection.properties.author)))
+	(var author (func get_table_object (collection.properties.author env.AUTHOR_TABLE_ID)))
 
 	(decoded_jwt.user_id == author.user_id)
 )))) (
@@ -51,7 +51,7 @@
 ))
 
 (# Get the file)
-(var file_obj (TableObject.get store_book.properties.file))
+(var file_obj (func get_table_object (store_book.properties.file env.STORE_BOOK_FILE_TABLE_ID)))
 
 (if (is_nil file_obj) (
 	(func render_no_file ())

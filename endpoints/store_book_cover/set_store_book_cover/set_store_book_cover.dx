@@ -21,7 +21,7 @@
 )))
 
 (# Get the store book)
-(var store_book (func get_store_book_table_object (uuid)))
+(var store_book (func get_table_object (uuid env.STORE_BOOK_TABLE_ID)))
 
 (if (is_nil store_book) (
 	(# StoreBook does not exist)
@@ -29,7 +29,7 @@
 ))
 
 (# Get the collection of the store book)
-(var collection (func get_store_book_collection_table_object (store_book.properties.collection)))
+(var collection (func get_table_object (store_book.properties.collection env.STORE_BOOK_COLLECTION_TABLE_ID)))
 
 (if (is_nil collection) (
 	(# Collection does not exist)
@@ -37,7 +37,7 @@
 ))
 
 (# Get the author of the collection)
-(var author (func get_author_table_object (collection.properties.author)))
+(var author (func get_table_object (collection.properties.author env.AUTHOR_TABLE_ID)))
 
 (if (is_nil author) (
 	(# Resource does not exist: Author)
@@ -72,7 +72,7 @@
 	(func create_cover ())
 ) else (
 	(# Try to get the cover table object)
-	(var cover (TableObject.get cover_uuid))
+	(var cover (func get_table_object (cover_uuid env.STORE_BOOK_COVER_TABLE_ID)))
 
 	(if (is_nil cover) (
 		(# Create the cover)
@@ -83,5 +83,5 @@
 	))
 ))
 
-(var cover (TableObject.get store_book.properties.cover))
+(var cover (func get_table_object (store_book.properties.cover env.STORE_BOOK_COVER_TABLE_ID)))
 (render_json (hash) 200)

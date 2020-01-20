@@ -6,7 +6,7 @@
 	(var collection_uuids (collections_string.split ","))
 
 	(for uuid in collection_uuids (
-		(var collection (func get_store_book_collection_table_object (uuid)))
+		(var collection (func get_table_object (uuid env.STORE_BOOK_COLLECTION_TABLE_ID)))
 
 		(if (!(is_nil collection)) (
 			(# Get the names of the collection)
