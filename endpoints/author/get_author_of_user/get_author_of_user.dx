@@ -36,8 +36,6 @@
 			(bio author.properties.bio)
 			(collections collections)
 		))
-
-		(up authors)
 	))
 
 	(# Render the result)

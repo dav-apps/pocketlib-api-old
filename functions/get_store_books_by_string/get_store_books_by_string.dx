@@ -21,14 +21,8 @@
 				(cover (!(is_nil store_book.properties.cover)))
 				(file (!(is_nil store_book.properties.file)))
 			))
-
-			(up store_books)
 		))
-
-		(up store_books)
 	))
-
-	(up store_books)
 ))
 
 (return store_books)

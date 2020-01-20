@@ -1,7 +1,6 @@
 (# params: uuid: string)
 (catch (
 	(var author (TableObject.get uuid))
-	(up author)
 ) (
 	(# Access not allowed)
 	(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))

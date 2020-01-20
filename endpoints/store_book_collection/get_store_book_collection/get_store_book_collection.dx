@@ -49,13 +49,10 @@
 	(for store_book in store_books (
 		(if (store_book.status == "published") (
 			(new_store_books.push store_book)
-			(up new_store_books)
 		))
-		(up new_store_books)
 	))
 
 	(var store_books new_store_books)
-	(up store_books)
 ))
 
 (# Render the result)

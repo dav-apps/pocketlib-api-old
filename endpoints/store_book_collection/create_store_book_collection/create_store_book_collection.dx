@@ -56,7 +56,6 @@
 (if is_admin (
 	(catch (
 		(var author_obj (TableObject.get author))
-		(up author_obj)
 	) (
 		(# Action not allowed)
 		(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
@@ -66,8 +65,6 @@
 		(# Author does not exist)
 		(func render_validation_errors ((list (hash (error (get_error 2802)) (status 404)))))
 	))
-	
-	(up author_obj)
 ) else (
 	(var authors (func get_author_table_objects (decoded_jwt.user_id)))
 
@@ -77,7 +74,6 @@
 	))
 
 	(var author_obj authors#0)
-	(up author_obj)
 ))
 
 (# Create the collection name)

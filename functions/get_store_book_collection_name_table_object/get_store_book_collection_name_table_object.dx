@@ -1,7 +1,6 @@
 (# params: uuid: string)
 (catch (
 	(var collection_name (TableObject.get uuid))
-	(up collection_name)
 ) (
 	(# Access not allowed)
 	(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))

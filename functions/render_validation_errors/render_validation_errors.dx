@@ -3,7 +3,6 @@
 (var errors (list))
 (for validation in validations (
 	(errors.push (hash (code validation.error.code) (message validation.error.message)))
-	(up errors)
 ))
 
 (if (errors.length > 0) (

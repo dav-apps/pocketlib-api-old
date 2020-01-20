@@ -13,13 +13,8 @@
 			(var names (func get_collection_names_by_string (collection.properties.names)))
 
 			(collections.push (hash (uuid collection.uuid) (names names)))
-			(up collections)
 		))
-
-		(up collections)
 	))
-
-	(up collections)
 ))
 
 (return collections)

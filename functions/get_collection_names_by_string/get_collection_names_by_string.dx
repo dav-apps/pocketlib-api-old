@@ -10,13 +10,8 @@
 
 		(if (!(is_nil name)) (
 			(collection_names.push (hash (name name.properties.name) (language name.properties.language)))
-			(up collection_names)
 		))
-
-		(up collection_names)
 	))
-
-	(up collection_names)
 ))
 
 (return collection_names)
