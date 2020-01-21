@@ -1,0 +1,6 @@
+{
+	"type": "function",
+	"name": "update_author_profile_image_table_object",
+	"params": ["uuid", "type", "file"],
+	"source": "./update_author_profile_image_table_object.dx"
+}

@@ -61,5 +61,6 @@
 	(first_name first_name) 
 	(last_name last_name) 
 	(bio nil)
+	(profile_image false)
 	(collections (list))
 ) 201)
