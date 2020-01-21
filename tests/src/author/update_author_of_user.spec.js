@@ -242,6 +242,7 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 		assert.equal(firstName, response.data.first_name);
 		assert.equal(constants.authorUserAuthor.lastName, response.data.last_name);
 		assert.equal(constants.authorUserAuthor.bio, response.data.bio);
+		assert.equal(true, response.data.profile_image);
 		assert.equal(constants.authorUserAuthor.collections.length, response.data.collections.length);
 
 		for(let i = 0; i < constants.authorUserAuthor.collections.length; i++){
@@ -302,6 +303,7 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 		assert.equal(constants.authorUserAuthor.firstName, response.data.first_name);
 		assert.equal(lastName, response.data.last_name);
 		assert.equal(constants.authorUserAuthor.bio, response.data.bio);
+		assert.equal(true, response.data.profile_image);
 		assert.equal(constants.authorUserAuthor.collections.length, response.data.collections.length);
 
 		for(let i = 0; i < constants.authorUserAuthor.collections.length; i++){
@@ -362,6 +364,7 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 		assert.equal(constants.authorUserAuthor.firstName, response.data.first_name);
 		assert.equal(constants.authorUserAuthor.lastName, response.data.last_name);
 		assert.equal(bio, response.data.bio);
+		assert.equal(true, response.data.profile_image);
 		assert.equal(constants.authorUserAuthor.collections.length, response.data.collections.length);
 
 		for(let i = 0; i < constants.authorUserAuthor.collections.length; i++){
@@ -426,6 +429,7 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 		assert.equal(firstName, response.data.first_name);
 		assert.equal(lastName, response.data.last_name);
 		assert.equal(bio, response.data.bio);
+		assert.equal(true, response.data.profile_image);
 		assert.equal(constants.authorUserAuthor.collections.length, response.data.collections.length);
 
 		for(let i = 0; i < constants.authorUserAuthor.collections.length; i++){

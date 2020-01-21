@@ -103,6 +103,7 @@ describe("GetAuthorOfUser endpoint", () => {
 		assert.equal(constants.authorUserAuthor.firstName, response.data.first_name);
 		assert.equal(constants.authorUserAuthor.lastName, response.data.last_name);
 		assert.equal(constants.authorUserAuthor.bio, response.data.bio);
+		assert.equal(true, response.data.profile_image);
 		assert.equal(constants.authorUserAuthor.collections.length, response.data.collections.length);
 
 		for(let i = 0; i < constants.authorUserAuthor.collections.length; i++){
@@ -146,6 +147,7 @@ describe("GetAuthorOfUser endpoint", () => {
 			assert.equal(author.firstName, responseAuthor.first_name);
 			assert.equal(author.lastName, responseAuthor.last_name);
 			assert.equal(author.bio, responseAuthor.bio);
+			assert.equal(author.profileImage != null, responseAuthor.profile_image);
 			assert.equal(author.collections.length, responseAuthor.collections.length);
 
 			for(let j = 0; j < author.collections.length; j++){

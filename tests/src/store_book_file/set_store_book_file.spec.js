@@ -57,6 +57,26 @@ describe("SetStoreBookFile endpoint", () => {
 		assert.fail();
 	});
 
+	it("should not set store book file if jwt is for another app", async () => {
+		try{
+			await axios.default({
+				method: 'put',
+				url: setStoreBookFileEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[0].uuid),
+				headers: {
+					Authorization: constants.davClassLibraryTestUserTestAppJWT,
+					'Content-Type': 'application/epub+zip'
+				}
+			});
+		}catch(error){
+			assert.equal(403, error.response.status);
+			assert.equal(1, error.response.data.errors.length);
+			assert.equal(1102, error.response.data.errors[0].code);
+			return;
+		}
+
+		assert.fail();
+	});
+
 	it("should not set store book file without supported ebook content type", async () => {
 		try{
 			await axios.default({
@@ -186,9 +206,8 @@ describe("SetStoreBookFile endpoint", () => {
 		}
 
 		// The store book should now have a file
-		assert(getStoreBookObjResponse2.data.properties.file != null);
-
 		let fileUuid = getStoreBookObjResponse2.data.properties.file;
+		assert(fileUuid != null);
 
 		// Get the file table object file (1)
 		let getFileFileObjResponse;
