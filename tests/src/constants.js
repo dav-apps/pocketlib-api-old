@@ -21,6 +21,9 @@ module.exports = {
 		firstName: "Lemony",
 		lastName: "Snicket",
 		bio: "Dear reader, I'm sorry to tell you that I wrote some very unpleasant tales that you definitely should not read, if you want to further live a healthy life.",
+		profileImage: {
+			uuid: "14e5ad81-3105-4cbc-85c8-4ffeec1c3812"
+		},
 		collections: [
 			{
 				uuid: "2cfe3d1a-2853-4e5c-9261-1942a9c5ddd9",
@@ -98,6 +101,9 @@ module.exports = {
 			firstName: "George",
 			lastName: "Orwell",
 			bio: "Eric Arthur Blair, better known by his pen name George Orwell, was an English novelist and essayist, journalist and critic. His work is characterised by lucid prose, awareness of social injustice, opposition to totalitarianism, and outspoken support of democratic socialism.",
+			profileImage: {
+				uuid: "df45f27f-8ecb-41b0-864f-bb76669279f5"
+			},
 			collections: [
 				{
 					uuid: "921b2d9f-5565-442f-95c0-1658ee57146b",

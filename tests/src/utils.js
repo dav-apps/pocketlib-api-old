@@ -3,6 +3,7 @@ var constants = require('./constants');
 
 async function resetDatabase(){
 	await resetAuthors();
+	await resetAuthorProfileImages();
 	await resetStoreBookCollections();
 	await resetStoreBookCollectionNames();
 	await resetStoreBooks();
@@ -14,9 +15,18 @@ async function resetAuthors(){
 	// Delete Authors
 	await deleteTableObjectsOfTable(constants.davClassLibraryTestUserJWT, constants.authorTableId);
 
-	// Reset the Author of author user
+	// Reset the Authors of users with authors
 	await resetAuthorUserAuthor();
 	await resetDavUserAuthors();
+}
+
+async function resetAuthorProfileImages(){
+	// Delete AuthorProfileImages
+	await deleteTableObjectsOfTable(constants.davClassLibraryTestUserJWT, constants.authorProfileImageTableId);
+
+	// Reset the AuthorProfileImages of users with authors
+	await resetAuthorUserAuthorProfileImages();
+	await resetDavUserAuthorProfileImages();
 }
 
 async function resetStoreBookCollections(){
@@ -147,6 +157,121 @@ async function resetDavUserAuthors(){
 
 		// Delete the author
 		await deleteTableObject(author.uuid, constants.davUserJWT);
+	}
+}
+
+async function resetAuthorUserAuthorProfileImages(){
+	// Get the profile image table
+	let profileImages = [];
+	let testDatabaseProfileImageUuid = constants.authorUserAuthor.profileImage.uuid;
+
+	try{
+		let response = await axios.default({
+			method: 'get',
+			url: `${constants.apiBaseUrl}/apps/table/${constants.authorProfileImageTableId}`,
+			headers: {
+				Authorization: constants.authorUserJWT
+			}
+		});
+
+		profileImages = response.data.table_objects;
+	}catch(error){
+		console.log("Error in getting the author profile image table");
+		console.log(error.response.data);
+	}
+
+	// Delete each profile image that is not part of the test database
+	for(let profileImage of profileImages){
+		if(profileImage.uuid != testDatabaseProfileImageUuid){
+			// Delete the profile image
+			await deleteTableObject(profileImage.uuid, constants.authorUserJWT);
+		}
+	}
+
+	// Create the profile image of the test database if it does not exist
+	if(profileImages.includes(testDatabaseProfileImageUuid)){
+		try{
+			await axios.default({
+				method: 'post',
+				url: `${constants.apiBaseUrl}/apps/object`,
+				params: {
+					uuid: testDatabaseProfileImageUuid,
+					table_id: constants.authorProfileImageTableId,
+					app_id: constants.pocketlibAppId,
+					ext: "png"
+				},
+				headers: {
+					Authorization: constants.authorUserJWT,
+					'Content-Type': 'image/png'
+				},
+				data: "Hello World"
+			});
+		}catch(error){
+			console.log("Error in creating profile image");
+			console.log(error.response.data);
+		}
+	}
+}
+
+async function resetDavUserAuthorProfileImages(){
+	// Get the profile image table
+	let profileImages = [];
+	let testDatabaseProfileImages = [];
+
+	try{
+		let response = await axios.default({
+			method: 'get',
+			url: `${constants.apiBaseUrl}/apps/table/${constants.authorProfileImageTableId}`,
+			headers: {
+				Authorization: constants.davUserJWT
+			}
+		});
+
+		profileImages = response.data.table_objects;
+	}catch(error){
+		console.log("Error in getting the author profile image table");
+		console.log(error.response.data);
+	}
+
+	// Get all profile images of the test database
+	for(let author of constants.davUserAuthors){
+		profileImages.push(author.uuid);
+	}
+
+	// Delete each profile image that is not part of the test database
+	for(let profileImage of profileImages){
+		let i = testDatabaseProfileImages.indexOf(profileImage.uuid);
+
+		if(i != 0){
+			testDatabaseProfileImages.splice(i, 1);
+		}else{
+			// Delete the profile image
+			await deleteTableObject(profileImage.uuid, constants.davUserJWT);
+		}
+	}
+
+	// Create each missing profile image of the test database
+	for(let profileImage of testDatabaseProfileImages){
+		try{
+			await axios.default({
+				method: 'post',
+				url: `${constants.apiBaseUrl}/apps/object`,
+				params: {
+					uuid: profileImage.uuid,
+					table_id: constants.authorProfileImageTableId,
+					app_id: constants.pocketlibAppId,
+					ext: "png"
+				},
+				headers: {
+					Authorization: constants.davUserJWT,
+					'Content-Type': 'image/png'
+				},
+				data: "Hello World"
+			});
+		}catch(error){
+			console.log("Error in creating profile image");
+			console.log(error.response.data);
+		}
 	}
 }
 
@@ -514,12 +639,11 @@ async function resetDavUserStoreBooks(){
 
 async function resetAuthorUserStoreBookCovers(){
 	// Get the cover table
-	let response;
 	let covers = [];
 	let testDatabaseCovers = [];
 
 	try{
-		response = await axios.default({
+		let response = await axios.default({
 			method: 'get',
 			url: `${constants.apiBaseUrl}/apps/table/${constants.storeBookCoverTableId}`,
 			headers: {
@@ -579,12 +703,11 @@ async function resetAuthorUserStoreBookCovers(){
 
 async function resetAuthorUserStoreBookFiles(){
 	// Get the file table
-	let response;
 	let files = [];
 	let testDatabaseFiles = [];
 
 	try{
-		response = await axios.default({
+		let response = await axios.default({
 			method: 'get',
 			url: `${constants.apiBaseUrl}/apps/table/${constants.storeBookFileTableId}`,
 			headers: {
@@ -696,6 +819,7 @@ async function getTableObject(uuid, jwt){
 module.exports = {
 	resetDatabase,
 	resetAuthors,
+	resetAuthorProfileImages,
 	resetStoreBookCollections,
 	resetStoreBookCollectionNames,
 	resetStoreBooks,
