@@ -25,7 +25,7 @@
 
 (if (is_nil store_book) (
 	(# Render Resource does not exist: StoreBook)
-	(func render_validation_errors ((list (hash (error (get_error 2805)) (status 404)))))
+	(func render_validation_errors ((list (hash (error (get_error 2806)) (status 404)))))
 ))
 
 (# Get the collection of the store book)
@@ -33,7 +33,7 @@
 
 (if (is_nil collection) (
 	(# Collection does not exist)
-	(func render_validation_errors ((list (hash (error (get_error 2803)) (status 404)))))
+	(func render_validation_errors ((list (hash (error (get_error 2804)) (status 404)))))
 ))
 
 (# Get the author of the collection)

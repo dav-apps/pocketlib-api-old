@@ -55,10 +55,11 @@
 
 		{"code": 2801, "message": "Resource does not exist: Session"},
 		{"code": 2802, "message": "Resource does not exist: Author"},
-		{"code": 2803, "message": "Resource does not exist: StoreBookCollection"},
-		{"code": 2804, "message": "Resource does not exist: StoreBookCollectionName"},
-		{"code": 2805, "message": "Resource does not exist: StoreBook"},
-		{"code": 2806, "message": "Resource does not exist: StoreBookCover"},
-		{"code": 2807, "message": "Resource does not exist: StoreBookFile"}
+		{"code": 2803, "message": "Resource does not exist: AuthorProfileImage"},
+		{"code": 2804, "message": "Resource does not exist: StoreBookCollection"},
+		{"code": 2805, "message": "Resource does not exist: StoreBookCollectionName"},
+		{"code": 2806, "message": "Resource does not exist: StoreBook"},
+		{"code": 2807, "message": "Resource does not exist: StoreBookCover"},
+		{"code": 2808, "message": "Resource does not exist: StoreBookFile"}
 	]
 }

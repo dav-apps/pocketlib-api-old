@@ -93,7 +93,7 @@ describe("UpdateStoreBook endpoint", () => {
 		}catch(error){
 			assert.equal(404, error.response.status);
 			assert.equal(1, error.response.data.errors.length);
-			assert.equal(2805, error.response.data.errors[0].code);
+			assert.equal(2806, error.response.data.errors[0].code);
 			return;
 		}
 
