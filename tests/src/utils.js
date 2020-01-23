@@ -92,6 +92,7 @@ async function resetAuthorUserAuthor(){
 				first_name: constants.authorUserAuthor.firstName,
 				last_name: constants.authorUserAuthor.lastName,
 				bio: constants.authorUserAuthor.bio,
+				profile_image: constants.authorUserAuthor.profileImage.uuid,
 				collections: collections.join(',')
 			}
 		});
@@ -123,6 +124,7 @@ async function resetDavUserAuthors(){
 					first_name: author.firstName,
 					last_name: author.lastName,
 					bio: author.bio,
+					profile_image: author.profileImage ? author.profileImage.uuid : "",
 					collections: collections.join(',')
 				}
 			});
