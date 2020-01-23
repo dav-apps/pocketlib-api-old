@@ -1,0 +1,46 @@
+(# Get the jwt)
+(var jwt (get_header Authorization))
+(func render_validation_errors ((list
+	(func validate_jwt_missing (jwt))
+)))
+
+(# Decode the jwt)
+(var decoded_jwt (func decode_jwt (jwt)))
+
+(# Validate the dev)
+(func render_validation_errors ((list
+	(func validate_dev_is_pocketlib_dev (decoded_jwt.dev_id))
+)))
+
+(# Get the author)
+(var author (func get_table_object (uuid env.AUTHOR_TABLE_ID)))
+
+(if (is_nil author) (
+	(func render_validation_errors ((list (hash (error (get_error 2802)) (status 404)))))
+))
+
+(# Define function for rendering no profile image error)
+(def render_no_profile_image () (
+	(func render_validation_errors ((list (hash (error (get_error 2803)) (status 404)))))
+))
+
+(# Get the profile image table object of the author)
+(var profile_image_uuid author.properties.profile_image)
+
+(if (is_nil profile_image_uuid) (
+	(# Profile image does not exist)
+	(func render_no_profile_image ())
+))
+
+(# Get the profile image table object)
+(var profile_image (func get_table_object (profile_image_uuid env.AUTHOR_PROFILE_IMAGE_TABLE_ID)))
+
+(if (is_nil profile_image) (
+	(func render_no_profile_image ())
+))
+
+(# Get the profile image file)
+(var profile_image_file (func get_table_object_file (profile_image_uuid)))
+
+(# Return the content of the file)
+(render_file profile_image_file profile_image.properties.type (author.properties.first_name + " " + author.properties.last_name + "." + profile_image.properties.ext) 200)
