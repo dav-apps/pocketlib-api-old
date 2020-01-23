@@ -83,5 +83,4 @@
 	))
 ))
 
-(var cover (func get_table_object (store_book.properties.cover env.STORE_BOOK_COVER_TABLE_ID)))
 (render_json (hash) 200)

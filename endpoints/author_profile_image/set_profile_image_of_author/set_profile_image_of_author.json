@@ -1,0 +1,6 @@
+{
+	"type": "endpoint",
+	"path": "author/:uuid/profile_image",
+	"method": "PUT",
+	"source": "./set_profile_image_of_author.dx"
+}
