@@ -32,7 +32,7 @@
 ))
 
 (# Get the names of the collection)
-(var names (func get_collection_names_by_string (collection.properties.names)))
+(var names (func get_collection_names_by_string (collection.properties.names false)))
 
 (# Check if the user can access not published books)
 (var can_access ((status == "published") or (

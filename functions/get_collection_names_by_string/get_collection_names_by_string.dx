@@ -1,4 +1,4 @@
-(# params: collection_names_string: string)
+(# params: collection_names_string: string, include_uuids: boolean)
 (var collection_names (list))
 
 (if (!(is_nil collection_names_string)) (
@@ -9,7 +9,13 @@
 		(var name (func get_table_object (uuid env.STORE_BOOK_COLLECTION_NAME_TABLE_ID)))
 
 		(if (!(is_nil name)) (
-			(collection_names.push (hash (name name.properties.name) (language name.properties.language)))
+			(var name_hash (hash (name name.properties.name) (language name.properties.language)))
+
+			(if include_uuids (
+				(var name_hash.uuid name.uuid)
+			))
+
+			(collection_names.push name_hash)
 		))
 	))
 ))
