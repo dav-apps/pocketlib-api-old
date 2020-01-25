@@ -1,5 +1,6 @@
 (# params: language: string)
-(if (!((language == "en") or (language == "de"))) (
+(var languages (list "en" "de" "fr"))
+(if (!(languages.contains language)) (
 	(# Language not supported)
 	(hash (error (get_error 1107)) (status 400))
 ))

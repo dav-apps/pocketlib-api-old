@@ -1,0 +1,6 @@
+{
+	"type": "function",
+	"name": "update_table_object",
+	"params": ["uuid", "properties"],
+	"source": "./update_table_object.dx"
+}
