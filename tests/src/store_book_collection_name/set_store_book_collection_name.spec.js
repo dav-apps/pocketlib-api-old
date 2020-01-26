@@ -189,7 +189,7 @@ describe("SetStoreBookCollectionName endpoint", () => {
 					'Content-Type': 'application/json'
 				},
 				data: {
-					name: "a".repeat(100)
+					name: "a".repeat(150)
 				}
 			});
 		}catch(error){

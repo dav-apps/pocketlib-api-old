@@ -242,7 +242,7 @@ describe("CreateStoreBook endpoint", () => {
 				},
 				data: {
 					collection: "a".repeat(220),
-					title: "a".repeat(100),
+					title: "a".repeat(150),
 					language: "en"
 				}
 			});
@@ -268,7 +268,7 @@ describe("CreateStoreBook endpoint", () => {
 				},
 				data: {
 					collection: "a".repeat(220),
-					title: "a".repeat(100),
+					title: "a".repeat(150),
 					description: "a".repeat(2010),
 					language: "de"
 				}

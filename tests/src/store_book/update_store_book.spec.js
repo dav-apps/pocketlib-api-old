@@ -184,7 +184,7 @@ describe("UpdateStoreBook endpoint", () => {
 					'Content-Type': 'application/json'
 				},
 				data: {
-					title: "a".repeat(100),
+					title: "a".repeat(150),
 					description: "a".repeat(2010)
 				}
 			});
