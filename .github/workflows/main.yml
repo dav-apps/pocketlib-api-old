@@ -12,7 +12,7 @@ jobs:
 
     steps:
     - name: Deploy the api to the dav Backend
-      uses: Dav2070/dav-api-deployment-action@master
+      uses: dav-apps/dav-api-deployment-action@master
       with:
         base-url: ${{ secrets.API_BASE_URL }}
         api-id: ${{ secrets.API_ID }}
