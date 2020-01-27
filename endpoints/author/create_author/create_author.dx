@@ -60,7 +60,7 @@
 	(uuid author.uuid) 
 	(first_name first_name) 
 	(last_name last_name) 
-	(bio nil)
+	(bios (list))
 	(profile_image false)
 	(collections (list))
 ) 201)
