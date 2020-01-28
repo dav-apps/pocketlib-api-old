@@ -21,10 +21,18 @@ module.exports = {
 		uuid: "099fbfa5-a6f1-41c1-99e9-0d02d8364f2d",
 		firstName: "Lemony",
 		lastName: "Snicket",
-		bio: "Dear reader, I'm sorry to tell you that I wrote some very unpleasant tales that you definitely should not read, if you want to further live a healthy life.",
-		profileImage: {
-			uuid: "14e5ad81-3105-4cbc-85c8-4ffeec1c3812"
-		},
+		bios: [
+			{
+				uuid: "0d13e998-1b34-46be-90af-76c401f10fe2",
+				bio: "Dear reader, I'm sorry to tell you that I wrote some very unpleasant tales that you definitely should not read, if you want to further live a healthy life.",
+				language: "en"
+			},
+			{
+				uuid: "51e8135e-7ba7-4d59-8f93-2eda6141dfc8",
+				bio: "Lieber Leser, es tut mir leid, dir sagen zu müssen, dass ich einige sehr unangenehme Geschichten geschrieben habe, die du auf keinen Fall lesen solltest, wenn du weiterhin ein gesundes Leben führen willst.",
+				language: "de"
+			}
+		],
 		collections: [
 			{
 				uuid: "2cfe3d1a-2853-4e5c-9261-1942a9c5ddd9",
@@ -94,17 +102,23 @@ module.exports = {
 					}
 				]
 			}
-		]
+		],
+		profileImage: {
+			uuid: "14e5ad81-3105-4cbc-85c8-4ffeec1c3812"
+		}
 	},
 	davUserAuthors: [
 		{
 			uuid: "622ad623-b9a4-415d-92ee-a66f8a7f3c51",
 			firstName: "George",
 			lastName: "Orwell",
-			bio: "Eric Arthur Blair, better known by his pen name George Orwell, was an English novelist and essayist, journalist and critic. His work is characterised by lucid prose, awareness of social injustice, opposition to totalitarianism, and outspoken support of democratic socialism.",
-			profileImage: {
-				uuid: "df45f27f-8ecb-41b0-864f-bb76669279f5"
-			},
+			bios: [
+				{
+					uuid: "8d394726-6398-4915-a042-33520f5f68cc",
+					bio: "Eric Arthur Blair, better known by his pen name George Orwell, was an English novelist and essayist, journalist and critic. His work is characterised by lucid prose, awareness of social injustice, opposition to totalitarianism, and outspoken support of democratic socialism.",
+					language: "en"
+				}
+			],
 			collections: [
 				{
 					uuid: "921b2d9f-5565-442f-95c0-1658ee57146b",
@@ -151,13 +165,22 @@ module.exports = {
 						}
 					]
 				}
-			]
+			],
+			profileImage: {
+				uuid: "df45f27f-8ecb-41b0-864f-bb76669279f5"
+			}
 		},
 		{
 			uuid: "1dd980fd-ae20-4566-b842-a25e241bfb46",
 			firstName: "Aldous",
 			lastName: "Huxley",
-			bio: "Aldous Leonard Huxley was an English writer and philosopher. He wrote nearly fifty books — both novels and non-fiction works — as well as wide-ranging essays, narratives, and poems.",
+			bios: [
+				{
+					uuid: "cd940d1d-4006-4aff-a680-0cfa58ed63f1",
+					bio: "Aldous Leonard Huxley was an English writer and philosopher. He wrote nearly fifty books — both novels and non-fiction works — as well as wide-ranging essays, narratives, and poems.",
+					language: "en"
+				}
+			],
 			collections: []
 		}
 	]

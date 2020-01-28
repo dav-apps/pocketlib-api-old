@@ -3,6 +3,7 @@ var constants = require('./constants');
 
 async function resetDatabase(){
 	await resetAuthors();
+	await resetAuthorBios();
 	await resetAuthorProfileImages();
 	await resetStoreBookCollections();
 	await resetStoreBookCollectionNames();
@@ -18,6 +19,15 @@ async function resetAuthors(){
 	// Reset the Authors of users with authors
 	await resetAuthorUserAuthor();
 	await resetDavUserAuthors();
+}
+
+async function resetAuthorBios(){
+	// Delete AuthorBios
+	await deleteTableObjectsOfTable(constants.davClassLibraryTestUserJWT, constants.authorBioTableId);
+
+	// Reset the AuthorBios of users with authors
+	await resetAuthorUserAuthorBios();
+	await resetDavUserAuthorBios();
 }
 
 async function resetAuthorProfileImages(){
@@ -80,6 +90,9 @@ async function resetAuthorUserAuthor(){
 	let collections = [];
 	constants.authorUserAuthor.collections.forEach(collection => collections.push(collection.uuid));
 
+	let bios = [];
+	constants.authorUserAuthor.bios.forEach(bio => bios.push(bio.uuid));
+
 	try{
 		await axios.default({
 			method: 'put',
@@ -91,9 +104,9 @@ async function resetAuthorUserAuthor(){
 			data: {
 				first_name: constants.authorUserAuthor.firstName,
 				last_name: constants.authorUserAuthor.lastName,
-				bio: constants.authorUserAuthor.bio,
-				profile_image: constants.authorUserAuthor.profileImage.uuid,
-				collections: collections.join(',')
+				bios: bios.join(','),
+				collections: collections.join(','),
+				profile_image: constants.authorUserAuthor.profileImage.uuid
 			}
 		});
 	}catch(error){
@@ -112,6 +125,9 @@ async function resetDavUserAuthors(){
 		let collections = [];
 		author.collections.forEach(collection => collections.push(collection.uuid));
 
+		let bios = [];
+		author.bios.forEach(bio => bios.push(bio.uuid));
+
 		try{
 			await axios.default({
 				method: 'put',
@@ -123,9 +139,9 @@ async function resetDavUserAuthors(){
 				data: {
 					first_name: author.firstName,
 					last_name: author.lastName,
-					bio: author.bio,
-					profile_image: author.profileImage ? author.profileImage.uuid : "",
-					collections: collections.join(',')
+					bios: bios.join(','),
+					collections: collections.join(','),
+					profile_image: author.profileImage ? author.profileImage.uuid : ""
 				}
 			});
 		}catch(error){
@@ -159,6 +175,116 @@ async function resetDavUserAuthors(){
 
 		// Delete the author
 		await deleteTableObject(author.uuid, constants.davUserJWT);
+	}
+}
+
+async function resetAuthorUserAuthorBios(){
+	let testDatabaseAuthorBios = [];
+
+	for(let authorBio of constants.authorUserAuthor.bios){
+		testDatabaseAuthorBios.push(authorBio.uuid);
+
+		// Reset the author bio
+		try{
+			await axios.default({
+				method: 'put',
+				url: `${constants.apiBaseUrl}/apps/object/${authorBio.uuid}`,
+				headers: {
+					Authorization: constants.authorUserJWT,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					bio: authorBio.bio,
+					language: authorBio.language
+				}
+			});
+		}catch(error){
+			console.log("Error in resetting an author bio");
+			console.log(error.response.data);
+		}
+	}
+
+	// Get the AuthorBio table
+	let response;
+	let authorBios = [];
+
+	try{
+		response = await axios.default({
+			method: 'get',
+			url: `${constants.apiBaseUrl}/apps/table/${constants.authorBioTableId}`,
+			headers: {
+				Authorization: constants.authorUserJWT
+			}
+		});
+
+		authorBios = response.data.table_objects;
+	}catch(error){
+		console.log("Error in getting the author bio table");
+		console.log(error.response.data);
+	}
+
+	// Delete each author bio that is not part of the test database
+	for(let authorBio of authorBios){
+		if(testDatabaseAuthorBios.includes(authorBio.uuid)) continue;
+
+		// Delete the author bio
+		await deleteTableObject(authorBio.uuid, constants.authorUserJWT);
+	}
+}
+
+async function resetDavUserAuthorBios(){
+	let testDatabaseAuthorBios = [];
+
+	for(let author of constants.davUserAuthors){
+		for(let authorBio of author.bios){
+			testDatabaseAuthorBios.push(authorBio.uuid);
+
+			// Reset the author bio
+			try{
+				await axios.default({
+					method: 'put',
+					url: `${constants.apiBaseUrl}/apps/object/${authorBio.uuid}`,
+					headers: {
+						Authorization: constants.davUserJWT,
+						'Content-Type': 'application/json'
+					},
+					data: {
+						bio: authorBio.bio,
+						language: authorBio.language
+					}
+				});
+			}catch(error){
+				console.log("Error in resetting an author bio");
+				console.log(error.response.data);
+			}
+		}
+	}
+
+	// Get the AuthorBio table
+	let response;
+	let authorBios = [];
+
+	try{
+		response = await axios.default({
+			method: 'get',
+			url: `${constants.apiBaseUrl}/apps/table/${constants.authorBioTableId}`,
+			headers: {
+				Authorization: constants.davUserJWT
+			}
+		});
+
+		authorBios = response.data.table_objects;
+	}catch(error){
+		console.log("Error in getting the author bio table");
+		console.log(error.response.data);
+	}
+
+	// Delete each author bio that is not part of the test database
+	for(let authorBio of authorBios){
+		if(testDatabaseAuthorBios.includes(authorBio.uuid)) continue;
+
+		// Delete the author bio
+		await deleteTableObject(authorBio.uuid, constants.davUserJWT);
 	}
 }
 
