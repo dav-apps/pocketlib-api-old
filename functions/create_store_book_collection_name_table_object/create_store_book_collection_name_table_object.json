@@ -1,6 +1,0 @@
-{
-	"type": "function",
-	"name": "create_store_book_collection_name_table_object",
-	"params": ["user_id", "properties"],
-	"source": "./create_store_book_collection_name_table_object.dx"
-}

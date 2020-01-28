@@ -53,7 +53,7 @@
 )))
 
 (# Create the author)
-(var author (func create_author_table_object (decoded_jwt.user_id (hash (first_name first_name) (last_name last_name)))))
+(var author (func create_table_object (decoded_jwt.user_id env.AUTHOR_TABLE_ID (hash (first_name first_name) (last_name last_name)))))
 
 (# Render the result)
 (render_json (hash 

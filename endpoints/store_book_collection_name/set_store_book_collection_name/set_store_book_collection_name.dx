@@ -66,7 +66,7 @@
 (# Get the names of the collection)
 (var names (func get_collection_names_by_string (collection.properties.names true)))
 
-(# Check if the name of the given language already exists)
+(# Check if the name in the given language already exists)
 (var name_uuid nil)
 (for collection_name in names (
 	(if (collection_name.language == language) (
@@ -76,8 +76,7 @@
 
 (if (is_nil name_uuid) (
 	(# Create a new name)
-	(var name_obj (func create_store_book_collection_name_table_object (decoded_jwt.user_id (hash (name name) (language language)))))
-	(var name_uuid name_obj.uuid)
+	(var name_obj (func create_table_object (decoded_jwt.user_id env.STORE_BOOK_COLLECTION_NAME_TABLE_ID (hash (name name) (language language)))))
 
 	(# Update the collection with the new name uuid)
 	(func add_name_to_collection (collection name_uuid))

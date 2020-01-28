@@ -1,0 +1,6 @@
+{
+	"type": "function",
+	"name": "create_table_object",
+	"params": ["user_id", "table_id", "properties"],
+	"source": "./create_table_object.dx"
+}
