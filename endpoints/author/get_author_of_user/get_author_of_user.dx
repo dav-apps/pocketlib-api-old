@@ -27,7 +27,7 @@
 
 	(for author in author_objects (
 		(# Get the bios of the author)
-		(var bios (func get_bios_by_string (author.properties.bios false)))
+		(var bios (func get_author_bios_by_string (author.properties.bios false)))
 
 		(# Get the collections of the author)
 		(var collections (func get_collections_by_string (author.properties.collections)))
@@ -48,7 +48,7 @@
 	(var author author_objects#0)
 
 	(# Get the bios of the author)
-	(var bios (func get_bios_by_string (author.properties.bios false)))
+	(var bios (func get_author_bios_by_string (author.properties.bios false)))
 
 	(# Get the collections of the author)
 	(var collections (func get_collections_by_string (author.properties.collections)))

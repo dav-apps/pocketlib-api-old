@@ -58,7 +58,7 @@
 (if (!(is_nil last_name)) (var author.properties.last_name last_name))
 
 (# Get the bios)
-(var bios (func get_bios_by_string (author.properties.bios false)))
+(var bios (func get_author_bios_by_string (author.properties.bios false)))
 
 (# Get the collections)
 (var collections (func get_collections_by_string (author.properties.collections)))
