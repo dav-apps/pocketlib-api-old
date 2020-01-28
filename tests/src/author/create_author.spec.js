@@ -245,8 +245,8 @@ describe("CreateAuthor endpoint", async () => {
 		assert.equal(firstName, response.data.first_name);
 		assert.equal(lastName, response.data.last_name);
 		assert.equal(0, response.data.bios.length);
-		assert.equal(false, response.data.profile_image);
 		assert.equal(0, response.data.collections.length);
+		assert.equal(false, response.data.profile_image);
 
 		// Check if the author was correctly created on the server
 		let objResponse;
@@ -266,8 +266,8 @@ describe("CreateAuthor endpoint", async () => {
 		assert.equal(response.data.first_name, objResponse.data.properties.first_name);
 		assert.equal(response.data.last_name, objResponse.data.properties.last_name);
 		assert.equal(null, objResponse.data.properties.bios);
-		assert.equal(null, objResponse.data.properties.profile_image);
 		assert.equal(null, objResponse.data.properties.collections);
+		assert.equal(null, objResponse.data.properties.profile_image);
 
 		// Tidy up
 		resetAuthors = true;
@@ -301,8 +301,8 @@ describe("CreateAuthor endpoint", async () => {
 		assert.equal(firstName1, response1.data.first_name);
 		assert.equal(lastName1, response1.data.last_name);
 		assert.equal(0, response1.data.bios.length);
-		assert.equal(false, response1.data.profile_image);
 		assert.equal(0, response1.data.collections.length);
+		assert.equal(false, response1.data.profile_image);
 
 		// Create second author for first user
 		let response2;
@@ -331,8 +331,8 @@ describe("CreateAuthor endpoint", async () => {
 		assert.equal(firstName2, response2.data.first_name)
 		assert.equal(lastName2, response2.data.last_name);
 		assert.equal(0, response2.data.bios.length);
-		assert.equal(false, response2.data.profile_image);
 		assert.equal(0, response2.data.collections.length);
+		assert.equal(false, response2.data.profile_image);
 
 		// Check if the authors were correctly created on the server
 		let objResponse1;
@@ -353,8 +353,8 @@ describe("CreateAuthor endpoint", async () => {
 		assert.equal(response1.data.first_name, objResponse1.data.properties.first_name);
 		assert.equal(response1.data.last_name, objResponse1.data.properties.last_name);
 		assert.equal(null, objResponse1.data.properties.bios);
-		assert.equal(null, objResponse1.data.properties.profile_image);
 		assert.equal(null, objResponse1.data.properties.collections);
+		assert.equal(null, objResponse1.data.properties.profile_image);
 
 		let objResponse2;
 
@@ -374,8 +374,8 @@ describe("CreateAuthor endpoint", async () => {
 		assert.equal(response2.data.first_name, objResponse2.data.properties.first_name);
 		assert.equal(response2.data.last_name, objResponse2.data.properties.last_name);
 		assert.equal(null, objResponse2.data.properties.bios);
-		assert.equal(null, objResponse2.data.properties.profile_image);
 		assert.equal(null, objResponse2.data.properties.collections);
+		assert.equal(null, objResponse2.data.properties.profile_image);
 
 		// Tidy up
 		resetAuthors = true;

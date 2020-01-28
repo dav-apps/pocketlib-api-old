@@ -102,9 +102,18 @@ describe("GetAuthorOfUser endpoint", () => {
 		assert.equal(constants.authorUserAuthor.uuid, response.data.uuid);
 		assert.equal(constants.authorUserAuthor.firstName, response.data.first_name);
 		assert.equal(constants.authorUserAuthor.lastName, response.data.last_name);
-		assert.equal(constants.authorUserAuthor.bio, response.data.bio);
-		assert.equal(true, response.data.profile_image);
+		assert.equal(constants.authorUserAuthor.bios.length, response.data.bios.length);
 		assert.equal(constants.authorUserAuthor.collections.length, response.data.collections.length);
+		assert.equal(true, response.data.profile_image);
+
+		for(let i = 0; i < constants.authorUserAuthor.bios.length; i++){
+			let bio = constants.authorUserAuthor.bios[i];
+			let responseBio = response.data.bios[i];
+
+			assert.equal(null, responseBio.uuid);
+			assert.equal(bio.bio, responseBio.bio);
+			assert.equal(bio.language, responseBio.language);
+		}
 
 		for(let i = 0; i < constants.authorUserAuthor.collections.length; i++){
 			let collection = constants.authorUserAuthor.collections[i];
@@ -146,9 +155,18 @@ describe("GetAuthorOfUser endpoint", () => {
 			assert.equal(author.uuid, responseAuthor.uuid);
 			assert.equal(author.firstName, responseAuthor.first_name);
 			assert.equal(author.lastName, responseAuthor.last_name);
-			assert.equal(author.bio, responseAuthor.bio);
-			assert.equal(author.profileImage != null, responseAuthor.profile_image);
+			assert.equal(author.bios.length, responseAuthor.bios.length);
 			assert.equal(author.collections.length, responseAuthor.collections.length);
+			assert.equal(author.profileImage != null, responseAuthor.profile_image);
+
+			for(let i = 0; i < author.bios.length; i++){
+				let bio = author.bios[i];
+				let responseBio = responseAuthor.bios[i];
+
+				assert.equal(null, responseBio.uuid);
+				assert.equal(bio.bio, responseBio.bio);
+				assert.equal(bio.language, responseBio.language);
+			}
 
 			for(let j = 0; j < author.collections.length; j++){
 				let collection = author.collections[j];
