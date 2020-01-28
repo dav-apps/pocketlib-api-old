@@ -26,6 +26,9 @@
 	(var authors (list))
 
 	(for author in author_objects (
+		(# Get the bios of the author)
+		(var bios (func get_bios_by_string (author.properties.bios false)))
+
 		(# Get the collections of the author)
 		(var collections (func get_collections_by_string (author.properties.collections)))
 
@@ -33,9 +36,9 @@
 			(uuid author.uuid)
 			(first_name author.properties.first_name)
 			(last_name author.properties.last_name)
-			(bio author.properties.bio)
-			(profile_image (!(is_nil author.properties.profile_image)))
+			(bios bios)
 			(collections collections)
+			(profile_image (!(is_nil author.properties.profile_image)))
 		))
 	))
 
@@ -44,8 +47,10 @@
 ) else (
 	(var author author_objects#0)
 
+	(# Get the bios of the author)
+	(var bios (func get_bios_by_string (author.properties.bios false)))
+
 	(# Get the collections of the author)
-	(# var collections_string author.properties.collections)
 	(var collections (func get_collections_by_string (author.properties.collections)))
 
 	(# Render the result)
@@ -53,8 +58,8 @@
 		(uuid author.uuid)
 		(first_name author.properties.first_name)
 		(last_name author.properties.last_name)
-		(bio author.properties.bio)
-		(profile_image (!(is_nil author.properties.profile_image)))
+		(bios bios)
 		(collections collections)
+		(profile_image (!(is_nil author.properties.profile_image)))
 	) 200)
 ))
