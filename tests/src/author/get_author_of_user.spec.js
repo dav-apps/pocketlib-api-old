@@ -125,6 +125,7 @@ describe("GetAuthorOfUser endpoint", () => {
 				let name = collection.names[j];
 				let responseName = responseCollection.names[j];
 
+				assert.equal(null, responseName.uuid);
 				assert.equal(name.name, responseName.name);
 				assert.equal(name.language, responseName.language);
 			}
@@ -178,6 +179,7 @@ describe("GetAuthorOfUser endpoint", () => {
 					let name = collection.names[k];
 					let responseName = responseCollection.names[k];
 
+					assert.equal(null, responseName.uuid);
 					assert.equal(name.name, responseName.name);
 					assert.equal(name.language, responseName.language);
 				}

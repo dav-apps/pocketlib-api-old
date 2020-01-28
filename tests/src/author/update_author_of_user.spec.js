@@ -147,16 +147,14 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 				},
 				data: {
 					first_name: 23,
-					last_name: true,
-					bio: 30.12
+					last_name: true
 				}
 			});
 		}catch(error){
 			assert.equal(400, error.response.status);
-			assert.equal(3, error.response.data.errors.length);
+			assert.equal(2, error.response.data.errors.length);
 			assert.equal(2201, error.response.data.errors[0].code);
 			assert.equal(2202, error.response.data.errors[1].code);
-			assert.equal(2203, error.response.data.errors[2].code);
 			return;
 		}
 
@@ -174,16 +172,14 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 				},
 				data: {
 					first_name: "a",
-					last_name: "a",
-					bio: "a"
+					last_name: "a"
 				}
 			});
 		}catch(error){
 			assert.equal(400, error.response.status);
-			assert.equal(3, error.response.data.errors.length);
+			assert.equal(2, error.response.data.errors.length);
 			assert.equal(2301, error.response.data.errors[0].code);
 			assert.equal(2302, error.response.data.errors[1].code);
-			assert.equal(2303, error.response.data.errors[2].code);
 			return;
 		}
 
@@ -201,16 +197,14 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 				},
 				data: {
 					first_name: "a".repeat(30),
-					last_name: "a".repeat(30),
-					bio: "a".repeat(2010)
+					last_name: "a".repeat(30)
 				}
 			});
 		}catch(error){
 			assert.equal(400, error.response.status);
-			assert.equal(3, error.response.data.errors.length);
+			assert.equal(2, error.response.data.errors.length);
 			assert.equal(2401, error.response.data.errors[0].code);
 			assert.equal(2402, error.response.data.errors[1].code);
-			assert.equal(2403, error.response.data.errors[2].code);
 			return;
 		}
 
@@ -241,9 +235,18 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 		assert.equal(constants.authorUserAuthor.uuid, response.data.uuid);
 		assert.equal(firstName, response.data.first_name);
 		assert.equal(constants.authorUserAuthor.lastName, response.data.last_name);
-		assert.equal(constants.authorUserAuthor.bio, response.data.bio);
-		assert.equal(true, response.data.profile_image);
+		assert.equal(constants.authorUserAuthor.bios.length, response.data.bios.length);
 		assert.equal(constants.authorUserAuthor.collections.length, response.data.collections.length);
+		assert.equal(true, response.data.profile_image);
+
+		for(let i = 0; i < constants.authorUserAuthor.bios.length; i++){
+			let bio = constants.authorUserAuthor.bios[i];
+			let responseBio = response.data.bios[i];
+
+			assert.equal(null, responseBio.uuid);
+			assert.equal(bio.bio, responseBio.bio);
+			assert.equal(bio.language, responseBio.language);
+		}
 
 		for(let i = 0; i < constants.authorUserAuthor.collections.length; i++){
 			let collection = constants.authorUserAuthor.collections[i];
@@ -255,6 +258,7 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 				let name = collection.names[j];
 				let responseName = responseCollection.names[j];
 
+				assert.equal(null, responseName.uuid);
 				assert.equal(name.name, responseName.name);
 				assert.equal(name.language, responseName.language);
 			}
@@ -272,7 +276,6 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 		assert.equal(constants.authorUserAuthor.uuid, objResponse.data.uuid);
 		assert.equal(firstName, objResponse.data.properties.first_name);
 		assert.equal(constants.authorUserAuthor.lastName, objResponse.data.properties.last_name);
-		assert.equal(constants.authorUserAuthor.bio, objResponse.data.properties.bio);
 
 		// Tidy up
 		resetAuthors = true;
@@ -302,9 +305,18 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 		assert.equal(constants.authorUserAuthor.uuid, response.data.uuid);
 		assert.equal(constants.authorUserAuthor.firstName, response.data.first_name);
 		assert.equal(lastName, response.data.last_name);
-		assert.equal(constants.authorUserAuthor.bio, response.data.bio);
-		assert.equal(true, response.data.profile_image);
+		assert.equal(constants.authorUserAuthor.bios.length, response.data.bios.length);
 		assert.equal(constants.authorUserAuthor.collections.length, response.data.collections.length);
+		assert.equal(true, response.data.profile_image);
+
+		for(let i = 0; i < constants.authorUserAuthor.bios.length; i++){
+			let bio = constants.authorUserAuthor.bios[i];
+			let responseBio = response.data.bios[i];
+
+			assert.equal(null, responseBio.uuid);
+			assert.equal(bio.bio, responseBio.bio);
+			assert.equal(bio.language, responseBio.language);
+		}
 
 		for(let i = 0; i < constants.authorUserAuthor.collections.length; i++){
 			let collection = constants.authorUserAuthor.collections[i];
@@ -316,6 +328,7 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 				let name = collection.names[j];
 				let responseName = responseCollection.names[j];
 
+				assert.equal(null, responseName.uuid);
 				assert.equal(name.name, responseName.name);
 				assert.equal(name.language, responseName.language);
 			}
@@ -333,68 +346,6 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 		assert.equal(constants.authorUserAuthor.uuid, objResponse.data.uuid);
 		assert.equal(constants.authorUserAuthor.firstName, objResponse.data.properties.first_name);
 		assert.equal(lastName, objResponse.data.properties.last_name);
-		assert.equal(constants.authorUserAuthor.bio, objResponse.data.properties.bio);
-
-		// Tidy up
-		resetAuthors = true;
-	});
-
-	it("should update bio of author", async () => {
-		let bio = "Updated bio";
-		let response;
-
-		try{
-			response = await axios.default({
-				method: 'put',
-				url: updateAuthorEndpointUrl,
-				headers: {
-					Authorization: constants.authorUserJWT,
-					'Content-Type': 'application/json'
-				},
-				data: {
-					bio
-				}
-			});
-		}catch(error){
-			assert.fail();
-		}
-
-		assert.equal(200, response.status);
-		assert.equal(constants.authorUserAuthor.uuid, response.data.uuid);
-		assert.equal(constants.authorUserAuthor.firstName, response.data.first_name);
-		assert.equal(constants.authorUserAuthor.lastName, response.data.last_name);
-		assert.equal(bio, response.data.bio);
-		assert.equal(true, response.data.profile_image);
-		assert.equal(constants.authorUserAuthor.collections.length, response.data.collections.length);
-
-		for(let i = 0; i < constants.authorUserAuthor.collections.length; i++){
-			let collection = constants.authorUserAuthor.collections[i];
-			let responseCollection = response.data.collections[i];
-
-			assert.equal(collection.uuid, responseCollection.uuid);
-
-			for(let j = 0; j < collection.names.length; j++){
-				let name = collection.names[j];
-				let responseName = responseCollection.names[j];
-
-				assert.equal(name.name, responseName.name);
-				assert.equal(name.language, responseName.language);
-			}
-		}
-
-		// Check if the data was updated correctly on the server
-		let objResponse;
-
-		try{
-			objResponse = await utils.getTableObject(constants.authorUserAuthor.uuid, constants.authorUserJWT);
-		}catch(error){
-			assert.fail();
-		}
-
-		assert.equal(constants.authorUserAuthor.uuid, objResponse.data.uuid);
-		assert.equal(constants.authorUserAuthor.firstName, objResponse.data.properties.first_name);
-		assert.equal(constants.authorUserAuthor.lastName, objResponse.data.properties.last_name);
-		assert.equal(bio, objResponse.data.properties.bio);
 
 		// Tidy up
 		resetAuthors = true;
@@ -403,7 +354,6 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 	it("should update all properties of author", async () => {
 		let firstName = "New first name";
 		let lastName = "New last name";
-		let bio = "New bio";
 		let response;
 
 		try{
@@ -416,8 +366,7 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 				},
 				data: {
 					first_name: firstName,
-					last_name: lastName,
-					bio
+					last_name: lastName
 				}
 			});
 		}catch(error){
@@ -428,9 +377,18 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 		assert.equal(constants.authorUserAuthor.uuid, response.data.uuid);
 		assert.equal(firstName, response.data.first_name);
 		assert.equal(lastName, response.data.last_name);
-		assert.equal(bio, response.data.bio);
-		assert.equal(true, response.data.profile_image);
+		assert.equal(constants.authorUserAuthor.bios.length, response.data.bios.length);
 		assert.equal(constants.authorUserAuthor.collections.length, response.data.collections.length);
+		assert.equal(true, response.data.profile_image);
+
+		for(let i = 0; i < constants.authorUserAuthor.bios.length; i++){
+			let bio = constants.authorUserAuthor.bios[i];
+			let responseBio = response.data.bios[i];
+
+			assert.equal(null, responseBio.uuid);
+			assert.equal(bio.bio, responseBio.bio);
+			assert.equal(bio.language, responseBio.language);
+		}
 
 		for(let i = 0; i < constants.authorUserAuthor.collections.length; i++){
 			let collection = constants.authorUserAuthor.collections[i];
@@ -442,6 +400,7 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 				let name = collection.names[j];
 				let responseName = responseCollection.names[j];
 
+				assert.equal(null, responseName.uuid);
 				assert.equal(name.name, responseName.name);
 				assert.equal(name.language, responseName.language);
 			}
@@ -459,7 +418,6 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 		assert.equal(constants.authorUserAuthor.uuid, objResponse.data.uuid);
 		assert.equal(firstName, objResponse.data.properties.first_name);
 		assert.equal(lastName, objResponse.data.properties.last_name);
-		assert.equal(bio, objResponse.data.properties.bio);
 
 		// Tidy up
 		resetAuthors = true;
