@@ -947,6 +947,7 @@ async function getTableObject(uuid, jwt){
 module.exports = {
 	resetDatabase,
 	resetAuthors,
+	resetAuthorBios,
 	resetAuthorProfileImages,
 	resetStoreBookCollections,
 	resetStoreBookCollectionNames,
