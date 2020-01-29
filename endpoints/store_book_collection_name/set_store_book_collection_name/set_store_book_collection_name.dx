@@ -79,7 +79,7 @@
 	(var name_obj (func create_table_object (decoded_jwt.user_id env.STORE_BOOK_COLLECTION_NAME_TABLE_ID (hash (name name) (language language)))))
 
 	(# Update the collection with the new name uuid)
-	(func add_name_to_collection (collection name_uuid))
+	(func add_name_to_collection (collection name_obj.uuid))
 ) else (
 	(# Update the existing name)
 	(func update_table_object (name_uuid (hash (name name))))

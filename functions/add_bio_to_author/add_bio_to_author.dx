@@ -1,0 +1,11 @@
+(# params: author: TableObject, uuid: string)
+(# Get the bios of the author)
+(var bios author.properties.bios)
+
+(if (is_nil bios) (
+	(# Add the first bio to the bios of the author)
+	(var author.properties.bios uuid)
+) else (
+	(# Add the uuid to the list of bios, separated by comma)
+	(var author.properties.bios (bios + "," + uuid))
+))
