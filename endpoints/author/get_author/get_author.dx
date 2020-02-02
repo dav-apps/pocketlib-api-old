@@ -1,0 +1,23 @@
+(# Get the author)
+(var author (func get_table_object (uuid env.AUTHOR_TABLE_ID)))
+
+(if (is_nil author) (
+	(# Author does not exist)
+	(func render_validation_errors ((list (hash (error (get_error 2802)) (status 404)))))
+))
+
+(# Get the bios of the author)
+(var bios (func get_author_bios_by_string (author.properties.bios false)))
+
+(# Get the collections of the author)
+(var collections (func get_collections_by_string (author.properties.collections)))
+
+(# Render the result)
+(render_json (hash
+	(uuid author.uuid)
+	(first_name author.properties.first_name)
+	(last_name author.properties.last_name)
+	(bios bios)
+	(collections collections)
+	(profile_image (!(is_nil author.properties.profile_image)))
+) 200)
