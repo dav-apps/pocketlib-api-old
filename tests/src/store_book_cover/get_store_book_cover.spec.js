@@ -118,7 +118,7 @@ describe("GetStoreBookCover endpoint", () => {
 		let coverType = "image/png";
 
 		// Set the store book cover
-		await setStoreBookCover(storeBook.uuid, coverContent, coverType, constants.authorUserJWT);
+		await setStoreBookCover(storeBook, coverContent, coverType, constants.authorUserJWT);
 
 		// Try to get the store book cover
 		let response;
@@ -150,7 +150,7 @@ describe("GetStoreBookCover endpoint", () => {
 		let coverType = "image/png";
 
 		// Set the store book cover
-		await setStoreBookCover(storeBook.uuid, coverContent, coverType, constants.authorUserJWT);
+		await setStoreBookCover(storeBook, coverContent, coverType, constants.authorUserJWT);
 
 		// Try to get the store book cover
 		let response;
@@ -182,7 +182,7 @@ describe("GetStoreBookCover endpoint", () => {
 		let coverType = "image/png";
 
 		// Set the store book cover
-		await setStoreBookCover(storeBook.uuid, coverContent, coverType, constants.authorUserJWT);
+		await setStoreBookCover(storeBook, coverContent, coverType, constants.authorUserJWT);
 
 		// Try to get the store book cover
 		try{
@@ -213,7 +213,7 @@ describe("GetStoreBookCover endpoint", () => {
 		let coverType = "image/png";
 
 		// Set the store book cover
-		await setStoreBookCover(storeBook.uuid, coverContent, coverType, constants.authorUserJWT);
+		await setStoreBookCover(storeBook, coverContent, coverType, constants.authorUserJWT);
 
 		// Try to get the store book cover
 		let response;
@@ -245,7 +245,7 @@ describe("GetStoreBookCover endpoint", () => {
 		let coverType = "image/png";
 
 		// Set the store book cover
-		await setStoreBookCover(storeBook.uuid, coverContent, coverType, constants.authorUserJWT);
+		await setStoreBookCover(storeBook, coverContent, coverType, constants.authorUserJWT);
 
 		// Try to get the store book cover
 		try{
@@ -276,7 +276,7 @@ describe("GetStoreBookCover endpoint", () => {
 		let coverType = "image/png";
 
 		// Set the store book cover
-		await setStoreBookCover(storeBook.uuid, coverContent, coverType, constants.authorUserJWT);
+		await setStoreBookCover(storeBook, coverContent, coverType, constants.authorUserJWT);
 
 		// Try to get the store book cover
 		let response;
@@ -308,7 +308,7 @@ describe("GetStoreBookCover endpoint", () => {
 		let coverType = "image/png";
 
 		// Set the store book cover
-		await setStoreBookCover(storeBook.uuid, coverContent, coverType, constants.davUserJWT);
+		await setStoreBookCover(storeBook, coverContent, coverType, constants.davUserJWT);
 
 		// Try to get the store book cover
 		let response;
@@ -340,7 +340,7 @@ describe("GetStoreBookCover endpoint", () => {
 		let coverType = "image/png";
 
 		// Set the store book cover
-		await setStoreBookCover(storeBook.uuid, coverContent, coverType, constants.davUserJWT);
+		await setStoreBookCover(storeBook, coverContent, coverType, constants.davUserJWT);
 
 		// Try to get the store book cover
 		let response;
@@ -366,16 +366,42 @@ describe("GetStoreBookCover endpoint", () => {
 	});
 });
 
-async function setStoreBookCover(storeBookUuid, coverContent, coverType, authorJWT){
+async function setStoreBookCover(storeBook, coverContent, coverType, authorJWT){
+	let oldStatus = storeBook.status || "unpublished";
+
 	try{
 		await axios.default({
 			method: 'put',
-			url: getStoreBookCoverEndpointUrl.replace('{0}', storeBookUuid),
+			url: `${constants.apiBaseUrl}/apps/object/${storeBook.uuid}`,
+			headers: {
+				Authorization: authorJWT,
+				'Content-Type': 'application/json'
+			},
+			data: {
+				status: "unpublished"
+			}
+		});
+
+		await axios.default({
+			method: 'put',
+			url: getStoreBookCoverEndpointUrl.replace('{0}', storeBook.uuid),
 			headers: {
 				Authorization: authorJWT,
 				'Content-Type': coverType
 			},
 			data: coverContent
+		});
+
+		await axios.default({
+			method: 'put',
+			url: `${constants.apiBaseUrl}/apps/object/${storeBook.uuid}`,
+			headers: {
+				Authorization: authorJWT,
+				'Content-Type': 'application/json'
+			},
+			data: {
+				status: oldStatus
+			}
 		});
 	}catch(error){
 		assert.fail();
