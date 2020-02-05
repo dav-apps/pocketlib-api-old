@@ -67,7 +67,7 @@ module.exports = {
 						title: "Eine Reihe betrüblicher Ereignisse - Der schreckliche Anfang",
 						description: "Lieber Leser, es tut mir sehr Leid, aber das Buch, das du gerade in Händen hälst, ist außerordentlich unerfreulich. Es erzählt die traurige Geschichte von drei sehr bedauernswerten Kindern.",
 						language: "de",
-						status: "review"
+						status: "hidden"
 					}
 				]
 			},
@@ -167,7 +167,13 @@ module.exports = {
 							title: "Animal Farm",
 							description: "Animal Farm is an allegorical novella by George Orwell, first published in England on 17 August 1945. The book tells the story of a group of farm animals who rebel against their human farmer, hoping to create a society where the animals can be equal, free, and happy.",
 							language: "en",
-							status: "published"
+							status: "hidden"
+						},
+						{
+							uuid: "f27a4472-d3f8-4310-9f76-156af7c03c43",
+							title: "Farm der Tiere",
+							description: "Farm der Tiere ist eine allegorische Novelle von George Orwell, die erstmals am 17. August 1945 in England veröffentlicht wurde. Das Buch erzählt die Geschichte einer Gruppe von Nutztieren, die sich gegen ihren menschlichen Bauern auflehnen, in der Hoffnung, eine Gesellschaft zu schaffen, in der die Tiere gleichberechtigt, frei und glücklich sein können.",
+							language: "de"
 						}
 					]
 				}
