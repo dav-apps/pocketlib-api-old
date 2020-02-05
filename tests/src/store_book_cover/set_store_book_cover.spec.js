@@ -145,7 +145,7 @@ describe("SetStoreBookCover endpoint", () => {
 	});
 
 	it("should create and update store book cover of store book of an admin", async () => {
-		await testCreateAndUpdateStoreBookCover(constants.davUserAuthors[0].collections[0].books[0], constants.davUserJWT);
+		await testCreateAndUpdateStoreBookCover(constants.davUserAuthors[0].collections[0].books[1], constants.davUserJWT);
 
 		// Tidy up
 		resetStoreBooksAndStoreBookCovers = true;

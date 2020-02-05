@@ -135,7 +135,13 @@ module.exports = {
 							title: "1984",
 							description: "Orwell's novel about the destruction of man by a perfect state machinery has long since become a metaphor for totalitarian conditions that no longer seems in need of explanation.",
 							language: "en",
-							status: "published"
+							status: "published",
+							cover: {
+								uuid: "63960709-1aa5-40dd-a7a3-8fa79aaa1f5d"
+							},
+							file: {
+								uuid: "32adbdaa-0cbe-4672-80a6-19d4b8d6e943"
+							}
 						},
 						{
 							uuid: "5aa1c310-cbc6-48b4-9000-63315e713d25",

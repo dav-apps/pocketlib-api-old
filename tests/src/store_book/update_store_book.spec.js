@@ -420,8 +420,8 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal(description, response.data.description);
 		assert.equal(language, response.data.language);
 		assert.equal(storeBook.status, response.data.status);
-		assert.equal(false, response.data.cover);
-		assert.equal(false, response.data.file);
+		assert.equal(true, response.data.cover);
+		assert.equal(true, response.data.file);
 
 		// Check if the store book was updated on the server
 		let objResponse;
@@ -446,9 +446,172 @@ describe("UpdateStoreBook endpoint", () => {
 		resetStoreBooks = true;
 	});
 
-	it("should publish store book", async () => {
-		let collection = constants.authorUserAuthor.collections[1];
+	it("should not publish store book without description", async () => {
+		let collection = constants.authorUserAuthor.collections[0];
 		let storeBook = collection.books[0];
+
+		// Remove the description property from the store book
+		try{
+			await axios.default({
+				method: 'put',
+				url: `${constants.apiBaseUrl}/apps/object/${storeBook.uuid}`,
+				headers: {
+					Authorization: constants.authorUserJWT,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					description: "",
+					status: "unpublished"
+				}
+			});
+		}catch(error){
+			assert.fail();
+		}
+
+		// Try to publish the store book
+		try{
+			await axios.default({
+				method: 'put',
+				url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
+				headers: {
+					Authorization: constants.authorUserJWT,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					published: true
+				}
+			});
+		}catch(error){
+			assert.equal(409, error.response.status);
+			assert.equal(1, error.response.data.errors.length);
+			assert.equal(1401, error.response.data.errors[0].code);
+
+			// Tidy up
+			resetStoreBooks = true;
+			return;
+		}
+
+		assert.fail();
+	});
+
+	it("should not publish store book without cover", async () => {
+		let collection = constants.authorUserAuthor.collections[0];
+		let storeBook = collection.books[0];
+
+		// Remove the cover property from the store book
+		try{
+			await axios.default({
+				method: 'put',
+				url: `${constants.apiBaseUrl}/apps/object/${storeBook.uuid}`,
+				headers: {
+					Authorization: constants.authorUserJWT,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					cover: "",
+					status: "unpublished"
+				}
+			});
+		}catch(error){
+			assert.fail();
+		}
+
+		// Try to publish the store book
+		try{
+			await axios.default({
+				method: 'put',
+				url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
+				headers: {
+					Authorization: constants.authorUserJWT,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					published: true
+				}
+			});
+		}catch(error){
+			assert.equal(409, error.response.status);
+			assert.equal(1, error.response.data.errors.length);
+			assert.equal(1402, error.response.data.errors[0].code);
+
+			// Tidy up
+			resetStoreBooks = true;
+			return;
+		}
+
+		assert.fail();
+	});
+
+	it("should not publish store book without file", async () => {
+		let collection = constants.authorUserAuthor.collections[0];
+		let storeBook = collection.books[0];
+
+		// Remove the file property from the store book
+		try{
+			await axios.default({
+				method: 'put',
+				url: `${constants.apiBaseUrl}/apps/object/${storeBook.uuid}`,
+				headers: {
+					Authorization: constants.authorUserJWT,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					file: "",
+					status: "unpublished"
+				}
+			});
+		}catch(error){
+			assert.fail();
+		}
+
+		// Try to publish the store book
+		try{
+			await axios.default({
+				method: 'put',
+				url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
+				headers: {
+					Authorization: constants.authorUserJWT,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					published: true
+				}
+			});
+		}catch(error){
+			assert.equal(409, error.response.status);
+			assert.equal(1, error.response.data.errors.length);
+			assert.equal(1403, error.response.data.errors[0].code);
+
+			// Tidy up
+			resetStoreBooks = true;
+			return;
+		}
+
+		assert.fail();
+	});
+
+	it("should publish store book", async () => {
+		let collection = constants.authorUserAuthor.collections[0];
+		let storeBook = collection.books[0];
+
+		// Set the store book to unpublished
+		try{
+			await axios.default({
+				method: 'put',
+				url: `${constants.apiBaseUrl}/apps/object/${storeBook.uuid}`,
+				headers: {
+					Authorization: constants.authorUserJWT,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					status: "unpublished"
+				}
+			});
+		}catch(error){
+			assert.fail();
+		}
+
+		// Try to publish the store book
 		let response;
 
 		try{
@@ -474,8 +637,8 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal(storeBook.description, response.data.description);
 		assert.equal(storeBook.language, response.data.language);
 		assert.equal("review", response.data.status);
-		assert.equal(false, response.data.cover);
-		assert.equal(false, response.data.file);
+		assert.equal(true, response.data.cover);
+		assert.equal(true, response.data.file);
 
 		// Check if the store book was updated on the server
 		let objResponse;
@@ -556,9 +719,172 @@ describe("UpdateStoreBook endpoint", () => {
 		resetStoreBooks = true;
 	});
 
-	it("should publish store book of an admin", async () => {
+	it("should not publish store book of admin without description", async () => {
 		let collection = constants.davUserAuthors[0].collections[0];
-		let storeBook = collection.books[1];
+		let storeBook = collection.books[0];
+
+		// Remove the description property from the store book
+		try{
+			await axios.default({
+				method: 'put',
+				url: `${constants.apiBaseUrl}/apps/object/${storeBook.uuid}`,
+				headers: {
+					Authorization: constants.davUserJWT,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					description: "",
+					status: "unpublished"
+				}
+			});
+		}catch(error){
+			assert.fail();
+		}
+
+		// Try to publish the store book
+		try{
+			await axios.default({
+				method: 'put',
+				url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
+				headers: {
+					Authorization: constants.davUserJWT,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					published: true
+				}
+			});
+		}catch(error){
+			assert.equal(409, error.response.status);
+			assert.equal(1, error.response.data.errors.length);
+			assert.equal(1401, error.response.data.errors[0].code);
+
+			// Tidy up
+			resetStoreBooks = true;
+			return;
+		}
+
+		assert.fail();
+	});
+
+	it("should not publish store book of admin without cover", async () => {
+		let collection = constants.davUserAuthors[0].collections[0];
+		let storeBook = collection.books[0];
+
+		// Remove the cover property from the store book
+		try{
+			await axios.default({
+				method: 'put',
+				url: `${constants.apiBaseUrl}/apps/object/${storeBook.uuid}`,
+				headers: {
+					Authorization: constants.davUserJWT,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					cover: "",
+					status: "unpublished"
+				}
+			});
+		}catch(error){
+			assert.fail();
+		}
+
+		// Try to publish the store book
+		try{
+			await axios.default({
+				method: 'put',
+				url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
+				headers: {
+					Authorization: constants.davUserJWT,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					published: true
+				}
+			});
+		}catch(error){
+			assert.equal(409, error.response.status);
+			assert.equal(1, error.response.data.errors.length);
+			assert.equal(1402, error.response.data.errors[0].code);
+
+			// Tidy up
+			resetStoreBooks = true;
+			return;
+		}
+
+		assert.fail();
+	});
+
+	it("should not publish store book of admin without file", async () => {
+		let collection = constants.davUserAuthors[0].collections[0];
+		let storeBook = collection.books[0];
+
+		// Remove the cover property from the store book
+		try{
+			await axios.default({
+				method: 'put',
+				url: `${constants.apiBaseUrl}/apps/object/${storeBook.uuid}`,
+				headers: {
+					Authorization: constants.davUserJWT,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					file: "",
+					status: "unpublished"
+				}
+			});
+		}catch(error){
+			assert.fail();
+		}
+
+		// Try to publish the store book
+		try{
+			await axios.default({
+				method: 'put',
+				url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
+				headers: {
+					Authorization: constants.davUserJWT,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					published: true
+				}
+			});
+		}catch(error){
+			assert.equal(409, error.response.status);
+			assert.equal(1, error.response.data.errors.length);
+			assert.equal(1403, error.response.data.errors[0].code);
+
+			// Tidy up
+			resetStoreBooks = true;
+			return;
+		}
+
+		assert.fail();
+	});
+
+	it("should publish store book of admin", async () => {
+		let collection = constants.davUserAuthors[0].collections[0];
+		let storeBook = collection.books[0];
+
+		// Set the store book to unpublished
+		try{
+			await axios.default({
+				method: 'put',
+				url: `${constants.apiBaseUrl}/apps/object/${storeBook.uuid}`,
+				headers: {
+					Authorization: constants.davUserJWT,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					status: "unpublished"
+				}
+			});
+		}catch(error){
+			assert.fail();
+		}
+
+		// Try to publish the store book
 		let response;
 
 		try{
@@ -584,8 +910,8 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal(storeBook.description, response.data.description);
 		assert.equal(storeBook.language, response.data.language);
 		assert.equal("review", response.data.status);
-		assert.equal(false, response.data.cover);
-		assert.equal(false, response.data.file);
+		assert.equal(true, response.data.cover);
+		assert.equal(true, response.data.file);
 
 		// Check if the store book was updated on the server
 		let objResponse;
@@ -611,7 +937,7 @@ describe("UpdateStoreBook endpoint", () => {
 		resetStoreBooks = true;
 	});
 
-	it("should unpublish store book of an admin", async () => {
+	it("should unpublish store book of admin", async () => {
 		let collection = constants.davUserAuthors[0].collections[0];
 		let storeBook = collection.books[0];
 		let response;
@@ -639,8 +965,8 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal(storeBook.description, response.data.description);
 		assert.equal(storeBook.language, response.data.language);
 		assert.equal("unpublished", response.data.status);
-		assert.equal(false, response.data.cover);
-		assert.equal(false, response.data.file);
+		assert.equal(true, response.data.cover);
+		assert.equal(true, response.data.file);
 
 		// Check if the store book was updated on the server
 		let objResponse;

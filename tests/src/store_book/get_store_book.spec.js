@@ -258,8 +258,8 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(storeBook.description, response.data.description);
 		assert.equal(storeBook.language, response.data.language);
 		assert.equal("published", response.data.status);
-		assert.equal(false, response.data.cover);
-		assert.equal(false, response.data.file);
+		assert.equal(true, response.data.cover);
+		assert.equal(true, response.data.file);
 	});
 
 	it("should return published store book if the user is not the author", async () => {
@@ -285,7 +285,7 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(storeBook.description, response.data.description);
 		assert.equal(storeBook.language, response.data.language);
 		assert.equal("published", response.data.status);
-		assert.equal(false, response.data.cover);
-		assert.equal(false, response.data.file);
+		assert.equal(true, response.data.cover);
+		assert.equal(true, response.data.file);
 	});
 });

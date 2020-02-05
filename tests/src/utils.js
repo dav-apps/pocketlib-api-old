@@ -68,20 +68,20 @@ async function resetStoreBooks(){
 
 async function resetStoreBookCovers(){
 	// Delete StoreBookCovers
-	await deleteTableObjectsOfTable(constants.davUserJWT, constants.storeBookCoverTableId);
 	await deleteTableObjectsOfTable(constants.davClassLibraryTestUserJWT, constants.storeBookCoverTableId);
 
 	// Reset StoreBookCovers
 	await resetAuthorUserStoreBookCovers();
+	await resetDavUserStoreBookCovers();
 }
 
 async function resetStoreBookFiles(){
 	// Delete StoreBookFiles
-	await deleteTableObjectsOfTable(constants.davUserJWT, constants.storeBookFileTableId);
 	await deleteTableObjectsOfTable(constants.davClassLibraryTestUserJWT, constants.storeBookFileTableId);
 
 	// Reset StoreBookFiles
 	await resetAuthorUserStoreBookFiles();
+	await resetDavUserStoreBookFiles();
 }
 
 
@@ -829,6 +829,72 @@ async function resetAuthorUserStoreBookCovers(){
 	}
 }
 
+async function resetDavUserStoreBookCovers(){
+	// Get the cover table
+	let covers = [];
+	let testDatabaseCovers = [];
+
+	try{
+		let response = await axios.default({
+			method: 'get',
+			url: `${constants.apiBaseUrl}/apps/table/${constants.storeBookCoverTableId}`,
+			headers: {
+				Authorization: constants.davUserJWT
+			}
+		});
+
+		covers = response.data.table_objects;
+	}catch(error){
+		console.log("Error in getting the store book cover table");
+		console.log(error.response.data);
+	}
+
+	// Get all covers of the test database
+	for(let author of constants.davUserAuthors){
+		for(let collection of author.collections){
+			for(let book of collection.books){
+				if(book.cover) testDatabaseCovers.push(book.cover.uuid);
+			}
+		}
+	}
+
+	// Delete each cover that is not part of the test database
+	for(let cover of covers){
+		let i = testDatabaseCovers.indexOf(cover.uuid);
+
+		if(i != -1){
+			testDatabaseCovers.splice(i, 1);
+		}else{
+			// Delete the cover
+			await deleteTableObject(cover.uuid, constants.davUserJWT)
+		}
+	}
+
+	// Create each missing cover of the test database
+	for(let cover of testDatabaseCovers){
+		try{
+			await axios.default({
+				method: 'post',
+				url: `${constants.apiBaseUrl}/apps/object`,
+				params: {
+					uuid: cover.uuid,
+					table_id: constants.storeBookCoverTableId,
+					app_id: constants.pocketlibAppId,
+					ext: "png"
+				},
+				headers: {
+					Authorization: constants.davUserJWT,
+					'Content-Type': 'image/png'
+				},
+				data: "Hello World"
+			});
+		}catch(error){
+			console.log("Error in creating cover");
+			console.log(error.response.data);
+		}
+	}
+}
+
 async function resetAuthorUserStoreBookFiles(){
 	// Get the file table
 	let files = [];
@@ -882,6 +948,72 @@ async function resetAuthorUserStoreBookFiles(){
 				},
 				headers: {
 					Authorization: constants.authorUserJWT,
+					'Content-Type': 'application/pdf'
+				},
+				data: "Hello World"
+			});
+		}catch(error){
+			console.log("Error in creating file");
+			console.log(error.response.data);
+		}
+	}
+}
+
+async function resetDavUserStoreBookFiles(){
+	// Get the file table
+	let files = [];
+	let testDatabaseFiles = [];
+
+	try{
+		let response = await axios.default({
+			method: 'get',
+			url: `${constants.apiBaseUrl}/apps/table/${constants.storeBookFileTableId}`,
+			headers: {
+				Authorization: constants.davUserJWT
+			}
+		});
+
+		files = response.data.table_objects;
+	}catch(error){
+		console.log("Error in getting the store book file table");
+		console.log(error.response.data);
+	}
+
+	// Get all files of the test database
+	for(let author of constants.davUserAuthors){
+		for(let collection of author.collections){
+			for(let book of collection.books){
+				if(book.file) testDatabaseFiles.push(book.file.uuid);
+			}
+		}
+	}
+
+	// Delete each cover that is not part of the test database
+	for(let file of files){
+		let i = testDatabaseFiles.indexOf(file.uuid);
+
+		if(i != -1){
+			testDatabaseFiles.splice(i, 1);
+		}else{
+			// Delete the file
+			await deleteTableObject(file.uuid, constants.davUserJWT);
+		}
+	}
+
+	// Create each missing file of the test database
+	for(let file of testDatabaseFiles){
+		try{
+			await axios.default({
+				method: 'post',
+				url: `${constants.apiBaseUrl}/apps/object`,
+				params: {
+					uuid: file.uuid,
+					table_id: constants.storeBookFileTableId,
+					app_id: constants.pocketlibAppId,
+					ext: "pdf"
+				},
+				headers: {
+					Authorization: constants.davUserJWT,
 					'Content-Type': 'application/pdf'
 				},
 				data: "Hello World"
