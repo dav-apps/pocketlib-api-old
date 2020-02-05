@@ -84,6 +84,15 @@
 	(var status store_book.properties.status)
 
 	(if ((is_nil status) or (status == "unpublished")) (
+		(# Check if the book can be published)
+		(if (is_nil store_book.properties.description) (
+			(func render_validation_errors ((list (hash (error (get_error 1401)) (status 409)))))
+		) elseif (is_nil store_book.properties.cover) (
+			(func render_validation_errors ((list (hash (error (get_error 1402)) (status 409)))))
+		) elseif (is_nil store_book.properties.file) (
+			(func render_validation_errors ((list (hash (error (get_error 1403)) (status 409)))))
+		))
+
 		(# Change the status of the book to "review")
 		(if published (var store_book.properties.status "review"))
 	) elseif (status == "review") (

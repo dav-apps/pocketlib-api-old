@@ -14,6 +14,10 @@
 		{"code": 1302, "message": "JWT invalid"},
 		{"code": 1303, "message": "JWT unknown error"},
 
+		{"code": 1401, "message": "Can't publish StoreBook: description missing"},
+		{"code": 1402, "message": "Can't publish StoreBook: cover missing"},
+		{"code": 1403, "message": "Can't publish StoreBook: file missing"},
+
 		{"code": 2101, "message": "Missing field: jwt"},
 		{"code": 2102, "message": "Missing field: first_name"},
 		{"code": 2103, "message": "Missing field: last_name"},
