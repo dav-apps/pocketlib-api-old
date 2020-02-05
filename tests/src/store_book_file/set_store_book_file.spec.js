@@ -137,11 +137,95 @@ describe("SetStoreBookFile endpoint", () => {
 		assert.fail();
 	});
 
+	it("should not set store book file for published store book", async () => {
+		try{
+			await axios.default({
+				method: 'put',
+				url: setStoreBookFileEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[1].books[1].uuid),
+				headers: {
+					Authorization: constants.authorUserJWT,
+					'Content-Type': 'application/pdf'
+				},
+				data: "Hello World"
+			});
+		}catch(error){
+			assert.equal(422, error.response.status);
+			assert.equal(1, error.response.data.errors.length);
+			assert.equal(1503, error.response.data.errors[0].code);
+			return;
+		}
+
+		assert.fail();
+	});
+
+	it("should not set store book cover for hidden store book", async () => {
+		try{
+			await axios.default({
+				method: 'put',
+				url: setStoreBookFileEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[1].uuid),
+				headers: {
+					Authorization: constants.authorUserJWT,
+					'Content-Type': 'application/pdf'
+				},
+				data: "Hello World"
+			});
+		}catch(error){
+			assert.equal(422, error.response.status);
+			assert.equal(1, error.response.data.errors.length);
+			assert.equal(1503, error.response.data.errors[0].code);
+			return;
+		}
+
+		assert.fail();
+	});
+
 	it("should create and update store book file", async () => {
-		await testCreateAndUpdateStoreBookFile(constants.authorUserAuthor.collections[0].books[1], constants.authorUserJWT);
+		await testCreateAndUpdateStoreBookFile(constants.authorUserAuthor.collections[1].books[0], constants.authorUserJWT);
 
 		// Tidy up
 		resetStoreBooksAndStoreBookFiles = true;
+	});
+
+	it("should not set store book file for published store book of admin", async () => {
+		try{
+			await axios.default({
+				method: 'put',
+				url: setStoreBookFileEndpointUrl.replace('{0}', constants.davUserAuthors[0].collections[0].books[0].uuid),
+				headers: {
+					Authorization: constants.davUserJWT,
+					'Content-Type': 'application/pdf'
+				},
+				data: "Hello World"
+			});
+		}catch(error){
+			assert.equal(422, error.response.status);
+			assert.equal(1, error.response.data.errors.length);
+			assert.equal(1503, error.response.data.errors[0].code);
+			return;
+		}
+
+		assert.fail();
+	});
+
+	it("should not set store book file for hidden store book of admin", async () => {
+		try{
+			await axios.default({
+				method: 'put',
+				url: setStoreBookFileEndpointUrl.replace('{0}', constants.davUserAuthors[0].collections[1].books[0].uuid),
+				headers: {
+					Authorization: constants.davUserJWT,
+					'Content-Type': 'application/pdf'
+				},
+				data: "Hello World"
+			});
+		}catch(error){
+			assert.equal(422, error.response.status);
+			assert.equal(1, error.response.data.errors.length);
+			assert.equal(1503, error.response.data.errors[0].code);
+			return;
+		}
+
+		assert.fail();
 	});
 
 	it("should create and update store book file of store book of an admin", async () => {

@@ -118,7 +118,7 @@ describe("GetStoreBookFile endpoint", () => {
 		let fileType = "application/epub+zip";
 
 		// Set the store book file
-		await setStoreBookFile(storeBook.uuid, fileContent, fileType, constants.authorUserJWT);
+		await setStoreBookFile(storeBook, fileContent, fileType, constants.authorUserJWT);
 
 		// Try to get the store book file
 		let response;
@@ -150,7 +150,7 @@ describe("GetStoreBookFile endpoint", () => {
 		let fileType = "application/epub+zip";
 
 		// Set the store book file
-		await setStoreBookFile(storeBook.uuid, fileContent, fileType, constants.authorUserJWT);
+		await setStoreBookFile(storeBook, fileContent, fileType, constants.authorUserJWT);
 
 		// Try to get the store book file
 		let response;
@@ -182,7 +182,7 @@ describe("GetStoreBookFile endpoint", () => {
 		let fileType = "application/epub+zip";
 
 		// Set the store book file
-		await setStoreBookFile(storeBook.uuid, fileContent, fileType, constants.authorUserJWT);
+		await setStoreBookFile(storeBook, fileContent, fileType, constants.authorUserJWT);
 
 		// Try to get the store book file
 		try{
@@ -213,7 +213,7 @@ describe("GetStoreBookFile endpoint", () => {
 		let fileType = "application/epub+zip";
 
 		// Set the store book file
-		await setStoreBookFile(storeBook.uuid, fileContent, fileType, constants.authorUserJWT);
+		await setStoreBookFile(storeBook, fileContent, fileType, constants.authorUserJWT);
 
 		// Try to get the store book file
 		let response;
@@ -245,7 +245,7 @@ describe("GetStoreBookFile endpoint", () => {
 		let fileType = "application/epub+zip";
 
 		// Set the store book file
-		await setStoreBookFile(storeBook.uuid, fileContent, fileType, constants.authorUserJWT);
+		await setStoreBookFile(storeBook, fileContent, fileType, constants.authorUserJWT);
 
 		// Try to get the store book file
 		try{
@@ -276,7 +276,7 @@ describe("GetStoreBookFile endpoint", () => {
 		let fileType = "application/epub+zip";
 
 		// Set the store book file
-		await setStoreBookFile(storeBook.uuid, fileContent, fileType, constants.authorUserJWT);
+		await setStoreBookFile(storeBook, fileContent, fileType, constants.authorUserJWT);
 
 		// Try to get the store book file
 		let response;
@@ -308,7 +308,7 @@ describe("GetStoreBookFile endpoint", () => {
 		let fileType = "application/epub+zip";
 
 		// Set the store book file
-		await setStoreBookFile(storeBook.uuid, fileContent, fileType, constants.davUserJWT);
+		await setStoreBookFile(storeBook, fileContent, fileType, constants.davUserJWT);
 
 		// Try to get the store book file
 		let response;
@@ -340,7 +340,7 @@ describe("GetStoreBookFile endpoint", () => {
 		let fileType = "application/epub+zip";
 
 		// Set the store book file
-		await setStoreBookFile(storeBook.uuid, fileContent, fileType, constants.davUserJWT);
+		await setStoreBookFile(storeBook, fileContent, fileType, constants.davUserJWT);
 
 		// Try to get the store book file
 		try{
@@ -365,16 +365,42 @@ describe("GetStoreBookFile endpoint", () => {
 	});
 });
 
-async function setStoreBookFile(storeBookUuid, coverContent, coverType, authorJWT){
+async function setStoreBookFile(storeBook, coverContent, coverType, authorJWT){
+	let oldStatus = storeBook.status || "unpublished";
+
 	try{
 		await axios.default({
 			method: 'put',
-			url: getStoreBookFileEndpointUrl.replace('{0}', storeBookUuid),
+			url: `${constants.apiBaseUrl}/apps/object/${storeBook.uuid}`,
+			headers: {
+				Authorization: authorJWT,
+				'Content-Type': 'application/json'
+			},
+			data: {
+				status: "unpublished"
+			}
+		});
+
+		await axios.default({
+			method: 'put',
+			url: getStoreBookFileEndpointUrl.replace('{0}', storeBook.uuid),
 			headers: {
 				Authorization: authorJWT,
 				'Content-Type': coverType
 			},
 			data: coverContent
+		});
+
+		await axios.default({
+			method: 'put',
+			url: `${constants.apiBaseUrl}/apps/object/${storeBook.uuid}`,
+			headers: {
+				Authorization: authorJWT,
+				'Content-Type': 'application/json'
+			},
+			data: {
+				status: oldStatus
+			}
 		});
 	}catch(error){
 		assert.fail();

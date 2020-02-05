@@ -28,6 +28,11 @@
 	(func render_validation_errors ((list (hash (error (get_error 2806)) (status 404)))))
 ))
 
+(# Check if the store book is already published)
+(if ((store_book.properties.status == "published") or (store_book.properties.status == "hidden")) (
+	(func render_validation_errors ((list (hash (error (get_error 1503)) (status 422)))))
+))
+
 (# Get the collection of the store book)
 (var collection (func get_table_object (store_book.properties.collection env.STORE_BOOK_COLLECTION_TABLE_ID)))
 
