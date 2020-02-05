@@ -75,6 +75,11 @@
 	(if (!(is_nil language)) (func validate_language_supported (language)))
 )))
 
+(# Check if the StoreBook is already published)
+(if ((!(is_nil language)) and ((store_book.properties.status == "published") or (store_book.properties.status == "hidden"))) (
+	(func render_validation_errors ((list (hash (error (get_error 1501)) (status 422)))))
+))
+
 (# Set the values)
 (if (!(is_nil title)) (var store_book.properties.title title))
 (if (!(is_nil description)) (var store_book.properties.description description))
@@ -83,20 +88,20 @@
 (if (!(is_nil published)) (
 	(var status store_book.properties.status)
 
-	(if ((is_nil status) or (status == "unpublished")) (
+	(if (published and ((is_nil status) or (status == "unpublished"))) (
 		(# Check if the book can be published)
 		(var errors (list))
 
 		(if (is_nil store_book.properties.description) (
-			(errors.push (hash (error (get_error 1401)) (status 409)))
+			(errors.push (hash (error (get_error 1401)) (status 422)))
 		))
 
 		(if (is_nil store_book.properties.cover) (
-			(errors.push (hash (error (get_error 1402)) (status 409)))
+			(errors.push (hash (error (get_error 1402)) (status 422)))
 		))
 
 		(if (is_nil store_book.properties.file) (
-			(errors.push (hash (error (get_error 1403)) (status 409)))
+			(errors.push (hash (error (get_error 1403)) (status 422)))
 		))
 		
 		(if (errors.length > 0) (
@@ -104,11 +109,13 @@
 		))
 
 		(# Change the status of the book to "review")
-		(if published (var store_book.properties.status "review"))
-	) elseif (status == "review") (
-		(if (! published) (var store_book.properties.status "unpublished"))
-	) elseif (status == "published") (
-		(if (! published) (var store_book.properties.status "unpublished"))
+		(var store_book.properties.status "review")
+	) elseif ((! published) and (status == "review")) (
+		(var store_book.properties.status "unpublished")
+	) elseif ((! published) and (status == "published")) (
+		(var store_book.properties.status "hidden")
+	) elseif (published and (status == "hidden")) (
+		(var store_book.properties.status "published")
 	))
 ))
 
