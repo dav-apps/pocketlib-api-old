@@ -54,6 +54,7 @@ module.exports = {
 						title: "A Series of Unfortunate Events - Book the First",
 						description: "Dear Reader, I'm sorry to say that the book you are holding in your hands is extremely unpleasant. It tells an unhappy tale about three very unlucky children.",
 						language: "en",
+						price: 1399,
 						status: "review",
 						cover: {
 							uuid: "bb63e1c9-866c-47b5-b852-e8473df404f3"
@@ -65,7 +66,7 @@ module.exports = {
 					{
 						uuid: "4df158a0-2157-4370-abac-dd3c25ca9ed3",
 						title: "Eine Reihe betrüblicher Ereignisse - Der schreckliche Anfang",
-						description: "Lieber Leser, es tut mir sehr Leid, aber das Buch, das du gerade in Händen hälst, ist außerordentlich unerfreulich. Es erzählt die traurige Geschichte von drei sehr bedauernswerten Kindern.",
+						description: "Lieber Leser, es tut mir sehr Leid, aber das Buch, das du gerade in Händen hältst, ist außerordentlich unerfreulich. Es erzählt die traurige Geschichte von drei sehr bedauernswerten Kindern.",
 						language: "de",
 						status: "hidden"
 					}

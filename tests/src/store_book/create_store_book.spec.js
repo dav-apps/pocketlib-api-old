@@ -443,6 +443,7 @@ describe("CreateStoreBook endpoint", () => {
 		assert.equal(title, response.data.title);
 		assert.equal(null, response.data.description);
 		assert.equal(language, response.data.language);
+		assert.equal(0, response.data.price);
 		assert.equal("unpublished", response.data.status);
 		assert.equal(false, response.data.cover);
 		assert.equal(false, response.data.file);
@@ -525,6 +526,7 @@ describe("CreateStoreBook endpoint", () => {
 		assert.equal(title, response.data.title);
 		assert.equal(description, response.data.description);
 		assert.equal(language, response.data.language);
+		assert.equal(0, response.data.price);
 		assert.equal("unpublished", response.data.status);
 		assert.equal(false, response.data.cover);
 		assert.equal(false, response.data.file);

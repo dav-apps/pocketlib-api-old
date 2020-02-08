@@ -662,6 +662,7 @@ async function resetAuthorUserStoreBooks(){
 						title: book.title,
 						description: book.description,
 						language: book.language,
+						price: book.price ? book.price.toString() : "",
 						status: book.status,
 						cover: book.cover ? book.cover.uuid : "",
 						file: book.file ? book.file.uuid : ""
@@ -724,6 +725,7 @@ async function resetDavUserStoreBooks(){
 							title: book.title,
 							description: book.description,
 							language: book.language,
+							price: book.price ? book.price.toString() : "",
 							status: book.status,
 							cover: book.cover ? book.cover.uuid : "",
 							file: book.file ? book.file.uuid : ""
