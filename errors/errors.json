@@ -21,6 +21,7 @@
 		{"code": 1501, "message": "Can't update language of published StoreBook"},
 		{"code": 1502, "message": "Can't update cover of published StoreBook"},
 		{"code": 1503, "message": "Can't update file of published StoreBook"},
+		{"code": 1504, "message": "Can't update price of published StoreBook"},
 
 		{"code": 2101, "message": "Missing field: jwt"},
 		{"code": 2102, "message": "Missing field: first_name"},
@@ -42,6 +43,7 @@
 		{"code": 2208, "message": "Field has wrong type: author"},
 		{"code": 2209, "message": "Field has wrong type: name"},
 		{"code": 2210, "message": "Field has wrong type: collection"},
+		{"code": 2211, "message": "Field has wrong type: price"},
 
 		{"code": 2301, "message": "Field too short: first_name"},
 		{"code": 2302, "message": "Field too short: last_name"},
@@ -60,6 +62,8 @@
 		{"code": 2406, "message": "Field too long: author"},
 		{"code": 2407, "message": "Field too long: name"},
 		{"code": 2408, "message": "Field too long: collection"},
+
+		{"code": 2501, "message": "Field invalid: price"},
 
 		{"code": 2801, "message": "Resource does not exist: Session"},
 		{"code": 2802, "message": "Resource does not exist: Author"},

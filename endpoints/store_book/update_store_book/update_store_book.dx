@@ -3,6 +3,7 @@
 (var title json.title)
 (var description json.description)
 (var language json.language)
+(var price json.price)
 (var published json.published)
 
 (# Get the jwt)
@@ -59,6 +60,7 @@
 	(if (!(is_nil title)) (func validate_title_wrong_type (title)))
 	(if (!(is_nil description)) (func validate_description_wrong_type (description)))
 	(if (!(is_nil language)) (func validate_language_wrong_type (language)))
+	(if (!(is_nil price)) (func validate_price_wrong_type (price)))
 	(if (!(is_nil published)) (func validate_published_wrong_type (published)))
 )))
 
@@ -75,15 +77,27 @@
 	(if (!(is_nil language)) (func validate_language_supported (language)))
 )))
 
-(# Check if the StoreBook is already published)
-(if ((!(is_nil language)) and ((store_book.properties.status == "published") or (store_book.properties.status == "hidden"))) (
-	(func render_validation_errors ((list (hash (error (get_error 1501)) (status 422)))))
+(# Validate the price)
+(func render_validation_errors ((list
+	(if (!(is_nil price)) (func validate_price_invalid (price)))
+)))
+
+(# Don't update language or price if the StoreBook is already published)
+(if ((store_book.properties.status == "published") or (store_book.properties.status == "hidden")) (
+	(if (!(is_nil language)) (
+		(func render_validation_errors ((list (hash (error (get_error 1501)) (status 422)))))
+	))
+
+	(if (!(is_nil price)) (
+		(func render_validation_errors ((list (hash (error (get_error 1504)) (status 422)))))
+	))
 ))
 
 (# Set the values)
 (if (!(is_nil title)) (var store_book.properties.title title))
 (if (!(is_nil description)) (var store_book.properties.description description))
 (if (!(is_nil language)) (var store_book.properties.language language))
+(if (!(is_nil price)) (var store_book.properties.price price))
 
 (if (!(is_nil published)) (
 	(var status store_book.properties.status)
@@ -128,6 +142,7 @@
 	(title store_book.properties.title)
 	(description store_book.properties.description)
 	(language store_book.properties.language)
+	(price (to_int store_book.properties.price))
 	(status status)
 	(cover (!(is_nil store_book.properties.cover)))
 	(file (!(is_nil store_book.properties.file)))

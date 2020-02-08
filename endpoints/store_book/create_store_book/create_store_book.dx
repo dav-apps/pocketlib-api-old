@@ -98,6 +98,7 @@
 	(title store_book.properties.title)
 	(description store_book.properties.description)
 	(language store_book.properties.language)
+	(price 0)
 	(status "unpublished")
 	(cover false)
 	(file false)

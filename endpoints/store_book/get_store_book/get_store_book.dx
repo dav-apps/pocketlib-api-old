@@ -51,6 +51,7 @@
 		(title store_book.properties.title)
 		(description store_book.properties.description)
 		(language store_book.properties.language)
+		(price (to_int store_book.properties.price))
 		(status status)
 		(cover (!(is_nil store_book.properties.cover)))
 		(file (!(is_nil store_book.properties.file)))
