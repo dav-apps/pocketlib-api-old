@@ -19,9 +19,9 @@
 		{"code": 1403, "message": "Can't publish StoreBook: file missing"},
 
 		{"code": 1501, "message": "Can't update language of published StoreBook"},
-		{"code": 1502, "message": "Can't update cover of published StoreBook"},
-		{"code": 1503, "message": "Can't update file of published StoreBook"},
-		{"code": 1504, "message": "Can't update price of published StoreBook"},
+		{"code": 1502, "message": "Can't update price of published StoreBook"},
+		{"code": 1503, "message": "Can't update cover of published StoreBook"},
+		{"code": 1504, "message": "Can't update file of published StoreBook"},
 
 		{"code": 2101, "message": "Missing field: jwt"},
 		{"code": 2102, "message": "Missing field: first_name"},

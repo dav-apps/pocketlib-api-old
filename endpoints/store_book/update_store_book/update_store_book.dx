@@ -89,7 +89,7 @@
 	))
 
 	(if (!(is_nil price)) (
-		(func render_validation_errors ((list (hash (error (get_error 1504)) (status 422)))))
+		(func render_validation_errors ((list (hash (error (get_error 1502)) (status 422)))))
 	))
 ))
 

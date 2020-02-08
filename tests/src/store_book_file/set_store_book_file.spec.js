@@ -151,7 +151,7 @@ describe("SetStoreBookFile endpoint", () => {
 		}catch(error){
 			assert.equal(422, error.response.status);
 			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1503, error.response.data.errors[0].code);
+			assert.equal(1504, error.response.data.errors[0].code);
 			return;
 		}
 
@@ -172,7 +172,7 @@ describe("SetStoreBookFile endpoint", () => {
 		}catch(error){
 			assert.equal(422, error.response.status);
 			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1503, error.response.data.errors[0].code);
+			assert.equal(1504, error.response.data.errors[0].code);
 			return;
 		}
 
@@ -200,7 +200,7 @@ describe("SetStoreBookFile endpoint", () => {
 		}catch(error){
 			assert.equal(422, error.response.status);
 			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1503, error.response.data.errors[0].code);
+			assert.equal(1504, error.response.data.errors[0].code);
 			return;
 		}
 
@@ -221,7 +221,7 @@ describe("SetStoreBookFile endpoint", () => {
 		}catch(error){
 			assert.equal(422, error.response.status);
 			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1503, error.response.data.errors[0].code);
+			assert.equal(1504, error.response.data.errors[0].code);
 			return;
 		}
 
