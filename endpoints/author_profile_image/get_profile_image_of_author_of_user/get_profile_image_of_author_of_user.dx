@@ -30,7 +30,7 @@
 
 (# Define function for rendering no profile image error)
 (def render_no_profile_image () (
-	(func render_validation_errors ((list (hash (error (get_error 2803)) (status 404)))))
+	(func render_validation_errors ((list (hash (error (get_error 2804)) (status 404)))))
 ))
 
 (# Get the profile image table object of the author)

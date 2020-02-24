@@ -107,7 +107,7 @@ describe("GetProfileImageOfAuthorOfUser endpoint", async () => {
 		}catch(error){
 			assert.equal(404, error.response.status);
 			assert.equal(1, error.response.data.errors.length);
-			assert.equal(2803, error.response.data.errors[0].code);
+			assert.equal(2804, error.response.data.errors[0].code);
 			return;
 		}finally{
 			// Tidy up

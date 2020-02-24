@@ -76,7 +76,7 @@ describe("GetStoreBook endpoint", () => {
 		}catch(error){
 			assert.equal(404, error.response.status);
 			assert.equal(1, error.response.data.errors.length);
-			assert.equal(2806, error.response.data.errors[0].code);
+			assert.equal(2807, error.response.data.errors[0].code);
 			return;
 		}
 

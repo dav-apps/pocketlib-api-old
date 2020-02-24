@@ -20,7 +20,7 @@
 
 (if (is_nil store_book) (
 	(# StoreBook does not exist)
-	(func render_validation_errors ((list (hash (error (get_error 2806)) (status 404)))))
+	(func render_validation_errors ((list (hash (error (get_error 2807)) (status 404)))))
 ))
 
 (# Get the status)

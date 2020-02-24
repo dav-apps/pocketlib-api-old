@@ -20,7 +20,7 @@
 
 (if (is_nil store_book) (
 	(# Render Resource does not exist: StoreBook)
-	(func render_validation_errors ((list (hash (error (get_error 2806)) (status 404)))))
+	(func render_validation_errors ((list (hash (error (get_error 2807)) (status 404)))))
 ))
 
 (# Get the status)
@@ -45,7 +45,7 @@
 
 (# Define function for rendering no cover error)
 (def render_no_cover () (
-	(func render_validation_errors ((list (hash (error (get_error 2807)) (status 404)))))
+	(func render_validation_errors ((list (hash (error (get_error 2808)) (status 404)))))
 ))
 
 (# Check if the store book has a cover)

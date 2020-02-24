@@ -9,6 +9,8 @@
 		{"code": 1106, "message": "The user is already an author"},
 		{"code": 1107, "message": "Language not supported"},
 		{"code": 1108, "message": "Not enough storage space"},
+		{"code": 1109, "message": "StoreBook is not published"},
+		{"code": 1110, "message": "dav Pro required"},
 
 		{"code": 1301, "message": "JWT expired"},
 		{"code": 1302, "message": "JWT invalid"},
@@ -65,13 +67,14 @@
 
 		{"code": 2501, "message": "Field invalid: price"},
 
-		{"code": 2801, "message": "Resource does not exist: Session"},
-		{"code": 2802, "message": "Resource does not exist: Author"},
-		{"code": 2803, "message": "Resource does not exist: AuthorProfileImage"},
-		{"code": 2804, "message": "Resource does not exist: StoreBookCollection"},
-		{"code": 2805, "message": "Resource does not exist: StoreBookCollectionName"},
-		{"code": 2806, "message": "Resource does not exist: StoreBook"},
-		{"code": 2807, "message": "Resource does not exist: StoreBookCover"},
-		{"code": 2808, "message": "Resource does not exist: StoreBookFile"}
+		{"code": 2801, "message": "Resource does not exist: User"},
+		{"code": 2802, "message": "Resource does not exist: Session"},
+		{"code": 2803, "message": "Resource does not exist: Author"},
+		{"code": 2804, "message": "Resource does not exist: AuthorProfileImage"},
+		{"code": 2805, "message": "Resource does not exist: StoreBookCollection"},
+		{"code": 2806, "message": "Resource does not exist: StoreBookCollectionName"},
+		{"code": 2807, "message": "Resource does not exist: StoreBook"},
+		{"code": 2808, "message": "Resource does not exist: StoreBookCover"},
+		{"code": 2809, "message": "Resource does not exist: StoreBookFile"}
 	]
 }

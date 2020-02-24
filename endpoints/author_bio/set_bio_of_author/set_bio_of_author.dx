@@ -32,7 +32,7 @@
 (var author (func get_table_object (uuid env.AUTHOR_TABLE_ID)))
 
 (if (is_nil author) (
-	(func render_validation_errors ((list (hash (error (get_error 2802)) (status 404)))))
+	(func render_validation_errors ((list (hash (error (get_error 2803)) (status 404)))))
 ))
 
 (# Check if the author belongs to the user)
