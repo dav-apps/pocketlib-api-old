@@ -77,9 +77,9 @@ describe("GetStoreBookFile endpoint", () => {
 		try{
 			await axios.default({
 				method: 'get',
-				url: getStoreBookFileEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[1].uuid),
+				url: getStoreBookFileEndpointUrl.replace('{0}', constants.davUserAuthors[0].collections[1].books[2].uuid),
 				headers: {
-					Authorization: constants.authorUserJWT
+					Authorization: constants.davUserJWT
 				}
 			});
 		}catch(error){

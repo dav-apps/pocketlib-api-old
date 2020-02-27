@@ -107,8 +107,8 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(storeBook.language, response.data.language);
 		assert.equal(storeBook.price || 0, response.data.price);
 		assert.equal("unpublished", response.data.status);
-		assert.equal(false, response.data.cover);
-		assert.equal(false, response.data.file);
+		assert.equal(storeBook.cover != null, response.data.cover);
+		assert.equal(storeBook.file != null, response.data.file);
 	});
 
 	it("should return unpublished store book if the user is an admin", async () => {
@@ -135,8 +135,8 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(storeBook.language, response.data.language);
 		assert.equal(storeBook.price || 0, response.data.price);
 		assert.equal("unpublished", response.data.status);
-		assert.equal(false, response.data.cover);
-		assert.equal(false, response.data.file);
+		assert.equal(storeBook.cover != null, response.data.cover);
+		assert.equal(storeBook.file != null, response.data.file);
 	});
 
 	it("should not return unpublished store book if the user is not the author", async () => {
@@ -185,8 +185,8 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(storeBook.language, response.data.language);
 		assert.equal(storeBook.price || 0, response.data.price);
 		assert.equal("review", response.data.status);
-		assert.equal(true, response.data.cover);
-		assert.equal(true, response.data.file);
+		assert.equal(storeBook.cover != null, response.data.cover);
+		assert.equal(storeBook.file != null, response.data.file);
 	});
 
 	it("should not return store book in review if the user is not the author", async () => {
@@ -235,8 +235,8 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(storeBook.language, response.data.language);
 		assert.equal(storeBook.price || 0, response.data.price);
 		assert.equal("review", response.data.status);
-		assert.equal(true, response.data.cover);
-		assert.equal(true, response.data.file);
+		assert.equal(storeBook.cover != null, response.data.cover);
+		assert.equal(storeBook.file != null, response.data.file);
 	});
 
 	it("should return published store book if the user is the author", async () => {
@@ -263,8 +263,8 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(storeBook.language, response.data.language);
 		assert.equal(storeBook.price || 0, response.data.price);
 		assert.equal("published", response.data.status);
-		assert.equal(true, response.data.cover);
-		assert.equal(true, response.data.file);
+		assert.equal(storeBook.cover != null, response.data.cover);
+		assert.equal(storeBook.file != null, response.data.file);
 	});
 
 	it("should return published store book if the user is not the author", async () => {
@@ -291,7 +291,7 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(storeBook.language, response.data.language);
 		assert.equal(storeBook.price || 0, response.data.price);
 		assert.equal("published", response.data.status);
-		assert.equal(true, response.data.cover);
-		assert.equal(true, response.data.file);
+		assert.equal(storeBook.cover != null, response.data.cover);
+		assert.equal(storeBook.file != null, response.data.file);
 	});
 });

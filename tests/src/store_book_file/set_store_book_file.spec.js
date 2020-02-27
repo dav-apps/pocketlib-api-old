@@ -180,7 +180,7 @@ describe("SetStoreBookFile endpoint", () => {
 	});
 
 	it("should create and update store book file", async () => {
-		await testCreateAndUpdateStoreBookFile(constants.authorUserAuthor.collections[1].books[0], constants.authorUserJWT);
+		await testCreateAndUpdateStoreBookFile(constants.authorUserAuthor.collections[2].books[0], constants.authorUserJWT);
 
 		// Tidy up
 		resetStoreBooksAndStoreBookFiles = true;
@@ -229,7 +229,7 @@ describe("SetStoreBookFile endpoint", () => {
 	});
 
 	it("should create and update store book file of store book of an admin", async () => {
-		await testCreateAndUpdateStoreBookFile(constants.davUserAuthors[0].collections[0].books[1], constants.davUserJWT);
+		await testCreateAndUpdateStoreBookFile(constants.davUserAuthors[0].collections[0].books[2], constants.davUserJWT);
 
 		// Tidy up
 		resetStoreBooksAndStoreBookFiles = true;

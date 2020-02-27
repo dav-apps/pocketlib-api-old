@@ -691,8 +691,8 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal(storeBook.description, response.data.description);
 		assert.equal(storeBook.language, response.data.language);
 		assert.equal("published", response.data.status);
-		assert.equal(false, response.data.cover);
-		assert.equal(false, response.data.file);
+		assert.equal(storeBook.cover != null, response.data.cover);
+		assert.equal(storeBook.file != null, response.data.file);
 
 		// Check if the store book was updated on the server
 		let objResponse;
@@ -746,8 +746,8 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal(storeBook.description, response.data.description);
 		assert.equal(storeBook.language, response.data.language);
 		assert.equal("hidden", response.data.status);
-		assert.equal(false, response.data.cover);
-		assert.equal(false, response.data.file);
+		assert.equal(storeBook.cover != null, response.data.cover);
+		assert.equal(storeBook.file != null, response.data.file);
 
 		// Check if the store book was updated on the server
 		let objResponse;
@@ -1021,8 +1021,8 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal(storeBook.description, response.data.description);
 		assert.equal(storeBook.language, response.data.language);
 		assert.equal("published", response.data.status);
-		assert.equal(false, response.data.cover);
-		assert.equal(false, response.data.file);
+		assert.equal(storeBook.cover != null, response.data.cover);
+		assert.equal(storeBook.file != null, response.data.file);
 
 		// Check if the store book was updated on the server
 		let objResponse;
