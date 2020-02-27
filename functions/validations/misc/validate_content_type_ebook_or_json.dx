@@ -1,0 +1,9 @@
+(# params: content_type: string)
+(if (
+	(content_type != "application/epub+zip") and
+	(content_type != "application/pdf") and
+	(content_type != "application/json")
+) (
+	(# Content-Type not supported error)
+	(hash (error (get_error 1104)) (status 415))
+))

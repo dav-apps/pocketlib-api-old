@@ -27,21 +27,10 @@
 (var status (if (is_nil store_book.properties.status) "unpublished" else store_book.properties.status))
 
 (# Check if the user can access the store book cover)
-(if (!(
-	(is_admin or (status == "published")) 
-	or (
-		(# Get the collection of the store book)
-		(var collection (func get_table_object (store_book.properties.collection env.STORE_BOOK_COLLECTION_TABLE_ID)))
-
-		(# Get the author of the collection)
-		(var author (func get_table_object (collection.properties.author env.AUTHOR_TABLE_ID)))
-
-		(decoded_jwt.user_id == author.user_id)
-	))) (
-		(# Access not allowed)
-		(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
-	)
-)
+(if (!((is_admin or (status == "published")) or (decoded_jwt.user_id == store_book.user_id))) (
+	(# Access not allowed)
+	(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
+))
 
 (# Define function for rendering no cover error)
 (def render_no_cover () (

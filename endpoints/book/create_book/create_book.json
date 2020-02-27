@@ -1,0 +1,6 @@
+{
+	"type": "endpoint",
+	"path": "book",
+	"method": "POST",
+	"source": "./create_book.dx"
+}
