@@ -10,6 +10,7 @@ async function resetDatabase(){
 	await resetStoreBooks();
 	await resetStoreBookCovers();
 	await resetStoreBookFiles();
+	await resetBooks();
 }
 
 async function resetAuthors(){
@@ -82,6 +83,13 @@ async function resetStoreBookFiles(){
 	// Reset StoreBookFiles
 	await resetAuthorUserStoreBookFiles();
 	await resetDavUserStoreBookFiles();
+}
+
+async function resetBooks(){
+	// Delete Books
+	await deleteTableObjectsOfTable(constants.authorUserJWT, constants.bookTableId);
+	await deleteTableObjectsOfTable(constants.davUserJWT, constants.bookTableId);
+	await deleteTableObjectsOfTable(constants.klausUserJWT, constants.bookTableId);
 }
 
 
@@ -726,7 +734,7 @@ async function resetDavUserStoreBooks(){
 							description: book.description,
 							language: book.language,
 							price: book.price ? book.price.toString() : "",
-							status: book.status,
+							status: book.status || "",
 							cover: book.cover ? book.cover.uuid : "",
 							file: book.file ? book.file.uuid : ""
 						}
@@ -920,7 +928,7 @@ async function resetAuthorUserStoreBookFiles(){
 	// Get all files of the test database
 	for(let collection of constants.authorUserAuthor.collections){
 		for(let book of collection.books){
-			if(book.file) testDatabaseFiles.push(book.file.uuid);
+			if(book.file) testDatabaseFiles.push(book.file);
 		}
 	}
 
@@ -946,11 +954,11 @@ async function resetAuthorUserStoreBookFiles(){
 					uuid: file.uuid,
 					table_id: constants.storeBookFileTableId,
 					app_id: constants.pocketlibAppId,
-					ext: "pdf"
+					ext: file.ext
 				},
 				headers: {
 					Authorization: constants.authorUserJWT,
-					'Content-Type': 'application/pdf'
+					'Content-Type': file.type
 				},
 				data: "Hello World"
 			});
@@ -985,7 +993,7 @@ async function resetDavUserStoreBookFiles(){
 	for(let author of constants.davUserAuthors){
 		for(let collection of author.collections){
 			for(let book of collection.books){
-				if(book.file) testDatabaseFiles.push(book.file.uuid);
+				if(book.file) testDatabaseFiles.push(book.file);
 			}
 		}
 	}
@@ -1012,11 +1020,11 @@ async function resetDavUserStoreBookFiles(){
 					uuid: file.uuid,
 					table_id: constants.storeBookFileTableId,
 					app_id: constants.pocketlibAppId,
-					ext: "pdf"
+					ext: file.ext
 				},
 				headers: {
 					Authorization: constants.davUserJWT,
-					'Content-Type': 'application/pdf'
+					'Content-Type': file.type
 				},
 				data: "Hello World"
 			});
@@ -1088,5 +1096,6 @@ module.exports = {
 	resetStoreBooks,
 	resetStoreBookCovers,
 	resetStoreBookFiles,
+	resetBooks,
 	getTableObject
 }

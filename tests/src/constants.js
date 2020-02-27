@@ -1,6 +1,8 @@
 module.exports = {
 	apiBaseUrl: "http://localhost:3111/v1",
 	pocketlibAppId: 6,
+	bookTableId: 14,
+	bookFileTableId: 15,
 	authorTableId: 19,
 	authorBioTableId: 20,
 	authorProfileImageTableId: 21,
@@ -17,6 +19,8 @@ module.exports = {
 	davUserJWT: "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImRhdkBkYXYtYXBwcy50ZWNoIiwidXNlcl9pZCI6MSwiZGV2X2lkIjoxLCJleHAiOjM3NTYxMDE3NjAwfQ.6LvizKcYttmWGLwGFS4A2nhSu6aOs8O9_pa2StxTQqE.3",
 	// User id: 5, Dev id: 1, App id: 6 (PocketLib)
 	davClassLibraryTestUserJWT: "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImRhdkNsYXNzTGlicmFyeVRlc3RAZGF2LWFwcHMudGVjaCIsInVzZXJfaWQiOjUsImRldl9pZCI6MSwiZXhwIjozNzU2MTAxNzYwMH0.unJZtU7Mua12L_GsW09BvoeSQd56VR_RK9x3TE2GWQo.4",
+	// User id: 6, Dev id: 1, App id: 6 (PocketLib)
+	klausUserJWT: "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImtsYXVzLmJhdWRlbGFpcmVAZGF2LWFwcHMudGVjaCIsInVzZXJfaWQiOjcsImRldl9pZCI6MSwiZXhwIjozNzU2MTAxNzYwMH0.Ow0dLs1x_HR6fJ02UqQBVRxDME7cqp_4LRxioJfe_F4.5",
 	authorUserAuthor: {
 		uuid: "099fbfa5-a6f1-41c1-99e9-0d02d8364f2d",
 		firstName: "Lemony",
@@ -29,7 +33,7 @@ module.exports = {
 			},
 			{
 				uuid: "51e8135e-7ba7-4d59-8f93-2eda6141dfc8",
-				bio: "Lieber Leser, es tut mir leid, dir sagen zu müssen, dass ich einige sehr unangenehme Geschichten geschrieben habe, die du auf keinen Fall lesen solltest, wenn du weiterhin ein gesundes Leben führen willst.",
+				bio: "Lieber Leser, es tut mir Leid, dir sagen zu müssen, dass ich einige sehr unangenehme Geschichten geschrieben habe, die du auf keinen Fall lesen solltest, wenn du weiterhin ein gesundes Leben führen willst.",
 				language: "de"
 			}
 		],
@@ -60,7 +64,9 @@ module.exports = {
 							uuid: "bb63e1c9-866c-47b5-b852-e8473df404f3"
 						},
 						file: {
-							uuid: "b7cf0cee-fe8d-4f08-8b6e-d391065f1abb"
+							uuid: "b7cf0cee-fe8d-4f08-8b6e-d391065f1abb",
+							ext: "pdf",
+							type: "application/pdf"
 						}
 					},
 					{
@@ -68,7 +74,12 @@ module.exports = {
 						title: "Eine Reihe betrüblicher Ereignisse - Der schreckliche Anfang",
 						description: "Lieber Leser, es tut mir sehr Leid, aber das Buch, das du gerade in Händen hältst, ist außerordentlich unerfreulich. Es erzählt die traurige Geschichte von drei sehr bedauernswerten Kindern.",
 						language: "de",
-						status: "hidden"
+						status: "hidden",
+						file: {
+							uuid: "8f219b89-eb25-4c55-b1a4-467e36bfa081",
+							ext: "epub",
+							type: "application/zip+epub"
+						}
 					}
 				]
 			},
@@ -92,14 +103,44 @@ module.exports = {
 						title: "A Series of Unfortunate Events - Book the Second",
 						description: "Dear Reader, if you have picked up this book with the hope of finding a simple and cheery tale, I'm afraid you have picked up the wrong book altogether.",
 						language: "en",
-						status: "unpublished"
+						status: "unpublished",
+						file: {
+							uuid: "fb2745e4-f095-4237-97d5-660e41356790",
+							ext: "pdf",
+							type: "application/pdf"
+						}
 					},
 					{
 						uuid: "617833c8-4d0a-4d78-acd0-306a90e346ba",
 						title: "Eine Reihe betrüblicher Ereignisse - Das Haus der Schlangen",
 						description: "Lieber Leser, wenn du dieses Buch zur Hand genommen hast in der Hoffnung, darin Zerstreuung und Vergnügen zu finden, dann liegst du leider völlig falsch.",
 						language: "de",
-						status: "published"
+						price: 2000,
+						status: "published",
+						file: {
+							uuid: "d6f52b96-6bca-40ee-bb70-fb1347e1c8ba",
+							ext: "epub",
+							type: "application/zip+epub"
+						}
+					}
+				]
+			},
+			{
+				uuid: "7bb97f7e-cd7d-4fa8-a734-ef4732d33fcd",
+				names: [
+					{
+						uuid: "e5a21039-1aae-406b-98ba-16d820e906e7",
+						name: "A Series of Unfortunate Events - Book the Third",
+						language: "en"
+					}
+				],
+				books: [
+					{
+						uuid: "45c14ab4-8789-41c4-b0f6-11be0a86a94c",
+						title: "A Series of Unfortunate Events - Book the Third",
+						description: "Dear Reader, if you have not read anything about the Baudelaire orphans, then before you read even one more sentence, you should know this: Violet, Klaus and Sunny are kindhearted and quick-witted, but their lives, I am sorry to say, are filled with bad luck and misery.",
+						language: "en",
+						status: "unpublished"
 					}
 				]
 			}
@@ -136,12 +177,15 @@ module.exports = {
 							title: "1984",
 							description: "Orwell's novel about the destruction of man by a perfect state machinery has long since become a metaphor for totalitarian conditions that no longer seems in need of explanation.",
 							language: "en",
+							price: 1000,
 							status: "published",
 							cover: {
 								uuid: "63960709-1aa5-40dd-a7a3-8fa79aaa1f5d"
 							},
 							file: {
-								uuid: "32adbdaa-0cbe-4672-80a6-19d4b8d6e943"
+								uuid: "32adbdaa-0cbe-4672-80a6-19d4b8d6e943",
+								ext: "pdf",
+								type: "application/pdf"
 							}
 						},
 						{
@@ -149,7 +193,19 @@ module.exports = {
 							title: "1984",
 							description: "Orwells Roman über die Zerstörung des Menschen durch eine perfekte Staatsmaschinerie ist längst zu einer scheinbar nicht mehr erklärungsbedürftigen Metapher für totalitäre Verhältnisse geworden.",
 							language: "de",
-							status: "review"
+							status: "review",
+							file: {
+								uuid: "050f7a0d-59a9-498a-9caa-8b418227e72b",
+								ext: "epub",
+								type: "application/zip+epub"
+							}
+						},
+						{
+							uuid: "0c3d12b8-1398-4f4e-b912-2aa460671579",
+							title: "1984",
+							description: "Le roman d'Orwell sur la destruction de l'homme par une machine étatique parfaite est devenu depuis longtemps une métaphore des conditions totalitaires qui ne semble plus avoir besoin d'explication.",
+							language: "fr",
+							status: "unpublished"
 						}
 					]
 				},
@@ -168,13 +224,30 @@ module.exports = {
 							title: "Animal Farm",
 							description: "Animal Farm is an allegorical novella by George Orwell, first published in England on 17 August 1945. The book tells the story of a group of farm animals who rebel against their human farmer, hoping to create a society where the animals can be equal, free, and happy.",
 							language: "en",
-							status: "hidden"
+							status: "hidden",
+							file: {
+								uuid: "6566a1b6-0b17-4ff8-ba01-c58374c179ee",
+								ext: "pdf",
+								type: "application/pdf"
+							}
 						},
 						{
 							uuid: "f27a4472-d3f8-4310-9f76-156af7c03c43",
 							title: "Farm der Tiere",
 							description: "Farm der Tiere ist eine allegorische Novelle von George Orwell, die erstmals am 17. August 1945 in England veröffentlicht wurde. Das Buch erzählt die Geschichte einer Gruppe von Nutztieren, die sich gegen ihren menschlichen Bauern auflehnen, in der Hoffnung, eine Gesellschaft zu schaffen, in der die Tiere gleichberechtigt, frei und glücklich sein können.",
-							language: "de"
+							language: "de",
+							file: {
+								uuid: "987335cf-4fd0-4c80-a6f1-97bedd46ecbf",
+								ext: "epub",
+								type: "application/zip+epub"
+							}
+						},
+						{
+							uuid: "ba96f327-f096-4408-8bd0-620f9aad3f09",
+							title: "La Ferme des animaux",
+							description: "La Ferme des animaux est un roman allégorique de George Orwell, publié pour la première fois en Angleterre le 17 août 1945. Le livre raconte l'histoire d'un groupe d'animaux de ferme qui se rebellent contre leur éleveur humain dans l'espoir de créer une société dans laquelle les animaux peuvent être égaux, libres et heureux.",
+							language: "fr",
+							status: "published"
 						}
 					]
 				}
