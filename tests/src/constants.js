@@ -61,7 +61,9 @@ module.exports = {
 						price: 1399,
 						status: "review",
 						cover: {
-							uuid: "bb63e1c9-866c-47b5-b852-e8473df404f3"
+							uuid: "bb63e1c9-866c-47b5-b852-e8473df404f3",
+							ext: "png",
+							type: "image/png"
 						},
 						file: {
 							uuid: "b7cf0cee-fe8d-4f08-8b6e-d391065f1abb",
@@ -146,7 +148,9 @@ module.exports = {
 			}
 		],
 		profileImage: {
-			uuid: "14e5ad81-3105-4cbc-85c8-4ffeec1c3812"
+			uuid: "14e5ad81-3105-4cbc-85c8-4ffeec1c3812",
+			ext: "png",
+			type: "image/png"
 		}
 	},
 	davUserAuthors: [
@@ -180,7 +184,9 @@ module.exports = {
 							price: 1000,
 							status: "published",
 							cover: {
-								uuid: "63960709-1aa5-40dd-a7a3-8fa79aaa1f5d"
+								uuid: "63960709-1aa5-40dd-a7a3-8fa79aaa1f5d",
+								ext: "jpg",
+								type: "image/jpeg"
 							},
 							file: {
 								uuid: "32adbdaa-0cbe-4672-80a6-19d4b8d6e943",
@@ -253,7 +259,9 @@ module.exports = {
 				}
 			],
 			profileImage: {
-				uuid: "df45f27f-8ecb-41b0-864f-bb76669279f5"
+				uuid: "df45f27f-8ecb-41b0-864f-bb76669279f5",
+				ext: "jpg",
+				type: "image/jpeg"
 			}
 		},
 		{

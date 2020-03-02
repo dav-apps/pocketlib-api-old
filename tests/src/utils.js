@@ -334,11 +334,11 @@ async function resetAuthorUserAuthorProfileImages(){
 					uuid: testDatabaseProfileImageUuid,
 					table_id: constants.authorProfileImageTableId,
 					app_id: constants.pocketlibAppId,
-					ext: "png"
+					ext: constants.authorUserAuthor.profileImage.ext
 				},
 				headers: {
 					Authorization: constants.authorUserJWT,
-					'Content-Type': 'image/png'
+					'Content-Type': constants.authorUserAuthor.profileImage.type
 				},
 				data: "Hello World"
 			});
@@ -371,7 +371,7 @@ async function resetDavUserAuthorProfileImages(){
 
 	// Get all profile images of the test database
 	for(let author of constants.davUserAuthors){
-		profileImages.push(author.uuid);
+		testDatabaseProfileImages.push(author.profileImage);
 	}
 
 	// Delete each profile image that is not part of the test database
@@ -396,11 +396,11 @@ async function resetDavUserAuthorProfileImages(){
 					uuid: profileImage.uuid,
 					table_id: constants.authorProfileImageTableId,
 					app_id: constants.pocketlibAppId,
-					ext: "png"
+					ext: profileImage.ext
 				},
 				headers: {
 					Authorization: constants.davUserJWT,
-					'Content-Type': 'image/png'
+					'Content-Type': profileImage.type
 				},
 				data: "Hello World"
 			});
@@ -798,7 +798,7 @@ async function resetAuthorUserStoreBookCovers(){
 	// Get all covers of the test database
 	for(let collection of constants.authorUserAuthor.collections){
 		for(let book of collection.books){
-			if(book.cover) testDatabaseCovers.push(book.cover.uuid);
+			if(book.cover) testDatabaseCovers.push(book.cover);
 		}
 	}
 
@@ -824,11 +824,11 @@ async function resetAuthorUserStoreBookCovers(){
 					uuid: cover.uuid,
 					table_id: constants.storeBookCoverTableId,
 					app_id: constants.pocketlibAppId,
-					ext: "png"
+					ext: cover.ext
 				},
 				headers: {
 					Authorization: constants.authorUserJWT,
-					'Content-Type': 'image/png'
+					'Content-Type': cover.type
 				},
 				data: "Hello World"
 			});
@@ -863,7 +863,7 @@ async function resetDavUserStoreBookCovers(){
 	for(let author of constants.davUserAuthors){
 		for(let collection of author.collections){
 			for(let book of collection.books){
-				if(book.cover) testDatabaseCovers.push(book.cover.uuid);
+				if(book.cover) testDatabaseCovers.push(book.cover);
 			}
 		}
 	}
@@ -890,11 +890,11 @@ async function resetDavUserStoreBookCovers(){
 					uuid: cover.uuid,
 					table_id: constants.storeBookCoverTableId,
 					app_id: constants.pocketlibAppId,
-					ext: "png"
+					ext: cover.ext
 				},
 				headers: {
 					Authorization: constants.davUserJWT,
-					'Content-Type': 'image/png'
+					'Content-Type': cover.type
 				},
 				data: "Hello World"
 			});
