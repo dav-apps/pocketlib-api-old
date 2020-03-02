@@ -90,19 +90,20 @@
 	(var book_type file_obj.properties.type)
 
 	(# Create the book)
-	(var book_properties (hash (file store_book.properties.file)))
+	(var book_properties (hash (store_book store_book.uuid) (file store_book.properties.file)))
 	(if (book_type == "application/pdf") (var book_properties.title store_book.properties.title))
 
 	(var book (func create_table_object (decoded_jwt.user_id env.BOOK_TABLE_ID book_properties)))
 
 	(# Create a TableObjectUserAccess for the file)
-	(TableObjectUserAccess.create book.properties.file decoded_jwt.user_id)
+	(func create_table_object_user_access (book.properties.file decoded_jwt.user_id env.BOOK_FILE_TABLE_ID))
 	
 	(if (book_type == "application/pdf") (
 		(# Render the result as pdf book)
 		(render_json 
 			(hash
 				(uuid book.uuid)
+				(store_book book.properties.store_book)
 				(file book.properties.file)
 				(title store_book.properties.title)
 				(page 0)
@@ -115,6 +116,7 @@
 		(render_json 
 			(hash
 				(uuid book.uuid)
+				(store_book book.properties.store_book)
 				(file book.properties.file)
 				(chapter 0)
 				(progress 0)

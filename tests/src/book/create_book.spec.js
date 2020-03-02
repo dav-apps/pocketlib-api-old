@@ -297,6 +297,7 @@ describe("CreateBook endpoint", () => {
 
 		assert.equal(201, response.status);
 		assert(response.data.uuid != null);
+		assert.equal(response.data.store_book, storeBook.uuid);
 		assert(response.data.file != null);
 
 		// Get the store book file table object
@@ -340,6 +341,7 @@ describe("CreateBook endpoint", () => {
 			assert.fail();
 		}
 
+		assert.equal(response.data.store_book, bookObjResponse.data.properties.store_book);
 		assert.equal(response.data.file, bookObjResponse.data.properties.file);
 
 		if(storeBookFileObjResponse.data.properties.type == "application/pdf"){
