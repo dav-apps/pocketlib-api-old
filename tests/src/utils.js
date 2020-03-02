@@ -371,14 +371,14 @@ async function resetDavUserAuthorProfileImages(){
 
 	// Get all profile images of the test database
 	for(let author of constants.davUserAuthors){
-		testDatabaseProfileImages.push(author.profileImage);
+		if(author.profileImage) testDatabaseProfileImages.push(author.profileImage);
 	}
 
 	// Delete each profile image that is not part of the test database
 	for(let profileImage of profileImages){
-		let i = testDatabaseProfileImages.indexOf(profileImage.uuid);
+		let i = testDatabaseProfileImages.findIndex(img => img.uuid == profileImage.uuid);
 
-		if(i != 0){
+		if(i != -1){
 			testDatabaseProfileImages.splice(i, 1);
 		}else{
 			// Delete the profile image
@@ -405,6 +405,7 @@ async function resetDavUserAuthorProfileImages(){
 				data: "Hello World"
 			});
 		}catch(error){
+			console.log(profileImage.uuid)
 			console.log("Error in creating profile image");
 			console.log(error.response.data);
 		}
@@ -804,7 +805,7 @@ async function resetAuthorUserStoreBookCovers(){
 
 	// Delete each cover that is not part of the test database
 	for(let cover of covers){
-		let i = testDatabaseCovers.indexOf(cover.uuid);
+		let i = testDatabaseCovers.findIndex(c => c.uuid == cover.uuid);
 
 		if(i != -1){
 			testDatabaseCovers.splice(i, 1);
@@ -870,7 +871,7 @@ async function resetDavUserStoreBookCovers(){
 
 	// Delete each cover that is not part of the test database
 	for(let cover of covers){
-		let i = testDatabaseCovers.indexOf(cover.uuid);
+		let i = testDatabaseCovers.findIndex(c => c.uuid == cover.uuid);
 
 		if(i != -1){
 			testDatabaseCovers.splice(i, 1);
@@ -934,7 +935,7 @@ async function resetAuthorUserStoreBookFiles(){
 
 	// Delete each cover that is not part of the test database
 	for(let file of files){
-		let i = testDatabaseFiles.indexOf(file.uuid);
+		let i = testDatabaseFiles.findIndex(f => f.uuid == file.uuid);
 
 		if(i != -1){
 			testDatabaseFiles.splice(i, 1);
@@ -1000,7 +1001,7 @@ async function resetDavUserStoreBookFiles(){
 
 	// Delete each cover that is not part of the test database
 	for(let file of files){
-		let i = testDatabaseFiles.indexOf(file.uuid);
+		let i = testDatabaseFiles.findIndex(f => f.uuid == file.uuid);
 
 		if(i != -1){
 			testDatabaseFiles.splice(i, 1);
@@ -1057,7 +1058,9 @@ async function deleteTableObjectsOfTable(jwt, tableId){
 
 	// Delete each object
 	for(let obj of objects){
-		await deleteTableObject(obj.uuid, jwt);
+		if(obj.table_id == tableId){
+			await deleteTableObject(obj.uuid, jwt);
+		}
 	}
 }
 
