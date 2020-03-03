@@ -78,6 +78,11 @@
 		))
 	))
 
+	(# Check if the StoreBook is already in the library of the user)
+	(if (func is_store_book_in_user_library (decoded_jwt.user_id store_book.uuid)) (
+		(func render_validation_errors ((list (hash (error (get_error 1112)) (status 422)))))
+	))
+
 	(# Get the table object of the store book file)
 	(var file_obj (func get_table_object (store_book.properties.file env.STORE_BOOK_FILE_TABLE_ID)))
 

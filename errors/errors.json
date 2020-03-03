@@ -12,6 +12,7 @@
 		{"code": 1109, "message": "StoreBook is not published"},
 		{"code": 1110, "message": "dav Pro required"},
 		{"code": 1111, "message": "Can't create Book from free StoreBook"},
+		{"code": 1112, "message": "This StoreBook is already in your library"},
 
 		{"code": 1301, "message": "JWT expired"},
 		{"code": 1302, "message": "JWT invalid"},
