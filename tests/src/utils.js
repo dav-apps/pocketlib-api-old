@@ -87,34 +87,36 @@ async function resetStoreBookFiles(){
 
 async function resetBooks(){
 	// Delete Books
-	await deleteTableObjectsOfTable(constants.authorUserJWT, constants.bookTableId);
-	await deleteTableObjectsOfTable(constants.davUserJWT, constants.bookTableId);
-	await deleteTableObjectsOfTable(constants.klausUserJWT, constants.bookTableId);
+	await deleteTableObjectsOfTable(constants.authorUser.jwt, constants.bookTableId);
+	await deleteTableObjectsOfTable(constants.davUser.jwt, constants.bookTableId);
+
+	// Reset books
+	await resetKlausUserBooks();
 }
 
 
 async function resetAuthorUserAuthor(){
 	// Reset the author of author user
 	let collections = [];
-	constants.authorUserAuthor.collections.forEach(collection => collections.push(collection.uuid));
+	constants.authorUser.author.collections.forEach(collection => collections.push(collection.uuid));
 
 	let bios = [];
-	constants.authorUserAuthor.bios.forEach(bio => bios.push(bio.uuid));
+	constants.authorUser.author.bios.forEach(bio => bios.push(bio.uuid));
 
 	try{
 		await axios.default({
 			method: 'put',
-			url: `${constants.apiBaseUrl}/apps/object/${constants.authorUserAuthor.uuid}`,
+			url: `${constants.apiBaseUrl}/apps/object/${constants.authorUser.author.uuid}`,
 			headers: {
-				Authorization: constants.authorUserJWT,
+				Authorization: constants.authorUser.jwt,
 				'Content-Type': 'application/json'
 			},
 			data: {
-				first_name: constants.authorUserAuthor.firstName,
-				last_name: constants.authorUserAuthor.lastName,
+				first_name: constants.authorUser.author.firstName,
+				last_name: constants.authorUser.author.lastName,
 				bios: bios.join(','),
 				collections: collections.join(','),
-				profile_image: constants.authorUserAuthor.profileImage.uuid
+				profile_image: constants.authorUser.author.profileImage.uuid
 			}
 		});
 	}catch(error){
@@ -127,7 +129,7 @@ async function resetDavUserAuthors(){
 	let testDatabaseAuthors = [];
 
 	// Reset the authors of dav user
-	for(let author of constants.davUserAuthors){
+	for(let author of constants.davUser.authors){
 		testDatabaseAuthors.push(author.uuid);
 
 		let collections = [];
@@ -141,7 +143,7 @@ async function resetDavUserAuthors(){
 				method: 'put',
 				url: `${constants.apiBaseUrl}/apps/object/${author.uuid}`,
 				headers: {
-					Authorization: constants.davUserJWT,
+					Authorization: constants.davUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -167,7 +169,7 @@ async function resetDavUserAuthors(){
 			method: 'get',
 			url: `${constants.apiBaseUrl}/apps/table/${constants.authorTableId}`,
 			headers: {
-				Authorization: constants.davUserJWT
+				Authorization: constants.davUser.jwt
 			}
 		});
 
@@ -182,14 +184,14 @@ async function resetDavUserAuthors(){
 		if(testDatabaseAuthors.includes(author.uuid)) continue;
 
 		// Delete the author
-		await deleteTableObject(author.uuid, constants.davUserJWT);
+		await deleteTableObject(author.uuid, constants.davUser.jwt);
 	}
 }
 
 async function resetAuthorUserAuthorBios(){
 	let testDatabaseAuthorBios = [];
 
-	for(let authorBio of constants.authorUserAuthor.bios){
+	for(let authorBio of constants.authorUser.author.bios){
 		testDatabaseAuthorBios.push(authorBio.uuid);
 
 		// Reset the author bio
@@ -198,7 +200,7 @@ async function resetAuthorUserAuthorBios(){
 				method: 'put',
 				url: `${constants.apiBaseUrl}/apps/object/${authorBio.uuid}`,
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -221,7 +223,7 @@ async function resetAuthorUserAuthorBios(){
 			method: 'get',
 			url: `${constants.apiBaseUrl}/apps/table/${constants.authorBioTableId}`,
 			headers: {
-				Authorization: constants.authorUserJWT
+				Authorization: constants.authorUser.jwt
 			}
 		});
 
@@ -236,14 +238,14 @@ async function resetAuthorUserAuthorBios(){
 		if(testDatabaseAuthorBios.includes(authorBio.uuid)) continue;
 
 		// Delete the author bio
-		await deleteTableObject(authorBio.uuid, constants.authorUserJWT);
+		await deleteTableObject(authorBio.uuid, constants.authorUser.jwt);
 	}
 }
 
 async function resetDavUserAuthorBios(){
 	let testDatabaseAuthorBios = [];
 
-	for(let author of constants.davUserAuthors){
+	for(let author of constants.davUser.authors){
 		for(let authorBio of author.bios){
 			testDatabaseAuthorBios.push(authorBio.uuid);
 
@@ -253,7 +255,7 @@ async function resetDavUserAuthorBios(){
 					method: 'put',
 					url: `${constants.apiBaseUrl}/apps/object/${authorBio.uuid}`,
 					headers: {
-						Authorization: constants.davUserJWT,
+						Authorization: constants.davUser.jwt,
 						'Content-Type': 'application/json'
 					},
 					data: {
@@ -277,7 +279,7 @@ async function resetDavUserAuthorBios(){
 			method: 'get',
 			url: `${constants.apiBaseUrl}/apps/table/${constants.authorBioTableId}`,
 			headers: {
-				Authorization: constants.davUserJWT
+				Authorization: constants.davUser.jwt
 			}
 		});
 
@@ -292,21 +294,21 @@ async function resetDavUserAuthorBios(){
 		if(testDatabaseAuthorBios.includes(authorBio.uuid)) continue;
 
 		// Delete the author bio
-		await deleteTableObject(authorBio.uuid, constants.davUserJWT);
+		await deleteTableObject(authorBio.uuid, constants.davUser.jwt);
 	}
 }
 
 async function resetAuthorUserAuthorProfileImages(){
 	// Get the profile image table
 	let profileImages = [];
-	let testDatabaseProfileImageUuid = constants.authorUserAuthor.profileImage.uuid;
+	let testDatabaseProfileImageUuid = constants.authorUser.author.profileImage.uuid;
 
 	try{
 		let response = await axios.default({
 			method: 'get',
 			url: `${constants.apiBaseUrl}/apps/table/${constants.authorProfileImageTableId}`,
 			headers: {
-				Authorization: constants.authorUserJWT
+				Authorization: constants.authorUser.jwt
 			}
 		});
 
@@ -320,7 +322,7 @@ async function resetAuthorUserAuthorProfileImages(){
 	for(let profileImage of profileImages){
 		if(profileImage.uuid != testDatabaseProfileImageUuid){
 			// Delete the profile image
-			await deleteTableObject(profileImage.uuid, constants.authorUserJWT);
+			await deleteTableObject(profileImage.uuid, constants.authorUser.jwt);
 		}
 	}
 
@@ -334,11 +336,11 @@ async function resetAuthorUserAuthorProfileImages(){
 					uuid: testDatabaseProfileImageUuid,
 					table_id: constants.authorProfileImageTableId,
 					app_id: constants.pocketlibAppId,
-					ext: constants.authorUserAuthor.profileImage.ext
+					ext: constants.authorUser.author.profileImage.ext
 				},
 				headers: {
-					Authorization: constants.authorUserJWT,
-					'Content-Type': constants.authorUserAuthor.profileImage.type
+					Authorization: constants.authorUser.jwt,
+					'Content-Type': constants.authorUser.author.profileImage.type
 				},
 				data: "Hello World"
 			});
@@ -359,7 +361,7 @@ async function resetDavUserAuthorProfileImages(){
 			method: 'get',
 			url: `${constants.apiBaseUrl}/apps/table/${constants.authorProfileImageTableId}`,
 			headers: {
-				Authorization: constants.davUserJWT
+				Authorization: constants.davUser.jwt
 			}
 		});
 
@@ -370,7 +372,7 @@ async function resetDavUserAuthorProfileImages(){
 	}
 
 	// Get all profile images of the test database
-	for(let author of constants.davUserAuthors){
+	for(let author of constants.davUser.authors){
 		if(author.profileImage) testDatabaseProfileImages.push(author.profileImage);
 	}
 
@@ -382,7 +384,7 @@ async function resetDavUserAuthorProfileImages(){
 			testDatabaseProfileImages.splice(i, 1);
 		}else{
 			// Delete the profile image
-			await deleteTableObject(profileImage.uuid, constants.davUserJWT);
+			await deleteTableObject(profileImage.uuid, constants.davUser.jwt);
 		}
 	}
 
@@ -399,7 +401,7 @@ async function resetDavUserAuthorProfileImages(){
 					ext: profileImage.ext
 				},
 				headers: {
-					Authorization: constants.davUserJWT,
+					Authorization: constants.davUser.jwt,
 					'Content-Type': profileImage.type
 				},
 				data: "Hello World"
@@ -415,7 +417,7 @@ async function resetDavUserAuthorProfileImages(){
 async function resetAuthorUserStoreBookCollections(){
 	let testDatabaseCollections = [];
 
-	for(let collection of constants.authorUserAuthor.collections){
+	for(let collection of constants.authorUser.author.collections){
 		testDatabaseCollections.push(collection.uuid);
 
 		// Reset the collection
@@ -430,11 +432,11 @@ async function resetAuthorUserStoreBookCollections(){
 				method: 'put',
 				url: `${constants.apiBaseUrl}/apps/object/${collection.uuid}`,
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
-					author: constants.authorUserAuthor.uuid,
+					author: constants.authorUser.author.uuid,
 					names: names.join(','),
 					books: books.join(',')
 				}
@@ -454,7 +456,7 @@ async function resetAuthorUserStoreBookCollections(){
 			method: 'get',
 			url: `${constants.apiBaseUrl}/apps/table/${constants.storeBookCollectionTableId}`,
 			headers: {
-				Authorization: constants.authorUserJWT
+				Authorization: constants.authorUser.jwt
 			}
 		});
 
@@ -469,14 +471,14 @@ async function resetAuthorUserStoreBookCollections(){
 		if(testDatabaseCollections.includes(collection.uuid)) continue;
 
 		// Delete the collection
-		await deleteTableObject(collection.uuid, constants.authorUserJWT);
+		await deleteTableObject(collection.uuid, constants.authorUser.jwt);
 	}
 }
 
 async function resetDavUserStoreBookCollections(){
 	let testDatabaseCollections = [];
 	
-	for(let author of constants.davUserAuthors){
+	for(let author of constants.davUser.authors){
 		for(let collection of author.collections){
 			testDatabaseCollections.push(collection.uuid);
 
@@ -492,7 +494,7 @@ async function resetDavUserStoreBookCollections(){
 					method: 'put',
 					url: `${constants.apiBaseUrl}/apps/object/${collection.uuid}`,
 					headers: {
-						Authorization: constants.davUserJWT,
+						Authorization: constants.davUser.jwt,
 						'Content-Type': 'application/json'
 					},
 					data: {
@@ -517,7 +519,7 @@ async function resetDavUserStoreBookCollections(){
 			method: 'get',
 			url: `${constants.apiBaseUrl}/apps/table/${constants.storeBookCollectionTableId}`,
 			headers: {
-				Authorization: constants.davUserJWT
+				Authorization: constants.davUser.jwt
 			}
 		});
 
@@ -532,14 +534,14 @@ async function resetDavUserStoreBookCollections(){
 		if(testDatabaseCollections.includes(collection.uuid)) continue;
 
 		// Delete the collection
-		await deleteTableObject(collection.uuid, constants.davUserJWT);
+		await deleteTableObject(collection.uuid, constants.davUser.jwt);
 	}
 }
 
 async function resetAuthorUserStoreBookCollectionNames(){
 	let testDatabaseCollectionNames = [];
 
-	for(let collection of constants.authorUserAuthor.collections){
+	for(let collection of constants.authorUser.author.collections){
 		for(let collectionName of collection.names){
 			testDatabaseCollectionNames.push(collectionName.uuid);
 
@@ -549,7 +551,7 @@ async function resetAuthorUserStoreBookCollectionNames(){
 					method: 'put',
 					url: `${constants.apiBaseUrl}/apps/object/${collectionName.uuid}`,
 					headers: {
-						Authorization: constants.authorUserJWT,
+						Authorization: constants.authorUser.jwt,
 						'Content-Type': 'application/json'
 					},
 					data: {
@@ -573,7 +575,7 @@ async function resetAuthorUserStoreBookCollectionNames(){
 			method: 'get',
 			url: `${constants.apiBaseUrl}/apps/table/${constants.storeBookCollectionNameTableId}`,
 			headers: {
-				Authorization: constants.authorUserJWT
+				Authorization: constants.authorUser.jwt
 			}
 		});
 
@@ -588,14 +590,14 @@ async function resetAuthorUserStoreBookCollectionNames(){
 		if(testDatabaseCollectionNames.includes(collectionName.uuid)) continue;
 
 		// Delete the collection name
-		await deleteTableObject(collectionName.uuid, constants.authorUserJWT);
+		await deleteTableObject(collectionName.uuid, constants.authorUser.jwt);
 	}
 }
 
 async function resetDavUserStoreBookCollectionNames(){
 	let testDatabaseCollectionNames = [];
 
-	for(let author of constants.davUserAuthors){
+	for(let author of constants.davUser.authors){
 		for(let collection of author.collections){
 			for(let collectionName of collection.names){
 				testDatabaseCollectionNames.push(collectionName.uuid);
@@ -606,7 +608,7 @@ async function resetDavUserStoreBookCollectionNames(){
 						method: 'put',
 						url: `${constants.apiBaseUrl}/apps/object/${collectionName.uuid}`,
 						headers: {
-							Authorization: constants.davUserJWT,
+							Authorization: constants.davUser.jwt,
 							'Content-Type': 'application/json'
 						},
 						data: {
@@ -631,7 +633,7 @@ async function resetDavUserStoreBookCollectionNames(){
 			method: 'get',
 			url: `${constants.apiBaseUrl}/apps/table/${constants.storeBookCollectionNameTableId}`,
 			headers: {
-				Authorization: constants.davUserJWT
+				Authorization: constants.davUser.jwt
 			}
 		});
 
@@ -646,14 +648,14 @@ async function resetDavUserStoreBookCollectionNames(){
 		if(testDatabaseCollectionNames.includes(collectionName.uuid)) continue;
 
 		// Delete the collection name
-		await deleteTableObject(collectionName.uuid, constants.davUserJWT);
+		await deleteTableObject(collectionName.uuid, constants.davUser.jwt);
 	}
 }
 
 async function resetAuthorUserStoreBooks(){
 	let testDatabaseStoreBooks = [];
 
-	for(let collection of constants.authorUserAuthor.collections){
+	for(let collection of constants.authorUser.author.collections){
 		for(let book of collection.books){
 			testDatabaseStoreBooks.push(book.uuid);
 
@@ -663,7 +665,7 @@ async function resetAuthorUserStoreBooks(){
 					method: 'put',
 					url: `${constants.apiBaseUrl}/apps/object/${book.uuid}`,
 					headers: {
-						Authorization: constants.authorUserJWT,
+						Authorization: constants.authorUser.jwt,
 						'Content-Type': 'application/json'
 					},
 					data: {
@@ -693,7 +695,7 @@ async function resetAuthorUserStoreBooks(){
 			method: 'get',
 			url: `${constants.apiBaseUrl}/apps/table/${constants.storeBookTableId}`,
 			headers: {
-				Authorization: constants.authorUserJWT
+				Authorization: constants.authorUser.jwt
 			}
 		});
 
@@ -708,14 +710,14 @@ async function resetAuthorUserStoreBooks(){
 		if(testDatabaseStoreBooks.includes(storeBook.uuid)) continue;
 
 		// Delete the store book
-		await deleteTableObject(storeBook.uuid, constants.authorUserJWT);
+		await deleteTableObject(storeBook.uuid, constants.authorUser.jwt);
 	}
 }
 
 async function resetDavUserStoreBooks(){
 	let testDatabaseStoreBooks = [];
 
-	for(let author of constants.davUserAuthors){
+	for(let author of constants.davUser.authors){
 		for(let collection of author.collections){
 			for(let book of collection.books){
 				testDatabaseStoreBooks.push(book.uuid);
@@ -726,7 +728,7 @@ async function resetDavUserStoreBooks(){
 						method: 'put',
 						url: `${constants.apiBaseUrl}/apps/object/${book.uuid}`,
 						headers: {
-							Authorization: constants.davUserJWT,
+							Authorization: constants.davUser.jwt,
 							'Content-Type': 'application/json'
 						},
 						data: {
@@ -757,7 +759,7 @@ async function resetDavUserStoreBooks(){
 			method: 'get',
 			url: `${constants.apiBaseUrl}/apps/table/${constants.storeBookTableId}`,
 			headers: {
-				Authorization: constants.davUserJWT
+				Authorization: constants.davUser.jwt
 			}
 		});
 
@@ -772,7 +774,7 @@ async function resetDavUserStoreBooks(){
 		if(testDatabaseStoreBooks.includes(storeBook.uuid)) continue;
 
 		// Delete the store book
-		await deleteTableObject(storeBook.uuid, constants.authorUserJWT);
+		await deleteTableObject(storeBook.uuid, constants.authorUser.jwt);
 	}
 }
 
@@ -786,7 +788,7 @@ async function resetAuthorUserStoreBookCovers(){
 			method: 'get',
 			url: `${constants.apiBaseUrl}/apps/table/${constants.storeBookCoverTableId}`,
 			headers: {
-				Authorization: constants.authorUserJWT
+				Authorization: constants.authorUser.jwt
 			}
 		});
 
@@ -797,7 +799,7 @@ async function resetAuthorUserStoreBookCovers(){
 	}
 
 	// Get all covers of the test database
-	for(let collection of constants.authorUserAuthor.collections){
+	for(let collection of constants.authorUser.author.collections){
 		for(let book of collection.books){
 			if(book.cover) testDatabaseCovers.push(book.cover);
 		}
@@ -811,7 +813,7 @@ async function resetAuthorUserStoreBookCovers(){
 			testDatabaseCovers.splice(i, 1);
 		}else{
 			// Delete the cover
-			await deleteTableObject(cover.uuid, constants.authorUserJWT)
+			await deleteTableObject(cover.uuid, constants.authorUser.jwt)
 		}
 	}
 
@@ -828,7 +830,7 @@ async function resetAuthorUserStoreBookCovers(){
 					ext: cover.ext
 				},
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': cover.type
 				},
 				data: "Hello World"
@@ -850,7 +852,7 @@ async function resetDavUserStoreBookCovers(){
 			method: 'get',
 			url: `${constants.apiBaseUrl}/apps/table/${constants.storeBookCoverTableId}`,
 			headers: {
-				Authorization: constants.davUserJWT
+				Authorization: constants.davUser.jwt
 			}
 		});
 
@@ -861,7 +863,7 @@ async function resetDavUserStoreBookCovers(){
 	}
 
 	// Get all covers of the test database
-	for(let author of constants.davUserAuthors){
+	for(let author of constants.davUser.authors){
 		for(let collection of author.collections){
 			for(let book of collection.books){
 				if(book.cover) testDatabaseCovers.push(book.cover);
@@ -877,7 +879,7 @@ async function resetDavUserStoreBookCovers(){
 			testDatabaseCovers.splice(i, 1);
 		}else{
 			// Delete the cover
-			await deleteTableObject(cover.uuid, constants.davUserJWT)
+			await deleteTableObject(cover.uuid, constants.davUser.jwt)
 		}
 	}
 
@@ -894,7 +896,7 @@ async function resetDavUserStoreBookCovers(){
 					ext: cover.ext
 				},
 				headers: {
-					Authorization: constants.davUserJWT,
+					Authorization: constants.davUser.jwt,
 					'Content-Type': cover.type
 				},
 				data: "Hello World"
@@ -916,7 +918,7 @@ async function resetAuthorUserStoreBookFiles(){
 			method: 'get',
 			url: `${constants.apiBaseUrl}/apps/table/${constants.storeBookFileTableId}`,
 			headers: {
-				Authorization: constants.authorUserJWT
+				Authorization: constants.authorUser.jwt
 			}
 		});
 
@@ -927,7 +929,7 @@ async function resetAuthorUserStoreBookFiles(){
 	}
 
 	// Get all files of the test database
-	for(let collection of constants.authorUserAuthor.collections){
+	for(let collection of constants.authorUser.author.collections){
 		for(let book of collection.books){
 			if(book.file) testDatabaseFiles.push(book.file);
 		}
@@ -941,7 +943,7 @@ async function resetAuthorUserStoreBookFiles(){
 			testDatabaseFiles.splice(i, 1);
 		}else{
 			// Delete the file
-			await deleteTableObject(file.uuid, constants.authorUserJWT);
+			await deleteTableObject(file.uuid, constants.authorUser.jwt);
 		}
 	}
 
@@ -958,7 +960,7 @@ async function resetAuthorUserStoreBookFiles(){
 					ext: file.ext
 				},
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': file.type
 				},
 				data: "Hello World"
@@ -980,7 +982,7 @@ async function resetDavUserStoreBookFiles(){
 			method: 'get',
 			url: `${constants.apiBaseUrl}/apps/table/${constants.storeBookFileTableId}`,
 			headers: {
-				Authorization: constants.davUserJWT
+				Authorization: constants.davUser.jwt
 			}
 		});
 
@@ -991,7 +993,7 @@ async function resetDavUserStoreBookFiles(){
 	}
 
 	// Get all files of the test database
-	for(let author of constants.davUserAuthors){
+	for(let author of constants.davUser.authors){
 		for(let collection of author.collections){
 			for(let book of collection.books){
 				if(book.file) testDatabaseFiles.push(book.file);
@@ -1007,7 +1009,7 @@ async function resetDavUserStoreBookFiles(){
 			testDatabaseFiles.splice(i, 1);
 		}else{
 			// Delete the file
-			await deleteTableObject(file.uuid, constants.davUserJWT);
+			await deleteTableObject(file.uuid, constants.davUser.jwt);
 		}
 	}
 
@@ -1024,13 +1026,77 @@ async function resetDavUserStoreBookFiles(){
 					ext: file.ext
 				},
 				headers: {
-					Authorization: constants.davUserJWT,
+					Authorization: constants.davUser.jwt,
 					'Content-Type': file.type
 				},
 				data: "Hello World"
 			});
 		}catch(error){
 			console.log("Error in creating file");
+			console.log(error.response.data);
+		}
+	}
+}
+
+async function resetKlausUserBooks(){
+	// Get the book table
+	let books = [];
+	let testDatabaseBooks = [];
+
+	try{
+		let response = await axios.default({
+			method: 'get',
+			url: `${constants.apiBaseUrl}/apps/table/${constants.bookTableId}`,
+			headers: {
+				Authorization: constants.klausUser.jwt
+			}
+		});
+
+		books = response.data.table_objects;
+	}catch(error){
+		console.log("Error in getting the book table");
+		console.log(error.response.data);
+	}
+
+	// Get all books of the test database
+	for(let book of constants.klausUser.books){
+		testDatabaseBooks.push(book);
+	}
+
+	// Delete each book that is not part of the test database
+	for(let book of books){
+		let i = testDatabaseBooks.findIndex(b => b.uuid == book.uuid);
+
+		if(i != -1){
+			testDatabaseBooks.splice(i, 1);
+		}else{
+			// Delete the book
+			await deleteTableObject(book.uuid, constants.klausUser.jwt);
+		}
+	}
+
+	// Create each missing file of the test database
+	for(let book of testDatabaseBooks){
+		try{
+			await axios.default({
+				method: 'post',
+				url: `${constants.apiBaseUrl}/apps/object`,
+				params: {
+					uuid: book.uuid,
+					table_id: constants.bookTableId,
+					app_id: constants.pocketlibAppId
+				},
+				headers: {
+					Authorization: constants.klausUser.jwt,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					store_book: book.storeBook,
+					file: book.file
+				}
+			});
+		}catch(error){
+			console.log("Error in creating Book");
 			console.log(error.response.data);
 		}
 	}
