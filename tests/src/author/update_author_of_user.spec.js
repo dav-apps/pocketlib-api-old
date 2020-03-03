@@ -60,7 +60,7 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 				method: 'put',
 				url: updateAuthorEndpointUrl,
 				headers: {
-					Authorization: constants.authorUserJWT
+					Authorization: constants.authorUser.jwt
 				}
 			});
 		}catch(error){
@@ -99,7 +99,7 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 				method: 'put',
 				url: updateAuthorEndpointUrl,
 				headers: {
-					Authorization: constants.davUserJWT,
+					Authorization: constants.davUser.jwt,
 					'Content-Type': 'application/json'
 				}
 			});
@@ -142,7 +142,7 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 				method: 'put',
 				url: updateAuthorEndpointUrl,
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -167,7 +167,7 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 				method: 'put',
 				url: updateAuthorEndpointUrl,
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -192,7 +192,7 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 				method: 'put',
 				url: updateAuthorEndpointUrl,
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -220,7 +220,7 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 				method: 'put',
 				url: updateAuthorEndpointUrl,
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -232,15 +232,15 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 		}
 
 		assert.equal(200, response.status);
-		assert.equal(constants.authorUserAuthor.uuid, response.data.uuid);
+		assert.equal(constants.authorUser.author.uuid, response.data.uuid);
 		assert.equal(firstName, response.data.first_name);
-		assert.equal(constants.authorUserAuthor.lastName, response.data.last_name);
-		assert.equal(constants.authorUserAuthor.bios.length, response.data.bios.length);
-		assert.equal(constants.authorUserAuthor.collections.length, response.data.collections.length);
+		assert.equal(constants.authorUser.author.lastName, response.data.last_name);
+		assert.equal(constants.authorUser.author.bios.length, response.data.bios.length);
+		assert.equal(constants.authorUser.author.collections.length, response.data.collections.length);
 		assert.equal(true, response.data.profile_image);
 
-		for(let i = 0; i < constants.authorUserAuthor.bios.length; i++){
-			let bio = constants.authorUserAuthor.bios[i];
+		for(let i = 0; i < constants.authorUser.author.bios.length; i++){
+			let bio = constants.authorUser.author.bios[i];
 			let responseBio = response.data.bios[i];
 
 			assert.equal(null, responseBio.uuid);
@@ -248,8 +248,8 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 			assert.equal(bio.language, responseBio.language);
 		}
 
-		for(let i = 0; i < constants.authorUserAuthor.collections.length; i++){
-			let collection = constants.authorUserAuthor.collections[i];
+		for(let i = 0; i < constants.authorUser.author.collections.length; i++){
+			let collection = constants.authorUser.author.collections[i];
 			let responseCollection = response.data.collections[i];
 
 			assert.equal(collection.uuid, responseCollection.uuid);
@@ -268,14 +268,14 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 		let objResponse;
 
 		try{
-			objResponse = await utils.getTableObject(constants.authorUserAuthor.uuid, constants.authorUserJWT);
+			objResponse = await utils.getTableObject(constants.authorUser.author.uuid, constants.authorUser.jwt);
 		}catch(error){
 			assert.fail();
 		}
 
-		assert.equal(constants.authorUserAuthor.uuid, objResponse.data.uuid);
+		assert.equal(constants.authorUser.author.uuid, objResponse.data.uuid);
 		assert.equal(firstName, objResponse.data.properties.first_name);
-		assert.equal(constants.authorUserAuthor.lastName, objResponse.data.properties.last_name);
+		assert.equal(constants.authorUser.author.lastName, objResponse.data.properties.last_name);
 
 		// Tidy up
 		resetAuthors = true;
@@ -290,7 +290,7 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 				method: 'put',
 				url: updateAuthorEndpointUrl,
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -302,15 +302,15 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 		}
 
 		assert.equal(200, response.status);
-		assert.equal(constants.authorUserAuthor.uuid, response.data.uuid);
-		assert.equal(constants.authorUserAuthor.firstName, response.data.first_name);
+		assert.equal(constants.authorUser.author.uuid, response.data.uuid);
+		assert.equal(constants.authorUser.author.firstName, response.data.first_name);
 		assert.equal(lastName, response.data.last_name);
-		assert.equal(constants.authorUserAuthor.bios.length, response.data.bios.length);
-		assert.equal(constants.authorUserAuthor.collections.length, response.data.collections.length);
+		assert.equal(constants.authorUser.author.bios.length, response.data.bios.length);
+		assert.equal(constants.authorUser.author.collections.length, response.data.collections.length);
 		assert.equal(true, response.data.profile_image);
 
-		for(let i = 0; i < constants.authorUserAuthor.bios.length; i++){
-			let bio = constants.authorUserAuthor.bios[i];
+		for(let i = 0; i < constants.authorUser.author.bios.length; i++){
+			let bio = constants.authorUser.author.bios[i];
 			let responseBio = response.data.bios[i];
 
 			assert.equal(null, responseBio.uuid);
@@ -318,8 +318,8 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 			assert.equal(bio.language, responseBio.language);
 		}
 
-		for(let i = 0; i < constants.authorUserAuthor.collections.length; i++){
-			let collection = constants.authorUserAuthor.collections[i];
+		for(let i = 0; i < constants.authorUser.author.collections.length; i++){
+			let collection = constants.authorUser.author.collections[i];
 			let responseCollection = response.data.collections[i];
 
 			assert.equal(collection.uuid, responseCollection.uuid);
@@ -338,13 +338,13 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 		let objResponse;
 
 		try{
-			objResponse = await utils.getTableObject(constants.authorUserAuthor.uuid, constants.authorUserJWT);
+			objResponse = await utils.getTableObject(constants.authorUser.author.uuid, constants.authorUser.jwt);
 		}catch(error){
 			assert.fail();
 		}
 
-		assert.equal(constants.authorUserAuthor.uuid, objResponse.data.uuid);
-		assert.equal(constants.authorUserAuthor.firstName, objResponse.data.properties.first_name);
+		assert.equal(constants.authorUser.author.uuid, objResponse.data.uuid);
+		assert.equal(constants.authorUser.author.firstName, objResponse.data.properties.first_name);
 		assert.equal(lastName, objResponse.data.properties.last_name);
 
 		// Tidy up
@@ -361,7 +361,7 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 				method: 'put',
 				url: updateAuthorEndpointUrl,
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -374,15 +374,15 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 		}
 
 		assert.equal(200, response.status);
-		assert.equal(constants.authorUserAuthor.uuid, response.data.uuid);
+		assert.equal(constants.authorUser.author.uuid, response.data.uuid);
 		assert.equal(firstName, response.data.first_name);
 		assert.equal(lastName, response.data.last_name);
-		assert.equal(constants.authorUserAuthor.bios.length, response.data.bios.length);
-		assert.equal(constants.authorUserAuthor.collections.length, response.data.collections.length);
+		assert.equal(constants.authorUser.author.bios.length, response.data.bios.length);
+		assert.equal(constants.authorUser.author.collections.length, response.data.collections.length);
 		assert.equal(true, response.data.profile_image);
 
-		for(let i = 0; i < constants.authorUserAuthor.bios.length; i++){
-			let bio = constants.authorUserAuthor.bios[i];
+		for(let i = 0; i < constants.authorUser.author.bios.length; i++){
+			let bio = constants.authorUser.author.bios[i];
 			let responseBio = response.data.bios[i];
 
 			assert.equal(null, responseBio.uuid);
@@ -390,8 +390,8 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 			assert.equal(bio.language, responseBio.language);
 		}
 
-		for(let i = 0; i < constants.authorUserAuthor.collections.length; i++){
-			let collection = constants.authorUserAuthor.collections[i];
+		for(let i = 0; i < constants.authorUser.author.collections.length; i++){
+			let collection = constants.authorUser.author.collections[i];
 			let responseCollection = response.data.collections[i];
 
 			assert.equal(collection.uuid, responseCollection.uuid);
@@ -410,12 +410,12 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 		let objResponse;
 
 		try{
-			objResponse = await utils.getTableObject(constants.authorUserAuthor.uuid, constants.authorUserJWT);
+			objResponse = await utils.getTableObject(constants.authorUser.author.uuid, constants.authorUser.jwt);
 		}catch(error){
 			assert.fail();
 		}
 
-		assert.equal(constants.authorUserAuthor.uuid, objResponse.data.uuid);
+		assert.equal(constants.authorUser.author.uuid, objResponse.data.uuid);
 		assert.equal(firstName, objResponse.data.properties.first_name);
 		assert.equal(lastName, objResponse.data.properties.last_name);
 

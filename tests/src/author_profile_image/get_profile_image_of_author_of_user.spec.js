@@ -83,9 +83,9 @@ describe("GetProfileImageOfAuthorOfUser endpoint", async () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: `${constants.apiBaseUrl}/apps/object/${constants.authorUserAuthor.uuid}`,
+				url: `${constants.apiBaseUrl}/apps/object/${constants.authorUser.author.uuid}`,
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -101,7 +101,7 @@ describe("GetProfileImageOfAuthorOfUser endpoint", async () => {
 				method: 'get',
 				url: getProfileImageOfAuthorOfUserEndpoint,
 				headers: {
-					Authorization: constants.authorUserJWT
+					Authorization: constants.authorUser.jwt
 				}
 			});
 		}catch(error){
@@ -142,7 +142,7 @@ describe("GetProfileImageOfAuthorOfUser endpoint", async () => {
 				method: 'get',
 				url: getProfileImageOfAuthorOfUserEndpoint,
 				headers: {
-					Authorization: constants.davUserJWT
+					Authorization: constants.davUser.jwt
 				}
 			});
 		}catch(error){
@@ -165,7 +165,7 @@ describe("GetProfileImageOfAuthorOfUser endpoint", async () => {
 				method: 'put',
 				url: getProfileImageOfAuthorOfUserEndpoint,
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': profileImageType
 				},
 				data: profileImageContent
@@ -182,7 +182,7 @@ describe("GetProfileImageOfAuthorOfUser endpoint", async () => {
 				method: 'get',
 				url: getProfileImageOfAuthorOfUserEndpoint,
 				headers: {
-					Authorization: constants.authorUserJWT
+					Authorization: constants.authorUser.jwt
 				}
 			});
 		}catch(error){

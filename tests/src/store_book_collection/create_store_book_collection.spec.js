@@ -62,7 +62,7 @@ describe("CreateStoreBookCollection endpoint", () => {
 				method: 'post',
 				url: createStoreBookCollectionEndpointUrl,
 				headers: {
-					Authorization: constants.authorUserJWT
+					Authorization: constants.authorUser.jwt
 				}
 			});
 		}catch(error){
@@ -101,7 +101,7 @@ describe("CreateStoreBookCollection endpoint", () => {
 				method: 'post',
 				url: createStoreBookCollectionEndpointUrl,
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				}
 			});
@@ -122,7 +122,7 @@ describe("CreateStoreBookCollection endpoint", () => {
 				method: 'post',
 				url: createStoreBookCollectionEndpointUrl,
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -147,7 +147,7 @@ describe("CreateStoreBookCollection endpoint", () => {
 				method: 'post',
 				url: createStoreBookCollectionEndpointUrl,
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -171,7 +171,7 @@ describe("CreateStoreBookCollection endpoint", () => {
 				method: 'post',
 				url: createStoreBookCollectionEndpointUrl,
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -195,7 +195,7 @@ describe("CreateStoreBookCollection endpoint", () => {
 				method: 'post',
 				url: createStoreBookCollectionEndpointUrl,
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -219,7 +219,7 @@ describe("CreateStoreBookCollection endpoint", () => {
 				method: 'post',
 				url: createStoreBookCollectionEndpointUrl,
 				headers: {
-					Authorization: constants.davUserJWT,
+					Authorization: constants.davUser.jwt,
 					'Content-Type': 'application/json'
 				}
 			});
@@ -241,7 +241,7 @@ describe("CreateStoreBookCollection endpoint", () => {
 				method: 'post',
 				url: createStoreBookCollectionEndpointUrl,
 				headers: {
-					Authorization: constants.davUserJWT,
+					Authorization: constants.davUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -268,7 +268,7 @@ describe("CreateStoreBookCollection endpoint", () => {
 				method: 'post',
 				url: createStoreBookCollectionEndpointUrl,
 				headers: {
-					Authorization: constants.davUserJWT,
+					Authorization: constants.davUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -294,7 +294,7 @@ describe("CreateStoreBookCollection endpoint", () => {
 				method: 'post',
 				url: createStoreBookCollectionEndpointUrl,
 				headers: {
-					Authorization: constants.davUserJWT,
+					Authorization: constants.davUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -320,7 +320,7 @@ describe("CreateStoreBookCollection endpoint", () => {
 				method: 'post',
 				url: createStoreBookCollectionEndpointUrl,
 				headers: {
-					Authorization: constants.davUserJWT,
+					Authorization: constants.davUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -345,7 +345,7 @@ describe("CreateStoreBookCollection endpoint", () => {
 				method: 'post',
 				url: createStoreBookCollectionEndpointUrl,
 				headers: {
-					Authorization: constants.davUserJWT,
+					Authorization: constants.davUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -399,7 +399,7 @@ describe("CreateStoreBookCollection endpoint", () => {
 				method: 'post',
 				url: createStoreBookCollectionEndpointUrl,
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -413,7 +413,7 @@ describe("CreateStoreBookCollection endpoint", () => {
 
 		assert.equal(201, response.status);
 		assert(response.data.uuid != null);
-		assert.equal(constants.authorUserAuthor.uuid, response.data.author);
+		assert.equal(constants.authorUser.author.uuid, response.data.author);
 		assert.equal(1, response.data.names.length);
 		assert.equal(name, response.data.names[0].name);
 		assert.equal(language, response.data.names[0].language);
@@ -428,14 +428,14 @@ describe("CreateStoreBookCollection endpoint", () => {
 				method: 'get',
 				url: `${constants.apiBaseUrl}/apps/object/${response.data.uuid}`,
 				headers: {
-					Authorization: constants.authorUserJWT
+					Authorization: constants.authorUser.jwt
 				}
 			});
 		}catch(error){
 			assert.fail();
 		}
 
-		assert.equal(constants.authorUserAuthor.uuid, collectionResponse.data.properties.author);
+		assert.equal(constants.authorUser.author.uuid, collectionResponse.data.properties.author);
 		assert(collectionResponse.data.properties.names != null);
 
 		// Get the store book collection name
@@ -446,7 +446,7 @@ describe("CreateStoreBookCollection endpoint", () => {
 				method: 'get',
 				url: `${constants.apiBaseUrl}/apps/object/${collectionResponse.data.properties.names}`,
 				headers: {
-					Authorization: constants.authorUserJWT
+					Authorization: constants.authorUser.jwt
 				}
 			});
 		}catch(error){
@@ -463,9 +463,9 @@ describe("CreateStoreBookCollection endpoint", () => {
 		try{
 			authorResponse = await axios.default({
 				method: 'get',
-				url: `${constants.apiBaseUrl}/apps/object/${constants.authorUserAuthor.uuid}`,
+				url: `${constants.apiBaseUrl}/apps/object/${constants.authorUser.author.uuid}`,
 				headers: {
-					Authorization: constants.authorUserJWT
+					Authorization: constants.authorUser.jwt
 				}
 			});
 		}catch(error){
@@ -473,7 +473,7 @@ describe("CreateStoreBookCollection endpoint", () => {
 		}
 
 		let collections = [];
-		for(let collection of constants.authorUserAuthor.collections) collections.push(collection.uuid);
+		for(let collection of constants.authorUser.author.collections) collections.push(collection.uuid);
 		collections.push(collectionResponse.data.uuid);
 
 		assert.equal(collections.join(','), authorResponse.data.properties.collections);
@@ -484,7 +484,7 @@ describe("CreateStoreBookCollection endpoint", () => {
 
 	it("should create store book collection as admin", async () => {
 		let response;
-		let author = constants.davUserAuthors[0].uuid;
+		let author = constants.davUser.authors[0].uuid;
 		let name = "TestBook";
 		let language = "en";
 
@@ -494,7 +494,7 @@ describe("CreateStoreBookCollection endpoint", () => {
 				method: 'post',
 				url: createStoreBookCollectionEndpointUrl,
 				headers: {
-					Authorization: constants.davUserJWT,
+					Authorization: constants.davUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -524,7 +524,7 @@ describe("CreateStoreBookCollection endpoint", () => {
 				method: 'get',
 				url: `${constants.apiBaseUrl}/apps/object/${response.data.uuid}`,
 				headers: {
-					Authorization: constants.davUserJWT
+					Authorization: constants.davUser.jwt
 				}
 			});
 		}catch(error){
@@ -542,7 +542,7 @@ describe("CreateStoreBookCollection endpoint", () => {
 				method: 'get',
 				url: `${constants.apiBaseUrl}/apps/object/${collectionResponse.data.properties.names}`,
 				headers: {
-					Authorization: constants.davUserJWT
+					Authorization: constants.davUser.jwt
 				}
 			});
 		}catch(error){
@@ -561,7 +561,7 @@ describe("CreateStoreBookCollection endpoint", () => {
 				method: 'get',
 				url: `${constants.apiBaseUrl}/apps/object/${author}`,
 				headers: {
-					Authorization: constants.davUserJWT
+					Authorization: constants.davUser.jwt
 				}
 			});
 		}catch(error){
@@ -569,7 +569,7 @@ describe("CreateStoreBookCollection endpoint", () => {
 		}
 
 		let collections = [];
-		for(let author of constants.davUserAuthors) for(let collection of author.collections) collections.push(collection.uuid);
+		for(let author of constants.davUser.authors) for(let collection of author.collections) collections.push(collection.uuid);
 		collections.push(collectionResponse.data.uuid);
 
 		assert.equal(collections.join(','), authorResponse.data.properties.collections);

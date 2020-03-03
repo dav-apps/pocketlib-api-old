@@ -23,7 +23,7 @@ describe("SetStoreBookCollectionName endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].uuid).replace('{1}', "en")
+				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].uuid).replace('{1}', "en")
 			});
 		}catch(error){
 			assert.equal(400, error.response.status);
@@ -39,7 +39,7 @@ describe("SetStoreBookCollectionName endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].uuid).replace('{1}', "en"),
+				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].uuid).replace('{1}', "en"),
 				headers: {
 					Authorization: "asdasdadsasdasdasd",
 					'Content-Type': 'application/json'
@@ -59,9 +59,9 @@ describe("SetStoreBookCollectionName endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].uuid).replace('{1}', "en"),
+				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].uuid).replace('{1}', "en"),
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': "asdasd"
 				}
 			});
@@ -79,7 +79,7 @@ describe("SetStoreBookCollectionName endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].uuid).replace('{1}', "en"),
+				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].uuid).replace('{1}', "en"),
 				headers: {
 					Authorization: constants.davClassLibraryTestUserTestAppJWT,
 					'Content-Type': 'application/json'
@@ -97,9 +97,9 @@ describe("SetStoreBookCollectionName endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].uuid).replace('{1}', "en"),
+				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].uuid).replace('{1}', "en"),
 				headers: {
-					Authorization: constants.davUserJWT,
+					Authorization: constants.davUser.jwt,
 					'Content-Type': 'application/json'
 				}
 			});
@@ -117,9 +117,9 @@ describe("SetStoreBookCollectionName endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].uuid).replace('{1}', "en"),
+				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].uuid).replace('{1}', "en"),
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				}
 			});
@@ -137,9 +137,9 @@ describe("SetStoreBookCollectionName endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].uuid).replace('{1}', "en"),
+				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].uuid).replace('{1}', "en"),
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -160,9 +160,9 @@ describe("SetStoreBookCollectionName endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].uuid).replace('{1}', "en"),
+				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].uuid).replace('{1}', "en"),
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -183,9 +183,9 @@ describe("SetStoreBookCollectionName endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].uuid).replace('{1}', "en"),
+				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].uuid).replace('{1}', "en"),
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -206,9 +206,9 @@ describe("SetStoreBookCollectionName endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].uuid).replace('{1}', "bla"),
+				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].uuid).replace('{1}', "bla"),
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -228,10 +228,10 @@ describe("SetStoreBookCollectionName endpoint", () => {
 	it("should create collection name", async () => {
 		// Create the collection name
 		let response;
-		let collection = constants.authorUserAuthor.collections[0];
+		let collection = constants.authorUser.author.collections[0];
 		let language = "fr";
 		let name = "Hello World";
-		let jwt = constants.authorUserJWT;
+		let jwt = constants.authorUser.jwt;
 
 		try{
 			response = await axios.default({
@@ -307,11 +307,11 @@ describe("SetStoreBookCollectionName endpoint", () => {
 	it("should update collection name", async () => {
 		// Update the collection name
 		let response;
-		let collection = constants.authorUserAuthor.collections[0];
+		let collection = constants.authorUser.author.collections[0];
 		let language = "en";
 		let name = "Hello World";
 		let collectionNameUuid = collection.names[0].uuid;
-		let jwt = constants.authorUserJWT;
+		let jwt = constants.authorUser.jwt;
 
 		try{
 			response = await axios.default({
@@ -385,10 +385,10 @@ describe("SetStoreBookCollectionName endpoint", () => {
 	it("should create collection name for collection of admin", async () => {
 		// Create the collection name
 		let response;
-		let collection = constants.davUserAuthors[0].collections[0];
+		let collection = constants.davUser.authors[0].collections[0];
 		let language = "fr";
 		let name = "Updated name";
-		let jwt = constants.davUserJWT;
+		let jwt = constants.davUser.jwt;
 
 		try{
 			response = await axios.default({
@@ -464,11 +464,11 @@ describe("SetStoreBookCollectionName endpoint", () => {
 	it("should update collection name for collection of admin", async () => {
 		// Update the collection name
 		let response;
-		let collection = constants.davUserAuthors[0].collections[0];
+		let collection = constants.davUser.authors[0].collections[0];
 		let language = "en";
 		let name = "Hallo Welt";
 		let collectionNameUuid = collection.names[0].uuid;
-		let jwt = constants.davUserJWT;
+		let jwt = constants.davUser.jwt;
 
 		try{
 			response = await axios.default({

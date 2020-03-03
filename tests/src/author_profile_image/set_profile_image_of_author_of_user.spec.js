@@ -83,7 +83,7 @@ describe("SetProfileImageOfAuthorOfUser endpoint", () => {
 				method: 'put',
 				url: setProfileImageOfAuthorOfUserEndpointUrl,
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				}
 			});
@@ -123,7 +123,7 @@ describe("SetProfileImageOfAuthorOfUser endpoint", () => {
 				method: 'put',
 				url: setProfileImageOfAuthorOfUserEndpointUrl,
 				headers: {
-					Authorization: constants.davUserJWT,
+					Authorization: constants.davUser.jwt,
 					'Content-Type': 'image/png'
 				}
 			});
@@ -138,8 +138,8 @@ describe("SetProfileImageOfAuthorOfUser endpoint", () => {
 	});
 
 	it("should create and update profile image", async () => {
-		let author = constants.authorUserAuthor;
-		let jwt = constants.authorUserJWT;
+		let author = constants.authorUser.author;
+		let jwt = constants.authorUser.jwt;
 
 		// Get the author table object
 		let getAuthorObjResponse;

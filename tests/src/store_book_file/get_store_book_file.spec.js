@@ -23,7 +23,7 @@ describe("GetStoreBookFile endpoint", () => {
 		try{
 			await axios.default({
 				method: 'get',
-				url: getStoreBookFileEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[1].uuid)
+				url: getStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[1].uuid)
 			});
 		}catch(error){
 			assert.equal(400, error.response.status);
@@ -39,7 +39,7 @@ describe("GetStoreBookFile endpoint", () => {
 		try{
 			await axios.default({
 				method: 'get',
-				url: getStoreBookFileEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[1].uuid),
+				url: getStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[1].uuid),
 				headers: {
 					Authorization: "bkaasdasdfdasd"
 				}
@@ -58,7 +58,7 @@ describe("GetStoreBookFile endpoint", () => {
 		try{
 			await axios.default({
 				method: 'get',
-				url: getStoreBookFileEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[1].uuid),
+				url: getStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[1].uuid),
 				headers: {
 					Authorization: constants.davClassLibraryTestUserTestAppJWT
 				}
@@ -77,9 +77,9 @@ describe("GetStoreBookFile endpoint", () => {
 		try{
 			await axios.default({
 				method: 'get',
-				url: getStoreBookFileEndpointUrl.replace('{0}', constants.davUserAuthors[0].collections[1].books[2].uuid),
+				url: getStoreBookFileEndpointUrl.replace('{0}', constants.davUser.authors[0].collections[1].books[2].uuid),
 				headers: {
-					Authorization: constants.davUserJWT
+					Authorization: constants.davUser.jwt
 				}
 			});
 		}catch(error){
@@ -98,7 +98,7 @@ describe("GetStoreBookFile endpoint", () => {
 				method: 'get',
 				url: getStoreBookFileEndpointUrl.replace('{0}', "asdasdasdsda"),
 				headers: {
-					Authorization: constants.authorUserJWT
+					Authorization: constants.authorUser.jwt
 				}
 			});
 		}catch(error){
@@ -112,13 +112,13 @@ describe("GetStoreBookFile endpoint", () => {
 	});
 
 	it("should return file of unpublished store book if the user is the author", async () => {
-		let collection = constants.authorUserAuthor.collections[1];
+		let collection = constants.authorUser.author.collections[1];
 		let storeBook = collection.books[0];
 		let fileContent = "Lorem ipsum dolor sit amet";
 		let fileType = "application/epub+zip";
 
 		// Set the store book file
-		await setStoreBookFile(storeBook, fileContent, fileType, constants.authorUserJWT);
+		await setStoreBookFile(storeBook, fileContent, fileType, constants.authorUser.jwt);
 
 		// Try to get the store book file
 		let response;
@@ -128,7 +128,7 @@ describe("GetStoreBookFile endpoint", () => {
 				method: 'get',
 				url: getStoreBookFileEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
-					Authorization: constants.authorUserJWT
+					Authorization: constants.authorUser.jwt
 				}
 			});
 		}catch(error){
@@ -144,13 +144,13 @@ describe("GetStoreBookFile endpoint", () => {
 	});
 
 	it("should return file of unpublished store book if the user is an admin", async () => {
-		let collection = constants.authorUserAuthor.collections[1];
+		let collection = constants.authorUser.author.collections[1];
 		let storeBook = collection.books[0];
 		let fileContent = "Lorem ipsum dolor sit amet";
 		let fileType = "application/epub+zip";
 
 		// Set the store book file
-		await setStoreBookFile(storeBook, fileContent, fileType, constants.authorUserJWT);
+		await setStoreBookFile(storeBook, fileContent, fileType, constants.authorUser.jwt);
 
 		// Try to get the store book file
 		let response;
@@ -160,7 +160,7 @@ describe("GetStoreBookFile endpoint", () => {
 				method: 'get',
 				url: getStoreBookFileEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
-					Authorization: constants.davUserJWT
+					Authorization: constants.davUser.jwt
 				}
 			});
 		}catch(error){
@@ -176,13 +176,13 @@ describe("GetStoreBookFile endpoint", () => {
 	});
 
 	it("should not return file of unpublished store book if the user is not the author", async () => {
-		let collection = constants.authorUserAuthor.collections[1];
+		let collection = constants.authorUser.author.collections[1];
 		let storeBook = collection.books[0];
 		let fileContent = "Lorem ipsum dolor sit amet";
 		let fileType = "application/epub+zip";
 
 		// Set the store book file
-		await setStoreBookFile(storeBook, fileContent, fileType, constants.authorUserJWT);
+		await setStoreBookFile(storeBook, fileContent, fileType, constants.authorUser.jwt);
 
 		// Try to get the store book file
 		try{
@@ -207,13 +207,13 @@ describe("GetStoreBookFile endpoint", () => {
 	});
 
 	it("should return file of store book in review if the user is the author", async () => {
-		let collection = constants.authorUserAuthor.collections[0];
+		let collection = constants.authorUser.author.collections[0];
 		let storeBook = collection.books[0];
 		let fileContent = "Lorem ipsum dolor sit amet";
 		let fileType = "application/epub+zip";
 
 		// Set the store book file
-		await setStoreBookFile(storeBook, fileContent, fileType, constants.authorUserJWT);
+		await setStoreBookFile(storeBook, fileContent, fileType, constants.authorUser.jwt);
 
 		// Try to get the store book file
 		let response;
@@ -223,7 +223,7 @@ describe("GetStoreBookFile endpoint", () => {
 				method: 'get',
 				url: getStoreBookFileEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
-					Authorization: constants.authorUserJWT
+					Authorization: constants.authorUser.jwt
 				}
 			});
 		}catch(error){
@@ -239,13 +239,13 @@ describe("GetStoreBookFile endpoint", () => {
 	});
 
 	it("should not return file of store book in review if the user is not the author", async () => {
-		let collection = constants.authorUserAuthor.collections[0];
+		let collection = constants.authorUser.author.collections[0];
 		let storeBook = collection.books[0];
 		let fileContent = "Lorem ipsum dolor sit amet";
 		let fileType = "application/epub+zip";
 
 		// Set the store book file
-		await setStoreBookFile(storeBook, fileContent, fileType, constants.authorUserJWT);
+		await setStoreBookFile(storeBook, fileContent, fileType, constants.authorUser.jwt);
 
 		// Try to get the store book file
 		try{
@@ -270,13 +270,13 @@ describe("GetStoreBookFile endpoint", () => {
 	});
 
 	it("should return file of store book in review if the user is an admin", async () => {
-		let collection = constants.authorUserAuthor.collections[0];
+		let collection = constants.authorUser.author.collections[0];
 		let storeBook = collection.books[0];
 		let fileContent = "Lorem ipsum dolor sit amet";
 		let fileType = "application/epub+zip";
 
 		// Set the store book file
-		await setStoreBookFile(storeBook, fileContent, fileType, constants.authorUserJWT);
+		await setStoreBookFile(storeBook, fileContent, fileType, constants.authorUser.jwt);
 
 		// Try to get the store book file
 		let response;
@@ -286,7 +286,7 @@ describe("GetStoreBookFile endpoint", () => {
 				method: 'get',
 				url: getStoreBookFileEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
-					Authorization: constants.davUserJWT
+					Authorization: constants.davUser.jwt
 				}
 			});
 		}catch(error){
@@ -302,13 +302,13 @@ describe("GetStoreBookFile endpoint", () => {
 	});
 
 	it("should return file of published store book if the user is the author", async () => {
-		let collection = constants.davUserAuthors[0].collections[0];
+		let collection = constants.davUser.authors[0].collections[0];
 		let storeBook = collection.books[0];
 		let fileContent = "Lorem ipsum dolor sit amet";
 		let fileType = "application/epub+zip";
 
 		// Set the store book file
-		await setStoreBookFile(storeBook, fileContent, fileType, constants.davUserJWT);
+		await setStoreBookFile(storeBook, fileContent, fileType, constants.davUser.jwt);
 
 		// Try to get the store book file
 		let response;
@@ -318,7 +318,7 @@ describe("GetStoreBookFile endpoint", () => {
 				method: 'get',
 				url: getStoreBookFileEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
-					Authorization: constants.davUserJWT
+					Authorization: constants.davUser.jwt
 				}
 			});
 		}catch(error){
@@ -334,13 +334,13 @@ describe("GetStoreBookFile endpoint", () => {
 	});
 
 	it("should not return file of published store book if the user is not the author", async () => {
-		let collection = constants.davUserAuthors[0].collections[0];
+		let collection = constants.davUser.authors[0].collections[0];
 		let storeBook = collection.books[0];
 		let fileContent = "Lorem ipsum dolor sit amet";
 		let fileType = "application/epub+zip";
 
 		// Set the store book file
-		await setStoreBookFile(storeBook, fileContent, fileType, constants.davUserJWT);
+		await setStoreBookFile(storeBook, fileContent, fileType, constants.davUser.jwt);
 
 		// Try to get the store book file
 		try{
@@ -348,7 +348,7 @@ describe("GetStoreBookFile endpoint", () => {
 				method: 'get',
 				url: getStoreBookFileEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
-					Authorization: constants.authorUserJWT
+					Authorization: constants.authorUser.jwt
 				}
 			});
 		}catch(error){

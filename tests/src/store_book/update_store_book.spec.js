@@ -22,7 +22,7 @@ describe("UpdateStoreBook endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[0].uuid)
+				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid)
 			});
 		}catch(error){
 			assert.equal(400, error.response.status);
@@ -38,7 +38,7 @@ describe("UpdateStoreBook endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[0].uuid),
+				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
 					Authorization: "asdasdasdasdsda",
 					'Content-Type': 'application/json'
@@ -61,9 +61,9 @@ describe("UpdateStoreBook endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[0].uuid),
+				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
-					Authorization: constants.authorUserJWT
+					Authorization: constants.authorUser.jwt
 				}
 			});
 		}catch(error){
@@ -82,7 +82,7 @@ describe("UpdateStoreBook endpoint", () => {
 				method: 'put',
 				url: updateStoreBookEndpointUrl.replace('{0}', "blabla"),
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -104,9 +104,9 @@ describe("UpdateStoreBook endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[0].uuid),
+				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
-					Authorization: constants.davUserJWT,
+					Authorization: constants.davUser.jwt,
 					'Content-Type': 'application/json'
 				}
 			});
@@ -124,9 +124,9 @@ describe("UpdateStoreBook endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[0].uuid),
+				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -155,9 +155,9 @@ describe("UpdateStoreBook endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[0].uuid),
+				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -180,9 +180,9 @@ describe("UpdateStoreBook endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[0].uuid),
+				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -205,9 +205,9 @@ describe("UpdateStoreBook endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[0].uuid),
+				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -228,9 +228,9 @@ describe("UpdateStoreBook endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[0].uuid),
+				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -248,203 +248,203 @@ describe("UpdateStoreBook endpoint", () => {
 	});
 
 	it("should update title of unpublished store book", async () => {
-		let collection = constants.authorUserAuthor.collections[1];
+		let collection = constants.authorUser.author.collections[1];
 		let storeBook = collection.books[0];
 
-		await testShouldUpdateTitleOfStoreBook(collection, storeBook, constants.authorUserJWT);
+		await testShouldUpdateTitleOfStoreBook(collection, storeBook, constants.authorUser.jwt);
 	});
 
 	it("should update title of store book in review", async () => {
-		let collection = constants.authorUserAuthor.collections[0];
+		let collection = constants.authorUser.author.collections[0];
 		let storeBook = collection.books[0];
 		
-		await testShouldUpdateTitleOfStoreBook(collection, storeBook, constants.authorUserJWT);
+		await testShouldUpdateTitleOfStoreBook(collection, storeBook, constants.authorUser.jwt);
 	});
 
 	it("should update title of published store book", async () => {
-		let collection = constants.authorUserAuthor.collections[1];
+		let collection = constants.authorUser.author.collections[1];
 		let storeBook = collection.books[1];
 
-		await testShouldUpdateTitleOfStoreBook(collection, storeBook, constants.authorUserJWT);
+		await testShouldUpdateTitleOfStoreBook(collection, storeBook, constants.authorUser.jwt);
 	});
 
 	it("should update title of hidden store book", async () => {
-		let collection = constants.authorUserAuthor.collections[0];
+		let collection = constants.authorUser.author.collections[0];
 		let storeBook = collection.books[1];
 
-		await testShouldUpdateTitleOfStoreBook(collection, storeBook, constants.authorUserJWT);
+		await testShouldUpdateTitleOfStoreBook(collection, storeBook, constants.authorUser.jwt);
 	});
 
 	it("should update description of unpublished store book", async () => {
-		let collection = constants.authorUserAuthor.collections[1];
+		let collection = constants.authorUser.author.collections[1];
 		let storeBook = collection.books[0];
 
-		await testShouldUpdateDescriptionOfStoreBook(collection, storeBook, constants.authorUserJWT);
+		await testShouldUpdateDescriptionOfStoreBook(collection, storeBook, constants.authorUser.jwt);
 	});
 
 	it("should update description of store book in review", async () => {
-		let collection = constants.authorUserAuthor.collections[0];
+		let collection = constants.authorUser.author.collections[0];
 		let storeBook = collection.books[0];
 
-		await testShouldUpdateDescriptionOfStoreBook(collection, storeBook, constants.authorUserJWT);
+		await testShouldUpdateDescriptionOfStoreBook(collection, storeBook, constants.authorUser.jwt);
 	});
 
 	it("should update description of published store book", async () => {
-		let collection = constants.authorUserAuthor.collections[1];
+		let collection = constants.authorUser.author.collections[1];
 		let storeBook = collection.books[1];
 
-		await testShouldUpdateDescriptionOfStoreBook(collection, storeBook, constants.authorUserJWT);
+		await testShouldUpdateDescriptionOfStoreBook(collection, storeBook, constants.authorUser.jwt);
 	});
 
 	it("should update description of hidden store book", async () => {
-		let collection = constants.authorUserAuthor.collections[0];
+		let collection = constants.authorUser.author.collections[0];
 		let storeBook = collection.books[1];
 
-		await testShouldUpdateDescriptionOfStoreBook(collection, storeBook, constants.authorUserJWT);
+		await testShouldUpdateDescriptionOfStoreBook(collection, storeBook, constants.authorUser.jwt);
 	});
 
 	it("should update language of unpublished store book", async () => {
-		let collection = constants.authorUserAuthor.collections[1];
+		let collection = constants.authorUser.author.collections[1];
 		let storeBook = collection.books[0];
 
-		await testShouldUpdateLanguageOfStoreBook(collection, storeBook, constants.authorUserJWT);
+		await testShouldUpdateLanguageOfStoreBook(collection, storeBook, constants.authorUser.jwt);
 	});
 
 	it("should update language of store book in review", async () => {
-		let collection = constants.authorUserAuthor.collections[0];
+		let collection = constants.authorUser.author.collections[0];
 		let storeBook = collection.books[0];
 
-		await testShouldUpdateLanguageOfStoreBook(collection, storeBook, constants.authorUserJWT);
+		await testShouldUpdateLanguageOfStoreBook(collection, storeBook, constants.authorUser.jwt);
 	});
 
 	it("should not update language of published store book", async () => {
-		let collection = constants.authorUserAuthor.collections[1];
+		let collection = constants.authorUser.author.collections[1];
 		let storeBook = collection.books[1];
 
-		await testShouldNotUpdateLanguageOfStoreBook(storeBook, constants.authorUserJWT);
+		await testShouldNotUpdateLanguageOfStoreBook(storeBook, constants.authorUser.jwt);
 	});
 
 	it("should not update language of hidden store book", async () => {
-		let collection = constants.authorUserAuthor.collections[0];
+		let collection = constants.authorUser.author.collections[0];
 		let storeBook = collection.books[1];
 
-		await testShouldNotUpdateLanguageOfStoreBook(storeBook, constants.authorUserJWT);
+		await testShouldNotUpdateLanguageOfStoreBook(storeBook, constants.authorUser.jwt);
 	});
 
 	it("should update price of unpublished store book", async () => {
-		let collection = constants.authorUserAuthor.collections[1];
+		let collection = constants.authorUser.author.collections[1];
 		let storeBook = collection.books[0];
 
-		await testShouldUpdatePriceOfStoreBook(collection, storeBook, constants.authorUserJWT);
+		await testShouldUpdatePriceOfStoreBook(collection, storeBook, constants.authorUser.jwt);
 	});
 
 	it("should update price of store book in review", async () => {
-		let collection = constants.authorUserAuthor.collections[0];
+		let collection = constants.authorUser.author.collections[0];
 		let storeBook = collection.books[0];
 
-		await testShouldUpdatePriceOfStoreBook(collection, storeBook, constants.authorUserJWT);
+		await testShouldUpdatePriceOfStoreBook(collection, storeBook, constants.authorUser.jwt);
 	});
 
 	it("should not update price of published store book", async () => {
-		let collection = constants.authorUserAuthor.collections[1];
+		let collection = constants.authorUser.author.collections[1];
 		let storeBook = collection.books[1];
 
-		await testShouldNotUpdatePriceOfStoreBook(storeBook, constants.authorUserJWT);
+		await testShouldNotUpdatePriceOfStoreBook(storeBook, constants.authorUser.jwt);
 	});
 
 	it("should not update price of hidden store book", async () => {
-		let collection = constants.authorUserAuthor.collections[0];
+		let collection = constants.authorUser.author.collections[0];
 		let storeBook = collection.books[1];
 
-		await testShouldNotUpdatePriceOfStoreBook(storeBook, constants.authorUserJWT);
+		await testShouldNotUpdatePriceOfStoreBook(storeBook, constants.authorUser.jwt);
 	});
 
 	it("should update title of unpublished store book of admin", async () => {
-		let collection = constants.davUserAuthors[0].collections[1];
+		let collection = constants.davUser.authors[0].collections[1];
 		let storeBook = collection.books[1];
 
-		await testShouldUpdateTitleOfStoreBook(collection, storeBook, constants.davUserJWT);
+		await testShouldUpdateTitleOfStoreBook(collection, storeBook, constants.davUser.jwt);
 	});
 
 	it("should update title of store book in review of admin", async () => {
-		let collection = constants.davUserAuthors[0].collections[0];
+		let collection = constants.davUser.authors[0].collections[0];
 		let storeBook = collection.books[1];
 
-		await testShouldUpdateTitleOfStoreBook(collection, storeBook, constants.davUserJWT);
+		await testShouldUpdateTitleOfStoreBook(collection, storeBook, constants.davUser.jwt);
 	});
 
 	it("should update title of published store book of admin", async () => {
-		let collection = constants.davUserAuthors[0].collections[0];
+		let collection = constants.davUser.authors[0].collections[0];
 		let storeBook = collection.books[0];
 
-		await testShouldUpdateTitleOfStoreBook(collection, storeBook, constants.davUserJWT);
+		await testShouldUpdateTitleOfStoreBook(collection, storeBook, constants.davUser.jwt);
 	});
 
 	it("should update title of hidden store book of admin", async () => {
-		let collection = constants.davUserAuthors[0].collections[1];
+		let collection = constants.davUser.authors[0].collections[1];
 		let storeBook = collection.books[1];
 
-		await testShouldUpdateTitleOfStoreBook(collection, storeBook, constants.davUserJWT);
+		await testShouldUpdateTitleOfStoreBook(collection, storeBook, constants.davUser.jwt);
 	});
 
 	it("should update description of unpublished store book of admin", async () => {
-		let collection = constants.davUserAuthors[0].collections[1];
+		let collection = constants.davUser.authors[0].collections[1];
 		let storeBook = collection.books[1];
 
-		await testShouldUpdateDescriptionOfStoreBook(collection, storeBook, constants.davUserJWT);
+		await testShouldUpdateDescriptionOfStoreBook(collection, storeBook, constants.davUser.jwt);
 	});
 
 	it("should update description of store book in review of admin", async () => {
-		let collection = constants.davUserAuthors[0].collections[0];
+		let collection = constants.davUser.authors[0].collections[0];
 		let storeBook = collection.books[1];
 
-		await testShouldUpdateDescriptionOfStoreBook(collection, storeBook, constants.davUserJWT);
+		await testShouldUpdateDescriptionOfStoreBook(collection, storeBook, constants.davUser.jwt);
 	});
 
 	it("should update description of published store book of admin", async () => {
-		let collection = constants.davUserAuthors[0].collections[0];
+		let collection = constants.davUser.authors[0].collections[0];
 		let storeBook = collection.books[0];
 
-		await testShouldUpdateDescriptionOfStoreBook(collection, storeBook, constants.davUserJWT);
+		await testShouldUpdateDescriptionOfStoreBook(collection, storeBook, constants.davUser.jwt);
 	});
 
 	it("should update description of hidden store book of admin", async () => {
-		let collection = constants.davUserAuthors[0].collections[1];
+		let collection = constants.davUser.authors[0].collections[1];
 		let storeBook = collection.books[1];
 
-		await testShouldUpdateDescriptionOfStoreBook(collection, storeBook, constants.davUserJWT);
+		await testShouldUpdateDescriptionOfStoreBook(collection, storeBook, constants.davUser.jwt);
 	});
 
 	it("should update language of unpublished store book of admin", async () => {
-		let collection = constants.davUserAuthors[0].collections[1];
+		let collection = constants.davUser.authors[0].collections[1];
 		let storeBook = collection.books[1];
 
-		await testShouldUpdateLanguageOfStoreBook(collection, storeBook, constants.davUserJWT);
+		await testShouldUpdateLanguageOfStoreBook(collection, storeBook, constants.davUser.jwt);
 	});
 
 	it("should update language of store book in review of admin", async () => {
-		let collection = constants.davUserAuthors[0].collections[0];
+		let collection = constants.davUser.authors[0].collections[0];
 		let storeBook = collection.books[1];
 
-		await testShouldUpdateLanguageOfStoreBook(collection, storeBook, constants.davUserJWT);
+		await testShouldUpdateLanguageOfStoreBook(collection, storeBook, constants.davUser.jwt);
 	});
 
 	it("should not update language of published store book of admin", async () => {
-		let collection = constants.davUserAuthors[0].collections[0];
+		let collection = constants.davUser.authors[0].collections[0];
 		let storeBook = collection.books[0];
 
-		await testShouldNotUpdateLanguageOfStoreBook(storeBook, constants.davUserJWT);
+		await testShouldNotUpdateLanguageOfStoreBook(storeBook, constants.davUser.jwt);
 	});
 
 	it("should not update language of hidden store book of admin", async () => {
-		let collection = constants.davUserAuthors[0].collections[1];
+		let collection = constants.davUser.authors[0].collections[1];
 		let storeBook = collection.books[0];
 
-		await testShouldNotUpdateLanguageOfStoreBook(storeBook, constants.davUserJWT);
+		await testShouldNotUpdateLanguageOfStoreBook(storeBook, constants.davUser.jwt);
 	});
 
 	it("should not publish store book without description", async () => {
-		let collection = constants.authorUserAuthor.collections[0];
+		let collection = constants.authorUser.author.collections[0];
 		let storeBook = collection.books[0];
 
 		// Remove the description property from the store book
@@ -453,7 +453,7 @@ describe("UpdateStoreBook endpoint", () => {
 				method: 'put',
 				url: `${constants.apiBaseUrl}/apps/object/${storeBook.uuid}`,
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -471,7 +471,7 @@ describe("UpdateStoreBook endpoint", () => {
 				method: 'put',
 				url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -492,7 +492,7 @@ describe("UpdateStoreBook endpoint", () => {
 	});
 
 	it("should not publish store book without cover", async () => {
-		let collection = constants.authorUserAuthor.collections[0];
+		let collection = constants.authorUser.author.collections[0];
 		let storeBook = collection.books[0];
 
 		// Remove the cover property from the store book
@@ -501,7 +501,7 @@ describe("UpdateStoreBook endpoint", () => {
 				method: 'put',
 				url: `${constants.apiBaseUrl}/apps/object/${storeBook.uuid}`,
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -519,7 +519,7 @@ describe("UpdateStoreBook endpoint", () => {
 				method: 'put',
 				url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -540,7 +540,7 @@ describe("UpdateStoreBook endpoint", () => {
 	});
 
 	it("should not publish store book without file", async () => {
-		let collection = constants.authorUserAuthor.collections[0];
+		let collection = constants.authorUser.author.collections[0];
 		let storeBook = collection.books[0];
 
 		// Remove the file property from the store book
@@ -549,7 +549,7 @@ describe("UpdateStoreBook endpoint", () => {
 				method: 'put',
 				url: `${constants.apiBaseUrl}/apps/object/${storeBook.uuid}`,
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -567,7 +567,7 @@ describe("UpdateStoreBook endpoint", () => {
 				method: 'put',
 				url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -588,7 +588,7 @@ describe("UpdateStoreBook endpoint", () => {
 	});
 
 	it("should publish store book", async () => {
-		let collection = constants.authorUserAuthor.collections[0];
+		let collection = constants.authorUser.author.collections[0];
 		let storeBook = collection.books[0];
 
 		// Set the store book to unpublished
@@ -597,7 +597,7 @@ describe("UpdateStoreBook endpoint", () => {
 				method: 'put',
 				url: `${constants.apiBaseUrl}/apps/object/${storeBook.uuid}`,
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -616,7 +616,7 @@ describe("UpdateStoreBook endpoint", () => {
 				method: 'put',
 				url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -645,7 +645,7 @@ describe("UpdateStoreBook endpoint", () => {
 				method: 'get',
 				url: `${constants.apiBaseUrl}/apps/object/${storeBook.uuid}`,
 				headers: {
-					Authorization: constants.authorUserJWT
+					Authorization: constants.authorUser.jwt
 				}
 			});
 		}catch(error){
@@ -663,7 +663,7 @@ describe("UpdateStoreBook endpoint", () => {
 	});
 
 	it("should publish hidden store book", async () => {
-		let collection = constants.authorUserAuthor.collections[0];
+		let collection = constants.authorUser.author.collections[0];
 		let storeBook = collection.books[1];
 
 		// Try to publish the store book
@@ -674,7 +674,7 @@ describe("UpdateStoreBook endpoint", () => {
 				method: 'put',
 				url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -703,7 +703,7 @@ describe("UpdateStoreBook endpoint", () => {
 				method: 'get',
 				url: `${constants.apiBaseUrl}/apps/object/${storeBook.uuid}`,
 				headers: {
-					Authorization: constants.authorUserJWT
+					Authorization: constants.authorUser.jwt
 				}
 			});
 		}catch(error){
@@ -721,7 +721,7 @@ describe("UpdateStoreBook endpoint", () => {
 	});
 
 	it("should unpublish store book", async () => {
-		let collection = constants.authorUserAuthor.collections[1];
+		let collection = constants.authorUser.author.collections[1];
 		let storeBook = collection.books[1];
 		let response;
 
@@ -730,7 +730,7 @@ describe("UpdateStoreBook endpoint", () => {
 				method: 'put',
 				url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -759,7 +759,7 @@ describe("UpdateStoreBook endpoint", () => {
 				method: 'get',
 				url: `${constants.apiBaseUrl}/apps/object/${storeBook.uuid}`,
 				headers: {
-					Authorization: constants.authorUserJWT
+					Authorization: constants.authorUser.jwt
 				}
 			});
 		}catch(error){
@@ -777,7 +777,7 @@ describe("UpdateStoreBook endpoint", () => {
 	});
 
 	it("should not publish store book of admin without description", async () => {
-		let collection = constants.davUserAuthors[0].collections[0];
+		let collection = constants.davUser.authors[0].collections[0];
 		let storeBook = collection.books[0];
 
 		// Remove the description property from the store book
@@ -786,7 +786,7 @@ describe("UpdateStoreBook endpoint", () => {
 				method: 'put',
 				url: `${constants.apiBaseUrl}/apps/object/${storeBook.uuid}`,
 				headers: {
-					Authorization: constants.davUserJWT,
+					Authorization: constants.davUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -804,7 +804,7 @@ describe("UpdateStoreBook endpoint", () => {
 				method: 'put',
 				url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
-					Authorization: constants.davUserJWT,
+					Authorization: constants.davUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -825,7 +825,7 @@ describe("UpdateStoreBook endpoint", () => {
 	});
 
 	it("should not publish store book of admin without cover", async () => {
-		let collection = constants.davUserAuthors[0].collections[0];
+		let collection = constants.davUser.authors[0].collections[0];
 		let storeBook = collection.books[0];
 
 		// Remove the cover property from the store book
@@ -834,7 +834,7 @@ describe("UpdateStoreBook endpoint", () => {
 				method: 'put',
 				url: `${constants.apiBaseUrl}/apps/object/${storeBook.uuid}`,
 				headers: {
-					Authorization: constants.davUserJWT,
+					Authorization: constants.davUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -852,7 +852,7 @@ describe("UpdateStoreBook endpoint", () => {
 				method: 'put',
 				url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
-					Authorization: constants.davUserJWT,
+					Authorization: constants.davUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -873,7 +873,7 @@ describe("UpdateStoreBook endpoint", () => {
 	});
 
 	it("should not publish store book of admin without file", async () => {
-		let collection = constants.davUserAuthors[0].collections[0];
+		let collection = constants.davUser.authors[0].collections[0];
 		let storeBook = collection.books[0];
 
 		// Remove the cover property from the store book
@@ -882,7 +882,7 @@ describe("UpdateStoreBook endpoint", () => {
 				method: 'put',
 				url: `${constants.apiBaseUrl}/apps/object/${storeBook.uuid}`,
 				headers: {
-					Authorization: constants.davUserJWT,
+					Authorization: constants.davUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -900,7 +900,7 @@ describe("UpdateStoreBook endpoint", () => {
 				method: 'put',
 				url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
-					Authorization: constants.davUserJWT,
+					Authorization: constants.davUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -921,7 +921,7 @@ describe("UpdateStoreBook endpoint", () => {
 	});
 
 	it("should publish store book of admin", async () => {
-		let collection = constants.davUserAuthors[0].collections[0];
+		let collection = constants.davUser.authors[0].collections[0];
 		let storeBook = collection.books[0];
 
 		// Set the store book to unpublished
@@ -930,7 +930,7 @@ describe("UpdateStoreBook endpoint", () => {
 				method: 'put',
 				url: `${constants.apiBaseUrl}/apps/object/${storeBook.uuid}`,
 				headers: {
-					Authorization: constants.davUserJWT,
+					Authorization: constants.davUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -949,7 +949,7 @@ describe("UpdateStoreBook endpoint", () => {
 				method: 'put',
 				url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
-					Authorization: constants.davUserJWT,
+					Authorization: constants.davUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -978,7 +978,7 @@ describe("UpdateStoreBook endpoint", () => {
 				method: 'get',
 				url: `${constants.apiBaseUrl}/apps/object/${storeBook.uuid}`,
 				headers: {
-					Authorization: constants.davUserJWT
+					Authorization: constants.davUser.jwt
 				}
 			});
 		}catch(error){
@@ -996,7 +996,7 @@ describe("UpdateStoreBook endpoint", () => {
 	});
 
 	it("should publish hidden store book of admin", async () => {
-		let collection = constants.davUserAuthors[0].collections[1];
+		let collection = constants.davUser.authors[0].collections[1];
 		let storeBook = collection.books[0];
 
 		// Try to publish the store book
@@ -1007,7 +1007,7 @@ describe("UpdateStoreBook endpoint", () => {
 				method: 'put',
 				url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
-					Authorization: constants.davUserJWT,
+					Authorization: constants.davUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -1036,7 +1036,7 @@ describe("UpdateStoreBook endpoint", () => {
 				method: 'get',
 				url: `${constants.apiBaseUrl}/apps/object/${storeBook.uuid}`,
 				headers: {
-					Authorization: constants.davUserJWT
+					Authorization: constants.davUser.jwt
 				}
 			});
 		}catch(error){
@@ -1054,7 +1054,7 @@ describe("UpdateStoreBook endpoint", () => {
 	});
 
 	it("should unpublish store book of admin", async () => {
-		let collection = constants.davUserAuthors[0].collections[0];
+		let collection = constants.davUser.authors[0].collections[0];
 		let storeBook = collection.books[0];
 		let response;
 
@@ -1063,7 +1063,7 @@ describe("UpdateStoreBook endpoint", () => {
 				method: 'put',
 				url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
-					Authorization: constants.davUserJWT,
+					Authorization: constants.davUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -1092,7 +1092,7 @@ describe("UpdateStoreBook endpoint", () => {
 				method: 'get',
 				url: `${constants.apiBaseUrl}/apps/object/${storeBook.uuid}`,
 				headers: {
-					Authorization: constants.davUserJWT
+					Authorization: constants.davUser.jwt
 				}
 			});
 		}catch(error){

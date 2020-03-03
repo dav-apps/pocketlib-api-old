@@ -14,7 +14,7 @@ describe("GetStoreBookCollection endpoint", async () => {
 		try{
 			await axios.default({
 				method: 'get',
-				url: getStoreBookCollectionEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].uuid),
+				url: getStoreBookCollectionEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].uuid),
 				headers: {
 					Authorization: "sdaaasdasd"
 				}
@@ -33,7 +33,7 @@ describe("GetStoreBookCollection endpoint", async () => {
 		try{
 			await axios.default({
 				method: 'get',
-				url: getStoreBookCollectionEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].uuid),
+				url: getStoreBookCollectionEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].uuid),
 				headers: {
 					Authorization: constants.davClassLibraryTestUserTestAppJWT
 				}
@@ -54,7 +54,7 @@ describe("GetStoreBookCollection endpoint", async () => {
 				method: 'get',
 				url: getStoreBookCollectionEndpointUrl.replace('{0}', "asdasdasd"),
 				headers: {
-					Authorization: constants.authorUserJWT
+					Authorization: constants.authorUser.jwt
 				}
 			});
 		}catch(error){
@@ -68,49 +68,49 @@ describe("GetStoreBookCollection endpoint", async () => {
 	});
 
 	it("should return collection with all store books if the user is the author", async () => {
-		let author = constants.authorUserAuthor;
+		let author = constants.authorUser.author;
 		let collection = author.collections[1];
 		
-		await testGetCollectionWithAllStoreBooks(author, collection, constants.authorUserJWT);
+		await testGetCollectionWithAllStoreBooks(author, collection, constants.authorUser.jwt);
 	});
 
 	it("should return collection with all store books if the user is an admin", async () => {
-		let author = constants.authorUserAuthor;
+		let author = constants.authorUser.author;
 		let collection = author.collections[1];
 
-		await testGetCollectionWithAllStoreBooks(author, collection, constants.davUserJWT);
+		await testGetCollectionWithAllStoreBooks(author, collection, constants.davUser.jwt);
 	});
 
 	it("should return collection with published store books if the user is not the author", async () => {
-		let author = constants.authorUserAuthor;
+		let author = constants.authorUser.author;
 		let collection = author.collections[1];
 		
 		await testGetCollectionWithPublishedStoreBooks(author, collection, constants.davClassLibraryTestUserJWT);
 	});
 
 	it("should return collection of admin with all store books if the user is the author", async () => {
-		let author = constants.davUserAuthors[0];
+		let author = constants.davUser.authors[0];
 		let collection = author.collections[0];
 		
-		await testGetCollectionWithAllStoreBooks(author, collection, constants.davUserJWT);
+		await testGetCollectionWithAllStoreBooks(author, collection, constants.davUser.jwt);
 	});
 
 	it("should return collection of admin with published store books if the user is not the author", async () => {
-		let author = constants.davUserAuthors[0];
+		let author = constants.davUser.authors[0];
 		let collection = author.collections[0];
 		
 		await testGetCollectionWithPublishedStoreBooks(author, collection, constants.davClassLibraryTestUserJWT);
 	});
 
 	it("should return collection with published store books if the user is not logged in", async () => {
-		let author = constants.authorUserAuthor;
+		let author = constants.authorUser.author;
 		let collection = author.collections[1];
 		
 		await testGetCollectionWithPublishedStoreBooks(author, collection, null);
 	});
 
 	it("should return collection of admin with published store books if the user is not logged in", async () => {
-		let author = constants.davUserAuthors[0];
+		let author = constants.davUser.authors[0];
 		let collection = author.collections[0];
 		
 		await testGetCollectionWithPublishedStoreBooks(author, collection, null);

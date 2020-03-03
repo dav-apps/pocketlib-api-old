@@ -30,7 +30,7 @@ describe("GetAuthor endpoint", async () => {
 		try{
 			await axios.default({
 				method: 'get',
-				url: getAuthorEndpointUrl.replace('{0}', constants.davUserAuthors[0].bios[0].uuid)
+				url: getAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].bios[0].uuid)
 			});
 		}catch(error){
 			assert.equal(403, error.response.status);
@@ -43,11 +43,11 @@ describe("GetAuthor endpoint", async () => {
 	});
 
 	it("should return author", async () => {
-		await testGetAuthor(constants.authorUserAuthor);
+		await testGetAuthor(constants.authorUser.author);
 	});
 
 	it("should return author of admin", async () => {
-		await testGetAuthor(constants.davUserAuthors[0]);
+		await testGetAuthor(constants.davUser.authors[0]);
 	});
 
 	async function testGetAuthor(author){

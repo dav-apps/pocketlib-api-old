@@ -61,7 +61,7 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 				method: 'put',
 				url: setBioOfAuthorOfUserEndpointUrl.replace('{0}', "en"),
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': "asdasdasdads"
 				}
 			});
@@ -121,7 +121,7 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 				method: 'put',
 				url: setBioOfAuthorOfUserEndpointUrl.replace('{0}', "de"),
 				headers: {
-					Authorization: constants.davUserJWT,
+					Authorization: constants.davUser.jwt,
 					'Content-Type': 'application/json'
 				}
 			});
@@ -141,7 +141,7 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 				method: 'put',
 				url: setBioOfAuthorOfUserEndpointUrl.replace('{0}', "en"),
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				}
 			});
@@ -161,7 +161,7 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 				method: 'put',
 				url: setBioOfAuthorOfUserEndpointUrl.replace('{0}', "de"),
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -184,7 +184,7 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 				method: 'put',
 				url: setBioOfAuthorOfUserEndpointUrl.replace('{0}', "fr"),
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -207,7 +207,7 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 				method: 'put',
 				url: setBioOfAuthorOfUserEndpointUrl.replace('{0}', "en"),
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -230,7 +230,7 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 				method: 'put',
 				url: setBioOfAuthorOfUserEndpointUrl.replace('{0}', "asd"),
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -257,7 +257,7 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 				method: 'put',
 				url: setBioOfAuthorOfUserEndpointUrl.replace('{0}', language),
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -279,9 +279,9 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 		try{
 			authorResponse = await axios.default({
 				method: 'get',
-				url: `${constants.apiBaseUrl}/apps/object/${constants.authorUserAuthor.uuid}`,
+				url: `${constants.apiBaseUrl}/apps/object/${constants.authorUser.author.uuid}`,
 				headers: {
-					Authorization: constants.authorUserJWT
+					Authorization: constants.authorUser.jwt
 				}
 			});
 		}catch(error){
@@ -292,7 +292,7 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 		let responseAuthorBioUuids = responseAuthorBios.split(',');
 
 		let authorBioUuids = [];
-		constants.authorUserAuthor.bios.forEach(bio => authorBioUuids.push(bio.uuid));
+		constants.authorUser.author.bios.forEach(bio => authorBioUuids.push(bio.uuid));
 		authorBioUuids.push(responseAuthorBioUuids[responseAuthorBioUuids.length - 1]);
 		let authorBios = authorBioUuids.join(',');
 
@@ -308,7 +308,7 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 				method: 'get',
 				url: `${constants.apiBaseUrl}/apps/object/${newAuthorBioUuid}`,
 				headers: {
-					Authorization: constants.authorUserJWT
+					Authorization: constants.authorUser.jwt
 				}
 			});
 		}catch(error){
@@ -325,7 +325,7 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 
 	it("should update author bio", async () => {
 		let response;
-		let authorBio = constants.authorUserAuthor.bios[0];
+		let authorBio = constants.authorUser.author.bios[0];
 		let authorBioUuid = authorBio.uuid;
 		let language = authorBio.language;
 		let bio = "Updated bio!";
@@ -335,7 +335,7 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 				method: 'put',
 				url: setBioOfAuthorOfUserEndpointUrl.replace('{0}', language),
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -357,9 +357,9 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 		try{
 			authorResponse = await axios.default({
 				method: 'get',
-				url: `${constants.apiBaseUrl}/apps/object/${constants.authorUserAuthor.uuid}`,
+				url: `${constants.apiBaseUrl}/apps/object/${constants.authorUser.author.uuid}`,
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt
 				}
 			});
 		}catch(error){
@@ -370,7 +370,7 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 		let responseAuthorBioUuids = responseAuthorBios.split(',');
 
 		let authorBioUuids = [];
-		constants.authorUserAuthor.bios.forEach(bio => authorBioUuids.push(bio.uuid));
+		constants.authorUser.author.bios.forEach(bio => authorBioUuids.push(bio.uuid));
 		let authorBios = authorBioUuids.join(',');
 
 		assert.equal(authorBioUuids.length, responseAuthorBioUuids.length);
@@ -384,7 +384,7 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 				method: 'get',
 				url: `${constants.apiBaseUrl}/apps/object/${authorBioUuid}`,
 				headers: {
-					Authorization: constants.authorUserJWT
+					Authorization: constants.authorUser.jwt
 				}
 			});
 		}catch(error){

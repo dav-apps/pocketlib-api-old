@@ -14,7 +14,7 @@ describe("GetStoreBook endpoint", () => {
 		try{
 			await axios.default({
 				method: 'get',
-				url: getStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[0].uuid)
+				url: getStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid)
 			});
 		}catch(error){
 			assert.equal(400, error.response.status);
@@ -30,7 +30,7 @@ describe("GetStoreBook endpoint", () => {
 		try{
 			await axios.default({
 				method: 'get',
-				url: getStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[0].uuid),
+				url: getStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
 					Authorization: "asdasdasdasd.asdasdasd"
 				}
@@ -49,7 +49,7 @@ describe("GetStoreBook endpoint", () => {
 		try{
 			await axios.default({
 				method: 'get',
-				url: getStoreBookEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[0].uuid),
+				url: getStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
 					Authorization: constants.davClassLibraryTestUserTestAppJWT
 				}
@@ -70,7 +70,7 @@ describe("GetStoreBook endpoint", () => {
 				method: 'get',
 				url: getStoreBookEndpointUrl.replace('{0}', "blablabla"),
 				headers: {
-					Authorization: constants.authorUserJWT
+					Authorization: constants.authorUser.jwt
 				}
 			});
 		}catch(error){
@@ -84,7 +84,7 @@ describe("GetStoreBook endpoint", () => {
 	});
 
 	it("should return unpublished store book if the user is the author", async () => {
-		let collection = constants.authorUserAuthor.collections[1];
+		let collection = constants.authorUser.author.collections[1];
 		let storeBook = collection.books[0];
 
 		try{
@@ -92,7 +92,7 @@ describe("GetStoreBook endpoint", () => {
 				method: 'get',
 				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
-					Authorization: constants.authorUserJWT
+					Authorization: constants.authorUser.jwt
 				}
 			});
 		}catch(error){
@@ -113,7 +113,7 @@ describe("GetStoreBook endpoint", () => {
 	});
 
 	it("should return unpublished store book if the user is an admin", async () => {
-		let collection = constants.authorUserAuthor.collections[1];
+		let collection = constants.authorUser.author.collections[1];
 		let storeBook = collection.books[0];
 
 		try{
@@ -121,7 +121,7 @@ describe("GetStoreBook endpoint", () => {
 				method: 'get',
 				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
-					Authorization: constants.davUserJWT
+					Authorization: constants.davUser.jwt
 				}
 			});
 		}catch(error){
@@ -142,7 +142,7 @@ describe("GetStoreBook endpoint", () => {
 	});
 
 	it("should not return unpublished store book if the user is not the author", async () => {
-		let collection = constants.authorUserAuthor.collections[1];
+		let collection = constants.authorUser.author.collections[1];
 		let storeBook = collection.books[0];
 
 		try{
@@ -164,7 +164,7 @@ describe("GetStoreBook endpoint", () => {
 	});
 
 	it("should return store book in review if the user is the author", async () => {
-		let collection = constants.authorUserAuthor.collections[0];
+		let collection = constants.authorUser.author.collections[0];
 		let storeBook = collection.books[0];
 
 		try{
@@ -172,7 +172,7 @@ describe("GetStoreBook endpoint", () => {
 				method: 'get',
 				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
-					Authorization: constants.authorUserJWT
+					Authorization: constants.authorUser.jwt
 				}
 			});
 		}catch(error){
@@ -193,7 +193,7 @@ describe("GetStoreBook endpoint", () => {
 	});
 
 	it("should not return store book in review if the user is not the author", async () => {
-		let collection = constants.authorUserAuthor.collections[0];
+		let collection = constants.authorUser.author.collections[0];
 		let storeBook = collection.books[0];
 
 		try{
@@ -215,7 +215,7 @@ describe("GetStoreBook endpoint", () => {
 	});
 
 	it("should return store book in review if the user is an admin", async () => {
-		let collection = constants.authorUserAuthor.collections[0];
+		let collection = constants.authorUser.author.collections[0];
 		let storeBook = collection.books[0];
 
 		try{
@@ -223,7 +223,7 @@ describe("GetStoreBook endpoint", () => {
 				method: 'get',
 				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
-					Authorization: constants.davUserJWT
+					Authorization: constants.davUser.jwt
 				}
 			});
 		}catch(error){
@@ -244,7 +244,7 @@ describe("GetStoreBook endpoint", () => {
 	});
 
 	it("should return published store book if the user is the author", async () => {
-		let collection = constants.davUserAuthors[0].collections[0];
+		let collection = constants.davUser.authors[0].collections[0];
 		let storeBook = collection.books[0];
 
 		try{
@@ -252,7 +252,7 @@ describe("GetStoreBook endpoint", () => {
 				method: 'get',
 				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
-					Authorization: constants.davUserJWT
+					Authorization: constants.davUser.jwt
 				}
 			});
 		}catch(error){
@@ -273,7 +273,7 @@ describe("GetStoreBook endpoint", () => {
 	});
 
 	it("should return published store book if the user is not the author", async () => {
-		let collection = constants.davUserAuthors[0].collections[0];
+		let collection = constants.davUser.authors[0].collections[0];
 		let storeBook = collection.books[0];
 
 		try{
@@ -281,7 +281,7 @@ describe("GetStoreBook endpoint", () => {
 				method: 'get',
 				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
-					Authorization: constants.authorUserJWT
+					Authorization: constants.authorUser.jwt
 				}
 			});
 		}catch(error){

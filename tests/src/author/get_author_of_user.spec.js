@@ -91,7 +91,7 @@ describe("GetAuthorOfUser endpoint", () => {
 				method: 'get',
 				url: getAuthorOfUserEndpointUrl,
 				headers: {
-					Authorization: constants.authorUserJWT
+					Authorization: constants.authorUser.jwt
 				}
 			});
 		}catch(error){
@@ -99,15 +99,15 @@ describe("GetAuthorOfUser endpoint", () => {
 		}
 
 		assert.equal(200, response.status);
-		assert.equal(constants.authorUserAuthor.uuid, response.data.uuid);
-		assert.equal(constants.authorUserAuthor.firstName, response.data.first_name);
-		assert.equal(constants.authorUserAuthor.lastName, response.data.last_name);
-		assert.equal(constants.authorUserAuthor.bios.length, response.data.bios.length);
-		assert.equal(constants.authorUserAuthor.collections.length, response.data.collections.length);
+		assert.equal(constants.authorUser.author.uuid, response.data.uuid);
+		assert.equal(constants.authorUser.author.firstName, response.data.first_name);
+		assert.equal(constants.authorUser.author.lastName, response.data.last_name);
+		assert.equal(constants.authorUser.author.bios.length, response.data.bios.length);
+		assert.equal(constants.authorUser.author.collections.length, response.data.collections.length);
 		assert.equal(true, response.data.profile_image);
 
-		for(let i = 0; i < constants.authorUserAuthor.bios.length; i++){
-			let bio = constants.authorUserAuthor.bios[i];
+		for(let i = 0; i < constants.authorUser.author.bios.length; i++){
+			let bio = constants.authorUser.author.bios[i];
 			let responseBio = response.data.bios[i];
 
 			assert.equal(null, responseBio.uuid);
@@ -115,8 +115,8 @@ describe("GetAuthorOfUser endpoint", () => {
 			assert.equal(bio.language, responseBio.language);
 		}
 
-		for(let i = 0; i < constants.authorUserAuthor.collections.length; i++){
-			let collection = constants.authorUserAuthor.collections[i];
+		for(let i = 0; i < constants.authorUser.author.collections.length; i++){
+			let collection = constants.authorUser.author.collections[i];
 			let responseCollection = response.data.collections[i];
 
 			assert.equal(collection.uuid, responseCollection.uuid);
@@ -140,7 +140,7 @@ describe("GetAuthorOfUser endpoint", () => {
 				method: 'get',
 				url: getAuthorOfUserEndpointUrl,
 				headers: {
-					Authorization: constants.davUserJWT
+					Authorization: constants.davUser.jwt
 				}
 			});
 		}catch(error){
@@ -149,8 +149,8 @@ describe("GetAuthorOfUser endpoint", () => {
 
 		assert.equal(200, response.status);
 		
-		for(let i = 0; i < constants.davUserAuthors.length; i++){
-			let author = constants.davUserAuthors[i];
+		for(let i = 0; i < constants.davUser.authors.length; i++){
+			let author = constants.davUser.authors[i];
 			let responseAuthor = response.data.authors[i];
 
 			assert.equal(author.uuid, responseAuthor.uuid);

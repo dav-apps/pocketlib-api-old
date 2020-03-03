@@ -22,9 +22,9 @@ describe("GetProfileImageOfAuthor", async () => {
 		try{
 			await axios.default({
 				method: 'get',
-				url: getProfileImageOfAuthorEndpoint.replace('{0}', constants.davUserAuthors[1].uuid),
+				url: getProfileImageOfAuthorEndpoint.replace('{0}', constants.davUser.authors[1].uuid),
 				headers: {
-					Authorization: constants.authorUserJWT
+					Authorization: constants.authorUser.jwt
 				}
 			});
 		}catch(error){
@@ -43,7 +43,7 @@ describe("GetProfileImageOfAuthor", async () => {
 				method: 'get',
 				url: getProfileImageOfAuthorEndpoint.replace('{0}', "adasdasdasdasad"),
 				headers: {
-					Authorization: constants.davUserJWT
+					Authorization: constants.davUser.jwt
 				}
 			});
 		}catch(error){
@@ -55,12 +55,12 @@ describe("GetProfileImageOfAuthor", async () => {
 	});
 
 	it("should return profile image", async () => {
-		let author = constants.davUserAuthors[0];
+		let author = constants.davUser.authors[0];
 		let profileImageContent = "Lorem ipsum dolor sit amet";
 		let profileImageType = "image/jpeg";
 
 		// Set the profile image
-		await setProfileImageOfAuthor(constants.davUserJWT, author.uuid, profileImageType, profileImageContent);
+		await setProfileImageOfAuthor(constants.davUser.jwt, author.uuid, profileImageType, profileImageContent);
 
 		// Try to get the profile image
 		let response;
@@ -83,12 +83,12 @@ describe("GetProfileImageOfAuthor", async () => {
 	});
 
 	it("should return profile image of author of user", async () => {
-		let author = constants.authorUserAuthor;
+		let author = constants.authorUser.author;
 		let profileImageContent = "Lorem ipsum dolor sit amet";
 		let profileImageType = "image/jpeg";
 
 		// Set the profile image
-		await setProfileImageOfAuthorOfUser(constants.authorUserJWT, profileImageType, profileImageContent);
+		await setProfileImageOfAuthorOfUser(constants.authorUser.jwt, profileImageType, profileImageContent);
 
 		// Try to get the profile image
 		let response;

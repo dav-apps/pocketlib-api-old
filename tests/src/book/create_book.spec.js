@@ -60,7 +60,7 @@ describe("CreateBook endpoint", () => {
 				method: 'post',
 				url: createBookEndpointUrl,
 				headers: {
-					Authorization: constants.klausUserJWT,
+					Authorization: constants.klausUser.jwt,
 					'Content-Type': 'application/xml'
 				}
 			});
@@ -98,7 +98,7 @@ describe("CreateBook endpoint", () => {
 				method: 'post',
 				url: createBookEndpointUrl,
 				headers: {
-					Authorization: constants.klausUserJWT,
+					Authorization: constants.klausUser.jwt,
 					'Content-Type': 'application/json'
 				}
 			});
@@ -118,7 +118,7 @@ describe("CreateBook endpoint", () => {
 				method: 'post',
 				url: createBookEndpointUrl,
 				headers: {
-					Authorization: constants.klausUserJWT,
+					Authorization: constants.klausUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -141,7 +141,7 @@ describe("CreateBook endpoint", () => {
 				method: 'post',
 				url: createBookEndpointUrl,
 				headers: {
-					Authorization: constants.klausUserJWT,
+					Authorization: constants.klausUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -164,7 +164,7 @@ describe("CreateBook endpoint", () => {
 				method: 'post',
 				url: createBookEndpointUrl,
 				headers: {
-					Authorization: constants.klausUserJWT,
+					Authorization: constants.klausUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -191,7 +191,7 @@ describe("CreateBook endpoint", () => {
 					'Content-Type': 'application/json'
 				},
 				data: {
-					store_book: constants.davUserAuthors[0].collections[0].books[0].uuid
+					store_book: constants.davUser.authors[0].collections[0].books[0].uuid
 				}
 			});
 		}catch(error){
@@ -210,11 +210,11 @@ describe("CreateBook endpoint", () => {
 				method: 'post',
 				url: createBookEndpointUrl,
 				headers: {
-					Authorization: constants.klausUserJWT,
+					Authorization: constants.klausUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
-					store_book: constants.davUserAuthors[0].collections[1].books[2].uuid
+					store_book: constants.davUser.authors[0].collections[1].books[2].uuid
 				}
 			});
 		}catch(error){
@@ -223,57 +223,82 @@ describe("CreateBook endpoint", () => {
 			assert.equal(1111, error.response.data.errors[0].code);
 			return;
 		}
+
+		assert.fail();
+	});
+
+	it("should not create book from store book if the store book is already in the library of the user", async () => {
+		try{
+			await axios.default({
+				method: 'post',
+				url: createBookEndpointUrl,
+				headers: {
+					Authorization: constants.klausUser.jwt,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					store_book: constants.davUser.authors[0].collections[0].books[0].uuid
+				}
+			});
+		}catch(error){
+			assert.equal(422, error.response.status);
+			assert.equal(1, error.response.data.errors.length);
+			assert.equal(1112, error.response.data.errors[0].code);
+			return;
+		}
+
+		assert.fail();
 	});
 	
 
 	it("should create book from unpublished store book as the author", async () => {
-		await testShouldCreateBookFromStoreBook(constants.authorUserJWT, constants.authorUserAuthor.collections[1].books[0]);
+		await testShouldCreateBookFromStoreBook(constants.authorUser.jwt, constants.authorUser.author.collections[1].books[0]);
 	});
 
 	it("should create book from store book in review as the author", async () => {
-		await testShouldCreateBookFromStoreBook(constants.authorUserJWT, constants.authorUserAuthor.collections[0].books[0]);
+		await testShouldCreateBookFromStoreBook(constants.authorUser.jwt, constants.authorUser.author.collections[0].books[0]);
 	});
 
 	it("should create book from published store book as the author", async () => {
-		await testShouldCreateBookFromStoreBook(constants.authorUserJWT, constants.authorUserAuthor.collections[1].books[1]);
+		await testShouldCreateBookFromStoreBook(constants.authorUser.jwt, constants.authorUser.author.collections[1].books[1]);
 	});
 
 	it("should create book from hidden store book as the author", async () => {
-		await testShouldCreateBookFromStoreBook(constants.authorUserJWT, constants.authorUserAuthor.collections[0].books[1]);
+		await testShouldCreateBookFromStoreBook(constants.authorUser.jwt, constants.authorUser.author.collections[0].books[1]);
 	});
 
 
 	it("should create book from unpublished store book as admin", async () => {
-		await testShouldCreateBookFromStoreBook(constants.davUserJWT, constants.authorUserAuthor.collections[1].books[0]);
+		await testShouldCreateBookFromStoreBook(constants.davUser.jwt, constants.authorUser.author.collections[1].books[0]);
 	});
 
 	it("should create book from store book in review as admin", async () => {
-		await testShouldCreateBookFromStoreBook(constants.davUserJWT, constants.authorUserAuthor.collections[0].books[0]);
+		await testShouldCreateBookFromStoreBook(constants.davUser.jwt, constants.authorUser.author.collections[0].books[0]);
 	});
 
 	it("should create book from published store book as admin", async () => {
-		await testShouldCreateBookFromStoreBook(constants.davUserJWT, constants.authorUserAuthor.collections[1].books[1]);
+		await testShouldCreateBookFromStoreBook(constants.davUser.jwt, constants.authorUser.author.collections[1].books[1]);
 	});
 
 	it("should create book from hidden store book as admin", async () => {
-		await testShouldCreateBookFromStoreBook(constants.davUserJWT, constants.authorUserAuthor.collections[0].books[1]);
+		await testShouldCreateBookFromStoreBook(constants.davUser.jwt, constants.authorUser.author.collections[0].books[1]);
 	});
 
 
 	it("should not create book from unpublished store book as dav Plus user", async () => {
-		await testShouldNotCreateBookFromStoreBook(constants.klausUserJWT, constants.authorUserAuthor.collections[1].books[0]);
+		await testShouldNotCreateBookFromStoreBook(constants.klausUser.jwt, constants.authorUser.author.collections[1].books[0]);
 	});
 
 	it("should not create book from store book in review as dav Plus user", async () => {
-		await testShouldNotCreateBookFromStoreBook(constants.klausUserJWT, constants.authorUserAuthor.collections[0].books[0]);
+		await testShouldNotCreateBookFromStoreBook(constants.klausUser.jwt, constants.authorUser.author.collections[0].books[0]);
 	});
 
 	it("should create book from published store book as dav Plus user", async () => {
-		await testShouldCreateBookFromStoreBook(constants.klausUserJWT, constants.authorUserAuthor.collections[1].books[1]);
+		await testShouldCreateBookFromStoreBook(constants.klausUser.jwt, constants.authorUser.author.collections[1].books[1]);
 	});
 
 	it("should not create book from hidden store book as dav Plus user", async () => {
-		await testShouldNotCreateBookFromStoreBook(constants.klausUserJWT, constants.authorUserAuthor.collections[0].books[1]);
+		await testShouldNotCreateBookFromStoreBook(constants.klausUser.jwt, constants.authorUser.author.collections[0].books[1]);
 	});
 
 	async function testShouldCreateBookFromStoreBook(jwt, storeBook){

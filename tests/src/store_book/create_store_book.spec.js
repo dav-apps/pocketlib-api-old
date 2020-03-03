@@ -66,7 +66,7 @@ describe("CreateStoreBook endpoint", () => {
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
-					Authorization: constants.authorUserJWT
+					Authorization: constants.authorUser.jwt
 				}
 			});
 		}catch(error){
@@ -105,7 +105,7 @@ describe("CreateStoreBook endpoint", () => {
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				}
 			});
@@ -127,7 +127,7 @@ describe("CreateStoreBook endpoint", () => {
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -154,7 +154,7 @@ describe("CreateStoreBook endpoint", () => {
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -183,7 +183,7 @@ describe("CreateStoreBook endpoint", () => {
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -209,7 +209,7 @@ describe("CreateStoreBook endpoint", () => {
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -237,7 +237,7 @@ describe("CreateStoreBook endpoint", () => {
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -263,7 +263,7 @@ describe("CreateStoreBook endpoint", () => {
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -291,11 +291,11 @@ describe("CreateStoreBook endpoint", () => {
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
-					collection: constants.authorUserAuthor.collections[0].uuid,
+					collection: constants.authorUser.author.collections[0].uuid,
 					title: "Hello World",
 					language: "blabla"
 				}
@@ -341,11 +341,11 @@ describe("CreateStoreBook endpoint", () => {
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
-					collection: constants.authorUserAuthor.uuid,
+					collection: constants.authorUser.author.uuid,
 					title: "Hallo Welt",
 					language: "de"
 				}
@@ -366,11 +366,11 @@ describe("CreateStoreBook endpoint", () => {
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
-					collection: constants.davUserAuthors[0].collections[0].uuid,
+					collection: constants.davUser.authors[0].collections[0].uuid,
 					title: "Hallo Welt",
 					description: "Hallo Welt",
 					language: "de"
@@ -392,7 +392,7 @@ describe("CreateStoreBook endpoint", () => {
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -413,7 +413,7 @@ describe("CreateStoreBook endpoint", () => {
 	});
 
 	it("should create store book", async () => {
-		let collection = constants.authorUserAuthor.collections[0];
+		let collection = constants.authorUser.author.collections[0];
 		let title = "Hello World";
 		let language = "de";
 		let response;
@@ -424,7 +424,7 @@ describe("CreateStoreBook endpoint", () => {
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -457,7 +457,7 @@ describe("CreateStoreBook endpoint", () => {
 				method: 'get',
 				url: `${constants.apiBaseUrl}/apps/object/${collection.uuid}`,
 				headers: {
-					Authorization: constants.authorUserJWT
+					Authorization: constants.authorUser.jwt
 				}
 			});
 		}catch(error){
@@ -477,7 +477,7 @@ describe("CreateStoreBook endpoint", () => {
 				method: 'get',
 				url: `${constants.apiBaseUrl}/apps/object/${response.data.uuid}`,
 				headers: {
-					Authorization: constants.authorUserJWT
+					Authorization: constants.authorUser.jwt
 				}
 			});
 		}catch(error){
@@ -495,7 +495,7 @@ describe("CreateStoreBook endpoint", () => {
 	});
 
 	it("should create store book with optional properties", async () => {
-		let collection = constants.authorUserAuthor.collections[1];
+		let collection = constants.authorUser.author.collections[1];
 		let title = "Hello World";
 		let description = "Hello World";
 		let language = "en";
@@ -507,7 +507,7 @@ describe("CreateStoreBook endpoint", () => {
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -541,7 +541,7 @@ describe("CreateStoreBook endpoint", () => {
 				method: 'get',
 				url: `${constants.apiBaseUrl}/apps/object/${collection.uuid}`,
 				headers: {
-					Authorization: constants.authorUserJWT
+					Authorization: constants.authorUser.jwt
 				}
 			});
 		}catch(error){
@@ -561,7 +561,7 @@ describe("CreateStoreBook endpoint", () => {
 				method: 'get',
 				url: `${constants.apiBaseUrl}/apps/object/${response.data.uuid}`,
 				headers: {
-					Authorization: constants.authorUserJWT
+					Authorization: constants.authorUser.jwt
 				}
 			});
 		}catch(error){

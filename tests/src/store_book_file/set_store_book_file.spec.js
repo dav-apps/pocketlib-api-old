@@ -25,7 +25,7 @@ describe("SetStoreBookFile endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: setStoreBookFileEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[0].uuid)
+				url: setStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid)
 			});
 		}catch(error){
 			assert.equal(400, error.response.status);
@@ -41,7 +41,7 @@ describe("SetStoreBookFile endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: setStoreBookFileEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[0].uuid),
+				url: setStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
 					Authorization: "blablabla",
 					'Content-Type': 'application/pdf'
@@ -61,7 +61,7 @@ describe("SetStoreBookFile endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: setStoreBookFileEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[0].uuid),
+				url: setStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
 					Authorization: constants.davClassLibraryTestUserTestAppJWT,
 					'Content-Type': 'application/epub+zip'
@@ -81,9 +81,9 @@ describe("SetStoreBookFile endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: setStoreBookFileEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[0].uuid),
+				url: setStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/json'
 				}
 			});
@@ -103,7 +103,7 @@ describe("SetStoreBookFile endpoint", () => {
 				method: 'put',
 				url: setStoreBookFileEndpointUrl.replace('{0}', "blablabla"),
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/pdf'
 				}
 			});
@@ -121,9 +121,9 @@ describe("SetStoreBookFile endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: setStoreBookFileEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[0].uuid),
+				url: setStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
-					Authorization: constants.davUserJWT,
+					Authorization: constants.davUser.jwt,
 					'Content-Type': 'application/epub+zip'
 				}
 			});
@@ -141,9 +141,9 @@ describe("SetStoreBookFile endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: setStoreBookFileEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[1].books[1].uuid),
+				url: setStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[1].books[1].uuid),
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/pdf'
 				},
 				data: "Hello World"
@@ -162,9 +162,9 @@ describe("SetStoreBookFile endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: setStoreBookFileEndpointUrl.replace('{0}', constants.authorUserAuthor.collections[0].books[1].uuid),
+				url: setStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[1].uuid),
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'application/pdf'
 				},
 				data: "Hello World"
@@ -180,7 +180,7 @@ describe("SetStoreBookFile endpoint", () => {
 	});
 
 	it("should create and update store book file", async () => {
-		await testCreateAndUpdateStoreBookFile(constants.authorUserAuthor.collections[2].books[0], constants.authorUserJWT);
+		await testCreateAndUpdateStoreBookFile(constants.authorUser.author.collections[2].books[0], constants.authorUser.jwt);
 
 		// Tidy up
 		resetStoreBooksAndStoreBookFiles = true;
@@ -190,9 +190,9 @@ describe("SetStoreBookFile endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: setStoreBookFileEndpointUrl.replace('{0}', constants.davUserAuthors[0].collections[0].books[0].uuid),
+				url: setStoreBookFileEndpointUrl.replace('{0}', constants.davUser.authors[0].collections[0].books[0].uuid),
 				headers: {
-					Authorization: constants.davUserJWT,
+					Authorization: constants.davUser.jwt,
 					'Content-Type': 'application/pdf'
 				},
 				data: "Hello World"
@@ -211,9 +211,9 @@ describe("SetStoreBookFile endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: setStoreBookFileEndpointUrl.replace('{0}', constants.davUserAuthors[0].collections[1].books[0].uuid),
+				url: setStoreBookFileEndpointUrl.replace('{0}', constants.davUser.authors[0].collections[1].books[0].uuid),
 				headers: {
-					Authorization: constants.davUserJWT,
+					Authorization: constants.davUser.jwt,
 					'Content-Type': 'application/pdf'
 				},
 				data: "Hello World"
@@ -229,7 +229,7 @@ describe("SetStoreBookFile endpoint", () => {
 	});
 
 	it("should create and update store book file of store book of an admin", async () => {
-		await testCreateAndUpdateStoreBookFile(constants.davUserAuthors[0].collections[0].books[2], constants.davUserJWT);
+		await testCreateAndUpdateStoreBookFile(constants.davUser.authors[0].collections[0].books[2], constants.davUser.jwt);
 
 		// Tidy up
 		resetStoreBooksAndStoreBookFiles = true;

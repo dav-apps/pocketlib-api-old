@@ -25,7 +25,7 @@ describe("SetProfileImageOfAuthor endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: setProfileImageOfAuthorEndpointUrl.replace('{0}', constants.davUserAuthors[0].uuid)
+				url: setProfileImageOfAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid)
 			});
 		}catch(error){
 			assert.equal(400, error.response.status);
@@ -41,7 +41,7 @@ describe("SetProfileImageOfAuthor endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: setProfileImageOfAuthorEndpointUrl.replace('{0}', constants.davUserAuthors[0].uuid),
+				url: setProfileImageOfAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
 				headers: {
 					Authorization: "asdasdsdaasddas",
 					'Content-Type': 'image/png'
@@ -61,7 +61,7 @@ describe("SetProfileImageOfAuthor endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: setProfileImageOfAuthorEndpointUrl.replace('{0}', constants.davUserAuthors[0].uuid),
+				url: setProfileImageOfAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
 				headers: {
 					Authorization: constants.davClassLibraryTestUserTestAppJWT,
 					'Content-Type': 'image/jpeg'
@@ -81,9 +81,9 @@ describe("SetProfileImageOfAuthor endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: setProfileImageOfAuthorEndpointUrl.replace('{0}', constants.davUserAuthors[0].uuid),
+				url: setProfileImageOfAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
 				headers: {
-					Authorization: constants.davUserJWT
+					Authorization: constants.davUser.jwt
 				}
 			});
 		}catch(error){
@@ -100,9 +100,9 @@ describe("SetProfileImageOfAuthor endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: setProfileImageOfAuthorEndpointUrl.replace('{0}', constants.davUserAuthors[0].uuid),
+				url: setProfileImageOfAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
 				headers: {
-					Authorization: constants.authorUserJWT,
+					Authorization: constants.authorUser.jwt,
 					'Content-Type': 'image/png'
 				}
 			});
@@ -122,7 +122,7 @@ describe("SetProfileImageOfAuthor endpoint", () => {
 				method: 'put',
 				url: setProfileImageOfAuthorEndpointUrl.replace('{0}', "asdasdasdads"),
 				headers: {
-					Authorization: constants.davUserJWT,
+					Authorization: constants.davUser.jwt,
 					'Content-Type': 'image/png'
 				}
 			});
@@ -140,9 +140,9 @@ describe("SetProfileImageOfAuthor endpoint", () => {
 		try{
 			await axios.default({
 				method: 'put',
-				url: setProfileImageOfAuthorEndpointUrl.replace('{0}', constants.authorUserAuthor.uuid),
+				url: setProfileImageOfAuthorEndpointUrl.replace('{0}', constants.authorUser.author.uuid),
 				headers: {
-					Authorization: constants.davUserJWT,
+					Authorization: constants.davUser.jwt,
 					'Content-Type': 'image/png'
 				}
 			});
@@ -157,8 +157,8 @@ describe("SetProfileImageOfAuthor endpoint", () => {
 	});
 
 	it("should create and update profile image", async () => {
-		let author = constants.davUserAuthors[1];
-		let jwt = constants.davUserJWT;
+		let author = constants.davUser.authors[1];
+		let jwt = constants.davUser.jwt;
 
 		// Get the author table object
 		let getAuthorObjResponse;
