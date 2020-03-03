@@ -636,6 +636,7 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal("review", response.data.status);
 		assert.equal(true, response.data.cover);
 		assert.equal(true, response.data.file);
+		assert.equal(false, response.data.in_library);
 
 		// Check if the store book was updated on the server
 		let objResponse;
@@ -693,6 +694,7 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal("published", response.data.status);
 		assert.equal(storeBook.cover != null, response.data.cover);
 		assert.equal(storeBook.file != null, response.data.file);
+		assert.equal(false, response.data.in_library);
 
 		// Check if the store book was updated on the server
 		let objResponse;
@@ -748,6 +750,7 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal("hidden", response.data.status);
 		assert.equal(storeBook.cover != null, response.data.cover);
 		assert.equal(storeBook.file != null, response.data.file);
+		assert.equal(false, response.data.in_library);
 
 		// Check if the store book was updated on the server
 		let objResponse;
@@ -966,6 +969,7 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal("review", response.data.status);
 		assert.equal(true, response.data.cover);
 		assert.equal(true, response.data.file);
+		assert.equal(false, response.data.in_library);
 
 		// Check if the store book was updated on the server
 		let objResponse;
@@ -1023,6 +1027,7 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal("published", response.data.status);
 		assert.equal(storeBook.cover != null, response.data.cover);
 		assert.equal(storeBook.file != null, response.data.file);
+		assert.equal(false, response.data.in_library);
 
 		// Check if the store book was updated on the server
 		let objResponse;
@@ -1078,6 +1083,7 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal("hidden", response.data.status);
 		assert.equal(true, response.data.cover);
 		assert.equal(true, response.data.file);
+		assert.equal(false, response.data.in_library);
 
 		// Check if the store book was updated on the server
 		let objResponse;
@@ -1134,6 +1140,7 @@ async function testShouldUpdateTitleOfStoreBook(collection, storeBook, jwt){
 	assert.equal(storeBook.status || "unpublished", response.data.status);
 	assert.equal(storeBook.cover != null, response.data.cover);
 	assert.equal(storeBook.file != null, response.data.file);
+	assert.equal(false, response.data.in_library);
 
 	// Check if the store book was updated on the server
 	let objResponse;
@@ -1189,6 +1196,7 @@ async function testShouldUpdateDescriptionOfStoreBook(collection, storeBook, jwt
 	assert.equal(storeBook.status || "unpublished", response.data.status);
 	assert.equal(storeBook.cover != null, response.data.cover);
 	assert.equal(storeBook.file != null, response.data.file);
+	assert.equal(false, response.data.in_library);
 
 	// Check if the store book was updated on the server
 	let objResponse;
@@ -1244,6 +1252,7 @@ async function testShouldUpdateLanguageOfStoreBook(collection, storeBook, jwt){
 	assert.equal(storeBook.status || "unpublished", response.data.status);
 	assert.equal(storeBook.cover != null, response.data.cover);
 	assert.equal(storeBook.file != null, response.data.file);
+	assert.equal(false, response.data.in_library);
 
 	// Check if the store book was updated on the server
 	let objResponse;
@@ -1324,6 +1333,7 @@ async function testShouldUpdatePriceOfStoreBook(collection, storeBook, jwt){
 	assert.equal(storeBook.status || "unpublished", response.data.status);
 	assert.equal(storeBook.cover != null, response.data.cover);
 	assert.equal(storeBook.file != null, response.data.file);
+	assert.equal(false, response.data.in_library);
 
 	// Check if the store book was updated on the server
 	let objResponse;

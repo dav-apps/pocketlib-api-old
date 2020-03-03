@@ -1,0 +1,3 @@
+(# params: user_id: int, store_book_uuid: string)
+(var table_objects (TableObject.find_by_property user_id env.BOOK_TABLE_ID "store_book" store_book_uuid))
+(return (table_objects.length > 0))

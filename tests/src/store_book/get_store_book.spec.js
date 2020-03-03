@@ -109,6 +109,7 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal("unpublished", response.data.status);
 		assert.equal(storeBook.cover != null, response.data.cover);
 		assert.equal(storeBook.file != null, response.data.file);
+		assert.equal(false, response.data.in_library);
 	});
 
 	it("should return unpublished store book if the user is an admin", async () => {
@@ -137,6 +138,7 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal("unpublished", response.data.status);
 		assert.equal(storeBook.cover != null, response.data.cover);
 		assert.equal(storeBook.file != null, response.data.file);
+		assert.equal(false, response.data.in_library);
 	});
 
 	it("should not return unpublished store book if the user is not the author", async () => {
@@ -187,6 +189,7 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal("review", response.data.status);
 		assert.equal(storeBook.cover != null, response.data.cover);
 		assert.equal(storeBook.file != null, response.data.file);
+		assert.equal(false, response.data.in_library);
 	});
 
 	it("should not return store book in review if the user is not the author", async () => {
@@ -237,6 +240,7 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal("review", response.data.status);
 		assert.equal(storeBook.cover != null, response.data.cover);
 		assert.equal(storeBook.file != null, response.data.file);
+		assert.equal(false, response.data.in_library);
 	});
 
 	it("should return published store book if the user is the author", async () => {
@@ -265,6 +269,7 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal("published", response.data.status);
 		assert.equal(storeBook.cover != null, response.data.cover);
 		assert.equal(storeBook.file != null, response.data.file);
+		assert.equal(false, response.data.in_library);
 	});
 
 	it("should return published store book if the user is not the author", async () => {
@@ -293,5 +298,6 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal("published", response.data.status);
 		assert.equal(storeBook.cover != null, response.data.cover);
 		assert.equal(storeBook.file != null, response.data.file);
+		assert.equal(false, response.data.in_library);
 	});
 });

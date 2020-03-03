@@ -146,4 +146,5 @@
 	(status status)
 	(cover (!(is_nil store_book.properties.cover)))
 	(file (!(is_nil store_book.properties.file)))
+	(in_library (func is_store_book_in_user_library (decoded_jwt.user_id store_book.uuid)))
 ) 200)

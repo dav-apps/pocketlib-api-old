@@ -102,4 +102,5 @@
 	(status "unpublished")
 	(cover false)
 	(file false)
+	(in_library false)
 ) 201)
