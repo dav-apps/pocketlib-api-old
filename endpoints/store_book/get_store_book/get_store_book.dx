@@ -1,19 +1,30 @@
 (# Get the jwt)
 (var jwt (get_header Authorization))
-(func render_validation_errors ((list
-	(func validate_jwt_missing (jwt))
-)))
 
 (# Decode the jwt)
-(var decoded_jwt (func decode_jwt (jwt)))
+(var decoded_jwt (
+	(if (!(is_nil jwt)) (
+		(return (func decode_jwt (jwt)))
+	) else (
+		(return nil)
+	))
+))
 
-(# Validate the dev)
-(func render_validation_errors ((list
-	(func validate_dev_is_pocketlib_dev (decoded_jwt.dev_id))
-)))
+(if (!(is_nil decoded_jwt)) (
+	(# Validate the dev)
+	(func render_validation_errors ((list
+		(func validate_dev_is_pocketlib_dev (decoded_jwt.dev_id))
+	)))
+))
 
 (# Check if the user is an admin)
-(var is_admin (env.ADMINS.contains decoded_jwt.user_id))
+(var is_admin (
+	(if (is_nil decoded_jwt) (
+		(return false)
+	) else (
+		(env.ADMINS.contains decoded_jwt.user_id)
+	))
+))
 
 (# Get the store book)
 (var store_book (func get_table_object (uuid env.STORE_BOOK_TABLE_ID)))
@@ -27,21 +38,23 @@
 (var status (if (is_nil store_book.properties.status) "unpublished" else store_book.properties.status))
 
 (# Check if the user can access the store book)
-(if (!(
-	(is_admin or (status == "published")) 
-	or (
-		(# Get the collection of the store book)
-		(var collection (func get_table_object (store_book.properties.collection env.STORE_BOOK_COLLECTION_TABLE_ID)))
+(var can_access (
+	(if (status == "published") (
+		(return true)
+	) elseif is_admin (
+		(return true)
+	) elseif (is_nil decoded_jwt) (
+		(return false)
+	) else (
+		(# Check if the user is the author of the store book)
+		(return (decoded_jwt.user_id == store_book.user_id))
+	))
+))
 
-		(# Get the author of the collection)
-		(var author (func get_table_object (collection.properties.author env.AUTHOR_TABLE_ID)))
-
-		(decoded_jwt.user_id == author.user_id)
-	))) (
-		(# Access not allowed)
-		(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
-	)
-)
+(if (! can_access) (
+	(# Access not allowed)
+	(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
+))
 
 (# Return the store book)
 (render_json 
