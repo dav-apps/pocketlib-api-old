@@ -10,8 +10,8 @@
 	))
 ))
 
+(# Validate the dev)
 (if (!(is_nil decoded_jwt)) (
-	(# Validate the dev)
 	(func render_validation_errors ((list
 		(func validate_dev_is_pocketlib_dev (decoded_jwt.dev_id))
 	)))
