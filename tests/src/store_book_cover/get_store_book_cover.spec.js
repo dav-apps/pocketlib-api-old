@@ -19,22 +19,6 @@ afterEach(async () => {
 });
 
 describe("GetStoreBookCover endpoint", () => {
-	it("should not return store book cover without jwt", async () => {
-		try{
-			await axios.default({
-				method: 'get',
-				url: getStoreBookCoverEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid)
-			});
-		}catch(error){
-			assert.equal(400, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(2101, error.response.data.errors[0].code);
-			return;
-		}
-
-		assert.fail();
-	});
-
 	it("should not return store book cover with invalid jwt", async () => {
 		try{
 			await axios.default({
@@ -77,9 +61,9 @@ describe("GetStoreBookCover endpoint", () => {
 		try{
 			await axios.default({
 				method: 'get',
-				url: getStoreBookCoverEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[1].uuid),
+				url: getStoreBookCoverEndpointUrl.replace('{0}', constants.davUser.authors[0].collections[0].books[1].uuid),
 				headers: {
-					Authorization: constants.authorUser.jwt
+					Authorization: constants.davUser.jwt
 				}
 			});
 		}catch(error){
@@ -112,298 +96,163 @@ describe("GetStoreBookCover endpoint", () => {
 	});
 
 	it("should return cover of unpublished store book if the user is the author", async () => {
-		let collection = constants.authorUser.author.collections[1];
-		let storeBook = collection.books[0];
-		let coverContent = "Lorem ipsum dolor sit amet";
-		let coverType = "image/png";
+		let jwt = constants.authorUser.jwt;
+		let storeBook = constants.authorUser.author.collections[1].books[0];
 
-		// Set the store book cover
-		await setStoreBookCover(storeBook, coverContent, coverType, constants.authorUser.jwt);
-
-		// Try to get the store book cover
-		let response;
-
-		try{
-			response = await axios.default({
-				method: 'get',
-				url: getStoreBookCoverEndpointUrl.replace('{0}', storeBook.uuid),
-				headers: {
-					Authorization: constants.authorUser.jwt
-				}
-			})
-		}catch(error){
-			assert.fail();
-		}
-
-		assert.equal(200, response.status);
-		assert.equal(coverType, response.headers['content-type']);
-		assert.equal(coverContent, response.data);
-
-		// Tidy up
-		resetStoreBooksAndStoreBookCovers = true;
+		await testShouldReturnCover(jwt, storeBook);
 	});
 
 	it("should return cover of unpublished store book if the user is an admin", async () => {
-		let collection = constants.authorUser.author.collections[1];
-		let storeBook = collection.books[0];
-		let coverContent = "Lorem ipsum dolor sit amet";
-		let coverType = "image/png";
+		let jwt = constants.davUser.jwt;
+		let storeBook = constants.authorUser.author.collections[1].books[0];
 
-		// Set the store book cover
-		await setStoreBookCover(storeBook, coverContent, coverType, constants.authorUser.jwt);
-
-		// Try to get the store book cover
-		let response;
-
-		try{
-			response = await axios.default({
-				method: 'get',
-				url: getStoreBookCoverEndpointUrl.replace('{0}', storeBook.uuid),
-				headers: {
-					Authorization: constants.davUser.jwt
-				}
-			});
-		}catch(error){
-			assert.fail();
-		}
-
-		assert.equal(200, response.status);
-		assert.equal(coverType, response.headers['content-type']);
-		assert.equal(coverContent, response.data);
-
-		// Tidy up
-		resetStoreBooksAndStoreBookCovers = true;
+		await testShouldReturnCover(jwt, storeBook);
 	});
 
 	it("should not return cover of unpublished store book if the user is not the author", async () => {
-		let collection = constants.authorUser.author.collections[1];
-		let storeBook = collection.books[0];
-		let coverContent = "Lorem ipsum dolor sit amet";
-		let coverType = "image/png";
+		let jwt = constants.davClassLibraryTestUserJWT;
+		let storeBook = constants.authorUser.author.collections[1].books[0];
 
-		// Set the store book cover
-		await setStoreBookCover(storeBook, coverContent, coverType, constants.authorUser.jwt);
+		await testShouldNotReturnCover(jwt, storeBook);
+	});
 
-		// Try to get the store book cover
-		try{
-			await axios.default({
-				method: 'get',
-				url: getStoreBookCoverEndpointUrl.replace('{0}', storeBook.uuid),
-				headers: {
-					Authorization: constants.davClassLibraryTestUserJWT
-				}
-			});
-		}catch(error){
-			assert.equal(403, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1102, error.response.data.errors[0].code);
-			return;
-		}
+	it("should not return cover of unpublished store book without jwt", async () => {
+		let jwt = null;
+		let storeBook = constants.authorUser.author.collections[1].books[0];
 
-		assert.fail();
-
-		// Tidy up
-		resetStoreBooksAndStoreBookCovers = true;
+		await testShouldNotReturnCover(jwt, storeBook);
 	});
 
 	it("should return cover of store book in review if the user is the author", async () => {
-		let collection = constants.authorUser.author.collections[0];
-		let storeBook = collection.books[0];
-		let coverContent = "Lorem ipsum dolor sit amet";
-		let coverType = "image/png";
+		let jwt = constants.authorUser.jwt;
+		let storeBook = constants.authorUser.author.collections[0].books[0];
 
-		// Set the store book cover
-		await setStoreBookCover(storeBook, coverContent, coverType, constants.authorUser.jwt);
-
-		// Try to get the store book cover
-		let response;
-
-		try{
-			response = await axios.default({
-				method: 'get',
-				url: getStoreBookCoverEndpointUrl.replace('{0}', storeBook.uuid),
-				headers: {
-					Authorization: constants.authorUser.jwt
-				}
-			});
-		}catch(error){
-			assert.fail();
-		}
-
-		assert.equal(200, response.status);
-		assert.equal(coverType, response.headers['content-type']);
-		assert.equal(coverContent, response.data);
-
-		// Tidy up
-		resetStoreBooksAndStoreBookCovers = true;
-	});
-
-	it("should not return cover of store book in review if the user is not the author", async () => {
-		let collection = constants.authorUser.author.collections[0];
-		let storeBook = collection.books[0];
-		let coverContent = "Lorem ipsum dolor sit amet";
-		let coverType = "image/png";
-
-		// Set the store book cover
-		await setStoreBookCover(storeBook, coverContent, coverType, constants.authorUser.jwt);
-
-		// Try to get the store book cover
-		try{
-			await axios.default({
-				method: 'get',
-				url: getStoreBookCoverEndpointUrl.replace('{0}', storeBook.uuid),
-				headers: {
-					Authorization: constants.davClassLibraryTestUserJWT
-				}
-			});
-		}catch(error){
-			assert.equal(403, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1102, error.response.data.errors[0].code);
-			return;
-		}
-
-		assert.fail();
-
-		// Tidy up
-		resetStoreBooksAndStoreBookCovers = true;
+		await testShouldReturnCover(jwt, storeBook);
 	});
 
 	it("should return cover of store book in review if the user is an admin", async () => {
-		let collection = constants.authorUser.author.collections[0];
-		let storeBook = collection.books[0];
-		let coverContent = "Lorem ipsum dolor sit amet";
-		let coverType = "image/png";
+		let jwt = constants.davUser.jwt;
+		let storeBook = constants.authorUser.author.collections[0].books[0];
 
-		// Set the store book cover
-		await setStoreBookCover(storeBook, coverContent, coverType, constants.authorUser.jwt);
+		await testShouldReturnCover(jwt, storeBook);
+	});
 
-		// Try to get the store book cover
-		let response;
+	it("should not return cover of store book in review if the user is not the author", async () => {
+		let jwt = constants.davClassLibraryTestUserJWT;
+		let storeBook = constants.authorUser.author.collections[0].books[0];
 
-		try{
-			response = await axios.default({
-				method: 'get',
-				url: getStoreBookCoverEndpointUrl.replace('{0}', storeBook.uuid),
-				headers: {
-					Authorization: constants.davUser.jwt
-				}
-			});
-		}catch(error){
-			assert.fail();
-		}
+		await testShouldNotReturnCover(jwt, storeBook);
+	});
 
-		assert.equal(200, response.status);
-		assert.equal(coverType, response.headers['content-type']);
-		assert.equal(coverContent, response.data);
+	it("should not return cover of store book in review without jwt", async () => {
+		let jwt = null;
+		let storeBook = constants.authorUser.author.collections[0].books[0];
 
-		// Tidy up
-		resetStoreBooksAndStoreBookCovers = true;
+		await testShouldNotReturnCover(jwt, storeBook);
 	});
 
 	it("should return cover of published store book if the user is the author", async () => {
-		let collection = constants.davUser.authors[0].collections[0];
-		let storeBook = collection.books[0];
-		let coverContent = "Lorem ipsum dolor sit amet";
-		let coverType = "image/png";
+		let jwt = constants.authorUser.jwt;
+		let storeBook = constants.authorUser.author.collections[1].books[1];
 
-		// Set the store book cover
-		await setStoreBookCover(storeBook, coverContent, coverType, constants.davUser.jwt);
+		await testShouldReturnCover(jwt, storeBook);
+	});
 
-		// Try to get the store book cover
-		let response;
+	it("should return cover of published store book if the user is an admin", async () => {
+		let jwt = constants.davUser.jwt;
+		let storeBook = constants.authorUser.author.collections[1].books[1];
 
-		try{
-			response = await axios.default({
-				method: 'get',
-				url: getStoreBookCoverEndpointUrl.replace('{0}', storeBook.uuid),
-				headers: {
-					Authorization: constants.davUser.jwt
-				}
-			});
-		}catch(error){
-			assert.fail();
-		}
-
-		assert.equal(200, response.status);
-		assert.equal(coverType, response.headers['content-type']);
-		assert.equal(coverContent, response.data);
-
-		// Tidy up
-		resetStoreBooksAndStoreBookCovers = true;
+		await testShouldReturnCover(jwt, storeBook);
 	});
 
 	it("should return cover of published store book if the user is not the author", async () => {
-		let collection = constants.davUser.authors[0].collections[0];
-		let storeBook = collection.books[0];
-		let coverContent = "Lorem ipsum dolor sit amet";
-		let coverType = "image/png";
+		let jwt = constants.davClassLibraryTestUserJWT;
+		let storeBook = constants.authorUser.author.collections[1].books[1];
 
-		// Set the store book cover
-		await setStoreBookCover(storeBook, coverContent, coverType, constants.davUser.jwt);
+		await testShouldReturnCover(jwt, storeBook);
+	});
 
-		// Try to get the store book cover
-		let response;
+	it("should return cover of published store book without jwt", async () => {
+		let jwt = null;
+		let storeBook = constants.authorUser.author.collections[1].books[1];
 
-		try{
-			response = await axios.default({
-				method: 'get',
-				url: getStoreBookCoverEndpointUrl.replace('{0}', storeBook.uuid),
-				headers: {
-					Authorization: constants.authorUser.jwt
-				}
-			});
-		}catch(error){
-			assert.fail();
-		}
+		await testShouldReturnCover(jwt, storeBook);
+	});
 
-		assert.equal(200, response.status);
-		assert.equal(coverType, response.headers['content-type']);
-		assert.equal(coverContent, response.data);
+	it("should return cover of hidden store book if the user is the author", async () => {
+		let jwt = constants.authorUser.jwt;
+		let storeBook = constants.authorUser.author.collections[0].books[1];
 
-		// Tidy up
-		resetStoreBooksAndStoreBookCovers = true;
+		await testShouldReturnCover(jwt, storeBook);
+	});
+
+	it("should return cover of hidden store book if the user is an admin", async () => {
+		let jwt = constants.davUser.jwt;
+		let storeBook = constants.authorUser.author.collections[0].books[1];
+
+		await testShouldReturnCover(jwt, storeBook);
+	});
+
+	it("should not return cover of hidden store book if the user is not the author", async () => {
+		let jwt = constants.davClassLibraryTestUserJWT;
+		let storeBook = constants.authorUser.author.collections[0].books[1];
+
+		await testShouldNotReturnCover(jwt, storeBook);
+	});
+
+	it("should not return cover of hidden store book without jwt", async () => {
+		let jwt = null;
+		let storeBook = constants.authorUser.author.collections[0].books[1];
+
+		await testShouldNotReturnCover(jwt, storeBook);
 	});
 });
 
-async function setStoreBookCover(storeBook, coverContent, coverType, authorJWT){
-	let oldStatus = storeBook.status || "unpublished";
+async function testShouldReturnCover(jwt, storeBook){
+	let response;
 
 	try{
-		await axios.default({
-			method: 'put',
-			url: `${constants.apiBaseUrl}/apps/object/${storeBook.uuid}`,
-			headers: {
-				Authorization: authorJWT,
-				'Content-Type': 'application/json'
-			},
-			data: {
-				status: "unpublished"
-			}
-		});
+		let options = {
+			method: 'get',
+			url: getStoreBookCoverEndpointUrl.replace('{0}', storeBook.uuid)
+		}
 
-		await axios.default({
-			method: 'put',
-			url: getStoreBookCoverEndpointUrl.replace('{0}', storeBook.uuid),
-			headers: {
-				Authorization: authorJWT,
-				'Content-Type': coverType
-			},
-			data: coverContent
-		});
-
-		await axios.default({
-			method: 'put',
-			url: `${constants.apiBaseUrl}/apps/object/${storeBook.uuid}`,
-			headers: {
-				Authorization: authorJWT,
-				'Content-Type': 'application/json'
-			},
-			data: {
-				status: oldStatus
+		if(jwt){
+			options.headers = {
+				Authorization: jwt
 			}
-		});
+		}
+
+		response = await axios.default(options);
 	}catch(error){
 		assert.fail();
 	}
+
+	assert.equal(200, response.status);
+	assert.equal(storeBook.cover.type, response.headers['content-type']);
+	assert(response.data.length > 0);
+}
+
+async function testShouldNotReturnCover(jwt, storeBook){
+	try{
+		let options = {
+			method: 'get',
+			url: getStoreBookCoverEndpointUrl.replace('{0}', storeBook.uuid)
+		}
+
+		if(jwt){
+			options.headers = {
+				Authorization: jwt
+			}
+		}
+		
+		await axios.default(options);
+	}catch(error){
+		assert.equal(403, error.response.status);
+		assert.equal(1, error.response.data.errors.length);
+		assert.equal(1102, error.response.data.errors[0].code);
+		return;
+	}
+
+	assert.fail();
 }

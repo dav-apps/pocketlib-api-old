@@ -72,6 +72,11 @@ module.exports = {
 							description: "Lieber Leser, es tut mir sehr Leid, aber das Buch, das du gerade in Händen hältst, ist außerordentlich unerfreulich. Es erzählt die traurige Geschichte von drei sehr bedauernswerten Kindern.",
 							language: "de",
 							status: "hidden",
+							cover: {
+								uuid: "2ba327c3-d33c-4181-900e-f4c331ddf288",
+								ext: "jpg",
+								type: "image/jpeg"
+							},
 							file: {
 								uuid: "8f219b89-eb25-4c55-b1a4-467e36bfa081",
 								ext: "epub",
@@ -101,6 +106,11 @@ module.exports = {
 							description: "Dear Reader, if you have picked up this book with the hope of finding a simple and cheery tale, I'm afraid you have picked up the wrong book altogether.",
 							language: "en",
 							status: "unpublished",
+							cover: {
+								uuid: "a557824f-26ed-4e5e-8afa-43e20e76e2ad",
+								ext: "png",
+								type: "image/png"
+							},
 							file: {
 								uuid: "fb2745e4-f095-4237-97d5-660e41356790",
 								ext: "pdf",
@@ -114,6 +124,12 @@ module.exports = {
 							language: "de",
 							price: 2000,
 							status: "published",
+							cover: {
+								uuid: "33b486ae-a22e-414b-915c-9a9520970ed8",
+								ext: "jpg",
+								type: "image/jpeg",
+								content: "Hello"
+							},
 							file: {
 								uuid: "d6f52b96-6bca-40ee-bb70-fb1347e1c8ba",
 								ext: "epub",
