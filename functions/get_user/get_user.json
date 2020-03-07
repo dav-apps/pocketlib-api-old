@@ -1,0 +1,6 @@
+{
+	"type": "function",
+	"name": "get_user",
+	"params": ["user_id"],
+	"source": "./get_user.dx"
+}
