@@ -4,18 +4,9 @@ var constants = require("../constants");
 var utils = require('../utils');
 
 const getStoreBookCoverEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/book/{0}/cover`;
-var resetStoreBooksAndStoreBookCovers = false;
 
 before(async () => {
 	await utils.resetDatabase();
-});
-
-afterEach(async () => {
-	if(resetStoreBooksAndStoreBookCovers){
-		await utils.resetStoreBooks();
-		await utils.resetStoreBookCovers();
-		resetStoreBooksAndStoreBookCovers = false;
-	}
 });
 
 describe("GetStoreBookCover endpoint", () => {
