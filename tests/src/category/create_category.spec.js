@@ -13,7 +13,6 @@ before(async () => {
 afterEach(async () => {
 	if(resetCategories){
 		await utils.resetCategories();
-		await utils.resetCategoryNames();
 		resetCategories = false;
 	}
 });
@@ -130,7 +129,7 @@ describe("CreateCategory endpoint", () => {
 		}catch(error){
 			assert.equal(400, error.response.status);
 			assert.equal(1, error.response.data.errors.length);
-			assert.equal(2108, error.response.data.errors[0].code);
+			assert.equal(2111, error.response.data.errors[0].code);
 			return;
 		}
 
@@ -147,13 +146,13 @@ describe("CreateCategory endpoint", () => {
 					'Content-Type': 'application/json'
 				},
 				data: {
-					name: 12
+					key: 12
 				}
 			});
 		}catch(error){
 			assert.equal(400, error.response.status);
 			assert.equal(1, error.response.data.errors.length);
-			assert.equal(2209, error.response.data.errors[0].code);
+			assert.equal(2213, error.response.data.errors[0].code);
 			return;
 		}
 
@@ -170,13 +169,13 @@ describe("CreateCategory endpoint", () => {
 					'Content-Type': 'application/json'
 				},
 				data: {
-					name: "a"
+					key: "a"
 				}
 			});
 		}catch(error){
 			assert.equal(400, error.response.status);
 			assert.equal(1, error.response.data.errors.length);
-			assert.equal(2307, error.response.data.errors[0].code);
+			assert.equal(2310, error.response.data.errors[0].code);
 			return;
 		}
 
@@ -193,13 +192,59 @@ describe("CreateCategory endpoint", () => {
 					'Content-Type': 'application/json'
 				},
 				data: {
-					name: "a".repeat(200)
+					key: "a".repeat(200)
 				}
 			});
 		}catch(error){
 			assert.equal(400, error.response.status);
 			assert.equal(1, error.response.data.errors.length);
-			assert.equal(2407, error.response.data.errors[0].code);
+			assert.equal(2410, error.response.data.errors[0].code);
+			return;
+		}
+
+		assert.fail();
+	});
+
+	it("should not create category with invalid key", async () => {
+		try{
+			await axios.default({
+				method: 'post',
+				url: createCategoryEndpointUrl,
+				headers: {
+					Authorization: constants.davUser.jwt,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					key: "hello world"
+				}
+			});
+		}catch(error){
+			assert.equal(400, error.response.status);
+			assert.equal(1, error.response.data.errors.length);
+			assert.equal(2502, error.response.data.errors[0].code);
+			return;
+		}
+
+		assert.fail();
+	});
+
+	it("should not create category with key that is already used", async () => {
+		try{
+			await axios.default({
+				method: 'post',
+				url: createCategoryEndpointUrl,
+				headers: {
+					Authorization: constants.davUser.jwt,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					key: constants.categories[0].key
+				}
+			});
+		}catch(error){
+			assert.equal(422, error.response.status);
+			assert.equal(1, error.response.data.errors.length);
+			assert.equal(2601, error.response.data.errors[0].code);
 			return;
 		}
 
@@ -208,8 +253,7 @@ describe("CreateCategory endpoint", () => {
 
 	it("should create category", async () => {
 		let response;
-		let name = "TestCategory";
-		let language = "en";
+		let key = "test";
 
 		// Create the category
 		try{
@@ -221,7 +265,7 @@ describe("CreateCategory endpoint", () => {
 					'Content-Type': 'application/json'
 				},
 				data: {
-					name
+					key
 				}
 			});
 		}catch(error){
@@ -230,9 +274,8 @@ describe("CreateCategory endpoint", () => {
 
 		assert.equal(201, response.status);
 		assert(response.data.uuid != null);
-		assert.equal(1, response.data.names.length);
-		assert.equal(name, response.data.names[0].name);
-		assert.equal(language, response.data.names[0].language);
+		assert.equal(key, response.data.key);
+		assert.equal(0, response.data.names);
 
 		// Check if the data was correctly saved on the server
 		// Get the Category table object
@@ -250,26 +293,8 @@ describe("CreateCategory endpoint", () => {
 			assert.fail();
 		}
 
-		assert(categoryObjResponse.data.properties.names != null);
-
-		// Get the CategoryName table object
-		let categoryNameObjResponse;
-
-		try{
-			categoryNameObjResponse = await axios.default({
-				method: 'get',
-				url: `${constants.apiBaseUrl}/apps/object/${categoryObjResponse.data.properties.names}`,
-				headers: {
-					Authorization: constants.davUser.jwt
-				}
-			});
-		}catch(error){
-			assert.fail();
-		}
-
-		assert.equal(categoryObjResponse.data.properties.names, categoryNameObjResponse.data.uuid);
-		assert.equal(name, categoryNameObjResponse.data.properties.name);
-		assert.equal(language, categoryNameObjResponse.data.properties.language);
+		assert.equal(key, categoryObjResponse.data.properties.key);
+		assert.equal(null, categoryObjResponse.data.properties.names);
 
 		// Tidy up
 		resetCategories = true;
