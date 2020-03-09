@@ -1,6 +1,6 @@
 (var json (parse_json (get_body)))
 
-(var name json.name)
+(var key json.key)
 
 (# Get the jwt)
 (var jwt (get_header Authorization))
@@ -30,36 +30,41 @@
 
 (# Validate missing fields)
 (func render_validation_errors ((list
-	(func validate_name_missing (name))
+	(func validate_key_missing (key))
 )))
 
 (# Validate property types)
 (func render_validation_errors ((list
-	(func validate_name_wrong_type (name))
+	(func validate_key_wrong_type (key))
 )))
 
 (# Validate too short and too long fields)
 (func render_validation_errors ((list
-	(func validate_name_too_short (name))
-	(func validate_name_too_long (name))
+	(func validate_key_too_short (key))
+	(func validate_key_too_long (key))
 )))
 
-(# Check if a category with the name already exists)
-(var names (TableObject.find_by_property env.ADMINS#0 env.CATEGORY_NAME_TABLE_ID "name" name))
+(# Validate the key)
+(func render_validation_errors ((list
+	(func validate_key_invalid (key))
+)))
 
-(if (names.length > 0) (
-	(# Category already exists)
-	(func render_validation_errors ((list (hash (error (get_error 2901)) (status 422)))))
+(var key key.downcase)
+
+(# Check if a category with the key already exists)
+(var categories (TableObject.find_by_property env.ADMINS#0 env.CATEGORY_TABLE_ID "key" key))
+
+(if (categories.length > 0) (
+	(# Key already taken)
+	(func render_validation_errors ((list (hash (error (get_error 2601)) (status 422)))))
 ))
 
-(# Create the category name)
-(var category_name (func create_table_object (env.ADMINS#0 env.CATEGORY_NAME_TABLE_ID (hash (name name) (language "en")))))
-
 (# Create the category)
-(var category (func create_table_object (env.ADMINS#0 env.CATEGORY_TABLE_ID (hash (names category_name.uuid)))))
+(var category (func create_table_object (env.ADMINS#0 env.CATEGORY_TABLE_ID (hash (key key)))))
 
 (# Render the result)
 (render_json (hash
 	(uuid category.uuid)
-	(names (list (hash (name name) (language category_name.properties.language))))
+	(key category.properties.key)
+	(names (list))
 ) 201)

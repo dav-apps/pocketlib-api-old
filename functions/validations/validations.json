@@ -92,6 +92,11 @@
 			"params": ["store_book"],
 			"source": "./store_book/validate_store_book_missing.dx"
 		},
+		{
+			"name": "validate_key_missing",
+			"params": ["key"],
+			"source": "./key/validate_key_missing.dx"
+		},
 
 		{
 			"name": "validate_first_name_wrong_type",
@@ -153,6 +158,11 @@
 			"params": ["store_book"],
 			"source": "./store_book/validate_store_book_wrong_type.dx"
 		},
+		{
+			"name": "validate_key_wrong_type",
+			"params": ["key"],
+			"source": "./key/validate_key_wrong_type.dx"
+		},
 
 		{
 			"name": "validate_first_name_too_short",
@@ -198,6 +208,11 @@
 			"name": "validate_store_book_too_short",
 			"params": ["store_book"],
 			"source": "./store_book/validate_store_book_too_short.dx"
+		},
+		{
+			"name": "validate_key_too_short",
+			"params": ["key"],
+			"source": "./key/validate_key_too_short.dx"
 		},
 
 		{
@@ -245,11 +260,21 @@
 			"params": ["store_book"],
 			"source": "./store_book/validate_store_book_too_long.dx"
 		},
+		{
+			"name": "validate_key_too_long",
+			"params": ["key"],
+			"source": "./key/validate_key_too_long.dx"
+		},
 
 		{
 			"name": "validate_price_invalid",
 			"params": ["price"],
 			"source": "./price/validate_price_invalid.dx"
+		},
+		{
+			"name": "validate_key_invalid",
+			"params": ["key"],
+			"source": "./key/validate_key_invalid.dx"
 		}
 	]
 }

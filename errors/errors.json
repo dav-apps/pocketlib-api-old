@@ -37,6 +37,7 @@
 		{"code": 2108, "message": "Missing field: name"},
 		{"code": 2109, "message": "Missing field: collection"},
 		{"code": 2110, "message": "Missing field: store_book"},
+		{"code": 2111, "message": "Missing field: key"},
 
 		{"code": 2201, "message": "Field has wrong type: first_name"},
 		{"code": 2202, "message": "Field has wrong type: last_name"},
@@ -50,6 +51,7 @@
 		{"code": 2210, "message": "Field has wrong type: collection"},
 		{"code": 2211, "message": "Field has wrong type: price"},
 		{"code": 2212, "message": "Field has wrong type: store_book"},
+		{"code": 2213, "message": "Field has wrong type: key"},
 
 		{"code": 2301, "message": "Field too short: first_name"},
 		{"code": 2302, "message": "Field too short: last_name"},
@@ -60,6 +62,7 @@
 		{"code": 2307, "message": "Field too short: name"},
 		{"code": 2308, "message": "Field too short: collection"},
 		{"code": 2309, "message": "Field too short: store_book"},
+		{"code": 2310, "message": "Field too short: key"},
 
 		{"code": 2401, "message": "Field too long: first_name"},
 		{"code": 2402, "message": "Field too long: last_name"},
@@ -70,8 +73,12 @@
 		{"code": 2407, "message": "Field too long: name"},
 		{"code": 2408, "message": "Field too long: collection"},
 		{"code": 2409, "message": "Field too long: store_book"},
+		{"code": 2410, "message": "Field too long: key"},
 
 		{"code": 2501, "message": "Field invalid: price"},
+		{"code": 2502, "message": "Field invalid: key"},
+
+		{"code": 2601, "message": "Field already taken: key"},
 
 		{"code": 2801, "message": "Resource does not exist: User"},
 		{"code": 2802, "message": "Resource does not exist: Session"},
@@ -81,8 +88,6 @@
 		{"code": 2806, "message": "Resource does not exist: StoreBookCollectionName"},
 		{"code": 2807, "message": "Resource does not exist: StoreBook"},
 		{"code": 2808, "message": "Resource does not exist: StoreBookCover"},
-		{"code": 2809, "message": "Resource does not exist: StoreBookFile"},
-
-		{"code": 2901, "message": "Resource already exists: Category"}
+		{"code": 2809, "message": "Resource does not exist: StoreBookFile"}
 	]
 }
