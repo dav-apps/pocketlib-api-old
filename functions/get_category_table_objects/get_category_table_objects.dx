@@ -1,0 +1,7 @@
+(# params: none)
+(catch (
+	(Table.get_table_objects env.CATEGORY_TABLE_ID env.ADMINS#0)
+) (
+	(# Unexpected error)
+	(func render_validation_errors ((list (hash (error (get_error 1103)) (status 500)))))
+))

@@ -1,0 +1,23 @@
+(# params: category_names_string: string, include_uuids: boolean)
+(var category_names (list))
+
+(if (!(is_nil category_names_string)) (
+	(# Get each name of the category)
+	(var uuids (category_names_string.split ","))
+
+	(for uuid in uuids (
+		(var name (func get_table_object (uuid env.CATEGORY_NAME_TABLE_ID)))
+
+		(if (!(is_nil name)) (
+			(var name_hash (hash (name name.properties.name) (language name.properties.language)))
+
+			(if include_uuids (
+				(var name_hash.uuid name.uuid)
+			))
+
+			(category_names.push name_hash)
+		))
+	))
+))
+
+(return category_names)

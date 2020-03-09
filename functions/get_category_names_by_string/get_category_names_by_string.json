@@ -1,0 +1,6 @@
+{
+	"type": "function",
+	"name": "get_category_names_by_string",
+	"params": ["category_names_string", "include_uuids"],
+	"source": "./get_category_names_by_string.dx"
+}

@@ -1,0 +1,6 @@
+{
+	"type": "endpoint",
+	"path": "store/categories",
+	"method": "GET",
+	"source": "./get_categories.dx"
+}

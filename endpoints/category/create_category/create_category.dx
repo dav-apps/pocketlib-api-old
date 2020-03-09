@@ -1,0 +1,65 @@
+(var json (parse_json (get_body)))
+
+(var name json.name)
+
+(# Get the jwt)
+(var jwt (get_header Authorization))
+(func render_validation_errors ((list
+	(func validate_jwt_missing (jwt))
+)))
+
+(# Make sure content type is json)
+(func render_validation_errors ((list
+	(func validate_content_type_json ((get_header Content-Type)))
+)))
+
+(# Decode the jwt)
+(var decoded_jwt (func decode_jwt (jwt)))
+
+(# Validate the dev)
+(func render_validation_errors ((list
+	(func validate_dev_is_pocketlib_dev (decoded_jwt.dev_id))
+)))
+
+(# Check if the user is an admin)
+(var is_admin (env.ADMINS.contains decoded_jwt.user_id))
+(if (! is_admin) (
+	(# Action not allowed)
+	(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
+))
+
+(# Validate missing fields)
+(func render_validation_errors ((list
+	(func validate_name_missing (name))
+)))
+
+(# Validate property types)
+(func render_validation_errors ((list
+	(func validate_name_wrong_type (name))
+)))
+
+(# Validate too short and too long fields)
+(func render_validation_errors ((list
+	(func validate_name_too_short (name))
+	(func validate_name_too_long (name))
+)))
+
+(# Check if a category with the name already exists)
+(var names (TableObject.find_by_property env.ADMINS#0 env.CATEGORY_NAME_TABLE_ID "name" name))
+
+(if (names.length > 0) (
+	(# Category already exists)
+	(func render_validation_errors ((list (hash (error (get_error 2901)) (status 422)))))
+))
+
+(# Create the category name)
+(var category_name (func create_table_object (env.ADMINS#0 env.CATEGORY_NAME_TABLE_ID (hash (name name) (language "en")))))
+
+(# Create the category)
+(var category (func create_table_object (env.ADMINS#0 env.CATEGORY_TABLE_ID (hash (names category_name.uuid)))))
+
+(# Render the result)
+(render_json (hash
+	(uuid category.uuid)
+	(names (list (hash (name name) (language category_name.properties.language))))
+) 201)
