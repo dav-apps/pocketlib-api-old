@@ -11,6 +11,8 @@ async function resetDatabase(){
 	await resetStoreBookCovers();
 	await resetStoreBookFiles();
 	await resetBooks();
+	await resetCategories();
+	await resetCategoryNames();
 }
 
 async function resetAuthors(){
@@ -92,6 +94,16 @@ async function resetBooks(){
 
 	// Reset books
 	await resetKlausUserBooks();
+}
+
+async function resetCategories(){
+	// Reset categories
+	await resetDavUserCategories();
+}
+
+async function resetCategoryNames(){
+	// Delete CategoryNames
+	await resetDavUserCategoryNames();
 }
 
 
@@ -1102,6 +1114,142 @@ async function resetKlausUserBooks(){
 	}
 }
 
+async function resetDavUserCategories(){
+	let testDatabaseCategories = [];
+
+	for(let category of constants.categories){
+		testDatabaseCategories.push(category);
+	}
+
+	// Get the Category table
+	let response;
+	let categories = [];
+
+	try{
+		response = await axios.default({
+			method: 'get',
+			url: `${constants.apiBaseUrl}/apps/table/${constants.categoryTableId}`,
+			headers: {
+				Authorization: constants.davUser.jwt
+			}
+		});
+
+		categories = response.data.table_objects;
+	}catch(error){
+		console.log("Error in getting Category table");
+		console.log(error.response.data);
+	}
+
+	// Delete each category that is not part of the test database
+	for(let category of categories){
+		let i = testDatabaseCategories.findIndex(c => c.uuid == category.uuid);
+
+		if(i != -1){
+			testDatabaseCategories.splice(i, 1);
+		}else{
+			// Delete the collection
+			await deleteTableObject(category.uuid, constants.davUser.jwt);
+		}
+	}
+
+	// Create each missing category of the test database
+	for(let category of testDatabaseCategories){
+		// Get the category names
+		let names = [];
+		for(let name of category.names) names.push(name.uuid);
+
+		try{
+			await axios.default({
+				method: 'post',
+				url: `${constants.apiBaseUrl}/apps/object`,
+				params: {
+					uuid: category.uuid,
+					table_id: constants.categoryTableId,
+					app_id: constants.pocketlibAppId
+				},
+				headers: {
+					Authorization: constants.davUser.jwt,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					names: names.join(',')
+				}
+			});
+		}catch(error){
+			console.log("Error in creating category");
+			console.log(error.response.data);
+		}
+	}
+}
+
+async function resetDavUserCategoryNames(){
+	let testDatabaseCategoryNames = [];
+
+	for(let category of constants.categories){
+		for(let categoryName of category.names){
+			testDatabaseCategoryNames.push(categoryName);
+		}
+	}
+
+	// Get the CategoryName table
+	let response;
+	let categoryNames = [];
+
+	try{
+		response = await axios.default({
+			method: 'get',
+			url: `${constants.apiBaseUrl}/apps/table/${constants.categoryNameTableId}`,
+			headers: {
+				Authorization: constants.davUser.jwt
+			}
+		});
+
+		categoryNames = response.data.table_objects;
+	}catch(error){
+		console.log("Error in getting the CategoryName table");
+		console.log(error.response.data);
+	}
+
+	// Delete each category name that is not part of the test database
+	for(let categoryName of categoryNames){
+		let i = testDatabaseCategoryNames.findIndex(name => name.uuid == categoryName.uuid);
+
+		if(i != -1){
+			testDatabaseCategoryNames.splice(i, 1);
+		}else{
+			// Delete the category name
+			await deleteTableObject(categoryName.uuid, constants.davUser.jwt);
+		}
+	}
+
+	// Create each missing category name that is not part of the test database
+	for(let categoryName of testDatabaseCategoryNames){
+		try{
+			await axios.default({
+				method: 'post',
+				url: `${constants.apiBaseUrl}/apps/object`,
+				params: {
+					uuid: categoryName.uuid,
+					table_id: constants.categoryNameTableId,
+					app_id: constants.pocketlibAppId
+				},
+				headers: {
+					Authorization: constants.davUser.jwt,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					name: categoryName.name,
+					language: categoryName.language
+				}
+			});
+		}catch(error){
+			console.log("Error in creating category name");
+			console.log(error.response.data);
+		}
+	}
+}
+
+
 async function deleteTableObjectsOfTable(jwt, tableId){
 	// Get the table
 	let response;
@@ -1166,5 +1314,7 @@ module.exports = {
 	resetStoreBookCovers,
 	resetStoreBookFiles,
 	resetBooks,
+	resetCategories,
+	resetCategoryNames,
 	getTableObject
 }

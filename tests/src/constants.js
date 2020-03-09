@@ -11,6 +11,8 @@ module.exports = {
 	storeBookTableId: 24,
 	storeBookCoverTableId: 25,
 	storeBookFileTableId: 26,
+	categoryTableId: 27,
+	categoryNameTableId: 28,
 	// User id: 5, Dev id: 2, App id: 3 (davClassLibraryTestApp)
 	davClassLibraryTestUserTestAppJWT: "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImRhdmNsYXNzbGlicmFyeXRlc3RAZGF2LWFwcHMudGVjaCIsInVzZXJfaWQiOjUsImRldl9pZCI6MiwiZXhwIjozNzU2MTA1MDAyMn0.jZpdLre_ZMWGN2VNbZOn2Xg51RLAT6ocGnyM38jljHI.1",
 	authorUser: {
@@ -306,5 +308,37 @@ module.exports = {
 				file: "32adbdaa-0cbe-4672-80a6-19d4b8d6e943"
 			}
 		]
-	}
+	},
+	categories: [
+		{
+			uuid: "0d29f1a8-e181-448c-81d1-5000b167cb16",
+			names: [
+				{
+					uuid: "a6125ec6-085f-4da3-b5c8-991922ec2081",
+					name: "Children's book",
+					language: "en"
+				},
+				{
+					uuid: "b3cdf544-0485-48cf-a911-e7c187bcede5",
+					name: "Kinderbuch",
+					language: "de"
+				}
+			]
+		},
+		{
+			uuid: "8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f",
+			names: [
+				{
+					uuid: "60b73b76-310e-494b-be1a-8d19e5caf630",
+					name: "Tragedy",
+					language: "en"
+				},
+				{
+					uuid: "ce8f692d-5a4e-416a-8bb0-33802366db04",
+					name: "Tragödie",
+					language: "de"
+				}
+			]
+		}
+	]
 }
