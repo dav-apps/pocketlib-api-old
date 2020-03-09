@@ -312,6 +312,7 @@ module.exports = {
 	categories: [
 		{
 			uuid: "0d29f1a8-e181-448c-81d1-5000b167cb16",
+			key: "childrens",
 			names: [
 				{
 					uuid: "a6125ec6-085f-4da3-b5c8-991922ec2081",
@@ -327,6 +328,7 @@ module.exports = {
 		},
 		{
 			uuid: "8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f",
+			key: "tragedy",
 			names: [
 				{
 					uuid: "60b73b76-310e-494b-be1a-8d19e5caf630",

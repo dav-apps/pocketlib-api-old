@@ -1119,6 +1119,28 @@ async function resetDavUserCategories(){
 
 	for(let category of constants.categories){
 		testDatabaseCategories.push(category);
+
+		// Reset the category
+		let names = [];
+		category.names.forEach(name => names.push(name.uuid));
+
+		try{
+			await axios.default({
+				method: 'put',
+				url: `${constants.apiBaseUrl}/apps/object/${category.uuid}`,
+				headers: {
+					Authorization: constants.davUser.jwt,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					key: category.key,
+					names: names.join(',')
+				}
+			});
+		}catch(error){
+			console.log("Error in resetting Category");
+			console.log(error.response.data);
+		}
 	}
 
 	// Get the Category table
@@ -1172,6 +1194,7 @@ async function resetDavUserCategories(){
 					'Content-Type': 'application/json'
 				},
 				data: {
+					key: category.key,
 					names: names.join(',')
 				}
 			});
@@ -1188,6 +1211,25 @@ async function resetDavUserCategoryNames(){
 	for(let category of constants.categories){
 		for(let categoryName of category.names){
 			testDatabaseCategoryNames.push(categoryName);
+
+			// Reset the category name
+			try{
+				await axios.default({
+					method: 'put',
+					url: `${constants.apiBaseUrl}/apps/object/${categoryName.uuid}`,
+					headers: {
+						Authorization: constants.davUser.jwt,
+						'Content-Type': 'application/json'
+					},
+					data: {
+						name: categoryName.name,
+						language: categoryName.language
+					}
+				});
+			}catch(error){
+				console.log("Error in resetting CategoryName");
+				console.log(error.response.data);
+			}
 		}
 	}
 
