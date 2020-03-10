@@ -91,6 +91,8 @@ describe("SetStoreBookCollectionName endpoint", () => {
 			assert.equal(1102, error.response.data.errors[0].code);
 			return;
 		}
+
+		assert.fail();
 	});
 
 	it("should not set collection name for collection of another user", async () => {
