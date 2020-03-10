@@ -10,60 +10,6 @@ before(async () => {
 });
 
 describe("GetCategories endpoint", async () => {
-	it("should not return categories without jwt", async () => {
-		try{
-			await axios.default({
-				method: 'get',
-				url: getCategoriesEndpointUrl
-			});
-		}catch(error){
-			assert.equal(400, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(2101, error.response.data.errors[0].code);
-			return;
-		}
-
-		assert.fail();
-	});
-
-	it("should not return categories with invalid jwt", async () => {
-		try{
-			await axios.default({
-				method: 'get',
-				url: getCategoriesEndpointUrl,
-				headers: {
-					Authorization: "asdasdasdasdasd"
-				}
-			});
-		}catch(error){
-			assert.equal(401, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1302, error.response.data.errors[0].code);
-			return;
-		}
-
-		assert.fail();
-	});
-
-	it("should not return categories if jwt is for another app", async () => {
-		try{
-			await axios.default({
-				method: 'get',
-				url: getCategoriesEndpointUrl,
-				headers: {
-					Authorization: constants.davClassLibraryTestUserTestAppJWT
-				}
-			});
-		}catch(error){
-			assert.equal(403, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1102, error.response.data.errors[0].code);
-			return;
-		}
-
-		assert.fail();
-	});
-
 	it("should return categories", async () => {
 		let response;
 

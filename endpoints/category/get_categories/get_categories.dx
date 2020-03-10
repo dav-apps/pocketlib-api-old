@@ -1,17 +1,3 @@
-(# Get the jwt)
-(var jwt (get_header Authorization))
-(func render_validation_errors ((list
-	(func validate_jwt_missing (jwt))
-)))
-
-(# Decode the jwt)
-(var decoded_jwt (func decode_jwt (jwt)))
-
-(# Validate the dev)
-(func render_validation_errors ((list
-	(func validate_dev_is_pocketlib_dev (decoded_jwt.dev_id))
-)))
-
 (# Get all categories)
 (var category_objects (func get_category_table_objects ()))
 (var categories (list))
