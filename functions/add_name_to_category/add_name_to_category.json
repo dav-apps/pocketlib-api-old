@@ -1,0 +1,6 @@
+{
+	"type": "function",
+	"name": "add_name_to_category",
+	"params": ["category", "uuid"],
+	"source": "./add_name_to_category.dx"
+}

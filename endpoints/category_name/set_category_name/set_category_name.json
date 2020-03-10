@@ -1,0 +1,6 @@
+{
+	"type": "endpoint",
+	"path": "store/category/:uuid/name/:language",
+	"method": "PUT",
+	"source": "./set_category_name.dx"
+}

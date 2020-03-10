@@ -88,6 +88,8 @@
 		{"code": 2806, "message": "Resource does not exist: StoreBookCollectionName"},
 		{"code": 2807, "message": "Resource does not exist: StoreBook"},
 		{"code": 2808, "message": "Resource does not exist: StoreBookCover"},
-		{"code": 2809, "message": "Resource does not exist: StoreBookFile"}
+		{"code": 2809, "message": "Resource does not exist: StoreBookFile"},
+		{"code": 2810, "message": "Resource does not exist: Category"},
+		{"code": 2811, "message": "Resource does not exist: CategoryName"}
 	]
 }
