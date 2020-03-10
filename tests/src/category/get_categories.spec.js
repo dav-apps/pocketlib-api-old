@@ -84,6 +84,7 @@ describe("GetCategories endpoint", async () => {
 		let i = 0;
 		for(let category of constants.categories){
 			assert.equal(category.uuid, response.data.categories[i].uuid);
+			assert.equal(category.key, response.data.categories[i].key);
 
 			let j = 0;
 			for(let categoryName of category.names){

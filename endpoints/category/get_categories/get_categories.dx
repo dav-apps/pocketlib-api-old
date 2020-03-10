@@ -20,7 +20,7 @@
 	(# Get the names of the category)
 	(var names (func get_category_names_by_string (category.properties.names false)))
 
-	(categories.push (hash (uuid category.uuid) (names names)))
+	(categories.push (hash (uuid category.uuid) (key category.properties.key) (names names)))
 ))
 
 (# Render the result)
