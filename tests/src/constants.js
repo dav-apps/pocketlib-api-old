@@ -17,6 +17,7 @@ module.exports = {
 	davClassLibraryTestUserTestAppJWT: "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImRhdmNsYXNzbGlicmFyeXRlc3RAZGF2LWFwcHMudGVjaCIsInVzZXJfaWQiOjUsImRldl9pZCI6MiwiZXhwIjozNzU2MTA1MDAyMn0.jZpdLre_ZMWGN2VNbZOn2Xg51RLAT6ocGnyM38jljHI.1",
 	authorUser: {
 		// User id: 6, Dev id: 1, App id: 6 (PocketLib)
+		id: 6,
 		jwt: "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImF1dGhvckBkYXYtYXBwcy50ZWNoIiwidXNlcl9pZCI6NiwiZGV2X2lkIjoxLCJleHAiOjM3NTYxMDE3NjAwfQ.npXRbu87twmlyqBSPuGb1qOn7Mh1ug_j0qEQiLz3N6U.2",
 		author: {
 			uuid: "099fbfa5-a6f1-41c1-99e9-0d02d8364f2d",
@@ -48,6 +49,10 @@ module.exports = {
 							name: "Eine Reihe betrüblicher Ereignisse - Der schreckliche Anfang",
 							language: "de"
 						}
+					],
+					categories: [
+						"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
+						"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
 					],
 					books: [
 						{
@@ -101,6 +106,10 @@ module.exports = {
 							language: "de"
 						}
 					],
+					categories: [
+						"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
+						"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
+					],
 					books: [
 						{
 							uuid: "5242102c-b107-4e82-8eb8-bebe2a990436",
@@ -129,8 +138,7 @@ module.exports = {
 							cover: {
 								uuid: "33b486ae-a22e-414b-915c-9a9520970ed8",
 								ext: "jpg",
-								type: "image/jpeg",
-								content: "Hello"
+								type: "image/jpeg"
 							},
 							file: {
 								uuid: "d6f52b96-6bca-40ee-bb70-fb1347e1c8ba",
@@ -149,6 +157,10 @@ module.exports = {
 							language: "en"
 						}
 					],
+					categories: [
+						"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
+						"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
+					],
 					books: [
 						{
 							uuid: "45c14ab4-8789-41c4-b0f6-11be0a86a94c",
@@ -156,6 +168,23 @@ module.exports = {
 							description: "Dear Reader, if you have not read anything about the Baudelaire orphans, then before you read even one more sentence, you should know this: Violet, Klaus and Sunny are kindhearted and quick-witted, but their lives, I am sorry to say, are filled with bad luck and misery.",
 							language: "en",
 							status: "unpublished"
+						},
+						{
+							uuid: "2fd1beed-da6f-46c8-8631-a7931dda2ef2",
+							title: "Eine Reihe betrüblicher Ereignisse - Der Seufzersee",
+							description: "Lieber Leser, wenn du noch nie etwas von den Baudelaire-Kindern gehört hast, dann solltest du, bevor du auch nur eine einzige Zeile liest, Folgendes wissen: Violet, Klaus und Sunny sind nett, charmant und klug, aber ihr Leben - leider, leider - strotzt nur so vor Elend und Unheil.",
+							language: "en",
+							status: "published",
+							cover: {
+								uuid: "c877a6e5-aebb-4c8c-b28d-817aaffc9226",
+								ext: "png",
+								type: "image/png"
+							},
+							file: {
+								uuid: "090cb584-c10e-4068-9346-81f134c3a5e3",
+								ext: "pdf",
+								type: "application/pdf"
+							}
 						}
 					]
 				}
@@ -169,6 +198,7 @@ module.exports = {
 	},
 	davUser: {
 		// User id: 1, Dev id: 1, App id: 6 (PocketLib)
+		id: 1,
 		jwt: "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImRhdkBkYXYtYXBwcy50ZWNoIiwidXNlcl9pZCI6MSwiZGV2X2lkIjoxLCJleHAiOjM3NTYxMDE3NjAwfQ.6LvizKcYttmWGLwGFS4A2nhSu6aOs8O9_pa2StxTQqE.3",
 		authors: [
 			{
@@ -191,6 +221,9 @@ module.exports = {
 								name: "1984",
 								language: "en"
 							}
+						],
+						categories: [
+							"27c78f90-934e-41e3-8738-b20f6d76f0a9"		// Dystopia
 						],
 						books: [
 							{
@@ -298,8 +331,9 @@ module.exports = {
 	},
 	// User id: 5, Dev id: 1, App id: 6 (PocketLib)
 	davClassLibraryTestUserJWT: "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImRhdkNsYXNzTGlicmFyeVRlc3RAZGF2LWFwcHMudGVjaCIsInVzZXJfaWQiOjUsImRldl9pZCI6MSwiZXhwIjozNzU2MTAxNzYwMH0.unJZtU7Mua12L_GsW09BvoeSQd56VR_RK9x3TE2GWQo.4",
-	// User id: 6, Dev id: 1, App id: 6 (PocketLib)
 	klausUser: {
+		// User id: 6, Dev id: 1, App id: 6 (PocketLib)
+		id: 5,
 		jwt: "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImtsYXVzLmJhdWRlbGFpcmVAZGF2LWFwcHMudGVjaCIsInVzZXJfaWQiOjcsImRldl9pZCI6MSwiZXhwIjozNzU2MTAxNzYwMH0.Ow0dLs1x_HR6fJ02UqQBVRxDME7cqp_4LRxioJfe_F4.5",
 		books: [
 			{
@@ -338,6 +372,22 @@ module.exports = {
 				{
 					uuid: "ce8f692d-5a4e-416a-8bb0-33802366db04",
 					name: "Tragödie",
+					language: "de"
+				}
+			]
+		},
+		{
+			uuid: "27c78f90-934e-41e3-8738-b20f6d76f0a9",
+			key: "dystopia",
+			names: [
+				{
+					uuid: "029e6808-e328-4fe2-bddd-3a80606e25aa",
+					name: "Dystopia",
+					language: "en"
+				},
+				{
+					uuid: "efaa516a-dd29-4fe4-aee1-25eabee3512a",
+					name: "Dystopie",
 					language: "de"
 				}
 			]

@@ -450,6 +450,7 @@ async function resetAuthorUserStoreBookCollections(){
 				data: {
 					author: constants.authorUser.author.uuid,
 					names: names.join(','),
+					categories: collection.categories ? collection.categories.join(',') : "",
 					books: books.join(',')
 				}
 			});
@@ -512,6 +513,7 @@ async function resetDavUserStoreBookCollections(){
 					data: {
 						author: author.uuid,
 						names: names.join(','),
+						categories: collection.categories ? collection.categories.join(',') : "",
 						books: books.join(',')
 					}
 				});
