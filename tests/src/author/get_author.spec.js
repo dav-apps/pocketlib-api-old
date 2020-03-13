@@ -5,10 +5,6 @@ var utils = require("../utils");
 
 const getAuthorEndpointUrl = `${constants.apiBaseUrl}/api/1/call/author/{0}`;
 
-before(async () => {
-	await utils.resetDatabase();
-});
-
 describe("GetAuthor endpoint", async () => {
 	it("should not return author that does not exist", async () => {
 		try{

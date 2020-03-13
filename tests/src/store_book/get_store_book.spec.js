@@ -5,10 +5,6 @@ var utils = require('../utils');
 
 const getStoreBookEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/book/{0}`;
 
-before(async () => {
-	await utils.resetDatabase();
-});
-
 describe("GetStoreBook endpoint", () => {
 	it("should not return store book with invalid jwt", async () => {
 		try{

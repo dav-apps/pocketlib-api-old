@@ -5,10 +5,6 @@ var utils = require('../utils');
 
 const getStoreBookFileEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/book/{0}/file`;
 
-before(async () => {
-	await utils.resetDatabase();
-});
-
 describe("GetStoreBookFile endpoint", () => {
 	it("should not return store book file without jwt", async () => {
 		try{

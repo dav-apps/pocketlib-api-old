@@ -8,10 +8,6 @@ var utils = require('../utils');
 const setProfileImageOfAuthorOfUserEndpointUrl = `${constants.apiBaseUrl}/api/1/call/author/profile_image`;
 let resetAuthorsAndAuthorProfileImages = false;
 
-before(async () => {
-	await utils.resetDatabase();
-});
-
 afterEach(async () => {
 	if(resetAuthorsAndAuthorProfileImages){
 		await utils.resetAuthors();

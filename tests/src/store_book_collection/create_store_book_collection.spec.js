@@ -6,10 +6,6 @@ var utils = require('../utils');
 const createStoreBookCollectionEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/collection`;
 var resetStoreBookCollectionsAndAuthors = false;
 
-before(async () => {
-	await utils.resetDatabase();
-});
-
 afterEach(async () => {
 	if(resetStoreBookCollectionsAndAuthors){
 		await utils.resetStoreBookCollections();

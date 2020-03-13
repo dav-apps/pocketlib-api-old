@@ -6,10 +6,6 @@ var utils = require('../utils');
 const setCategoryNameEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/category/{0}/name/{1}`;
 var resetCategoriesAndCategoryNames = false;
 
-before(async () => {
-	await utils.resetDatabase();
-});
-
 afterEach(async () => {
 	if(resetCategoriesAndCategoryNames){
 		await utils.resetCategories();

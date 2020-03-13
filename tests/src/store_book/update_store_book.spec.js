@@ -6,10 +6,6 @@ var utils = require('../utils');
 const updateStoreBookEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/book/{0}`;
 var resetStoreBooks = false;
 
-before(async () => {
-	await utils.resetDatabase();
-});
-
 afterEach(async () => {
 	if(resetStoreBooks){
 		await utils.resetStoreBooks();

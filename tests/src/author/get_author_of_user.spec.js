@@ -5,10 +5,6 @@ var utils = require("../utils");
 
 const getAuthorOfUserEndpointUrl = `${constants.apiBaseUrl}/api/1/call/author`;
 
-before(async () => {
-	await utils.resetDatabase();
-});
-
 describe("GetAuthorOfUser endpoint", () => {
 	it("should not return author without jwt", async () => {
 		try{

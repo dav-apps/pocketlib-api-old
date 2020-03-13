@@ -5,10 +5,6 @@ var utils = require('../utils');
 
 const getCategoriesEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/categories`;
 
-before(async () => {
-	await utils.resetDatabase();
-});
-
 describe("GetCategories endpoint", async () => {
 	it("should return categories", async () => {
 		let response;

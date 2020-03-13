@@ -7,10 +7,6 @@ const getProfileImageOfAuthorOfUserEndpoint = `${constants.apiBaseUrl}/api/1/cal
 var resetAuthors = false;
 var resetAuthorProfileImages = false;
 
-before(async () => {
-	await utils.resetDatabase();
-});
-
 afterEach(async () => {
 	if(resetAuthors){
 		await utils.resetAuthors();
