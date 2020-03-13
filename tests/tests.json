@@ -1,4 +1,5 @@
 {
 	"type": "tests",
-	"source": "."
+	"source": "./src",
+	"data": "./src/data.js"
 }
