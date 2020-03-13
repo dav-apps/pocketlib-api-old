@@ -1,0 +1,38 @@
+(if (is_nil language) (
+	(var language "en")
+) else (
+	(# Validate the language)
+	(func render_validation_errors ((list
+		(func validate_language_supported (language))
+	)))
+))
+
+(# Get the category)
+(var categories (TableObject.find_by_property env.ADMINS#0 env.CATEGORY_TABLE_ID "key" key))
+(if (categories.length == 0) (
+	(# Category does not exist)
+	(func render_validation_errors ((list (hash (error (get_error 2810)) (status 404)))))
+))
+
+(var category categories#0)
+
+(# Find StoreBookCollections with the category)
+(var collections (TableObject.find_by_property * env.STORE_BOOK_COLLECTION_TABLE_ID "categories" category.uuid false))
+
+(# Get the store books of the categories)
+(var books (list))
+
+(for collection in collections (
+	(# Get the store books of the collection)
+	(var collection_books (func get_store_books_by_string (collection.properties.books)))
+	(for book in collection_books (
+		(if ((book.language == language) and (book.status == "published")) (
+			(books.push book)
+		))
+	))
+))
+
+(# Render the result)
+(render_json (hash
+	(books books)
+))

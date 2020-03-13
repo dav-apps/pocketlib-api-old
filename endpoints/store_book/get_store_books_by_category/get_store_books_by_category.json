@@ -1,0 +1,6 @@
+{
+	"type": "endpoint",
+	"path": "store/books/:key",
+	"method": "GET",
+	"source": "./get_store_books_by_category.dx"
+}
