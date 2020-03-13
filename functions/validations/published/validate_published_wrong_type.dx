@@ -1,4 +1,4 @@
 (# params: published: boolean)
-(if ((published.class != FalseClass) and (published.class != TrueClass)) (
+(if ((published.class != "FalseClass") and (published.class != "TrueClass")) (
 	(hash (error (get_error 2207)) (status 400))
 ))

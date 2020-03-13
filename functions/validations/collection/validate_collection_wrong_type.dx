@@ -1,4 +1,4 @@
 (# params: collection: string)
-(if (collection.class != String) (
+(if (collection.class != "String") (
 	(hash (error (get_error 2210)) (status 400))
 ))

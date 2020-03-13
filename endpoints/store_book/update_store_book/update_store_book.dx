@@ -36,7 +36,7 @@
 (# Get the collection of the store book)
 (var collection (func get_table_object (store_book.properties.collection env.STORE_BOOK_COLLECTION_TABLE_ID)))
 
-(if (is_nil collection_obj) (
+(if (is_nil collection) (
 	(# Collection does not exist)
 	(func render_validation_errors ((list (hash (error (get_error 2805)) (status 404)))))
 ))

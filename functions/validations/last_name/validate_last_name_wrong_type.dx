@@ -1,4 +1,4 @@
 (# params: last_name: string)
-(if (last_name.class != String) (
+(if (last_name.class != "String") (
 	(hash (error (get_error 2202)) (status 400))
 ))
