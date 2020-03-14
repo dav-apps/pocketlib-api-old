@@ -2,7 +2,7 @@ var assert = require('assert');
 var axios = require('axios');
 var constants = require("../constants");
 
-const getStoreBooksByCategoryEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/books/{0}`;
+const getStoreBooksByCategoryEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/books/category/{0}`;
 
 describe("GetStoreBooksByCategory endpoint", async () => {
 	it("should not return store books by category that does not exist", async () => {
