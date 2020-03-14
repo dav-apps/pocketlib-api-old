@@ -173,7 +173,7 @@ module.exports = {
 							uuid: "2fd1beed-da6f-46c8-8631-a7931dda2ef2",
 							title: "Eine Reihe betrüblicher Ereignisse - Der Seufzersee",
 							description: "Lieber Leser, wenn du noch nie etwas von den Baudelaire-Kindern gehört hast, dann solltest du, bevor du auch nur eine einzige Zeile liest, Folgendes wissen: Violet, Klaus und Sunny sind nett, charmant und klug, aber ihr Leben - leider, leider - strotzt nur so vor Elend und Unheil.",
-							language: "en",
+							language: "de",
 							status: "published",
 							cover: {
 								uuid: "c877a6e5-aebb-4c8c-b28d-817aaffc9226",
@@ -182,6 +182,72 @@ module.exports = {
 							},
 							file: {
 								uuid: "090cb584-c10e-4068-9346-81f134c3a5e3",
+								ext: "pdf",
+								type: "application/pdf"
+							}
+						}
+					]
+				},
+				{
+					uuid: "0734712e-86dd-474f-bf99-e9b77faf9c71",
+					names: [
+						{
+							uuid: "84ce1293-6591-427d-8050-3e4daffbcac1",
+							name: "A Series of Unfortunate Events - Book the Fourth",
+							language: "en"
+						}
+					],
+					categories: [
+						"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
+						"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
+					],
+					books: [
+						{
+							uuid: "d0ca384f-9d8e-4a56-b2e1-c76a0a5cac4b",
+							title: "A Series of Unfortunate Events - Book the Fourth",
+							description: "Dear Reader, I hope, for your sake, that you have not chosen to read this book because you are in the mood for a pleasant experience. If this is the case, I advise you to put this book down instantaneously, because of all the books describing the unhappy lives of the Baudelaire orphans, THE MISERABLE MILL might be the unhappiest yet.",
+							language: "en",
+							status: "published",
+							cover: {
+								uuid: "33ddb7d6-03ff-430f-a526-e7ceeb43782d",
+								ext: "jpg",
+								type: "image/jpeg"
+							},
+							file: {
+								uuid: "4dd8c2cf-82a0-4887-95f1-68284679a026",
+								ext: "epub",
+								type: "application/zip+epub"
+							}
+						}
+					]
+				},
+				{
+					uuid: "b1156808-e81c-4cf9-b2ce-502baa23e548",
+					names: [
+						{
+							uuid: "db9578cc-4f57-4dd3-bd0b-3f3abe06caef",
+							name: "A Series of Unfortunate Events - Book the Fifth",
+							language: "en"
+						}
+					],
+					categories: [
+						"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
+						"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
+					],
+					books: [
+						{
+							uuid: "d59bdd46-428d-412d-964b-0c57b41df478",
+							title: "A Series of Unfortunate Events - Book the Fifth",
+							description: "Dear Reader, if you are looking for a story about cheerful youngsters spending a jolly time at boarding school, look elsewhere. Violet, Klaus and Sunny Baudelaire are intelligent and resourceful children, and you might expect that they would do very well at school. Don't. For the Baudelaires, school turns out to be another miserable episode in their unlucky lives.",
+							language: "en",
+							status: "published",
+							cover: {
+								uuid: "fcd1ddb9-fab4-465e-ad8c-f5074e2d7fc3",
+								ext: "png",
+								type: "image/png"
+							},
+							file: {
+								uuid: "35e1418d-ff2f-4498-8a93-a0bf7b47ccce",
 								ext: "pdf",
 								type: "application/pdf"
 							}
