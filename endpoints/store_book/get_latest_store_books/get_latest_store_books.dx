@@ -1,0 +1,35 @@
+(if (is_nil language) (
+	(var language "en")
+) else (
+	(# Validate the language)
+	(func render_validation_errors ((list
+		(func validate_language_supported (language))
+	)))
+))
+
+(# Get the latest store books)
+(var book_objects (func get_latest_store_book_table_objects ()))
+(var books (list))
+
+(for book_object in book_objects (
+	(# Check if the store book is published)
+	(if ((book_object.properties.status == "published") and (book_object.properties.language == language)) (
+		(# Convert the table object to hash)
+		(var book (hash
+			(uuid book_object.uuid)
+			(title book_object.properties.title)
+			(description book_object.properties.description)
+			(language book_object.properties.language)
+			(status book_object.properties.status)
+			(cover (!(is_nil book_object.properties.cover)))
+			(file (!(is_nil book_object.properties.file)))
+		))
+
+		(books.push book)
+	))
+))
+
+(# Render the result)
+(render_json (hash
+	(books books)
+))
