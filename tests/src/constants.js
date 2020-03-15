@@ -1,4 +1,4 @@
-module.exports = {
+let constants = {
 	apiBaseUrl: "http://localhost:3111/v1",
 	pocketlibAppId: 6,
 	bookTableId: 14,
@@ -460,3 +460,20 @@ module.exports = {
 		}
 	]
 }
+
+constants.collections = [
+	{
+		name: "latest_books",
+		tableId: constants.storeBookTableId,
+		tableObjects: [
+			"617833c8-4d0a-4d78-acd0-306a90e346ba",
+			"2fd1beed-da6f-46c8-8631-a7931dda2ef2",
+			"d0ca384f-9d8e-4a56-b2e1-c76a0a5cac4b",
+			"d59bdd46-428d-412d-964b-0c57b41df478",
+			"b0e4b01d-d53d-47b5-b5e4-48ea7bab6619",
+			"ba96f327-f096-4408-8bd0-620f9aad3f09"
+		]
+	}
+]
+
+module.exports = constants;

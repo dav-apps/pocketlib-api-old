@@ -52,7 +52,8 @@ for(let category of constants.categories){
 
 
 module.exports = {
-	tableObjects
+	tableObjects,
+	collections: constants.collections
 }
 
 function addAuthorToTableObjects(author, userId){
