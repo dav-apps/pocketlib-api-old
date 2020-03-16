@@ -1,0 +1,23 @@
+(# Get the latest authors)
+(var author_objects (func get_latest_author_table_objects ()))
+(var authors (list))
+
+(for author_object in author_objects (
+	(# Check if the author has uploaded a profile image)
+	(if (! (is_nil author_object.properties.profile_image)) (
+		(# Convert the table object to hash)
+		(var author (hash
+			(uuid author_object.uuid)
+			(first_name author_object.properties.first_name)
+			(last_name author_object.properties.last_name)
+			(profile_image true)
+		))
+
+		(authors.push author)
+	))
+))
+
+(# Render the result)
+(render_json (hash
+	(authors authors)
+) 200)
