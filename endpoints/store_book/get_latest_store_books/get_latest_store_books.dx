@@ -32,4 +32,4 @@
 (# Render the result)
 (render_json (hash
 	(books books)
-))
+) 200)
