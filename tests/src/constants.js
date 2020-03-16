@@ -473,6 +473,15 @@ constants.collections = [
 			"b0e4b01d-d53d-47b5-b5e4-48ea7bab6619",
 			"ba96f327-f096-4408-8bd0-620f9aad3f09"
 		]
+	},
+	{
+		name: "latest_authors",
+		tableId: constants.authorTableId,
+		tableObjects: [
+			"099fbfa5-a6f1-41c1-99e9-0d02d8364f2d",
+			"622ad623-b9a4-415d-92ee-a66f8a7f3c51",
+			"1dd980fd-ae20-4566-b842-a25e241bfb46"
+		]
 	}
 ]
 

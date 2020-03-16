@@ -70,13 +70,13 @@ describe("GetStoreBooksByCategory endpoint", async () => {
 
 		let i = 0;
 		for(let book of response.data.books){
-			assert.equal(book.uuid, storeBooks[i].uuid);
-			assert.equal(book.title, storeBooks[i].title);
-			assert.equal(book.description, storeBooks[i].description);
-			assert.equal(book.language, storeBooks[i].language);
-			assert.equal(book.status, storeBooks[i].status);
-			assert.equal(book.cover, storeBooks[i].cover != null);
-			assert.equal(book.file, storeBooks[i].file != null);
+			assert.equal(storeBooks[i].uuid, book.uuid);
+			assert.equal(storeBooks[i].title, book.title);
+			assert.equal(storeBooks[i].description, book.description);
+			assert.equal(storeBooks[i].language, book.language);
+			assert.equal(storeBooks[i].status, book.status);
+			assert.equal(storeBooks[i].cover != null, book.cover);
+			assert.equal(storeBooks[i].file != null, book.file);
 
 			i++;
 		}
@@ -116,13 +116,13 @@ describe("GetStoreBooksByCategory endpoint", async () => {
 
 		let i = 0;
 		for(let book of response.data.books){
-			assert.equal(book.uuid, storeBooks[i].uuid);
-			assert.equal(book.title, storeBooks[i].title);
-			assert.equal(book.description, storeBooks[i].description);
-			assert.equal(book.language, storeBooks[i].language);
-			assert.equal(book.status, storeBooks[i].status);
-			assert.equal(book.cover, storeBooks[i].cover != null);
-			assert.equal(book.file, storeBooks[i].file != null);
+			assert.equal(storeBooks[i].uuid, book.uuid);
+			assert.equal(storeBooks[i].title, book.title);
+			assert.equal(storeBooks[i].description, book.description);
+			assert.equal(storeBooks[i].language, book.language);
+			assert.equal(storeBooks[i].status, book.status);
+			assert.equal(storeBooks[i].cover != null, book.cover);
+			assert.equal(storeBooks[i].file != null, book.file);
 
 			i++;
 		}
