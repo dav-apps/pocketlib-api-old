@@ -13,6 +13,7 @@
 		{"code": 1110, "message": "dav Pro required"},
 		{"code": 1111, "message": "Can't create Book from free StoreBook"},
 		{"code": 1112, "message": "This StoreBook is already in your library"},
+		{"code": 1113, "message": "Status not supported"},
 
 		{"code": 1301, "message": "JWT expired"},
 		{"code": 1302, "message": "JWT invalid"},
@@ -52,6 +53,7 @@
 		{"code": 2211, "message": "Field has wrong type: price"},
 		{"code": 2212, "message": "Field has wrong type: store_book"},
 		{"code": 2213, "message": "Field has wrong type: key"},
+		{"code": 2214, "message": "Field has wrong type: status"},
 
 		{"code": 2301, "message": "Field too short: first_name"},
 		{"code": 2302, "message": "Field too short: last_name"},

@@ -37,6 +37,11 @@
 			"source": "./misc/validate_dav_pro_user.dx"
 		},
 		{
+			"name": "validate_status_supported",
+			"params": ["status"],
+			"source": "./status/validate_status_supported.dx"
+		},
+		{
 			"name": "decode_jwt",
 			"params": ["jwt"],
 			"source": "./jwt/decode_jwt.dx"
@@ -162,6 +167,11 @@
 			"name": "validate_key_wrong_type",
 			"params": ["key"],
 			"source": "./key/validate_key_wrong_type.dx"
+		},
+		{
+			"name": "validate_status_wrong_type",
+			"params": ["status"],
+			"source": "./status/validate_status_wrong_type.dx"
 		},
 
 		{
