@@ -4,7 +4,7 @@ var constants = require("../constants");
 
 const getStoreBooksByCategoryEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/books/category/{0}`;
 
-describe("GetStoreBooksByCategory endpoint", async () => {
+describe("GetStoreBooksByCategory endpoint", () => {
 	it("should not return store books by category that does not exist", async () => {
 		try{
 			await axios.default({
