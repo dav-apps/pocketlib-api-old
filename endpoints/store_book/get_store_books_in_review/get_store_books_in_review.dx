@@ -1,0 +1,44 @@
+(# Get the jwt)
+(var jwt (get_header Authorization))
+(func render_validation_errors ((list
+	(func validate_jwt_missing (jwt))
+)))
+
+(# Decode the jwt)
+(var decoded_jwt (func decode_jwt (jwt)))
+
+(# Validate the dev)
+(func render_validation_errors ((list
+	(func validate_dev_is_pocketlib_dev (decoded_jwt.dev_id))
+)))
+
+(# Check if the user is an admin)
+(var is_admin (env.ADMINS.contains decoded_jwt.user_id))
+(if (! is_admin) (
+	(# Action not allowed)
+	(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
+))
+
+(# Get all store books in review)
+(var book_objects (TableObject.find_by_property * env.STORE_BOOK_TABLE_ID "status" "review"))
+(var books (list))
+
+(for book_object in book_objects (
+	(# Convert the table object to hash)
+	(var book (hash
+		(uuid book_object.uuid)
+		(title book_object.properties.title)
+		(description book_object.properties.description)
+		(language book_object.properties.language)
+		(status book_object.properties.status)
+		(cover (!(is_nil book_object.properties.cover)))
+		(file (!(is_nil book_object.properties.file)))
+	))
+
+	(books.push book)
+))
+
+(# Render the result)
+(render_json (hash
+	(books books)
+) 200)
