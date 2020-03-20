@@ -31,5 +31,5 @@
 
 (# Render the result)
 (render_json (hash
-	(books books)
+	(books books.reverse)
 ) 200)

@@ -56,6 +56,8 @@ describe("GetLatestStoreBooks endpoint", async () => {
 			}
 		}
 
+		storeBooks = storeBooks.reverse();
+
 		assert.equal(200, response.status);
 		assert.equal(storeBooks.length, response.data.books.length);
 
@@ -108,6 +110,8 @@ describe("GetLatestStoreBooks endpoint", async () => {
 				}
 			}
 		}
+
+		storeBooks = storeBooks.reverse();
 
 		assert.equal(200, response.status);
 		assert.equal(storeBooks.length, response.data.books.length);
