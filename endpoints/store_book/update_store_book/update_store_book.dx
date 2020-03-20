@@ -116,6 +116,11 @@
 (if ((!(is_nil status)) and is_admin) (
 	(# Set the status)
 	(var store_book.properties.status status)
+
+	(if (status == "published") (
+		(# Add the store book to the latest store books)
+		(func add_store_book_to_latest_books_collection (store_book))
+	))
 ) elseif (!(is_nil published)) (
 	(var status store_book.properties.status)
 

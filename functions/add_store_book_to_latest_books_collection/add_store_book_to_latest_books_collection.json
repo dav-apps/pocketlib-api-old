@@ -1,0 +1,6 @@
+{
+	"type": "function",
+	"name": "add_store_book_to_latest_books_collection",
+	"params": ["store_book"],
+	"source": "./add_store_book_to_latest_books_collection.dx"
+}

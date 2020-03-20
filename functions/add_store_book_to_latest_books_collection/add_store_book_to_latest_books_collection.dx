@@ -1,0 +1,7 @@
+(# params: store_book: TableObject)
+(catch (
+	(Collection.add_table_object "latest_books" store_book.id)
+) (
+	(# Unexpected error)
+	(func render_validation_errors ((list (hash (error (get_error 1103)) (status 500)))))
+))
