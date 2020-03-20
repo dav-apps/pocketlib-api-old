@@ -1,59 +1,9 @@
-(# Get the jwt)
-(var jwt (get_header Authorization))
-
-(# Decode the jwt)
-(var decoded_jwt (
-	(if (!(is_nil jwt)) (
-		(return (func decode_jwt (jwt)))
-	) else (
-		(return nil)
-	))
-))
-
-(# Validate the dev)
-(if (!(is_nil decoded_jwt)) (
-	(func render_validation_errors ((list
-		(func validate_dev_is_pocketlib_dev (decoded_jwt.dev_id))
-	)))
-))
-
-(# Check if the user is an admin)
-(var is_admin (
-	(if (is_nil decoded_jwt) (
-		(return false)
-	) else (
-		(env.ADMINS.contains decoded_jwt.user_id)
-	))
-))
-
 (# Get the store book)
 (var store_book (func get_table_object (uuid env.STORE_BOOK_TABLE_ID)))
 
 (if (is_nil store_book) (
 	(# StoreBook does not exist)
 	(func render_validation_errors ((list (hash (error (get_error 2807)) (status 404)))))
-))
-
-(# Get the status)
-(var status (if (is_nil store_book.properties.status) "unpublished" else store_book.properties.status))
-
-(# Check if the user can access the store book cover)
-(var can_access (
-	(if (status == "published") (
-		(return true)
-	) elseif is_admin (
-		(return true)
-	) elseif (is_nil decoded_jwt) (
-		(return false)
-	) else (
-		(# Check if the user is the author of the store book)
-		(return (decoded_jwt.user_id == store_book.user_id))
-	))
-))
-
-(if (! can_access) (
-	(# Access not allowed)
-	(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
 ))
 
 (# Define function for rendering no cover error)
