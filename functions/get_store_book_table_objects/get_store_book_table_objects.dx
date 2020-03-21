@@ -1,0 +1,7 @@
+(# params: user_id: int)
+(catch (
+	(Table.get_table_objects env.STORE_BOOK_TABLE_ID user_id)
+) (
+	(# Render Action not allowed error)
+	(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
+))
