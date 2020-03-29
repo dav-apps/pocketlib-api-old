@@ -46,8 +46,7 @@
 
 (# Validate too short and too long fields)
 (func render_validation_errors ((list
-	(func validate_first_name_too_short (first_name))
-	(func validate_first_name_too_long (first_name))
+	(func validate_first_name_length (first_name))
 	(func validate_last_name_too_short (last_name))
 	(func validate_last_name_too_long (last_name))
 )))
