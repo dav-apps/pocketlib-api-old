@@ -195,6 +195,11 @@
 			"source": "./bio/validate_bio_length.dx"
 		},
 		{
+			"name": "validate_title_length",
+			"params": ["title"],
+			"source": "./title/validate_title_length.dx"
+		},
+		{
 			"name": "validate_description_length",
 			"params": ["description"],
 			"source": "./description/validate_description_length.dx"
@@ -223,18 +228,6 @@
 			"name": "validate_key_length",
 			"params": ["key"],
 			"source": "./key/validate_key_length.dx"
-		},
-
-		{
-			"name": "validate_title_too_short",
-			"params": ["title"],
-			"source": "./title/validate_title_too_short.dx"
-		},
-
-		{
-			"name": "validate_title_too_long",
-			"params": ["title"],
-			"source": "./title/validate_title_too_long.dx"
 		},
 
 		{
