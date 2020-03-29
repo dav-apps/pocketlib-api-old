@@ -1,4 +1,0 @@
-(# params: author: string)
-(if (author.length > 200)
-	(hash (error (get_error 2406)) (status 400))
-)

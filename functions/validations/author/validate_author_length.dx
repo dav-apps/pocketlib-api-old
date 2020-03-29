@@ -1,0 +1,6 @@
+(# params: author: string)
+(if ((is_nil author) or (author.length < 2)) (
+	(hash (error (get_error 2306)) (status 400))
+) elseif (author.length > 200) (
+	(hash (error (get_error 2406)) (status 400))
+))

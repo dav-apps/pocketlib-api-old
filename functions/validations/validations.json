@@ -180,6 +180,12 @@
 		},
 
 		{
+			"name": "validate_author_length",
+			"params": ["author"],
+			"source": "./author/validate_author_length.dx"
+		},
+
+		{
 			"name": "validate_first_name_too_short",
 			"params": ["first_name"],
 			"source": "./first_name/validate_first_name_too_short.dx"
@@ -203,11 +209,6 @@
 			"name": "validate_description_too_short",
 			"params": ["description"],
 			"source": "./description/validate_description_too_short.dx"
-		},
-		{
-			"name": "validate_author_too_short",
-			"params": ["author"],
-			"source": "./author/validate_author_too_short.dx"
 		},
 		{
 			"name": "validate_name_too_short",
@@ -254,11 +255,6 @@
 			"name": "validate_description_too_long",
 			"params": ["description"],
 			"source": "./description/validate_description_too_long.dx"
-		},
-		{
-			"name": "validate_author_too_long",
-			"params": ["author"],
-			"source": "./author/validate_author_too_long.dx"
 		},
 		{
 			"name": "validate_name_too_long",

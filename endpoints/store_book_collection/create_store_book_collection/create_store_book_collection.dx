@@ -42,8 +42,7 @@
 
 (# Validate too short and too long fields)
 (func render_validation_errors ((list
-	(if is_admin (func validate_author_too_short (author)))
-	(if is_admin (func validate_author_too_long (author)))
+	(if is_admin (func validate_author_length (author)))
 	(func validate_name_too_short (name))
 	(func validate_name_too_long (name))
 )))
