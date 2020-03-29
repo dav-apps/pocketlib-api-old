@@ -1,4 +1,0 @@
-(# params: collection: string)
-(if ((is_nil collection) or (collection.length < 2))
-	(hash (error (get_error 2308)) (status 400))
-)
