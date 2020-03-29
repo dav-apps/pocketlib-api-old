@@ -1,4 +1,0 @@
-(# params: bio: string)
-(if ((is_nil bio) or (bio.length < 5))
-	(hash (error (get_error 2303)) (status 400))
-)

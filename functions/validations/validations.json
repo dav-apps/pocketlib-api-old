@@ -180,6 +180,11 @@
 		},
 
 		{
+			"name": "validate_bio_length",
+			"params": ["bio"],
+			"source": "./bio/validate_bio_length.dx"
+		},
+		{
 			"name": "validate_author_length",
 			"params": ["author"],
 			"source": "./author/validate_author_length.dx"
@@ -194,11 +199,6 @@
 			"name": "validate_last_name_too_short",
 			"params": ["last_name"],
 			"source": "./last_name/validate_last_name_too_short.dx"
-		},
-		{
-			"name": "validate_bio_too_short",
-			"params": ["bio"],
-			"source": "./bio/validate_bio_too_short.dx"
 		},
 		{
 			"name": "validate_title_too_short",
@@ -240,11 +240,6 @@
 			"name": "validate_last_name_too_long",
 			"params": ["last_name"],
 			"source": "./last_name/validate_last_name_too_long.dx"
-		},
-		{
-			"name": "validate_bio_too_long",
-			"params": ["bio"],
-			"source": "./bio/validate_bio_too_long.dx"
 		},
 		{
 			"name": "validate_title_too_long",

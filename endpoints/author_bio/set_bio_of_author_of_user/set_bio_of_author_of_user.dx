@@ -49,8 +49,7 @@
 
 (# Validate too short and too long fields)
 (func render_validation_errors ((list
-	(func validate_bio_too_short (bio))
-	(func validate_bio_too_long (bio))
+	(func validate_bio_length (bio))
 )))
 
 (# Validate the language)
