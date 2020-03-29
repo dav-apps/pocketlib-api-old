@@ -369,7 +369,18 @@ let constants = {
 								title: "La Ferme des animaux",
 								description: "La Ferme des animaux est un roman allégorique de George Orwell, publié pour la première fois en Angleterre le 17 août 1945. Le livre raconte l'histoire d'un groupe d'animaux de ferme qui se rebellent contre leur éleveur humain dans l'espoir de créer une société dans laquelle les animaux peuvent être égaux, libres et heureux.",
 								language: "fr",
-								status: "published"
+								price: 0,
+								status: "published",
+								cover: {
+									uuid: "9ac13017-9b5f-4fef-abe4-6964171767f0",
+									ext: "jpg",
+									type: "image/jpeg"
+								},
+								file: {
+									uuid: "ab3f8f74-b335-4bf2-bc1e-4f85f866ae22",
+									ext: "pdf",
+									type: "application/pdf"
+								}
 							}
 						]
 					}
@@ -395,11 +406,22 @@ let constants = {
 			}
 		]
 	},
-	// User id: 5, Dev id: 1, App id: 6 (PocketLib)
-	davClassLibraryTestUserJWT: "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImRhdkNsYXNzTGlicmFyeVRlc3RAZGF2LWFwcHMudGVjaCIsInVzZXJfaWQiOjUsImRldl9pZCI6MSwiZXhwIjozNzU2MTAxNzYwMH0.unJZtU7Mua12L_GsW09BvoeSQd56VR_RK9x3TE2GWQo.4",
-	klausUser: {
-		// User id: 6, Dev id: 1, App id: 6 (PocketLib)
+	davClassLibraryTestUser: {
+		// User id: 5, Dev id: 1, App id: 6 (PocketLib)
 		id: 5,
+		jwt: "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImRhdkNsYXNzTGlicmFyeVRlc3RAZGF2LWFwcHMudGVjaCIsInVzZXJfaWQiOjUsImRldl9pZCI6MSwiZXhwIjozNzU2MTAxNzYwMH0.unJZtU7Mua12L_GsW09BvoeSQd56VR_RK9x3TE2GWQo.4",
+		books: [
+			{
+				uuid: "e4183c7a-12fd-42e9-9bdd-b351cbf6448e",
+				storeBook: "b0e4b01d-d53d-47b5-b5e4-48ea7bab6619",
+				purchase: 1,
+				file: "32adbdaa-0cbe-4672-80a6-19d4b8d6e943"
+			}
+		]
+	},
+	klausUser: {
+		// User id: 7, Dev id: 1, App id: 6 (PocketLib)
+		id: 7,
 		jwt: "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImtsYXVzLmJhdWRlbGFpcmVAZGF2LWFwcHMudGVjaCIsInVzZXJfaWQiOjcsImRldl9pZCI6MSwiZXhwIjozNzU2MTAxNzYwMH0.Ow0dLs1x_HR6fJ02UqQBVRxDME7cqp_4LRxioJfe_F4.5",
 		books: [
 			{
@@ -482,6 +504,45 @@ constants.collections = [
 			"622ad623-b9a4-415d-92ee-a66f8a7f3c51",
 			"1dd980fd-ae20-4566-b842-a25e241bfb46"
 		]
+	}
+]
+
+constants.purchases = [
+	{
+		// davClassLibraryTestUser purchased 1984 store book in English
+		id: 1,
+		userId: constants.davClassLibraryTestUser.id,
+		tableObjectUuid: "b0e4b01d-d53d-47b5-b5e4-48ea7bab6619",
+		price: 1000,
+		currency: "eur",
+		completed: true
+	},
+	{
+		// davClassLibraryTestUser didn't purchase A Series of Unfortunate Events 2 store book in German
+		id: 2,
+		userId: constants.davClassLibraryTestUser.id,
+		tableObjectUuid: "617833c8-4d0a-4d78-acd0-306a90e346ba",
+		price: 2000,
+		currency: "eur",
+		completed: false
+	},
+	{
+		// AuthorUser purchased Childrens category
+		id: 3,
+		userId: constants.authorUser.id,
+		tableObjectUuid: "0d29f1a8-e181-448c-81d1-5000b167cb16",
+		price: 10,
+		currency: "eur",
+		completed: true
+	},
+	{
+		// AuthorUser purchased Animal Farm in French
+		id: 4,
+		userId: constants.authorUser.id,
+		tableObjectUuid: "ba96f327-f096-4408-8bd0-620f9aad3f09",
+		price: 0,
+		currency: "eur",
+		completed: true
 	}
 ]
 

@@ -37,6 +37,10 @@ for(let author of constants.davUser.authors){
 }
 
 // Books
+for(let book of constants.davClassLibraryTestUser.books){
+	addBookToTableObjects(book, constants.davClassLibraryTestUser.id);
+}
+
 for(let book of constants.klausUser.books){
 	addBookToTableObjects(book, constants.klausUser.id);
 }
@@ -53,7 +57,8 @@ for(let category of constants.categories){
 
 module.exports = {
 	tableObjects,
-	collections: constants.collections
+	collections: constants.collections,
+	purchases: constants.purchases
 }
 
 function addAuthorToTableObjects(author, userId){
@@ -184,15 +189,19 @@ function addStoreBookFileToTableObjects(storeBookFile, userId){
 }
 
 function addBookToTableObjects(book, userId){
+	let properties = {
+		store_book: book.storeBook,
+		file: book.file
+	}
+
+	if(book.purchase) properties.purchase = book.purchase;
+
 	tableObjects.push({
 		uuid: book.uuid,
 		userId,
 		tableId: constants.bookTableId,
 		file: false,
-		properties: {
-			store_book: book.storeBook,
-			file: book.file
-		}
+		properties
 	});
 }
 
