@@ -73,8 +73,7 @@
 (func render_validation_errors ((list
 	(if (!(is_nil title)) (func validate_title_too_short (title)))
 	(if (!(is_nil title)) (func validate_title_too_long (title)))
-	(if (!(is_nil description)) (func validate_description_too_short (description)))
-	(if (!(is_nil description)) (func validate_description_too_long (description)))
+	(if (!(is_nil description)) (func validate_description_length (description)))
 )))
 
 (if (!(is_nil language)) (

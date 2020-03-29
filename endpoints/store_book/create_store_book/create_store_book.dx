@@ -43,12 +43,11 @@
 (func render_validation_errors ((list
 	(func validate_collection_length (collection))
 	(func validate_title_too_short (title))
-	(if (!(is_nil description)) (func validate_description_too_short (description)))
+	(if (!(is_nil description)) (func validate_description_length (description)))
 )))
 
 (func render_validation_errors ((list
 	(func validate_title_too_long (title))
-	(if (!(is_nil description)) (func validate_description_too_long (description)))
 )))
 
 (# Validate the language)
