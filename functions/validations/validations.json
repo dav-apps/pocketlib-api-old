@@ -185,6 +185,11 @@
 			"source": "./first_name/validate_first_name_length.dx"
 		},
 		{
+			"name": "validate_last_name_length",
+			"params": ["last_name"],
+			"source": "./last_name/validate_last_name_length.dx"
+		},
+		{
 			"name": "validate_bio_length",
 			"params": ["bio"],
 			"source": "./bio/validate_bio_length.dx"
@@ -211,11 +216,6 @@
 		},
 
 		{
-			"name": "validate_last_name_too_short",
-			"params": ["last_name"],
-			"source": "./last_name/validate_last_name_too_short.dx"
-		},
-		{
 			"name": "validate_title_too_short",
 			"params": ["title"],
 			"source": "./title/validate_title_too_short.dx"
@@ -231,11 +231,6 @@
 			"source": "./store_book/validate_store_book_too_short.dx"
 		},
 
-		{
-			"name": "validate_last_name_too_long",
-			"params": ["last_name"],
-			"source": "./last_name/validate_last_name_too_long.dx"
-		},
 		{
 			"name": "validate_title_too_long",
 			"params": ["title"],
