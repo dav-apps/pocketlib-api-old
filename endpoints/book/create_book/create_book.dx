@@ -104,11 +104,7 @@
 
 		(# Validate the property length)
 		(func render_validation_errors ((list
-			(func validate_store_book_too_short (store_book_uuid))
-		)))
-
-		(func render_validation_errors ((list
-			(func validate_store_book_too_long (store_book_uuid))
+			(func validate_store_book_length (store_book_uuid))
 		)))
 
 		(# Get the store book)

@@ -1,4 +1,6 @@
 (# params: store_book: string)
 (if ((is_nil store_book) or (store_book.length < 2)) (
 	(hash (error (get_error 2309)) (status 400))
+) elseif (store_book.length > 200) (
+	(hash (error (get_error 2409)) (status 400))
 ))
