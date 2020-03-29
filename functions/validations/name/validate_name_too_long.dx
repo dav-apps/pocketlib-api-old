@@ -1,4 +1,0 @@
-(# params: name: string)
-(if (name.length > 100)
-	(hash (error (get_error 2407)) (status 400))
-)

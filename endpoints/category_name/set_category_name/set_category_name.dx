@@ -48,8 +48,7 @@
 
 (# Validate too short and too long fields)
 (func render_validation_errors ((list
-	(func validate_name_too_short (name))
-	(func validate_name_too_long (name))
+	(func validate_name_length (name))
 )))
 
 (# Validate the language)
