@@ -204,6 +204,11 @@
 			"params": ["collection"],
 			"source": "./collection/validate_collection_length.dx"
 		},
+		{
+			"name": "validate_key_length",
+			"params": ["key"],
+			"source": "./key/validate_key_length.dx"
+		},
 
 		{
 			"name": "validate_last_name_too_short",
@@ -225,11 +230,6 @@
 			"params": ["store_book"],
 			"source": "./store_book/validate_store_book_too_short.dx"
 		},
-		{
-			"name": "validate_key_too_short",
-			"params": ["key"],
-			"source": "./key/validate_key_too_short.dx"
-		},
 
 		{
 			"name": "validate_last_name_too_long",
@@ -250,11 +250,6 @@
 			"name": "validate_store_book_too_long",
 			"params": ["store_book"],
 			"source": "./store_book/validate_store_book_too_long.dx"
-		},
-		{
-			"name": "validate_key_too_long",
-			"params": ["key"],
-			"source": "./key/validate_key_too_long.dx"
 		},
 
 		{

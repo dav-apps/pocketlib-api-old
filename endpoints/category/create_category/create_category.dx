@@ -40,8 +40,7 @@
 
 (# Validate too short and too long fields)
 (func render_validation_errors ((list
-	(func validate_key_too_short (key))
-	(func validate_key_too_long (key))
+	(func validate_key_length (key))
 )))
 
 (# Validate the key)
