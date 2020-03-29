@@ -1,6 +1,7 @@
 (var json (parse_json (get_body)))
 
 (var store_book_uuid json.store_book)
+(var purchase_id json.purchase)
 (var type json.type)
 
 (# Get the jwt)
@@ -25,109 +26,176 @@
 
 (if (content_type == "application/json") (
 	(# Copy the store book into the library by creating a book with the file of the store book)
-	(# Validate missing fields)
-	(func render_validation_errors ((list
-		(func validate_store_book_missing (store_book_uuid))
-	)))
-
-	(# Validate the property type)
-	(func render_validation_errors ((list
-		(func validate_store_book_wrong_type (store_book_uuid))
-	)))
-
-	(# Validate the property length)
-	(func render_validation_errors ((list
-		(func validate_store_book_too_short (store_book_uuid))
-	)))
-
-	(func render_validation_errors ((list
-		(func validate_store_book_too_long (store_book_uuid))
-	)))
-
-	(# Get the store book)
-	(var store_book (func get_table_object (store_book_uuid env.STORE_BOOK_TABLE_ID)))
-
-	(if (is_nil store_book) (
-		(# StoreBook does not exist)
-		(func render_validation_errors ((list (hash (error (get_error 2807)) (status 404)))))
-	))
-
-	(# Check if the user is an admin or the author of the store book)
-	(var is_admin (env.ADMINS.contains decoded_jwt.user_id))
-	(var is_author (decoded_jwt.user_id == store_book.user_id))
-
-	(if ((! is_admin) and (! is_author)) (
-		(# Normal user)
-		(var status (if (is_nil store_book.properties.status) "unpublished" else store_book.properties.status))
-
-		(# Check if the user can access the store book)
-		(if (status != "published") (
-			(# Access not allowed)
-			(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
-		))
-
-		(# Check if the user is on the Pro plan)
+	(if (!(is_nil purchase_id)) (
+		(# Validate the property type)
 		(func render_validation_errors ((list
-			(func validate_dav_pro_user (decoded_jwt.user_id))
+			(func validate_purchase_wrong_type (purchase_id))
 		)))
 
-		(# Check if the store book is free)
-		(if ((is_nil store_book.properties.price) or (store_book.properties.price == 0)) (
-			(# Can't create book from free StoreBook)
-			(func render_validation_errors ((list (hash (error (get_error 1111)) (status 422)))))
+		(# Get the purchase)
+		(var store_book (func get_table_object_of_purchase (purchase_id decoded_jwt.user_id env.STORE_BOOK_TABLE_ID)))
+
+		(if (is_nil store_book) (
+			(# StoreBook does not exist)
+			(func render_validation_errors ((list (hash (error (get_error 2807)) (status 404)))))
 		))
-	))
 
-	(# Check if the StoreBook is already in the library of the user)
-	(if (func is_store_book_in_user_library (decoded_jwt.user_id store_book.uuid)) (
-		(func render_validation_errors ((list (hash (error (get_error 1112)) (status 422)))))
-	))
+		(# Check if the StoreBook is already in the library of the user)
+		(if (func is_store_book_in_user_library (decoded_jwt.user_id store_book.uuid)) (
+			(func render_validation_errors ((list (hash (error (get_error 1112)) (status 422)))))
+		))
 
-	(# Get the table object of the store book file)
-	(var file_obj (func get_table_object (store_book.properties.file env.STORE_BOOK_FILE_TABLE_ID)))
+		(# Get the table object of the store book file)
+		(var file_obj (func get_table_object (store_book.properties.file env.STORE_BOOK_FILE_TABLE_ID)))
 
-	(if (is_nil file_obj) (
-		(# StoreBookFile does not exist)
-		(func render_validation_errors ((list (hash (error (get_error 2809)) (status 404)))))
-	))
+		(if (is_nil file_obj) (
+			(# StoreBookFile does not exist)
+			(func render_validation_errors ((list (hash (error (get_error 2809)) (status 404)))))
+		))
 
-	(# Get the type of the store book file)
-	(var book_type file_obj.properties.type)
+		(# Get the type of the store book file)
+		(var book_type file_obj.properties.type)
 
-	(# Create the book)
-	(var book_properties (hash (store_book store_book.uuid) (file store_book.properties.file)))
-	(if (book_type == "application/pdf") (var book_properties.title store_book.properties.title))
+		(# Create the book)
+		(var book_properties (hash (store_book store_book.uuid) (purchase purchase_id) (file store_book.properties.file)))
+		(if (book_type == "application/pdf") (var book_properties.title store_book.properties.title))
 
-	(var book (func create_table_object (decoded_jwt.user_id env.BOOK_TABLE_ID book_properties)))
+		(var book (func create_table_object (decoded_jwt.user_id env.BOOK_TABLE_ID book_properties)))
 
-	(# Create a TableObjectUserAccess for the file)
-	(func create_table_object_user_access (book.properties.file decoded_jwt.user_id env.BOOK_FILE_TABLE_ID))
-	
-	(if (book_type == "application/pdf") (
-		(# Render the result as pdf book)
-		(render_json 
-			(hash
-				(uuid book.uuid)
-				(store_book book.properties.store_book)
-				(file book.properties.file)
-				(title store_book.properties.title)
-				(page 0)
-				(bookmarks (list))
+		(# Create a TableObjectUserAccess for the file)
+		(func create_table_object_user_access (book.properties.file decoded_jwt.user_id env.BOOK_FILE_TABLE_ID))
+
+		(if (book_type == "application/pdf") (
+			(# Render the result as pdf book)
+			(render_json 
+				(hash
+					(uuid book.uuid)
+					(store_book book.properties.store_book)
+					(file book.properties.file)
+					(title store_book.properties.title)
+					(page 0)
+					(bookmarks (list))
+				)
+				201
 			)
-			201
-		)
+		) else (
+			(# Render the result as epub book)
+			(render_json 
+				(hash
+					(uuid book.uuid)
+					(store_book book.properties.store_book)
+					(file book.properties.file)
+					(chapter 0)
+					(progress 0)
+				)
+				201
+			)
+		))
 	) else (
-		(# Render the result as epub book)
-		(render_json 
-			(hash
-				(uuid book.uuid)
-				(store_book book.properties.store_book)
-				(file book.properties.file)
-				(chapter 0)
-				(progress 0)
+		(# Validate missing fields)
+		(func render_validation_errors ((list
+			(func validate_store_book_missing (store_book_uuid))
+		)))
+
+		(# Validate the property type)
+		(func render_validation_errors ((list
+			(func validate_store_book_wrong_type (store_book_uuid))
+		)))
+
+		(# Validate the property length)
+		(func render_validation_errors ((list
+			(func validate_store_book_too_short (store_book_uuid))
+		)))
+
+		(func render_validation_errors ((list
+			(func validate_store_book_too_long (store_book_uuid))
+		)))
+
+		(# Get the store book)
+		(var store_book (func get_table_object (store_book_uuid env.STORE_BOOK_TABLE_ID)))
+
+		(if (is_nil store_book) (
+			(# StoreBook does not exist)
+			(func render_validation_errors ((list (hash (error (get_error 2807)) (status 404)))))
+		))
+
+		(# Check if the user is an admin or the author of the store book)
+		(var is_admin (env.ADMINS.contains decoded_jwt.user_id))
+		(var is_author (decoded_jwt.user_id == store_book.user_id))
+
+		(if ((! is_admin) and (! is_author)) (
+			(# Normal user)
+			(var status (if (is_nil store_book.properties.status) "unpublished" else store_book.properties.status))
+
+			(# Check if the user can access the store book)
+			(if (status != "published") (
+				(# Access not allowed)
+				(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
+			))
+
+			(# Check if the user is on the Pro plan)
+			(func render_validation_errors ((list
+				(func validate_dav_pro_user (decoded_jwt.user_id))
+			)))
+
+			(# Check if the store book is free)
+			(if ((is_nil store_book.properties.price) or (store_book.properties.price == 0)) (
+				(# Can't create book from free StoreBook)
+				(func render_validation_errors ((list (hash (error (get_error 1111)) (status 422)))))
+			))
+		))
+
+		(# Check if the StoreBook is already in the library of the user)
+		(if (func is_store_book_in_user_library (decoded_jwt.user_id store_book.uuid)) (
+			(func render_validation_errors ((list (hash (error (get_error 1112)) (status 422)))))
+		))
+
+		(# Get the table object of the store book file)
+		(var file_obj (func get_table_object (store_book.properties.file env.STORE_BOOK_FILE_TABLE_ID)))
+
+		(if (is_nil file_obj) (
+			(# StoreBookFile does not exist)
+			(func render_validation_errors ((list (hash (error (get_error 2809)) (status 404)))))
+		))
+
+		(# Get the type of the store book file)
+		(var book_type file_obj.properties.type)
+
+		(# Create the book)
+		(var book_properties (hash (store_book store_book.uuid) (file store_book.properties.file)))
+		(if (book_type == "application/pdf") (var book_properties.title store_book.properties.title))
+
+		(var book (func create_table_object (decoded_jwt.user_id env.BOOK_TABLE_ID book_properties)))
+
+		(# Create a TableObjectUserAccess for the file)
+		(func create_table_object_user_access (book.properties.file decoded_jwt.user_id env.BOOK_FILE_TABLE_ID))
+
+		(if (book_type == "application/pdf") (
+			(# Render the result as pdf book)
+			(render_json
+				(hash
+					(uuid book.uuid)
+					(store_book book.properties.store_book)
+					(file book.properties.file)
+					(title store_book.properties.title)
+					(page 0)
+					(bookmarks (list))
+				)
+				201
 			)
-			201
-		)
+		) else (
+			(# Render the result as epub book)
+			(render_json
+				(hash
+					(uuid book.uuid)
+					(store_book book.properties.store_book)
+					(file book.properties.file)
+					(chapter 0)
+					(progress 0)
+				)
+				201
+			)
+		))
 	))
 ) else (
 	(# Not implemented)

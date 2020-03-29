@@ -54,6 +54,7 @@
 		{"code": 2212, "message": "Field has wrong type: store_book"},
 		{"code": 2213, "message": "Field has wrong type: key"},
 		{"code": 2214, "message": "Field has wrong type: status"},
+		{"code": 2215, "message": "Field has wrong type: purchase"},
 
 		{"code": 2301, "message": "Field too short: first_name"},
 		{"code": 2302, "message": "Field too short: last_name"},
@@ -92,6 +93,7 @@
 		{"code": 2808, "message": "Resource does not exist: StoreBookCover"},
 		{"code": 2809, "message": "Resource does not exist: StoreBookFile"},
 		{"code": 2810, "message": "Resource does not exist: Category"},
-		{"code": 2811, "message": "Resource does not exist: CategoryName"}
+		{"code": 2811, "message": "Resource does not exist: CategoryName"},
+		{"code": 2812, "message": "Resource does not exist: Purchase"}
 	]
 }

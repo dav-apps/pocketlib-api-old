@@ -173,6 +173,11 @@
 			"params": ["status"],
 			"source": "./status/validate_status_wrong_type.dx"
 		},
+		{
+			"name": "validate_purchase_wrong_type",
+			"params": ["purchase"],
+			"source": "./purchase/validate_purchase_wrong_type.dx"
+		},
 
 		{
 			"name": "validate_first_name_too_short",
