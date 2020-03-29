@@ -366,7 +366,7 @@ describe("CreateStoreBookCollection endpoint", () => {
 				method: 'post',
 				url: createStoreBookCollectionEndpointUrl,
 				headers: {
-					Authorization: constants.davClassLibraryTestUserJWT,
+					Authorization: constants.davClassLibraryTestUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {

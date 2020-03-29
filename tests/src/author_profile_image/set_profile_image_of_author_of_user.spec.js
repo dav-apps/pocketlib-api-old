@@ -99,7 +99,7 @@ describe("SetProfileImageOfAuthorOfUser endpoint", () => {
 				method: 'put',
 				url: setProfileImageOfAuthorOfUserEndpointUrl,
 				headers: {
-					Authorization: constants.davClassLibraryTestUserJWT,
+					Authorization: constants.davClassLibraryTestUser.jwt,
 					'Content-Type': 'image/png'
 				}
 			});

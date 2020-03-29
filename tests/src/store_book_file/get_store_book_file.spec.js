@@ -113,7 +113,7 @@ describe("GetStoreBookFile endpoint", () => {
 	});
 
 	it("should not return file of unpublished store book if the user is not the author", async () => {
-		let jwt = constants.davClassLibraryTestUserJWT;
+		let jwt = constants.davClassLibraryTestUser.jwt;
 		let storeBook = constants.authorUser.author.collections[1].books[0];
 
 		await testShouldNotReturnFile(jwt, storeBook);
@@ -141,7 +141,7 @@ describe("GetStoreBookFile endpoint", () => {
 	});
 
 	it("should not return file of store book in review if the user is not the author", async () => {
-		let jwt = constants.davClassLibraryTestUserJWT;
+		let jwt = constants.davClassLibraryTestUser.jwt;
 		let storeBook = constants.authorUser.author.collections[0].books[0];
 
 		await testShouldNotReturnFile(jwt, storeBook);
@@ -169,7 +169,7 @@ describe("GetStoreBookFile endpoint", () => {
 	});
 
 	it("should not return file of published store book if the user is not the author", async () => {
-		let jwt = constants.davClassLibraryTestUserJWT;
+		let jwt = constants.davClassLibraryTestUser.jwt;
 		let storeBook = constants.authorUser.author.collections[1].books[1];
 
 		await testShouldNotReturnFile(jwt, storeBook);
@@ -204,7 +204,7 @@ describe("GetStoreBookFile endpoint", () => {
 	});
 
 	it("should not return file of hidden store book if the user is not the author", async () => {
-		let jwt = constants.davClassLibraryTestUserJWT;
+		let jwt = constants.davClassLibraryTestUser.jwt;
 		let storeBook = constants.authorUser.author.collections[0].books[1];
 
 		await testShouldNotReturnFile(jwt, storeBook);

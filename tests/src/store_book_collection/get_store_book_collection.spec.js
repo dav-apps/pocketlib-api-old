@@ -81,7 +81,7 @@ describe("GetStoreBookCollection endpoint", async () => {
 		let author = constants.authorUser.author;
 		let collection = author.collections[1];
 		
-		await testGetCollectionWithPublishedStoreBooks(author, collection, constants.davClassLibraryTestUserJWT);
+		await testGetCollectionWithPublishedStoreBooks(author, collection, constants.davClassLibraryTestUser.jwt);
 	});
 
 	it("should return collection of admin with all store books if the user is the author", async () => {
@@ -95,7 +95,7 @@ describe("GetStoreBookCollection endpoint", async () => {
 		let author = constants.davUser.authors[0];
 		let collection = author.collections[0];
 		
-		await testGetCollectionWithPublishedStoreBooks(author, collection, constants.davClassLibraryTestUserJWT);
+		await testGetCollectionWithPublishedStoreBooks(author, collection, constants.davClassLibraryTestUser.jwt);
 	});
 
 	it("should return collection with published store books if the user is not logged in", async () => {

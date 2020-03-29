@@ -132,7 +132,7 @@ describe("GetStoreBook endpoint", () => {
 				method: 'get',
 				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
-					Authorization: constants.davClassLibraryTestUserJWT
+					Authorization: constants.davClassLibraryTestUser.jwt
 				}
 			});
 		}catch(error){
@@ -233,7 +233,7 @@ describe("GetStoreBook endpoint", () => {
 				method: 'get',
 				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
-					Authorization: constants.davClassLibraryTestUserJWT
+					Authorization: constants.davClassLibraryTestUser.jwt
 				}
 			});
 		}catch(error){
@@ -335,7 +335,7 @@ describe("GetStoreBook endpoint", () => {
 				method: 'get',
 				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
-					Authorization: constants.davClassLibraryTestUserJWT
+					Authorization: constants.davClassLibraryTestUser.jwt
 				}
 			});
 		}catch(error){
@@ -451,7 +451,7 @@ describe("GetStoreBook endpoint", () => {
 				method: 'get',
 				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
-					Authorization: constants.davClassLibraryTestUserJWT
+					Authorization: constants.davClassLibraryTestUser.jwt
 				}
 			})
 		}catch(error){

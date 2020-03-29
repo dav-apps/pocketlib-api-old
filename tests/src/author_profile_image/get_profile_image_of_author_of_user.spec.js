@@ -119,7 +119,7 @@ describe("GetProfileImageOfAuthorOfUser endpoint", async () => {
 				method: 'get',
 				url: getProfileImageOfAuthorOfUserEndpoint,
 				headers: {
-					Authorization: constants.davClassLibraryTestUserJWT
+					Authorization: constants.davClassLibraryTestUser.jwt
 				}
 			});
 		}catch(error){

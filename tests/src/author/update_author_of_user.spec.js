@@ -115,7 +115,7 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 				method: 'put',
 				url: updateAuthorEndpointUrl,
 				headers: {
-					Authorization: constants.davClassLibraryTestUserJWT,
+					Authorization: constants.davClassLibraryTestUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {

@@ -14,7 +14,7 @@ describe("GetCategories endpoint", async () => {
 				method: 'get',
 				url: getCategoriesEndpointUrl,
 				headers: {
-					Authorization: constants.davClassLibraryTestUserJWT
+					Authorization: constants.davClassLibraryTestUser.jwt
 				}
 			});
 		}catch(error){

@@ -97,7 +97,7 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 				method: 'put',
 				url: setBioOfAuthorOfUserEndpointUrl.replace('{0}', "de"),
 				headers: {
-					Authorization: constants.davClassLibraryTestUserJWT,
+					Authorization: constants.davClassLibraryTestUser.jwt,
 					'Content-Type': 'application/json'
 				}
 			});

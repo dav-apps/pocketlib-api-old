@@ -224,7 +224,7 @@ describe("CreateAuthor endpoint", async () => {
 				method: 'post',
 				url: createAuthorEndpointUrl,
 				headers: {
-					Authorization: constants.davClassLibraryTestUserJWT,
+					Authorization: constants.davClassLibraryTestUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -251,7 +251,7 @@ describe("CreateAuthor endpoint", async () => {
 				method: 'get',
 				url: `${constants.apiBaseUrl}/apps/object/${response.data.uuid}`,
 				headers: {
-					Authorization: constants.davClassLibraryTestUserJWT
+					Authorization: constants.davClassLibraryTestUser.jwt
 				}
 			});
 		}catch(error){

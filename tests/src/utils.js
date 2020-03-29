@@ -17,7 +17,7 @@ async function resetDatabase(){
 
 async function resetAuthors(){
 	// Delete Authors
-	await deleteTableObjectsOfTable(constants.davClassLibraryTestUserJWT, constants.authorTableId);
+	await deleteTableObjectsOfTable(constants.davClassLibraryTestUser.jwt, constants.authorTableId);
 
 	// Reset the Authors of users with authors
 	await resetAuthorUserAuthor();
@@ -26,7 +26,7 @@ async function resetAuthors(){
 
 async function resetAuthorBios(){
 	// Delete AuthorBios
-	await deleteTableObjectsOfTable(constants.davClassLibraryTestUserJWT, constants.authorBioTableId);
+	await deleteTableObjectsOfTable(constants.davClassLibraryTestUser.jwt, constants.authorBioTableId);
 
 	// Reset the AuthorBios of users with authors
 	await resetAuthorUserAuthorBios();
@@ -35,7 +35,7 @@ async function resetAuthorBios(){
 
 async function resetAuthorProfileImages(){
 	// Delete AuthorProfileImages
-	await deleteTableObjectsOfTable(constants.davClassLibraryTestUserJWT, constants.authorProfileImageTableId);
+	await deleteTableObjectsOfTable(constants.davClassLibraryTestUser.jwt, constants.authorProfileImageTableId);
 
 	// Reset the AuthorProfileImages of users with authors
 	await resetAuthorUserAuthorProfileImages();
@@ -44,7 +44,7 @@ async function resetAuthorProfileImages(){
 
 async function resetStoreBookCollections(){
 	// Delete StoreBookCollections
-	await deleteTableObjectsOfTable(constants.davClassLibraryTestUserJWT, constants.storeBookCollectionTableId);
+	await deleteTableObjectsOfTable(constants.davClassLibraryTestUser.jwt, constants.storeBookCollectionTableId);
 
 	// Reset the StoreBookCollections of the author users
 	await resetAuthorUserStoreBookCollections();
@@ -53,7 +53,7 @@ async function resetStoreBookCollections(){
 
 async function resetStoreBookCollectionNames(){
 	// Delete StoreBookCollectionNames
-	await deleteTableObjectsOfTable(constants.davClassLibraryTestUserJWT, constants.storeBookCollectionNameTableId);
+	await deleteTableObjectsOfTable(constants.davClassLibraryTestUser.jwt, constants.storeBookCollectionNameTableId);
 
 	// Reset the StoreBookCollectionNames of the author user
 	await resetAuthorUserStoreBookCollectionNames();
@@ -62,7 +62,7 @@ async function resetStoreBookCollectionNames(){
 
 async function resetStoreBooks(){
 	// Delete StoreBooks
-	await deleteTableObjectsOfTable(constants.davClassLibraryTestUserJWT, constants.storeBookTableId);
+	await deleteTableObjectsOfTable(constants.davClassLibraryTestUser.jwt, constants.storeBookTableId);
 
 	// Reset StoreBooks
 	await resetAuthorUserStoreBooks();
@@ -71,7 +71,7 @@ async function resetStoreBooks(){
 
 async function resetStoreBookCovers(){
 	// Delete StoreBookCovers
-	await deleteTableObjectsOfTable(constants.davClassLibraryTestUserJWT, constants.storeBookCoverTableId);
+	await deleteTableObjectsOfTable(constants.davClassLibraryTestUser.jwt, constants.storeBookCoverTableId);
 
 	// Reset StoreBookCovers
 	await resetAuthorUserStoreBookCovers();
@@ -80,7 +80,7 @@ async function resetStoreBookCovers(){
 
 async function resetStoreBookFiles(){
 	// Delete StoreBookFiles
-	await deleteTableObjectsOfTable(constants.davClassLibraryTestUserJWT, constants.storeBookFileTableId);
+	await deleteTableObjectsOfTable(constants.davClassLibraryTestUser.jwt, constants.storeBookFileTableId);
 
 	// Reset StoreBookFiles
 	await resetAuthorUserStoreBookFiles();

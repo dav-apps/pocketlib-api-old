@@ -66,7 +66,7 @@ describe("GetAuthorOfUser endpoint", () => {
 				method: 'get',
 				url: getAuthorOfUserEndpointUrl,
 				headers: {
-					Authorization: constants.davClassLibraryTestUserJWT
+					Authorization: constants.davClassLibraryTestUser.jwt
 				}
 			});
 		}catch(error){
