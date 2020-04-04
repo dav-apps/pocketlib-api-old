@@ -444,6 +444,7 @@ describe("CreateStoreBook endpoint", () => {
 		assert.equal(false, response.data.cover);
 		assert.equal(false, response.data.file);
 		assert.equal(false, response.data.in_library);
+		assert.equal(false, response.data.purchased);
 
 		// Check if the data was correctly saved in the database
 		// Get the collection
@@ -528,6 +529,7 @@ describe("CreateStoreBook endpoint", () => {
 		assert.equal(false, response.data.cover);
 		assert.equal(false, response.data.file);
 		assert.equal(false, response.data.in_library);
+		assert.equal(false, response.data.purchased);
 
 		// Check if the data was correctly saved in the database
 		// Get the author
