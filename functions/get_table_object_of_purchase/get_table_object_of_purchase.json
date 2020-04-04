@@ -1,6 +1,0 @@
-{
-	"type": "function",
-	"name": "get_table_object_of_purchase",
-	"params": ["purchase_id", "user_id", "table_id"],
-	"source": "./get_table_object_of_purchase.dx"
-}

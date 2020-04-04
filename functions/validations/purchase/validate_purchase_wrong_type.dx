@@ -1,4 +1,0 @@
-(# params: purchase: int)
-(if (purchase.class != "Integer") (
-	(hash (error (get_error 2215)) (status 400))
-))
