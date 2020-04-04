@@ -94,6 +94,7 @@ async function resetBooks(){
 
 	// Reset books
 	await resetKlausUserBooks();
+	await resetDavClassLibraryTestUserBooks();
 }
 
 async function resetCategories(){
@@ -1089,9 +1090,18 @@ async function resetKlausUserBooks(){
 		}
 	}
 
-	// Create each missing file of the test database
+	// Create each missing book of the test database
 	for(let book of testDatabaseBooks){
 		try{
+			let data = {
+				store_book: book.storeBook,
+				file: book.file
+			}
+
+			if(book.purchase){
+				data["purchase"] = book.purchase.toString();
+			}
+
 			await axios.default({
 				method: 'post',
 				url: `${constants.apiBaseUrl}/apps/object`,
@@ -1104,10 +1114,77 @@ async function resetKlausUserBooks(){
 					Authorization: constants.klausUser.jwt,
 					'Content-Type': 'application/json'
 				},
-				data: {
-					store_book: book.storeBook,
-					file: book.file
-				}
+				data
+			});
+		}catch(error){
+			console.log("Error in creating Book");
+			console.log(error.response.data);
+		}
+	}
+}
+
+async function resetDavClassLibraryTestUserBooks(){
+	// Get the book table
+	let books = [];
+	let testDatabaseBooks = [];
+
+	try{
+		let response = await axios.default({
+			method: 'get',
+			url: `${constants.apiBaseUrl}/apps/table/${constants.bookTableId}`,
+			headers: {
+				Authorization: constants.davClassLibraryTestUser.jwt
+			}
+		});
+
+		books = response.data.table_objects;
+	}catch(error){
+		console.log("Error in getting book table");
+		console.log(error.response.data);
+	}
+
+	// Get all books of the test database
+	for(let book of constants.davClassLibraryTestUser.books){
+		testDatabaseBooks.push(book);
+	}
+
+	// Delete each book that is not part of the test database
+	for(let book of books){
+		let i = testDatabaseBooks.findIndex(b => b.uuid == book.uuid);
+
+		if(i != -1){
+			testDatabaseBooks.splice(i, 1);
+		}else{
+			// Delete the book
+			await deleteTableObject(book.uuid, constants.davClassLibraryTestUser.jwt);
+		}
+	}
+
+	// Create each missing book of the test database
+	for(let book of testDatabaseBooks){
+		try{
+			let data = {
+				store_book: book.storeBook,
+				file: book.file
+			}
+
+			if(book.purchase){
+				data["purchase"] = book.purchase.toString();
+			}
+
+			await axios.default({
+				method: 'post',
+				url: `${constants.apiBaseUrl}/apps/object`,
+				params: {
+					uuid: book.uuid,
+					table_id: constants.bookTableId,
+					app_id: constants.pocketlibAppId
+				},
+				headers: {
+					Authorization: constants.davClassLibraryTestUser.jwt,
+					'Content-Type': 'application/json'
+				},
+				data
 			});
 		}catch(error){
 			console.log("Error in creating Book");

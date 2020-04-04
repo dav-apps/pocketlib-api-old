@@ -207,6 +207,7 @@ let constants = {
 							title: "A Series of Unfortunate Events - Book the Fourth",
 							description: "Dear Reader, I hope, for your sake, that you have not chosen to read this book because you are in the mood for a pleasant experience. If this is the case, I advise you to put this book down instantaneously, because of all the books describing the unhappy lives of the Baudelaire orphans, THE MISERABLE MILL might be the unhappiest yet.",
 							language: "en",
+							price: 3500,
 							status: "published",
 							cover: {
 								uuid: "33ddb7d6-03ff-430f-a526-e7ceeb43782d",
@@ -240,6 +241,7 @@ let constants = {
 							title: "A Series of Unfortunate Events - Book the Fifth",
 							description: "Dear Reader, if you are looking for a story about cheerful youngsters spending a jolly time at boarding school, look elsewhere. Violet, Klaus and Sunny Baudelaire are intelligent and resourceful children, and you might expect that they would do very well at school. Don't. For the Baudelaires, school turns out to be another miserable episode in their unlucky lives.",
 							language: "en",
+							price: 0,
 							status: "published",
 							cover: {
 								uuid: "fcd1ddb9-fab4-465e-ad8c-f5074e2d7fc3",
@@ -527,8 +529,26 @@ constants.purchases = [
 		completed: false
 	},
 	{
-		// AuthorUser purchased Childrens category
+		// davClassLibraryTestUser purchased A Series of Unfortunate Events 4 store book in English
 		id: 3,
+		userId: constants.davClassLibraryTestUser.id,
+		tableObjectUuid: "d0ca384f-9d8e-4a56-b2e1-c76a0a5cac4b",
+		price: 3500,
+		currency: "eur",
+		completed: true
+	},
+	{
+		// davClassLibraryTestUser purchased La Ferme des animaux
+		id: 4,
+		userId: constants.davClassLibraryTestUser.id,
+		tableObjectUuid: "ba96f327-f096-4408-8bd0-620f9aad3f09",
+		price: 0,
+		currency: "eur",
+		completed: true
+	},
+	{
+		// AuthorUser purchased Childrens category
+		id: 5,
 		userId: constants.authorUser.id,
 		tableObjectUuid: "0d29f1a8-e181-448c-81d1-5000b167cb16",
 		price: 10,
@@ -537,8 +557,26 @@ constants.purchases = [
 	},
 	{
 		// AuthorUser purchased Animal Farm in French
-		id: 4,
+		id: 6,
 		userId: constants.authorUser.id,
+		tableObjectUuid: "ba96f327-f096-4408-8bd0-620f9aad3f09",
+		price: 0,
+		currency: "eur",
+		completed: true
+	},
+	{
+		// Klaus purchased A Series of Unfortunate Events 4 store book in English
+		id: 7,
+		userId: constants.klausUser.id,
+		tableObjectUuid: "d0ca384f-9d8e-4a56-b2e1-c76a0a5cac4b",
+		price: 3500,
+		currency: "eur",
+		completed: true
+	},
+	{
+		// Klaus purchased La Ferme des animaux store book in French
+		id: 8,
+		userId: constants.klausUser.id,
 		tableObjectUuid: "ba96f327-f096-4408-8bd0-620f9aad3f09",
 		price: 0,
 		currency: "eur",
