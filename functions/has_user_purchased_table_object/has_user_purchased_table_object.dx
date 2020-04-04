@@ -1,0 +1,3 @@
+(# params: user_id: int, table_object_id: int or string)
+(var purchase (Purchase.find_by_user_and_table_object user_id table_object_id))
+(return (!(is_nil purchase)))
