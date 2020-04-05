@@ -1,13 +1,5 @@
 (# Get all categories)
-(var category_objects (func get_category_table_objects ()))
-(var categories (list))
-
-(for category in category_objects (
-	(# Get the names of the category)
-	(var names (func get_category_names_by_string (category.properties.names false)))
-
-	(categories.push (hash (uuid category.uuid) (key category.properties.key) (names names)))
-))
+(var categories (func get_all_categories ()))
 
 (# Render the result)
 (render_json (hash
