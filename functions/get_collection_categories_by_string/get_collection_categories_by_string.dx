@@ -1,0 +1,26 @@
+(# params: collection_categories_string: string, include_uuids: boolean)
+(var collection_categories (list))
+
+(if (!(is_nil collection_categories_string)) (
+	(# Get each category of the collection)
+	(var uuids (collection_categories_string.split ","))
+
+	(for uuid in uuids (
+		(var category (func get_table_object (uuid env.CATEGORY_TABLE_ID)))
+
+		(if (!(is_nil category)) (
+			(var category_hash (hash (key category.properties.key)))
+
+			(if include_uuids (
+				(var category_hash.uuid category.uuid)
+			))
+
+			(# Get the names of the category)
+			(var category_hash.names (func get_category_names_by_string (category.properties.names false)))
+
+			(collection_categories.push category_hash)
+		))
+	))
+))
+
+(return collection_categories)

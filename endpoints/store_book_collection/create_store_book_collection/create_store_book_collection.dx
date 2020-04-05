@@ -96,5 +96,6 @@
 	(uuid collection.uuid)
 	(author collection.properties.author)
 	(names (list (hash (name name) (language language))))
+	(categories (list))
 	(books (list))
 ) 201)

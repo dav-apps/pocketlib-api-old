@@ -38,6 +38,9 @@
 (# Get the names of the collection)
 (var names (func get_collection_names_by_string (collection.properties.names false)))
 
+(# Get the categories of the collection)
+(var categories (func get_collection_categories_by_string (collection.properties.categories false)))
+
 (# Check if the user can access not published books)
 (var can_access ((status == "published") or (
 	(is_admin or (author.user_id == decoded_jwt.user_id))
@@ -64,5 +67,6 @@
 	(uuid collection.uuid)
 	(author collection.properties.author)
 	(names names)
+	(categories categories)
 	(books store_books)
 ))
