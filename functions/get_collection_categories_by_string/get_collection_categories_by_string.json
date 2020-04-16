@@ -1,6 +1,0 @@
-{
-	"type": "function",
-	"name": "get_collection_categories_by_string",
-	"params": ["collection_categories_string", "include_uuids"],
-	"source": "./get_collection_categories_by_string.dx"
-}
