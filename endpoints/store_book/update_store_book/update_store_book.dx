@@ -155,9 +155,13 @@
 	))
 ))
 
-(# Return the store book)
+(# Get the status)
 (var status (if (is_nil store_book.properties.status) "unpublished" else store_book.properties.status))
 
+(# Get the categories)
+(var categories (func get_category_keys_by_string (store_book.properties.categories)))
+
+(# Return the store book)
 (render_json (hash 
 	(uuid store_book.uuid)
 	(collection store_book.properties.collection)
@@ -168,6 +172,7 @@
 	(status status)
 	(cover (!(is_nil store_book.properties.cover)))
 	(file (!(is_nil store_book.properties.file)))
+	(categories categories)
 	(in_library (func is_store_book_in_user_library (decoded_jwt.user_id store_book.uuid)))
 	(purchased (func has_user_purchased_table_object (decoded_jwt.user_id store_book.id)))
 ) 200)

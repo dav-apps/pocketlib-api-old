@@ -145,23 +145,6 @@ describe("GetStoreBookCollection endpoint", async () => {
 			assert.equal(collectionName.language, responseCollectionName.language);
 		}
 
-		assert.equal(collection.categories.length, response.data.categories.length);
-
-		for(let category of response.data.categories){
-			let i = constants.categories.findIndex(c => c.key == category.key);
-			assert(i != -1);
-
-			let constantsCategory = constants.categories[i];
-
-			assert.equal(constantsCategory.key, category.key);
-			assert.equal(constantsCategory.names.length, category.names.length);
-
-			for(let j = 0; j < constantsCategory.names.length; j++){
-				assert.equal(constantsCategory.names[j].name, category.names[j].name);
-				assert.equal(constantsCategory.names[j].language, category.names[j].language);
-			}
-		}
-
 		assert.equal(collection.books.length, response.data.books.length);
 
 		for(let i = 0; i < collection.books.length; i++){
@@ -210,23 +193,6 @@ describe("GetStoreBookCollection endpoint", async () => {
 
 			assert.equal(collectionName.name, responseCollectionName.name);
 			assert.equal(collectionName.language, responseCollectionName.language);
-		}
-
-		assert.equal(collection.categories.length, response.data.categories.length);
-
-		for(let category of response.data.categories){
-			let i = constants.categories.findIndex(c => c.key == category.key);
-			assert(i != -1);
-
-			let constantsCategory = constants.categories[i];
-
-			assert.equal(constantsCategory.key, category.key);
-			assert.equal(constantsCategory.names.length, category.names.length);
-
-			for(let j = 0; j < constantsCategory.names.length; j++){
-				assert.equal(constantsCategory.names[j].name, category.names[j].name);
-				assert.equal(constantsCategory.names[j].language, category.names[j].language);
-			}
 		}
 
 		let booksCount = 0;

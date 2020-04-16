@@ -413,7 +413,6 @@ describe("CreateStoreBookCollection endpoint", () => {
 		assert.equal(1, response.data.names.length);
 		assert.equal(name, response.data.names[0].name);
 		assert.equal(language, response.data.names[0].language);
-		assert.equal(0, response.data.categories.length);
 		assert.equal(0, response.data.books.length);
 
 		// Check if the data was correctly saved on the server
@@ -510,7 +509,6 @@ describe("CreateStoreBookCollection endpoint", () => {
 		assert.equal(1, response.data.names.length);
 		assert.equal(name, response.data.names[0].name);
 		assert.equal(language, response.data.names[0].language);
-		assert.equal(0, response.data.categories.length);
 		assert.equal(0, response.data.books.length);
 
 		// Check if the data was correctly saved on the server

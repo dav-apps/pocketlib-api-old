@@ -798,6 +798,17 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal("review", response.data.status);
 		assert.equal(true, response.data.cover);
 		assert.equal(true, response.data.file);
+
+		if (storeBook.categories) {
+			assert.equal(storeBook.categories.length, response.data.categories.length);
+
+			for (let key of response.data.categories) {
+				assert(constants.categories.find(c => c.key == key) != null);
+			}
+		} else {
+			assert.equal(0, response.data.categories.length);
+		}
+
 		assert.equal(false, response.data.in_library);
 		assert.equal(false, response.data.purchased);
 
@@ -857,6 +868,17 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal("published", response.data.status);
 		assert.equal(storeBook.cover != null, response.data.cover);
 		assert.equal(storeBook.file != null, response.data.file);
+
+		if (storeBook.categories) {
+			assert.equal(storeBook.categories.length, response.data.categories.length);
+
+			for (let key of response.data.categories) {
+				assert(constants.categories.find(c => c.key == key) != null);
+			}
+		} else {
+			assert.equal(0, response.data.categories.length);
+		}
+
 		assert.equal(false, response.data.in_library);
 		assert.equal(false, response.data.purchased);
 
@@ -914,6 +936,17 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal("hidden", response.data.status);
 		assert.equal(storeBook.cover != null, response.data.cover);
 		assert.equal(storeBook.file != null, response.data.file);
+
+		if (storeBook.categories) {
+			assert.equal(storeBook.categories.length, response.data.categories.length);
+
+			for (let key of response.data.categories) {
+				assert(constants.categories.find(c => c.key == key) != null);
+			}
+		} else {
+			assert.equal(0, response.data.categories.length);
+		}
+
 		assert.equal(false, response.data.in_library);
 		assert.equal(false, response.data.purchased);
 
@@ -1134,6 +1167,17 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal("review", response.data.status);
 		assert.equal(true, response.data.cover);
 		assert.equal(true, response.data.file);
+
+		if (storeBook.categories) {
+			assert.equal(storeBook.categories.length, response.data.categories.length);
+
+			for (let key of response.data.categories) {
+				assert(constants.categories.find(c => c.key == key) != null);
+			}
+		} else {
+			assert.equal(0, response.data.categories.length);
+		}
+
 		assert.equal(false, response.data.in_library);
 		assert.equal(false, response.data.purchased);
 
@@ -1193,6 +1237,17 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal("published", response.data.status);
 		assert.equal(storeBook.cover != null, response.data.cover);
 		assert.equal(storeBook.file != null, response.data.file);
+
+		if (storeBook.categories) {
+			assert.equal(storeBook.categories.length, response.data.categories.length);
+
+			for (let key of response.data.categories) {
+				assert(constants.categories.find(c => c.key == key) != null);
+			}
+		} else {
+			assert.equal(0, response.data.categories.length);
+		}
+
 		assert.equal(false, response.data.in_library);
 		assert.equal(false, response.data.purchased);
 
@@ -1250,6 +1305,17 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal("hidden", response.data.status);
 		assert.equal(true, response.data.cover);
 		assert.equal(true, response.data.file);
+
+		if (storeBook.categories) {
+			assert.equal(storeBook.categories.length, response.data.categories.length);
+
+			for (let key of response.data.categories) {
+				assert(constants.categories.find(c => c.key == key) != null);
+			}
+		} else {
+			assert.equal(0, response.data.categories.length);
+		}
+
 		assert.equal(false, response.data.in_library);
 		assert.equal(false, response.data.purchased);
 
@@ -1308,6 +1374,17 @@ async function testShouldUpdateTitleOfStoreBook(collection, storeBook, jwt, owne
 	assert.equal(storeBook.status || "unpublished", response.data.status);
 	assert.equal(storeBook.cover != null, response.data.cover);
 	assert.equal(storeBook.file != null, response.data.file);
+
+	if (storeBook.categories) {
+		assert.equal(storeBook.categories.length, response.data.categories.length);
+
+		for (let key of response.data.categories) {
+			assert(constants.categories.find(c => c.key == key) != null);
+		}
+	} else {
+		assert.equal(0, response.data.categories.length);
+	}
+
 	assert.equal(false, response.data.in_library);
 	assert.equal(false, response.data.purchased);
 
@@ -1365,6 +1442,17 @@ async function testShouldUpdateDescriptionOfStoreBook(collection, storeBook, jwt
 	assert.equal(storeBook.status || "unpublished", response.data.status);
 	assert.equal(storeBook.cover != null, response.data.cover);
 	assert.equal(storeBook.file != null, response.data.file);
+
+	if (storeBook.categories) {
+		assert.equal(storeBook.categories.length, response.data.categories.length);
+
+		for (let key of response.data.categories) {
+			assert(constants.categories.find(c => c.key == key) != null);
+		}
+	} else {
+		assert.equal(0, response.data.categories.length);
+	}
+
 	assert.equal(false, response.data.in_library);
 	assert.equal(false, response.data.purchased);
 
@@ -1422,6 +1510,17 @@ async function testShouldUpdateLanguageOfStoreBook(collection, storeBook, jwt, o
 	assert.equal(storeBook.status || "unpublished", response.data.status);
 	assert.equal(storeBook.cover != null, response.data.cover);
 	assert.equal(storeBook.file != null, response.data.file);
+
+	if (storeBook.categories) {
+		assert.equal(storeBook.categories.length, response.data.categories.length);
+
+		for (let key of response.data.categories) {
+			assert(constants.categories.find(c => c.key == key) != null);
+		}
+	} else {
+		assert.equal(0, response.data.categories.length);
+	}
+
 	assert.equal(false, response.data.in_library);
 	assert.equal(false, response.data.purchased);
 
@@ -1504,6 +1603,17 @@ async function testShouldUpdatePriceOfStoreBook(collection, storeBook, jwt, owne
 	assert.equal(storeBook.status || "unpublished", response.data.status);
 	assert.equal(storeBook.cover != null, response.data.cover);
 	assert.equal(storeBook.file != null, response.data.file);
+
+	if (storeBook.categories) {
+		assert.equal(storeBook.categories.length, response.data.categories.length);
+
+		for (let key of response.data.categories) {
+			assert(constants.categories.find(c => c.key == key) != null);
+		}
+	} else {
+		assert.equal(0, response.data.categories.length);
+	}
+
 	assert.equal(false, response.data.in_library);
 	assert.equal(false, response.data.purchased);
 
@@ -1586,6 +1696,17 @@ async function testShouldUpdateStatusOfStoreBook(collection, storeBook, jwt, own
 	assert.equal(status, response.data.status);
 	assert.equal(storeBook.cover != null, response.data.cover);
 	assert.equal(storeBook.file != null, response.data.file);
+
+	if (storeBook.categories) {
+		assert.equal(storeBook.categories.length, response.data.categories.length);
+
+		for (let key of response.data.categories) {
+			assert(constants.categories.find(c => c.key == key) != null);
+		}
+	} else {
+		assert.equal(0, response.data.categories.length);
+	}
+
 	assert.equal(false, response.data.in_library);
 	assert.equal(false, response.data.purchased);
 
