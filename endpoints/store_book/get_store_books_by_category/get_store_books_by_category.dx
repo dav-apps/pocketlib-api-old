@@ -16,18 +16,26 @@
 
 (var category categories#0)
 
-(# Find StoreBookCollections with the category)
-(var collections (TableObject.find_by_property * env.STORE_BOOK_COLLECTION_TABLE_ID "categories" category.uuid false))
+(# Find StoreBooks with the category)
+(var store_books (TableObject.find_by_property * env.STORE_BOOK_TABLE_ID "categories" category.uuid false))
 
-(# Get the store books of the categories)
+(# Get the appropriate store books)
 (var books (list))
 
-(for collection in collections (
-	(# Get the store books of the collection)
-	(var collection_books (func get_store_books_by_string (collection.properties.books)))
-	(for book in collection_books (
-		(if ((book.language == language) and (book.status == "published")) (
-			(books.push book)
+(for store_book in store_books (
+	(if ((store_book.properties.language == language) and (store_book.properties.status == "published")) (
+		(# Get the categories)
+		(var categories (func get_category_keys_by_string (store_book.properties.categories)))
+
+		(books.push (hash
+			(uuid store_book.uuid)
+			(title store_book.properties.title)
+			(description store_book.properties.description)
+			(language store_book.properties.language)
+			(status store_book.properties.status)
+			(cover (!(is_nil store_book.properties.cover)))
+			(file (!(is_nil store_book.properties.file)))
+			(categories categories)
 		))
 	))
 ))

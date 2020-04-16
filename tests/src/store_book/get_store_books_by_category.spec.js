@@ -56,10 +56,13 @@ describe("GetStoreBooksByCategory endpoint", () => {
 		// Find all store books with the category and language = en
 		let storeBooks = [];
 		for(let collection of constants.authorUser.author.collections){
-			if(!collection.categories.includes(category.uuid)) continue;
-
 			for(let storeBook of collection.books){
-				if(storeBook.language == "en" && storeBook.status == "published"){
+				if (
+					storeBook.language == "en" &&
+					storeBook.status == "published" &&
+					storeBook.categories &&
+					storeBook.categories.includes(category.uuid)
+				) {
 					storeBooks.push(storeBook);
 				}
 			}
@@ -69,14 +72,25 @@ describe("GetStoreBooksByCategory endpoint", () => {
 		assert.equal(storeBooks.length, response.data.books.length);
 
 		let i = 0;
-		for(let book of response.data.books){
-			assert.equal(storeBooks[i].uuid, book.uuid);
-			assert.equal(storeBooks[i].title, book.title);
-			assert.equal(storeBooks[i].description, book.description);
-			assert.equal(storeBooks[i].language, book.language);
-			assert.equal(storeBooks[i].status, book.status);
-			assert.equal(storeBooks[i].cover != null, book.cover);
-			assert.equal(storeBooks[i].file != null, book.file);
+		for (let book of response.data.books) {
+			let storeBook = storeBooks[i];
+			assert.equal(storeBook.uuid, book.uuid);
+			assert.equal(storeBook.title, book.title);
+			assert.equal(storeBook.description, book.description);
+			assert.equal(storeBook.language, book.language);
+			assert.equal(storeBook.status, book.status);
+			assert.equal(storeBook.cover != null, book.cover);
+			assert.equal(storeBook.file != null, book.file);
+
+			if (storeBook.categories) {
+				assert.equal(storeBook.categories.length, book.categories.length);
+
+				for (let key of book.categories) {
+					assert(constants.categories.find(c => c.key == key) != null);
+				}
+			} else {
+				assert.equal(0, book.categories.length);
+			}
 
 			i++;
 		}
@@ -102,10 +116,13 @@ describe("GetStoreBooksByCategory endpoint", () => {
 		// Find all store books with the category and the language
 		let storeBooks = [];
 		for(let collection of constants.authorUser.author.collections){
-			if(!collection.categories.includes(category.uuid)) continue;
-
 			for(let storeBook of collection.books){
-				if(storeBook.language == language && storeBook.status == "published"){
+				if (
+					storeBook.language == language &&
+					storeBook.status == "published" &&
+					storeBook.categories &&
+					storeBook.categories.includes(category.uuid)
+				) {
 					storeBooks.push(storeBook);
 				}
 			}
@@ -115,14 +132,25 @@ describe("GetStoreBooksByCategory endpoint", () => {
 		assert.equal(storeBooks.length, response.data.books.length);
 
 		let i = 0;
-		for(let book of response.data.books){
-			assert.equal(storeBooks[i].uuid, book.uuid);
-			assert.equal(storeBooks[i].title, book.title);
-			assert.equal(storeBooks[i].description, book.description);
-			assert.equal(storeBooks[i].language, book.language);
-			assert.equal(storeBooks[i].status, book.status);
-			assert.equal(storeBooks[i].cover != null, book.cover);
-			assert.equal(storeBooks[i].file != null, book.file);
+		for (let book of response.data.books) {
+			let storeBook = storeBooks[i];
+			assert.equal(storeBook.uuid, book.uuid);
+			assert.equal(storeBook.title, book.title);
+			assert.equal(storeBook.description, book.description);
+			assert.equal(storeBook.language, book.language);
+			assert.equal(storeBook.status, book.status);
+			assert.equal(storeBook.cover != null, book.cover);
+			assert.equal(storeBook.file != null, book.file);
+
+			if (storeBook.categories) {
+				assert.equal(storeBook.categories.length, book.categories.length);
+
+				for (let key of book.categories) {
+					assert(constants.categories.find(c => c.key == key) != null);
+				}
+			} else {
+				assert.equal(0, book.categories.length);
+			}
 
 			i++;
 		}
