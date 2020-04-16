@@ -4,6 +4,7 @@
 (var title json.title)
 (var description json.description)
 (var language json.language)
+(var price json.price)
 
 (# Get the jwt)
 (var jwt (get_header Authorization))
@@ -37,6 +38,7 @@
 	(func validate_title_wrong_type (title))
 	(if (!(is_nil description)) (func validate_description_wrong_type (description)))
 	(func validate_language_wrong_type (language))
+	(if (!(is_nil price)) (func validate_price_wrong_type (price)))
 )))
 
 (# Validate the property length)
@@ -50,6 +52,13 @@
 (func render_validation_errors ((list
 	(func validate_language_supported (language))
 )))
+
+(if (!(is_nil price)) (
+	(# Validate the price)
+	(func render_validation_errors ((list
+		(func validate_price_invalid (price))
+	)))
+))
 
 (# Get the author of the user)
 (var authors (func get_author_table_objects (decoded_jwt.user_id)))
@@ -75,9 +84,18 @@
 ))
 
 (# Create the store book)
-(var store_book_properties (hash (collection collection_obj.uuid) (title title) (language language)))
+(var store_book_properties (hash
+	(collection collection_obj.uuid)
+	(title title)
+	(language language)
+))
+
 (if (!(is_nil description)) (
 	(var store_book_properties.description description)
+))
+
+(if (!(is_nil price)) (
+	(var store_book_properties.price price)
 ))
 
 (var store_book (func create_table_object (decoded_jwt.user_id env.STORE_BOOK_TABLE_ID store_book_properties)))
@@ -92,7 +110,7 @@
 	(title store_book.properties.title)
 	(description store_book.properties.description)
 	(language store_book.properties.language)
-	(price 0)
+	(price (if (is_nil price) 0 else store_book.properties.price))
 	(status "unpublished")
 	(cover false)
 	(file false)

@@ -82,10 +82,12 @@
 	)))
 ))
 
-(# Validate the price)
-(func render_validation_errors ((list
-	(if (!(is_nil price)) (func validate_price_invalid (price)))
-)))
+(if (!(is_nil price)) (
+	(# Validate the price)
+	(func render_validation_errors ((list
+		(func validate_price_invalid (price))
+	)))
+))
 
 (if ((!(is_nil status)) and is_admin) (
 	(# Validate the status)

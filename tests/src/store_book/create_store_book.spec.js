@@ -157,16 +157,18 @@ describe("CreateStoreBook endpoint", () => {
 					collection: 12.23,
 					title: 12,
 					description: true,
-					language: false
+					language: false,
+					price: "123"
 				}
 			});
 		}catch(error){
 			assert.equal(400, error.response.status);
-			assert.equal(4, error.response.data.errors.length);
+			assert.equal(5, error.response.data.errors.length);
 			assert.equal(2210, error.response.data.errors[0].code);
 			assert.equal(2204, error.response.data.errors[1].code);
 			assert.equal(2205, error.response.data.errors[2].code);
 			assert.equal(2206, error.response.data.errors[3].code);
+			assert.equal(2211, error.response.data.errors[4].code);
 			return;
 		}
 
@@ -300,6 +302,32 @@ describe("CreateStoreBook endpoint", () => {
 			assert.equal(400, error.response.status);
 			assert.equal(1, error.response.data.errors.length);
 			assert.equal(1107, error.response.data.errors[0].code);
+			return;
+		}
+
+		assert.fail();
+	});
+
+	it("should not create store book with invalid price", async () => {
+		try {
+			await axios.default({
+				method: 'post',
+				url: createStoreBookEndpointUrl,
+				headers: {
+					Authorization: constants.authorUser.jwt,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					collection: constants.authorUser.author.collections[0].uuid,
+					title: "Hello World",
+					language: "en",
+					price: -123
+				}
+			});
+		} catch (error) {
+			assert.equal(400, error.response.status);
+			assert.equal(1, error.response.data.errors.length);
+			assert.equal(2501, error.response.data.errors[0].code);
 			return;
 		}
 
@@ -496,6 +524,7 @@ describe("CreateStoreBook endpoint", () => {
 		let title = "Hello World";
 		let description = "Hello World";
 		let language = "en";
+		let price = 444;
 		let response;
 
 		// Create the store book
@@ -511,7 +540,8 @@ describe("CreateStoreBook endpoint", () => {
 					collection: collection.uuid,
 					title,
 					description,
-					language
+					language,
+					price
 				}
 			});
 		}catch(error){
@@ -524,7 +554,7 @@ describe("CreateStoreBook endpoint", () => {
 		assert.equal(title, response.data.title);
 		assert.equal(description, response.data.description);
 		assert.equal(language, response.data.language);
-		assert.equal(0, response.data.price);
+		assert.equal(price, response.data.price);
 		assert.equal("unpublished", response.data.status);
 		assert.equal(false, response.data.cover);
 		assert.equal(false, response.data.file);
@@ -571,6 +601,7 @@ describe("CreateStoreBook endpoint", () => {
 		assert.equal(title, storeBookObjResponse.data.properties.title);
 		assert.equal(description, storeBookObjResponse.data.properties.description);
 		assert.equal(language, storeBookObjResponse.data.properties.language);
+		assert.equal(price.toString(), storeBookObjResponse.data.properties.price);
 
 		// Tidy up
 		resetStoreBooksAndCollections = true;
