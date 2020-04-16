@@ -56,6 +56,9 @@
 	(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
 ))
 
+(# Get the categories)
+(var categories (func get_category_keys_by_string (store_book.properties.categories)))
+
 (# Return the store book)
 (render_json 
 	(hash 
@@ -68,6 +71,7 @@
 		(status status)
 		(cover (!(is_nil store_book.properties.cover)))
 		(file (!(is_nil store_book.properties.file)))
+		(categories categories)
 		(in_library (func is_store_book_in_user_library (decoded_jwt.user_id store_book.uuid)))
 		(purchased (func has_user_purchased_table_object (decoded_jwt.user_id store_book.id)))
 	) 

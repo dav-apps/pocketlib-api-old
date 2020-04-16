@@ -1,0 +1,6 @@
+{
+	"type": "function",
+	"name": "get_category_keys_by_string",
+	"params": ["categories_string"],
+	"source": "./get_category_keys_by_string.dx"
+}

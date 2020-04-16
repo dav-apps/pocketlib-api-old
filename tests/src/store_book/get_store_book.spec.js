@@ -1,7 +1,6 @@
 var assert = require('assert');
 var axios = require('axios');
 var constants = require("../constants");
-var utils = require('../utils');
 
 const getStoreBookEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/book/{0}`;
 
@@ -90,6 +89,17 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal("unpublished", response.data.status);
 		assert.equal(storeBook.cover != null, response.data.cover);
 		assert.equal(storeBook.file != null, response.data.file);
+		
+		if (storeBook.categories) {
+			assert.equal(storeBook.categories.length, response.data.categories.length);
+
+			for (let key of response.data.categories) {
+				assert(constants.categories.find(c => c.key == key) != null);
+			}
+		} else {
+			assert.equal(0, response.data.categories.length);
+		}
+
 		assert.equal(false, response.data.in_library);
 		assert.equal(false, response.data.purchased);
 	});
@@ -121,6 +131,17 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal("unpublished", response.data.status);
 		assert.equal(storeBook.cover != null, response.data.cover);
 		assert.equal(storeBook.file != null, response.data.file);
+
+		if (storeBook.categories) {
+			assert.equal(storeBook.categories.length, response.data.categories.length);
+
+			for (let key of response.data.categories) {
+				assert(constants.categories.find(c => c.key == key) != null);
+			}
+		} else {
+			assert.equal(0, response.data.categories.length);
+		}
+
 		assert.equal(false, response.data.in_library);
 		assert.equal(false, response.data.purchased);
 	});
@@ -193,6 +214,17 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal("review", response.data.status);
 		assert.equal(storeBook.cover != null, response.data.cover);
 		assert.equal(storeBook.file != null, response.data.file);
+
+		if (storeBook.categories) {
+			assert.equal(storeBook.categories.length, response.data.categories.length);
+
+			for (let key of response.data.categories) {
+				assert(constants.categories.find(c => c.key == key) != null);
+			}
+		} else {
+			assert.equal(0, response.data.categories.length);
+		}
+
 		assert.equal(false, response.data.in_library);
 		assert.equal(false, response.data.purchased);
 	});
@@ -224,6 +256,17 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal("review", response.data.status);
 		assert.equal(storeBook.cover != null, response.data.cover);
 		assert.equal(storeBook.file != null, response.data.file);
+
+		if (storeBook.categories) {
+			assert.equal(storeBook.categories.length, response.data.categories.length);
+
+			for (let key of response.data.categories) {
+				assert(constants.categories.find(c => c.key == key) != null);
+			}
+		} else {
+			assert.equal(0, response.data.categories.length);
+		}
+
 		assert.equal(false, response.data.in_library);
 		assert.equal(false, response.data.purchased);
 	});
@@ -296,6 +339,17 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal("published", response.data.status);
 		assert.equal(storeBook.cover != null, response.data.cover);
 		assert.equal(storeBook.file != null, response.data.file);
+
+		if (storeBook.categories) {
+			assert.equal(storeBook.categories.length, response.data.categories.length);
+
+			for (let key of response.data.categories) {
+				assert(constants.categories.find(c => c.key == key) != null);
+			}
+		} else {
+			assert.equal(0, response.data.categories.length);
+		}
+
 		assert.equal(false, response.data.in_library);
 		assert.equal(false, response.data.purchased);
 	});
@@ -327,6 +381,17 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal("published", response.data.status);
 		assert.equal(storeBook.cover != null, response.data.cover);
 		assert.equal(storeBook.file != null, response.data.file);
+
+		if (storeBook.categories) {
+			assert.equal(storeBook.categories.length, response.data.categories.length);
+
+			for (let key of response.data.categories) {
+				assert(constants.categories.find(c => c.key == key) != null);
+			}
+		} else {
+			assert.equal(0, response.data.categories.length);
+		}
+
 		assert.equal(false, response.data.in_library);
 		assert.equal(false, response.data.purchased);
 	});
@@ -358,6 +423,17 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal("published", response.data.status);
 		assert.equal(storeBook.cover != null, response.data.cover);
 		assert.equal(storeBook.file != null, response.data.file);
+
+		if (storeBook.categories) {
+			assert.equal(storeBook.categories.length, response.data.categories.length);
+
+			for (let key of response.data.categories) {
+				assert(constants.categories.find(c => c.key == key) != null);
+			}
+		} else {
+			assert.equal(0, response.data.categories.length);
+		}
+
 		assert.equal(false, response.data.in_library);
 		assert.equal(false, response.data.purchased);
 	});
@@ -386,6 +462,17 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal("published", response.data.status);
 		assert.equal(storeBook.cover != null, response.data.cover);
 		assert.equal(storeBook.file != null, response.data.file);
+
+		if (storeBook.categories) {
+			assert.equal(storeBook.categories.length, response.data.categories.length);
+
+			for (let key of response.data.categories) {
+				assert(constants.categories.find(c => c.key == key) != null);
+			}
+		} else {
+			assert.equal(0, response.data.categories.length);
+		}
+
 		assert.equal(false, response.data.in_library);
 		assert.equal(false, response.data.purchased);
 	});
@@ -417,6 +504,17 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal("hidden", response.data.status);
 		assert.equal(storeBook.cover != null, response.data.cover);
 		assert.equal(storeBook.file != null, response.data.file);
+
+		if (storeBook.categories) {
+			assert.equal(storeBook.categories.length, response.data.categories.length);
+
+			for (let key of response.data.categories) {
+				assert(constants.categories.find(c => c.key == key) != null);
+			}
+		} else {
+			assert.equal(0, response.data.categories.length);
+		}
+
 		assert.equal(false, response.data.in_library);
 		assert.equal(false, response.data.purchased);
 	});
@@ -448,6 +546,17 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal("hidden", response.data.status);
 		assert.equal(storeBook.cover != null, response.data.cover);
 		assert.equal(storeBook.file != null, response.data.file);
+
+		if (storeBook.categories) {
+			assert.equal(storeBook.categories.length, response.data.categories.length);
+
+			for (let key of response.data.categories) {
+				assert(constants.categories.find(c => c.key == key) != null);
+			}
+		} else {
+			assert.equal(0, response.data.categories.length);
+		}
+
 		assert.equal(false, response.data.in_library);
 		assert.equal(false, response.data.purchased);
 	});

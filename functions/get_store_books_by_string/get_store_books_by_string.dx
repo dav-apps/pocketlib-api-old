@@ -9,8 +9,11 @@
 		(var store_book (func get_table_object (uuid env.STORE_BOOK_TABLE_ID)))
 
 		(if (!(is_nil store_book)) (
-			(# Get the status of the store book)
+			(# Get the status)
 			(var status (if (is_nil store_book.properties.status) "unpublished" else store_book.properties.status))
+
+			(# Get the categories)
+			(var categories (func get_category_keys_by_string (store_book.properties.categories)))
 
 			(store_books.push (hash 
 				(uuid store_book.uuid)
@@ -20,6 +23,7 @@
 				(status status)
 				(cover (!(is_nil store_book.properties.cover)))
 				(file (!(is_nil store_book.properties.file)))
+				(categories categories)
 			))
 		))
 	))
