@@ -24,6 +24,9 @@
 (var books (list))
 
 (for book_object in book_objects (
+	(# Get the categories)
+	(var categories (func get_category_keys_by_string (store_book.properties.categories)))
+
 	(# Convert the table object to hash)
 	(var book (hash
 		(uuid book_object.uuid)
@@ -33,6 +36,7 @@
 		(status book_object.properties.status)
 		(cover (!(is_nil book_object.properties.cover)))
 		(file (!(is_nil book_object.properties.file)))
+		(categories categories)
 	))
 
 	(books.push book)
