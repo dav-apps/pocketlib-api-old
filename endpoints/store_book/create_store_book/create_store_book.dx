@@ -114,6 +114,7 @@
 	(status "unpublished")
 	(cover false)
 	(file false)
+	(categories (list))
 	(in_library false)
 	(purchased false)
 ) 201)
