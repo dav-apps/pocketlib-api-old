@@ -14,6 +14,9 @@
 (for book_object in book_objects (
 	(# Check if the store book is published)
 	(if ((book_object.properties.status == "published") and (book_object.properties.language == language)) (
+		(# Get the category keys)
+		(var categories (func get_category_keys_by_string (book_object.properties.categories)))
+
 		(# Convert the table object to hash)
 		(var book (hash
 			(uuid book_object.uuid)
@@ -23,6 +26,7 @@
 			(status book_object.properties.status)
 			(cover (!(is_nil book_object.properties.cover)))
 			(file (!(is_nil book_object.properties.file)))
+			(categories categories)
 		))
 
 		(books.push book)
