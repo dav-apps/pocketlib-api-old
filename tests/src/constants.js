@@ -50,10 +50,6 @@ let constants = {
 							language: "de"
 						}
 					],
-					categories: [
-						"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
-						"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
-					],
 					books: [
 						{
 							uuid: "1cf6fc5f-8fa5-4972-895d-8b1d6552d41c",
@@ -71,7 +67,11 @@ let constants = {
 								uuid: "b7cf0cee-fe8d-4f08-8b6e-d391065f1abb",
 								ext: "pdf",
 								type: "application/pdf"
-							}
+							},
+							categories: [
+								"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
+								"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
+							]
 						},
 						{
 							uuid: "4df158a0-2157-4370-abac-dd3c25ca9ed3",
@@ -88,7 +88,11 @@ let constants = {
 								uuid: "8f219b89-eb25-4c55-b1a4-467e36bfa081",
 								ext: "epub",
 								type: "application/zip+epub"
-							}
+							},
+							categories: [
+								"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
+								"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
+							]
 						}
 					]
 				},
@@ -106,10 +110,6 @@ let constants = {
 							language: "de"
 						}
 					],
-					categories: [
-						"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
-						"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
-					],
 					books: [
 						{
 							uuid: "5242102c-b107-4e82-8eb8-bebe2a990436",
@@ -126,7 +126,11 @@ let constants = {
 								uuid: "fb2745e4-f095-4237-97d5-660e41356790",
 								ext: "pdf",
 								type: "application/pdf"
-							}
+							},
+							categories: [
+								"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
+								"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
+							]
 						},
 						{
 							uuid: "617833c8-4d0a-4d78-acd0-306a90e346ba",
@@ -144,7 +148,11 @@ let constants = {
 								uuid: "d6f52b96-6bca-40ee-bb70-fb1347e1c8ba",
 								ext: "epub",
 								type: "application/zip+epub"
-							}
+							},
+							categories: [
+								"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
+								"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
+							]
 						}
 					]
 				},
@@ -156,10 +164,6 @@ let constants = {
 							name: "A Series of Unfortunate Events - Book the Third",
 							language: "en"
 						}
-					],
-					categories: [
-						"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
-						"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
 					],
 					books: [
 						{
@@ -184,7 +188,11 @@ let constants = {
 								uuid: "090cb584-c10e-4068-9346-81f134c3a5e3",
 								ext: "pdf",
 								type: "application/pdf"
-							}
+							},
+							categories: [
+								"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
+								"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
+							]
 						}
 					]
 				},
@@ -196,10 +204,6 @@ let constants = {
 							name: "A Series of Unfortunate Events - Book the Fourth",
 							language: "en"
 						}
-					],
-					categories: [
-						"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
-						"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
 					],
 					books: [
 						{
@@ -218,7 +222,11 @@ let constants = {
 								uuid: "4dd8c2cf-82a0-4887-95f1-68284679a026",
 								ext: "epub",
 								type: "application/zip+epub"
-							}
+							},
+							categories: [
+								"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
+								"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
+							]
 						}
 					]
 				},
@@ -230,10 +238,6 @@ let constants = {
 							name: "A Series of Unfortunate Events - Book the Fifth",
 							language: "en"
 						}
-					],
-					categories: [
-						"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
-						"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
 					],
 					books: [
 						{
@@ -252,7 +256,11 @@ let constants = {
 								uuid: "35e1418d-ff2f-4498-8a93-a0bf7b47ccce",
 								ext: "pdf",
 								type: "application/pdf"
-							}
+							},
+							categories: [
+								"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
+								"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
+							]
 						}
 					]
 				}
@@ -290,9 +298,6 @@ let constants = {
 								language: "en"
 							}
 						],
-						categories: [
-							"27c78f90-934e-41e3-8738-b20f6d76f0a9"		// Dystopia
-						],
 						books: [
 							{
 								uuid: "b0e4b01d-d53d-47b5-b5e4-48ea7bab6619",
@@ -310,7 +315,10 @@ let constants = {
 									uuid: "32adbdaa-0cbe-4672-80a6-19d4b8d6e943",
 									ext: "pdf",
 									type: "application/pdf"
-								}
+								},
+								categories: [
+									"27c78f90-934e-41e3-8738-b20f6d76f0a9"		// Dystopia
+								]
 							},
 							{
 								uuid: "5aa1c310-cbc6-48b4-9000-63315e713d25",
@@ -322,7 +330,10 @@ let constants = {
 									uuid: "050f7a0d-59a9-498a-9caa-8b418227e72b",
 									ext: "epub",
 									type: "application/zip+epub"
-								}
+								},
+								categories: [
+									"27c78f90-934e-41e3-8738-b20f6d76f0a9"		// Dystopia
+								]
 							},
 							{
 								uuid: "0c3d12b8-1398-4f4e-b912-2aa460671579",

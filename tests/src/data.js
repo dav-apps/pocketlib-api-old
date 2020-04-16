@@ -124,7 +124,6 @@ function addStoreBookCollectionToTableObjects(storeBookCollection, userId, autho
 		properties: {
 			author: authorUuid,
 			names: names.join(','),
-			categories: storeBookCollection.categories ? storeBookCollection.categories.join(',') : "",
 			books: books.join(',')
 		}
 	});
@@ -143,7 +142,7 @@ function addStoreBookCollectionNameToTableObjects(storeBookCollectionName, userI
 	});
 }
 
-function addStoreBookToTableObjects(storeBook, userId, collectionUuid){
+function addStoreBookToTableObjects(storeBook, userId, collectionUuid) {
 	tableObjects.push({
 		uuid: storeBook.uuid,
 		userId,
@@ -157,7 +156,8 @@ function addStoreBookToTableObjects(storeBook, userId, collectionUuid){
 			price: storeBook.price ? storeBook.price.toString() : "",
 			status: storeBook.status ? storeBook.status : "",
 			cover: storeBook.cover ? storeBook.cover.uuid : "",
-			file: storeBook.file ? storeBook.file.uuid : ""
+			file: storeBook.file ? storeBook.file.uuid : "",
+			categories: storeBook.categories ? storeBook.categories.join(',') : ""
 		}
 	});
 }
