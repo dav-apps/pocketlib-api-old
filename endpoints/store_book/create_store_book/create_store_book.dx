@@ -5,6 +5,7 @@
 (var description json.description)
 (var language json.language)
 (var price json.price)
+(var categories json.categories)
 
 (# Get the jwt)
 (var jwt (get_header Authorization))
@@ -32,13 +33,14 @@
 	(func validate_language_missing (language))
 )))
 
-(# Validate the property type)
+(# Validate the property types)
 (func render_validation_errors ((list
 	(func validate_collection_wrong_type (collection))
 	(func validate_title_wrong_type (title))
 	(if (!(is_nil description)) (func validate_description_wrong_type (description)))
 	(func validate_language_wrong_type (language))
 	(if (!(is_nil price)) (func validate_price_wrong_type (price)))
+	(if (!(is_nil categories)) (func validate_categories_wrong_type (categories)))
 )))
 
 (# Validate the property length)
@@ -98,6 +100,29 @@
 	(var store_book_properties.price price)
 ))
 
+(var category_keys (list))
+(if (!(is_nil categories)) (
+	(# Get the uuids of the categories)
+	(var category_objects (func get_category_table_objects ()))
+	(var category_uuids (list))
+
+	(for key in categories (
+		(# Check if the key is already in the category_keys list)
+		(if (category_keys.contains key) (break))
+
+		(# Find the category with the key)
+		(for obj in category_objects (
+			(if (obj.properties.key == key) (
+				(category_uuids.push obj.uuid)
+				(category_keys.push key)
+				(break)
+			))
+		))
+	))
+
+	(var store_book_properties.categories (category_uuids.join ","))
+))
+
 (var store_book (func create_table_object (decoded_jwt.user_id env.STORE_BOOK_TABLE_ID store_book_properties)))
 
 (# Update the collection with the book)
@@ -114,7 +139,7 @@
 	(status "unpublished")
 	(cover false)
 	(file false)
-	(categories (list))
+	(categories category_keys)
 	(in_library false)
 	(purchased false)
 ) 201)

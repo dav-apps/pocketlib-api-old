@@ -1,0 +1,18 @@
+(# params: categories: Array<string>)
+(# Check if the categories is an Array with strings)
+(if (
+	(categories.class != "Array") or 
+	(
+		(var contains_wrong_type false)
+		(for entry in categories (
+			(if (entry.class != "String") (
+				(var contains_wrong_type true)
+				(break)
+			))
+		))
+		
+		(return contains_wrong_type)
+	)
+) (
+	(hash (error (get_error 2215)) (status 400))
+))
