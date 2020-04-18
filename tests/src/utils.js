@@ -451,7 +451,6 @@ async function resetAuthorUserStoreBookCollections(){
 				data: {
 					author: constants.authorUser.author.uuid,
 					names: names.join(','),
-					categories: collection.categories ? collection.categories.join(',') : "",
 					books: books.join(',')
 				}
 			});
@@ -514,7 +513,6 @@ async function resetDavUserStoreBookCollections(){
 					data: {
 						author: author.uuid,
 						names: names.join(','),
-						categories: collection.categories ? collection.categories.join(',') : "",
 						books: books.join(',')
 					}
 				});
@@ -691,7 +689,8 @@ async function resetAuthorUserStoreBooks(){
 						price: book.price ? book.price.toString() : "",
 						status: book.status,
 						cover: book.cover ? book.cover.uuid : "",
-						file: book.file ? book.file.uuid : ""
+						file: book.file ? book.file.uuid : "",
+						categories: book.categories ? book.categories.join(',') : ""
 					}
 				});
 			}catch(error){
@@ -754,7 +753,8 @@ async function resetDavUserStoreBooks(){
 							price: book.price ? book.price.toString() : "",
 							status: book.status || "",
 							cover: book.cover ? book.cover.uuid : "",
-							file: book.file ? book.file.uuid : ""
+							file: book.file ? book.file.uuid : "",
+							categories: book.categories ? book.categories.join(',') : ""
 						}
 					});
 				}catch(error){
