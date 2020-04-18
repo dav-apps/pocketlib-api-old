@@ -6,6 +6,7 @@
 (var price json.price)
 (var published json.published)
 (var status json.status)
+(var categories json.categories)
 
 (# Get the jwt)
 (var jwt (get_header Authorization))
@@ -67,6 +68,7 @@
 	(if (!(is_nil price)) (func validate_price_wrong_type (price)))
 	(if (!(is_nil published)) (func validate_published_wrong_type (published)))
 	(if ((!(is_nil status)) and is_admin) (func validate_status_wrong_type (status)))
+	(if (!(is_nil categories)) (func validate_categories_wrong_type (categories)))
 )))
 
 (# Validate the property length)
@@ -107,14 +109,14 @@
 	))
 ))
 
-(# Set the values)
+(# Update the values)
 (if (!(is_nil title)) (var store_book.properties.title title))
 (if (!(is_nil description)) (var store_book.properties.description description))
 (if (!(is_nil language)) (var store_book.properties.language language))
 (if (!(is_nil price)) (var store_book.properties.price price))
 
 (if ((!(is_nil status)) and is_admin) (
-	(# Set the status)
+	(# Update the status)
 	(var store_book.properties.status status)
 
 	(if (status == "published") (
@@ -155,11 +157,36 @@
 	))
 ))
 
+(# Update the categories)
+(if (!(is_nil categories)) (
+	(var category_keys (list))
+
+	(# Get the uuids of the categories)
+	(var category_objects (func get_category_table_objects ()))
+	(var category_uuids (list))
+
+	(for key in categories (
+		(# Check if the key is already in the category_keys list)
+		(if (category_keys.contains key) (break))
+
+		(# Find the category with the key)
+		(for obj in category_objects (
+			(if (obj.properties.key == key) (
+				(category_uuids.push obj.uuid)
+				(category_keys.push key)
+				(break)
+			))
+		))
+	))
+
+	(var store_book.properties.categories (category_uuids.join ","))
+) else (
+	(# Get the categories)
+	(var category_keys (func get_category_keys_by_string (store_book.properties.categories)))
+))
+
 (# Get the status)
 (var status (if (is_nil store_book.properties.status) "unpublished" else store_book.properties.status))
-
-(# Get the categories)
-(var categories (func get_category_keys_by_string (store_book.properties.categories)))
 
 (# Return the store book)
 (render_json (hash 
@@ -172,7 +199,7 @@
 	(status status)
 	(cover (!(is_nil store_book.properties.cover)))
 	(file (!(is_nil store_book.properties.file)))
-	(categories categories)
+	(categories category_keys)
 	(in_library (func is_store_book_in_user_library (decoded_jwt.user_id store_book.uuid)))
 	(purchased (func has_user_purchased_table_object (decoded_jwt.user_id store_book.id)))
 ) 200)
