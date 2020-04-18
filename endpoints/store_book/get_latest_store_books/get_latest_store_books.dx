@@ -21,7 +21,7 @@
 		(var book (hash
 			(uuid book_object.uuid)
 			(title book_object.properties.title)
-			(description book_object.properties.description)
+			(description (if (is_nil book_object.properties.description) "" else book_object.properties.description))
 			(language book_object.properties.language)
 			(status book_object.properties.status)
 			(cover (!(is_nil book_object.properties.cover)))

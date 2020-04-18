@@ -30,7 +30,7 @@
 		(books.push (hash
 			(uuid store_book.uuid)
 			(title store_book.properties.title)
-			(description store_book.properties.description)
+			(description (if (is_nil store_book.properties.description) "" else store_book.properties.description))
 			(language store_book.properties.language)
 			(status store_book.properties.status)
 			(cover (!(is_nil store_book.properties.cover)))

@@ -467,7 +467,7 @@ describe("CreateStoreBook endpoint", () => {
 		assert(response.data.uuid != null);
 		assert.equal(collection.uuid, response.data.collection);
 		assert.equal(title, response.data.title);
-		assert.equal(null, response.data.description);
+		assert.equal("", response.data.description);
 		assert.equal(language, response.data.language);
 		assert.equal(0, response.data.price);
 		assert.equal("unpublished", response.data.status);
