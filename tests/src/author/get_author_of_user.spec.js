@@ -1,7 +1,6 @@
 var assert = require('assert');
 var axios = require('axios');
 var constants = require("../constants");
-var utils = require("../utils");
 
 const getAuthorOfUserEndpointUrl = `${constants.apiBaseUrl}/api/1/call/author`;
 

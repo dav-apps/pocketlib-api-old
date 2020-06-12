@@ -1,7 +1,6 @@
 var assert = require('assert');
 var axios = require('axios');
 var constants = require("../constants");
-var utils = require('../utils');
 
 const getStoreBookFileEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/book/{0}/file`;
 
@@ -64,7 +63,7 @@ describe("GetStoreBookFile endpoint", () => {
 		try{
 			await axios.default({
 				method: 'get',
-				url: getStoreBookFileEndpointUrl.replace('{0}', constants.davUser.authors[0].collections[1].books[2].uuid),
+				url: getStoreBookFileEndpointUrl.replace('{0}', constants.davUser.authors[0].collections[0].books[2].uuid),
 				headers: {
 					Authorization: constants.davUser.jwt
 				}
