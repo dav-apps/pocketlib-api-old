@@ -30,18 +30,28 @@
 (if books (
 	(# Get all store books of the author)
 	(var author_books (list))
-	(var all_store_books (func get_store_book_table_objects (author.user_id)))
 
-	(for book in all_store_books (
-		(if ((book.properties.status == "published") and (book.properties.language == language)) (
-			(author_books.push (hash
-				(uuid book.uuid)
-				(title book.properties.title)
-				(description book.properties.description)
-				(language book.properties.language)
-				(status book.properties.status)
-				(cover (!(is_nil book.properties.cover)))
-				(file (!(is_nil book.properties.file)))
+	(# Get the collection of the author)
+	(var collection_table_objects (TableObject.find_by_property author.user_id env.STORE_BOOK_COLLECTION_TABLE_ID "author" author.uuid))
+
+	(for collection_table_object in collection_table_objects (
+		(var store_book_uuids (collection_table_object.properties.books.split ","))
+
+		(for uuid in store_book_uuids (
+			(var store_book (func get_table_object (uuid env.STORE_BOOK_TABLE_ID)))
+
+			(if (!(is_nil store_book)) (
+				(if ((store_book.properties.status == "published") and (store_book.properties.language == language)) (
+					(author_books.push (hash
+						(uuid store_book.uuid)
+						(title store_book.properties.title)
+						(description store_book.properties.description)
+						(language store_book.properties.language)
+						(status store_book.properties.status)
+						(cover (!(is_nil store_book.properties.cover)))
+						(file (!(is_nil store_book.properties.file)))
+					))
+				))
 			))
 		))
 	))

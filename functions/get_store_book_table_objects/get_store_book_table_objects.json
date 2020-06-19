@@ -1,6 +1,0 @@
-{
-	"type": "function",
-	"name": "get_store_book_table_objects",
-	"params": ["user_id"],
-	"source": "./get_store_book_table_objects.dx"
-}
