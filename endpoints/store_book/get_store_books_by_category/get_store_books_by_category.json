@@ -2,5 +2,6 @@
 	"type": "endpoint",
 	"path": "store/books/category/:key",
 	"method": "GET",
-	"source": "./get_store_books_by_category.dx"
+	"source": "./get_store_books_by_category.dx",
+	"caching": true
 }

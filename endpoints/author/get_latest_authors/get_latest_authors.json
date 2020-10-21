@@ -2,5 +2,6 @@
 	"type": "endpoint",
 	"path": "authors/latest",
 	"method": "GET",
-	"source": "./get_latest_authors.dx"
+	"source": "./get_latest_authors.dx",
+	"caching": true
 }
