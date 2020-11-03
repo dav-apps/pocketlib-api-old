@@ -53,6 +53,9 @@
 (# Create the author)
 (var author (func create_table_object (decoded_jwt.user_id env.AUTHOR_TABLE_ID (hash (first_name first_name) (last_name last_name)))))
 
+(# Add the author to the latest authors)
+(func add_author_to_latest_authors_collection (author))
+
 (# Render the result)
 (render_json (hash 
 	(uuid author.uuid) 

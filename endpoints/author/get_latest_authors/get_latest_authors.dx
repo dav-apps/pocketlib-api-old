@@ -19,5 +19,5 @@
 
 (# Render the result)
 (render_json (hash
-	(authors authors)
+	(authors authors.reverse)
 ) 200)
