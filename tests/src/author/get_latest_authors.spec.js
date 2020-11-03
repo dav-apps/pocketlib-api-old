@@ -20,8 +20,9 @@ describe("GetLatestAuthors endpoint", () => {
 		// Find all authors with a profile image
 		let authors = [constants.authorUser.author];
 		for(let author of constants.davUser.authors){
-			if(author.profileImage) authors.push(author);
+			if (author.profileImage) authors.push(author)
 		}
+		authors = authors.reverse()
 
 		assert.equal(200, response.status);
 		assert.equal(authors.length, response.data.authors.length);
