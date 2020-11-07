@@ -1,8 +1,9 @@
-var assert = require('assert');
-var axios = require('axios');
-var constants = require("../constants");
+import chai from 'chai'
+const assert = chai.assert
+import axios from 'axios'
+import constants from '../constants.js'
 
-const getAuthorOfUserEndpointUrl = `${constants.apiBaseUrl}/api/1/call/author`;
+const getAuthorOfUserEndpointUrl = `${constants.apiBaseUrl}/api/1/call/author`
 
 describe("GetAuthorOfUser endpoint", () => {
 	it("should not return author without jwt", async () => {

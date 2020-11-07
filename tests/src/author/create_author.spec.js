@@ -1,17 +1,18 @@
-var assert = require('assert');
-var axios = require('axios');
-var constants = require('../constants');
-var utils = require('../utils');
+import chai from 'chai'
+const assert = chai.assert
+import axios from 'axios'
+import constants from '../constants.js'
+import * as utils from '../utils.js'
 
-const createAuthorEndpointUrl = `${constants.apiBaseUrl}/api/1/call/author`;
-var resetAuthors = false;
+const createAuthorEndpointUrl = `${constants.apiBaseUrl}/api/1/call/author`
+var resetAuthors = false
 
 afterEach(async () => {
 	if(resetAuthors){
-		await utils.resetAuthors();
-		resetAuthors = false;
+		await utils.resetAuthors()
+		resetAuthors = false
 	}
-});
+})
 
 describe("CreateAuthor endpoint", async () => {
 	it("should not create author without jwt", async () => {
