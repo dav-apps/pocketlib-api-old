@@ -197,6 +197,7 @@
 	(language store_book.properties.language)
 	(price (to_int store_book.properties.price))
 	(status status)
+	(cover_blurhash store_book.properties.cover_blurhash)
 	(cover (!(is_nil store_book.properties.cover)))
 	(file (!(is_nil store_book.properties.file)))
 	(categories category_keys)

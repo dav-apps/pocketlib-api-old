@@ -57,11 +57,17 @@
 
 	(# Update the store book with the uuid of the cover table object)
 	(var store_book.properties.cover cover.uuid)
+
+	(# Update the store book with the blurhash)
+	(var store_book.properties.cover_blurhash (Blurhash.encode data))
 ))
 
 (def update_cover () (
 	(# Update the file of the cover table object)
 	(func update_store_book_cover_table_object (cover.uuid content_type data))
+
+	(# Update the store book with the blurhash)
+	(var store_book.properties.cover_blurhash (Blurhash.encode data))
 ))
 
 (# Get the cover table object of the store book)
