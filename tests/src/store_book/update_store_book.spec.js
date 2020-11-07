@@ -904,15 +904,16 @@ describe("UpdateStoreBook endpoint", () => {
 			assert.fail();
 		}
 
-		assert.equal(200, response.status);
-		assert.equal(storeBook.uuid, response.data.uuid);
-		assert.equal(collection.uuid, response.data.collection);
-		assert.equal(storeBook.title, response.data.title);
-		assert.equal(storeBook.description, response.data.description);
-		assert.equal(storeBook.language, response.data.language);
-		assert.equal("review", response.data.status);
-		assert.equal(true, response.data.cover);
-		assert.equal(true, response.data.file);
+		assert.equal(200, response.status)
+		assert.equal(storeBook.uuid, response.data.uuid)
+		assert.equal(collection.uuid, response.data.collection)
+		assert.equal(storeBook.title, response.data.title)
+		assert.equal(storeBook.description, response.data.description)
+		assert.equal(storeBook.language, response.data.language)
+		assert.equal("review", response.data.status)
+		assert.isNull(response.data.cover_blurhash)
+		assert.equal(true, response.data.cover)
+		assert.equal(true, response.data.file)
 
 		if (storeBook.categories) {
 			assert.equal(storeBook.categories.length, response.data.categories.length);
@@ -974,15 +975,16 @@ describe("UpdateStoreBook endpoint", () => {
 			assert.fail();
 		}
 
-		assert.equal(200, response.status);
-		assert.equal(storeBook.uuid, response.data.uuid);
-		assert.equal(collection.uuid, response.data.collection);
-		assert.equal(storeBook.title, response.data.title);
-		assert.equal(storeBook.description, response.data.description);
-		assert.equal(storeBook.language, response.data.language);
-		assert.equal("published", response.data.status);
-		assert.equal(storeBook.cover != null, response.data.cover);
-		assert.equal(storeBook.file != null, response.data.file);
+		assert.equal(200, response.status)
+		assert.equal(storeBook.uuid, response.data.uuid)
+		assert.equal(collection.uuid, response.data.collection)
+		assert.equal(storeBook.title, response.data.title)
+		assert.equal(storeBook.description, response.data.description)
+		assert.equal(storeBook.language, response.data.language)
+		assert.equal("published", response.data.status)
+		assert.isNull(response.data.cover_blurhash)
+		assert.equal(storeBook.cover != null, response.data.cover)
+		assert.equal(storeBook.file != null, response.data.file)
 
 		if (storeBook.categories) {
 			assert.equal(storeBook.categories.length, response.data.categories.length);
@@ -1042,15 +1044,16 @@ describe("UpdateStoreBook endpoint", () => {
 			assert.fail();
 		}
 
-		assert.equal(200, response.status);
-		assert.equal(storeBook.uuid, response.data.uuid);
-		assert.equal(collection.uuid, response.data.collection);
-		assert.equal(storeBook.title, response.data.title);
-		assert.equal(storeBook.description, response.data.description);
-		assert.equal(storeBook.language, response.data.language);
-		assert.equal("hidden", response.data.status);
-		assert.equal(storeBook.cover != null, response.data.cover);
-		assert.equal(storeBook.file != null, response.data.file);
+		assert.equal(200, response.status)
+		assert.equal(storeBook.uuid, response.data.uuid)
+		assert.equal(collection.uuid, response.data.collection)
+		assert.equal(storeBook.title, response.data.title)
+		assert.equal(storeBook.description, response.data.description)
+		assert.equal(storeBook.language, response.data.language)
+		assert.equal("hidden", response.data.status)
+		assert.isNull(response.data.cover_blurhash)
+		assert.equal(storeBook.cover != null, response.data.cover)
+		assert.equal(storeBook.file != null, response.data.file)
 
 		if (storeBook.categories) {
 			assert.equal(storeBook.categories.length, response.data.categories.length);
@@ -1273,15 +1276,16 @@ describe("UpdateStoreBook endpoint", () => {
 			assert.fail();
 		}
 
-		assert.equal(200, response.status);
-		assert.equal(storeBook.uuid, response.data.uuid);
-		assert.equal(collection.uuid, response.data.collection);
-		assert.equal(storeBook.title, response.data.title);
-		assert.equal(storeBook.description, response.data.description);
-		assert.equal(storeBook.language, response.data.language);
-		assert.equal("review", response.data.status);
-		assert.equal(true, response.data.cover);
-		assert.equal(true, response.data.file);
+		assert.equal(200, response.status)
+		assert.equal(storeBook.uuid, response.data.uuid)
+		assert.equal(collection.uuid, response.data.collection)
+		assert.equal(storeBook.title, response.data.title)
+		assert.equal(storeBook.description, response.data.description)
+		assert.equal(storeBook.language, response.data.language)
+		assert.equal("review", response.data.status)
+		assert.isNull(response.data.cover_blurhash)
+		assert.equal(true, response.data.cover)
+		assert.equal(true, response.data.file)
 
 		if (storeBook.categories) {
 			assert.equal(storeBook.categories.length, response.data.categories.length);
@@ -1343,15 +1347,16 @@ describe("UpdateStoreBook endpoint", () => {
 			assert.fail();
 		}
 
-		assert.equal(200, response.status);
-		assert.equal(storeBook.uuid, response.data.uuid);
-		assert.equal(collection.uuid, response.data.collection);
-		assert.equal(storeBook.title, response.data.title);
-		assert.equal(storeBook.description, response.data.description);
-		assert.equal(storeBook.language, response.data.language);
-		assert.equal("published", response.data.status);
-		assert.equal(storeBook.cover != null, response.data.cover);
-		assert.equal(storeBook.file != null, response.data.file);
+		assert.equal(200, response.status)
+		assert.equal(storeBook.uuid, response.data.uuid)
+		assert.equal(collection.uuid, response.data.collection)
+		assert.equal(storeBook.title, response.data.title)
+		assert.equal(storeBook.description, response.data.description)
+		assert.equal(storeBook.language, response.data.language)
+		assert.equal("published", response.data.status)
+		assert.isNull(response.data.cover_blurhash)
+		assert.equal(storeBook.cover != null, response.data.cover)
+		assert.equal(storeBook.file != null, response.data.file)
 
 		if (storeBook.categories) {
 			assert.equal(storeBook.categories.length, response.data.categories.length);
@@ -1411,15 +1416,16 @@ describe("UpdateStoreBook endpoint", () => {
 			assert.fail();
 		}
 
-		assert.equal(200, response.status);
-		assert.equal(storeBook.uuid, response.data.uuid);
-		assert.equal(collection.uuid, response.data.collection);
-		assert.equal(storeBook.title, response.data.title);
-		assert.equal(storeBook.description, response.data.description);
-		assert.equal(storeBook.language, response.data.language);
-		assert.equal("hidden", response.data.status);
-		assert.equal(true, response.data.cover);
-		assert.equal(true, response.data.file);
+		assert.equal(200, response.status)
+		assert.equal(storeBook.uuid, response.data.uuid)
+		assert.equal(collection.uuid, response.data.collection)
+		assert.equal(storeBook.title, response.data.title)
+		assert.equal(storeBook.description, response.data.description)
+		assert.equal(storeBook.language, response.data.language)
+		assert.equal("hidden", response.data.status)
+		assert.isNull(response.data.cover_blurhash)
+		assert.equal(true, response.data.cover)
+		assert.equal(true, response.data.file)
 
 		if (storeBook.categories) {
 			assert.equal(storeBook.categories.length, response.data.categories.length);
@@ -1479,16 +1485,17 @@ async function testShouldUpdateTitleOfStoreBook(collection, storeBook, jwt, owne
 		assert.fail();
 	}
 
-	assert.equal(200, response.status);
-	assert.equal(storeBook.uuid, response.data.uuid);
-	assert.equal(collection.uuid, response.data.collection);
-	assert.equal(title, response.data.title);
-	assert.equal(storeBook.description, response.data.description);
-	assert.equal(storeBook.language, response.data.language);
-	assert.equal(storeBook.price || 0, response.data.price);
-	assert.equal(storeBook.status || "unpublished", response.data.status);
-	assert.equal(storeBook.cover != null, response.data.cover);
-	assert.equal(storeBook.file != null, response.data.file);
+	assert.equal(200, response.status)
+	assert.equal(storeBook.uuid, response.data.uuid)
+	assert.equal(collection.uuid, response.data.collection)
+	assert.equal(title, response.data.title)
+	assert.equal(storeBook.description, response.data.description)
+	assert.equal(storeBook.language, response.data.language)
+	assert.equal(storeBook.price || 0, response.data.price)
+	assert.equal(storeBook.status || "unpublished", response.data.status)
+	assert.isNull(response.data.cover_blurhash)
+	assert.equal(storeBook.cover != null, response.data.cover)
+	assert.equal(storeBook.file != null, response.data.file)
 
 	if (storeBook.categories) {
 		assert.equal(storeBook.categories.length, response.data.categories.length);
@@ -1547,16 +1554,17 @@ async function testShouldUpdateDescriptionOfStoreBook(collection, storeBook, jwt
 		assert.fail();
 	}
 
-	assert.equal(200, response.status);
-	assert.equal(storeBook.uuid, response.data.uuid);
-	assert.equal(collection.uuid, response.data.collection);
-	assert.equal(storeBook.title, response.data.title);
-	assert.equal(description, response.data.description);
-	assert.equal(storeBook.language, response.data.language);
-	assert.equal(storeBook.price || 0, response.data.price);
-	assert.equal(storeBook.status || "unpublished", response.data.status);
-	assert.equal(storeBook.cover != null, response.data.cover);
-	assert.equal(storeBook.file != null, response.data.file);
+	assert.equal(200, response.status)
+	assert.equal(storeBook.uuid, response.data.uuid)
+	assert.equal(collection.uuid, response.data.collection)
+	assert.equal(storeBook.title, response.data.title)
+	assert.equal(description, response.data.description)
+	assert.equal(storeBook.language, response.data.language)
+	assert.equal(storeBook.price || 0, response.data.price)
+	assert.equal(storeBook.status || "unpublished", response.data.status)
+	assert.isNull(response.data.cover_blurhash)
+	assert.equal(storeBook.cover != null, response.data.cover)
+	assert.equal(storeBook.file != null, response.data.file)
 
 	if (storeBook.categories) {
 		assert.equal(storeBook.categories.length, response.data.categories.length);
@@ -1615,16 +1623,17 @@ async function testShouldUpdateLanguageOfStoreBook(collection, storeBook, jwt, o
 		assert.fail();
 	}
 
-	assert.equal(200, response.status);
-	assert.equal(storeBook.uuid, response.data.uuid);
-	assert.equal(collection.uuid, response.data.collection);
-	assert.equal(storeBook.title, response.data.title);
-	assert.equal(storeBook.description, response.data.description);
-	assert.equal(language, response.data.language);
-	assert.equal(storeBook.price || 0, response.data.price);
-	assert.equal(storeBook.status || "unpublished", response.data.status);
-	assert.equal(storeBook.cover != null, response.data.cover);
-	assert.equal(storeBook.file != null, response.data.file);
+	assert.equal(200, response.status)
+	assert.equal(storeBook.uuid, response.data.uuid)
+	assert.equal(collection.uuid, response.data.collection)
+	assert.equal(storeBook.title, response.data.title)
+	assert.equal(storeBook.description, response.data.description)
+	assert.equal(language, response.data.language)
+	assert.equal(storeBook.price || 0, response.data.price)
+	assert.equal(storeBook.status || "unpublished", response.data.status)
+	assert.isNull(response.data.cover_blurhash)
+	assert.equal(storeBook.cover != null, response.data.cover)
+	assert.equal(storeBook.file != null, response.data.file)
 
 	if (storeBook.categories) {
 		assert.equal(storeBook.categories.length, response.data.categories.length);
@@ -1708,16 +1717,17 @@ async function testShouldUpdatePriceOfStoreBook(collection, storeBook, jwt, owne
 		assert.fail();
 	}
 
-	assert.equal(200, response.status);
-	assert.equal(storeBook.uuid, response.data.uuid);
-	assert.equal(collection.uuid, response.data.collection);
-	assert.equal(storeBook.title, response.data.title);
-	assert.equal(storeBook.description, response.data.description);
-	assert.equal(storeBook.language, response.data.language);
-	assert.equal(price, response.data.price);
-	assert.equal(storeBook.status || "unpublished", response.data.status);
-	assert.equal(storeBook.cover != null, response.data.cover);
-	assert.equal(storeBook.file != null, response.data.file);
+	assert.equal(200, response.status)
+	assert.equal(storeBook.uuid, response.data.uuid)
+	assert.equal(collection.uuid, response.data.collection)
+	assert.equal(storeBook.title, response.data.title)
+	assert.equal(storeBook.description, response.data.description)
+	assert.equal(storeBook.language, response.data.language)
+	assert.equal(price, response.data.price)
+	assert.equal(storeBook.status || "unpublished", response.data.status)
+	assert.isNull(response.data.cover_blurhash)
+	assert.equal(storeBook.cover != null, response.data.cover)
+	assert.equal(storeBook.file != null, response.data.file)
 
 	if (storeBook.categories) {
 		assert.equal(storeBook.categories.length, response.data.categories.length);
@@ -1801,16 +1811,17 @@ async function testShouldUpdateStatusOfStoreBook(collection, storeBook, jwt, own
 		assert.fail();
 	}
 
-	assert.equal(200, response.status);
-	assert.equal(storeBook.uuid, response.data.uuid);
-	assert.equal(collection.uuid, response.data.collection);
-	assert.equal(storeBook.title, response.data.title);
-	assert.equal(storeBook.description, response.data.description);
-	assert.equal(storeBook.language, response.data.language);
-	assert.equal(storeBook.price || 0, response.data.price);
-	assert.equal(status, response.data.status);
-	assert.equal(storeBook.cover != null, response.data.cover);
-	assert.equal(storeBook.file != null, response.data.file);
+	assert.equal(200, response.status)
+	assert.equal(storeBook.uuid, response.data.uuid)
+	assert.equal(collection.uuid, response.data.collection)
+	assert.equal(storeBook.title, response.data.title)
+	assert.equal(storeBook.description, response.data.description)
+	assert.equal(storeBook.language, response.data.language)
+	assert.equal(storeBook.price || 0, response.data.price)
+	assert.equal(status, response.data.status)
+	assert.isNull(response.data.cover_blurhash)
+	assert.equal(storeBook.cover != null, response.data.cover)
+	assert.equal(storeBook.file != null, response.data.file)
 
 	if (storeBook.categories) {
 		assert.equal(storeBook.categories.length, response.data.categories.length);
@@ -1871,14 +1882,14 @@ async function testShouldUpdateCategoriesOfStoreBook(collection, storeBook, jwt,
 		assert.fail();
 	}
 
-	assert.equal(200, response.status);
-	assert.equal(storeBook.uuid, response.data.uuid);
-	assert.equal(collection.uuid, response.data.collection);
-	assert.equal(storeBook.title, response.data.title);
-	assert.equal(storeBook.description, response.data.description);
-	assert.equal(storeBook.language, response.data.language);
-	assert.equal(storeBook.price || 0, response.data.price);
-	assert.equal(storeBook.status || "unpublished", response.data.status);
+	assert.equal(200, response.status)
+	assert.equal(storeBook.uuid, response.data.uuid)
+	assert.equal(collection.uuid, response.data.collection)
+	assert.equal(storeBook.title, response.data.title)
+	assert.equal(storeBook.description, response.data.description)
+	assert.equal(storeBook.language, response.data.language)
+	assert.equal(storeBook.price || 0, response.data.price)
+	assert.equal(storeBook.status || "unpublished", response.data.status)
 
 	assert.equal(categories.length, response.data.categories.length);
 	
@@ -1905,12 +1916,12 @@ async function testShouldUpdateCategoriesOfStoreBook(collection, storeBook, jwt,
 		assert.fail();
 	}
 
-	assert.equal(storeBook.uuid, objResponse.data.uuid);
-	assert.equal(storeBook.title, objResponse.data.properties.title);
-	assert.equal(storeBook.description, objResponse.data.properties.description);
-	assert.equal(storeBook.language, objResponse.data.properties.language);
-	assert.equal(storeBook.price, objResponse.data.properties.price);
-	assert.equal(categoryUuids.join(','), objResponse.data.properties.categories);
+	assert.equal(storeBook.uuid, objResponse.data.uuid)
+	assert.equal(storeBook.title, objResponse.data.properties.title)
+	assert.equal(storeBook.description, objResponse.data.properties.description)
+	assert.equal(storeBook.language, objResponse.data.properties.language)
+	assert.equal(storeBook.price, objResponse.data.properties.price)
+	assert.equal(categoryUuids.join(','), objResponse.data.properties.categories)
 
 	// Tidy up
 	resetStoreBooks = true;

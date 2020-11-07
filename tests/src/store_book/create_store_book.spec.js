@@ -514,15 +514,15 @@ describe("CreateStoreBook endpoint", () => {
 			assert.fail();
 		}
 
-		assert.equal(response.data.uuid, storeBookObjResponse.data.uuid);
-		assert.equal(collection.uuid, storeBookObjResponse.data.properties.collection);
-		assert.equal(title, storeBookObjResponse.data.properties.title);
-		assert.equal(null, storeBookObjResponse.data.properties.description);
-		assert.equal(language, storeBookObjResponse.data.properties.language);
-		assert.equal(null, storeBookObjResponse.data.properties.categories);
+		assert.equal(response.data.uuid, storeBookObjResponse.data.uuid)
+		assert.equal(collection.uuid, storeBookObjResponse.data.properties.collection)
+		assert.equal(title, storeBookObjResponse.data.properties.title)
+		assert.isUndefined(storeBookObjResponse.data.properties.description)
+		assert.equal(language, storeBookObjResponse.data.properties.language)
+		assert.isUndefined(storeBookObjResponse.data.properties.categories)
 
 		// Tidy up
-		resetStoreBooksAndCollections = true;
+		resetStoreBooksAndCollections = true
 	});
 
 	it("should create store book with optional properties", async () => {
@@ -557,19 +557,20 @@ describe("CreateStoreBook endpoint", () => {
 			assert.fail();
 		}
 
-		assert.equal(201, response.status);
-		assert(response.data.uuid != null);
-		assert.equal(collection.uuid, response.data.collection);
-		assert.equal(title, response.data.title);
-		assert.equal(description, response.data.description);
-		assert.equal(language, response.data.language);
-		assert.equal(price, response.data.price);
-		assert.equal("unpublished", response.data.status);
-		assert.equal(false, response.data.cover);
-		assert.equal(false, response.data.file);
-		assert.equal(categories.length, response.data.categories.length);
-		assert.equal(false, response.data.in_library);
-		assert.equal(false, response.data.purchased);
+		assert.equal(201, response.status)
+		assert.isNotNull(response.data.uuid)
+		assert.equal(collection.uuid, response.data.collection)
+		assert.equal(title, response.data.title)
+		assert.equal(description, response.data.description)
+		assert.equal(language, response.data.language)
+		assert.equal(price, response.data.price)
+		assert.equal("unpublished", response.data.status)
+		assert.isNull(response.data.cover_blurhash)
+		assert.isFalse(response.data.cover)
+		assert.isFalse(response.data.file)
+		assert.equal(categories.length, response.data.categories.length)
+		assert.isFalse(response.data.in_library)
+		assert.isFalse(response.data.purchased)
 
 		// Check if the data was correctly saved in the database
 		// Get the author

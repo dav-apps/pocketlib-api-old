@@ -64,14 +64,15 @@ describe("GetLatestStoreBooks endpoint", async () => {
 
 		let i = 0;
 		for (let book of response.data.books) {
-			let storeBook = storeBooks[i];
-			assert.equal(storeBook.uuid, book.uuid);
-			assert.equal(storeBook.title, book.title);
-			assert.equal(storeBook.description, book.description);
-			assert.equal(storeBook.language, book.language);
-			assert.equal(storeBook.status, book.status);
-			assert.equal(storeBook.cover != null, book.cover);
-			assert.equal(storeBook.file != null, book.file);
+			let storeBook = storeBooks[i]
+			assert.equal(storeBook.uuid, book.uuid)
+			assert.equal(storeBook.title, book.title)
+			assert.equal(storeBook.description, book.description)
+			assert.equal(storeBook.language, book.language)
+			assert.equal(storeBook.status, book.status)
+			assert.isNull(book.cover_blurhash)
+			assert.equal(storeBook.cover != null, book.cover)
+			assert.equal(storeBook.file != null, book.file)
 
 			if (storeBook.categories) {
 				assert.equal(storeBook.categories.length, book.categories.length);
@@ -128,16 +129,17 @@ describe("GetLatestStoreBooks endpoint", async () => {
 		assert.equal(200, response.status);
 		assert.equal(storeBooks.length, response.data.books.length);
 
-		let i = 0;
+		let i = 0
 		for (let book of response.data.books) {
-			let storeBook = storeBooks[i];
-			assert.equal(storeBook.uuid, book.uuid);
-			assert.equal(storeBook.title, book.title);
-			assert.equal(storeBook.description, book.description);
-			assert.equal(storeBook.language, book.language);
-			assert.equal(storeBook.status, book.status);
-			assert.equal(storeBook.cover != null, book.cover);
-			assert.equal(storeBook.file != null, book.file);
+			let storeBook = storeBooks[i]
+			assert.equal(storeBook.uuid, book.uuid)
+			assert.equal(storeBook.title, book.title)
+			assert.equal(storeBook.description, book.description)
+			assert.equal(storeBook.language, book.language)
+			assert.equal(storeBook.status, book.status)
+			assert.isNull(book.cover_blurhash)
+			assert.equal(storeBook.cover != null, book.cover)
+			assert.equal(storeBook.file != null, book.file)
 
 			if (storeBook.categories) {
 				assert.equal(storeBook.categories.length, book.categories.length);
@@ -151,5 +153,5 @@ describe("GetLatestStoreBooks endpoint", async () => {
 
 			i++;
 		}
-	});
-});
+	})
+})
