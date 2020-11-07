@@ -1,17 +1,18 @@
-var assert = require('assert');
-var axios = require('axios');
-var constants = require('../constants');
-var utils = require('../utils');
+import chai from 'chai'
+const assert = chai.assert
+import axios from 'axios'
+import constants from '../constants.js'
+import * as utils from '../utils.js'
 
-const createBookEndpointUrl = `${constants.apiBaseUrl}/api/1/call/book`;
-var resetBooks = false;
+const createBookEndpointUrl = `${constants.apiBaseUrl}/api/1/call/book`
+var resetBooks = false
 
 afterEach(async () => {
 	if(resetBooks){
-		await utils.resetBooks();
-		resetBooks = false;
+		await utils.resetBooks()
+		resetBooks = false
 	}
-});
+})
 
 describe("CreateBook endpoint", () => {
 	it("should not create book without jwt", async () => {

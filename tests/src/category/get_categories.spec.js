@@ -1,9 +1,9 @@
-var assert = require('assert');
-var axios = require('axios');
-var constants = require('../constants');
-var utils = require('../utils');
+import chai from 'chai'
+const assert = chai.assert
+import axios from 'axios'
+import constants from '../constants.js'
 
-const getCategoriesEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/categories`;
+const getCategoriesEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/categories`
 
 describe("GetCategories endpoint", async () => {
 	it("should return categories", async () => {

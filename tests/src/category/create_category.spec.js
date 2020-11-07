@@ -1,17 +1,18 @@
-var assert = require('assert');
-var axios = require('axios');
-var constants = require('../constants');
-var utils = require('../utils');
+import chai from 'chai'
+const assert = chai.assert
+import axios from 'axios'
+import constants from '../constants.js'
+import * as utils from '../utils.js'
 
-const createCategoryEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/category`;
-var resetCategories = false;
+const createCategoryEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/category`
+var resetCategories = false
 
 afterEach(async () => {
 	if(resetCategories){
-		await utils.resetCategories();
-		resetCategories = false;
+		await utils.resetCategories()
+		resetCategories = false
 	}
-});
+})
 
 describe("CreateCategory endpoint", () => {
 	it("should not create category without jwt", async () => {
