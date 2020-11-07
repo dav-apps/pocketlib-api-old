@@ -1,18 +1,19 @@
-var assert = require('assert');
-var axios = require('axios');
-var constants = require('../constants');
-var utils = require('../utils');
+import chai from 'chai'
+const assert = chai.assert
+import axios from 'axios'
+import constants from '../constants.js'
+import * as utils from '../utils.js'
 
-const createStoreBookEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/book`;
-var resetStoreBooksAndCollections = false;
+const createStoreBookEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/book`
+var resetStoreBooksAndCollections = false
 
 afterEach(async () => {
 	if(resetStoreBooksAndCollections){
-		await utils.resetStoreBooks();
-		await utils.resetStoreBookCollections();
-		resetStoreBooks = false;
+		await utils.resetStoreBooks()
+		await utils.resetStoreBookCollections()
+		resetStoreBooksAndCollections = false
 	}
-});
+})
 
 describe("CreateStoreBook endpoint", () => {
 	it("should not create store book without jwt", async () => {
@@ -463,19 +464,20 @@ describe("CreateStoreBook endpoint", () => {
 			assert.fail();
 		}
 
-		assert.equal(201, response.status);
-		assert(response.data.uuid != null);
-		assert.equal(collection.uuid, response.data.collection);
-		assert.equal(title, response.data.title);
-		assert.equal("", response.data.description);
-		assert.equal(language, response.data.language);
-		assert.equal(0, response.data.price);
-		assert.equal("unpublished", response.data.status);
-		assert.equal(false, response.data.cover);
-		assert.equal(false, response.data.file);
-		assert.equal(0, response.data.categories.length);
-		assert.equal(false, response.data.in_library);
-		assert.equal(false, response.data.purchased);
+		assert.equal(201, response.status)
+		assert(response.data.uuid != null)
+		assert.equal(collection.uuid, response.data.collection)
+		assert.equal(title, response.data.title)
+		assert.equal("", response.data.description)
+		assert.equal(language, response.data.language)
+		assert.equal(0, response.data.price)
+		assert.equal("unpublished", response.data.status)
+		assert.isNull(response.data.cover_blurhash)
+		assert.equal(false, response.data.cover)
+		assert.equal(false, response.data.file)
+		assert.equal(0, response.data.categories.length)
+		assert.equal(false, response.data.in_library)
+		assert.equal(false, response.data.purchased)
 
 		// Check if the data was correctly saved in the database
 		// Get the collection

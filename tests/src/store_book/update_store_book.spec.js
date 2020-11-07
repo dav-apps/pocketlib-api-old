@@ -1,17 +1,18 @@
-var assert = require('assert');
-var axios = require('axios');
-var constants = require('../constants');
-var utils = require('../utils');
+import chai from 'chai'
+const assert = chai.assert
+import axios from 'axios'
+import constants from '../constants.js'
+import * as utils from '../utils.js'
 
-const updateStoreBookEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/book/{0}`;
-var resetStoreBooks = false;
+const updateStoreBookEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/book/{0}`
+var resetStoreBooks = false
 
 afterEach(async () => {
 	if(resetStoreBooks){
-		await utils.resetStoreBooks();
-		resetStoreBooks = false;
+		await utils.resetStoreBooks()
+		resetStoreBooks = false
 	}
-});
+})
 
 describe("UpdateStoreBook endpoint", () => {
 	it("should not update store book without jwt", async () => {

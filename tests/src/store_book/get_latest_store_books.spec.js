@@ -1,8 +1,9 @@
-var assert = require('assert');
-var axios = require('axios');
-var constants = require("../constants");
+import chai from 'chai'
+const assert = chai.assert
+import axios from 'axios'
+import constants from '../constants.js'
 
-const getLatestStoreBooksEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/books/latest`;
+const getLatestStoreBooksEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/books/latest`
 
 describe("GetLatestStoreBooks endpoint", async () => {
 	it("should not return latest store books with not supported language", async () => {
