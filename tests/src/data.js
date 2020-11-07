@@ -1,6 +1,6 @@
-var constants = require('./constants');
+import constants from './constants.js'
 
-var tableObjects = [];
+var tableObjects = []
 
 // Authors & AuthorBios & AuthorProfileImages
 addAuthorToTableObjects(constants.authorUser.author, constants.authorUser.id);
@@ -14,7 +14,7 @@ for(let author of constants.davUser.authors){
 }
 
 // StoreBookCollections
-for(let collection of constants.authorUser.author.collections){
+for (let collection of constants.authorUser.author.collections) {
 	addStoreBookCollectionToTableObjects(collection, constants.authorUser.id, constants.authorUser.author.uuid);
 	for(let collectionName of collection.names) addStoreBookCollectionNameToTableObjects(collectionName, constants.authorUser.id);
 	for(let storeBook of collection.books){
@@ -47,15 +47,14 @@ for(let book of constants.klausUser.books){
 
 // Categories & CategoryNames
 for(let category of constants.categories){
-	addCategoryToTableObjects(category, constants.davUser.id);
+	addCategoryToTableObjects(category, constants.davUser.id)
 
-	for(categoryName of category.names){
-		addCategoryNameToTableObjects(categoryName, constants.davUser.id);
+	for (let categoryName of category.names) {
+		addCategoryNameToTableObjects(categoryName, constants.davUser.id)
 	}
 }
 
-
-module.exports = {
+export default {
 	tableObjects,
 	collections: constants.collections,
 	purchases: constants.purchases

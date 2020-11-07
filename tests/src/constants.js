@@ -595,4 +595,4 @@ constants.purchases = [
 	}
 ]
 
-module.exports = constants;
+export default constants

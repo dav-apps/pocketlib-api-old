@@ -1,7 +1,7 @@
-var axios = require('axios');
-var constants = require('./constants');
+import axios from 'axios'
+import constants from './constants.js'
 
-async function resetDatabase(){
+export async function resetDatabase(){
 	await resetAuthors();
 	await resetAuthorBios();
 	await resetAuthorProfileImages();
@@ -15,7 +15,7 @@ async function resetDatabase(){
 	await resetCategoryNames();
 }
 
-async function resetAuthors(){
+export async function resetAuthors(){
 	// Delete Authors
 	await deleteTableObjectsOfTable(constants.davClassLibraryTestUser.jwt, constants.authorTableId);
 
@@ -24,7 +24,7 @@ async function resetAuthors(){
 	await resetDavUserAuthors();
 }
 
-async function resetAuthorBios(){
+export async function resetAuthorBios(){
 	// Delete AuthorBios
 	await deleteTableObjectsOfTable(constants.davClassLibraryTestUser.jwt, constants.authorBioTableId);
 
@@ -33,7 +33,7 @@ async function resetAuthorBios(){
 	await resetDavUserAuthorBios();
 }
 
-async function resetAuthorProfileImages(){
+export async function resetAuthorProfileImages(){
 	// Delete AuthorProfileImages
 	await deleteTableObjectsOfTable(constants.davClassLibraryTestUser.jwt, constants.authorProfileImageTableId);
 
@@ -42,7 +42,7 @@ async function resetAuthorProfileImages(){
 	await resetDavUserAuthorProfileImages();
 }
 
-async function resetStoreBookCollections(){
+export async function resetStoreBookCollections(){
 	// Delete StoreBookCollections
 	await deleteTableObjectsOfTable(constants.davClassLibraryTestUser.jwt, constants.storeBookCollectionTableId);
 
@@ -51,7 +51,7 @@ async function resetStoreBookCollections(){
 	await resetDavUserStoreBookCollections();
 }
 
-async function resetStoreBookCollectionNames(){
+export async function resetStoreBookCollectionNames(){
 	// Delete StoreBookCollectionNames
 	await deleteTableObjectsOfTable(constants.davClassLibraryTestUser.jwt, constants.storeBookCollectionNameTableId);
 
@@ -60,7 +60,7 @@ async function resetStoreBookCollectionNames(){
 	await resetDavUserStoreBookCollectionNames();
 }
 
-async function resetStoreBooks(){
+export async function resetStoreBooks(){
 	// Delete StoreBooks
 	await deleteTableObjectsOfTable(constants.davClassLibraryTestUser.jwt, constants.storeBookTableId);
 
@@ -69,7 +69,7 @@ async function resetStoreBooks(){
 	await resetDavUserStoreBooks();
 }
 
-async function resetStoreBookCovers(){
+export async function resetStoreBookCovers(){
 	// Delete StoreBookCovers
 	await deleteTableObjectsOfTable(constants.davClassLibraryTestUser.jwt, constants.storeBookCoverTableId);
 
@@ -78,7 +78,7 @@ async function resetStoreBookCovers(){
 	await resetDavUserStoreBookCovers();
 }
 
-async function resetStoreBookFiles(){
+export async function resetStoreBookFiles(){
 	// Delete StoreBookFiles
 	await deleteTableObjectsOfTable(constants.davClassLibraryTestUser.jwt, constants.storeBookFileTableId);
 
@@ -87,7 +87,7 @@ async function resetStoreBookFiles(){
 	await resetDavUserStoreBookFiles();
 }
 
-async function resetBooks(){
+export async function resetBooks(){
 	// Delete Books
 	await deleteTableObjectsOfTable(constants.authorUser.jwt, constants.bookTableId);
 	await deleteTableObjectsOfTable(constants.davUser.jwt, constants.bookTableId);
@@ -97,12 +97,12 @@ async function resetBooks(){
 	await resetDavClassLibraryTestUserBooks();
 }
 
-async function resetCategories(){
+export async function resetCategories(){
 	// Reset categories
 	await resetDavUserCategories();
 }
 
-async function resetCategoryNames(){
+export async function resetCategoryNames(){
 	// Delete CategoryNames
 	await resetDavUserCategoryNames();
 }
@@ -1414,7 +1414,7 @@ async function deleteTableObject(uuid, jwt){
 	}
 }
 
-async function getTableObject(uuid, jwt){
+export async function getTableObject(uuid, jwt){
 	return await axios.default({
 		method: 'get',
 		url: `${constants.apiBaseUrl}/apps/object/${uuid}`,
@@ -1422,20 +1422,4 @@ async function getTableObject(uuid, jwt){
 			Authorization: jwt
 		}
 	});
-}
-
-module.exports = {
-	resetDatabase,
-	resetAuthors,
-	resetAuthorBios,
-	resetAuthorProfileImages,
-	resetStoreBookCollections,
-	resetStoreBookCollectionNames,
-	resetStoreBooks,
-	resetStoreBookCovers,
-	resetStoreBookFiles,
-	resetBooks,
-	resetCategories,
-	resetCategoryNames,
-	getTableObject
 }
