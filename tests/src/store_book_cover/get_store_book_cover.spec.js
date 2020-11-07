@@ -1,8 +1,9 @@
-var assert = require('assert');
-var axios = require('axios');
-var constants = require("../constants");
+import chai from 'chai'
+const assert = chai.assert
+import axios from 'axios'
+import constants from '../constants.js'
 
-const getStoreBookCoverEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/book/{0}/cover`;
+const getStoreBookCoverEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/book/{0}/cover`
 
 describe("GetStoreBookCover endpoint", () => {
 	it("should not return store book cover if the store book has no cover", async () => {

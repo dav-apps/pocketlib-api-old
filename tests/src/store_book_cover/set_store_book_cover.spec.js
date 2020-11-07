@@ -1,20 +1,23 @@
-var assert = require('assert');
-var axios = require('axios');
-const path = require('path');
-const fs = require('fs');
-var constants = require('../constants');
-var utils = require('../utils');
+import chai from 'chai'
+const assert = chai.assert
+import axios from 'axios'
+import path from 'path'
+import url from 'url'
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
+import fs from 'fs'
+import constants from '../constants.js'
+import * as utils from '../utils.js'
 
-const setStoreBookCoverEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/book/{0}/cover`;
-var resetStoreBooksAndStoreBookCovers = false;
+const setStoreBookCoverEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/book/{0}/cover`
+var resetStoreBooksAndStoreBookCovers = false
 
 afterEach(async () => {
 	if(resetStoreBooksAndStoreBookCovers){
-		await utils.resetStoreBooks();
-		await utils.resetStoreBookCovers();
-		resetStoreBooksAndStoreBookCovers = false;
+		await utils.resetStoreBooks()
+		await utils.resetStoreBookCovers()
+		resetStoreBooksAndStoreBookCovers = false
 	}
-});
+})
 
 describe("SetStoreBookCover endpoint", () => {
 	it("should not set store book cover without jwt", async () => {
