@@ -1,8 +1,9 @@
-var assert = require('assert');
-var axios = require('axios');
-var constants = require('../constants');
+import chai from 'chai'
+const assert = chai.assert
+import axios from 'axios'
+import constants from '../constants.js'
 
-const getStoreBookCollectionEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/collection/{0}`;
+const getStoreBookCollectionEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/collection/{0}`
 
 describe("GetStoreBookCollection endpoint", async () => {
 	it("should not return collection with invalid jwt", async () => {

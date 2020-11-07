@@ -1,19 +1,20 @@
-var assert = require('assert');
-var axios = require('axios');
-var constants = require('../constants');
-var utils = require('../utils');
+import chai from 'chai'
+const assert = chai.assert
+import axios from 'axios'
+import constants from '../constants.js'
+import * as utils from '../utils.js'
 
-const createStoreBookCollectionEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/collection`;
-var resetStoreBookCollectionsAndAuthors = false;
+const createStoreBookCollectionEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/collection`
+var resetStoreBookCollectionsAndAuthors = false
 
 afterEach(async () => {
 	if(resetStoreBookCollectionsAndAuthors){
-		await utils.resetStoreBookCollections();
-		await utils.resetStoreBookCollectionNames();
-		await utils.resetAuthors();
-		resetStoreBookCollectionsAndAuthors = false;
+		await utils.resetStoreBookCollections()
+		await utils.resetStoreBookCollectionNames()
+		await utils.resetAuthors()
+		resetStoreBookCollectionsAndAuthors = false
 	}
-});
+})
 
 describe("CreateStoreBookCollection endpoint", () => {
 	it("should not create store book collection without jwt", async () => {
