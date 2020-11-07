@@ -80,7 +80,7 @@ describe("GetAuthorOfUser endpoint", () => {
 	});
 
 	it("should return the author", async () => {
-		let response;
+		let response
 
 		try{
 			response = await axios.default({
@@ -89,41 +89,42 @@ describe("GetAuthorOfUser endpoint", () => {
 				headers: {
 					Authorization: constants.authorUser.jwt
 				}
-			});
+			})
 		}catch(error){
-			assert.fail();
+			assert.fail()
 		}
 
-		assert.equal(200, response.status);
-		assert.equal(constants.authorUser.author.uuid, response.data.uuid);
-		assert.equal(constants.authorUser.author.firstName, response.data.first_name);
-		assert.equal(constants.authorUser.author.lastName, response.data.last_name);
-		assert.equal(constants.authorUser.author.bios.length, response.data.bios.length);
-		assert.equal(constants.authorUser.author.collections.length, response.data.collections.length);
-		assert.equal(true, response.data.profile_image);
+		assert.equal(200, response.status)
+		assert.equal(constants.authorUser.author.uuid, response.data.uuid)
+		assert.equal(constants.authorUser.author.firstName, response.data.first_name)
+		assert.equal(constants.authorUser.author.lastName, response.data.last_name)
+		assert.equal(constants.authorUser.author.bios.length, response.data.bios.length)
+		assert.equal(constants.authorUser.author.collections.length, response.data.collections.length)
+		assert.isNull(response.data.profile_image_blurhash)
+		assert.isTrue(response.data.profile_image)
 
 		for(let i = 0; i < constants.authorUser.author.bios.length; i++){
-			let bio = constants.authorUser.author.bios[i];
-			let responseBio = response.data.bios[i];
+			let bio = constants.authorUser.author.bios[i]
+			let responseBio = response.data.bios[i]
 
-			assert.equal(null, responseBio.uuid);
-			assert.equal(bio.bio, responseBio.bio);
-			assert.equal(bio.language, responseBio.language);
+			assert.isUndefined(responseBio.uuid)
+			assert.equal(bio.bio, responseBio.bio)
+			assert.equal(bio.language, responseBio.language)
 		}
 
 		for(let i = 0; i < constants.authorUser.author.collections.length; i++){
-			let collection = constants.authorUser.author.collections[i];
-			let responseCollection = response.data.collections[i];
+			let collection = constants.authorUser.author.collections[i]
+			let responseCollection = response.data.collections[i]
 
-			assert.equal(collection.uuid, responseCollection.uuid);
+			assert.equal(collection.uuid, responseCollection.uuid)
 
 			for(let j = 0; j < collection.names.length; j++){
-				let name = collection.names[j];
-				let responseName = responseCollection.names[j];
+				let name = collection.names[j]
+				let responseName = responseCollection.names[j]
 
-				assert.equal(null, responseName.uuid);
-				assert.equal(name.name, responseName.name);
-				assert.equal(name.language, responseName.language);
+				assert.isUndefined(responseName.uuid)
+				assert.equal(name.name, responseName.name)
+				assert.equal(name.language, responseName.language)
 			}
 		}
 	});
@@ -138,46 +139,47 @@ describe("GetAuthorOfUser endpoint", () => {
 				headers: {
 					Authorization: constants.davUser.jwt
 				}
-			});
+			})
 		}catch(error){
-			assert.fail();
+			assert.fail()
 		}
 
-		assert.equal(200, response.status);
+		assert.equal(200, response.status)
 		
 		for(let i = 0; i < constants.davUser.authors.length; i++){
-			let author = constants.davUser.authors[i];
-			let responseAuthor = response.data.authors[i];
+			let author = constants.davUser.authors[i]
+			let responseAuthor = response.data.authors[i]
 
-			assert.equal(author.uuid, responseAuthor.uuid);
-			assert.equal(author.firstName, responseAuthor.first_name);
-			assert.equal(author.lastName, responseAuthor.last_name);
-			assert.equal(author.bios.length, responseAuthor.bios.length);
-			assert.equal(author.collections.length, responseAuthor.collections.length);
-			assert.equal(author.profileImage != null, responseAuthor.profile_image);
+			assert.equal(author.uuid, responseAuthor.uuid)
+			assert.equal(author.firstName, responseAuthor.first_name)
+			assert.equal(author.lastName, responseAuthor.last_name)
+			assert.equal(author.bios.length, responseAuthor.bios.length)
+			assert.equal(author.collections.length, responseAuthor.collections.length)
+			assert.isNull(responseAuthor.profile_image_blurhash)
+			assert.equal(author.profileImage != null, responseAuthor.profile_image)
 
 			for(let i = 0; i < author.bios.length; i++){
-				let bio = author.bios[i];
-				let responseBio = responseAuthor.bios[i];
+				let bio = author.bios[i]
+				let responseBio = responseAuthor.bios[i]
 
-				assert.equal(null, responseBio.uuid);
-				assert.equal(bio.bio, responseBio.bio);
-				assert.equal(bio.language, responseBio.language);
+				assert.isUndefined(responseBio.uuid)
+				assert.equal(bio.bio, responseBio.bio)
+				assert.equal(bio.language, responseBio.language)
 			}
 
 			for(let j = 0; j < author.collections.length; j++){
-				let collection = author.collections[j];
-				let responseCollection = responseAuthor.collections[j];
+				let collection = author.collections[j]
+				let responseCollection = responseAuthor.collections[j]
 
-				assert.equal(collection.uuid, responseCollection.uuid);
+				assert.equal(collection.uuid, responseCollection.uuid)
 
 				for(let k = 0; k < collection.names.length; k++){
-					let name = collection.names[k];
-					let responseName = responseCollection.names[k];
+					let name = collection.names[k]
+					let responseName = responseCollection.names[k]
 
-					assert.equal(null, responseName.uuid);
-					assert.equal(name.name, responseName.name);
-					assert.equal(name.language, responseName.language);
+					assert.isUndefined(responseName.uuid)
+					assert.equal(name.name, responseName.name)
+					assert.equal(name.language, responseName.language)
 				}
 			}
 		}

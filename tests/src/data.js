@@ -77,6 +77,7 @@ function addAuthorToTableObjects(author, userId){
 			last_name: author.lastName,
 			bios: bios.join(','),
 			collections: collections.join(','),
+			profile_image_blurhash: "",
 			profile_image: author.profileImage ? author.profileImage.uuid : ""
 		}
 	});
@@ -154,6 +155,7 @@ function addStoreBookToTableObjects(storeBook, userId, collectionUuid) {
 			language: storeBook.language,
 			price: storeBook.price ? storeBook.price.toString() : "",
 			status: storeBook.status ? storeBook.status : "",
+			cover_blurhash: "",
 			cover: storeBook.cover ? storeBook.cover.uuid : "",
 			file: storeBook.file ? storeBook.file.uuid : "",
 			categories: storeBook.categories ? storeBook.categories.join(',') : ""

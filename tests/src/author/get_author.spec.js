@@ -84,47 +84,48 @@ describe("GetAuthor endpoint", async () => {
 });
 
 async function testGetAuthor(author){
-	let response;
+	let response
 
 	try{
 		response = await axios.default({
 			method: 'get',
 			url: getAuthorEndpointUrl.replace('{0}', author.uuid)
-		});
+		})
 	}catch(error){
-		assert.fail();
+		assert.fail()
 	}
 
-	assert.equal(200, response.status);
-	assert.equal(author.uuid, response.data.uuid);
-	assert.equal(author.firstName, response.data.first_name);
-	assert.equal(author.lastName, response.data.last_name);
-	assert.equal(author.bios.length, response.data.bios.length);
-	assert.equal(author.collections.length, response.data.collections.length);
-	assert.equal(author.profileImage != null, response.data.profile_image);
+	assert.equal(200, response.status)
+	assert.equal(author.uuid, response.data.uuid)
+	assert.equal(author.firstName, response.data.first_name)
+	assert.equal(author.lastName, response.data.last_name)
+	assert.equal(author.bios.length, response.data.bios.length)
+	assert.equal(author.collections.length, response.data.collections.length)
+	assert.isNull(response.data.profile_image_blurhash)
+	assert.equal(author.profileImage != null, response.data.profile_image)
 
 	for(let i = 0; i < author.bios.length; i++){
-		let bio = author.bios[i];
-		let responseBio = response.data.bios[i];
+		let bio = author.bios[i]
+		let responseBio = response.data.bios[i]
 
-		assert.equal(null, responseBio.uuid);
-		assert.equal(bio.bio, responseBio.bio);
-		assert.equal(bio.language, responseBio.language);
+		assert.isUndefined(responseBio.uuid)
+		assert.equal(bio.bio, responseBio.bio)
+		assert.equal(bio.language, responseBio.language)
 	}
 
 	for(let i = 0; i < author.collections.length; i++){
-		let collection = author.collections[i];
-		let responseCollection = response.data.collections[i];
+		let collection = author.collections[i]
+		let responseCollection = response.data.collections[i]
 
-		assert.equal(collection.uuid, responseCollection.uuid);
+		assert.equal(collection.uuid, responseCollection.uuid)
 
 		for(let j = 0; j < collection.names.length; j++){
-			let name = collection.names[j];
-			let responseName = responseCollection.names[j];
+			let name = collection.names[j]
+			let responseName = responseCollection.names[j]
 
-			assert.equal(null, responseName.uuid);
-			assert.equal(name.name, responseName.name);
-			assert.equal(name.language, responseName.language);
+			assert.isUndefined(responseName.uuid)
+			assert.equal(name.name, responseName.name)
+			assert.equal(name.language, responseName.language)
 		}
 	}
 }
@@ -164,33 +165,35 @@ async function testGetAuthorWithBooks(author, language){
 		}
 	}
 
-	assert.equal(200, response.status);
-	assert.equal(author.uuid, response.data.uuid);
-	assert.equal(author.firstName, response.data.first_name);
-	assert.equal(author.lastName, response.data.last_name);
-	assert.equal(author.bios.length, response.data.bios.length);
-	assert.equal(storeBooks.length, response.data.books.length);
-	assert.equal(author.profileImage != null, response.data.profile_image);
+	assert.equal(200, response.status)
+	assert.equal(author.uuid, response.data.uuid)
+	assert.equal(author.firstName, response.data.first_name)
+	assert.equal(author.lastName, response.data.last_name)
+	assert.equal(author.bios.length, response.data.bios.length)
+	assert.equal(storeBooks.length, response.data.books.length)
+	assert.isNull(response.data.profile_image_blurhash)
+	assert.equal(author.profileImage != null, response.data.profile_image)
 
 	for(let i = 0; i < author.bios.length; i++){
-		let bio = author.bios[i];
-		let responseBio = response.data.bios[i];
+		let bio = author.bios[i]
+		let responseBio = response.data.bios[i]
 
-		assert.equal(null, responseBio.uuid);
-		assert.equal(bio.bio, responseBio.bio);
-		assert.equal(bio.language, responseBio.language);
+		assert.isUndefined(responseBio.uuid)
+		assert.equal(bio.bio, responseBio.bio)
+		assert.equal(bio.language, responseBio.language)
 	}
 
-	let i = 0;
-	for(let book of response.data.books){
-		assert.equal(storeBooks[i].uuid, book.uuid);
-		assert.equal(storeBooks[i].title, book.title);
-		assert.equal(storeBooks[i].description, book.description);
-		assert.equal(storeBooks[i].language, book.language);
-		assert.equal(storeBooks[i].status, book.status);
-		assert.equal(storeBooks[i].cover != null, book.cover);
-		assert.equal(storeBooks[i].file != null, book.file);
+	let i = 0
+	for (let book of response.data.books) {
+		assert.equal(storeBooks[i].uuid, book.uuid)
+		assert.equal(storeBooks[i].title, book.title)
+		assert.equal(storeBooks[i].description, book.description)
+		assert.equal(storeBooks[i].language, book.language)
+		assert.equal(storeBooks[i].status, book.status)
+		assert.isNull(book.cover_blurhash)
+		assert.equal(storeBooks[i].cover != null, book.cover)
+		assert.equal(storeBooks[i].file != null, book.file)
 
-		i++;
+		i++
 	}
 }

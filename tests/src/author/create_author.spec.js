@@ -237,16 +237,17 @@ describe("CreateAuthor endpoint", async () => {
 			assert.fail();
 		}
 
-		assert.equal(201, response.status);
-		assert(response.data.uuid != null);
-		assert.equal(firstName, response.data.first_name);
-		assert.equal(lastName, response.data.last_name);
-		assert.equal(0, response.data.bios.length);
-		assert.equal(0, response.data.collections.length);
-		assert.equal(false, response.data.profile_image);
+		assert.equal(201, response.status)
+		assert.isNotNull(response.data.uuid)
+		assert.equal(firstName, response.data.first_name)
+		assert.equal(lastName, response.data.last_name)
+		assert.equal(0, response.data.bios.length)
+		assert.equal(0, response.data.collections.length)
+		assert.isNull(response.data.profile_image_blurhash)
+		assert.isFalse(false, response.data.profile_image)
 
 		// Check if the author was correctly created on the server
-		let objResponse;
+		let objResponse
 		try{
 			objResponse = await axios.default({
 				method: 'get',
@@ -254,20 +255,21 @@ describe("CreateAuthor endpoint", async () => {
 				headers: {
 					Authorization: constants.davClassLibraryTestUser.jwt
 				}
-			});
+			})
 		}catch(error){
-			assert.fail();
+			assert.fail()
 		}
 
-		assert.equal(response.data.uuid, objResponse.data.uuid);
-		assert.equal(response.data.first_name, objResponse.data.properties.first_name);
-		assert.equal(response.data.last_name, objResponse.data.properties.last_name);
-		assert.equal(null, objResponse.data.properties.bios);
-		assert.equal(null, objResponse.data.properties.collections);
-		assert.equal(null, objResponse.data.properties.profile_image);
+		assert.equal(response.data.uuid, objResponse.data.uuid)
+		assert.equal(response.data.first_name, objResponse.data.properties.first_name)
+		assert.equal(response.data.last_name, objResponse.data.properties.last_name)
+		assert.isUndefined(objResponse.data.properties.bios)
+		assert.isUndefined(objResponse.data.properties.collections)
+		assert.isUndefined(objResponse.data.properties.profile_image_blurhash)
+		assert.isUndefined(objResponse.data.properties.profile_image)
 
 		// Tidy up
-		resetAuthors = true;
+		resetAuthors = true
 	});
 
 	it("should create multiple authors if the user is an admin", async () => {
@@ -288,23 +290,24 @@ describe("CreateAuthor endpoint", async () => {
 					first_name: firstName1,
 					last_name: lastName1
 				}
-			});
+			})
 		}catch(error){
-			assert.fail();
+			assert.fail()
 		}
 
-		assert.equal(201, response1.status);
-		assert(response1.data.uuid != null);
-		assert.equal(firstName1, response1.data.first_name);
-		assert.equal(lastName1, response1.data.last_name);
-		assert.equal(0, response1.data.bios.length);
-		assert.equal(0, response1.data.collections.length);
-		assert.equal(false, response1.data.profile_image);
+		assert.equal(201, response1.status)
+		assert.isNotNull(response1.data.uuid)
+		assert.equal(firstName1, response1.data.first_name)
+		assert.equal(lastName1, response1.data.last_name)
+		assert.equal(0, response1.data.bios.length)
+		assert.equal(0, response1.data.collections.length)
+		assert.isNull(response1.data.profile_image_blurhash)
+		assert.isFalse(response1.data.profile_image)
 
 		// Create second author for first user
-		let response2;
-		let firstName2 = "Andrew";
-		let lastName2 = "Lane";
+		let response2
+		let firstName2 = "Andrew"
+		let lastName2 = "Lane"
 
 		try{
 			response2 = await axios.default({
@@ -318,21 +321,22 @@ describe("CreateAuthor endpoint", async () => {
 					first_name: firstName2,
 					last_name: lastName2
 				}
-			});
+			})
 		}catch(error){
-			assert.fail();
+			assert.fail()
 		}
 
-		assert.equal(201, response2.status);
-		assert(response2.data.uuid != null);
+		assert.equal(201, response2.status)
+		assert.isNotNull(response2.data.uuid)
 		assert.equal(firstName2, response2.data.first_name)
-		assert.equal(lastName2, response2.data.last_name);
-		assert.equal(0, response2.data.bios.length);
-		assert.equal(0, response2.data.collections.length);
-		assert.equal(false, response2.data.profile_image);
+		assert.equal(lastName2, response2.data.last_name)
+		assert.equal(0, response2.data.bios.length)
+		assert.equal(0, response2.data.collections.length)
+		assert.isNull(response2.data.profile_image_blurhash)
+		assert.isFalse(false, response2.data.profile_image)
 
 		// Check if the authors were correctly created on the server
-		let objResponse1;
+		let objResponse1
 
 		try{
 			objResponse1 = await axios.default({
@@ -341,19 +345,20 @@ describe("CreateAuthor endpoint", async () => {
 				headers: {
 					Authorization: constants.davUser.jwt
 				}
-			});
+			})
 		}catch(error){
-			assert.fail();
+			assert.fail()
 		}
 
-		assert.equal(response1.data.uuid, objResponse1.data.uuid);
-		assert.equal(response1.data.first_name, objResponse1.data.properties.first_name);
-		assert.equal(response1.data.last_name, objResponse1.data.properties.last_name);
-		assert.equal(null, objResponse1.data.properties.bios);
-		assert.equal(null, objResponse1.data.properties.collections);
-		assert.equal(null, objResponse1.data.properties.profile_image);
+		assert.equal(response1.data.uuid, objResponse1.data.uuid)
+		assert.equal(response1.data.first_name, objResponse1.data.properties.first_name)
+		assert.equal(response1.data.last_name, objResponse1.data.properties.last_name)
+		assert.isUndefined(objResponse1.data.properties.bios)
+		assert.isUndefined(objResponse1.data.properties.collections)
+		assert.isUndefined(objResponse1.data.properties.profile_image_blurhash)
+		assert.isUndefined(objResponse1.data.properties.profile_image)
 
-		let objResponse2;
+		let objResponse2
 
 		try{
 			objResponse2 = await axios.default({
@@ -362,19 +367,19 @@ describe("CreateAuthor endpoint", async () => {
 				headers: {
 					Authorization: constants.davUser.jwt
 				}
-			});
+			})
 		}catch(error){
-			assert.fail();
+			assert.fail()
 		}
 
-		assert.equal(response2.data.uuid, objResponse2.data.uuid);
-		assert.equal(response2.data.first_name, objResponse2.data.properties.first_name);
-		assert.equal(response2.data.last_name, objResponse2.data.properties.last_name);
-		assert.equal(null, objResponse2.data.properties.bios);
-		assert.equal(null, objResponse2.data.properties.collections);
-		assert.equal(null, objResponse2.data.properties.profile_image);
+		assert.equal(response2.data.uuid, objResponse2.data.uuid)
+		assert.equal(response2.data.first_name, objResponse2.data.properties.first_name)
+		assert.equal(response2.data.last_name, objResponse2.data.properties.last_name)
+		assert.isUndefined(objResponse2.data.properties.bios)
+		assert.isUndefined(objResponse2.data.properties.collections)
+		assert.isUndefined(objResponse2.data.properties.profile_image)
 
 		// Tidy up
-		resetAuthors = true;
+		resetAuthors = true
 	});
 });

@@ -140,8 +140,8 @@ describe("SetProfileImageOfAuthorOfUser endpoint", () => {
 		let author = constants.authorUser.author;
 		let jwt = constants.authorUser.jwt;
 
-		// Get the author table object
-		let getAuthorObjResponse;
+		// Get the author table object (1)
+		let getAuthorObjResponse
 
 		try{
 			getAuthorObjResponse = await axios.default({
@@ -155,8 +155,9 @@ describe("SetProfileImageOfAuthorOfUser endpoint", () => {
 			assert.fail();
 		}
 
-		// The author should have a profile image
-		assert.isNotNull(getAuthorObjResponse.data.properties.profile_image);
+		// The author should have a profile image but no profile image blurhash
+		assert.isNotNull(getAuthorObjResponse.data.properties.profile_image)
+		assert.equal(null, getAuthorObjResponse.data.properties.profile_image_blurhash)
 
 		// Remove the profile image uuid from the author table object
 		let updateAuthorObjResponse;
@@ -178,7 +179,8 @@ describe("SetProfileImageOfAuthorOfUser endpoint", () => {
 		}
 
 		// The author now should not have a profile image
-		assert.equal(null, updateAuthorObjResponse.data.properties.profile_image);
+		assert.isUndefined(updateAuthorObjResponse.data.properties.profile_image)
+		assert.equal(null, updateAuthorObjResponse.data.properties.profile_image_blurhash)
 
 		// Upload the profile image (1)
 		let filePath = path.resolve(__dirname, '../files/cover.png');
@@ -200,8 +202,8 @@ describe("SetProfileImageOfAuthorOfUser endpoint", () => {
 			assert.fail();
 		}
 
-		// Get the author table object
-		let getAuthorObjResponse2;
+		// Get the author table object (2)
+		let getAuthorObjResponse2
 
 		try{
 			getAuthorObjResponse2 = await axios.default({
@@ -215,9 +217,10 @@ describe("SetProfileImageOfAuthorOfUser endpoint", () => {
 			assert.fail();
 		}
 
-		// The author should now have a profile image
-		let profileImageUuid = getAuthorObjResponse2.data.properties.profile_image;
-		assert(profileImageUuid != null);
+		// The author should now have a profile image and a profile image blurhash
+		let profileImageUuid = getAuthorObjResponse2.data.properties.profile_image
+		assert.isNotNull(profileImageUuid)
+		assert.isNotNull(getAuthorObjResponse2.data.properties.profile_image_blurhash)
 
 		// Get the profile image table object file (1)
 		let getProfileImageFileObjResponse;
@@ -275,6 +278,25 @@ describe("SetProfileImageOfAuthorOfUser endpoint", () => {
 		}catch(error){
 			assert.fail();
 		}
+
+		// Get the author table object (3)
+		let getAuthorObjResponse3
+
+		try{
+			getAuthorObjResponse3 = await axios.default({
+				method: 'get',
+				url: `${constants.apiBaseUrl}/apps/object/${author.uuid}`,
+				headers: {
+					Authorization: jwt
+				}
+			});
+		}catch(error){
+			assert.fail();
+		}
+
+		// The author should have the same profile image, but no profile image blurhash
+		assert.equal(profileImageUuid, getAuthorObjResponse3.data.properties.profile_image)
+		assert.equal(null, getAuthorObjResponse3.data.properties.profile_image_blurhash)
 
 		// Get the profile image table object file (2)
 		let getProfileImageFileObjResponse2;

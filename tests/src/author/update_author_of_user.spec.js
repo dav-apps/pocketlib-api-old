@@ -228,36 +228,37 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 			assert.fail();
 		}
 
-		assert.equal(200, response.status);
-		assert.equal(constants.authorUser.author.uuid, response.data.uuid);
-		assert.equal(firstName, response.data.first_name);
-		assert.equal(constants.authorUser.author.lastName, response.data.last_name);
-		assert.equal(constants.authorUser.author.bios.length, response.data.bios.length);
-		assert.equal(constants.authorUser.author.collections.length, response.data.collections.length);
-		assert.equal(true, response.data.profile_image);
+		assert.equal(200, response.status)
+		assert.equal(constants.authorUser.author.uuid, response.data.uuid)
+		assert.equal(firstName, response.data.first_name)
+		assert.equal(constants.authorUser.author.lastName, response.data.last_name)
+		assert.equal(constants.authorUser.author.bios.length, response.data.bios.length)
+		assert.equal(constants.authorUser.author.collections.length, response.data.collections.length)
+		assert.isNull(response.data.profile_image_blurhash)
+		assert.isTrue(response.data.profile_image)
 
 		for(let i = 0; i < constants.authorUser.author.bios.length; i++){
-			let bio = constants.authorUser.author.bios[i];
-			let responseBio = response.data.bios[i];
+			let bio = constants.authorUser.author.bios[i]
+			let responseBio = response.data.bios[i]
 
-			assert.equal(null, responseBio.uuid);
-			assert.equal(bio.bio, responseBio.bio);
-			assert.equal(bio.language, responseBio.language);
+			assert.isUndefined(responseBio.uuid)
+			assert.equal(bio.bio, responseBio.bio)
+			assert.equal(bio.language, responseBio.language)
 		}
 
 		for(let i = 0; i < constants.authorUser.author.collections.length; i++){
-			let collection = constants.authorUser.author.collections[i];
-			let responseCollection = response.data.collections[i];
+			let collection = constants.authorUser.author.collections[i]
+			let responseCollection = response.data.collections[i]
 
-			assert.equal(collection.uuid, responseCollection.uuid);
+			assert.equal(collection.uuid, responseCollection.uuid)
 
 			for(let j = 0; j < collection.names.length; j++){
-				let name = collection.names[j];
-				let responseName = responseCollection.names[j];
+				let name = collection.names[j]
+				let responseName = responseCollection.names[j]
 
-				assert.equal(null, responseName.uuid);
-				assert.equal(name.name, responseName.name);
-				assert.equal(name.language, responseName.language);
+				assert.isUndefined(responseName.uuid)
+				assert.equal(name.name, responseName.name)
+				assert.equal(name.language, responseName.language)
 			}
 		}
 
@@ -298,36 +299,37 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 			assert.fail();
 		}
 
-		assert.equal(200, response.status);
-		assert.equal(constants.authorUser.author.uuid, response.data.uuid);
-		assert.equal(constants.authorUser.author.firstName, response.data.first_name);
-		assert.equal(lastName, response.data.last_name);
-		assert.equal(constants.authorUser.author.bios.length, response.data.bios.length);
-		assert.equal(constants.authorUser.author.collections.length, response.data.collections.length);
-		assert.equal(true, response.data.profile_image);
+		assert.equal(200, response.status)
+		assert.equal(constants.authorUser.author.uuid, response.data.uuid)
+		assert.equal(constants.authorUser.author.firstName, response.data.first_name)
+		assert.equal(lastName, response.data.last_name)
+		assert.equal(constants.authorUser.author.bios.length, response.data.bios.length)
+		assert.equal(constants.authorUser.author.collections.length, response.data.collections.length)
+		assert.isNull(response.data.profile_image_blurhash)
+		assert.isTrue(response.data.profile_image)
 
 		for(let i = 0; i < constants.authorUser.author.bios.length; i++){
-			let bio = constants.authorUser.author.bios[i];
-			let responseBio = response.data.bios[i];
+			let bio = constants.authorUser.author.bios[i]
+			let responseBio = response.data.bios[i]
 
-			assert.equal(null, responseBio.uuid);
-			assert.equal(bio.bio, responseBio.bio);
-			assert.equal(bio.language, responseBio.language);
+			assert.isUndefined(responseBio.uuid)
+			assert.equal(bio.bio, responseBio.bio)
+			assert.equal(bio.language, responseBio.language)
 		}
 
 		for(let i = 0; i < constants.authorUser.author.collections.length; i++){
-			let collection = constants.authorUser.author.collections[i];
-			let responseCollection = response.data.collections[i];
+			let collection = constants.authorUser.author.collections[i]
+			let responseCollection = response.data.collections[i]
 
-			assert.equal(collection.uuid, responseCollection.uuid);
+			assert.equal(collection.uuid, responseCollection.uuid)
 
 			for(let j = 0; j < collection.names.length; j++){
-				let name = collection.names[j];
-				let responseName = responseCollection.names[j];
+				let name = collection.names[j]
+				let responseName = responseCollection.names[j]
 
-				assert.equal(null, responseName.uuid);
-				assert.equal(name.name, responseName.name);
-				assert.equal(name.language, responseName.language);
+				assert.isUndefined(responseName.uuid)
+				assert.equal(name.name, responseName.name)
+				assert.equal(name.language, responseName.language)
 			}
 		}
 
@@ -370,53 +372,54 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 			assert.fail();
 		}
 
-		assert.equal(200, response.status);
-		assert.equal(constants.authorUser.author.uuid, response.data.uuid);
-		assert.equal(firstName, response.data.first_name);
-		assert.equal(lastName, response.data.last_name);
-		assert.equal(constants.authorUser.author.bios.length, response.data.bios.length);
-		assert.equal(constants.authorUser.author.collections.length, response.data.collections.length);
-		assert.equal(true, response.data.profile_image);
+		assert.equal(200, response.status)
+		assert.equal(constants.authorUser.author.uuid, response.data.uuid)
+		assert.equal(firstName, response.data.first_name)
+		assert.equal(lastName, response.data.last_name)
+		assert.equal(constants.authorUser.author.bios.length, response.data.bios.length)
+		assert.equal(constants.authorUser.author.collections.length, response.data.collections.length)
+		assert.isNull(response.data.profile_image_blurhash)
+		assert.isTrue(response.data.profile_image)
 
 		for(let i = 0; i < constants.authorUser.author.bios.length; i++){
-			let bio = constants.authorUser.author.bios[i];
-			let responseBio = response.data.bios[i];
+			let bio = constants.authorUser.author.bios[i]
+			let responseBio = response.data.bios[i]
 
-			assert.equal(null, responseBio.uuid);
-			assert.equal(bio.bio, responseBio.bio);
-			assert.equal(bio.language, responseBio.language);
+			assert.isUndefined(responseBio.uuid)
+			assert.equal(bio.bio, responseBio.bio)
+			assert.equal(bio.language, responseBio.language)
 		}
 
 		for(let i = 0; i < constants.authorUser.author.collections.length; i++){
-			let collection = constants.authorUser.author.collections[i];
-			let responseCollection = response.data.collections[i];
+			let collection = constants.authorUser.author.collections[i]
+			let responseCollection = response.data.collections[i]
 
-			assert.equal(collection.uuid, responseCollection.uuid);
+			assert.equal(collection.uuid, responseCollection.uuid)
 
 			for(let j = 0; j < collection.names.length; j++){
-				let name = collection.names[j];
-				let responseName = responseCollection.names[j];
+				let name = collection.names[j]
+				let responseName = responseCollection.names[j]
 
-				assert.equal(null, responseName.uuid);
-				assert.equal(name.name, responseName.name);
-				assert.equal(name.language, responseName.language);
+				assert.isUndefined(responseName.uuid)
+				assert.equal(name.name, responseName.name)
+				assert.equal(name.language, responseName.language)
 			}
 		}
 
 		// Check if the data was updated correctly on the server
-		let objResponse;
+		let objResponse
 
 		try{
-			objResponse = await utils.getTableObject(constants.authorUser.author.uuid, constants.authorUser.jwt);
+			objResponse = await utils.getTableObject(constants.authorUser.author.uuid, constants.authorUser.jwt)
 		}catch(error){
-			assert.fail();
+			assert.fail()
 		}
 
-		assert.equal(constants.authorUser.author.uuid, objResponse.data.uuid);
-		assert.equal(firstName, objResponse.data.properties.first_name);
-		assert.equal(lastName, objResponse.data.properties.last_name);
+		assert.equal(constants.authorUser.author.uuid, objResponse.data.uuid)
+		assert.equal(firstName, objResponse.data.properties.first_name)
+		assert.equal(lastName, objResponse.data.properties.last_name)
 
 		// Tidy up
-		resetAuthors = true;
+		resetAuthors = true
 	});
 });
