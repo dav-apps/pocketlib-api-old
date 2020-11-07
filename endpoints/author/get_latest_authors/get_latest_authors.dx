@@ -10,6 +10,7 @@
 			(uuid author_object.uuid)
 			(first_name author_object.properties.first_name)
 			(last_name author_object.properties.last_name)
+			(profile_image_blurhash author_object.properties.profile_image_blurhash)
 			(profile_image true)
 		))
 

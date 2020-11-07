@@ -68,5 +68,6 @@
 	(last_name author.properties.last_name)
 	(bios bios)
 	(collections collections)
+	(profile_image_blurhash author.properties.profile_image_blurhash)
 	(profile_image (!(is_nil author.properties.profile_image)))
 ) 200)

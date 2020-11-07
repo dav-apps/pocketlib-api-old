@@ -47,11 +47,17 @@
 
 	(# Update the author with the uuid of the profile image table object)
 	(var author.properties.profile_image profile_image.uuid)
+
+	(# Update the author with the blurhash)
+	(var author.properties.profile_image_blurhash (Blurhash.encode data))
 ))
 
 (def update_profile_image () (
 	(# Update the profile image table object of the author)
 	(func update_author_profile_image_table_object (profile_image.uuid content_type data))
+
+	(# Update the author with the blurhash)
+	(var author.properties.profile_image_blurhash (Blurhash.encode data))
 ))
 
 (# Get the profile image table object of the author)

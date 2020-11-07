@@ -48,6 +48,7 @@
 						(description store_book.properties.description)
 						(language store_book.properties.language)
 						(status store_book.properties.status)
+						(cover_blurhash store_book.properties.cover_blurhash)
 						(cover (!(is_nil store_book.properties.cover)))
 						(file (!(is_nil store_book.properties.file)))
 					))
@@ -63,6 +64,7 @@
 		(last_name author.properties.last_name)
 		(bios bios)
 		(books author_books)
+		(profile_image_blurhash author.properties.profile_image_blurhash)
 		(profile_image (!(is_nil author.properties.profile_image)))
 	))
 ) else (
@@ -76,6 +78,7 @@
 		(last_name author.properties.last_name)
 		(bios bios)
 		(collections collections)
+		(profile_image_blurhash author.properties.profile_image_blurhash)
 		(profile_image (!(is_nil author.properties.profile_image)))
 	) 200)
 ))
