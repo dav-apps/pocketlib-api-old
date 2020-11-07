@@ -1,20 +1,23 @@
-var assert = require('assert');
-var axios = require('axios');
-const path = require('path');
-const fs = require('fs');
-var constants = require('../constants');
-var utils = require('../utils');
+import chai from 'chai'
+const assert = chai.assert
+import axios from 'axios'
+import path from 'path'
+import url from 'url'
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
+import fs from 'fs'
+import constants from '../constants.js'
+import * as utils from '../utils.js'
 
-const setProfileImageOfAuthorOfUserEndpointUrl = `${constants.apiBaseUrl}/api/1/call/author/profile_image`;
-let resetAuthorsAndAuthorProfileImages = false;
+const setProfileImageOfAuthorOfUserEndpointUrl = `${constants.apiBaseUrl}/api/1/call/author/profile_image`
+let resetAuthorsAndAuthorProfileImages = false
 
 afterEach(async () => {
 	if(resetAuthorsAndAuthorProfileImages){
-		await utils.resetAuthors();
-		await utils.resetAuthorProfileImages();
-		resetAuthorsAndAuthorProfileImages = false;
+		await utils.resetAuthors()
+		await utils.resetAuthorProfileImages()
+		resetAuthorsAndAuthorProfileImages = false
 	}
-});
+})
 
 describe("SetProfileImageOfAuthorOfUser endpoint", () => {
 	it("should not set profile image without jwt", async () => {
@@ -153,7 +156,7 @@ describe("SetProfileImageOfAuthorOfUser endpoint", () => {
 		}
 
 		// The author should have a profile image
-		assert(getAuthorObjResponse.data.properties.profile_image != null);
+		assert.isNotNull(getAuthorObjResponse.data.properties.profile_image);
 
 		// Remove the profile image uuid from the author table object
 		let updateAuthorObjResponse;

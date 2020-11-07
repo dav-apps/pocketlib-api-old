@@ -1,23 +1,24 @@
-var assert = require('assert');
-var axios = require('axios');
-var constants = require("../constants");
-var utils = require('../utils');
+import chai from 'chai'
+const assert = chai.assert
+import axios from 'axios'
+import constants from '../constants.js'
+import * as utils from '../utils.js'
 
-const getProfileImageOfAuthorOfUserEndpoint = `${constants.apiBaseUrl}/api/1/call/author/profile_image`;
-var resetAuthors = false;
-var resetAuthorProfileImages = false;
+const getProfileImageOfAuthorOfUserEndpoint = `${constants.apiBaseUrl}/api/1/call/author/profile_image`
+var resetAuthors = false
+var resetAuthorProfileImages = false
 
 afterEach(async () => {
 	if(resetAuthors){
-		await utils.resetAuthors();
-		resetAuthors = false;
+		await utils.resetAuthors()
+		resetAuthors = false
 	}
 
 	if(resetAuthorProfileImages){
-		await utils.resetAuthorProfileImages();
-		resetAuthorProfileImages = false;
+		await utils.resetAuthorProfileImages()
+		resetAuthorProfileImages = false
 	}
-});
+})
 
 describe("GetProfileImageOfAuthorOfUser endpoint", async () => {
 	it("should not return profile image without jwt", async () => {

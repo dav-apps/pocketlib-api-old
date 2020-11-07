@@ -1,18 +1,19 @@
-var assert = require('assert');
-var axios = require('axios');
-var constants = require('../constants');
-var utils = require('../utils');
+import chai from 'chai'
+const assert = chai.assert
+import axios from 'axios'
+import constants from '../constants.js'
+import * as utils from '../utils.js'
 
-const setBioOfAuthorEndpointUrl = `${constants.apiBaseUrl}/api/1/call/author/{0}/bio/{1}`;
-resetAuthorsAndAuthorBios = false;
+const setBioOfAuthorEndpointUrl = `${constants.apiBaseUrl}/api/1/call/author/{0}/bio/{1}`
+var resetAuthorsAndAuthorBios = false
 
 afterEach(async () => {
 	if(resetAuthorsAndAuthorBios){
-		await utils.resetAuthors();
-		await utils.resetAuthorBios();
-		resetAuthorsAndAuthorBios = false;
+		await utils.resetAuthors()
+		await utils.resetAuthorBios()
+		resetAuthorsAndAuthorBios = false
 	}
-});
+})
 
 describe("SetBioOfAuthor endpoint", () => {
 	it("should not set bio without jwt", async () => {

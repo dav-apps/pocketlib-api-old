@@ -1,17 +1,18 @@
-var assert = require('assert');
-var axios = require('axios');
-var constants = require("../constants");
-var utils = require('../utils');
+import chai from 'chai'
+const assert = chai.assert
+import axios from 'axios'
+import constants from '../constants.js'
+import * as utils from '../utils.js'
 
-const getProfileImageOfAuthorEndpoint = `${constants.apiBaseUrl}/api/1/call/author/{0}/profile_image`;
-var resetAuthorProfileImages = false;
+const getProfileImageOfAuthorEndpoint = `${constants.apiBaseUrl}/api/1/call/author/{0}/profile_image`
+var resetAuthorProfileImages = false
 
 afterEach(async () => {
 	if(resetAuthorProfileImages){
-		await utils.resetAuthorProfileImages();
-		resetAuthorProfileImages = false;
+		await utils.resetAuthorProfileImages()
+		resetAuthorProfileImages = false
 	}
-});
+})
 
 describe("GetProfileImageOfAuthor", async () => {
 	it("should not return profile image if the author has no profile image", async () => {
