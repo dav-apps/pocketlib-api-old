@@ -21,6 +21,7 @@
 				(description store_book.properties.description)
 				(language store_book.properties.language)
 				(status status)
+				(cover_blurhash store_book.properties.cover_blurhash)
 				(cover (!(is_nil store_book.properties.cover)))
 				(file (!(is_nil store_book.properties.file)))
 				(categories categories)

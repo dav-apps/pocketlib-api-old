@@ -146,19 +146,20 @@ describe("GetStoreBookCollection endpoint", async () => {
 			assert.equal(collectionName.language, responseCollectionName.language);
 		}
 
-		assert.equal(collection.books.length, response.data.books.length);
+		assert.equal(collection.books.length, response.data.books.length)
 
 		for(let i = 0; i < collection.books.length; i++){
-			let book = collection.books[i];
-			let responseBook = response.data.books[i];
+			let book = collection.books[i]
+			let responseBook = response.data.books[i]
 
-			assert.equal(book.uuid, responseBook.uuid);
-			assert.equal(book.title, responseBook.title);
-			assert.equal(book.description, responseBook.description);
-			assert.equal(book.language, responseBook.language);
-			assert.equal(book.status, responseBook.status);
-			assert.equal(book.cover != null, responseBook.cover);
-			assert.equal(book.file != null, responseBook.file);
+			assert.equal(book.uuid, responseBook.uuid)
+			assert.equal(book.title, responseBook.title)
+			assert.equal(book.description, responseBook.description)
+			assert.equal(book.language, responseBook.language)
+			assert.equal(book.status, responseBook.status)
+			assert.isNull(responseBook.cover_blurhash)
+			assert.equal(book.cover != null, responseBook.cover)
+			assert.equal(book.file != null, responseBook.file)
 		}
 	}
 
@@ -196,21 +197,22 @@ describe("GetStoreBookCollection endpoint", async () => {
 			assert.equal(collectionName.language, responseCollectionName.language);
 		}
 
-		let booksCount = 0;
+		let booksCount = 0
 		for(let i = 0; i < collection.books.length; i++){
-			let book = collection.books[i];
-			let responseBook = response.data.books[booksCount];
+			let book = collection.books[i]
+			let responseBook = response.data.books[booksCount]
 
-			if(book.status != "published") continue;
-			booksCount++;
+			if(book.status != "published") continue
+			booksCount++
 
-			assert.equal(book.uuid, responseBook.uuid);
-			assert.equal(book.title, responseBook.title);
-			assert.equal(book.description, responseBook.description);
-			assert.equal(book.language, responseBook.language);
-			assert.equal(book.status, responseBook.status);
-			assert.equal(book.cover != null, responseBook.cover);
-			assert.equal(book.file != null, responseBook.file);
+			assert.equal(book.uuid, responseBook.uuid)
+			assert.equal(book.title, responseBook.title)
+			assert.equal(book.description, responseBook.description)
+			assert.equal(book.language, responseBook.language)
+			assert.equal(book.status, responseBook.status)
+			assert.isNull(responseBook.cover_blurhash)
+			assert.equal(book.cover != null, responseBook.cover)
+			assert.equal(book.file != null, responseBook.file)
 		}
 
 		assert.equal(booksCount, response.data.books.length);
