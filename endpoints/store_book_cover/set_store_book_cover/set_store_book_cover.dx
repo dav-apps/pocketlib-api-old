@@ -51,6 +51,30 @@
 ))
 
 (# Define functions for creating and updating the cover table object)
+(def update_cover_properties () (
+	(# Update the store book with the blurhash)
+	(var store_book.properties.cover_blurhash (Blurhash.encode data))
+
+	(# Get the width and height of the cover)
+	(var details (Image.get_details data))
+	(var aspect_ratio nil)
+
+	(if (details.width != -1) (
+		(# Calculate the aspect ratio in the form width:height)
+		(var aspect_ratio "1:1")
+		(if (details.width < details.height) (
+			(var value (details.height.to_f / details.width.to_f))
+			(var aspect_ratio ("1:" + (Math.round value 5)))
+		) elseif (details.width > details.height) (
+			(var value (details.width.to_f / details.height.to_f))
+			(var aspect_ratio ((Math.round value 5) + ":1"))
+		))
+	))
+
+	(# Update the store book with the aspect ratio)
+	(var store_book.properties.cover_aspect_ratio aspect_ratio)
+))
+
 (def create_cover () (
 	(# Create the cover table object)
 	(var cover (func create_store_book_cover_table_object (decoded_jwt.user_id content_type data)))
@@ -58,16 +82,14 @@
 	(# Update the store book with the uuid of the cover table object)
 	(var store_book.properties.cover cover.uuid)
 
-	(# Update the store book with the blurhash)
-	(var store_book.properties.cover_blurhash (Blurhash.encode data))
+	(func update_cover_properties ())
 ))
 
 (def update_cover () (
 	(# Update the file of the cover table object)
 	(func update_store_book_cover_table_object (cover.uuid content_type data))
 
-	(# Update the store book with the blurhash)
-	(var store_book.properties.cover_blurhash (Blurhash.encode data))
+	(func update_cover_properties ())
 ))
 
 (# Get the cover table object of the store book)
