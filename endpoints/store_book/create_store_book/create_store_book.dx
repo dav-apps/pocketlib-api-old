@@ -137,6 +137,7 @@
 	(language store_book.properties.language)
 	(price (if (is_nil price) 0 else store_book.properties.price))
 	(status "unpublished")
+	(cover_aspect_ratio nil)
 	(cover_blurhash nil)
 	(cover false)
 	(file false)

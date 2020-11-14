@@ -33,6 +33,7 @@
 			(description (if (is_nil store_book.properties.description) "" else store_book.properties.description))
 			(language store_book.properties.language)
 			(status store_book.properties.status)
+			(cover_aspect_ratio store_book.properties.cover_aspect_ratio)
 			(cover_blurhash store_book.properties.cover_blurhash)
 			(cover (!(is_nil store_book.properties.cover)))
 			(file (!(is_nil store_book.properties.file)))
