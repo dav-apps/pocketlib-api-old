@@ -14,19 +14,19 @@ describe("GetLatestStoreBooks endpoint", async () => {
 				params: {
 					language: "asdasd"
 				}
-			});
+			})
 		}catch(error){
-			assert.equal(400, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1107, error.response.data.errors[0].code);
-			return;
+			assert.equal(400, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(1107, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should return latest store books", async () => {
-		let response;
+		let response
 
 		try{
 			response = await axios.default({
@@ -34,7 +34,7 @@ describe("GetLatestStoreBooks endpoint", async () => {
 				url: getLatestStoreBooksEndpointUrl
 			})
 		}catch(error){
-			assert.fail();
+			assert.fail()
 		}
 
 		// Find all published store books with language = en
@@ -57,10 +57,10 @@ describe("GetLatestStoreBooks endpoint", async () => {
 			}
 		}
 
-		storeBooks = storeBooks.reverse();
+		storeBooks = storeBooks.reverse()
 
-		assert.equal(200, response.status);
-		assert.equal(storeBooks.length, response.data.books.length);
+		assert.equal(200, response.status)
+		assert.equal(storeBooks.length, response.data.books.length)
 
 		let i = 0;
 		for (let book of response.data.books) {
@@ -70,23 +70,24 @@ describe("GetLatestStoreBooks endpoint", async () => {
 			assert.equal(storeBook.description, book.description)
 			assert.equal(storeBook.language, book.language)
 			assert.equal(storeBook.status, book.status)
+			assert.isNull(book.cover_aspect_ratio)
 			assert.isNull(book.cover_blurhash)
 			assert.equal(storeBook.cover != null, book.cover)
 			assert.equal(storeBook.file != null, book.file)
 
 			if (storeBook.categories) {
-				assert.equal(storeBook.categories.length, book.categories.length);
+				assert.equal(storeBook.categories.length, book.categories.length)
 
 				for (let key of book.categories) {
-					assert(constants.categories.find(c => c.key == key) != null);
+					assert(constants.categories.find(c => c.key == key) != null)
 				}
 			} else {
-				assert.equal(0, book.categories.length);
+				assert.equal(0, book.categories.length)
 			}
 
-			i++;
+			i++
 		}
-	});
+	})
 
 	it("should return latest store books with specified language", async () => {
 		let response;
@@ -118,16 +119,16 @@ describe("GetLatestStoreBooks endpoint", async () => {
 			for(let collection of author.collections){
 				for(let storeBook of collection.books){
 					if(storeBook.language == language && storeBook.status == "published"){
-						storeBooks.push(storeBook);
+						storeBooks.push(storeBook)
 					}
 				}
 			}
 		}
 
-		storeBooks = storeBooks.reverse();
+		storeBooks = storeBooks.reverse()
 
-		assert.equal(200, response.status);
-		assert.equal(storeBooks.length, response.data.books.length);
+		assert.equal(200, response.status)
+		assert.equal(storeBooks.length, response.data.books.length)
 
 		let i = 0
 		for (let book of response.data.books) {
@@ -137,21 +138,22 @@ describe("GetLatestStoreBooks endpoint", async () => {
 			assert.equal(storeBook.description, book.description)
 			assert.equal(storeBook.language, book.language)
 			assert.equal(storeBook.status, book.status)
+			assert.isNull(book.cover_aspect_ratio)
 			assert.isNull(book.cover_blurhash)
 			assert.equal(storeBook.cover != null, book.cover)
 			assert.equal(storeBook.file != null, book.file)
 
 			if (storeBook.categories) {
-				assert.equal(storeBook.categories.length, book.categories.length);
+				assert.equal(storeBook.categories.length, book.categories.length)
 
 				for (let key of book.categories) {
-					assert(constants.categories.find(c => c.key == key) != null);
+					assert(constants.categories.find(c => c.key == key) != null)
 				}
 			} else {
-				assert.equal(0, book.categories.length);
+				assert.equal(0, book.categories.length)
 			}
 
-			i++;
+			i++
 		}
 	})
 })

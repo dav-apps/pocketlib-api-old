@@ -156,6 +156,7 @@ function addStoreBookToTableObjects(storeBook, userId, collectionUuid) {
 			price: storeBook.price ? storeBook.price.toString() : "",
 			status: storeBook.status ? storeBook.status : "",
 			cover_blurhash: "",
+			cover_aspect_ratio: "",
 			cover: storeBook.cover ? storeBook.cover.uuid : "",
 			file: storeBook.file ? storeBook.file.uuid : "",
 			categories: storeBook.categories ? storeBook.categories.join(',') : ""

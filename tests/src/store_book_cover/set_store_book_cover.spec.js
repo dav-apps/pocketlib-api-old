@@ -180,7 +180,7 @@ describe("SetStoreBookCover endpoint", () => {
 
 	async function testCreateAndUpdateStoreBookCover(storeBook, jwt){
 		// Get the store book table object (1)
-		let getStoreBookObjResponse;
+		let getStoreBookObjResponse
 
 		try{
 			getStoreBookObjResponse = await axios.default({
@@ -189,19 +189,21 @@ describe("SetStoreBookCover endpoint", () => {
 				headers: {
 					Authorization: jwt
 				}
-			});
+			})
 		}catch(error){
-			assert.fail();
+			assert.fail()
 		}
 
 		// The store book should not have a cover
-		assert.equal(null, getStoreBookObjResponse.data.properties.cover);
+		assert.equal(null, getStoreBookObjResponse.data.properties.cover_aspect_ratio)
+		assert.equal(null, getStoreBookObjResponse.data.properties.cover_blurhash)
+		assert.equal(null, getStoreBookObjResponse.data.properties.cover)
 
 		// Upload the cover (1)
-		let filePath = path.resolve(__dirname, '../files/cover.png');
-		let firstFileContent = fs.readFileSync(filePath);
-		let firstFileType = "image/png";
-		let firstFileExt = "png";
+		let filePath = path.resolve(__dirname, '../files/cover.png')
+		let firstFileContent = fs.readFileSync(filePath)
+		let firstFileType = "image/png"
+		let firstFileExt = "png"
 
 		try{
 			await axios.default({
@@ -212,9 +214,9 @@ describe("SetStoreBookCover endpoint", () => {
 					'Content-Type': firstFileType
 				},
 				data: firstFileContent
-			});
+			})
 		}catch(error){
-			assert.fail();
+			assert.fail()
 		}
 
 		// Get the store book table object (2)
@@ -235,10 +237,11 @@ describe("SetStoreBookCover endpoint", () => {
 		// The store book should now have a cover and a cover_blurhash
 		let coverUuid = getStoreBookObjResponse2.data.properties.cover
 		assert.isNotNull(coverUuid)
+		assert.equal("1:1", getStoreBookObjResponse2.data.properties.cover_aspect_ratio)
 		assert.isNotNull(getStoreBookObjResponse2.data.properties.cover_blurhash)
 
 		// Get the cover table object file (1)
-		let getCoverFileObjResponse;
+		let getCoverFileObjResponse
 
 		try{
 			getCoverFileObjResponse = await axios.default({
@@ -250,12 +253,12 @@ describe("SetStoreBookCover endpoint", () => {
 				headers: {
 					Authorization: jwt
 				}
-			});
+			})
 		}catch(error){
-			assert.fail();
+			assert.fail()
 		}
 
-		assert.equal(getCoverFileObjResponse.data, firstFileContent);
+		assert.equal(getCoverFileObjResponse.data, firstFileContent)
 
 		// Get the cover table object (1)
 		let getCoverObjResponse;
@@ -276,9 +279,9 @@ describe("SetStoreBookCover endpoint", () => {
 		assert.equal(firstFileExt, getCoverObjResponse.data.properties.ext);
 
 		// Update the cover (2)
-		let secondFileType = "image/jpeg";
-		let secondFileExt = "jpg";
-		let secondFileContent = "Labore dicta cupiditate culpa cum harum. Corporis voluptatem debitis eos nam nisi esse in vitae. Molestiae rerum nesciunt sunt sed et dolorum.";
+		let secondFileType = "image/jpeg"
+		let secondFileExt = "jpg"
+		let secondFileContent = "Labore dicta cupiditate culpa cum harum. Corporis voluptatem debitis eos nam nisi esse in vitae. Molestiae rerum nesciunt sunt sed et dolorum."
 
 		try{
 			await axios.default({
@@ -289,9 +292,9 @@ describe("SetStoreBookCover endpoint", () => {
 					'Content-Type': secondFileType
 				},
 				data: secondFileContent
-			});
+			})
 		}catch(error){
-			assert.fail();
+			assert.fail()
 		}
 
 		// Get the store book table object (3)
@@ -309,12 +312,13 @@ describe("SetStoreBookCover endpoint", () => {
 			assert.fail()
 		}
 
-		// The cover_blurhash of the store book should be null
+		// The cover_aspect_ratio and cover_blurhash of the store book should be null
 		assert.equal(coverUuid, getStoreBookObjResponse3.data.properties.cover)
+		assert.isNull(getStoreBookObjResponse3.data.properties.cover_aspect_ratio)
 		assert.isNull(getStoreBookObjResponse3.data.properties.cover_blurhash)
 
 		// Get the cover table object file (2)
-		let getCoverFileObjResponse2;
+		let getCoverFileObjResponse2
 
 		try{
 			getCoverFileObjResponse2 = await axios.default({
@@ -326,15 +330,15 @@ describe("SetStoreBookCover endpoint", () => {
 				headers: {
 					Authorization: jwt
 				}
-			});
+			})
 		}catch(error){
-			assert.fail();
+			assert.fail()
 		}
 
-		assert.equal(getCoverFileObjResponse2.data, secondFileContent);
+		assert.equal(getCoverFileObjResponse2.data, secondFileContent)
 
 		// Get the cover table object (2)
-		let getCoverObjResponse2;
+		let getCoverObjResponse2
 
 		try{
 			getCoverObjResponse2 = await axios.default({
@@ -345,7 +349,7 @@ describe("SetStoreBookCover endpoint", () => {
 				}
 			});
 		}catch(error){
-			assert.fail();
+			assert.fail()
 		}
 
 		assert.equal(secondFileType, getCoverObjResponse2.data.properties.type)
@@ -409,6 +413,7 @@ describe("SetStoreBookCover endpoint", () => {
 
 		// The store book should have the cover and a cover_blurhash
 		assert.equal(coverUuid, getStoreBookObjResponse2.data.properties.cover)
+		assert.equal("1:1", getStoreBookObjResponse2.data.properties.cover_aspect_ratio)
 		assert.isNotNull(getStoreBookObjResponse2.data.properties.cover_blurhash)
 
 		// Get the cover table object file (1)
@@ -483,8 +488,9 @@ describe("SetStoreBookCover endpoint", () => {
 			assert.fail()
 		}
 
-		// The cover_blurhash of the store book should be null
+		// The cover_aspect_ratio and cover_blurhash of the store book should be null
 		assert.equal(coverUuid, getStoreBookObjResponse3.data.properties.cover)
+		assert.isNull(getStoreBookObjResponse3.data.properties.cover_aspect_ratio)
 		assert.isNull(getStoreBookObjResponse3.data.properties.cover_blurhash)
 
 		// Get the cover table object file (2)

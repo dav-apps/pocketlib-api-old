@@ -19,8 +19,8 @@ describe("GetStoreBooksInReview endpoint", () => {
 			return;
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should not return store books in review with invalid jwt", async () => {
 		try{
@@ -125,11 +125,12 @@ describe("GetStoreBooksInReview endpoint", () => {
 			assert.equal(storeBook.description, book.description)
 			assert.equal(storeBook.language, book.language)
 			assert.equal(storeBook.status, book.status)
+			assert.isNull(book.cover_aspect_ratio)
 			assert.isNull(book.cover_blurhash)
 			assert.equal(storeBook.cover != null, book.cover)
 			assert.equal(storeBook.file != null, book.file)
 
-			i++;
+			i++
 		}
-	});
-});
+	})
+})

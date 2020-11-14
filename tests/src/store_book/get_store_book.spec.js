@@ -19,11 +19,11 @@ describe("GetStoreBook endpoint", () => {
 			assert.equal(401, error.response.status);
 			assert.equal(1, error.response.data.errors.length);
 			assert.equal(1302, error.response.data.errors[0].code);
-			return;
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should not return store book if jwt is for another app", async () => {
 		try{
@@ -88,6 +88,7 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(storeBook.language, response.data.language)
 		assert.equal(storeBook.price || 0, response.data.price)
 		assert.equal("unpublished", response.data.status)
+		assert.isNull(response.data.cover_aspect_ratio)
 		assert.isNull(response.data.cover_blurhash)
 		assert.equal(storeBook.cover != null, response.data.cover)
 		assert.equal(storeBook.file != null, response.data.file)
@@ -102,9 +103,9 @@ describe("GetStoreBook endpoint", () => {
 			assert.equal(0, response.data.categories.length);
 		}
 
-		assert.equal(false, response.data.in_library);
-		assert.equal(false, response.data.purchased);
-	});
+		assert.equal(false, response.data.in_library)
+		assert.equal(false, response.data.purchased)
+	})
 
 	it("should return unpublished store book if the user is an admin", async () => {
 		let collection = constants.authorUser.author.collections[1];
@@ -131,23 +132,24 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(storeBook.language, response.data.language)
 		assert.equal(storeBook.price || 0, response.data.price)
 		assert.equal("unpublished", response.data.status)
+		assert.isNull(response.data.cover_aspect_ratio)
 		assert.isNull(response.data.cover_blurhash)
 		assert.equal(storeBook.cover != null, response.data.cover)
 		assert.equal(storeBook.file != null, response.data.file)
 
 		if (storeBook.categories) {
-			assert.equal(storeBook.categories.length, response.data.categories.length);
+			assert.equal(storeBook.categories.length, response.data.categories.length)
 
 			for (let key of response.data.categories) {
-				assert(constants.categories.find(c => c.key == key) != null);
+				assert(constants.categories.find(c => c.key == key) != null)
 			}
 		} else {
-			assert.equal(0, response.data.categories.length);
+			assert.equal(0, response.data.categories.length)
 		}
 
-		assert.equal(false, response.data.in_library);
-		assert.equal(false, response.data.purchased);
-	});
+		assert.equal(false, response.data.in_library)
+		assert.equal(false, response.data.purchased)
+	})
 
 	it("should not return unpublished store book if the user is not the author", async () => {
 		let collection = constants.authorUser.author.collections[1];
@@ -162,14 +164,14 @@ describe("GetStoreBook endpoint", () => {
 				}
 			});
 		}catch(error){
-			assert.equal(403, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1102, error.response.data.errors[0].code);
-			return;
+			assert.equal(403, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(1102, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should not return unpublished store book without jwt", async () => {
 		let collection = constants.authorUser.author.collections[1];
@@ -187,8 +189,8 @@ describe("GetStoreBook endpoint", () => {
 			return;
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should return store book in review if the user is the author", async () => {
 		let collection = constants.authorUser.author.collections[0];
@@ -202,9 +204,9 @@ describe("GetStoreBook endpoint", () => {
 				headers: {
 					Authorization: constants.authorUser.jwt
 				}
-			});
+			})
 		}catch(error){
-			assert.fail();
+			assert.fail()
 		}
 
 		assert.equal(200, response.status)
@@ -215,6 +217,7 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(storeBook.language, response.data.language)
 		assert.equal(storeBook.price || 0, response.data.price)
 		assert.equal("review", response.data.status)
+		assert.isNull(response.data.cover_aspect_ratio)
 		assert.isNull(response.data.cover_blurhash)
 		assert.equal(storeBook.cover != null, response.data.cover)
 		assert.equal(storeBook.file != null, response.data.file)
@@ -229,9 +232,9 @@ describe("GetStoreBook endpoint", () => {
 			assert.equal(0, response.data.categories.length);
 		}
 
-		assert.equal(false, response.data.in_library);
-		assert.equal(false, response.data.purchased);
-	});
+		assert.equal(false, response.data.in_library)
+		assert.equal(false, response.data.purchased)
+	})
 
 	it("should return store book in review if the user is an admin", async () => {
 		let collection = constants.authorUser.author.collections[0];
@@ -245,9 +248,9 @@ describe("GetStoreBook endpoint", () => {
 				headers: {
 					Authorization: constants.davUser.jwt
 				}
-			});
+			})
 		}catch(error){
-			assert.fail();
+			assert.fail()
 		}
 
 		assert.equal(200, response.status)
@@ -258,23 +261,24 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(storeBook.language, response.data.language)
 		assert.equal(storeBook.price || 0, response.data.price)
 		assert.equal("review", response.data.status)
+		assert.isNull(response.data.cover_aspect_ratio)
 		assert.isNull(response.data.cover_blurhash)
 		assert.equal(storeBook.cover != null, response.data.cover)
 		assert.equal(storeBook.file != null, response.data.file)
 
 		if (storeBook.categories) {
-			assert.equal(storeBook.categories.length, response.data.categories.length);
+			assert.equal(storeBook.categories.length, response.data.categories.length)
 
 			for (let key of response.data.categories) {
-				assert(constants.categories.find(c => c.key == key) != null);
+				assert(constants.categories.find(c => c.key == key) != null)
 			}
 		} else {
-			assert.equal(0, response.data.categories.length);
+			assert.equal(0, response.data.categories.length)
 		}
 
-		assert.equal(false, response.data.in_library);
-		assert.equal(false, response.data.purchased);
-	});
+		assert.equal(false, response.data.in_library)
+		assert.equal(false, response.data.purchased)
+	})
 
 	it("should not return store book in review if the user is not the author", async () => {
 		let collection = constants.authorUser.author.collections[0];
@@ -287,16 +291,16 @@ describe("GetStoreBook endpoint", () => {
 				headers: {
 					Authorization: constants.davClassLibraryTestUser.jwt
 				}
-			});
+			})
 		}catch(error){
-			assert.equal(403, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1102, error.response.data.errors[0].code);
-			return;
+			assert.equal(403, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(1102, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should not return store book in review without jwt", async () => {
 		let collection = constants.authorUser.author.collections[0];
@@ -306,16 +310,16 @@ describe("GetStoreBook endpoint", () => {
 			await axios.default({
 				method: 'get',
 				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid)
-			});
+			})
 		}catch(error){
-			assert.equal(403, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1102, error.response.data.errors[0].code);
-			return;
+			assert.equal(403, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(1102, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should return published store book if the user is the author", async () => {
 		let collection = constants.authorUser.author.collections[1];
@@ -342,23 +346,24 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(storeBook.language, response.data.language)
 		assert.equal(storeBook.price || 0, response.data.price)
 		assert.equal("published", response.data.status)
+		assert.isNull(response.data.cover_aspect_ratio)
 		assert.isNull(response.data.cover_blurhash)
 		assert.equal(storeBook.cover != null, response.data.cover)
 		assert.equal(storeBook.file != null, response.data.file)
 
 		if (storeBook.categories) {
-			assert.equal(storeBook.categories.length, response.data.categories.length);
+			assert.equal(storeBook.categories.length, response.data.categories.length)
 
 			for (let key of response.data.categories) {
-				assert(constants.categories.find(c => c.key == key) != null);
+				assert(constants.categories.find(c => c.key == key) != null)
 			}
 		} else {
-			assert.equal(0, response.data.categories.length);
+			assert.equal(0, response.data.categories.length)
 		}
 
-		assert.equal(false, response.data.in_library);
-		assert.equal(false, response.data.purchased);
-	});
+		assert.equal(false, response.data.in_library)
+		assert.equal(false, response.data.purchased)
+	})
 
 	it("should return published store book if the user is an admin", async () => {
 		let collection = constants.authorUser.author.collections[1];
@@ -385,28 +390,29 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(storeBook.language, response.data.language)
 		assert.equal(storeBook.price || 0, response.data.price)
 		assert.equal("published", response.data.status)
+		assert.isNull(response.data.cover_aspect_ratio)
 		assert.isNull(response.data.cover_blurhash)
 		assert.equal(storeBook.cover != null, response.data.cover)
 		assert.equal(storeBook.file != null, response.data.file)
 
 		if (storeBook.categories) {
-			assert.equal(storeBook.categories.length, response.data.categories.length);
+			assert.equal(storeBook.categories.length, response.data.categories.length)
 
 			for (let key of response.data.categories) {
-				assert(constants.categories.find(c => c.key == key) != null);
+				assert(constants.categories.find(c => c.key == key) != null)
 			}
 		} else {
-			assert.equal(0, response.data.categories.length);
+			assert.equal(0, response.data.categories.length)
 		}
 
-		assert.equal(false, response.data.in_library);
-		assert.equal(false, response.data.purchased);
-	});
+		assert.equal(false, response.data.in_library)
+		assert.equal(false, response.data.purchased)
+	})
 
 	it("should return published store book if the user is not the author", async () => {
-		let collection = constants.authorUser.author.collections[1];
-		let storeBook = collection.books[1];
-		let response;
+		let collection = constants.authorUser.author.collections[1]
+		let storeBook = collection.books[1]
+		let response
 
 		try{
 			response = await axios.default({
@@ -415,9 +421,9 @@ describe("GetStoreBook endpoint", () => {
 				headers: {
 					Authorization: constants.davClassLibraryTestUser.jwt
 				}
-			});
+			})
 		}catch(error){
-			assert.fail();
+			assert.fail()
 		}
 
 		assert.equal(200, response.status)
@@ -428,23 +434,24 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(storeBook.language, response.data.language)
 		assert.equal(storeBook.price || 0, response.data.price)
 		assert.equal("published", response.data.status)
+		assert.isNull(response.data.cover_aspect_ratio)
 		assert.isNull(response.data.cover_blurhash)
 		assert.equal(storeBook.cover != null, response.data.cover)
 		assert.equal(storeBook.file != null, response.data.file)
 
 		if (storeBook.categories) {
-			assert.equal(storeBook.categories.length, response.data.categories.length);
+			assert.equal(storeBook.categories.length, response.data.categories.length)
 
 			for (let key of response.data.categories) {
-				assert(constants.categories.find(c => c.key == key) != null);
+				assert(constants.categories.find(c => c.key == key) != null)
 			}
 		} else {
-			assert.equal(0, response.data.categories.length);
+			assert.equal(0, response.data.categories.length)
 		}
 
-		assert.equal(false, response.data.in_library);
-		assert.equal(false, response.data.purchased);
-	});
+		assert.equal(false, response.data.in_library)
+		assert.equal(false, response.data.purchased)
+	})
 
 	it("should return published store book without jwt", async () => {
 		let collection = constants.authorUser.author.collections[1];
@@ -468,28 +475,29 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(storeBook.language, response.data.language)
 		assert.equal(storeBook.price || 0, response.data.price)
 		assert.equal("published", response.data.status)
+		assert.isNull(response.data.cover_aspect_ratio)
 		assert.isNull(response.data.cover_blurhash)
 		assert.equal(storeBook.cover != null, response.data.cover)
 		assert.equal(storeBook.file != null, response.data.file)
 
 		if (storeBook.categories) {
-			assert.equal(storeBook.categories.length, response.data.categories.length);
+			assert.equal(storeBook.categories.length, response.data.categories.length)
 
 			for (let key of response.data.categories) {
-				assert(constants.categories.find(c => c.key == key) != null);
+				assert(constants.categories.find(c => c.key == key) != null)
 			}
 		} else {
-			assert.equal(0, response.data.categories.length);
+			assert.equal(0, response.data.categories.length)
 		}
 
-		assert.equal(false, response.data.in_library);
-		assert.equal(false, response.data.purchased);
-	});
+		assert.equal(false, response.data.in_library)
+		assert.equal(false, response.data.purchased)
+	})
 
 	it("should return hidden store book if the user is the author", async () => {
-		let collection = constants.authorUser.author.collections[0];
-		let storeBook = collection.books[1];
-		let response;
+		let collection = constants.authorUser.author.collections[0]
+		let storeBook = collection.books[1]
+		let response
 
 		try{
 			response = await axios.default({
@@ -498,9 +506,9 @@ describe("GetStoreBook endpoint", () => {
 				headers: {
 					Authorization: constants.authorUser.jwt
 				}
-			});
+			})
 		}catch(error){
-			assert.fail();
+			assert.fail()
 		}
 
 		assert.equal(200, response.status)
@@ -511,28 +519,29 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(storeBook.language, response.data.language)
 		assert.equal(storeBook.price || 0, response.data.price)
 		assert.equal("hidden", response.data.status)
+		assert.isNull(response.data.cover_aspect_ratio)
 		assert.isNull(response.data.cover_blurhash)
 		assert.equal(storeBook.cover != null, response.data.cover)
 		assert.equal(storeBook.file != null, response.data.file)
 
 		if (storeBook.categories) {
-			assert.equal(storeBook.categories.length, response.data.categories.length);
+			assert.equal(storeBook.categories.length, response.data.categories.length)
 
 			for (let key of response.data.categories) {
-				assert(constants.categories.find(c => c.key == key) != null);
+				assert(constants.categories.find(c => c.key == key) != null)
 			}
 		} else {
-			assert.equal(0, response.data.categories.length);
+			assert.equal(0, response.data.categories.length)
 		}
 
-		assert.equal(false, response.data.in_library);
-		assert.equal(false, response.data.purchased);
-	});
+		assert.equal(false, response.data.in_library)
+		assert.equal(false, response.data.purchased)
+	})
 
 	it("should return hidden store book if the user is an admin", async () => {
-		let collection = constants.authorUser.author.collections[0];
-		let storeBook = collection.books[1];
-		let response;
+		let collection = constants.authorUser.author.collections[0]
+		let storeBook = collection.books[1]
+		let response
 
 		try{
 			response = await axios.default({
@@ -541,9 +550,9 @@ describe("GetStoreBook endpoint", () => {
 				headers: {
 					Authorization: constants.davUser.jwt
 				}
-			});
+			})
 		}catch(error){
-			assert.fail();
+			assert.fail()
 		}
 
 		assert.equal(200, response.status)
@@ -554,27 +563,28 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(storeBook.language, response.data.language)
 		assert.equal(storeBook.price || 0, response.data.price)
 		assert.equal("hidden", response.data.status)
+		assert.isNull(response.data.cover_aspect_ratio)
 		assert.isNull(response.data.cover_blurhash)
 		assert.equal(storeBook.cover != null, response.data.cover)
 		assert.equal(storeBook.file != null, response.data.file)
 
 		if (storeBook.categories) {
-			assert.equal(storeBook.categories.length, response.data.categories.length);
+			assert.equal(storeBook.categories.length, response.data.categories.length)
 
 			for (let key of response.data.categories) {
-				assert(constants.categories.find(c => c.key == key) != null);
+				assert(constants.categories.find(c => c.key == key) != null)
 			}
 		} else {
-			assert.equal(0, response.data.categories.length);
+			assert.equal(0, response.data.categories.length)
 		}
 
-		assert.equal(false, response.data.in_library);
-		assert.equal(false, response.data.purchased);
-	});
+		assert.equal(false, response.data.in_library)
+		assert.equal(false, response.data.purchased)
+	})
 
 	it("should not return hidden store book if the user is not the author", async () => {
-		let collection = constants.authorUser.author.collections[0];
-		let storeBook = collection.books[1];
+		let collection = constants.authorUser.author.collections[0]
+		let storeBook = collection.books[1]
 
 		try{
 			await axios.default({
@@ -585,31 +595,31 @@ describe("GetStoreBook endpoint", () => {
 				}
 			})
 		}catch(error){
-			assert.equal(403, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1102, error.response.data.errors[0].code);
-			return;
+			assert.equal(403, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(1102, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should not return hidden store book without jwt", async () => {
-		let collection = constants.authorUser.author.collections[0];
-		let storeBook = collection.books[1];
+		let collection = constants.authorUser.author.collections[0]
+		let storeBook = collection.books[1]
 
 		try{
 			await axios.default({
 				method: 'get',
 				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid)
-			});
+			})
 		}catch(error){
-			assert.equal(403, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1102, error.response.data.errors[0].code);
-			return;
+			assert.equal(403, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(1102, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
-});
+		assert.fail()
+	})
+})

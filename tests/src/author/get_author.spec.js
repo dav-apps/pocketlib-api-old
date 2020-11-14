@@ -190,6 +190,7 @@ async function testGetAuthorWithBooks(author, language){
 		assert.equal(storeBooks[i].description, book.description)
 		assert.equal(storeBooks[i].language, book.language)
 		assert.equal(storeBooks[i].status, book.status)
+		assert.isNull(book.cover_aspect_ratio)
 		assert.isNull(book.cover_blurhash)
 		assert.equal(storeBooks[i].cover != null, book.cover)
 		assert.equal(storeBooks[i].file != null, book.file)

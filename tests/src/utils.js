@@ -666,11 +666,11 @@ async function resetDavUserStoreBookCollectionNames(){
 }
 
 async function resetAuthorUserStoreBooks(){
-	let testDatabaseStoreBooks = [];
+	let testDatabaseStoreBooks = []
 
 	for(let collection of constants.authorUser.author.collections){
 		for(let book of collection.books){
-			testDatabaseStoreBooks.push(book.uuid);
+			testDatabaseStoreBooks.push(book.uuid)
 
 			// Reset the store book
 			try{
@@ -688,14 +688,16 @@ async function resetAuthorUserStoreBooks(){
 						language: book.language,
 						price: book.price ? book.price.toString() : "",
 						status: book.status,
-						cover: book.cover ? book.cover.uuid : "",
-						file: book.file ? book.file.uuid : "",
+						cover_aspect_ratio: book.coverAspectRatio ?? "",
+						cover_blurhash: book.coverBlurhash ?? "",
+						cover: book.cover?.uuid ?? "",
+						file: book.file?.uuid ?? "",
 						categories: book.categories ? book.categories.join(',') : ""
 					}
-				});
+				})
 			}catch(error){
-				console.log("Error in resetting a store book");
-				console.log(error.response.data);
+				console.log("Error in resetting a store book")
+				console.log(error.response.data)
 			}
 		}
 	}
@@ -729,12 +731,12 @@ async function resetAuthorUserStoreBooks(){
 }
 
 async function resetDavUserStoreBooks(){
-	let testDatabaseStoreBooks = [];
+	let testDatabaseStoreBooks = []
 
 	for(let author of constants.davUser.authors){
 		for(let collection of author.collections){
 			for(let book of collection.books){
-				testDatabaseStoreBooks.push(book.uuid);
+				testDatabaseStoreBooks.push(book.uuid)
 
 				// Reset the store book
 				try{
@@ -752,14 +754,16 @@ async function resetDavUserStoreBooks(){
 							language: book.language,
 							price: book.price ? book.price.toString() : "",
 							status: book.status || "",
-							cover: book.cover ? book.cover.uuid : "",
-							file: book.file ? book.file.uuid : "",
+							cover_aspect_ratio: book.coverAspectRatio ?? "",
+							cover_blurhash: book.coverBlurhash ?? "",
+							cover: book.cover?.uuid ?? "",
+							file: book.file?.uuid ?? "",
 							categories: book.categories ? book.categories.join(',') : ""
 						}
-					});
+					})
 				}catch(error){
-					console.log("Error in resetting a store book");
-					console.log(error.response.data);
+					console.log("Error in resetting a store book")
+					console.log(error.response.data)
 				}
 			}
 		}
