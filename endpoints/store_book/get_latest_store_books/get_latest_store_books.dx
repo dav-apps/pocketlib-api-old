@@ -31,10 +31,11 @@
 			(description (if (is_nil book_object.properties.description) "" else book_object.properties.description))
 			(language book_object.properties.language)
 			(status book_object.properties.status)
+			(cover (!(is_nil book_object.properties.cover)))
 			(cover_aspect_ratio book_object.properties.cover_aspect_ratio)
 			(cover_blurhash book_object.properties.cover_blurhash)
-			(cover (!(is_nil book_object.properties.cover)))
 			(file (!(is_nil book_object.properties.file)))
+			(file_name book_object.properties.file_name)
 			(categories categories)
 		))
 
