@@ -3,46 +3,46 @@ import constants from './constants.js'
 var tableObjects = []
 
 // Authors & AuthorBios & AuthorProfileImages
-addAuthorToTableObjects(constants.authorUser.author, constants.authorUser.id);
-for(let authorBio of constants.authorUser.author.bios) addAuthorBioToTableObjects(authorBio, constants.authorUser.id);
-addAuthorProfileImageToTableObjects(constants.authorUser.author.profileImage, constants.authorUser.id);
+addAuthorToTableObjects(constants.authorUser.author, constants.authorUser.id)
+for(let authorBio of constants.authorUser.author.bios) addAuthorBioToTableObjects(authorBio, constants.authorUser.id)
+addAuthorProfileImageToTableObjects(constants.authorUser.author.profileImage, constants.authorUser.id)
 
 for(let author of constants.davUser.authors){
-	addAuthorToTableObjects(author, constants.davUser.id);
-	for(let authorBio of author.bios) addAuthorBioToTableObjects(authorBio, constants.davUser.id);
-	if(author.profileImage) addAuthorProfileImageToTableObjects(author.profileImage, constants.davUser.id);
+	addAuthorToTableObjects(author, constants.davUser.id)
+	for(let authorBio of author.bios) addAuthorBioToTableObjects(authorBio, constants.davUser.id)
+	if(author.profileImage) addAuthorProfileImageToTableObjects(author.profileImage, constants.davUser.id)
 }
 
 // StoreBookCollections
 for (let collection of constants.authorUser.author.collections) {
-	addStoreBookCollectionToTableObjects(collection, constants.authorUser.id, constants.authorUser.author.uuid);
-	for(let collectionName of collection.names) addStoreBookCollectionNameToTableObjects(collectionName, constants.authorUser.id);
+	addStoreBookCollectionToTableObjects(collection, constants.authorUser.id, constants.authorUser.author.uuid)
+	for(let collectionName of collection.names) addStoreBookCollectionNameToTableObjects(collectionName, constants.authorUser.id)
 	for(let storeBook of collection.books){
-		addStoreBookToTableObjects(storeBook, constants.authorUser.id, collection.uuid);
-		if(storeBook.cover) addStoreBookCoverToTableObjects(storeBook.cover, constants.authorUser.id);
-		if(storeBook.file) addStoreBookFileToTableObjects(storeBook.file, constants.authorUser.id);
+		addStoreBookToTableObjects(storeBook, constants.authorUser.id, collection.uuid)
+		if(storeBook.cover) addStoreBookCoverToTableObjects(storeBook.cover, constants.authorUser.id)
+		if(storeBook.file) addStoreBookFileToTableObjects(storeBook.file, constants.authorUser.id)
 	}
 }
 
 for(let author of constants.davUser.authors){
 	for(let collection of author.collections){
-		addStoreBookCollectionToTableObjects(collection, constants.davUser.id, author.uuid);
-		for(let collectionName of collection.names) addStoreBookCollectionNameToTableObjects(collectionName, constants.davUser.id);
+		addStoreBookCollectionToTableObjects(collection, constants.davUser.id, author.uuid)
+		for(let collectionName of collection.names) addStoreBookCollectionNameToTableObjects(collectionName, constants.davUser.id)
 		for(let storeBook of collection.books){
-			addStoreBookToTableObjects(storeBook, constants.davUser.id, collection.uuid);
-			if(storeBook.cover) addStoreBookCoverToTableObjects(storeBook.cover, constants.davUser.id);
-			if(storeBook.file) addStoreBookFileToTableObjects(storeBook.file, constants.davUser.id);
+			addStoreBookToTableObjects(storeBook, constants.davUser.id, collection.uuid)
+			if(storeBook.cover) addStoreBookCoverToTableObjects(storeBook.cover, constants.davUser.id)
+			if(storeBook.file) addStoreBookFileToTableObjects(storeBook.file, constants.davUser.id)
 		}
 	}
 }
 
 // Books
 for(let book of constants.davClassLibraryTestUser.books){
-	addBookToTableObjects(book, constants.davClassLibraryTestUser.id);
+	addBookToTableObjects(book, constants.davClassLibraryTestUser.id)
 }
 
 for(let book of constants.klausUser.books){
-	addBookToTableObjects(book, constants.klausUser.id);
+	addBookToTableObjects(book, constants.klausUser.id)
 }
 
 // Categories & CategoryNames
@@ -61,11 +61,11 @@ export default {
 }
 
 function addAuthorToTableObjects(author, userId){
-	let bios = [];
-	author.bios.forEach(bio => bios.push(bio.uuid));
+	let bios = []
+	author.bios.forEach(bio => bios.push(bio.uuid))
 
-	let collections = [];
-	author.collections.forEach(collection => collections.push(collection.uuid));
+	let collections = []
+	author.collections.forEach(collection => collections.push(collection.uuid))
 
 	tableObjects.push({
 		uuid: author.uuid,
@@ -77,10 +77,10 @@ function addAuthorToTableObjects(author, userId){
 			last_name: author.lastName,
 			bios: bios.join(','),
 			collections: collections.join(','),
-			profile_image_blurhash: "",
-			profile_image: author.profileImage ? author.profileImage.uuid : ""
+			profile_image: author.profileImage ? author.profileImage.uuid : "",
+			profile_image_blurhash: author.profileImageBlurhash ? author.profileImageBlurhash : ""
 		}
-	});
+	})
 }
 
 function addAuthorBioToTableObjects(authorBio, userId){
@@ -93,7 +93,7 @@ function addAuthorBioToTableObjects(authorBio, userId){
 			bio: authorBio.bio,
 			language: authorBio.language
 		}
-	});
+	})
 }
 
 function addAuthorProfileImageToTableObjects(authorProfileImage, userId){
@@ -106,15 +106,15 @@ function addAuthorProfileImageToTableObjects(authorProfileImage, userId){
 			ext: authorProfileImage.ext,
 			type: authorProfileImage.type
 		}
-	});
+	})
 }
 
 function addStoreBookCollectionToTableObjects(storeBookCollection, userId, authorUuid){
-	let names = [];
-	storeBookCollection.names.forEach(name => names.push(name.uuid));
+	let names = []
+	storeBookCollection.names.forEach(name => names.push(name.uuid))
 
-	let books = [];
-	storeBookCollection.books.forEach(book => books.push(book.uuid));
+	let books = []
+	storeBookCollection.books.forEach(book => books.push(book.uuid))
 
 	tableObjects.push({
 		uuid: storeBookCollection.uuid,
@@ -126,7 +126,7 @@ function addStoreBookCollectionToTableObjects(storeBookCollection, userId, autho
 			names: names.join(','),
 			books: books.join(',')
 		}
-	});
+	})
 }
 
 function addStoreBookCollectionNameToTableObjects(storeBookCollectionName, userId){
@@ -139,7 +139,7 @@ function addStoreBookCollectionNameToTableObjects(storeBookCollectionName, userI
 			name: storeBookCollectionName.name,
 			language: storeBookCollectionName.language
 		}
-	});
+	})
 }
 
 function addStoreBookToTableObjects(storeBook, userId, collectionUuid) {
@@ -155,13 +155,14 @@ function addStoreBookToTableObjects(storeBook, userId, collectionUuid) {
 			language: storeBook.language,
 			price: storeBook.price ? storeBook.price.toString() : "",
 			status: storeBook.status ? storeBook.status : "",
-			cover_blurhash: "",
-			cover_aspect_ratio: "",
 			cover: storeBook.cover ? storeBook.cover.uuid : "",
+			cover_aspect_ratio: storeBook.coverAspectRatio ? storeBook.coverAspectRatio : "",
+			cover_blurhash: storeBook.coverBlurhash ? storeBook.coverBlurhash : "",
 			file: storeBook.file ? storeBook.file.uuid : "",
+			file_name: storeBook.fileName ? storeBook.fileName : "",
 			categories: storeBook.categories ? storeBook.categories.join(',') : ""
 		}
-	});
+	})
 }
 
 function addStoreBookCoverToTableObjects(storeBookCover, userId){
@@ -174,7 +175,7 @@ function addStoreBookCoverToTableObjects(storeBookCover, userId){
 			ext: storeBookCover.ext,
 			type: storeBookCover.type
 		}
-	});
+	})
 }
 
 function addStoreBookFileToTableObjects(storeBookFile, userId){
@@ -187,7 +188,7 @@ function addStoreBookFileToTableObjects(storeBookFile, userId){
 			ext: storeBookFile.ext,
 			type: storeBookFile.type
 		}
-	});
+	})
 }
 
 function addBookToTableObjects(book, userId){
@@ -196,7 +197,7 @@ function addBookToTableObjects(book, userId){
 		file: book.file
 	}
 
-	if(book.purchase) properties.purchase = book.purchase;
+	if(book.purchase) properties.purchase = book.purchase
 
 	tableObjects.push({
 		uuid: book.uuid,
@@ -204,7 +205,7 @@ function addBookToTableObjects(book, userId){
 		tableId: constants.bookTableId,
 		file: false,
 		properties
-	});
+	})
 }
 
 function addCategoryToTableObjects(category, userId){
@@ -220,7 +221,7 @@ function addCategoryToTableObjects(category, userId){
 			key: category.key,
 			names: names.join(',')
 		}
-	});
+	})
 }
 
 function addCategoryNameToTableObjects(categoryName, userId){
@@ -233,5 +234,5 @@ function addCategoryNameToTableObjects(categoryName, userId){
 			name: categoryName.name,
 			language: categoryName.language
 		}
-	});
+	})
 }
