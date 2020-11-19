@@ -63,8 +63,8 @@ let constants = {
 								ext: "png",
 								type: "image/png"
 							},
-							coverAspectRatio: "1:2",
-							coverBlurhash: "asodasoufgd",
+							coverAspectRatio: "1:1.42377",
+							coverBlurhash: "LOK12L4?V]5FNeoJn~kB~8NKE3R%",
 							file: {
 								uuid: "b7cf0cee-fe8d-4f08-8b6e-d391065f1abb",
 								ext: "pdf",
@@ -87,8 +87,8 @@ let constants = {
 								ext: "jpg",
 								type: "image/jpeg"
 							},
-							coverAspectRatio: "1.2:1",
-							coverBlurhash: "asdasdasd",
+							coverAspectRatio: "1:1.4073",
+							coverBlurhash: "LQKmh00hrr5AI@j@s,j[^hWXENWB",
 							file: {
 								uuid: "8f219b89-eb25-4c55-b1a4-467e36bfa081",
 								ext: "epub",
@@ -128,8 +128,8 @@ let constants = {
 								ext: "png",
 								type: "image/png"
 							},
-							coverAspectRatio: "1:1.45",
-							coverBlurhash: "asdogadohsad",
+							coverAspectRatio: "1:1.67151",
+							coverBlurhash: "LWJkJRja^hjaS}oei{WC~9ofIqWB",
 							file: {
 								uuid: "fb2745e4-f095-4237-97d5-660e41356790",
 								ext: "pdf",
@@ -153,8 +153,8 @@ let constants = {
 								ext: "jpg",
 								type: "image/jpeg"
 							},
-							coverAspectRatio: "1:654",
-							coverBlurhash: "9909uewhg0wef9ou0",
+							coverAspectRatio: "1:1.49701",
+							coverBlurhash: "LUKJ}L9bix0$OYo0nifj^hNcEMo0",
 							file: {
 								uuid: "d6f52b96-6bca-40ee-bb70-fb1347e1c8ba",
 								ext: "epub",
@@ -196,8 +196,8 @@ let constants = {
 								ext: "png",
 								type: "image/png"
 							},
-							coverAspectRatio: "1:23",
-							coverBlurhash: "oiahdf0h8qfwhq2",
+							coverAspectRatio: "1:1.49701",
+							coverBlurhash: "LSJQs39brr0*I[oJs,fk}-NeIrV@",
 							file: {
 								uuid: "090cb584-c10e-4068-9346-81f134c3a5e3",
 								ext: "pdf",
@@ -233,8 +233,8 @@ let constants = {
 								ext: "jpg",
 								type: "image/jpeg"
 							},
-							coverAspectRatio: "1.23:1",
-							coverBlurhash: "00u42twhioe4t89",
+							coverAspectRatio: "1:1.41224",
+							coverBlurhash: "LMLg8{0RjL5GX8WBs.of^gW=IXRk",
 							file: {
 								uuid: "4dd8c2cf-82a0-4887-95f1-68284679a026",
 								ext: "epub",
@@ -270,8 +270,8 @@ let constants = {
 								ext: "png",
 								type: "image/png"
 							},
-							coverAspectRatio: "1:42",
-							cover_blurhash: "08r32h3g2gh8hiwoe0fg",
+							coverAspectRatio: "1:1.41509",
+							cover_blurhash: "LbK18I9HjY4=NIodsnWX~SNIE3WX",
 							file: {
 								uuid: "35e1418d-ff2f-4498-8a93-a0bf7b47ccce",
 								ext: "pdf",
@@ -291,7 +291,7 @@ let constants = {
 				ext: "png",
 				type: "image/png"
 			},
-			profileImageBlurhash: "0u032hfh0qwhioa893"
+			profileImageBlurhash: "LUGR@iNG01oM%MoMIVWU03t7tQR%"
 		}
 	},
 	davUser: {
@@ -333,8 +333,8 @@ let constants = {
 									ext: "jpg",
 									type: "image/jpeg"
 								},
-								coverAspectRatio: "1:1.1",
-								coverBlurhash: "hf0h0fh293hoifwe",
+								coverAspectRatio: "1:1.44105",
+								coverBlurhash: "LML.f7~C-pbvI9J,%2oz^Q9ttRxu",
 								file: {
 									uuid: "32adbdaa-0cbe-4672-80a6-19d4b8d6e943",
 									ext: "pdf",
@@ -417,13 +417,14 @@ let constants = {
 									ext: "jpg",
 									type: "image/jpeg"
 								},
-								coverAspectRatio: "1:4",
-								coverBlurhash: "Ferme des animaux.epub",
+								coverAspectRatio: "1:1.59309",
+								coverBlurhash: "LbR.uzbH.RsoHXa|x]n%xua|V@jt",
 								file: {
 									uuid: "ab3f8f74-b335-4bf2-bc1e-4f85f866ae22",
 									ext: "pdf",
 									type: "application/pdf"
-								}
+								},
+								fileName: "Ferme des animaux.epub"
 							}
 						]
 					}
@@ -433,7 +434,7 @@ let constants = {
 					ext: "jpg",
 					type: "image/jpeg"
 				},
-				profileImageBlurhash: "090ghefioasdhjby03"
+				profileImageBlurhash: "LUI;@boe^*j[-oWBt6of~WRjjss:"
 			},
 			{
 				uuid: "1dd980fd-ae20-4566-b842-a25e241bfb46",
