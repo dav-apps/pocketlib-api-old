@@ -56,17 +56,33 @@
 ))
 
 (# Define functions for creating and updating the file table object)
+(def set_filename () (
+	(# Set the file name if there is one)
+	(var content_disposition (get_header Content-Disposition))
+
+	(if (! (is_nil content_disposition)) (
+		(var matches (Regex.match content_disposition "filename=\"(?<filename>.*)\""))
+		(if (! (is_nil matches.filename)) (
+			(var store_book.properties.file_name matches.filename)
+		))
+	))
+))
+
 (def create_file () (
 	(# Create the file table object)
 	(var file (func create_store_book_file_table_object (decoded_jwt.user_id content_type data)))
 
 	(# Update the store book with the uuid of the file table object)
 	(var store_book.properties.file file.uuid)
+
+	(func set_filename ())
 ))
 
 (def update_file () (
 	(# Update the file of the file table object)
 	(func update_store_book_file_table_object (file.uuid content_type data))
+
+	(func set_filename ())
 ))
 
 (# Get the file table object of the store book)

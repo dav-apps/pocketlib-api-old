@@ -254,10 +254,11 @@ describe("SetStoreBookFile endpoint", () => {
 		assert.equal(null, getStoreBookObjResponse.data.properties.file);
 
 		// Upload the file (1)
-		let filePath = path.resolve(__dirname, '../files/animal_farm.pdf');
-		let firstFileContent = fs.readFileSync(filePath);
-		let firstFileType = "application/pdf";
-		let firstFileExt = "pdf";
+		let fileName = "animal_farm.pdf"
+		let filePath = path.resolve(__dirname, `../files/${fileName}`)
+		let firstFileContent = fs.readFileSync(filePath)
+		let firstFileType = "application/pdf"
+		let firstFileExt = "pdf"
 
 		try{
 			await axios.default({
@@ -265,16 +266,17 @@ describe("SetStoreBookFile endpoint", () => {
 				url: setStoreBookFileEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
 					Authorization: jwt,
-					'Content-Type': firstFileType
+					'Content-Type': firstFileType,
+					'Content-Disposition': `attachment; filename="${fileName}"`
 				},
 				data: firstFileContent
-			});
+			})
 		}catch(error){
-			assert.fail();
+			assert.fail()
 		}
 
 		// Get the store book table object
-		let getStoreBookObjResponse2;
+		let getStoreBookObjResponse2
 
 		try{
 			getStoreBookObjResponse2 = await axios.default({
@@ -283,17 +285,18 @@ describe("SetStoreBookFile endpoint", () => {
 				headers: {
 					Authorization: jwt
 				}
-			});
+			})
 		}catch(error){
-			assert.fail();
+			assert.fail()
 		}
 
 		// The store book should now have a file
-		let fileUuid = getStoreBookObjResponse2.data.properties.file;
-		assert(fileUuid != null);
+		let fileUuid = getStoreBookObjResponse2.data.properties.file
+		assert.isNotNull(fileUuid)
+		assert.equal(fileName, getStoreBookObjResponse2.data.properties.file_name)
 
 		// Get the file table object file (1)
-		let getFileFileObjResponse;
+		let getFileFileObjResponse
 
 		try{
 			getFileFileObjResponse = await axios.default({
@@ -305,15 +308,15 @@ describe("SetStoreBookFile endpoint", () => {
 				headers: {
 					Authorization: jwt
 				}
-			});
+			})
 		}catch(error){
-			assert.fail();
+			assert.fail()
 		}
 
-		assert.equal(getFileFileObjResponse.data, firstFileContent);
+		assert.equal(getFileFileObjResponse.data, firstFileContent)
 
 		// Get the file table object (1)
-		let getFileObjResponse;
+		let getFileObjResponse
 
 		try{
 			getFileObjResponse = await axios.default({
@@ -322,18 +325,19 @@ describe("SetStoreBookFile endpoint", () => {
 				headers: {
 					Authorization: jwt
 				}
-			});
+			})
 		}catch(error){
-			assert.fail();
+			assert.fail()
 		}
 
-		assert.equal(firstFileType, getFileObjResponse.data.properties.type);
-		assert.equal(firstFileExt, getFileObjResponse.data.properties.ext);
+		assert.equal(firstFileType, getFileObjResponse.data.properties.type)
+		assert.equal(firstFileExt, getFileObjResponse.data.properties.ext)
 
-		// Update the cover (2)
-		let secondFileType = "application/epub+zip";
-		let secondFileExt = "epub";
-		let secondFileContent = "Labore dicta cupiditate culpa cum harum. Corporis voluptatem debitis eos nam nisi esse in vitae. Molestiae rerum nesciunt sunt sed et dolorum.";
+		// Update the file (2)
+		let secondFileName = "test.epub"
+		let secondFileType = "application/epub+zip"
+		let secondFileExt = "epub"
+		let secondFileContent = "Labore dicta cupiditate culpa cum harum. Corporis voluptatem debitis eos nam nisi esse in vitae. Molestiae rerum nesciunt sunt sed et dolorum."
 
 		try{
 			await axios.default({
@@ -341,16 +345,17 @@ describe("SetStoreBookFile endpoint", () => {
 				url: setStoreBookFileEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
 					Authorization: jwt,
-					'Content-Type': secondFileType
+					'Content-Type': secondFileType,
+					'Content-Disposition': `attachment; filename="${secondFileName}"`
 				},
 				data: secondFileContent
-			});
+			})
 		}catch(error){
-			assert.fail();
+			assert.fail()
 		}
 
 		// Get the file table object file (2)
-		let getFileFileObjResponse2;
+		let getFileFileObjResponse2
 
 		try{
 			getFileFileObjResponse2 = await axios.default({
@@ -362,15 +367,15 @@ describe("SetStoreBookFile endpoint", () => {
 				headers: {
 					Authorization: jwt
 				}
-			});
+			})
 		}catch(error){
-			assert.fail();
+			assert.fail()
 		}
 
-		assert.equal(getFileFileObjResponse2.data, secondFileContent);
+		assert.equal(getFileFileObjResponse2.data, secondFileContent)
 
 		// Get the file table object (2)
-		let getFileObjResponse2;
+		let getFileObjResponse2
 
 		try{
 			getFileObjResponse2 = await axios.default({
@@ -379,12 +384,12 @@ describe("SetStoreBookFile endpoint", () => {
 				headers: {
 					Authorization: jwt
 				}
-			});
+			})
 		}catch(error){
-			assert.fail();
+			assert.fail()
 		}
 
-		assert.equal(secondFileType, getFileObjResponse2.data.properties.type);
-		assert.equal(secondFileExt, getFileObjResponse2.data.properties.ext);
+		assert.equal(secondFileType, getFileObjResponse2.data.properties.type)
+		assert.equal(secondFileExt, getFileObjResponse2.data.properties.ext)
 	}
 });
