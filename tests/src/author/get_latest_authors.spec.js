@@ -33,8 +33,8 @@ describe("GetLatestAuthors endpoint", () => {
 			assert.equal(authors[i].uuid, author.uuid)
 			assert.equal(authors[i].firstName, author.first_name)
 			assert.equal(authors[i].lastName, author.last_name)
-			assert.isNull(author.profile_image_blurhash)
 			assert.equal(authors[i].profileImage != null, author.profile_image)
+			assert.equal(authors[i].profileImageBlurhash, author.profile_image_blurhash)
 
 			i++
 		}

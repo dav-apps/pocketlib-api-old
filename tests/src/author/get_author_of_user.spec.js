@@ -100,8 +100,8 @@ describe("GetAuthorOfUser endpoint", () => {
 		assert.equal(constants.authorUser.author.lastName, response.data.last_name)
 		assert.equal(constants.authorUser.author.bios.length, response.data.bios.length)
 		assert.equal(constants.authorUser.author.collections.length, response.data.collections.length)
-		assert.isNull(response.data.profile_image_blurhash)
 		assert.isTrue(response.data.profile_image)
+		assert.equal(constants.authorUser.author.profileImageBlurhash, response.data.profile_image_blurhash)
 
 		for(let i = 0; i < constants.authorUser.author.bios.length; i++){
 			let bio = constants.authorUser.author.bios[i]
@@ -127,7 +127,7 @@ describe("GetAuthorOfUser endpoint", () => {
 				assert.equal(name.language, responseName.language)
 			}
 		}
-	});
+	})
 
 	it("should return all authors of the user if the user is an admin", async () => {
 		let response;
@@ -155,8 +155,8 @@ describe("GetAuthorOfUser endpoint", () => {
 			assert.equal(author.lastName, responseAuthor.last_name)
 			assert.equal(author.bios.length, responseAuthor.bios.length)
 			assert.equal(author.collections.length, responseAuthor.collections.length)
-			assert.isNull(responseAuthor.profile_image_blurhash)
 			assert.equal(author.profileImage != null, responseAuthor.profile_image)
+			assert.equal(author.profileImageBlurhash, responseAuthor.profile_image_blurhash)
 
 			for(let i = 0; i < author.bios.length; i++){
 				let bio = author.bios[i]

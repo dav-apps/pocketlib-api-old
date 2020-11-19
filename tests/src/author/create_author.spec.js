@@ -243,8 +243,8 @@ describe("CreateAuthor endpoint", async () => {
 		assert.equal(lastName, response.data.last_name)
 		assert.equal(0, response.data.bios.length)
 		assert.equal(0, response.data.collections.length)
+		assert.isFalse(response.data.profile_image)
 		assert.isNull(response.data.profile_image_blurhash)
-		assert.isFalse(false, response.data.profile_image)
 
 		// Check if the author was correctly created on the server
 		let objResponse
@@ -265,8 +265,8 @@ describe("CreateAuthor endpoint", async () => {
 		assert.equal(response.data.last_name, objResponse.data.properties.last_name)
 		assert.isUndefined(objResponse.data.properties.bios)
 		assert.isUndefined(objResponse.data.properties.collections)
-		assert.isUndefined(objResponse.data.properties.profile_image_blurhash)
 		assert.isUndefined(objResponse.data.properties.profile_image)
+		assert.isUndefined(objResponse.data.properties.profile_image_blurhash)
 
 		// Tidy up
 		resetAuthors = true
@@ -301,8 +301,8 @@ describe("CreateAuthor endpoint", async () => {
 		assert.equal(lastName1, response1.data.last_name)
 		assert.equal(0, response1.data.bios.length)
 		assert.equal(0, response1.data.collections.length)
-		assert.isNull(response1.data.profile_image_blurhash)
 		assert.isFalse(response1.data.profile_image)
+		assert.isNull(response1.data.profile_image_blurhash)
 
 		// Create second author for first user
 		let response2
@@ -332,8 +332,8 @@ describe("CreateAuthor endpoint", async () => {
 		assert.equal(lastName2, response2.data.last_name)
 		assert.equal(0, response2.data.bios.length)
 		assert.equal(0, response2.data.collections.length)
+		assert.isFalse(response2.data.profile_image)
 		assert.isNull(response2.data.profile_image_blurhash)
-		assert.isFalse(false, response2.data.profile_image)
 
 		// Check if the authors were correctly created on the server
 		let objResponse1
@@ -355,8 +355,8 @@ describe("CreateAuthor endpoint", async () => {
 		assert.equal(response1.data.last_name, objResponse1.data.properties.last_name)
 		assert.isUndefined(objResponse1.data.properties.bios)
 		assert.isUndefined(objResponse1.data.properties.collections)
-		assert.isUndefined(objResponse1.data.properties.profile_image_blurhash)
 		assert.isUndefined(objResponse1.data.properties.profile_image)
+		assert.isUndefined(objResponse1.data.properties.profile_image_blurhash)
 
 		let objResponse2
 
@@ -378,6 +378,7 @@ describe("CreateAuthor endpoint", async () => {
 		assert.isUndefined(objResponse2.data.properties.bios)
 		assert.isUndefined(objResponse2.data.properties.collections)
 		assert.isUndefined(objResponse2.data.properties.profile_image)
+		assert.isUndefined(objResponse2.data.properties.profile_image_blurhash)
 
 		// Tidy up
 		resetAuthors = true

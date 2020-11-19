@@ -11,35 +11,35 @@ describe("GetAuthor endpoint", async () => {
 			await axios.default({
 				method: 'get',
 				url: getAuthorEndpointUrl.replace('{0}', "asdasdasd")
-			});
+			})
 		}catch(error){
-			assert.equal(404, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(2803, error.response.data.errors[0].code);
-			return;
+			assert.equal(404, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(2803, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should not return author if the table object is not an author", async () => {
 		try{
 			await axios.default({
 				method: 'get',
 				url: getAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].bios[0].uuid)
-			});
+			})
 		}catch(error){
-			assert.equal(403, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1102, error.response.data.errors[0].code);
-			return;
+			assert.equal(403, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(1102, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should not return author with books with not supported language", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'get',
 				url: getAuthorEndpointUrl.replace('{0}', constants.authorUser.author.uuid),
@@ -47,41 +47,41 @@ describe("GetAuthor endpoint", async () => {
 					books: true,
 					language: "asd"
 				}
-			});
-		}catch(error){
-			assert.equal(400, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1107, error.response.data.errors[0].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(400, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(1107, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should return author", async () => {
-		await testGetAuthor(constants.authorUser.author);
-	});
+		await testGetAuthor(constants.authorUser.author)
+	})
 
 	it("should return author of admin", async () => {
-		await testGetAuthor(constants.davUser.authors[0]);
-	});
+		await testGetAuthor(constants.davUser.authors[0])
+	})
 
 	it("should return author with books", async () => {
-		await testGetAuthorWithBooks(constants.authorUser.author);
-	});
+		await testGetAuthorWithBooks(constants.authorUser.author)
+	})
 
 	it("should return author with books with specified language", async () => {
-		await testGetAuthorWithBooks(constants.authorUser.author, "de");
-	});
+		await testGetAuthorWithBooks(constants.authorUser.author, "de")
+	})
 
 	it("should return author of admin with books", async () => {
-		await testGetAuthorWithBooks(constants.davUser.authors[0]);
-	});
+		await testGetAuthorWithBooks(constants.davUser.authors[0])
+	})
 
 	it("should return author of admin with books with specified language", async () => {
-		await testGetAuthorWithBooks(constants.davUser.authors[0], "de");
-	});
-});
+		await testGetAuthorWithBooks(constants.davUser.authors[0], "de")
+	})
+})
 
 async function testGetAuthor(author){
 	let response
@@ -101,8 +101,8 @@ async function testGetAuthor(author){
 	assert.equal(author.lastName, response.data.last_name)
 	assert.equal(author.bios.length, response.data.bios.length)
 	assert.equal(author.collections.length, response.data.collections.length)
-	assert.isNull(response.data.profile_image_blurhash)
 	assert.equal(author.profileImage != null, response.data.profile_image)
+	assert.equal(author.profileImageBlurhash, response.data.profile_image_blurhash)
 
 	for(let i = 0; i < author.bios.length; i++){
 		let bio = author.bios[i]
@@ -131,7 +131,7 @@ async function testGetAuthor(author){
 }
 
 async function testGetAuthorWithBooks(author, language){
-	let response;
+	let response
 
 	try{
 		let options = {
@@ -143,16 +143,16 @@ async function testGetAuthorWithBooks(author, language){
 		}
 
 		if(language){
-			options.params["language"] = language;
+			options.params["language"] = language
 		}
 
-		response = await axios.default(options);
+		response = await axios.default(options)
 	}catch(error){
-		assert.fail();
+		assert.fail()
 	}
 
 	if(!language){
-		language = "en";
+		language = "en"
 	}
 
 	// Find the store books
@@ -160,7 +160,7 @@ async function testGetAuthorWithBooks(author, language){
 	for(let collection of author.collections){
 		for(let storeBook of collection.books){
 			if(storeBook.status == "published" && storeBook.language == language){
-				storeBooks.push(storeBook);
+				storeBooks.push(storeBook)
 			}
 		}
 	}
@@ -171,8 +171,8 @@ async function testGetAuthorWithBooks(author, language){
 	assert.equal(author.lastName, response.data.last_name)
 	assert.equal(author.bios.length, response.data.bios.length)
 	assert.equal(storeBooks.length, response.data.books.length)
-	assert.isNull(response.data.profile_image_blurhash)
 	assert.equal(author.profileImage != null, response.data.profile_image)
+	assert.equal(author.profileImageBlurhash, response.data.profile_image_blurhash)
 
 	for(let i = 0; i < author.bios.length; i++){
 		let bio = author.bios[i]
@@ -190,10 +190,11 @@ async function testGetAuthorWithBooks(author, language){
 		assert.equal(storeBooks[i].description, book.description)
 		assert.equal(storeBooks[i].language, book.language)
 		assert.equal(storeBooks[i].status, book.status)
-		assert.isNull(book.cover_aspect_ratio)
-		assert.isNull(book.cover_blurhash)
 		assert.equal(storeBooks[i].cover != null, book.cover)
+		assert.equal(storeBooks[i].coverAspectRatio, book.cover_aspect_ratio)
+		assert.equal(storeBooks[i].coverBlurhash, book.cover_blurhash)
 		assert.equal(storeBooks[i].file != null, book.file)
+		assert.equal(storeBooks[i].fileName, book.file_name)
 
 		i++
 	}

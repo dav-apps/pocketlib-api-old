@@ -157,15 +157,16 @@ describe("GetStoreBookCollection endpoint", async () => {
 			assert.equal(book.description, responseBook.description)
 			assert.equal(book.language, responseBook.language)
 			assert.equal(book.status, responseBook.status)
-			assert.isNull(responseBook.cover_aspect_ratio)
-			assert.isNull(responseBook.cover_blurhash)
 			assert.equal(book.cover != null, responseBook.cover)
+			assert.equal(book.coverAspectRatio, responseBook.cover_aspect_ratio)
+			assert.equal(book.coverBlurhash, responseBook.cover_blurhash)
 			assert.equal(book.file != null, responseBook.file)
+			assert.equal(book.fileName, responseBook.file_name)
 		}
 	}
 
 	async function testGetCollectionWithPublishedStoreBooks(author, collection, jwt){
-		let response;
+		let response
 
 		try{
 			let requestConfig = {
@@ -179,23 +180,23 @@ describe("GetStoreBookCollection endpoint", async () => {
 				}
 			}
 
-			response = await axios.default(requestConfig);
+			response = await axios.default(requestConfig)
 		}catch(error){
-			assert.fail();
+			assert.fail()
 		}
 
-		assert.equal(200, response.status);
-		assert.equal(collection.uuid, response.data.uuid);
-		assert.equal(author.uuid, response.data.author);
+		assert.equal(200, response.status)
+		assert.equal(collection.uuid, response.data.uuid)
+		assert.equal(author.uuid, response.data.author)
 
-		assert.equal(collection.names.length, response.data.names.length);
+		assert.equal(collection.names.length, response.data.names.length)
 
 		for(let i = 0; i < collection.names.length; i++){
-			let collectionName = collection.names[i];
-			let responseCollectionName = response.data.names[i];
+			let collectionName = collection.names[i]
+			let responseCollectionName = response.data.names[i]
 
-			assert.equal(collectionName.name, responseCollectionName.name);
-			assert.equal(collectionName.language, responseCollectionName.language);
+			assert.equal(collectionName.name, responseCollectionName.name)
+			assert.equal(collectionName.language, responseCollectionName.language)
 		}
 
 		let booksCount = 0
@@ -211,12 +212,13 @@ describe("GetStoreBookCollection endpoint", async () => {
 			assert.equal(book.description, responseBook.description)
 			assert.equal(book.language, responseBook.language)
 			assert.equal(book.status, responseBook.status)
-			assert.isNull(responseBook.cover_aspect_ratio)
-			assert.isNull(responseBook.cover_blurhash)
 			assert.equal(book.cover != null, responseBook.cover)
+			assert.equal(book.coverAspectRatio, responseBook.cover_aspect_ratio)
+			assert.equal(book.coverBlurhash, responseBook.cover_blurhash)
 			assert.equal(book.file != null, responseBook.file)
+			assert.equal(book.fileName, responseBook.file_name)
 		}
 
-		assert.equal(booksCount, response.data.books.length);
+		assert.equal(booksCount, response.data.books.length)
 	}
-});
+})

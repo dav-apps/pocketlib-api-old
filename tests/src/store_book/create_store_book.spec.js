@@ -472,10 +472,11 @@ describe("CreateStoreBook endpoint", () => {
 		assert.equal(language, response.data.language)
 		assert.equal(0, response.data.price)
 		assert.equal("unpublished", response.data.status)
+		assert.equal(false, response.data.cover)
 		assert.isNull(response.data.cover_aspect_ratio)
 		assert.isNull(response.data.cover_blurhash)
-		assert.equal(false, response.data.cover)
 		assert.equal(false, response.data.file)
+		assert.isNull(response.data.file_name)
 		assert.equal(0, response.data.categories.length)
 		assert.equal(false, response.data.in_library)
 		assert.equal(false, response.data.purchased)
@@ -566,10 +567,11 @@ describe("CreateStoreBook endpoint", () => {
 		assert.equal(language, response.data.language)
 		assert.equal(price, response.data.price)
 		assert.equal("unpublished", response.data.status)
+		assert.isFalse(response.data.cover)
 		assert.isNull(response.data.cover_aspect_ratio)
 		assert.isNull(response.data.cover_blurhash)
-		assert.isFalse(response.data.cover)
 		assert.isFalse(response.data.file)
+		assert.isNull(response.data.file_name)
 		assert.equal(categories.length, response.data.categories.length)
 		assert.isFalse(response.data.in_library)
 		assert.isFalse(response.data.purchased)
@@ -619,5 +621,5 @@ describe("CreateStoreBook endpoint", () => {
 
 		// Tidy up
 		resetStoreBooksAndCollections = true;
-	});
-});
+	})
+})

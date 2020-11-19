@@ -125,10 +125,11 @@ describe("GetStoreBooksInReview endpoint", () => {
 			assert.equal(storeBook.description, book.description)
 			assert.equal(storeBook.language, book.language)
 			assert.equal(storeBook.status, book.status)
-			assert.isNull(book.cover_aspect_ratio)
-			assert.isNull(book.cover_blurhash)
 			assert.equal(storeBook.cover != null, book.cover)
+			assert.equal(storeBook.coverAspectRatio, book.cover_aspect_ratio)
+			assert.equal(storeBook.coverBlurhash, book.cover_blurhash)
 			assert.equal(storeBook.file != null, book.file)
+			assert.equal(storeBook.fileName, book.file_name)
 
 			i++
 		}

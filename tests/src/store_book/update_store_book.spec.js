@@ -911,10 +911,11 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal(storeBook.description, response.data.description)
 		assert.equal(storeBook.language, response.data.language)
 		assert.equal("review", response.data.status)
-		assert.isNull(response.data.cover_aspect_ratio)
-		assert.isNull(response.data.cover_blurhash)
 		assert.equal(true, response.data.cover)
+		assert.equal(storeBook.coverAspectRatio, response.data.cover_aspect_ratio)
+		assert.equal(storeBook.coverBlurhash, response.data.cover_blurhash)
 		assert.equal(true, response.data.file)
+		assert.equal(storeBook.fileName, response.data.file_name)
 
 		if (storeBook.categories) {
 			assert.equal(storeBook.categories.length, response.data.categories.length);
@@ -983,10 +984,11 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal(storeBook.description, response.data.description)
 		assert.equal(storeBook.language, response.data.language)
 		assert.equal("published", response.data.status)
-		assert.isNull(response.data.cover_aspect_ratio)
-		assert.isNull(response.data.cover_blurhash)
 		assert.equal(storeBook.cover != null, response.data.cover)
+		assert.equal(storeBook.coverAspectRatio, response.data.cover_aspect_ratio)
+		assert.equal(storeBook.coverBlurhash, response.data.cover_blurhash)
 		assert.equal(storeBook.file != null, response.data.file)
+		assert.equal(storeBook.fileName, response.data.file_name)
 
 		if (storeBook.categories) {
 			assert.equal(storeBook.categories.length, response.data.categories.length);
@@ -1053,10 +1055,11 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal(storeBook.description, response.data.description)
 		assert.equal(storeBook.language, response.data.language)
 		assert.equal("hidden", response.data.status)
-		assert.isNull(response.data.cover_aspect_ratio)
-		assert.isNull(response.data.cover_blurhash)
 		assert.equal(storeBook.cover != null, response.data.cover)
+		assert.equal(storeBook.coverAspectRatio, response.data.cover_aspect_ratio)
+		assert.equal(storeBook.coverBlurhash, response.data.cover_blurhash)
 		assert.equal(storeBook.file != null, response.data.file)
+		assert.equal(storeBook.fileName, response.data.file_name)
 
 		if (storeBook.categories) {
 			assert.equal(storeBook.categories.length, response.data.categories.length);
@@ -1286,10 +1289,11 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal(storeBook.description, response.data.description)
 		assert.equal(storeBook.language, response.data.language)
 		assert.equal("review", response.data.status)
-		assert.isNull(response.data.cover_aspect_ratio)
-		assert.isNull(response.data.cover_blurhash)
-		assert.equal(true, response.data.cover)
-		assert.equal(true, response.data.file)
+		assert.equal(storeBook.cover != null, response.data.cover)
+		assert.equal(storeBook.coverAspectRatio, response.data.cover_aspect_ratio)
+		assert.equal(storeBook.coverBlurhash, response.data.cover_blurhash)
+		assert.equal(storeBook.file != null, response.data.file)
+		assert.equal(storeBook.fileName, response.data.file_name)
 
 		if (storeBook.categories) {
 			assert.equal(storeBook.categories.length, response.data.categories.length);
@@ -1358,10 +1362,11 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal(storeBook.description, response.data.description)
 		assert.equal(storeBook.language, response.data.language)
 		assert.equal("published", response.data.status)
-		assert.isNull(response.data.cover_aspect_ratio)
-		assert.isNull(response.data.cover_blurhash)
 		assert.equal(storeBook.cover != null, response.data.cover)
+		assert.equal(storeBook.coverAspectRatio, response.data.cover_aspect_ratio)
+		assert.equal(storeBook.coverBlurhash, response.data.cover_blurhash)
 		assert.equal(storeBook.file != null, response.data.file)
+		assert.equal(storeBook.fileName, response.data.file_name)
 
 		if (storeBook.categories) {
 			assert.equal(storeBook.categories.length, response.data.categories.length);
@@ -1428,10 +1433,11 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal(storeBook.description, response.data.description)
 		assert.equal(storeBook.language, response.data.language)
 		assert.equal("hidden", response.data.status)
-		assert.isNull(response.data.cover_aspect_ratio)
-		assert.isNull(response.data.cover_blurhash)
-		assert.equal(true, response.data.cover)
-		assert.equal(true, response.data.file)
+		assert.equal(storeBook.cover != null, response.data.cover)
+		assert.equal(storeBook.coverAspectRatio, response.data.cover_aspect_ratio)
+		assert.equal(storeBook.coverBlurhash, response.data.cover_blurhash)
+		assert.equal(storeBook.file != null, response.data.file)
+		assert.equal(storeBook.fileName, response.data.file_name)
 
 		if (storeBook.categories) {
 			assert.equal(storeBook.categories.length, response.data.categories.length);
@@ -1499,10 +1505,11 @@ async function testShouldUpdateTitleOfStoreBook(collection, storeBook, jwt, owne
 	assert.equal(storeBook.language, response.data.language)
 	assert.equal(storeBook.price || 0, response.data.price)
 	assert.equal(storeBook.status || "unpublished", response.data.status)
-	assert.isNull(response.data.cover_aspect_ratio)
-	assert.isNull(response.data.cover_blurhash)
 	assert.equal(storeBook.cover != null, response.data.cover)
+	assert.equal(storeBook.coverAspectRatio, response.data.cover_aspect_ratio)
+	assert.equal(storeBook.coverBlurhash, response.data.cover_blurhash)
 	assert.equal(storeBook.file != null, response.data.file)
+	assert.equal(storeBook.fileName, response.data.file_name)
 
 	if (storeBook.categories) {
 		assert.equal(storeBook.categories.length, response.data.categories.length);
@@ -1569,10 +1576,11 @@ async function testShouldUpdateDescriptionOfStoreBook(collection, storeBook, jwt
 	assert.equal(storeBook.language, response.data.language)
 	assert.equal(storeBook.price || 0, response.data.price)
 	assert.equal(storeBook.status || "unpublished", response.data.status)
-	assert.isNull(response.data.cover_aspect_ratio)
-	assert.isNull(response.data.cover_blurhash)
 	assert.equal(storeBook.cover != null, response.data.cover)
+	assert.equal(storeBook.coverAspectRatio, response.data.cover_aspect_ratio)
+	assert.equal(storeBook.coverBlurhash, response.data.cover_blurhash)
 	assert.equal(storeBook.file != null, response.data.file)
+	assert.equal(storeBook.fileName, response.data.file_name)
 
 	if (storeBook.categories) {
 		assert.equal(storeBook.categories.length, response.data.categories.length);
@@ -1639,10 +1647,11 @@ async function testShouldUpdateLanguageOfStoreBook(collection, storeBook, jwt, o
 	assert.equal(language, response.data.language)
 	assert.equal(storeBook.price || 0, response.data.price)
 	assert.equal(storeBook.status || "unpublished", response.data.status)
-	assert.isNull(response.data.cover_aspect_ratio)
-	assert.isNull(response.data.cover_blurhash)
 	assert.equal(storeBook.cover != null, response.data.cover)
+	assert.equal(storeBook.coverAspectRatio, response.data.cover_aspect_ratio)
+	assert.equal(storeBook.coverBlurhash, response.data.cover_blurhash)
 	assert.equal(storeBook.file != null, response.data.file)
+	assert.equal(storeBook.fileName, response.data.file_name)
 
 	if (storeBook.categories) {
 		assert.equal(storeBook.categories.length, response.data.categories.length);
@@ -1734,10 +1743,11 @@ async function testShouldUpdatePriceOfStoreBook(collection, storeBook, jwt, owne
 	assert.equal(storeBook.language, response.data.language)
 	assert.equal(price, response.data.price)
 	assert.equal(storeBook.status || "unpublished", response.data.status)
-	assert.isNull(response.data.cover_aspect_ratio)
-	assert.isNull(response.data.cover_blurhash)
 	assert.equal(storeBook.cover != null, response.data.cover)
+	assert.equal(storeBook.coverAspectRatio, response.data.cover_aspect_ratio)
+	assert.equal(storeBook.coverBlurhash, response.data.cover_blurhash)
 	assert.equal(storeBook.file != null, response.data.file)
+	assert.equal(storeBook.fileName, response.data.file_name)
 
 	if (storeBook.categories) {
 		assert.equal(storeBook.categories.length, response.data.categories.length);
@@ -1829,10 +1839,11 @@ async function testShouldUpdateStatusOfStoreBook(collection, storeBook, jwt, own
 	assert.equal(storeBook.language, response.data.language)
 	assert.equal(storeBook.price || 0, response.data.price)
 	assert.equal(status, response.data.status)
-	assert.isNull(response.data.cover_aspect_ratio)
-	assert.isNull(response.data.cover_blurhash)
 	assert.equal(storeBook.cover != null, response.data.cover)
+	assert.equal(storeBook.coverAspectRatio, response.data.cover_aspect_ratio)
+	assert.equal(storeBook.coverBlurhash, response.data.cover_blurhash)
 	assert.equal(storeBook.file != null, response.data.file)
+	assert.equal(storeBook.fileName, response.data.file_name)
 
 	if (storeBook.categories) {
 		assert.equal(storeBook.categories.length, response.data.categories.length);
@@ -1910,10 +1921,11 @@ async function testShouldUpdateCategoriesOfStoreBook(collection, storeBook, jwt,
 		i++;
 	}
 
-	assert.isNull(response.data.cover_aspect_ratio)
-	assert.isNull(response.data.cover_blurhash)
-	assert.equal(storeBook.cover != null, response.data.cover);
-	assert.equal(storeBook.file != null, response.data.file);
+	assert.equal(storeBook.cover != null, response.data.cover)
+	assert.equal(storeBook.coverAspectRatio, response.data.cover_aspect_ratio)
+	assert.equal(storeBook.coverBlurhash, response.data.cover_blurhash)
+	assert.equal(storeBook.file != null, response.data.file)
+	assert.equal(storeBook.fileName, response.data.file_name)
 
 	// Check if the store book was updated on the server
 	let objResponse;

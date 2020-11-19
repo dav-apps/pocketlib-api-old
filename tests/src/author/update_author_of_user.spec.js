@@ -234,8 +234,8 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 		assert.equal(constants.authorUser.author.lastName, response.data.last_name)
 		assert.equal(constants.authorUser.author.bios.length, response.data.bios.length)
 		assert.equal(constants.authorUser.author.collections.length, response.data.collections.length)
-		assert.isNull(response.data.profile_image_blurhash)
 		assert.isTrue(response.data.profile_image)
+		assert.equal(constants.authorUser.author.profileImageBlurhash, response.data.profile_image_blurhash)
 
 		for(let i = 0; i < constants.authorUser.author.bios.length; i++){
 			let bio = constants.authorUser.author.bios[i]
@@ -263,21 +263,21 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 		}
 
 		// Check if the data was updated correctly on the server
-		let objResponse;
+		let objResponse
 
 		try{
-			objResponse = await utils.getTableObject(constants.authorUser.author.uuid, constants.authorUser.jwt);
+			objResponse = await utils.getTableObject(constants.authorUser.author.uuid, constants.authorUser.jwt)
 		}catch(error){
-			assert.fail();
+			assert.fail()
 		}
 
-		assert.equal(constants.authorUser.author.uuid, objResponse.data.uuid);
-		assert.equal(firstName, objResponse.data.properties.first_name);
-		assert.equal(constants.authorUser.author.lastName, objResponse.data.properties.last_name);
+		assert.equal(constants.authorUser.author.uuid, objResponse.data.uuid)
+		assert.equal(firstName, objResponse.data.properties.first_name)
+		assert.equal(constants.authorUser.author.lastName, objResponse.data.properties.last_name)
 
 		// Tidy up
-		resetAuthors = true;
-	});
+		resetAuthors = true
+	})
 
 	it("should update last_name of author", async () => {
 		let lastName = "Updated name";
@@ -305,8 +305,8 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 		assert.equal(lastName, response.data.last_name)
 		assert.equal(constants.authorUser.author.bios.length, response.data.bios.length)
 		assert.equal(constants.authorUser.author.collections.length, response.data.collections.length)
-		assert.isNull(response.data.profile_image_blurhash)
 		assert.isTrue(response.data.profile_image)
+		assert.equal(constants.authorUser.author.profileImageBlurhash, response.data.profile_image_blurhash)
 
 		for(let i = 0; i < constants.authorUser.author.bios.length; i++){
 			let bio = constants.authorUser.author.bios[i]
@@ -334,21 +334,21 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 		}
 
 		// Check if the data was updated correctly on the server
-		let objResponse;
+		let objResponse
 
 		try{
-			objResponse = await utils.getTableObject(constants.authorUser.author.uuid, constants.authorUser.jwt);
+			objResponse = await utils.getTableObject(constants.authorUser.author.uuid, constants.authorUser.jwt)
 		}catch(error){
-			assert.fail();
+			assert.fail()
 		}
 
-		assert.equal(constants.authorUser.author.uuid, objResponse.data.uuid);
-		assert.equal(constants.authorUser.author.firstName, objResponse.data.properties.first_name);
-		assert.equal(lastName, objResponse.data.properties.last_name);
+		assert.equal(constants.authorUser.author.uuid, objResponse.data.uuid)
+		assert.equal(constants.authorUser.author.firstName, objResponse.data.properties.first_name)
+		assert.equal(lastName, objResponse.data.properties.last_name)
 
 		// Tidy up
-		resetAuthors = true;
-	});
+		resetAuthors = true
+	})
 
 	it("should update all properties of author", async () => {
 		let firstName = "New first name";
@@ -378,8 +378,8 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 		assert.equal(lastName, response.data.last_name)
 		assert.equal(constants.authorUser.author.bios.length, response.data.bios.length)
 		assert.equal(constants.authorUser.author.collections.length, response.data.collections.length)
-		assert.isNull(response.data.profile_image_blurhash)
 		assert.isTrue(response.data.profile_image)
+		assert.equal(constants.authorUser.author.profileImageBlurhash, response.data.profile_image_blurhash)
 
 		for(let i = 0; i < constants.authorUser.author.bios.length; i++){
 			let bio = constants.authorUser.author.bios[i]
@@ -421,5 +421,5 @@ describe("UpdateAuthorOfUser endpoint", async () => {
 
 		// Tidy up
 		resetAuthors = true
-	});
-});
+	})
+})

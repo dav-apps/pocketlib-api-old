@@ -88,19 +88,20 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(storeBook.language, response.data.language)
 		assert.equal(storeBook.price || 0, response.data.price)
 		assert.equal("unpublished", response.data.status)
-		assert.isNull(response.data.cover_aspect_ratio)
-		assert.isNull(response.data.cover_blurhash)
 		assert.equal(storeBook.cover != null, response.data.cover)
+		assert.equal(storeBook.coverAspectRatio, response.data.cover_aspect_ratio)
+		assert.equal(storeBook.coverBlurhash, response.data.cover_blurhash)
 		assert.equal(storeBook.file != null, response.data.file)
+		assert.equal(storeBook.fileName, response.data.file_name)
 		
 		if (storeBook.categories) {
-			assert.equal(storeBook.categories.length, response.data.categories.length);
+			assert.equal(storeBook.categories.length, response.data.categories.length)
 
 			for (let key of response.data.categories) {
-				assert(constants.categories.find(c => c.key == key) != null);
+				assert(constants.categories.find(c => c.key == key) != null)
 			}
 		} else {
-			assert.equal(0, response.data.categories.length);
+			assert.equal(0, response.data.categories.length)
 		}
 
 		assert.equal(false, response.data.in_library)
@@ -108,9 +109,9 @@ describe("GetStoreBook endpoint", () => {
 	})
 
 	it("should return unpublished store book if the user is an admin", async () => {
-		let collection = constants.authorUser.author.collections[1];
-		let storeBook = collection.books[0];
-		let response;
+		let collection = constants.authorUser.author.collections[1]
+		let storeBook = collection.books[0]
+		let response
 
 		try{
 			response = await axios.default({
@@ -119,9 +120,9 @@ describe("GetStoreBook endpoint", () => {
 				headers: {
 					Authorization: constants.davUser.jwt
 				}
-			});
+			})
 		}catch(error){
-			assert.fail();
+			assert.fail()
 		}
 
 		assert.equal(200, response.status)
@@ -132,10 +133,11 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(storeBook.language, response.data.language)
 		assert.equal(storeBook.price || 0, response.data.price)
 		assert.equal("unpublished", response.data.status)
-		assert.isNull(response.data.cover_aspect_ratio)
-		assert.isNull(response.data.cover_blurhash)
 		assert.equal(storeBook.cover != null, response.data.cover)
+		assert.equal(storeBook.coverAspectRatio, response.data.cover_aspect_ratio)
+		assert.equal(storeBook.coverBlurhash, response.data.cover_blurhash)
 		assert.equal(storeBook.file != null, response.data.file)
+		assert.equal(storeBook.fileName, response.data.file_name)
 
 		if (storeBook.categories) {
 			assert.equal(storeBook.categories.length, response.data.categories.length)
@@ -152,8 +154,8 @@ describe("GetStoreBook endpoint", () => {
 	})
 
 	it("should not return unpublished store book if the user is not the author", async () => {
-		let collection = constants.authorUser.author.collections[1];
-		let storeBook = collection.books[0];
+		let collection = constants.authorUser.author.collections[1]
+		let storeBook = collection.books[0]
 
 		try{
 			await axios.default({
@@ -162,7 +164,7 @@ describe("GetStoreBook endpoint", () => {
 				headers: {
 					Authorization: constants.davClassLibraryTestUser.jwt
 				}
-			});
+			})
 		}catch(error){
 			assert.equal(403, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
@@ -181,12 +183,12 @@ describe("GetStoreBook endpoint", () => {
 			await axios.default({
 				method: 'get',
 				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid)
-			});
+			})
 		}catch(error){
-			assert.equal(403, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1102, error.response.data.errors[0].code);
-			return;
+			assert.equal(403, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(1102, error.response.data.errors[0].code)
+			return
 		}
 
 		assert.fail()
@@ -217,19 +219,20 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(storeBook.language, response.data.language)
 		assert.equal(storeBook.price || 0, response.data.price)
 		assert.equal("review", response.data.status)
-		assert.isNull(response.data.cover_aspect_ratio)
-		assert.isNull(response.data.cover_blurhash)
 		assert.equal(storeBook.cover != null, response.data.cover)
+		assert.equal(storeBook.coverAspectRatio, response.data.cover_aspect_ratio)
+		assert.equal(storeBook.coverBlurhash, response.data.cover_blurhash)
 		assert.equal(storeBook.file != null, response.data.file)
+		assert.equal(storeBook.fileName, response.data.file_name)
 
 		if (storeBook.categories) {
-			assert.equal(storeBook.categories.length, response.data.categories.length);
+			assert.equal(storeBook.categories.length, response.data.categories.length)
 
 			for (let key of response.data.categories) {
-				assert(constants.categories.find(c => c.key == key) != null);
+				assert(constants.categories.find(c => c.key == key) != null)
 			}
 		} else {
-			assert.equal(0, response.data.categories.length);
+			assert.equal(0, response.data.categories.length)
 		}
 
 		assert.equal(false, response.data.in_library)
@@ -261,10 +264,11 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(storeBook.language, response.data.language)
 		assert.equal(storeBook.price || 0, response.data.price)
 		assert.equal("review", response.data.status)
-		assert.isNull(response.data.cover_aspect_ratio)
-		assert.isNull(response.data.cover_blurhash)
 		assert.equal(storeBook.cover != null, response.data.cover)
+		assert.equal(storeBook.coverAspectRatio, response.data.cover_aspect_ratio)
+		assert.equal(storeBook.coverBlurhash, response.data.cover_blurhash)
 		assert.equal(storeBook.file != null, response.data.file)
+		assert.equal(storeBook.fileName, response.data.file_name)
 
 		if (storeBook.categories) {
 			assert.equal(storeBook.categories.length, response.data.categories.length)
@@ -281,8 +285,8 @@ describe("GetStoreBook endpoint", () => {
 	})
 
 	it("should not return store book in review if the user is not the author", async () => {
-		let collection = constants.authorUser.author.collections[0];
-		let storeBook = collection.books[0];
+		let collection = constants.authorUser.author.collections[0]
+		let storeBook = collection.books[0]
 
 		try{
 			response = await axios.default({
@@ -346,10 +350,11 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(storeBook.language, response.data.language)
 		assert.equal(storeBook.price || 0, response.data.price)
 		assert.equal("published", response.data.status)
-		assert.isNull(response.data.cover_aspect_ratio)
-		assert.isNull(response.data.cover_blurhash)
 		assert.equal(storeBook.cover != null, response.data.cover)
+		assert.equal(storeBook.coverAspectRatio, response.data.cover_aspect_ratio)
+		assert.equal(storeBook.coverBlurhash, response.data.cover_blurhash)
 		assert.equal(storeBook.file != null, response.data.file)
+		assert.equal(storeBook.fileName, response.data.file_name)
 
 		if (storeBook.categories) {
 			assert.equal(storeBook.categories.length, response.data.categories.length)
@@ -390,10 +395,11 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(storeBook.language, response.data.language)
 		assert.equal(storeBook.price || 0, response.data.price)
 		assert.equal("published", response.data.status)
-		assert.isNull(response.data.cover_aspect_ratio)
-		assert.isNull(response.data.cover_blurhash)
 		assert.equal(storeBook.cover != null, response.data.cover)
+		assert.equal(storeBook.coverAspectRatio, response.data.cover_aspect_ratio)
+		assert.equal(storeBook.coverBlurhash, response.data.cover_blurhash)
 		assert.equal(storeBook.file != null, response.data.file)
+		assert.equal(storeBook.fileName, response.data.file_name)
 
 		if (storeBook.categories) {
 			assert.equal(storeBook.categories.length, response.data.categories.length)
@@ -434,10 +440,11 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(storeBook.language, response.data.language)
 		assert.equal(storeBook.price || 0, response.data.price)
 		assert.equal("published", response.data.status)
-		assert.isNull(response.data.cover_aspect_ratio)
-		assert.isNull(response.data.cover_blurhash)
 		assert.equal(storeBook.cover != null, response.data.cover)
+		assert.equal(storeBook.coverAspectRatio, response.data.cover_aspect_ratio)
+		assert.equal(storeBook.coverBlurhash, response.data.cover_blurhash)
 		assert.equal(storeBook.file != null, response.data.file)
+		assert.equal(storeBook.fileName, response.data.file_name)
 
 		if (storeBook.categories) {
 			assert.equal(storeBook.categories.length, response.data.categories.length)
@@ -475,10 +482,11 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(storeBook.language, response.data.language)
 		assert.equal(storeBook.price || 0, response.data.price)
 		assert.equal("published", response.data.status)
-		assert.isNull(response.data.cover_aspect_ratio)
-		assert.isNull(response.data.cover_blurhash)
 		assert.equal(storeBook.cover != null, response.data.cover)
+		assert.equal(storeBook.coverAspectRatio, response.data.cover_aspect_ratio)
+		assert.equal(storeBook.coverBlurhash, response.data.cover_blurhash)
 		assert.equal(storeBook.file != null, response.data.file)
+		assert.equal(storeBook.fileName, response.data.file_name)
 
 		if (storeBook.categories) {
 			assert.equal(storeBook.categories.length, response.data.categories.length)
@@ -519,10 +527,11 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(storeBook.language, response.data.language)
 		assert.equal(storeBook.price || 0, response.data.price)
 		assert.equal("hidden", response.data.status)
-		assert.isNull(response.data.cover_aspect_ratio)
-		assert.isNull(response.data.cover_blurhash)
 		assert.equal(storeBook.cover != null, response.data.cover)
+		assert.equal(storeBook.coverAspectRatio, response.data.cover_aspect_ratio)
+		assert.equal(storeBook.coverBlurhash, response.data.cover_blurhash)
 		assert.equal(storeBook.file != null, response.data.file)
+		assert.equal(storeBook.fileName, response.data.file_name)
 
 		if (storeBook.categories) {
 			assert.equal(storeBook.categories.length, response.data.categories.length)
@@ -563,10 +572,11 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(storeBook.language, response.data.language)
 		assert.equal(storeBook.price || 0, response.data.price)
 		assert.equal("hidden", response.data.status)
-		assert.isNull(response.data.cover_aspect_ratio)
-		assert.isNull(response.data.cover_blurhash)
 		assert.equal(storeBook.cover != null, response.data.cover)
+		assert.equal(storeBook.coverAspectRatio, response.data.cover_aspect_ratio)
+		assert.equal(storeBook.coverBlurhash, response.data.cover_blurhash)
 		assert.equal(storeBook.file != null, response.data.file)
+		assert.equal(storeBook.fileName, response.data.file_name)
 
 		if (storeBook.categories) {
 			assert.equal(storeBook.categories.length, response.data.categories.length)

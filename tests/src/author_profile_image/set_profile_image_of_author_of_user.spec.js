@@ -156,8 +156,8 @@ describe("SetProfileImageOfAuthorOfUser endpoint", () => {
 		}
 
 		// The author should have a profile image but no profile image blurhash
-		assert.isNotNull(getAuthorObjResponse.data.properties.profile_image)
-		assert.equal(null, getAuthorObjResponse.data.properties.profile_image_blurhash)
+		assert.equal(author.profileImage.uuid, getAuthorObjResponse.data.properties.profile_image)
+		assert.equal(author.profileImageBlurhash, getAuthorObjResponse.data.properties.profile_image_blurhash)
 
 		// Remove the profile image uuid from the author table object
 		let updateAuthorObjResponse;
@@ -171,11 +171,12 @@ describe("SetProfileImageOfAuthorOfUser endpoint", () => {
 					'Content-Type': 'application/json'
 				},
 				data: {
-					profile_image: ""
+					profile_image: "",
+					profile_image_blurhash: ""
 				}
-			});
+			})
 		}catch(error){
-			assert.fail();
+			assert.fail()
 		}
 
 		// The author now should not have a profile image
@@ -183,10 +184,10 @@ describe("SetProfileImageOfAuthorOfUser endpoint", () => {
 		assert.equal(null, updateAuthorObjResponse.data.properties.profile_image_blurhash)
 
 		// Upload the profile image (1)
-		let filePath = path.resolve(__dirname, '../files/cover.png');
-		let firstFileContent = fs.readFileSync(filePath);
-		let firstFileType = "image/png";
-		let firstFileExt = "png";
+		let filePath = path.resolve(__dirname, '../files/cover.png')
+		let firstFileContent = fs.readFileSync(filePath)
+		let firstFileType = "image/png"
+		let firstFileExt = "png"
 
 		try{
 			await axios.default({
@@ -197,7 +198,7 @@ describe("SetProfileImageOfAuthorOfUser endpoint", () => {
 					'Content-Type': firstFileType
 				},
 				data: firstFileContent
-			});
+			})
 		}catch(error){
 			assert.fail();
 		}
@@ -212,7 +213,7 @@ describe("SetProfileImageOfAuthorOfUser endpoint", () => {
 				headers: {
 					Authorization: jwt
 				}
-			});
+			})
 		}catch(error){
 			assert.fail();
 		}
