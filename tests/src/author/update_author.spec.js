@@ -4,24 +4,24 @@ import axios from 'axios'
 import constants from '../constants.js'
 import * as utils from '../utils.js'
 
-const updateAuthorEndpointUrl = `${constants.apiBaseUrl}/api/1/call/author`
+const updateAuthorEndpointUrl = `${constants.apiBaseUrl}/api/1/call/author/{0}`
 var resetAuthors = false
 
 afterEach(async () => {
-	if(resetAuthors){
+	if (resetAuthors) {
 		await utils.resetAuthors()
 		resetAuthors = false
 	}
 })
 
-describe("UpdateAuthorOfUser endpoint", () => {
+describe("UpdateAuthor endpoint", () => {
 	it("should not update author without jwt", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'put',
-				url: updateAuthorEndpointUrl
+				url: updateAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid)
 			})
-		}catch(error){
+		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
 			assert.equal(2101, error.response.data.errors[0].code)
@@ -32,16 +32,16 @@ describe("UpdateAuthorOfUser endpoint", () => {
 	})
 
 	it("should not update author with invalid jwt", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'put',
-				url: updateAuthorEndpointUrl,
+				url: updateAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
 				headers: {
-					Authorization: "blablabla",
+					Authorization: 'asodasfobasf',
 					'Content-Type': 'application/json'
 				}
 			})
-		}catch(error){
+		} catch (error) {
 			assert.equal(401, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
 			assert.equal(1302, error.response.data.errors[0].code)
@@ -52,15 +52,15 @@ describe("UpdateAuthorOfUser endpoint", () => {
 	})
 
 	it("should not update author without content type json", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'put',
-				url: updateAuthorEndpointUrl,
+				url: updateAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
 				headers: {
-					Authorization: constants.authorUser.jwt
+					Authorization: constants.davUser.jwt
 				}
 			})
-		}catch(error){
+		} catch (error) {
 			assert.equal(415, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
 			assert.equal(1104, error.response.data.errors[0].code)
@@ -71,16 +71,16 @@ describe("UpdateAuthorOfUser endpoint", () => {
 	})
 
 	it("should not update author if jwt is for another app", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'put',
-				url: updateAuthorEndpointUrl,
+				url: updateAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
 				headers: {
 					Authorization: constants.davClassLibraryTestUserTestAppJWT,
 					'Content-Type': 'application/json'
 				}
 			})
-		}catch(error){
+		} catch (error) {
 			assert.equal(403, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
 			assert.equal(1102, error.response.data.errors[0].code)
@@ -90,43 +90,40 @@ describe("UpdateAuthorOfUser endpoint", () => {
 		assert.fail()
 	})
 
-	it("should not update author if the user is an admin", async () => {
-		try{
+	it("should not update author if the user is not an admin", async () => {
+		try {
 			await axios.default({
 				method: 'put',
-				url: updateAuthorEndpointUrl,
+				url: updateAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
+				headers: {
+					Authorization: constants.davClassLibraryTestUser.jwt,
+					'Content-Type': 'application/json'
+				}
+			})
+		} catch (error) {
+			assert.equal(403, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(1102, error.response.data.errors[0].code)
+			return
+		}
+
+		assert.fail()
+	})
+
+	it("should not update author if the author does not belong to the user", async () => {
+		try {
+			await axios.default({
+				method: 'put',
+				url: updateAuthorEndpointUrl.replace('{0}', constants.authorUser.author.uuid),
 				headers: {
 					Authorization: constants.davUser.jwt,
 					'Content-Type': 'application/json'
 				}
 			})
-		}catch(error){
+		} catch (error) {
 			assert.equal(403, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
 			assert.equal(1102, error.response.data.errors[0].code)
-			return
-		}
-
-		assert.fail()
-	})
-
-	it("should not update author if the user is not an author", async () => {
-		try{
-			await axios.default({
-				method: 'put',
-				url: updateAuthorEndpointUrl,
-				headers: {
-					Authorization: constants.davClassLibraryTestUser.jwt,
-					'Content-Type': 'application/json'
-				},
-				data: {
-					first_name: "Blabla"
-				}
-			})
-		}catch(error){
-			assert.equal(400, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1105, error.response.data.errors[0].code)
 			return
 		}
 
@@ -134,20 +131,20 @@ describe("UpdateAuthorOfUser endpoint", () => {
 	})
 
 	it("should not update author with properties with wrong types", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'put',
-				url: updateAuthorEndpointUrl,
+				url: updateAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
 				headers: {
-					Authorization: constants.authorUser.jwt,
+					Authorization: constants.davUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
-					first_name: 23,
-					last_name: true
+					first_name: true,
+					last_name: 21
 				}
 			})
-		}catch(error){
+		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(2, error.response.data.errors.length)
 			assert.equal(2201, error.response.data.errors[0].code)
@@ -159,20 +156,20 @@ describe("UpdateAuthorOfUser endpoint", () => {
 	})
 
 	it("should not update author with too short properties", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'put',
-				url: updateAuthorEndpointUrl,
+				url: updateAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
 				headers: {
-					Authorization: constants.authorUser.jwt,
+					Authorization: constants.davUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
 					first_name: "a",
-					last_name: "a"
+					last_name: "b"
 				}
 			})
-		}catch(error){
+		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(2, error.response.data.errors.length)
 			assert.equal(2301, error.response.data.errors[0].code)
@@ -184,20 +181,20 @@ describe("UpdateAuthorOfUser endpoint", () => {
 	})
 
 	it("should not update author with too long properties", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'put',
-				url: updateAuthorEndpointUrl,
+				url: updateAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
 				headers: {
-					Authorization: constants.authorUser.jwt,
+					Authorization: constants.davUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
 					first_name: "a".repeat(30),
-					last_name: "a".repeat(30)
+					last_name: "b".repeat(30)
 				}
 			})
-		}catch(error){
+		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(2, error.response.data.errors.length)
 			assert.equal(2401, error.response.data.errors[0].code)
@@ -213,33 +210,33 @@ describe("UpdateAuthorOfUser endpoint", () => {
 		let firstName = "Updated name"
 		let response
 
-		try{
+		try {
 			response = await axios.default({
 				method: 'put',
-				url: updateAuthorEndpointUrl,
+				url: updateAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
 				headers: {
-					Authorization: constants.authorUser.jwt,
+					Authorization: constants.davUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
 					first_name: firstName
 				}
 			})
-		}catch(error){
+		} catch (error) {
 			assert.fail()
 		}
 
 		assert.equal(200, response.status)
-		assert.equal(constants.authorUser.author.uuid, response.data.uuid)
+		assert.equal(constants.davUser.authors[0].uuid, response.data.uuid)
 		assert.equal(firstName, response.data.first_name)
-		assert.equal(constants.authorUser.author.lastName, response.data.last_name)
-		assert.equal(constants.authorUser.author.bios.length, response.data.bios.length)
-		assert.equal(constants.authorUser.author.collections.length, response.data.collections.length)
+		assert.equal(constants.davUser.authors[0].lastName, response.data.last_name)
+		assert.equal(constants.davUser.authors[0].bios.length, response.data.bios.length)
+		assert.equal(constants.davUser.authors[0].collections.length, response.data.collections.length)
 		assert.isTrue(response.data.profile_image)
-		assert.equal(constants.authorUser.author.profileImageBlurhash, response.data.profile_image_blurhash)
+		assert.equal(constants.davUser.authors[0].profileImageBlurhash, response.data.profile_image_blurhash)
 
-		for(let i = 0; i < constants.authorUser.author.bios.length; i++){
-			let bio = constants.authorUser.author.bios[i]
+		for(let i = 0; i < constants.davUser.authors[0].bios.length; i++){
+			let bio = constants.davUser.authors[0].bios[i]
 			let responseBio = response.data.bios[i]
 
 			assert.isUndefined(responseBio.uuid)
@@ -247,8 +244,8 @@ describe("UpdateAuthorOfUser endpoint", () => {
 			assert.equal(bio.language, responseBio.language)
 		}
 
-		for(let i = 0; i < constants.authorUser.author.collections.length; i++){
-			let collection = constants.authorUser.author.collections[i]
+		for(let i = 0; i < constants.davUser.authors[0].collections.length; i++){
+			let collection = constants.davUser.authors[0].collections[i]
 			let responseCollection = response.data.collections[i]
 
 			assert.equal(collection.uuid, responseCollection.uuid)
@@ -266,15 +263,15 @@ describe("UpdateAuthorOfUser endpoint", () => {
 		// Check if the data was updated correctly on the server
 		let objResponse
 
-		try{
-			objResponse = await utils.getTableObject(constants.authorUser.author.uuid, constants.authorUser.jwt)
-		}catch(error){
+		try {
+			objResponse = await utils.getTableObject(constants.davUser.authors[0].uuid, constants.davUser.jwt)
+		} catch (error) {
 			assert.fail()
 		}
 
-		assert.equal(constants.authorUser.author.uuid, objResponse.data.uuid)
+		assert.equal(constants.davUser.authors[0].uuid, objResponse.data.uuid)
 		assert.equal(firstName, objResponse.data.properties.first_name)
-		assert.equal(constants.authorUser.author.lastName, objResponse.data.properties.last_name)
+		assert.equal(constants.davUser.authors[0].lastName, objResponse.data.properties.last_name)
 	})
 
 	it("should update last_name of author", async () => {
@@ -282,33 +279,33 @@ describe("UpdateAuthorOfUser endpoint", () => {
 		let lastName = "Updated name"
 		let response
 
-		try{
+		try {
 			response = await axios.default({
 				method: 'put',
-				url: updateAuthorEndpointUrl,
+				url: updateAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
 				headers: {
-					Authorization: constants.authorUser.jwt,
+					Authorization: constants.davUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
 					last_name: lastName
 				}
 			})
-		}catch(error){
+		} catch (error) {
 			assert.fail()
 		}
 
 		assert.equal(200, response.status)
-		assert.equal(constants.authorUser.author.uuid, response.data.uuid)
-		assert.equal(constants.authorUser.author.firstName, response.data.first_name)
+		assert.equal(constants.davUser.authors[0].uuid, response.data.uuid)
+		assert.equal(constants.davUser.authors[0].firstName, response.data.first_name)
 		assert.equal(lastName, response.data.last_name)
-		assert.equal(constants.authorUser.author.bios.length, response.data.bios.length)
-		assert.equal(constants.authorUser.author.collections.length, response.data.collections.length)
+		assert.equal(constants.davUser.authors[0].bios.length, response.data.bios.length)
+		assert.equal(constants.davUser.authors[0].collections.length, response.data.collections.length)
 		assert.isTrue(response.data.profile_image)
-		assert.equal(constants.authorUser.author.profileImageBlurhash, response.data.profile_image_blurhash)
+		assert.equal(constants.davUser.authors[0].profileImageBlurhash, response.data.profile_image_blurhash)
 
-		for(let i = 0; i < constants.authorUser.author.bios.length; i++){
-			let bio = constants.authorUser.author.bios[i]
+		for(let i = 0; i < constants.davUser.authors[0].bios.length; i++){
+			let bio = constants.davUser.authors[0].bios[i]
 			let responseBio = response.data.bios[i]
 
 			assert.isUndefined(responseBio.uuid)
@@ -316,8 +313,8 @@ describe("UpdateAuthorOfUser endpoint", () => {
 			assert.equal(bio.language, responseBio.language)
 		}
 
-		for(let i = 0; i < constants.authorUser.author.collections.length; i++){
-			let collection = constants.authorUser.author.collections[i]
+		for(let i = 0; i < constants.davUser.authors[0].collections.length; i++){
+			let collection = constants.davUser.authors[0].collections[i]
 			let responseCollection = response.data.collections[i]
 
 			assert.equal(collection.uuid, responseCollection.uuid)
@@ -335,29 +332,29 @@ describe("UpdateAuthorOfUser endpoint", () => {
 		// Check if the data was updated correctly on the server
 		let objResponse
 
-		try{
-			objResponse = await utils.getTableObject(constants.authorUser.author.uuid, constants.authorUser.jwt)
-		}catch(error){
+		try {
+			objResponse = await utils.getTableObject(constants.davUser.authors[0].uuid, constants.davUser.jwt)
+		} catch (error) {
 			assert.fail()
 		}
 
-		assert.equal(constants.authorUser.author.uuid, objResponse.data.uuid)
-		assert.equal(constants.authorUser.author.firstName, objResponse.data.properties.first_name)
+		assert.equal(constants.davUser.authors[0].uuid, objResponse.data.uuid)
+		assert.equal(constants.davUser.authors[0].firstName, objResponse.data.properties.first_name)
 		assert.equal(lastName, objResponse.data.properties.last_name)
 	})
 
 	it("should update all properties of author", async () => {
 		resetAuthors = true
-		let firstName = "New first name"
-		let lastName = "New last name"
+		let firstName = "updated first name"
+		let lastName = "updated last name"
 		let response
 
-		try{
+		try {
 			response = await axios.default({
 				method: 'put',
-				url: updateAuthorEndpointUrl,
+				url: updateAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
 				headers: {
-					Authorization: constants.authorUser.jwt,
+					Authorization: constants.davUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -365,21 +362,21 @@ describe("UpdateAuthorOfUser endpoint", () => {
 					last_name: lastName
 				}
 			})
-		}catch(error){
+		} catch (error) {
 			assert.fail()
 		}
 
 		assert.equal(200, response.status)
-		assert.equal(constants.authorUser.author.uuid, response.data.uuid)
+		assert.equal(constants.davUser.authors[0].uuid, response.data.uuid)
 		assert.equal(firstName, response.data.first_name)
 		assert.equal(lastName, response.data.last_name)
-		assert.equal(constants.authorUser.author.bios.length, response.data.bios.length)
-		assert.equal(constants.authorUser.author.collections.length, response.data.collections.length)
+		assert.equal(constants.davUser.authors[0].bios.length, response.data.bios.length)
+		assert.equal(constants.davUser.authors[0].collections.length, response.data.collections.length)
 		assert.isTrue(response.data.profile_image)
-		assert.equal(constants.authorUser.author.profileImageBlurhash, response.data.profile_image_blurhash)
+		assert.equal(constants.davUser.authors[0].profileImageBlurhash, response.data.profile_image_blurhash)
 
-		for(let i = 0; i < constants.authorUser.author.bios.length; i++){
-			let bio = constants.authorUser.author.bios[i]
+		for(let i = 0; i < constants.davUser.authors[0].bios.length; i++){
+			let bio = constants.davUser.authors[0].bios[i]
 			let responseBio = response.data.bios[i]
 
 			assert.isUndefined(responseBio.uuid)
@@ -387,8 +384,8 @@ describe("UpdateAuthorOfUser endpoint", () => {
 			assert.equal(bio.language, responseBio.language)
 		}
 
-		for(let i = 0; i < constants.authorUser.author.collections.length; i++){
-			let collection = constants.authorUser.author.collections[i]
+		for(let i = 0; i < constants.davUser.authors[0].collections.length; i++){
+			let collection = constants.davUser.authors[0].collections[i]
 			let responseCollection = response.data.collections[i]
 
 			assert.equal(collection.uuid, responseCollection.uuid)
@@ -406,13 +403,13 @@ describe("UpdateAuthorOfUser endpoint", () => {
 		// Check if the data was updated correctly on the server
 		let objResponse
 
-		try{
-			objResponse = await utils.getTableObject(constants.authorUser.author.uuid, constants.authorUser.jwt)
-		}catch(error){
+		try {
+			objResponse = await utils.getTableObject(constants.davUser.authors[0].uuid, constants.davUser.jwt)
+		} catch (error) {
 			assert.fail()
 		}
 
-		assert.equal(constants.authorUser.author.uuid, objResponse.data.uuid)
+		assert.equal(constants.davUser.authors[0].uuid, objResponse.data.uuid)
 		assert.equal(firstName, objResponse.data.properties.first_name)
 		assert.equal(lastName, objResponse.data.properties.last_name)
 	})
