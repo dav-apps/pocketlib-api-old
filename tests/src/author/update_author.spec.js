@@ -141,14 +141,22 @@ describe("UpdateAuthor endpoint", () => {
 				},
 				data: {
 					first_name: true,
-					last_name: 21
+					last_name: 21,
+					website_url: false,
+					facebook_username: 12.34,
+					instagram_username: 54,
+					twitter_username: true
 				}
 			})
 		} catch (error) {
 			assert.equal(400, error.response.status)
-			assert.equal(2, error.response.data.errors.length)
+			assert.equal(6, error.response.data.errors.length)
 			assert.equal(2201, error.response.data.errors[0].code)
 			assert.equal(2202, error.response.data.errors[1].code)
+			assert.equal(2216, error.response.data.errors[2].code)
+			assert.equal(2217, error.response.data.errors[3].code)
+			assert.equal(2218, error.response.data.errors[4].code)
+			assert.equal(2219, error.response.data.errors[5].code)
 			return
 		}
 
@@ -205,15 +213,45 @@ describe("UpdateAuthor endpoint", () => {
 		assert.fail()
 	})
 
+	it("should not update author with invalid properties", async () => {
+		try {
+			await axios.default({
+				method: 'put',
+				url: updateAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
+				headers: {
+					Authorization: constants.davUser.jwt,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					website_url: "asdasd",
+					facebook_username: "alns<#+. asd",
+					instagram_username: "a<x-",
+					twitter_username: "<<>>---++ä+ä+ß20ß23ik"
+				}
+			})
+		} catch (error) {
+			assert.equal(400, error.response.status)
+			assert.equal(4, error.response.data.errors.length)
+			assert.equal(2503, error.response.data.errors[0].code)
+			assert.equal(2504, error.response.data.errors[1].code)
+			assert.equal(2505, error.response.data.errors[2].code)
+			assert.equal(2506, error.response.data.errors[3].code)
+			return
+		}
+
+		assert.fail()
+	})
+
 	it("should update first_name of author", async () => {
 		resetAuthors = true
+		let author = constants.davUser.authors[0]
 		let firstName = "Updated name"
 		let response
 
 		try {
 			response = await axios.default({
 				method: 'put',
-				url: updateAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
+				url: updateAuthorEndpointUrl.replace('{0}', author.uuid),
 				headers: {
 					Authorization: constants.davUser.jwt,
 					'Content-Type': 'application/json'
@@ -227,16 +265,20 @@ describe("UpdateAuthor endpoint", () => {
 		}
 
 		assert.equal(200, response.status)
-		assert.equal(constants.davUser.authors[0].uuid, response.data.uuid)
+		assert.equal(author.uuid, response.data.uuid)
 		assert.equal(firstName, response.data.first_name)
-		assert.equal(constants.davUser.authors[0].lastName, response.data.last_name)
-		assert.equal(constants.davUser.authors[0].bios.length, response.data.bios.length)
-		assert.equal(constants.davUser.authors[0].collections.length, response.data.collections.length)
+		assert.equal(author.lastName, response.data.last_name)
+		assert.equal(author.websiteUrl, response.data.website_url)
+		assert.equal(utils.buildFacebookUrl(author.facebookUsername), response.data.facebook_url)
+		assert.equal(utils.buildInstagramUrl(author.instagramUsername), response.data.instagram_url)
+		assert.equal(utils.buildTwitterUrl(author.twitterUsername), response.data.twitter_url)
+		assert.equal(author.bios.length, response.data.bios.length)
+		assert.equal(author.collections.length, response.data.collections.length)
 		assert.isTrue(response.data.profile_image)
-		assert.equal(constants.davUser.authors[0].profileImageBlurhash, response.data.profile_image_blurhash)
+		assert.equal(author.profileImageBlurhash, response.data.profile_image_blurhash)
 
-		for(let i = 0; i < constants.davUser.authors[0].bios.length; i++){
-			let bio = constants.davUser.authors[0].bios[i]
+		for(let i = 0; i < author.bios.length; i++){
+			let bio = author.bios[i]
 			let responseBio = response.data.bios[i]
 
 			assert.isUndefined(responseBio.uuid)
@@ -244,8 +286,8 @@ describe("UpdateAuthor endpoint", () => {
 			assert.equal(bio.language, responseBio.language)
 		}
 
-		for(let i = 0; i < constants.davUser.authors[0].collections.length; i++){
-			let collection = constants.davUser.authors[0].collections[i]
+		for(let i = 0; i < author.collections.length; i++){
+			let collection = author.collections[i]
 			let responseCollection = response.data.collections[i]
 
 			assert.equal(collection.uuid, responseCollection.uuid)
@@ -264,25 +306,26 @@ describe("UpdateAuthor endpoint", () => {
 		let objResponse
 
 		try {
-			objResponse = await utils.getTableObject(constants.davUser.authors[0].uuid, constants.davUser.jwt)
+			objResponse = await utils.getTableObject(author.uuid, constants.davUser.jwt)
 		} catch (error) {
 			assert.fail()
 		}
 
-		assert.equal(constants.davUser.authors[0].uuid, objResponse.data.uuid)
+		assert.equal(author.uuid, objResponse.data.uuid)
 		assert.equal(firstName, objResponse.data.properties.first_name)
-		assert.equal(constants.davUser.authors[0].lastName, objResponse.data.properties.last_name)
+		assert.equal(author.lastName, objResponse.data.properties.last_name)
 	})
 
 	it("should update last_name of author", async () => {
 		resetAuthors = true
+		let author = constants.davUser.authors[0]
 		let lastName = "Updated name"
 		let response
 
 		try {
 			response = await axios.default({
 				method: 'put',
-				url: updateAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
+				url: updateAuthorEndpointUrl.replace('{0}', author.uuid),
 				headers: {
 					Authorization: constants.davUser.jwt,
 					'Content-Type': 'application/json'
@@ -296,16 +339,20 @@ describe("UpdateAuthor endpoint", () => {
 		}
 
 		assert.equal(200, response.status)
-		assert.equal(constants.davUser.authors[0].uuid, response.data.uuid)
-		assert.equal(constants.davUser.authors[0].firstName, response.data.first_name)
+		assert.equal(author.uuid, response.data.uuid)
+		assert.equal(author.firstName, response.data.first_name)
 		assert.equal(lastName, response.data.last_name)
-		assert.equal(constants.davUser.authors[0].bios.length, response.data.bios.length)
-		assert.equal(constants.davUser.authors[0].collections.length, response.data.collections.length)
+		assert.equal(author.websiteUrl, response.data.website_url)
+		assert.equal(utils.buildFacebookUrl(author.facebookUsername), response.data.facebook_url)
+		assert.equal(utils.buildInstagramUrl(author.instagramUsername), response.data.instagram_url)
+		assert.equal(utils.buildTwitterUrl(author.twitterUsername), response.data.twitter_url)
+		assert.equal(author.bios.length, response.data.bios.length)
+		assert.equal(author.collections.length, response.data.collections.length)
 		assert.isTrue(response.data.profile_image)
-		assert.equal(constants.davUser.authors[0].profileImageBlurhash, response.data.profile_image_blurhash)
+		assert.equal(author.profileImageBlurhash, response.data.profile_image_blurhash)
 
-		for(let i = 0; i < constants.davUser.authors[0].bios.length; i++){
-			let bio = constants.davUser.authors[0].bios[i]
+		for(let i = 0; i < author.bios.length; i++){
+			let bio = author.bios[i]
 			let responseBio = response.data.bios[i]
 
 			assert.isUndefined(responseBio.uuid)
@@ -313,8 +360,8 @@ describe("UpdateAuthor endpoint", () => {
 			assert.equal(bio.language, responseBio.language)
 		}
 
-		for(let i = 0; i < constants.davUser.authors[0].collections.length; i++){
-			let collection = constants.davUser.authors[0].collections[i]
+		for(let i = 0; i < author.collections.length; i++){
+			let collection = author.collections[i]
 			let responseCollection = response.data.collections[i]
 
 			assert.equal(collection.uuid, responseCollection.uuid)
@@ -333,33 +380,151 @@ describe("UpdateAuthor endpoint", () => {
 		let objResponse
 
 		try {
-			objResponse = await utils.getTableObject(constants.davUser.authors[0].uuid, constants.davUser.jwt)
+			objResponse = await utils.getTableObject(author.uuid, constants.davUser.jwt)
 		} catch (error) {
 			assert.fail()
 		}
 
-		assert.equal(constants.davUser.authors[0].uuid, objResponse.data.uuid)
-		assert.equal(constants.davUser.authors[0].firstName, objResponse.data.properties.first_name)
+		assert.equal(author.uuid, objResponse.data.uuid)
+		assert.equal(author.firstName, objResponse.data.properties.first_name)
 		assert.equal(lastName, objResponse.data.properties.last_name)
 	})
 
-	it("should update all properties of author", async () => {
+	it("should update website_url, facebook_username, instagram_username and twitter_username of author", async () => {
 		resetAuthors = true
-		let firstName = "updated first name"
-		let lastName = "updated last name"
+		let author = constants.davUser.authors[0]
+		let websiteUrl = "https://example.com"
+		let facebookUsername = "facebookusernametest"
+		let instagramUsername = "instagramusernametest"
+		let twitterUsername = "twitterusernametest"
 		let response
 
 		try {
 			response = await axios.default({
 				method: 'put',
-				url: updateAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
+				url: updateAuthorEndpointUrl.replace('{0}', author.uuid),
+				headers: {
+					Authorization: constants.davUser.jwt,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					website_url: websiteUrl,
+					facebook_username: `http://facebook.com/${facebookUsername}`,
+					instagram_username: `www.instagram.com/${instagramUsername}/`,
+					twitter_username: `@${twitterUsername}`
+				}
+			})
+		} catch (error) {
+			assert.fail()
+		}
+
+		assert.equal(200, response.status)
+		assert.equal(author.uuid, response.data.uuid)
+		assert.equal(author.firstName, response.data.first_name)
+		assert.equal(author.lastName, response.data.last_name)
+		assert.equal(websiteUrl, response.data.website_url)
+		assert.equal(utils.buildFacebookUrl(facebookUsername), response.data.facebook_url)
+		assert.equal(utils.buildInstagramUrl(instagramUsername), response.data.instagram_url)
+		assert.equal(utils.buildTwitterUrl(twitterUsername), response.data.twitter_url)
+		assert.equal(author.bios.length, response.data.bios.length)
+		assert.equal(author.collections.length, response.data.collections.length)
+		assert.isTrue(response.data.profile_image)
+		assert.equal(author.profileImageBlurhash, response.data.profile_image_blurhash)
+
+		for(let i = 0; i < author.bios.length; i++){
+			let bio = author.bios[i]
+			let responseBio = response.data.bios[i]
+
+			assert.isUndefined(responseBio.uuid)
+			assert.equal(bio.bio, responseBio.bio)
+			assert.equal(bio.language, responseBio.language)
+		}
+
+		for(let i = 0; i < author.collections.length; i++){
+			let collection = author.collections[i]
+			let responseCollection = response.data.collections[i]
+
+			assert.equal(collection.uuid, responseCollection.uuid)
+
+			for(let j = 0; j < collection.names.length; j++){
+				let name = collection.names[j]
+				let responseName = responseCollection.names[j]
+
+				assert.isUndefined(responseName.uuid)
+				assert.equal(name.name, responseName.name)
+				assert.equal(name.language, responseName.language)
+			}
+		}
+
+		// Check if the data was updated correctly on the server
+		let objResponse
+
+		try {
+			objResponse = await utils.getTableObject(author.uuid, constants.davUser.jwt)
+		} catch (error) {
+			assert.fail()
+		}
+
+		assert.equal(author.uuid, objResponse.data.uuid)
+		assert.equal(websiteUrl, objResponse.data.properties.website_url)
+		assert.equal(facebookUsername, objResponse.data.properties.facebook_username)
+		assert.equal(instagramUsername, objResponse.data.properties.instagram_username)
+		assert.equal(twitterUsername, objResponse.data.properties.twitter_username)
+
+		// Remove the website_url and usernames with empty strings
+		try {
+			response = await axios.default({
+				method: 'put',
+				url: updateAuthorEndpointUrl.replace('{0}', author.uuid),
+				headers: {
+					Authorization: constants.davUser.jwt,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					website_url: "",
+					facebook_username: "",
+					instagram_username: "",
+					twitter_username: ""
+				}
+			})
+		} catch (error) {
+			assert.fail()
+		}
+
+		assert.equal(200, response.status)
+		assert.equal(author.uuid, response.data.uuid)
+		assert.isNull(response.data.website_url)
+		assert.isNull(response.data.facebook_url)
+		assert.isNull(response.data.instagram_url)
+		assert.isNull(response.data.twitter_url)
+	})
+
+	it("should update all properties of author", async () => {
+		resetAuthors = true
+		let author = constants.davUser.authors[0]
+		let firstName = "updated first name"
+		let lastName = "updated last name"
+		let websiteUrl = "https://test.example-test.de"
+		let facebookUsername = "facebookusernametesttest"
+		let instagramUsername = "instagramusernametesttest"
+		let twitterUsername = "twitterusernametesttest"
+		let response
+
+		try {
+			response = await axios.default({
+				method: 'put',
+				url: updateAuthorEndpointUrl.replace('{0}', author.uuid),
 				headers: {
 					Authorization: constants.davUser.jwt,
 					'Content-Type': 'application/json'
 				},
 				data: {
 					first_name: firstName,
-					last_name: lastName
+					last_name: lastName,
+					website_url: websiteUrl,
+					facebook_username: `@${facebookUsername}`,
+					instagram_username: `http://instagram.com/${instagramUsername}`,
+					twitter_username: `twitter.com/${twitterUsername}`
 				}
 			})
 		} catch (error) {
@@ -367,16 +532,20 @@ describe("UpdateAuthor endpoint", () => {
 		}
 
 		assert.equal(200, response.status)
-		assert.equal(constants.davUser.authors[0].uuid, response.data.uuid)
+		assert.equal(author.uuid, response.data.uuid)
 		assert.equal(firstName, response.data.first_name)
 		assert.equal(lastName, response.data.last_name)
-		assert.equal(constants.davUser.authors[0].bios.length, response.data.bios.length)
-		assert.equal(constants.davUser.authors[0].collections.length, response.data.collections.length)
+		assert.equal(websiteUrl, response.data.website_url)
+		assert.equal(utils.buildFacebookUrl(facebookUsername), response.data.facebook_url)
+		assert.equal(utils.buildInstagramUrl(instagramUsername), response.data.instagram_url)
+		assert.equal(utils.buildTwitterUrl(twitterUsername), response.data.twitter_url)
+		assert.equal(author.bios.length, response.data.bios.length)
+		assert.equal(author.collections.length, response.data.collections.length)
 		assert.isTrue(response.data.profile_image)
-		assert.equal(constants.davUser.authors[0].profileImageBlurhash, response.data.profile_image_blurhash)
+		assert.equal(author.profileImageBlurhash, response.data.profile_image_blurhash)
 
-		for(let i = 0; i < constants.davUser.authors[0].bios.length; i++){
-			let bio = constants.davUser.authors[0].bios[i]
+		for(let i = 0; i < author.bios.length; i++){
+			let bio = author.bios[i]
 			let responseBio = response.data.bios[i]
 
 			assert.isUndefined(responseBio.uuid)
@@ -384,8 +553,8 @@ describe("UpdateAuthor endpoint", () => {
 			assert.equal(bio.language, responseBio.language)
 		}
 
-		for(let i = 0; i < constants.davUser.authors[0].collections.length; i++){
-			let collection = constants.davUser.authors[0].collections[i]
+		for(let i = 0; i < author.collections.length; i++){
+			let collection = author.collections[i]
 			let responseCollection = response.data.collections[i]
 
 			assert.equal(collection.uuid, responseCollection.uuid)
@@ -404,13 +573,17 @@ describe("UpdateAuthor endpoint", () => {
 		let objResponse
 
 		try {
-			objResponse = await utils.getTableObject(constants.davUser.authors[0].uuid, constants.davUser.jwt)
+			objResponse = await utils.getTableObject(author.uuid, constants.davUser.jwt)
 		} catch (error) {
 			assert.fail()
 		}
 
-		assert.equal(constants.davUser.authors[0].uuid, objResponse.data.uuid)
+		assert.equal(author.uuid, objResponse.data.uuid)
 		assert.equal(firstName, objResponse.data.properties.first_name)
 		assert.equal(lastName, objResponse.data.properties.last_name)
+		assert.equal(websiteUrl, objResponse.data.properties.website_url)
+		assert.equal(facebookUsername, objResponse.data.properties.facebook_username)
+		assert.equal(instagramUsername, objResponse.data.properties.instagram_username)
+		assert.equal(twitterUsername, objResponse.data.properties.twitter_username)
 	})
 })

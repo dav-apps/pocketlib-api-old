@@ -75,10 +75,14 @@ function addAuthorToTableObjects(author, userId){
 		properties: {
 			first_name: author.firstName,
 			last_name: author.lastName,
+			website_url: author.websiteUrl ?? "",
+			facebook_username: author.facebookUsername ?? "",
+			instagram_username: author.instagramUsername ?? "",
+			twitter_username: author.twitterUsername ?? "",
 			bios: bios.join(','),
 			collections: collections.join(','),
-			profile_image: author.profileImage ? author.profileImage.uuid : "",
-			profile_image_blurhash: author.profileImageBlurhash ? author.profileImageBlurhash : ""
+			profile_image: author.profileImage?.uuid ?? "",
+			profile_image_blurhash: author.profileImageBlurhash ?? ""
 		}
 	})
 }

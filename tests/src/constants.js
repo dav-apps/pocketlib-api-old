@@ -23,6 +23,7 @@ let constants = {
 			uuid: "099fbfa5-a6f1-41c1-99e9-0d02d8364f2d",
 			firstName: "Lemony",
 			lastName: "Snicket",
+			twitterUsername: "lemonysnicket",
 			bios: [
 				{
 					uuid: "0d13e998-1b34-46be-90af-76c401f10fe2",

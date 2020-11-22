@@ -127,10 +127,14 @@ async function resetAuthorUserAuthor(){
 			data: {
 				first_name: constants.authorUser.author.firstName,
 				last_name: constants.authorUser.author.lastName,
+				website_url: constants.authorUser.author.websiteUrl ?? "",
+				facebook_username: constants.authorUser.author.facebookUsername ?? "",
+				instagram_username: constants.authorUser.author.instagramUsername ?? "",
+				twitter_username: constants.authorUser.author.twitterUsername ?? "",
 				bios: bios.join(','),
 				collections: collections.join(','),
-				profile_image: constants.authorUser.author.profileImage.uuid,
-				profile_image_blurhash: constants.authorUser.author.profileImageBlurhash
+				profile_image: constants.authorUser.author.profileImage?.uuid ?? "",
+				profile_image_blurhash: constants.authorUser.author.profileImageBlurhash ?? ""
 			}
 		})
 	}catch(error){
@@ -163,6 +167,10 @@ async function resetDavUserAuthors(){
 				data: {
 					first_name: author.firstName,
 					last_name: author.lastName,
+					website_url: author.websiteUrl ?? "",
+					facebook_username: author.facebookUsername ?? "",
+					instagram_username: author.instagramUsername ?? "",
+					twitter_username: author.twitterUsername ?? "",
 					bios: bios.join(','),
 					collections: collections.join(','),
 					profile_image: author.profileImage?.uuid ?? "",
@@ -1429,4 +1437,28 @@ export async function getTableObject(uuid, jwt){
 			Authorization: jwt
 		}
 	})
+}
+
+export function buildFacebookUrl(username) {
+	if (username) {
+		return `https://facebook.com/${username}`
+	} else {
+		return null
+	}
+}
+
+export function buildInstagramUrl(username) {
+	if (username) {
+		return `https://instagram.com/${username}`
+	} else {
+		return null
+	}
+}
+
+export function buildTwitterUrl(username) {
+	if (username) {
+		return `https://twitter.com/${username}`
+	} else {
+		return null
+	}
 }
