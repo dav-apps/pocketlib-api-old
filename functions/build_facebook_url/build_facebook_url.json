@@ -1,0 +1,6 @@
+{
+	"type": "function",
+	"name": "build_facebook_url",
+	"params": ["facebook_username"],
+	"source": "./build_facebook_url.dx"
+}

@@ -1,0 +1,6 @@
+{
+	"type": "function",
+	"name": "get_instagram_username",
+	"params": ["instagram_username"],
+	"source": "./get_instagram_username.dx"
+}

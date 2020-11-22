@@ -1,0 +1,6 @@
+{
+	"type": "function",
+	"name": "build_instagram_url",
+	"params": ["instagram_username"],
+	"source": "./build_instagram_url.dx"
+}

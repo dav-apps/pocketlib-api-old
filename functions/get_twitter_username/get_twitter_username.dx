@@ -1,0 +1,8 @@
+(params: twitter_username: string)
+(if (is_nil twitter_username) (return nil))
+(if (twitter_username.length == 0)
+	(return "")
+else(
+	(var matches (Regex.match twitter_username /^((https?:\/\/)?(www.)?twitter.com\/)?@?(?<username>[a-zA-Z0-9\._\-]{3,})(\/)?$/))
+	(return matches.username)
+))

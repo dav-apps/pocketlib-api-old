@@ -1,0 +1,8 @@
+(# params: twitter_username: string)
+(return 
+	(if (is_nil twitter_username)
+		nil
+	else 
+		("https://twitter.com/" + twitter_username)
+	)
+)

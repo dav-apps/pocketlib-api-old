@@ -178,6 +178,26 @@
 			"params": ["categories"],
 			"source": "./categories/validate_categories_wrong_type.dx"
 		},
+		{
+			"name": "validate_website_url_wrong_type",
+			"params": ["website_url"],
+			"source": "./website_url/validate_website_url_wrong_type.dx"
+		},
+		{
+			"name": "validate_facebook_username_wrong_type",
+			"params": ["facebook_username"],
+			"source": "./facebook_username/validate_facebook_username_wrong_type.dx"
+		},
+		{
+			"name": "validate_instagram_username_wrong_type",
+			"params": ["instagram_username"],
+			"source": "./instagram_username/validate_instagram_username_wrong_type.dx"
+		},
+		{
+			"name": "validate_twitter_username_wrong_type",
+			"params": ["twitter_username"],
+			"source": "./twitter_username/validate_twitter_username_wrong_type.dx"
+		},
 
 		{
 			"name": "validate_first_name_length",
@@ -239,6 +259,11 @@
 			"name": "validate_key_invalid",
 			"params": ["key"],
 			"source": "./key/validate_key_invalid.dx"
+		},
+		{
+			"name": "validate_website_url_invalid",
+			"params": ["website_url"],
+			"source": "./website_url/validate_website_url_invalid.dx"
 		}
 	]
 }

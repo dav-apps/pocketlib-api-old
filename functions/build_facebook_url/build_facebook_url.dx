@@ -1,0 +1,8 @@
+(# params: facebook_username: string)
+(return
+	(if (is_nil facebook_username)
+		nil
+	else
+		("https://facebook.com/" + facebook_username)
+	)
+)
