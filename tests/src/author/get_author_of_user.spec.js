@@ -2,6 +2,7 @@ import chai from 'chai'
 const assert = chai.assert
 import axios from 'axios'
 import constants from '../constants.js'
+import * as utils from '../utils.js'
 
 const getAuthorOfUserEndpointUrl = `${constants.apiBaseUrl}/api/1/call/author`
 
@@ -80,6 +81,7 @@ describe("GetAuthorOfUser endpoint", () => {
 	});
 
 	it("should return the author", async () => {
+		let author = constants.authorUser.author
 		let response
 
 		try{
@@ -95,16 +97,20 @@ describe("GetAuthorOfUser endpoint", () => {
 		}
 
 		assert.equal(200, response.status)
-		assert.equal(constants.authorUser.author.uuid, response.data.uuid)
-		assert.equal(constants.authorUser.author.firstName, response.data.first_name)
-		assert.equal(constants.authorUser.author.lastName, response.data.last_name)
-		assert.equal(constants.authorUser.author.bios.length, response.data.bios.length)
-		assert.equal(constants.authorUser.author.collections.length, response.data.collections.length)
+		assert.equal(author.uuid, response.data.uuid)
+		assert.equal(author.firstName, response.data.first_name)
+		assert.equal(author.lastName, response.data.last_name)
+		assert.equal(author.websiteUrl, response.data.website_url)
+		assert.equal(utils.buildFacebookUrl(author.facebookUsername), response.data.facebook_url)
+		assert.equal(utils.buildInstagramUrl(author.instagramUsername), response.data.instagram_url)
+		assert.equal(utils.buildTwitterUrl(author.twitterUsername), response.data.twitter_url)
+		assert.equal(author.bios.length, response.data.bios.length)
+		assert.equal(author.collections.length, response.data.collections.length)
 		assert.isTrue(response.data.profile_image)
-		assert.equal(constants.authorUser.author.profileImageBlurhash, response.data.profile_image_blurhash)
+		assert.equal(author.profileImageBlurhash, response.data.profile_image_blurhash)
 
-		for(let i = 0; i < constants.authorUser.author.bios.length; i++){
-			let bio = constants.authorUser.author.bios[i]
+		for(let i = 0; i < author.bios.length; i++){
+			let bio = author.bios[i]
 			let responseBio = response.data.bios[i]
 
 			assert.isUndefined(responseBio.uuid)
@@ -112,8 +118,8 @@ describe("GetAuthorOfUser endpoint", () => {
 			assert.equal(bio.language, responseBio.language)
 		}
 
-		for(let i = 0; i < constants.authorUser.author.collections.length; i++){
-			let collection = constants.authorUser.author.collections[i]
+		for(let i = 0; i < author.collections.length; i++){
+			let collection = author.collections[i]
 			let responseCollection = response.data.collections[i]
 
 			assert.equal(collection.uuid, responseCollection.uuid)
@@ -130,7 +136,7 @@ describe("GetAuthorOfUser endpoint", () => {
 	})
 
 	it("should return all authors of the user if the user is an admin", async () => {
-		let response;
+		let response
 
 		try{
 			response = await axios.default({
@@ -153,6 +159,10 @@ describe("GetAuthorOfUser endpoint", () => {
 			assert.equal(author.uuid, responseAuthor.uuid)
 			assert.equal(author.firstName, responseAuthor.first_name)
 			assert.equal(author.lastName, responseAuthor.last_name)
+			assert.equal(author.websiteUrl, responseAuthor.website_url)
+			assert.equal(utils.buildFacebookUrl(author.facebookUsername), responseAuthor.facebook_url)
+			assert.equal(utils.buildInstagramUrl(author.instagramUsername), responseAuthor.instagram_url)
+			assert.equal(utils.buildTwitterUrl(author.twitterUsername), responseAuthor.twitter_url)
 			assert.equal(author.bios.length, responseAuthor.bios.length)
 			assert.equal(author.collections.length, responseAuthor.collections.length)
 			assert.equal(author.profileImage != null, responseAuthor.profile_image)
@@ -183,5 +193,5 @@ describe("GetAuthorOfUser endpoint", () => {
 				}
 			}
 		}
-	});
-});
+	})
+})

@@ -2,6 +2,7 @@ import chai from 'chai'
 const assert = chai.assert
 import axios from 'axios'
 import constants from '../constants.js'
+import * as utils from '../utils.js'
 
 const getAuthorEndpointUrl = `${constants.apiBaseUrl}/api/1/call/author/{0}`
 
@@ -99,6 +100,10 @@ async function testGetAuthor(author){
 	assert.equal(author.uuid, response.data.uuid)
 	assert.equal(author.firstName, response.data.first_name)
 	assert.equal(author.lastName, response.data.last_name)
+	assert.equal(author.websiteUrl, response.data.website_url)
+	assert.equal(utils.buildFacebookUrl(author.facebookUsername), response.data.facebook_url)
+	assert.equal(utils.buildInstagramUrl(author.instagramUsername), response.data.instagram_url)
+	assert.equal(utils.buildTwitterUrl(author.twitterUsername), response.data.twitter_url)
 	assert.equal(author.bios.length, response.data.bios.length)
 	assert.equal(author.collections.length, response.data.collections.length)
 	assert.equal(author.profileImage != null, response.data.profile_image)
@@ -169,6 +174,10 @@ async function testGetAuthorWithBooks(author, language){
 	assert.equal(author.uuid, response.data.uuid)
 	assert.equal(author.firstName, response.data.first_name)
 	assert.equal(author.lastName, response.data.last_name)
+	assert.equal(author.websiteUrl, response.data.website_url)
+	assert.equal(utils.buildFacebookUrl(author.facebookUsername), response.data.facebook_url)
+	assert.equal(utils.buildInstagramUrl(author.instagramUsername), response.data.instagram_url)
+	assert.equal(utils.buildTwitterUrl(author.twitterUsername), response.data.twitter_url)
 	assert.equal(author.bios.length, response.data.bios.length)
 	assert.equal(storeBooks.length, response.data.books.length)
 	assert.equal(author.profileImage != null, response.data.profile_image)

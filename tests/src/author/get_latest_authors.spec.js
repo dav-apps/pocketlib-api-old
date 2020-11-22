@@ -2,6 +2,7 @@ import chai from 'chai'
 const assert = chai.assert
 import axios from 'axios'
 import constants from '../constants.js'
+import * as utils from '../utils.js'
 
 const getLatestAuthors = `${constants.apiBaseUrl}/api/1/call/authors/latest`
 
@@ -33,6 +34,10 @@ describe("GetLatestAuthors endpoint", () => {
 			assert.equal(authors[i].uuid, author.uuid)
 			assert.equal(authors[i].firstName, author.first_name)
 			assert.equal(authors[i].lastName, author.last_name)
+			assert.equal(authors[i].websiteUrl, author.website_url)
+			assert.equal(utils.buildFacebookUrl(authors[i].facebookUsername), author.facebook_url)
+			assert.equal(utils.buildInstagramUrl(authors[i].instagramUsername), author.instagram_url)
+			assert.equal(utils.buildTwitterUrl(authors[i].twitterUsername), author.twitter_url)
 			assert.equal(authors[i].profileImage != null, author.profile_image)
 			assert.equal(authors[i].profileImageBlurhash, author.profile_image_blurhash)
 

@@ -216,9 +216,10 @@ describe("CreateAuthor endpoint", async () => {
 	});
 
 	it("should create author", async () => {
-		let response;
-		let firstName = "Dav";
-		let lastName = "Tester";
+		resetAuthors = true
+		let firstName = "Dav"
+		let lastName = "Tester"
+		let response
 
 		try{
 			response = await axios.default({
@@ -232,15 +233,19 @@ describe("CreateAuthor endpoint", async () => {
 					first_name: firstName,
 					last_name: lastName
 				}
-			});
+			})
 		}catch(error){
-			assert.fail();
+			assert.fail()
 		}
 
 		assert.equal(201, response.status)
 		assert.isNotNull(response.data.uuid)
 		assert.equal(firstName, response.data.first_name)
 		assert.equal(lastName, response.data.last_name)
+		assert.isNull(response.data.website_url)
+		assert.isNull(response.data.facebook_url)
+		assert.isNull(response.data.instagram_url)
+		assert.isNull(response.data.twitter_url)
 		assert.equal(0, response.data.bios.length)
 		assert.equal(0, response.data.collections.length)
 		assert.isFalse(response.data.profile_image)
@@ -263,20 +268,23 @@ describe("CreateAuthor endpoint", async () => {
 		assert.equal(response.data.uuid, objResponse.data.uuid)
 		assert.equal(response.data.first_name, objResponse.data.properties.first_name)
 		assert.equal(response.data.last_name, objResponse.data.properties.last_name)
+		assert.isUndefined(objResponse.data.properties.website_url)
+		assert.isUndefined(objResponse.data.properties.facebook_username)
+		assert.isUndefined(objResponse.data.properties.instagram_username)
+		assert.isUndefined(objResponse.data.properties.twitter_username)
 		assert.isUndefined(objResponse.data.properties.bios)
 		assert.isUndefined(objResponse.data.properties.collections)
 		assert.isUndefined(objResponse.data.properties.profile_image)
 		assert.isUndefined(objResponse.data.properties.profile_image_blurhash)
-
-		// Tidy up
-		resetAuthors = true
-	});
+	})
 
 	it("should create multiple authors if the user is an admin", async () => {
+		resetAuthors = true
+
 		// Create first author for first user
-		let response1;
-		let firstName1 = "Neal";
-		let lastName1 = "Gabler";
+		let firstName1 = "Neal"
+		let lastName1 = "Gabler"
+		let response1
 
 		try{
 			response1 = await axios.default({
@@ -299,6 +307,10 @@ describe("CreateAuthor endpoint", async () => {
 		assert.isNotNull(response1.data.uuid)
 		assert.equal(firstName1, response1.data.first_name)
 		assert.equal(lastName1, response1.data.last_name)
+		assert.isNull(response1.data.website_url)
+		assert.isNull(response1.data.facebook_url)
+		assert.isNull(response1.data.instagram_url)
+		assert.isNull(response1.data.twitter_url)
 		assert.equal(0, response1.data.bios.length)
 		assert.equal(0, response1.data.collections.length)
 		assert.isFalse(response1.data.profile_image)
@@ -330,6 +342,10 @@ describe("CreateAuthor endpoint", async () => {
 		assert.isNotNull(response2.data.uuid)
 		assert.equal(firstName2, response2.data.first_name)
 		assert.equal(lastName2, response2.data.last_name)
+		assert.isNull(response2.data.website_url)
+		assert.isNull(response2.data.facebook_url)
+		assert.isNull(response2.data.instagram_url)
+		assert.isNull(response2.data.twitter_url)
 		assert.equal(0, response2.data.bios.length)
 		assert.equal(0, response2.data.collections.length)
 		assert.isFalse(response2.data.profile_image)
@@ -353,6 +369,10 @@ describe("CreateAuthor endpoint", async () => {
 		assert.equal(response1.data.uuid, objResponse1.data.uuid)
 		assert.equal(response1.data.first_name, objResponse1.data.properties.first_name)
 		assert.equal(response1.data.last_name, objResponse1.data.properties.last_name)
+		assert.isUndefined(objResponse1.data.properties.website_url)
+		assert.isUndefined(objResponse1.data.properties.facebook_username)
+		assert.isUndefined(objResponse1.data.properties.instagram_username)
+		assert.isUndefined(objResponse1.data.properties.twitter_username)
 		assert.isUndefined(objResponse1.data.properties.bios)
 		assert.isUndefined(objResponse1.data.properties.collections)
 		assert.isUndefined(objResponse1.data.properties.profile_image)
@@ -379,8 +399,5 @@ describe("CreateAuthor endpoint", async () => {
 		assert.isUndefined(objResponse2.data.properties.collections)
 		assert.isUndefined(objResponse2.data.properties.profile_image)
 		assert.isUndefined(objResponse2.data.properties.profile_image_blurhash)
-
-		// Tidy up
-		resetAuthors = true
-	});
-});
+	})
+})

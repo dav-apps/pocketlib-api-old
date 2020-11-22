@@ -61,7 +61,7 @@
 	(var content_disposition (get_header Content-Disposition))
 
 	(if (! (is_nil content_disposition)) (
-		(var matches (Regex.match content_disposition "filename=\"(?<filename>.*)\""))
+		(var matches (Regex.match content_disposition /filename=\"(?<filename>.*)\"/))
 		(if (! (is_nil matches.filename)) (
 			(var store_book.properties.file_name matches.filename)
 		))

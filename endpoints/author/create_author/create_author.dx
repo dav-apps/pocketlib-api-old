@@ -57,10 +57,14 @@
 (func add_author_to_latest_authors_collection (author))
 
 (# Render the result)
-(render_json (hash 
-	(uuid author.uuid) 
-	(first_name first_name) 
-	(last_name last_name) 
+(render_json (hash
+	(uuid author.uuid)
+	(first_name first_name)
+	(last_name last_name)
+	(website_url nil)
+	(facebook_url nil)
+	(instagram_url nil)
+	(twitter_url nil)
 	(bios (list))
 	(collections (list))
 	(profile_image false)
