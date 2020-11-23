@@ -1,6 +1,0 @@
-{
-	"type": "function",
-	"name": "build_twitter_url",
-	"params": ["twitter_username"],
-	"source": "./build_twitter_url.dx"
-}

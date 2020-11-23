@@ -1,8 +1,0 @@
-(# params: instagram_username: string)
-(return
-	(if (is_nil instagram_username)
-		nil
-	else
-		("https://instagram.com/" + instagram_username)
-	)
-)
