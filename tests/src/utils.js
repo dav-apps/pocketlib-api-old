@@ -1438,27 +1438,3 @@ export async function getTableObject(uuid, jwt){
 		}
 	})
 }
-
-export function buildFacebookUrl(username) {
-	if (username) {
-		return `https://facebook.com/${username}`
-	} else {
-		return null
-	}
-}
-
-export function buildInstagramUrl(username) {
-	if (username) {
-		return `https://instagram.com/${username}`
-	} else {
-		return null
-	}
-}
-
-export function buildTwitterUrl(username) {
-	if (username) {
-		return `https://twitter.com/${username}`
-	} else {
-		return null
-	}
-}
