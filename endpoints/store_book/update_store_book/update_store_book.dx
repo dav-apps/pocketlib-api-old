@@ -4,6 +4,7 @@
 (var description json.description)
 (var language json.language)
 (var price json.price)
+(var isbn json.isbn)
 (var published json.published)
 (var status json.status)
 (var categories json.categories)
@@ -66,6 +67,7 @@
 	(if (!(is_nil description)) (func validate_description_wrong_type (description)))
 	(if (!(is_nil language)) (func validate_language_wrong_type (language)))
 	(if (!(is_nil price)) (func validate_price_wrong_type (price)))
+	(if (!(is_nil isbn)) (func validate_isbn_wrong_type (isbn)))
 	(if (!(is_nil published)) (func validate_published_wrong_type (published)))
 	(if ((!(is_nil status)) and is_admin) (func validate_status_wrong_type (status)))
 	(if (!(is_nil categories)) (func validate_categories_wrong_type (categories)))
@@ -84,12 +86,11 @@
 	)))
 ))
 
-(if (!(is_nil price)) (
-	(# Validate the price)
-	(func render_validation_errors ((list
-		(func validate_price_invalid (price))
-	)))
-))
+(# Validate price and isbn)
+(func render_validation_errors ((list
+	(if (!(is_nil price)) (func validate_price_invalid (price)))
+	(if (!(is_nil isbn)) (func validate_isbn_invalid (isbn)))
+)))
 
 (if ((!(is_nil status)) and is_admin) (
 	(# Validate the status)
@@ -98,7 +99,7 @@
 	)))
 ))
 
-(# Don't update language or price if the StoreBook is already published)
+(# Don't update language, price or isbn if the StoreBook is already published)
 (if ((store_book.properties.status == "published") or (store_book.properties.status == "hidden")) (
 	(if (!(is_nil language)) (
 		(func render_validation_errors ((list (hash (error (get_error 1501)) (status 422)))))
@@ -107,6 +108,10 @@
 	(if (!(is_nil price)) (
 		(func render_validation_errors ((list (hash (error (get_error 1502)) (status 422)))))
 	))
+
+	(if (!(is_nil isbn)) (
+		(func render_validation_errors ((list (hash (error (get_error 1505)) (status 422)))))
+	))
 ))
 
 (# Update the values)
@@ -114,6 +119,7 @@
 (if (!(is_nil description)) (var store_book.properties.description description))
 (if (!(is_nil language)) (var store_book.properties.language language))
 (if (!(is_nil price)) (var store_book.properties.price price))
+(if (!(is_nil isbn)) (var store_book.properties.isbn isbn))
 
 (if ((!(is_nil status)) and is_admin) (
 	(# Update the status)
@@ -196,6 +202,7 @@
 	(description (if (is_nil store_book.properties.description) "" else store_book.properties.description))
 	(language store_book.properties.language)
 	(price (to_int store_book.properties.price))
+	(isbn store_book.properties.isbn)
 	(status status)
 	(cover (!(is_nil store_book.properties.cover)))
 	(cover_aspect_ratio store_book.properties.cover_aspect_ratio)
