@@ -140,7 +140,7 @@
 	(title store_book.properties.title)
 	(description (if (is_nil store_book.properties.description) "" else store_book.properties.description))
 	(language store_book.properties.language)
-	(price (if (is_nil price) 0 else store_book.properties.price))
+	(price (to_int store_book.properties.price))
 	(isbn store_book.properties.isbn)
 	(status "unpublished")
 	(cover false)

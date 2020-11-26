@@ -30,6 +30,8 @@
 			(title book_object.properties.title)
 			(description (if (is_nil book_object.properties.description) "" else book_object.properties.description))
 			(language book_object.properties.language)
+			(price (if (is_nil book_object.properties.price) 0 else book_object.properties.price))
+			(isbn book_object.properties.isbn)
 			(status book_object.properties.status)
 			(cover (!(is_nil book_object.properties.cover)))
 			(cover_aspect_ratio book_object.properties.cover_aspect_ratio)

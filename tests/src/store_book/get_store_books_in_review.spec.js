@@ -68,19 +68,19 @@ describe("GetStoreBooksInReview endpoint", () => {
 				headers: {
 					Authorization: constants.authorUser.jwt
 				}
-			});
+			})
 		}catch(error){
-			assert.equal(403, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1102, error.response.data.errors[0].code);
-			return;
+			assert.equal(403, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(1102, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should return store books in review", async () => {
-		let response;
+		let response
 
 		try{
 			response = await axios.default({
@@ -89,9 +89,9 @@ describe("GetStoreBooksInReview endpoint", () => {
 				headers: {
 					Authorization: constants.davUser.jwt
 				}
-			});
+			})
 		}catch(error){
-			assert.fail();
+			assert.fail()
 		}
 
 		// Find all store books in review
@@ -99,7 +99,7 @@ describe("GetStoreBooksInReview endpoint", () => {
 		for(let collection of constants.authorUser.author.collections){
 			for(let storeBook of collection.books){
 				if(storeBook.status == "review"){
-					storeBooks.push(storeBook);
+					storeBooks.push(storeBook)
 				}
 			}
 		}
@@ -108,14 +108,14 @@ describe("GetStoreBooksInReview endpoint", () => {
 			for(let collection of author.collections){
 				for(let storeBook of collection.books){
 					if(storeBook.status == "review"){
-						storeBooks.push(storeBook);
+						storeBooks.push(storeBook)
 					}
 				}
 			}
 		}
 
-		assert.equal(200, response.status);
-		assert.equal(storeBooks.length, response.data.books.length);
+		assert.equal(200, response.status)
+		assert.equal(storeBooks.length, response.data.books.length)
 
 		let i = 0;
 		for (let book of response.data.books) {
@@ -124,6 +124,8 @@ describe("GetStoreBooksInReview endpoint", () => {
 			assert.equal(storeBook.title, book.title)
 			assert.equal(storeBook.description, book.description)
 			assert.equal(storeBook.language, book.language)
+			assert.equal(storeBook.price ?? 0, book.price)
+			assert.equal(storeBook.isbn, book.isbn)
 			assert.equal(storeBook.status, book.status)
 			assert.equal(storeBook.cover != null, book.cover)
 			assert.equal(storeBook.coverAspectRatio, book.cover_aspect_ratio)

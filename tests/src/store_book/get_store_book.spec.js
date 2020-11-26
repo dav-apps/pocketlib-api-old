@@ -64,9 +64,9 @@ describe("GetStoreBook endpoint", () => {
 	});
 
 	it("should return unpublished store book if the user is the author", async () => {
-		let collection = constants.authorUser.author.collections[1];
-		let storeBook = collection.books[0];
-		let response;
+		let collection = constants.authorUser.author.collections[1]
+		let storeBook = collection.books[0]
+		let response
 
 		try{
 			response = await axios.default({
@@ -75,9 +75,9 @@ describe("GetStoreBook endpoint", () => {
 				headers: {
 					Authorization: constants.authorUser.jwt
 				}
-			});
+			})
 		}catch(error){
-			assert.fail();
+			assert.fail()
 		}
 
 		assert.equal(200, response.status)
@@ -87,6 +87,7 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(storeBook.description, response.data.description)
 		assert.equal(storeBook.language, response.data.language)
 		assert.equal(storeBook.price || 0, response.data.price)
+		assert.equal(storeBook.isbn, response.data.isbn)
 		assert.equal("unpublished", response.data.status)
 		assert.equal(storeBook.cover != null, response.data.cover)
 		assert.equal(storeBook.coverAspectRatio, response.data.cover_aspect_ratio)
@@ -104,8 +105,8 @@ describe("GetStoreBook endpoint", () => {
 			assert.equal(0, response.data.categories.length)
 		}
 
-		assert.equal(false, response.data.in_library)
-		assert.equal(false, response.data.purchased)
+		assert.isFalse(response.data.in_library)
+		assert.isFalse(response.data.purchased)
 	})
 
 	it("should return unpublished store book if the user is an admin", async () => {
@@ -132,6 +133,7 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(storeBook.description, response.data.description)
 		assert.equal(storeBook.language, response.data.language)
 		assert.equal(storeBook.price || 0, response.data.price)
+		assert.equal(storeBook.isbn, response.data.isbn)
 		assert.equal("unpublished", response.data.status)
 		assert.equal(storeBook.cover != null, response.data.cover)
 		assert.equal(storeBook.coverAspectRatio, response.data.cover_aspect_ratio)
@@ -218,6 +220,7 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(storeBook.description, response.data.description)
 		assert.equal(storeBook.language, response.data.language)
 		assert.equal(storeBook.price || 0, response.data.price)
+		assert.equal(storeBook.isbn, response.data.isbn)
 		assert.equal("review", response.data.status)
 		assert.equal(storeBook.cover != null, response.data.cover)
 		assert.equal(storeBook.coverAspectRatio, response.data.cover_aspect_ratio)
@@ -235,8 +238,8 @@ describe("GetStoreBook endpoint", () => {
 			assert.equal(0, response.data.categories.length)
 		}
 
-		assert.equal(false, response.data.in_library)
-		assert.equal(false, response.data.purchased)
+		assert.isFalse(response.data.in_library)
+		assert.isFalse(response.data.purchased)
 	})
 
 	it("should return store book in review if the user is an admin", async () => {
@@ -263,6 +266,7 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(storeBook.description, response.data.description)
 		assert.equal(storeBook.language, response.data.language)
 		assert.equal(storeBook.price || 0, response.data.price)
+		assert.equal(storeBook.isbn, response.data.isbn)
 		assert.equal("review", response.data.status)
 		assert.equal(storeBook.cover != null, response.data.cover)
 		assert.equal(storeBook.coverAspectRatio, response.data.cover_aspect_ratio)
@@ -280,8 +284,8 @@ describe("GetStoreBook endpoint", () => {
 			assert.equal(0, response.data.categories.length)
 		}
 
-		assert.equal(false, response.data.in_library)
-		assert.equal(false, response.data.purchased)
+		assert.isFalse(response.data.in_library)
+		assert.isFalse(response.data.purchased)
 	})
 
 	it("should not return store book in review if the user is not the author", async () => {
@@ -349,6 +353,7 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(storeBook.description, response.data.description)
 		assert.equal(storeBook.language, response.data.language)
 		assert.equal(storeBook.price || 0, response.data.price)
+		assert.equal(storeBook.isbn, response.data.isbn)
 		assert.equal("published", response.data.status)
 		assert.equal(storeBook.cover != null, response.data.cover)
 		assert.equal(storeBook.coverAspectRatio, response.data.cover_aspect_ratio)
@@ -366,14 +371,14 @@ describe("GetStoreBook endpoint", () => {
 			assert.equal(0, response.data.categories.length)
 		}
 
-		assert.equal(false, response.data.in_library)
-		assert.equal(false, response.data.purchased)
+		assert.isFalse(response.data.in_library)
+		assert.isFalse(response.data.purchased)
 	})
 
 	it("should return published store book if the user is an admin", async () => {
-		let collection = constants.authorUser.author.collections[1];
-		let storeBook = collection.books[1];
-		let response;
+		let collection = constants.authorUser.author.collections[1]
+		let storeBook = collection.books[1]
+		let response
 
 		try{
 			response = await axios.default({
@@ -382,9 +387,9 @@ describe("GetStoreBook endpoint", () => {
 				headers: {
 					Authorization: constants.davUser.jwt
 				}
-			});
+			})
 		}catch(error){
-			assert.fail();
+			assert.fail()
 		}
 
 		assert.equal(200, response.status)
@@ -394,6 +399,7 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(storeBook.description, response.data.description)
 		assert.equal(storeBook.language, response.data.language)
 		assert.equal(storeBook.price || 0, response.data.price)
+		assert.equal(storeBook.isbn, response.data.isbn)
 		assert.equal("published", response.data.status)
 		assert.equal(storeBook.cover != null, response.data.cover)
 		assert.equal(storeBook.coverAspectRatio, response.data.cover_aspect_ratio)
@@ -411,8 +417,8 @@ describe("GetStoreBook endpoint", () => {
 			assert.equal(0, response.data.categories.length)
 		}
 
-		assert.equal(false, response.data.in_library)
-		assert.equal(false, response.data.purchased)
+		assert.isFalse(response.data.in_library)
+		assert.isFalse(response.data.purchased)
 	})
 
 	it("should return published store book if the user is not the author", async () => {
@@ -439,6 +445,7 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(storeBook.description, response.data.description)
 		assert.equal(storeBook.language, response.data.language)
 		assert.equal(storeBook.price || 0, response.data.price)
+		assert.equal(storeBook.isbn, response.data.isbn)
 		assert.equal("published", response.data.status)
 		assert.equal(storeBook.cover != null, response.data.cover)
 		assert.equal(storeBook.coverAspectRatio, response.data.cover_aspect_ratio)
@@ -456,8 +463,8 @@ describe("GetStoreBook endpoint", () => {
 			assert.equal(0, response.data.categories.length)
 		}
 
-		assert.equal(false, response.data.in_library)
-		assert.equal(false, response.data.purchased)
+		assert.isFalse(response.data.in_library)
+		assert.isFalse(response.data.purchased)
 	})
 
 	it("should return published store book without jwt", async () => {
@@ -481,6 +488,7 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(storeBook.description, response.data.description)
 		assert.equal(storeBook.language, response.data.language)
 		assert.equal(storeBook.price || 0, response.data.price)
+		assert.equal(storeBook.isbn, response.data.isbn)
 		assert.equal("published", response.data.status)
 		assert.equal(storeBook.cover != null, response.data.cover)
 		assert.equal(storeBook.coverAspectRatio, response.data.cover_aspect_ratio)
@@ -498,8 +506,8 @@ describe("GetStoreBook endpoint", () => {
 			assert.equal(0, response.data.categories.length)
 		}
 
-		assert.equal(false, response.data.in_library)
-		assert.equal(false, response.data.purchased)
+		assert.isFalse(response.data.in_library)
+		assert.isFalse(response.data.purchased)
 	})
 
 	it("should return hidden store book if the user is the author", async () => {
@@ -526,6 +534,7 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(storeBook.description, response.data.description)
 		assert.equal(storeBook.language, response.data.language)
 		assert.equal(storeBook.price || 0, response.data.price)
+		assert.equal(storeBook.isbn, response.data.isbn)
 		assert.equal("hidden", response.data.status)
 		assert.equal(storeBook.cover != null, response.data.cover)
 		assert.equal(storeBook.coverAspectRatio, response.data.cover_aspect_ratio)
@@ -543,8 +552,8 @@ describe("GetStoreBook endpoint", () => {
 			assert.equal(0, response.data.categories.length)
 		}
 
-		assert.equal(false, response.data.in_library)
-		assert.equal(false, response.data.purchased)
+		assert.isFalse(response.data.in_library)
+		assert.isFalse(response.data.purchased)
 	})
 
 	it("should return hidden store book if the user is an admin", async () => {
@@ -571,6 +580,7 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(storeBook.description, response.data.description)
 		assert.equal(storeBook.language, response.data.language)
 		assert.equal(storeBook.price || 0, response.data.price)
+		assert.equal(storeBook.isbn, response.data.isbn)
 		assert.equal("hidden", response.data.status)
 		assert.equal(storeBook.cover != null, response.data.cover)
 		assert.equal(storeBook.coverAspectRatio, response.data.cover_aspect_ratio)
@@ -588,8 +598,8 @@ describe("GetStoreBook endpoint", () => {
 			assert.equal(0, response.data.categories.length)
 		}
 
-		assert.equal(false, response.data.in_library)
-		assert.equal(false, response.data.purchased)
+		assert.isFalse(response.data.in_library)
+		assert.isFalse(response.data.purchased)
 	})
 
 	it("should not return hidden store book if the user is not the author", async () => {
