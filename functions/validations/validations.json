@@ -198,6 +198,11 @@
 			"params": ["twitter_username"],
 			"source": "./twitter_username/validate_twitter_username_wrong_type.dx"
 		},
+		{
+			"name": "validate_isbn_wrong_type",
+			"params": ["isbn"],
+			"source": "./isbn/validate_isbn_wrong_type.dx"
+		},
 
 		{
 			"name": "validate_first_name_length",
@@ -264,6 +269,11 @@
 			"name": "validate_website_url_invalid",
 			"params": ["website_url"],
 			"source": "./website_url/validate_website_url_invalid.dx"
+		},
+		{
+			"name": "validate_isbn_invalid",
+			"params": ["isbn"],
+			"source": "./isbn/validate_isbn_invalid.dx"
 		}
 	]
 }

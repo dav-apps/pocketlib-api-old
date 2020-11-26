@@ -1,0 +1,5 @@
+(# params: isbn: string)
+(# Must be of length 10 or 13 and only contain numbers)
+(if (((isbn.length != 10) and (isbn.length != 13)) or (!(Regex.check isbn /^([0-9]{10}|[0-9]{13})$/))) (
+	(hash (error (get_error 2507)) (status 400))
+))

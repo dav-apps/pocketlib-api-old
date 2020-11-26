@@ -160,23 +160,25 @@ describe("CreateStoreBook endpoint", () => {
 					description: true,
 					language: false,
 					price: "123",
+					isbn: true,
 					categories: 51
 				}
-			});
+			})
 		}catch(error){
-			assert.equal(400, error.response.status);
-			assert.equal(6, error.response.data.errors.length);
-			assert.equal(2210, error.response.data.errors[0].code);
-			assert.equal(2204, error.response.data.errors[1].code);
-			assert.equal(2205, error.response.data.errors[2].code);
-			assert.equal(2206, error.response.data.errors[3].code);
-			assert.equal(2211, error.response.data.errors[4].code);
-			assert.equal(2215, error.response.data.errors[5].code);
-			return;
+			assert.equal(400, error.response.status)
+			assert.equal(7, error.response.data.errors.length)
+			assert.equal(2210, error.response.data.errors[0].code)
+			assert.equal(2204, error.response.data.errors[1].code)
+			assert.equal(2205, error.response.data.errors[2].code)
+			assert.equal(2206, error.response.data.errors[3].code)
+			assert.equal(2211, error.response.data.errors[4].code)
+			assert.equal(2220, error.response.data.errors[5].code)
+			assert.equal(2215, error.response.data.errors[6].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should not create store book with too short properties", async () => {
 		try{
@@ -337,6 +339,32 @@ describe("CreateStoreBook endpoint", () => {
 		assert.fail();
 	});
 
+	it("should not create store book with invalid isbn", async () => {
+		try {
+			await axios.default({
+				method: 'post',
+				url: createStoreBookEndpointUrl,
+				headers: {
+					Authorization: constants.authorUser.jwt,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					collection: constants.authorUser.author.collections[0].uuid,
+					title: "Hello World",
+					language: "de",
+					isbn: "aaopsjdasd2342"
+				}
+			})
+		} catch (error) {
+			assert.equal(400, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(2507, error.response.data.errors[0].code)
+			return
+		}
+
+		assert.fail()
+	})
+
 	it("should not create store book if the user is not an author", async () => {
 		try{
 			await axios.default({
@@ -440,10 +468,11 @@ describe("CreateStoreBook endpoint", () => {
 	});
 
 	it("should create store book", async () => {
-		let collection = constants.authorUser.author.collections[0];
-		let title = "Hello World";
-		let language = "de";
-		let response;
+		resetStoreBooksAndCollections = true
+		let collection = constants.authorUser.author.collections[0]
+		let title = "Hello World"
+		let language = "de"
+		let response
 
 		// Create the store book
 		try{
@@ -459,7 +488,7 @@ describe("CreateStoreBook endpoint", () => {
 					title,
 					language
 				}
-			});
+			})
 		}catch(error){
 			assert.fail();
 		}
@@ -471,15 +500,16 @@ describe("CreateStoreBook endpoint", () => {
 		assert.equal("", response.data.description)
 		assert.equal(language, response.data.language)
 		assert.equal(0, response.data.price)
+		assert.isNull(response.data.isbn)
 		assert.equal("unpublished", response.data.status)
-		assert.equal(false, response.data.cover)
+		assert.isFalse(response.data.cover)
 		assert.isNull(response.data.cover_aspect_ratio)
 		assert.isNull(response.data.cover_blurhash)
-		assert.equal(false, response.data.file)
+		assert.isFalse(response.data.file)
 		assert.isNull(response.data.file_name)
 		assert.equal(0, response.data.categories.length)
-		assert.equal(false, response.data.in_library)
-		assert.equal(false, response.data.purchased)
+		assert.isFalse(response.data.in_library)
+		assert.isFalse(response.data.purchased)
 
 		// Check if the data was correctly saved in the database
 		// Get the collection
@@ -522,20 +552,19 @@ describe("CreateStoreBook endpoint", () => {
 		assert.isUndefined(storeBookObjResponse.data.properties.description)
 		assert.equal(language, storeBookObjResponse.data.properties.language)
 		assert.isUndefined(storeBookObjResponse.data.properties.categories)
-
-		// Tidy up
-		resetStoreBooksAndCollections = true
-	});
+	})
 
 	it("should create store book with optional properties", async () => {
-		let collection = constants.authorUser.author.collections[1];
-		let title = "Hello World";
-		let description = "Hello World";
-		let language = "en";
-		let price = 444;
-		let categories = [constants.categories[0].key, constants.categories[1].key];
-		let categoryUuids = [constants.categories[0].uuid, constants.categories[1].uuid];
-		let response;
+		resetStoreBooksAndCollections = true
+		let collection = constants.authorUser.author.collections[1]
+		let title = "Hello World"
+		let description = "Test description"
+		let language = "en"
+		let price = 444
+		let isbn = "9780064407663"
+		let categories = [constants.categories[0].key, constants.categories[1].key]
+		let categoryUuids = [constants.categories[0].uuid, constants.categories[1].uuid]
+		let response
 
 		// Create the store book
 		try{
@@ -552,11 +581,12 @@ describe("CreateStoreBook endpoint", () => {
 					description,
 					language,
 					price,
+					isbn,
 					categories
 				}
-			});
+			})
 		}catch(error){
-			assert.fail();
+			assert.fail()
 		}
 
 		assert.equal(201, response.status)
@@ -566,6 +596,7 @@ describe("CreateStoreBook endpoint", () => {
 		assert.equal(description, response.data.description)
 		assert.equal(language, response.data.language)
 		assert.equal(price, response.data.price)
+		assert.equal(isbn, response.data.isbn)
 		assert.equal("unpublished", response.data.status)
 		assert.isFalse(response.data.cover)
 		assert.isNull(response.data.cover_aspect_ratio)
@@ -578,7 +609,7 @@ describe("CreateStoreBook endpoint", () => {
 
 		// Check if the data was correctly saved in the database
 		// Get the author
-		let collectionObjResponse;
+		let collectionObjResponse
 		try{
 			collectionObjResponse = await axios.default({
 				method: 'get',
@@ -586,19 +617,19 @@ describe("CreateStoreBook endpoint", () => {
 				headers: {
 					Authorization: constants.authorUser.jwt
 				}
-			});
+			})
 		}catch(error){
-			assert.fail();
+			assert.fail()
 		}
 
-		let storeBookUuids = [];
-		for(let book of collection.books) storeBookUuids.push(book.uuid);
-		storeBookUuids.push(response.data.uuid);
+		let storeBookUuids = []
+		for(let book of collection.books) storeBookUuids.push(book.uuid)
+		storeBookUuids.push(response.data.uuid)
 
-		assert.equal(storeBookUuids.join(','), collectionObjResponse.data.properties.books);
+		assert.equal(storeBookUuids.join(','), collectionObjResponse.data.properties.books)
 
 		// Get the store book
-		let storeBookObjResponse;
+		let storeBookObjResponse
 		try{
 			storeBookObjResponse = await axios.default({
 				method: 'get',
@@ -606,20 +637,18 @@ describe("CreateStoreBook endpoint", () => {
 				headers: {
 					Authorization: constants.authorUser.jwt
 				}
-			});
+			})
 		}catch(error){
-			assert.fail();
+			assert.fail()
 		}
 
-		assert.equal(response.data.uuid, storeBookObjResponse.data.uuid);
-		assert.equal(collection.uuid, storeBookObjResponse.data.properties.collection);
-		assert.equal(title, storeBookObjResponse.data.properties.title);
-		assert.equal(description, storeBookObjResponse.data.properties.description);
-		assert.equal(language, storeBookObjResponse.data.properties.language);
-		assert.equal(price.toString(), storeBookObjResponse.data.properties.price);
-		assert.equal(categoryUuids.join(','), storeBookObjResponse.data.properties.categories);
-
-		// Tidy up
-		resetStoreBooksAndCollections = true;
+		assert.equal(response.data.uuid, storeBookObjResponse.data.uuid)
+		assert.equal(collection.uuid, storeBookObjResponse.data.properties.collection)
+		assert.equal(title, storeBookObjResponse.data.properties.title)
+		assert.equal(description, storeBookObjResponse.data.properties.description)
+		assert.equal(language, storeBookObjResponse.data.properties.language)
+		assert.equal(price.toString(), storeBookObjResponse.data.properties.price)
+		assert.equal(isbn, storeBookObjResponse.data.properties.isbn)
+		assert.equal(categoryUuids.join(','), storeBookObjResponse.data.properties.categories)
 	})
 })

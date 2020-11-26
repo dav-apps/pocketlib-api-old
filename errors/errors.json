@@ -59,6 +59,7 @@
 		{"code": 2217, "message": "Field has wrong type: facebook_username"},
 		{"code": 2218, "message": "Field has wrong type: instagram_username"},
 		{"code": 2219, "message": "Field has wrong type: twitter_username"},
+		{"code": 2220, "message": "Field has wrong type: isbn"},
 
 		{"code": 2301, "message": "Field too short: first_name"},
 		{"code": 2302, "message": "Field too short: last_name"},
@@ -88,6 +89,7 @@
 		{"code": 2504, "message": "Field invalid: facebook_username"},
 		{"code": 2505, "message": "Field invalid: instagram_username"},
 		{"code": 2506, "message": "Field invalid: twitter_username"},
+		{"code": 2507, "message": "Field invalid: isbn"},
 
 		{"code": 2601, "message": "Field already taken: key"},
 
