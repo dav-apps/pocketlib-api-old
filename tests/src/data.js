@@ -158,6 +158,7 @@ function addStoreBookToTableObjects(storeBook, userId, collectionUuid) {
 			description: storeBook.description,
 			language: storeBook.language,
 			price: storeBook.price ? storeBook.price.toString() : "",
+			isbn: storeBook.isbn ? storeBook.isbn : "",
 			status: storeBook.status ? storeBook.status : "",
 			cover: storeBook.cover ? storeBook.cover.uuid : "",
 			cover_aspect_ratio: storeBook.coverAspectRatio ? storeBook.coverAspectRatio : "",

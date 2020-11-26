@@ -58,6 +58,7 @@ let constants = {
 							description: "Dear Reader, I'm sorry to say that the book you are holding in your hands is extremely unpleasant. It tells an unhappy tale about three very unlucky children.",
 							language: "en",
 							price: 1399,
+							isbn: "9780064407663",
 							status: "review",
 							cover: {
 								uuid: "bb63e1c9-866c-47b5-b852-e8473df404f3",
@@ -82,6 +83,7 @@ let constants = {
 							title: "Eine Reihe betrüblicher Ereignisse - Der schreckliche Anfang",
 							description: "Lieber Leser, es tut mir sehr Leid, aber das Buch, das du gerade in Händen hältst, ist außerordentlich unerfreulich. Es erzählt die traurige Geschichte von drei sehr bedauernswerten Kindern.",
 							language: "de",
+							isbn: "3442545790",
 							status: "hidden",
 							cover: {
 								uuid: "2ba327c3-d33c-4181-900e-f4c331ddf288",
@@ -123,6 +125,7 @@ let constants = {
 							title: "A Series of Unfortunate Events - Book the Second",
 							description: "Dear Reader, if you have picked up this book with the hope of finding a simple and cheery tale, I'm afraid you have picked up the wrong book altogether.",
 							language: "en",
+							isbn: "9780064407670",
 							status: "unpublished",
 							cover: {
 								uuid: "a557824f-26ed-4e5e-8afa-43e20e76e2ad",
@@ -148,6 +151,7 @@ let constants = {
 							description: "Lieber Leser, wenn du dieses Buch zur Hand genommen hast in der Hoffnung, darin Zerstreuung und Vergnügen zu finden, dann liegst du leider völlig falsch.",
 							language: "de",
 							price: 2000,
+							isbn: "3442545803",
 							status: "published",
 							cover: {
 								uuid: "33b486ae-a22e-414b-915c-9a9520970ed8",
@@ -184,6 +188,7 @@ let constants = {
 							title: "A Series of Unfortunate Events - Book the Third",
 							description: "Dear Reader, if you have not read anything about the Baudelaire orphans, then before you read even one more sentence, you should know this: Violet, Klaus and Sunny are kindhearted and quick-witted, but their lives, I am sorry to say, are filled with bad luck and misery.",
 							language: "en",
+							isbn: "9780064407687",
 							status: "unpublished"
 						},
 						{
@@ -191,6 +196,7 @@ let constants = {
 							title: "Eine Reihe betrüblicher Ereignisse - Der Seufzersee",
 							description: "Lieber Leser, wenn du noch nie etwas von den Baudelaire-Kindern gehört hast, dann solltest du, bevor du auch nur eine einzige Zeile liest, Folgendes wissen: Violet, Klaus und Sunny sind nett, charmant und klug, aber ihr Leben - leider, leider - strotzt nur so vor Elend und Unheil.",
 							language: "de",
+							isbn: "3442545811",
 							status: "published",
 							cover: {
 								uuid: "c877a6e5-aebb-4c8c-b28d-817aaffc9226",
@@ -228,6 +234,7 @@ let constants = {
 							description: "Dear Reader, I hope, for your sake, that you have not chosen to read this book because you are in the mood for a pleasant experience. If this is the case, I advise you to put this book down instantaneously, because of all the books describing the unhappy lives of the Baudelaire orphans, THE MISERABLE MILL might be the unhappiest yet.",
 							language: "en",
 							price: 3500,
+							isbn: "9780064407694",
 							status: "published",
 							cover: {
 								uuid: "33ddb7d6-03ff-430f-a526-e7ceeb43782d",
@@ -265,6 +272,7 @@ let constants = {
 							description: "Dear Reader, if you are looking for a story about cheerful youngsters spending a jolly time at boarding school, look elsewhere. Violet, Klaus and Sunny Baudelaire are intelligent and resourceful children, and you might expect that they would do very well at school. Don't. For the Baudelaires, school turns out to be another miserable episode in their unlucky lives.",
 							language: "en",
 							price: 0,
+							isbn: "9780064408639",
 							status: "published",
 							cover: {
 								uuid: "fcd1ddb9-fab4-465e-ad8c-f5074e2d7fc3",
@@ -351,6 +359,7 @@ let constants = {
 								title: "1984",
 								description: "Orwells Roman über die Zerstörung des Menschen durch eine perfekte Staatsmaschinerie ist längst zu einer scheinbar nicht mehr erklärungsbedürftigen Metapher für totalitäre Verhältnisse geworden.",
 								language: "de",
+								isbn: "9783548234106",
 								status: "review",
 								file: {
 									uuid: "050f7a0d-59a9-498a-9caa-8b418227e72b",
@@ -399,6 +408,7 @@ let constants = {
 								title: "Farm der Tiere",
 								description: "Farm der Tiere ist eine allegorische Novelle von George Orwell, die erstmals am 17. August 1945 in England veröffentlicht wurde. Das Buch erzählt die Geschichte einer Gruppe von Nutztieren, die sich gegen ihren menschlichen Bauern auflehnen, in der Hoffnung, eine Gesellschaft zu schaffen, in der die Tiere gleichberechtigt, frei und glücklich sein können.",
 								language: "de",
+								isbn: "3257201184",
 								file: {
 									uuid: "987335cf-4fd0-4c80-a6f1-97bedd46ecbf",
 									ext: "epub",
