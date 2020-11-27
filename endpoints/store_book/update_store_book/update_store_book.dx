@@ -119,7 +119,7 @@
 (if (!(is_nil description)) (var store_book.properties.description description))
 (if (!(is_nil language)) (var store_book.properties.language language))
 (if (!(is_nil price)) (var store_book.properties.price price))
-(if (!(is_nil isbn)) (var store_book.properties.isbn isbn))
+(if (!(is_nil isbn)) (var store_book.properties.isbn (if (isbn.length == 0) nil else isbn)))
 
 (if ((!(is_nil status)) and is_admin) (
 	(# Update the status)

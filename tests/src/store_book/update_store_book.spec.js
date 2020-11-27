@@ -413,28 +413,28 @@ describe("UpdateStoreBook endpoint", () => {
 		let collection = constants.authorUser.author.collections[1]
 		let storeBook = collection.books[0]
 
-		await testShouldUpdateISBNOfStoreBook(collection, storeBook, constants.authorUser.jwt)
+		await testShouldUpdateIsbnOfStoreBook(collection, storeBook, constants.authorUser.jwt)
 	})
 
 	it("should update isbn of store book in review", async () => {
 		let collection = constants.authorUser.author.collections[0]
 		let storeBook = collection.books[0]
 
-		await testShouldUpdateISBNOfStoreBook(collection, storeBook, constants.authorUser.jwt)
+		await testShouldUpdateIsbnOfStoreBook(collection, storeBook, constants.authorUser.jwt)
 	})
 
 	it("should not update isbn of published store book", async () => {
 		let collection = constants.authorUser.author.collections[1]
 		let storeBook = collection.books[1]
 
-		await testShouldNotUpdateISBNOfStoreBook(storeBook, constants.authorUser.jwt)
+		await testShouldNotUpdateIsbnOfStoreBook(storeBook, constants.authorUser.jwt)
 	})
 
 	it("should not update isbn of hidden store book", async () => {
 		let collection = constants.authorUser.author.collections[0]
 		let storeBook = collection.books[1]
 
-		await testShouldNotUpdateISBNOfStoreBook(storeBook, constants.authorUser.jwt)
+		await testShouldNotUpdateIsbnOfStoreBook(storeBook, constants.authorUser.jwt)
 	})
 
 	it("should update categories of unpublished store book", async () => {
@@ -581,28 +581,28 @@ describe("UpdateStoreBook endpoint", () => {
 		let collection = constants.davUser.authors[0].collections[1]
 		let storeBook = collection.books[1]
 
-		await testShouldUpdateISBNOfStoreBook(collection, storeBook, constants.davUser.jwt)
+		await testShouldUpdateIsbnOfStoreBook(collection, storeBook, constants.davUser.jwt)
 	})
 
 	it("should update isbn of store book in review of admin", async () => {
 		let collection = constants.davUser.authors[0].collections[0]
 		let storeBook = collection.books[1]
 
-		await testShouldUpdateISBNOfStoreBook(collection, storeBook, constants.davUser.jwt)
+		await testShouldUpdateIsbnOfStoreBook(collection, storeBook, constants.davUser.jwt)
 	})
 
 	it("should not update isbn of published store book of admin", async () => {
 		let collection = constants.davUser.authors[0].collections[0]
 		let storeBook = collection.books[0]
 
-		await testShouldNotUpdateISBNOfStoreBook(storeBook, constants.davUser.jwt)
+		await testShouldNotUpdateIsbnOfStoreBook(storeBook, constants.davUser.jwt)
 	})
 
 	it("should not update isbn of hidden store book of admin", async () => {
 		let collection = constants.davUser.authors[0].collections[1]
 		let storeBook = collection.books[0]
 
-		await testShouldNotUpdateISBNOfStoreBook(storeBook, constants.davUser.jwt)
+		await testShouldNotUpdateIsbnOfStoreBook(storeBook, constants.davUser.jwt)
 	})
 
 	it("should update categories of unpublished store book of admin", async () => {
@@ -749,28 +749,28 @@ describe("UpdateStoreBook endpoint", () => {
 		let collection = constants.authorUser.author.collections[1]
 		let storeBook = collection.books[0]
 
-		await testShouldUpdateISBNOfStoreBook(collection, storeBook, constants.davUser.jwt, constants.authorUser.jwt)
+		await testShouldUpdateIsbnOfStoreBook(collection, storeBook, constants.davUser.jwt, constants.authorUser.jwt)
 	})
 
 	it("should update isbn of store book in review of author as admin", async () => {
 		let collection = constants.authorUser.author.collections[0]
 		let storeBook = collection.books[0]
 
-		await testShouldUpdateISBNOfStoreBook(collection, storeBook, constants.davUser.jwt, constants.authorUser.jwt)
+		await testShouldUpdateIsbnOfStoreBook(collection, storeBook, constants.davUser.jwt, constants.authorUser.jwt)
 	})
 
 	it("should not update isbn of published store book of author as admin", async () => {
 		let collection = constants.authorUser.author.collections[1]
 		let storeBook = collection.books[1]
 
-		await testShouldNotUpdateISBNOfStoreBook(storeBook, constants.davUser.jwt)
+		await testShouldNotUpdateIsbnOfStoreBook(storeBook, constants.davUser.jwt)
 	})
 
 	it("should not update isbn of hidden store book of author as admin", async () => {
 		let collection = constants.authorUser.author.collections[0]
 		let storeBook = collection.books[1]
 
-		await testShouldNotUpdateISBNOfStoreBook(storeBook, constants.davUser.jwt)
+		await testShouldNotUpdateIsbnOfStoreBook(storeBook, constants.davUser.jwt)
 	})
 
 	it("should update status of unpublished store book of author as admin", async () => {
@@ -1916,7 +1916,7 @@ async function testShouldNotUpdatePriceOfStoreBook(storeBook, jwt){
 	assert.fail()
 }
 
-async function testShouldUpdateISBNOfStoreBook(collection, storeBook, jwt, ownerJwt) {
+async function testShouldUpdateIsbnOfStoreBook(collection, storeBook, jwt, ownerJwt) {
 	resetStoreBooks = true
 	let isbn = "1234567890123"
 	let response
@@ -1984,9 +1984,74 @@ async function testShouldUpdateISBNOfStoreBook(collection, storeBook, jwt, owner
 	assert.equal(storeBook.description, objResponse.data.properties.description)
 	assert.equal(storeBook.language, objResponse.data.properties.language)
 	assert.equal(isbn, objResponse.data.properties.isbn)
+
+	// Remove isbn with empty string
+	try {
+		response = await axios.default({
+			method: 'put',
+			url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
+			headers: {
+				Authorization: jwt,
+				'Content-Type': 'application/json'
+			},
+			data: {
+				isbn: ""
+			}
+		})
+	} catch (error) {
+		console.log(error.response.data)
+		assert.fail()
+	}
+
+	assert.equal(200, response.status)
+	assert.equal(storeBook.uuid, response.data.uuid)
+	assert.equal(collection.uuid, response.data.collection)
+	assert.equal(storeBook.title, response.data.title)
+	assert.equal(storeBook.description, response.data.description)
+	assert.equal(storeBook.language, response.data.language)
+	assert.equal(storeBook.price ?? 0, response.data.price)
+	assert.isNull(response.data.isbn)
+	assert.equal(storeBook.status ?? "unpublished", response.data.status)
+	assert.equal(storeBook.cover != null, response.data.cover)
+	assert.equal(storeBook.coverAspectRatio, response.data.cover_aspect_ratio)
+	assert.equal(storeBook.coverBlurhash, response.data.cover_blurhash)
+	assert.equal(storeBook.file != null, response.data.file)
+	assert.equal(storeBook.fileName, response.data.file_name)
+
+	if (storeBook.categories) {
+		assert.equal(storeBook.categories.length, response.data.categories.length)
+
+		for (let key of response.data.categories) {
+			assert(constants.categories.find(c => c.key == key) != null)
+		}
+	} else {
+		assert.equal(0, response.data.categories.length)
+	}
+
+	assert.isFalse(response.data.in_library)
+	assert.isFalse(response.data.purchased)
+
+	// Check if the store book was updated on the server
+	try {
+		objResponse = await axios.default({
+			method: 'get',
+			url: `${constants.apiBaseUrl}/apps/object/${storeBook.uuid}`,
+			headers: {
+				Authorization: ownerJwt ?? jwt
+			}
+		})
+	} catch (error) {
+		assert.fail()
+	}
+
+	assert.equal(storeBook.uuid, objResponse.data.uuid)
+	assert.equal(storeBook.title, objResponse.data.properties.title)
+	assert.equal(storeBook.description, objResponse.data.properties.description)
+	assert.equal(storeBook.language, objResponse.data.properties.language)
+	assert.isNull(objResponse.data.properties.isbn)
 }
 
-async function testShouldNotUpdateISBNOfStoreBook(storeBook, jwt) {
+async function testShouldNotUpdateIsbnOfStoreBook(storeBook, jwt) {
 	let isbn = "3210987654321"
 
 	try {
