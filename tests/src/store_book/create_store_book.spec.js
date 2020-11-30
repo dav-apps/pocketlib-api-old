@@ -218,7 +218,7 @@ describe("CreateStoreBook endpoint", () => {
 				data: {
 					collection: "a",
 					title: "a",
-					description: "a",
+					description: "",
 					language: "en"
 				}
 			});

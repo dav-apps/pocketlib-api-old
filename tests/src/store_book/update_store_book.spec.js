@@ -166,7 +166,7 @@ describe("UpdateStoreBook endpoint", () => {
 				},
 				data: {
 					title: "a",
-					description: "a"
+					description: ""
 				}
 			})
 		}catch(error){
