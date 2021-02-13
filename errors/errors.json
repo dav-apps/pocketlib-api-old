@@ -29,7 +29,7 @@
 		{"code": 1504, "message": "Can't update file of published StoreBook"},
 		{"code": 1505, "message": "Can't update isbn of published StoreBook"},
 
-		{"code": 2101, "message": "Missing field: jwt"},
+		{"code": 2101, "message": "Missing field: access_token"},
 		{"code": 2102, "message": "Missing field: first_name"},
 		{"code": 2103, "message": "Missing field: last_name"},
 		{"code": 2104, "message": "Missing field: bio"},

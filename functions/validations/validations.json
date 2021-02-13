@@ -41,16 +41,11 @@
 			"params": ["status"],
 			"source": "./status/validate_status_supported.dx"
 		},
-		{
-			"name": "decode_jwt",
-			"params": ["jwt"],
-			"source": "./jwt/decode_jwt.dx"
-		},
 		
 		{
-			"name": "validate_jwt_missing",
-			"params": ["jwt"],
-			"source": "./jwt/validate_jwt_missing.dx"
+			"name": "validate_access_token_presence",
+			"params": ["access_token"],
+			"source": "./access_token/validate_access_token_presence.dx"
 		},
 		{
 			"name": "validate_first_name_missing",
