@@ -1,19 +1,19 @@
-(# Get the jwt)
-(var jwt (get_header Authorization))
+(# Get the access token)
+(var access_token (get_header Authorization))
 (func render_validation_errors ((list
-	(func validate_jwt_missing (jwt))
+	(func validate_access_token_presence (access_token))
 )))
 
-(# Decode the jwt)
-(var decoded_jwt (func decode_jwt (jwt)))
+(# Get the session)
+(var session (func get_session (access_token)))
 
 (# Validate the dev)
 (func render_validation_errors ((list
-	(func validate_dev_is_pocketlib_dev (decoded_jwt.dev_id))
+	(func validate_dev_is_pocketlib_dev (session.app.dev_id))
 )))
 
 (# Check if the user is an admin)
-(var is_admin (env.ADMINS.contains decoded_jwt.user_id))
+(var is_admin (env.ADMINS.contains session.user_id))
 (if (! is_admin) (
 	(# Action not allowed)
 	(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))

@@ -9,10 +9,10 @@
 (var status json.status)
 (var categories json.categories)
 
-(# Get the jwt)
-(var jwt (get_header Authorization))
+(# Get the access token)
+(var access_token (get_header Authorization))
 (func render_validation_errors ((list
-	(func validate_jwt_missing (jwt))
+	(func validate_access_token_presence (access_token))
 )))
 
 (# Make sure content type is json)
@@ -20,16 +20,16 @@
 	(func validate_content_type_json ((get_header Content-Type)))
 )))
 
-(# Decode the jwt)
-(var decoded_jwt (func decode_jwt (jwt)))
+(# Get the session)
+(var session (func get_session (access_token)))
 
 (# Validate the dev)
 (func render_validation_errors ((list
-	(func validate_dev_is_pocketlib_dev (decoded_jwt.dev_id))
+	(func validate_dev_is_pocketlib_dev (session.app.dev_id))
 )))
 
 (# Check if the user is an admin)
-(var is_admin (env.ADMINS.contains decoded_jwt.user_id))
+(var is_admin (env.ADMINS.contains session.user_id))
 
 (# Get the store book)
 (var store_book (func get_table_object (uuid env.STORE_BOOK_TABLE_ID)))
@@ -56,7 +56,7 @@
 ))
 
 (# Check if the user is an admin or if the store book belongs to the author of the user)
-(if ((! is_admin) and (decoded_jwt.user_id != author.user_id)) (
+(if ((! is_admin) and (session.user_id != author.user_id)) (
 	(# Action not allowed)
 	(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
 ))
@@ -210,6 +210,6 @@
 	(file (!(is_nil store_book.properties.file)))
 	(file_name store_book.properties.file_name)
 	(categories category_keys)
-	(in_library (func is_store_book_in_user_library (decoded_jwt.user_id store_book.uuid)))
-	(purchased (func has_user_purchased_table_object (decoded_jwt.user_id store_book.id)))
+	(in_library (func is_store_book_in_user_library (session.user_id store_book.uuid)))
+	(purchased (func has_user_purchased_table_object (session.user_id store_book.id)))
 ) 200)
