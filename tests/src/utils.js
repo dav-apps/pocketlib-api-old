@@ -1,7 +1,10 @@
-import axios from 'axios'
 import constants from './constants.js'
+import {
+	TablesController,
+	TableObjectsController,
+} from 'dav-npm'
 
-export async function resetDatabase(){
+export async function resetDatabase() {
 	await resetAuthors()
 	await resetAuthorBios()
 	await resetAuthorProfileImages()
@@ -15,100 +18,99 @@ export async function resetDatabase(){
 	await resetCategoryNames()
 }
 
-export async function resetAuthors(){
+export async function resetAuthors() {
 	// Delete Authors
-	await deleteTableObjectsOfTable(constants.davClassLibraryTestUser.jwt, constants.authorTableId)
+	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.authorTableId)
 
 	// Reset the Authors of users with authors
 	await resetAuthorUserAuthor()
 	await resetDavUserAuthors()
 }
 
-export async function resetAuthorBios(){
+export async function resetAuthorBios() {
 	// Delete AuthorBios
-	await deleteTableObjectsOfTable(constants.davClassLibraryTestUser.jwt, constants.authorBioTableId)
+	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.authorBioTableId)
 
 	// Reset the AuthorBios of users with authors
 	await resetAuthorUserAuthorBios()
 	await resetDavUserAuthorBios()
 }
 
-export async function resetAuthorProfileImages(){
+export async function resetAuthorProfileImages() {
 	// Delete AuthorProfileImages
-	await deleteTableObjectsOfTable(constants.davClassLibraryTestUser.jwt, constants.authorProfileImageTableId)
+	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.authorProfileImageTableId)
 
 	// Reset the AuthorProfileImages of users with authors
 	await resetAuthorUserAuthorProfileImages()
 	await resetDavUserAuthorProfileImages()
 }
 
-export async function resetStoreBookCollections(){
+export async function resetStoreBookCollections() {
 	// Delete StoreBookCollections
-	await deleteTableObjectsOfTable(constants.davClassLibraryTestUser.jwt, constants.storeBookCollectionTableId)
+	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.storeBookCollectionTableId)
 
 	// Reset the StoreBookCollections of the author users
 	await resetAuthorUserStoreBookCollections()
 	await resetDavUserStoreBookCollections()
 }
 
-export async function resetStoreBookCollectionNames(){
+export async function resetStoreBookCollectionNames() {
 	// Delete StoreBookCollectionNames
-	await deleteTableObjectsOfTable(constants.davClassLibraryTestUser.jwt, constants.storeBookCollectionNameTableId)
+	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.storeBookCollectionNameTableId)
 
 	// Reset the StoreBookCollectionNames of the author user
 	await resetAuthorUserStoreBookCollectionNames()
 	await resetDavUserStoreBookCollectionNames()
 }
 
-export async function resetStoreBooks(){
+export async function resetStoreBooks() {
 	// Delete StoreBooks
-	await deleteTableObjectsOfTable(constants.davClassLibraryTestUser.jwt, constants.storeBookTableId)
+	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.storeBookTableId)
 
 	// Reset StoreBooks
 	await resetAuthorUserStoreBooks()
 	await resetDavUserStoreBooks()
 }
 
-export async function resetStoreBookCovers(){
+export async function resetStoreBookCovers() {
 	// Delete StoreBookCovers
-	await deleteTableObjectsOfTable(constants.davClassLibraryTestUser.jwt, constants.storeBookCoverTableId)
+	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.storeBookCoverTableId)
 
 	// Reset StoreBookCovers
 	await resetAuthorUserStoreBookCovers()
 	await resetDavUserStoreBookCovers()
 }
 
-export async function resetStoreBookFiles(){
+export async function resetStoreBookFiles() {
 	// Delete StoreBookFiles
-	await deleteTableObjectsOfTable(constants.davClassLibraryTestUser.jwt, constants.storeBookFileTableId)
+	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.storeBookFileTableId)
 
 	// Reset StoreBookFiles
 	await resetAuthorUserStoreBookFiles()
 	await resetDavUserStoreBookFiles()
 }
 
-export async function resetBooks(){
+export async function resetBooks() {
 	// Delete Books
-	await deleteTableObjectsOfTable(constants.authorUser.jwt, constants.bookTableId)
-	await deleteTableObjectsOfTable(constants.davUser.jwt, constants.bookTableId)
+	await deleteTableObjectsOfTable(constants.authorUser.accessToken, constants.bookTableId)
+	await deleteTableObjectsOfTable(constants.davUser.accessToken, constants.bookTableId)
 
 	// Reset books
 	await resetKlausUserBooks()
-	await resetDavClassLibraryTestUserBooks()
+	await resetTestUserBooks()
 }
 
-export async function resetCategories(){
+export async function resetCategories() {
 	// Reset categories
 	await resetDavUserCategories()
 }
 
-export async function resetCategoryNames(){
+export async function resetCategoryNames() {
 	// Delete CategoryNames
 	await resetDavUserCategoryNames()
 }
 
-
-async function resetAuthorUserAuthor(){
+async function resetAuthorUserAuthor() {
 	// Reset the author of author user
 	let collections = []
 	constants.authorUser.author.collections.forEach(collection => collections.push(collection.uuid))
@@ -116,38 +118,34 @@ async function resetAuthorUserAuthor(){
 	let bios = []
 	constants.authorUser.author.bios.forEach(bio => bios.push(bio.uuid))
 
-	try{
-		await axios.default({
-			method: 'put',
-			url: `${constants.apiBaseUrl}/apps/object/${constants.authorUser.author.uuid}`,
-			headers: {
-				Authorization: constants.authorUser.jwt,
-				'Content-Type': 'application/json'
-			},
-			data: {
-				first_name: constants.authorUser.author.firstName,
-				last_name: constants.authorUser.author.lastName,
-				website_url: constants.authorUser.author.websiteUrl ?? "",
-				facebook_username: constants.authorUser.author.facebookUsername ?? "",
-				instagram_username: constants.authorUser.author.instagramUsername ?? "",
-				twitter_username: constants.authorUser.author.twitterUsername ?? "",
-				bios: bios.join(','),
-				collections: collections.join(','),
-				profile_image: constants.authorUser.author.profileImage?.uuid ?? "",
-				profile_image_blurhash: constants.authorUser.author.profileImageBlurhash ?? ""
-			}
-		})
-	}catch(error){
+	let response = await TableObjectsController.UpdateTableObject({
+		accessToken: constants.authorUser.accessToken,
+		uuid: constants.authorUser.author.uuid,
+		properties: {
+			first_name: constants.authorUser.author.firstName,
+			last_name: constants.authorUser.author.lastName,
+			website_url: constants.authorUser.author.websiteUrl,
+			facebook_username: constants.authorUser.author.facebookUsername,
+			instagram_username: constants.authorUser.author.instagramUsername,
+			twitter_username: constants.authorUser.author.twitterUsername,
+			bios: bios.join(','),
+			collections: collections.join(','),
+			profile_image: constants.authorUser.author.profileImage?.uuid,
+			profile_image_blurhash: constants.authorUser.author.profileImageBlurhash
+		}
+	})
+
+	if (response.status != 200) {
 		console.log("Error in resetting the author of author user")
-		console.log(error.response.data)
+		console.log(response.errors)
 	}
 }
 
-async function resetDavUserAuthors(){
+async function resetDavUserAuthors() {
 	let testDatabaseAuthors = []
 
 	// Reset the authors of dav user
-	for(let author of constants.davUser.authors){
+	for (let author of constants.davUser.authors) {
 		testDatabaseAuthors.push(author.uuid)
 
 		let collections = []
@@ -156,291 +154,263 @@ async function resetDavUserAuthors(){
 		let bios = []
 		author.bios.forEach(bio => bios.push(bio.uuid))
 
-		try{
-			await axios.default({
-				method: 'put',
-				url: `${constants.apiBaseUrl}/apps/object/${author.uuid}`,
-				headers: {
-					Authorization: constants.davUser.jwt,
-					'Content-Type': 'application/json'
-				},
-				data: {
-					first_name: author.firstName,
-					last_name: author.lastName,
-					website_url: author.websiteUrl ?? "",
-					facebook_username: author.facebookUsername ?? "",
-					instagram_username: author.instagramUsername ?? "",
-					twitter_username: author.twitterUsername ?? "",
-					bios: bios.join(','),
-					collections: collections.join(','),
-					profile_image: author.profileImage?.uuid ?? "",
-					profile_image_blurhash: author.profileImageBlurhash ?? ""
-				}
-			})
-		}catch(error){
+		let response = await TableObjectsController.UpdateTableObject({
+			accessToken: constants.davUser.accessToken,
+			uuid: author.uuid,
+			properties: {
+				first_name: author.firstName,
+				last_name: author.lastName,
+				website_url: author.websiteUrl,
+				facebook_username: author.facebookUsername,
+				instagram_username: author.instagramUsername,
+				twitter_username: author.twitterUsername,
+				bios: bios.join(','),
+				collections: collections.join(','),
+				profile_image: author.profileImage?.uuid,
+				profile_image_blurhash: author.profileImageBlurhash
+			}
+		})
+
+		if (response.status != 200) {
 			console.log(`Error in resetting the author ${author.firstName} ${author.lastName} of dav user`)
-			console.log(error.response.data)
+			console.log(response.errors)
 		}
 	}
 
 	// Get the Author table
-	let response
 	let authors = []
 
-	try{
-		response = await axios.default({
-			method: 'get',
-			url: `${constants.apiBaseUrl}/apps/table/${constants.authorTableId}`,
-			headers: {
-				Authorization: constants.davUser.jwt
-			}
-		})
+	let response = await TablesController.GetTable({
+		accessToken: constants.davUser.accessToken,
+		id: constants.authorTableId
+	})
 
-		authors = response.data.table_objects
-	}catch(error){
+	if (response.status != 200) {
 		console.log("Error in getting the author table")
-		console.log(error.response.data)
+		console.log(response.errors)
 	}
 
 	// Delete each author that is not part of the test database
-	for(let author of authors){
-		if(testDatabaseAuthors.includes(author.uuid)) continue
+	for (let author of authors) {
+		if (testDatabaseAuthors.includes(author.uuid)) continue
 
 		// Delete the author
-		await deleteTableObject(author.uuid, constants.davUser.jwt)
+		await deleteTableObject(constants.davUser.accessToken, author.uuid)
 	}
 }
 
-async function resetAuthorUserAuthorBios(){
+async function resetAuthorUserAuthorBios() {
 	let testDatabaseAuthorBios = []
 
-	for(let authorBio of constants.authorUser.author.bios){
+	for (let authorBio of constants.authorUser.author.bios) {
 		testDatabaseAuthorBios.push(authorBio.uuid)
 
 		// Reset the author bio
-		try{
-			await axios.default({
-				method: 'put',
-				url: `${constants.apiBaseUrl}/apps/object/${authorBio.uuid}`,
-				headers: {
-					Authorization: constants.authorUser.jwt,
-					'Content-Type': 'application/json'
-				},
-				data: {
+		let response = await TableObjectsController.UpdateTableObject({
+			accessToken: constants.authorUser.accessToken,
+			uuid: authorBio.uuid,
+			properties: {
+				bio: authorBio.bio,
+				language: authorBio.language
+			}
+		})
+
+		if (response.status != 200) {
+			console.log("Error in resetting an author bio")
+			console.log(response.errors)
+		}
+	}
+
+	// Get the AuthorBio table
+	let authorBios = []
+
+	let response = await TablesController.GetTable({
+		accessToken: constants.authorUser.accessToken,
+		id: constants.authorBioTableId
+	})
+
+	if (response != 200) {
+		console.log("Error in getting the author bio table")
+		console.log(response.errors)
+	}
+
+	// Delete each author bio that is not part of the test database
+	for (let authorBio of authorBios) {
+		if (testDatabaseAuthorBios.includes(authorBio.uuid)) continue
+
+		// Delete the author bio
+		await deleteTableObject(constants.authorUser.accessToken, authorBio.uuid)
+	}
+}
+
+async function resetDavUserAuthorBios() {
+	let testDatabaseAuthorBios = []
+
+	for (let author of constants.davUser.authors) {
+		for (let authorBio of author.bios) {
+			testDatabaseAuthorBios.push(authorBio.uuid)
+
+			// Reset the author bio
+			let response = await TableObjectsController.UpdateTableObject({
+				accessToken: constants.davUser.accessToken,
+				uuid: authorBio.uuid,
+				properties: {
 					bio: authorBio.bio,
 					language: authorBio.language
 				}
 			})
-		}catch(error){
-			console.log("Error in resetting an author bio")
-			console.log(error.response.data)
-		}
-	}
 
-	// Get the AuthorBio table
-	let response
-	let authorBios = []
-
-	try{
-		response = await axios.default({
-			method: 'get',
-			url: `${constants.apiBaseUrl}/apps/table/${constants.authorBioTableId}`,
-			headers: {
-				Authorization: constants.authorUser.jwt
-			}
-		})
-
-		authorBios = response.data.table_objects
-	}catch(error){
-		console.log("Error in getting the author bio table")
-		console.log(error.response.data)
-	}
-
-	// Delete each author bio that is not part of the test database
-	for(let authorBio of authorBios){
-		if(testDatabaseAuthorBios.includes(authorBio.uuid)) continue
-
-		// Delete the author bio
-		await deleteTableObject(authorBio.uuid, constants.authorUser.jwt)
-	}
-}
-
-async function resetDavUserAuthorBios(){
-	let testDatabaseAuthorBios = []
-
-	for(let author of constants.davUser.authors){
-		for(let authorBio of author.bios){
-			testDatabaseAuthorBios.push(authorBio.uuid)
-
-			// Reset the author bio
-			try{
-				await axios.default({
-					method: 'put',
-					url: `${constants.apiBaseUrl}/apps/object/${authorBio.uuid}`,
-					headers: {
-						Authorization: constants.davUser.jwt,
-						'Content-Type': 'application/json'
-					},
-					data: {
-						bio: authorBio.bio,
-						language: authorBio.language
-					}
-				})
-			}catch(error){
+			if (response.status != 200) {
 				console.log("Error in resetting an author bio")
-				console.log(error.response.data)
+				console.log(response.errors)
 			}
 		}
 	}
 
 	// Get the AuthorBio table
-	let response
 	let authorBios = []
 
-	try{
-		response = await axios.default({
-			method: 'get',
-			url: `${constants.apiBaseUrl}/apps/table/${constants.authorBioTableId}`,
-			headers: {
-				Authorization: constants.davUser.jwt
-			}
-		})
+	let response = await TablesController.GetTable({
+		accessToken: constants.davUser.accessToken,
+		id: constants.authorBioTableId
+	})
 
-		authorBios = response.data.table_objects
-	}catch(error){
+	if (response.status != 200) {
 		console.log("Error in getting the author bio table")
-		console.log(error.response.data)
+		console.log(response.errors)
 	}
 
 	// Delete each author bio that is not part of the test database
-	for(let authorBio of authorBios){
-		if(testDatabaseAuthorBios.includes(authorBio.uuid)) continue
+	for (let authorBio of authorBios) {
+		if (testDatabaseAuthorBios.includes(authorBio.uuid)) continue
 
 		// Delete the author bio
-		await deleteTableObject(authorBio.uuid, constants.davUser.jwt)
+		await deleteTableObject(constants.davUser.accessToken, authorBio.uuid)
 	}
 }
 
-async function resetAuthorUserAuthorProfileImages(){
+async function resetAuthorUserAuthorProfileImages() {
 	// Get the profile image table
 	let profileImages = []
 	let testDatabaseProfileImageUuid = constants.authorUser.author.profileImage.uuid
 
-	try{
-		let response = await axios.default({
-			method: 'get',
-			url: `${constants.apiBaseUrl}/apps/table/${constants.authorProfileImageTableId}`,
-			headers: {
-				Authorization: constants.authorUser.jwt
-			}
-		})
+	let response = await TablesController.GetTable({
+		accessToken: constants.authorUser.accessToken,
+		id: constants.authorProfileImageTableId
+	})
 
-		profileImages = response.data.table_objects
-	}catch(error){
+	if (response.status != 200) {
 		console.log("Error in getting the author profile image table")
-		console.log(error.response.data)
+		console.log(response.errors)
 	}
 
 	// Delete each profile image that is not part of the test database
-	for(let profileImage of profileImages){
-		if(profileImage.uuid != testDatabaseProfileImageUuid){
+	for (let profileImage of profileImages) {
+		if (profileImage.uuid != testDatabaseProfileImageUuid) {
 			// Delete the profile image
-			await deleteTableObject(profileImage.uuid, constants.authorUser.jwt)
+			await deleteTableObject(constants.authorUser.accessToken, profileImage.uuid)
 		}
 	}
 
 	// Create the profile image of the test database if it does not exist
-	if(profileImages.includes(testDatabaseProfileImageUuid)){
-		try{
-			await axios.default({
-				method: 'post',
-				url: `${constants.apiBaseUrl}/apps/object`,
-				params: {
-					uuid: testDatabaseProfileImageUuid,
-					table_id: constants.authorProfileImageTableId,
-					app_id: constants.pocketlibAppId,
-					ext: constants.authorUser.author.profileImage.ext
-				},
-				headers: {
-					Authorization: constants.authorUser.jwt,
-					'Content-Type': constants.authorUser.author.profileImage.type
-				},
-				data: "Hello World"
-			})
-		}catch(error){
+	if (profileImages.includes(testDatabaseProfileImageUuid)) {
+		// Set the ext
+		let response = await TableObjectsController.UpdateTableObject({
+			accessToken: constants.authorUser.accessToken,
+			uuid: testDatabaseProfileImageUuid,
+			properties: {
+				ext: constants.authorUser.author.profileImage.ext
+			}
+		})
+
+		if (response.status != 200) {
 			console.log("Error in creating profile image")
-			console.log(error.response.data)
+			console.log(response.errors)
+		}
+
+		// Overwrite the file
+		response = await TableObjectsController.SetTableObjectFile({
+			accessToken: constants.authorUser.accessToken,
+			uuid: testDatabaseProfileImageUuid,
+			file: new Blob(["Hello World"], { type: constants.authorUser.author.profileImage.type })
+		})
+
+		if (response.status != 200) {
+			console.log("Error in creating profile image")
+			console.log(response.errors)
 		}
 	}
 }
 
-async function resetDavUserAuthorProfileImages(){
+async function resetDavUserAuthorProfileImages() {
 	// Get the profile image table
 	let profileImages = []
 	let testDatabaseProfileImages = []
 
-	try{
-		let response = await axios.default({
-			method: 'get',
-			url: `${constants.apiBaseUrl}/apps/table/${constants.authorProfileImageTableId}`,
-			headers: {
-				Authorization: constants.davUser.jwt
-			}
-		})
+	let response = await TablesController.GetTable({
+		accessToken: constants.davUser.accessToken,
+		id: constants.authorProfileImageTableId
+	})
 
-		profileImages = response.data.table_objects
-	}catch(error){
+	if (response.status != 200) {
 		console.log("Error in getting the author profile image table")
-		console.log(error.response.data)
+		console.log(response.errors)
+	} else {
+		profileImages = response.data.tableObjects
 	}
 
 	// Get all profile images of the test database
-	for(let author of constants.davUser.authors){
-		if(author.profileImage) testDatabaseProfileImages.push(author.profileImage)
+	for (let author of constants.davUser.authors) {
+		if (author.profileImage) testDatabaseProfileImages.push(author.profileImage)
 	}
 
 	// Delete each profile image that is not part of the test database
-	for(let profileImage of profileImages){
+	for (let profileImage of profileImages) {
 		let i = testDatabaseProfileImages.findIndex(img => img.uuid == profileImage.uuid)
 
-		if(i != -1){
+		if (i != -1) {
 			testDatabaseProfileImages.splice(i, 1)
-		}else{
+		} else {
 			// Delete the profile image
-			await deleteTableObject(profileImage.uuid, constants.davUser.jwt)
+			await deleteTableObject(constants.davUser.accessToken, profileImage.uuid)
 		}
 	}
 
 	// Create each missing profile image of the test database
-	for(let profileImage of testDatabaseProfileImages){
-		try{
-			await axios.default({
-				method: 'post',
-				url: `${constants.apiBaseUrl}/apps/object`,
-				params: {
-					uuid: profileImage.uuid,
-					table_id: constants.authorProfileImageTableId,
-					app_id: constants.pocketlibAppId,
-					ext: profileImage.ext
-				},
-				headers: {
-					Authorization: constants.davUser.jwt,
-					'Content-Type': profileImage.type
-				},
-				data: "Hello World"
+	for (let profileImage of testDatabaseProfileImages) {
+		// Create the table object
+		response = await TableObjectsController.CreateTableObject({
+			accessToken: constants.davUser.accessToken,
+			uuid: profileImage.uuid,
+			tableId: constants.authorProfileImageTableId,
+			properties: {
+				ext: profileImage.ext
+			}
+		})
+
+		if (response != 201) {
+			console.log(`Error in creating profile image: ${profileImage.uuid}`)
+			console.log(response.errors)
+		} else {
+			// Upload the file
+			response = await TableObjectsController.SetTableObjectFile({
+				accessToken: constants.davUser.accessToken,
+				uuid: profileImage.uuid,
+				file: new Blob(["Hello World"], { type: profileImage.type })
 			})
-		}catch(error){
-			console.log(profileImage.uuid)
-			console.log("Error in creating profile image")
-			console.log(error.response.data)
+
+			if (response.status != 200) {
+				console.log(`Error in creating profile image: ${profileImage.uuid}`)
+				console.log(response.errors)
+			}
 		}
 	}
 }
 
-async function resetAuthorUserStoreBookCollections(){
+async function resetAuthorUserStoreBookCollections() {
 	let testDatabaseCollections = []
 
-	for(let collection of constants.authorUser.author.collections){
+	for (let collection of constants.authorUser.author.collections) {
 		testDatabaseCollections.push(collection.uuid)
 
 		// Reset the collection
@@ -450,59 +420,49 @@ async function resetAuthorUserStoreBookCollections(){
 		let books = []
 		collection.books.forEach(book => books.push(book.uuid))
 
-		try{
-			await axios.default({
-				method: 'put',
-				url: `${constants.apiBaseUrl}/apps/object/${collection.uuid}`,
-				headers: {
-					Authorization: constants.authorUser.jwt,
-					'Content-Type': 'application/json'
-				},
-				data: {
-					author: constants.authorUser.author.uuid,
-					names: names.join(','),
-					books: books.join(',')
-				}
-			})
-		}catch(error){
+		let response = await TableObjectsController.UpdateTableObject({
+			accessToken: constants.authorUser.accessToken,
+			uuid: collection.uuid,
+			properties: {
+				author: constants.authorUser.author.uuid,
+				names: names.join(','),
+				books: books.join(',')
+			}
+		})
+
+		if (response.status != 200) {
 			console.log("Error in resetting a store book collection")
-			console.log(error.response.data)
+			console.log(response.errors)
 		}
 	}
 
 	// Get the StoreBookCollection table
-	let response
 	let collections = []
 
-	try{
-		response = await axios.default({
-			method: 'get',
-			url: `${constants.apiBaseUrl}/apps/table/${constants.storeBookCollectionTableId}`,
-			headers: {
-				Authorization: constants.authorUser.jwt
-			}
-		})
+	let response = await TablesController.GetTable({
+		accessToken: constants.authorUser.accessToken,
+		id: constants.storeBookCollectionTableId
+	})
 
-		collections = response.data.table_objects
-	}catch(error){
+	if (response.status != 200) {
 		console.log("Error in getting the store book collection table")
-		console.log(error.response.data)
+		console.log(response.errors)
 	}
 
 	// Delete each collection that is not part of the test database
-	for(let collection of collections){
-		if(testDatabaseCollections.includes(collection.uuid)) continue
+	for (let collection of collections) {
+		if (testDatabaseCollections.includes(collection.uuid)) continue
 
 		// Delete the collection
-		await deleteTableObject(collection.uuid, constants.authorUser.jwt)
+		await deleteTableObject(constants.authorUser.accessToken, collection.uuid)
 	}
 }
 
-async function resetDavUserStoreBookCollections(){
+async function resetDavUserStoreBookCollections() {
 	let testDatabaseCollections = []
-	
-	for(let author of constants.davUser.authors){
-		for(let collection of author.collections){
+
+	for (let author of constants.davUser.authors) {
+		for (let collection of author.collections) {
 			testDatabaseCollections.push(collection.uuid)
 
 			// Reset the collection
@@ -512,931 +472,830 @@ async function resetDavUserStoreBookCollections(){
 			let books = []
 			collection.books.forEach(book => books.push(book.uuid))
 
-			try{
-				await axios.default({
-					method: 'put',
-					url: `${constants.apiBaseUrl}/apps/object/${collection.uuid}`,
-					headers: {
-						Authorization: constants.davUser.jwt,
-						'Content-Type': 'application/json'
-					},
-					data: {
-						author: author.uuid,
-						names: names.join(','),
-						books: books.join(',')
-					}
-				});
-			}catch(error){
+			let response = await TableObjectsController.UpdateTableObject({
+				accessToken: constants.davUser.accessToken,
+				uuid: collection.uuid,
+				properties: {
+					author: author.uuid,
+					names: names.join(','),
+					books: books.join(',')
+				}
+			})
+
+			if (response.status != 200) {
 				console.log(`Error in resetting a store book collection of the author ${author.firstName} ${author.lastName}`)
-				console.log(error.response.data)
+				console.log(response.errors)
 			}
 		}
 	}
 
 	// Get the StoreBookCollection table
-	let response
 	let collections = []
 
-	try{
-		response = await axios.default({
-			method: 'get',
-			url: `${constants.apiBaseUrl}/apps/table/${constants.storeBookCollectionTableId}`,
-			headers: {
-				Authorization: constants.davUser.jwt
-			}
-		})
+	let response = await TablesController.GetTable({
+		accessToken: constants.davUser.accessToken,
+		id: constants.storeBookCollectionTableId
+	})
 
-		collections = response.data.table_objects
-	}catch(error){
+	if (response.status != 200) {
 		console.log("Error in getting the store book collection table")
-		console.log(error.response.data)
+		console.log(response.errors)
+	} else {
+		collections = response.data.tableObjects
 	}
 
 	// Delete each collection that is not part of the test database
-	for(let collection of collections){
-		if(testDatabaseCollections.includes(collection.uuid)) continue
+	for (let collection of collections) {
+		if (testDatabaseCollections.includes(collection.uuid)) continue
 
 		// Delete the collection
-		await deleteTableObject(collection.uuid, constants.davUser.jwt)
+		await deleteTableObject(constants.davUser.accessToken, collection.uuid)
 	}
 }
 
-async function resetAuthorUserStoreBookCollectionNames(){
+async function resetAuthorUserStoreBookCollectionNames() {
 	let testDatabaseCollectionNames = []
 
-	for(let collection of constants.authorUser.author.collections){
-		for(let collectionName of collection.names){
+	for (let collection of constants.authorUser.author.collections) {
+		for (let collectionName of collection.names) {
 			testDatabaseCollectionNames.push(collectionName.uuid)
 
 			// Reset the collection name
-			try{
-				await axios.default({
-					method: 'put',
-					url: `${constants.apiBaseUrl}/apps/object/${collectionName.uuid}`,
-					headers: {
-						Authorization: constants.authorUser.jwt,
-						'Content-Type': 'application/json'
-					},
-					data: {
-						name: collectionName.name,
-						language: collectionName.language
-					}
-				})
-			}catch(error){
+			let response = await TableObjectsController.UpdateTableObject({
+				accessToken: constants.authorUser.accessToken,
+				uuid: collectionName.uuid,
+				properties: {
+					name: collectionName.name,
+					language: collectionName.language
+				}
+			})
+
+			if (response.status != 200) {
 				console.log("Error in resetting a store book collection name")
-				console.log(error.response.data)
+				console.log(response.errors)
 			}
 		}
 	}
 
 	// Get the StoreBookCollectionName table
-	let response
 	let collectionNames = []
 
-	try{
-		response = await axios.default({
-			method: 'get',
-			url: `${constants.apiBaseUrl}/apps/table/${constants.storeBookCollectionNameTableId}`,
-			headers: {
-				Authorization: constants.authorUser.jwt
-			}
-		})
+	let response = await TablesController.GetTable({
+		accessToken: constants.authorUser.accessToken,
+		id: constants.storeBookCollectionNameTableId
+	})
 
-		collectionNames = response.data.table_objects
-	}catch(error){
+	if (response.status != 200) {
 		console.log("Error in getting the store book collection name table")
-		console.log(error.response.data)
+		console.log(response.errors)
+	} else {
+		collectionNames = response.data.tableObjects
 	}
 
 	// Delete each collection name that is not part of the test database
-	for(let collectionName of collectionNames){
-		if(testDatabaseCollectionNames.includes(collectionName.uuid)) continue
+	for (let collectionName of collectionNames) {
+		if (testDatabaseCollectionNames.includes(collectionName.uuid)) continue
 
 		// Delete the collection name
-		await deleteTableObject(collectionName.uuid, constants.authorUser.jwt)
+		await deleteTableObject(constants.authorUser.accessToken, collectionName.uuid)
 	}
 }
 
-async function resetDavUserStoreBookCollectionNames(){
+async function resetDavUserStoreBookCollectionNames() {
 	let testDatabaseCollectionNames = []
 
-	for(let author of constants.davUser.authors){
-		for(let collection of author.collections){
-			for(let collectionName of collection.names){
+	for (let author of constants.davUser.authors) {
+		for (let collection of author.collections) {
+			for (let collectionName of collection.names) {
 				testDatabaseCollectionNames.push(collectionName.uuid)
 
 				// Reset the collection name
-				try{
-					await axios.default({
-						method: 'put',
-						url: `${constants.apiBaseUrl}/apps/object/${collectionName.uuid}`,
-						headers: {
-							Authorization: constants.davUser.jwt,
-							'Content-Type': 'application/json'
-						},
-						data: {
-							name: collectionName.name,
-							language: collectionName.language
-						}
-					})
-				}catch(error){
+				let response = await TableObjectsController.UpdateTableObject({
+					accessToken: constants.davUser.accessToken,
+					uuid: collectionName.uuid,
+					properties: {
+						name: collectionName.name,
+						language: collectionName.language
+					}
+				})
+
+				if (response.status != 200) {
 					console.log("Error in resetting a store book collection name")
-					console.log(error.response.data)
+					console.log(response.errors)
 				}
 			}
 		}
 	}
 
 	// Get the StoreBookCollectionName table
-	let response
 	let collectionNames = []
 
-	try{
-		response = await axios.default({
-			method: 'get',
-			url: `${constants.apiBaseUrl}/apps/table/${constants.storeBookCollectionNameTableId}`,
-			headers: {
-				Authorization: constants.davUser.jwt
-			}
-		})
+	let response = await TablesController.GetTable({
+		accessToken: constants.davUser.accessToken,
+		id: constants.storeBookCollectionNameTableId
+	})
 
-		collectionNames = response.data.table_objects
-	}catch(error){
+	if (response.status != 200) {
 		console.log("Error in getting the store book collection name table")
-		console.log(error.response.data)
+		console.log(response.errors)
+	} else {
+		collectionNames = response.data.tableObjects
 	}
 
 	// Delete each collection name that is not part of the test database
-	for(let collectionName of collectionNames){
-		if(testDatabaseCollectionNames.includes(collectionName.uuid)) continue
+	for (let collectionName of collectionNames) {
+		if (testDatabaseCollectionNames.includes(collectionName.uuid)) continue
 
 		// Delete the collection name
-		await deleteTableObject(collectionName.uuid, constants.davUser.jwt)
+		await deleteTableObject(constants.davUser.accessToken, collectionName.uuid)
 	}
 }
 
-async function resetAuthorUserStoreBooks(){
+async function resetAuthorUserStoreBooks() {
 	let testDatabaseStoreBooks = []
 
-	for(let collection of constants.authorUser.author.collections){
-		for(let book of collection.books){
+	for (let collection of constants.authorUser.author.collections) {
+		for (let book of collection.books) {
 			testDatabaseStoreBooks.push(book.uuid)
 
 			// Reset the store book
-			try{
-				await axios.default({
-					method: 'put',
-					url: `${constants.apiBaseUrl}/apps/object/${book.uuid}`,
-					headers: {
-						Authorization: constants.authorUser.jwt,
-						'Content-Type': 'application/json'
-					},
-					data: {
+			let response = await TableObjectsController.UpdateTableObject({
+				accessToken: constants.authorUser.accessToken,
+				uuid: book.uuid,
+				properties: {
+					collection: collection.uuid,
+					title: book.title,
+					description: book.description,
+					language: book.language,
+					price: book.price?.toString() ?? "",
+					isbn: book.isbn ?? "",
+					status: book.status,
+					cover: book.cover?.uuid ?? "",
+					cover_aspect_ratio: book.coverAspectRatio ?? "",
+					cover_blurhash: book.coverBlurhash ?? "",
+					file: book.file?.uuid ?? "",
+					file_name: book.fileName ?? "",
+					categories: book.categories ? book.categories.join(',') : ""
+				}
+			})
+
+			if (response.status != 200) {
+				console.log("Error in resetting a store book")
+				console.log(response.errors)
+			}
+		}
+	}
+
+	// Get the StoreBook table
+	let storeBooks = []
+
+	let response = await TablesController.GetTable({
+		accessToken: constants.authorUser.accessToken,
+		id: constants.storeBookTableId
+	})
+
+	if (response.status != 200) {
+		console.log("Error in getting the store book table")
+		console.log(response.errors)
+	} else {
+		storeBooks = response.data.tableObjects
+	}
+
+	// Delete each store book that is not part of the test database
+	for (let storeBook of storeBooks) {
+		if (testDatabaseStoreBooks.includes(storeBook.uuid)) continue
+
+		// Delete the store book
+		await deleteTableObject(constants.authorUser.accessToken, storeBook.uuid)
+	}
+}
+
+async function resetDavUserStoreBooks() {
+	let testDatabaseStoreBooks = []
+
+	for (let author of constants.davUser.authors) {
+		for (let collection of author.collections) {
+			for (let book of collection.books) {
+				testDatabaseStoreBooks.push(book.uuid)
+
+				// Reset the store book
+				let response = await TableObjectsController.UpdateTableObject({
+					accessToken: constants.davUser.accessToken,
+					uuid: book.uuid,
+					properties: {
 						collection: collection.uuid,
 						title: book.title,
 						description: book.description,
 						language: book.language,
 						price: book.price?.toString() ?? "",
 						isbn: book.isbn ?? "",
-						status: book.status,
-						cover: book.cover?.uuid ?? "",
+						status: book.status ?? "",
 						cover_aspect_ratio: book.coverAspectRatio ?? "",
 						cover_blurhash: book.coverBlurhash ?? "",
+						cover: book.cover?.uuid ?? "",
 						file: book.file?.uuid ?? "",
-						file_name: book.fileName ?? "",
-						categories: book.categories ? book.categories.join(',') : ""
+						categories: book.categories?.join(',') ?? ""
 					}
 				})
-			}catch(error){
-				console.log("Error in resetting a store book")
-				console.log(error.response.data)
-			}
-		}
-	}
 
-	// Get the StoreBook table
-	let response
-	let storeBooks = []
-
-	try{
-		response = await axios.default({
-			method: 'get',
-			url: `${constants.apiBaseUrl}/apps/table/${constants.storeBookTableId}`,
-			headers: {
-				Authorization: constants.authorUser.jwt
-			}
-		})
-
-		storeBooks = response.data.table_objects
-	}catch(error){
-		console.log("Error in getting the store book table")
-		console.log(error.response.data)
-	}
-
-	// Delete each store book that is not part of the test database
-	for(let storeBook of storeBooks){
-		if(testDatabaseStoreBooks.includes(storeBook.uuid)) continue
-
-		// Delete the store book
-		await deleteTableObject(storeBook.uuid, constants.authorUser.jwt)
-	}
-}
-
-async function resetDavUserStoreBooks(){
-	let testDatabaseStoreBooks = []
-
-	for(let author of constants.davUser.authors){
-		for(let collection of author.collections){
-			for(let book of collection.books){
-				testDatabaseStoreBooks.push(book.uuid)
-
-				// Reset the store book
-				try{
-					await axios.default({
-						method: 'put',
-						url: `${constants.apiBaseUrl}/apps/object/${book.uuid}`,
-						headers: {
-							Authorization: constants.davUser.jwt,
-							'Content-Type': 'application/json'
-						},
-						data: {
-							collection: collection.uuid,
-							title: book.title,
-							description: book.description,
-							language: book.language,
-							price: book.price?.toString() ?? "",
-							isbn: book.isbn ?? "",
-							status: book.status ?? "",
-							cover_aspect_ratio: book.coverAspectRatio ?? "",
-							cover_blurhash: book.coverBlurhash ?? "",
-							cover: book.cover?.uuid ?? "",
-							file: book.file?.uuid ?? "",
-							categories: book.categories?.join(',') ?? ""
-						}
-					})
-				}catch(error){
+				if (response.status != 200) {
 					console.log("Error in resetting a store book")
-					console.log(error.response.data)
+					console.log(response.errors)
 				}
 			}
 		}
 	}
 
 	// Get the StoreBook table
-	let response
 	let storeBooks = []
 
-	try{
-		response = await axios.default({
-			method: 'get',
-			url: `${constants.apiBaseUrl}/apps/table/${constants.storeBookTableId}`,
-			headers: {
-				Authorization: constants.davUser.jwt
-			}
-		})
+	let response = await TablesController.GetTable({
+		accessToken: constants.davUser.accessToken,
+		id: constants.storeBookTableId
+	})
 
-		storeBooks = response.data.table_objects
-	}catch(error){
+	if (response.status != 200) {
 		console.log("Error in getting the store book table")
-		console.log(error.response.data)
+		console.log(response.errors)
+	} else {
+		storeBooks = response.data.tableObjects
 	}
 
 	// Delete each store book that is not part of the test database
-	for(let storeBook of storeBooks){
-		if(testDatabaseStoreBooks.includes(storeBook.uuid)) continue
+	for (let storeBook of storeBooks) {
+		if (testDatabaseStoreBooks.includes(storeBook.uuid)) continue
 
 		// Delete the store book
-		await deleteTableObject(storeBook.uuid, constants.authorUser.jwt)
+		await deleteTableObject(constants.authorUser.accessToken, storeBook.uuid)
 	}
 }
 
-async function resetAuthorUserStoreBookCovers(){
+async function resetAuthorUserStoreBookCovers() {
 	// Get the cover table
 	let covers = []
 	let testDatabaseCovers = []
 
-	try{
-		let response = await axios.default({
-			method: 'get',
-			url: `${constants.apiBaseUrl}/apps/table/${constants.storeBookCoverTableId}`,
-			headers: {
-				Authorization: constants.authorUser.jwt
-			}
-		})
+	let response = await TablesController.GetTable({
+		accessToken: constants.authorUser.accessToken,
+		id: constants.storeBookCoverTableId
+	})
 
-		covers = response.data.table_objects
-	}catch(error){
+	if (response.status != 200) {
 		console.log("Error in getting the store book cover table")
-		console.log(error.response.data)
+		console.log(response.errors)
+	} else {
+		covers = response.data.tableObjects
 	}
 
 	// Get all covers of the test database
-	for(let collection of constants.authorUser.author.collections){
-		for(let book of collection.books){
-			if(book.cover) testDatabaseCovers.push(book.cover)
+	for (let collection of constants.authorUser.author.collections) {
+		for (let book of collection.books) {
+			if (book.cover) testDatabaseCovers.push(book.cover)
 		}
 	}
 
 	// Delete each cover that is not part of the test database
-	for(let cover of covers){
+	for (let cover of covers) {
 		let i = testDatabaseCovers.findIndex(c => c.uuid == cover.uuid)
 
-		if(i != -1){
+		if (i != -1) {
 			testDatabaseCovers.splice(i, 1)
-		}else{
+		} else {
 			// Delete the cover
-			await deleteTableObject(cover.uuid, constants.authorUser.jwt)
+			await deleteTableObject(constants.authorUser.accessToken, cover.uuid)
 		}
 	}
 
 	// Create each missing cover of the test database
-	for(let cover of testDatabaseCovers){
-		try{
-			await axios.default({
-				method: 'post',
-				url: `${constants.apiBaseUrl}/apps/object`,
-				params: {
-					uuid: cover.uuid,
-					table_id: constants.storeBookCoverTableId,
-					app_id: constants.pocketlibAppId,
-					ext: cover.ext
-				},
-				headers: {
-					Authorization: constants.authorUser.jwt,
-					'Content-Type': cover.type
-				},
-				data: "Hello World"
-			})
-		}catch(error){
+	for (let cover of testDatabaseCovers) {
+		// Create the table object
+		let response = await TableObjectsController.CreateTableObject({
+			accessToken: constants.authorUser.accessToken,
+			uuid: cover.uuid,
+			tableId: constants.storeBookCoverTableId,
+			file: true,
+			properties: {
+				ext: cover.ext
+			}
+		})
+
+		if (response.status != 201) {
 			console.log("Error in creating cover")
-			console.log(error.response.data)
+			console.log(response.errors)
+		} else {
+			// Upload the file
+			response = await TableObjectsController.SetTableObjectFile({
+				accessToken: constants.authorUser.accessToken,
+				uuid: cover.uuid,
+				file: new Blob(["Hello World"], { type: cover.type })
+			})
+
+			if (response.status != 200) {
+				console.log("Error in creating cover")
+				console.log(response.errors)
+			}
 		}
 	}
 }
 
-async function resetDavUserStoreBookCovers(){
+async function resetDavUserStoreBookCovers() {
 	// Get the cover table
 	let covers = []
 	let testDatabaseCovers = []
 
-	try{
-		let response = await axios.default({
-			method: 'get',
-			url: `${constants.apiBaseUrl}/apps/table/${constants.storeBookCoverTableId}`,
-			headers: {
-				Authorization: constants.davUser.jwt
-			}
-		})
+	let response = await TablesController.GetTable({
+		accessToken: constants.davUser.accessToken,
+		id: constants.storeBookCoverTableId
+	})
 
-		covers = response.data.table_objects
-	}catch(error){
+	if (response.status != 200) {
 		console.log("Error in getting the store book cover table")
-		console.log(error.response.data)
+		console.log(response.errors)
+	} else {
+		covers = response.data.tableObjects
 	}
 
 	// Get all covers of the test database
-	for(let author of constants.davUser.authors){
-		for(let collection of author.collections){
-			for(let book of collection.books){
-				if(book.cover) testDatabaseCovers.push(book.cover)
+	for (let author of constants.davUser.authors) {
+		for (let collection of author.collections) {
+			for (let book of collection.books) {
+				if (book.cover) testDatabaseCovers.push(book.cover)
 			}
 		}
 	}
 
 	// Delete each cover that is not part of the test database
-	for(let cover of covers){
+	for (let cover of covers) {
 		let i = testDatabaseCovers.findIndex(c => c.uuid == cover.uuid)
 
-		if(i != -1){
+		if (i != -1) {
 			testDatabaseCovers.splice(i, 1)
-		}else{
+		} else {
 			// Delete the cover
-			await deleteTableObject(cover.uuid, constants.davUser.jwt)
+			await deleteTableObject(constants.davUser.accessToken, cover.uuid)
 		}
 	}
 
 	// Create each missing cover of the test database
-	for(let cover of testDatabaseCovers){
-		try{
-			await axios.default({
-				method: 'post',
-				url: `${constants.apiBaseUrl}/apps/object`,
-				params: {
-					uuid: cover.uuid,
-					table_id: constants.storeBookCoverTableId,
-					app_id: constants.pocketlibAppId,
-					ext: cover.ext
-				},
-				headers: {
-					Authorization: constants.davUser.jwt,
-					'Content-Type': cover.type
-				},
-				data: "Hello World"
-			})
-		}catch(error){
+	for (let cover of testDatabaseCovers) {
+		let response = await TableObjectsController.CreateTableObject({
+			accessToken: constants.davUser.accessToken,
+			uuid: cover.uuid,
+			tableId: constants.storeBookCoverTableId,
+			file: true,
+			properties: {
+				ext: cover.ext
+			}
+		})
+
+		if (response.status != 201) {
 			console.log("Error in creating cover")
-			console.log(error.response.data)
+			console.log(response.errors)
+		} else {
+			response = await TableObjectsController.SetTableObjectFile({
+				accessToken: constants.davUser.accessToken,
+				uuid: cover.uuid,
+				file: new Blob(["Hello World"], { type: cover.type })
+			})
+
+			if (response.status != 200) {
+				console.log("Error in creating cover")
+				console.log(response.errors)
+			}
 		}
 	}
 }
 
-async function resetAuthorUserStoreBookFiles(){
+async function resetAuthorUserStoreBookFiles() {
 	// Get the file table
 	let files = []
 	let testDatabaseFiles = []
 
-	try{
-		let response = await axios.default({
-			method: 'get',
-			url: `${constants.apiBaseUrl}/apps/table/${constants.storeBookFileTableId}`,
-			headers: {
-				Authorization: constants.authorUser.jwt
-			}
-		})
+	let response = await TablesController.GetTable({
+		accessToken: constants.authorUser.accessToken,
+		id: constants.storeBookFileTableId
+	})
 
-		files = response.data.table_objects
-	}catch(error){
+	if (response.status != 200) {
 		console.log("Error in getting the store book file table")
-		console.log(error.response.data)
+		console.log(response.errors)
+	} else {
+		files = response.data.tableObjects
 	}
 
 	// Get all files of the test database
-	for(let collection of constants.authorUser.author.collections){
-		for(let book of collection.books){
-			if(book.file) testDatabaseFiles.push(book.file)
+	for (let collection of constants.authorUser.author.collections) {
+		for (let book of collection.books) {
+			if (book.file) testDatabaseFiles.push(book.file)
 		}
 	}
 
 	// Delete each cover that is not part of the test database
-	for(let file of files){
+	for (let file of files) {
 		let i = testDatabaseFiles.findIndex(f => f.uuid == file.uuid)
 
-		if(i != -1){
+		if (i != -1) {
 			testDatabaseFiles.splice(i, 1)
-		}else{
+		} else {
 			// Delete the file
-			await deleteTableObject(file.uuid, constants.authorUser.jwt)
+			await deleteTableObject(constants.authorUser.accessToken, file.uuid)
 		}
 	}
 
 	// Create each missing file of the test database
-	for(let file of testDatabaseFiles){
-		try{
-			await axios.default({
-				method: 'post',
-				url: `${constants.apiBaseUrl}/apps/object`,
-				params: {
-					uuid: file.uuid,
-					table_id: constants.storeBookFileTableId,
-					app_id: constants.pocketlibAppId,
-					ext: file.ext
-				},
-				headers: {
-					Authorization: constants.authorUser.jwt,
-					'Content-Type': file.type
-				},
-				data: "Hello World"
-			})
-		}catch(error){
+	for (let file of testDatabaseFiles) {
+		// Create the table object
+		let response = await TableObjectsController.CreateTableObject({
+			accessToken: constants.authorUser.accessToken,
+			uuid: file.uuid,
+			tableId: constants.storeBookFileTableId,
+			file: true,
+			properties: {
+				ext: file.ext
+			}
+		})
+
+		if (response.status != 201) {
 			console.log("Error in creating file")
-			console.log(error.response.data)
+			console.log(response.errors)
+		} else {
+			// Upload the file
+			response = await TableObjectsController.SetTableObjectFile({
+				accessToken: constants.authorUser.accessToken,
+				uuid: file.uuid,
+				file: new Blob(["Hello World"], { type: file.type })
+			})
+
+			if (response.status != 200) {
+				console.log("Error in creating file")
+				console.log(response.errors)
+			}
 		}
 	}
 }
 
-async function resetDavUserStoreBookFiles(){
+async function resetDavUserStoreBookFiles() {
 	// Get the file table
 	let files = []
 	let testDatabaseFiles = []
 
-	try{
-		let response = await axios.default({
-			method: 'get',
-			url: `${constants.apiBaseUrl}/apps/table/${constants.storeBookFileTableId}`,
-			headers: {
-				Authorization: constants.davUser.jwt
-			}
-		})
+	let response = await TablesController.GetTable({
+		accessToken: constants.davUser.accessToken,
+		id: constants.storeBookFileTableId
+	})
 
-		files = response.data.table_objects;
-	}catch(error){
+	if (response.status != 200) {
 		console.log("Error in getting the store book file table")
-		console.log(error.response.data)
+		console.log(response.errors)
+	} else {
+		files = response.data.tableObjects
 	}
 
 	// Get all files of the test database
-	for(let author of constants.davUser.authors){
-		for(let collection of author.collections){
-			for(let book of collection.books){
-				if(book.file) testDatabaseFiles.push(book.file)
+	for (let author of constants.davUser.authors) {
+		for (let collection of author.collections) {
+			for (let book of collection.books) {
+				if (book.file) testDatabaseFiles.push(book.file)
 			}
 		}
 	}
 
 	// Delete each cover that is not part of the test database
-	for(let file of files){
+	for (let file of files) {
 		let i = testDatabaseFiles.findIndex(f => f.uuid == file.uuid)
 
-		if(i != -1){
+		if (i != -1) {
 			testDatabaseFiles.splice(i, 1)
-		}else{
+		} else {
 			// Delete the file
-			await deleteTableObject(file.uuid, constants.davUser.jwt)
+			await deleteTableObject(constants.davUser.accessToken, file.uuid)
 		}
 	}
 
 	// Create each missing file of the test database
-	for(let file of testDatabaseFiles){
-		try{
-			await axios.default({
-				method: 'post',
-				url: `${constants.apiBaseUrl}/apps/object`,
-				params: {
-					uuid: file.uuid,
-					table_id: constants.storeBookFileTableId,
-					app_id: constants.pocketlibAppId,
-					ext: file.ext
-				},
-				headers: {
-					Authorization: constants.davUser.jwt,
-					'Content-Type': file.type
-				},
-				data: "Hello World"
-			})
-		}catch(error){
+	for (let file of testDatabaseFiles) {
+		// Create the table object
+		let response = await TableObjectsController.CreateTableObject({
+			accessToken: constants.davUser.accessToken,
+			uuid: file.uuid,
+			file: true,
+			properties: {
+				ext: file.ext
+			}
+		})
+
+		if (response.status != 201) {
 			console.log("Error in creating file")
-			console.log(error.response.data)
+			console.log(response.errors)
+		} else {
+			// Upload the file
+			response = await TableObjectsController.SetTableObjectFile({
+				accessToken: constants.davUser.accessToken,
+				uuid: file.uuid,
+				file: new Blob(["Hello World"], { type: file.type })
+			})
+
+			if (response.status != 200) {
+				console.log("Error in creating file")
+				console.log(response.errors)
+			}
 		}
 	}
 }
 
-async function resetKlausUserBooks(){
+async function resetKlausUserBooks() {
 	// Get the book table
 	let books = []
 	let testDatabaseBooks = []
 
-	try{
-		let response = await axios.default({
-			method: 'get',
-			url: `${constants.apiBaseUrl}/apps/table/${constants.bookTableId}`,
-			headers: {
-				Authorization: constants.klausUser.jwt
-			}
-		})
+	let response = await TablesController.GetTable({
+		accessToken: constants.klausUser.accessToken,
+		id: constants.bookTableId
+	})
 
-		books = response.data.table_objects
-	}catch(error){
+	if (response.status != 200) {
 		console.log("Error in getting the book table")
-		console.log(error.response.data)
+		console.log(response.errors)
+	} else {
+		books = response.data.tableObjects
 	}
 
 	// Get all books of the test database
-	for(let book of constants.klausUser.books){
+	for (let book of constants.klausUser.books) {
 		testDatabaseBooks.push(book)
 	}
 
 	// Delete each book that is not part of the test database
-	for(let book of books){
+	for (let book of books) {
 		let i = testDatabaseBooks.findIndex(b => b.uuid == book.uuid)
 
-		if(i != -1){
+		if (i != -1) {
 			testDatabaseBooks.splice(i, 1)
-		}else{
+		} else {
 			// Delete the book
-			await deleteTableObject(book.uuid, constants.klausUser.jwt)
+			await deleteTableObject(constants.klausUser.accessToken, book.uuid)
 		}
 	}
 
 	// Create each missing book of the test database
-	for(let book of testDatabaseBooks){
-		try{
-			let data = {
-				store_book: book.storeBook,
-				file: book.file
-			}
+	for (let book of testDatabaseBooks) {
+		let properties = {
+			store_book: book.storeBook,
+			file: book.file
+		}
 
-			if(book.purchase){
-				data["purchase"] = book.purchase.toString()
-			}
+		if (book.purchase) {
+			properties["purchase"] = book.purchase.toString()
+		}
 
-			await axios.default({
-				method: 'post',
-				url: `${constants.apiBaseUrl}/apps/object`,
-				params: {
-					uuid: book.uuid,
-					table_id: constants.bookTableId,
-					app_id: constants.pocketlibAppId
-				},
-				headers: {
-					Authorization: constants.klausUser.jwt,
-					'Content-Type': 'application/json'
-				},
-				data
-			})
-		}catch(error){
+		let response = await TableObjectsController.CreateTableObject({
+			accessToken: constants.klausUser.accessToken,
+			uuid: book.uuid,
+			tableId: constants.bookTableId,
+			properties
+		})
+
+		if (response.status != 201) {
 			console.log("Error in creating Book")
-			console.log(error.response.data)
+			console.log(response.errors)
 		}
 	}
 }
 
-async function resetDavClassLibraryTestUserBooks(){
+async function resetTestUserBooks() {
 	// Get the book table
 	let books = []
 	let testDatabaseBooks = []
 
-	try{
-		let response = await axios.default({
-			method: 'get',
-			url: `${constants.apiBaseUrl}/apps/table/${constants.bookTableId}`,
-			headers: {
-				Authorization: constants.davClassLibraryTestUser.jwt
-			}
-		})
+	let response = await TablesController.GetTable({
+		accessToken: constants.testUser.accessToken,
+		id: constants.bookTableId
+	})
 
-		books = response.data.table_objects
-	}catch(error){
+	if (response.status != 200) {
 		console.log("Error in getting book table")
-		console.log(error.response.data)
+		console.log(response.errors)
+	} else {
+		books = response.data.tableObjects
 	}
 
 	// Get all books of the test database
-	for(let book of constants.davClassLibraryTestUser.books){
+	for (let book of constants.testUser.books) {
 		testDatabaseBooks.push(book)
 	}
 
 	// Delete each book that is not part of the test database
-	for(let book of books){
+	for (let book of books) {
 		let i = testDatabaseBooks.findIndex(b => b.uuid == book.uuid)
 
-		if(i != -1){
+		if (i != -1) {
 			testDatabaseBooks.splice(i, 1)
-		}else{
+		} else {
 			// Delete the book
-			await deleteTableObject(book.uuid, constants.davClassLibraryTestUser.jwt)
+			await deleteTableObject(constants.testUser.accessToken, book.uuid)
 		}
 	}
 
 	// Create each missing book of the test database
-	for(let book of testDatabaseBooks){
-		try{
-			let data = {
-				store_book: book.storeBook,
-				file: book.file
-			}
+	for (let book of testDatabaseBooks) {
+		let properties = {
+			store_book: book.storeBook,
+			file: book.file
+		}
 
-			if(book.purchase){
-				data["purchase"] = book.purchase.toString()
-			}
+		if (book.purchase) {
+			properties["purchase"] = book.purchase.toString()
+		}
 
-			await axios.default({
-				method: 'post',
-				url: `${constants.apiBaseUrl}/apps/object`,
-				params: {
-					uuid: book.uuid,
-					table_id: constants.bookTableId,
-					app_id: constants.pocketlibAppId
-				},
-				headers: {
-					Authorization: constants.davClassLibraryTestUser.jwt,
-					'Content-Type': 'application/json'
-				},
-				data
-			})
-		}catch(error){
+		let response = await TableObjectsController.CreateTableObject({
+			accessToken: constants.testUser.accessToken,
+			uuid: book.uuid,
+			tableId: constants.bookTableId,
+			properties
+		})
+
+		if (response.status != 201) {
 			console.log("Error in creating Book")
-			console.log(error.response.data)
+			console.log(response.errors)
 		}
 	}
 }
 
-async function resetDavUserCategories(){
+async function resetDavUserCategories() {
 	let testDatabaseCategories = []
 
-	for(let category of constants.categories){
+	for (let category of constants.categories) {
 		testDatabaseCategories.push(category)
 
 		// Reset the category
-		let names = [];
-		category.names.forEach(name => names.push(name.uuid));
+		let names = []
+		category.names.forEach(name => names.push(name.uuid))
 
-		try{
-			await axios.default({
-				method: 'put',
-				url: `${constants.apiBaseUrl}/apps/object/${category.uuid}`,
-				headers: {
-					Authorization: constants.davUser.jwt,
-					'Content-Type': 'application/json'
-				},
-				data: {
-					key: category.key,
-					names: names.join(',')
-				}
-			})
-		}catch(error){
+		let response = await TableObjectsController.UpdateTableObject({
+			accessToken: constants.davUser.accessToken,
+			uuid: category.uuid,
+			properties: {
+				key: category.key,
+				names: names.join(',')
+			}
+		})
+
+		if (response.status != 200) {
 			console.log("Error in resetting Category")
-			console.log(error.response.data)
+			console.log(response.errors)
 		}
 	}
 
 	// Get the Category table
-	let response
 	let categories = []
 
-	try{
-		response = await axios.default({
-			method: 'get',
-			url: `${constants.apiBaseUrl}/apps/table/${constants.categoryTableId}`,
-			headers: {
-				Authorization: constants.davUser.jwt
-			}
-		})
+	let response = await TablesController.GetTable({
+		accessToken: constants.davUser.accessToken,
+		id: constants.categoryTableId
+	})
 
-		categories = response.data.table_objects
-	}catch(error){
+	if (response.status != 200) {
 		console.log("Error in getting Category table")
-		console.log(error.response.data)
+		console.log(response.errors)
+	} else {
+		categories = response.data.tableObjects
 	}
 
 	// Delete each category that is not part of the test database
-	for(let category of categories){
+	for (let category of categories) {
 		let i = testDatabaseCategories.findIndex(c => c.uuid == category.uuid)
 
-		if(i != -1){
+		if (i != -1) {
 			testDatabaseCategories.splice(i, 1)
-		}else{
+		} else {
 			// Delete the collection
-			await deleteTableObject(category.uuid, constants.davUser.jwt)
+			await deleteTableObject(constants.davUser.accessToken, category.uuid)
 		}
 	}
 
 	// Create each missing category of the test database
-	for(let category of testDatabaseCategories){
+	for (let category of testDatabaseCategories) {
 		// Get the category names
 		let names = []
-		for(let name of category.names) names.push(name.uuid)
+		for (let name of category.names) names.push(name.uuid)
 
-		try{
-			await axios.default({
-				method: 'post',
-				url: `${constants.apiBaseUrl}/apps/object`,
-				params: {
-					uuid: category.uuid,
-					table_id: constants.categoryTableId,
-					app_id: constants.pocketlibAppId
-				},
-				headers: {
-					Authorization: constants.davUser.jwt,
-					'Content-Type': 'application/json'
-				},
-				data: {
-					key: category.key,
-					names: names.join(',')
-				}
-			})
-		}catch(error){
+		let response = await TableObjectsController.CreateTableObject({
+			accessToken: constants.davUser.accessToken,
+			uuid: category.uuid,
+			tableId: constants.categoryTableId,
+			properties: {
+				key: category.key,
+				names: names.join(',')
+			}
+		})
+
+		if (response.status != 201) {
 			console.log("Error in creating category")
-			console.log(error.response.data)
+			console.log(response.errors)
 		}
 	}
 }
 
-async function resetDavUserCategoryNames(){
+async function resetDavUserCategoryNames() {
 	let testDatabaseCategoryNames = []
 
-	for(let category of constants.categories){
-		for(let categoryName of category.names){
+	for (let category of constants.categories) {
+		for (let categoryName of category.names) {
 			testDatabaseCategoryNames.push(categoryName)
 
 			// Reset the category name
-			try{
-				await axios.default({
-					method: 'put',
-					url: `${constants.apiBaseUrl}/apps/object/${categoryName.uuid}`,
-					headers: {
-						Authorization: constants.davUser.jwt,
-						'Content-Type': 'application/json'
-					},
-					data: {
-						name: categoryName.name,
-						language: categoryName.language
-					}
-				})
-			}catch(error){
+			let response = await TableObjectsController.UpdateTableObject({
+				accessToken: constants.davUser.accessToken,
+				uuid: categoryName.uuid,
+				properties: {
+					name: categoryName.name,
+					language: categoryName.language
+				}
+			})
+
+			if (response.status != 200) {
 				console.log("Error in resetting CategoryName")
-				console.log(error.response.data)
+				console.log(response.errors)
 			}
 		}
 	}
 
 	// Get the CategoryName table
-	let response
 	let categoryNames = []
 
-	try{
-		response = await axios.default({
-			method: 'get',
-			url: `${constants.apiBaseUrl}/apps/table/${constants.categoryNameTableId}`,
-			headers: {
-				Authorization: constants.davUser.jwt
-			}
-		})
+	let response = await TablesController.GetTable({
+		accessToken: constants.davUser.accessToken,
+		id: constants.categoryNameTableId
+	})
 
-		categoryNames = response.data.table_objects
-	}catch(error){
+	if (response.status != 200) {
 		console.log("Error in getting the CategoryName table")
-		console.log(error.response.data)
+		console.log(response.errors)
+	} else {
+		categoryNames = response.data.tableObjects
 	}
 
 	// Delete each category name that is not part of the test database
-	for(let categoryName of categoryNames){
+	for (let categoryName of categoryNames) {
 		let i = testDatabaseCategoryNames.findIndex(name => name.uuid == categoryName.uuid)
 
-		if(i != -1){
+		if (i != -1) {
 			testDatabaseCategoryNames.splice(i, 1)
-		}else{
+		} else {
 			// Delete the category name
-			await deleteTableObject(categoryName.uuid, constants.davUser.jwt)
+			await deleteTableObject(constants.davUser.accessToken, categoryName.uuid)
 		}
 	}
 
 	// Create each missing category name that is not part of the test database
-	for(let categoryName of testDatabaseCategoryNames){
-		try{
-			await axios.default({
-				method: 'post',
-				url: `${constants.apiBaseUrl}/apps/object`,
-				params: {
-					uuid: categoryName.uuid,
-					table_id: constants.categoryNameTableId,
-					app_id: constants.pocketlibAppId
-				},
-				headers: {
-					Authorization: constants.davUser.jwt,
-					'Content-Type': 'application/json'
-				},
-				data: {
-					name: categoryName.name,
-					language: categoryName.language
-				}
-			})
-		}catch(error){
+	for (let categoryName of testDatabaseCategoryNames) {
+		let response = await TableObjectsController.CreateTableObject({
+			accessToken: constants.davUser.accessToken,
+			uuid: categoryName.uuid,
+			tableId: constants.categoryNameTableId,
+			properties: {
+				name: categoryName.name,
+				language: categoryName.language
+			}
+		})
+
+		if (response.status != 201) {
 			console.log("Error in creating category name")
-			console.log(error.response.data)
+			console.log(response.errors)
 		}
 	}
 }
 
-
-async function deleteTableObjectsOfTable(jwt, tableId){
+async function deleteTableObjectsOfTable(accessToken, tableId) {
 	// Get the table
-	let response
 	let objects = []
 
-	try{
-		response = await axios.default({
-			method: 'get',
-			url: `${constants.apiBaseUrl}/apps/table/${tableId}`,
-			headers: {
-				Authorization: jwt
-			}
-		})
+	let response = await TablesController.GetTable({
+		accessToken,
+		id: tableId
+	})
 
-		objects = response.data.table_objects
-	}catch(error){
+	if (response.status != 200) {
 		console.log(`Error in getting the table with the id ${tableId}`)
-		console.log(error.response.status)
+		console.log(response.errors)
+	} else {
+		objects = response.data.tableObjects
 	}
 
 	// Delete each object
-	for(let obj of objects){
-		if(obj.table_id == tableId){
-			await deleteTableObject(obj.uuid, jwt)
-		}
+	for (let obj of objects) {
+		await deleteTableObject(accessToken, obj.uuid)
 	}
 }
 
-async function deleteTableObject(uuid, jwt){
-	try{
-		await axios.default({
-			method: 'delete',
-			url: `${constants.apiBaseUrl}/apps/object/${uuid}`,
-			headers: {
-				Authorization: jwt
-			}
-		})
-	}catch(error){
-		console.log("Error in deleting a TableObject")
-		console.log(error.response.data)
-	}
-}
-
-export async function getTableObject(uuid, jwt){
-	return await axios.default({
-		method: 'get',
-		url: `${constants.apiBaseUrl}/apps/object/${uuid}`,
-		headers: {
-			Authorization: jwt
-		}
+async function deleteTableObject(accessToken, uuid) {
+	let response = await TableObjectsController.DeleteTableObject({
+		accessToken,
+		uuid
 	})
+
+	if (response.status != 204) {
+		console.log("Error in deleting a TableObject")
+		console.log(response.errors)
+	}
 }
