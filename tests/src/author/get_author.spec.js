@@ -2,18 +2,17 @@ import chai from 'chai'
 const assert = chai.assert
 import axios from 'axios'
 import constants from '../constants.js'
-import * as utils from '../utils.js'
 
 const getAuthorEndpointUrl = `${constants.apiBaseUrl}/api/1/call/author/{0}`
 
 describe("GetAuthor endpoint", async () => {
 	it("should not return author that does not exist", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'get',
 				url: getAuthorEndpointUrl.replace('{0}', "asdasdasd")
 			})
-		}catch(error){
+		} catch (error) {
 			assert.equal(404, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
 			assert.equal(2803, error.response.data.errors[0].code)
@@ -24,12 +23,12 @@ describe("GetAuthor endpoint", async () => {
 	})
 
 	it("should not return author if the table object is not an author", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'get',
 				url: getAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].bios[0].uuid)
 			})
-		}catch(error){
+		} catch (error) {
 			assert.equal(403, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
 			assert.equal(1102, error.response.data.errors[0].code)
@@ -84,15 +83,15 @@ describe("GetAuthor endpoint", async () => {
 	})
 })
 
-async function testGetAuthor(author){
+async function testGetAuthor(author) {
 	let response
 
-	try{
+	try {
 		response = await axios.default({
 			method: 'get',
 			url: getAuthorEndpointUrl.replace('{0}', author.uuid)
 		})
-	}catch(error){
+	} catch (error) {
 		assert.fail()
 	}
 
@@ -109,7 +108,7 @@ async function testGetAuthor(author){
 	assert.equal(author.profileImage != null, response.data.profile_image)
 	assert.equal(author.profileImageBlurhash, response.data.profile_image_blurhash)
 
-	for(let i = 0; i < author.bios.length; i++){
+	for (let i = 0; i < author.bios.length; i++) {
 		let bio = author.bios[i]
 		let responseBio = response.data.bios[i]
 
@@ -118,13 +117,13 @@ async function testGetAuthor(author){
 		assert.equal(bio.language, responseBio.language)
 	}
 
-	for(let i = 0; i < author.collections.length; i++){
+	for (let i = 0; i < author.collections.length; i++) {
 		let collection = author.collections[i]
 		let responseCollection = response.data.collections[i]
 
 		assert.equal(collection.uuid, responseCollection.uuid)
 
-		for(let j = 0; j < collection.names.length; j++){
+		for (let j = 0; j < collection.names.length; j++) {
 			let name = collection.names[j]
 			let responseName = responseCollection.names[j]
 
@@ -135,10 +134,10 @@ async function testGetAuthor(author){
 	}
 }
 
-async function testGetAuthorWithBooks(author, language){
+async function testGetAuthorWithBooks(author, language) {
 	let response
 
-	try{
+	try {
 		let options = {
 			method: 'get',
 			url: getAuthorEndpointUrl.replace('{0}', author.uuid),
@@ -147,24 +146,24 @@ async function testGetAuthorWithBooks(author, language){
 			}
 		}
 
-		if(language){
+		if (language) {
 			options.params["language"] = language
 		}
 
 		response = await axios.default(options)
-	}catch(error){
+	} catch (error) {
 		assert.fail()
 	}
 
-	if(!language){
+	if (!language) {
 		language = "en"
 	}
 
 	// Find the store books
 	let storeBooks = [];
-	for(let collection of author.collections){
-		for(let storeBook of collection.books){
-			if(storeBook.status == "published" && storeBook.language == language){
+	for (let collection of author.collections) {
+		for (let storeBook of collection.books) {
+			if (storeBook.status == "published" && storeBook.language == language) {
 				storeBooks.push(storeBook)
 			}
 		}
@@ -183,7 +182,7 @@ async function testGetAuthorWithBooks(author, language){
 	assert.equal(author.profileImage != null, response.data.profile_image)
 	assert.equal(author.profileImageBlurhash, response.data.profile_image_blurhash)
 
-	for(let i = 0; i < author.bios.length; i++){
+	for (let i = 0; i < author.bios.length; i++) {
 		let bio = author.bios[i]
 		let responseBio = response.data.bios[i]
 

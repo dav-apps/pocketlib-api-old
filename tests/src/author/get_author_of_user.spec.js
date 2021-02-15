@@ -2,97 +2,96 @@ import chai from 'chai'
 const assert = chai.assert
 import axios from 'axios'
 import constants from '../constants.js'
-import * as utils from '../utils.js'
 
 const getAuthorOfUserEndpointUrl = `${constants.apiBaseUrl}/api/1/call/author`
 
 describe("GetAuthorOfUser endpoint", () => {
-	it("should not return author without jwt", async () => {
-		try{
+	it("should not return author without access token", async () => {
+		try {
 			await axios.default({
 				method: 'get',
 				url: getAuthorOfUserEndpointUrl
-			});
-		}catch(error){
-			assert.equal(400, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(2101, error.response.data.errors[0].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(400, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(2101, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
-	it("should not return author with invalid jwt", async () => {
-		try{
+	it("should not return author with access token for session that does not exist", async () => {
+		try {
 			await axios.default({
 				method: 'get',
 				url: getAuthorOfUserEndpointUrl,
 				headers: {
 					Authorization: "asdasdasdasdasd"
 				}
-			});
-		}catch(error){
-			assert.equal(401, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1302, error.response.data.errors[0].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(404, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(2802, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
-	it("should not return author if jwt is for another app", async () => {
-		try{
+	it("should not return author with access token for another app", async () => {
+		try {
 			await axios.default({
 				method: 'get',
 				url: getAuthorOfUserEndpointUrl,
 				headers: {
-					Authorization: constants.davClassLibraryTestUserTestAppJWT
+					Authorization: constants.testUserTestAppAccessToken
 				}
-			});
-		}catch(error){
-			assert.equal(403, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1102, error.response.data.errors[0].code);
+			})
+		} catch (error) {
+			assert.equal(403, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(1102, error.response.data.errors[0].code)
 			return;
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should not return author if the user is not an author", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'get',
 				url: getAuthorOfUserEndpointUrl,
 				headers: {
-					Authorization: constants.davClassLibraryTestUser.jwt
+					Authorization: constants.testUser.accessToken
 				}
-			});
-		}catch(error){
-			assert.equal(400, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1105, error.response.data.errors[0].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(400, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(1105, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should return the author", async () => {
 		let author = constants.authorUser.author
 		let response
 
-		try{
+		try {
 			response = await axios.default({
 				method: 'get',
 				url: getAuthorOfUserEndpointUrl,
 				headers: {
-					Authorization: constants.authorUser.jwt
+					Authorization: constants.authorUser.accessToken
 				}
 			})
-		}catch(error){
+		} catch (error) {
 			assert.fail()
 		}
 
@@ -109,7 +108,7 @@ describe("GetAuthorOfUser endpoint", () => {
 		assert.isTrue(response.data.profile_image)
 		assert.equal(author.profileImageBlurhash, response.data.profile_image_blurhash)
 
-		for(let i = 0; i < author.bios.length; i++){
+		for (let i = 0; i < author.bios.length; i++) {
 			let bio = author.bios[i]
 			let responseBio = response.data.bios[i]
 
@@ -118,13 +117,13 @@ describe("GetAuthorOfUser endpoint", () => {
 			assert.equal(bio.language, responseBio.language)
 		}
 
-		for(let i = 0; i < author.collections.length; i++){
+		for (let i = 0; i < author.collections.length; i++) {
 			let collection = author.collections[i]
 			let responseCollection = response.data.collections[i]
 
 			assert.equal(collection.uuid, responseCollection.uuid)
 
-			for(let j = 0; j < collection.names.length; j++){
+			for (let j = 0; j < collection.names.length; j++) {
 				let name = collection.names[j]
 				let responseName = responseCollection.names[j]
 
@@ -138,21 +137,21 @@ describe("GetAuthorOfUser endpoint", () => {
 	it("should return all authors of the user if the user is an admin", async () => {
 		let response
 
-		try{
+		try {
 			response = await axios.default({
 				method: 'get',
 				url: getAuthorOfUserEndpointUrl,
 				headers: {
-					Authorization: constants.davUser.jwt
+					Authorization: constants.davUser.accessToken
 				}
 			})
-		}catch(error){
+		} catch (error) {
 			assert.fail()
 		}
 
 		assert.equal(200, response.status)
-		
-		for(let i = 0; i < constants.davUser.authors.length; i++){
+
+		for (let i = 0; i < constants.davUser.authors.length; i++) {
 			let author = constants.davUser.authors[i]
 			let responseAuthor = response.data.authors[i]
 
@@ -168,7 +167,7 @@ describe("GetAuthorOfUser endpoint", () => {
 			assert.equal(author.profileImage != null, responseAuthor.profile_image)
 			assert.equal(author.profileImageBlurhash, responseAuthor.profile_image_blurhash)
 
-			for(let i = 0; i < author.bios.length; i++){
+			for (let i = 0; i < author.bios.length; i++) {
 				let bio = author.bios[i]
 				let responseBio = responseAuthor.bios[i]
 
@@ -177,13 +176,13 @@ describe("GetAuthorOfUser endpoint", () => {
 				assert.equal(bio.language, responseBio.language)
 			}
 
-			for(let j = 0; j < author.collections.length; j++){
+			for (let j = 0; j < author.collections.length; j++) {
 				let collection = author.collections[j]
 				let responseCollection = responseAuthor.collections[j]
 
 				assert.equal(collection.uuid, responseCollection.uuid)
 
-				for(let k = 0; k < collection.names.length; k++){
+				for (let k = 0; k < collection.names.length; k++) {
 					let name = collection.names[k]
 					let responseName = responseCollection.names[k]
 
