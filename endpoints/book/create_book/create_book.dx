@@ -4,10 +4,10 @@
 (var purchase_id json.purchase)
 (var type json.type)
 
-(# Get the jwt)
-(var jwt (get_header Authorization))
+(# Get the access token)
+(var access_token (get_header Authorization))
 (func render_validation_errors ((list
-	(func validate_jwt_missing (jwt))
+	(func validate_access_token_presence (access_token))
 )))
 
 (# Validate the content type)
@@ -16,12 +16,12 @@
 	(func validate_content_type_ebook_or_json (content_type))
 )))
 
-(# Decode the jwt)
-(var decoded_jwt (func decode_jwt (jwt)))
+(# Get the session)
+(var session (func get_session (access_token)))
 
 (# Validate the dev)
 (func render_validation_errors ((list
-	(func validate_dev_is_pocketlib_dev (decoded_jwt.dev_id))
+	(func validate_dev_is_pocketlib_dev (session.app.dev_id))
 )))
 
 (if (content_type == "application/json") (
@@ -50,12 +50,12 @@
 	))
 
 	(# Check if the user has purchased the store book)
-	(var purchase (Purchase.find_by_user_and_table_object decoded_jwt.user_id store_book.id))
+	(var purchase (Purchase.find_by_user_and_table_object session.user_id store_book.id))
 
 	(if (is_nil purchase) (
 		(# Check if the user is an admin or the author of the store book)
-		(var is_admin (env.ADMINS.contains decoded_jwt.user_id))
-		(var is_author (decoded_jwt.user_id == store_book.user_id))
+		(var is_admin (env.ADMINS.contains session.user_id))
+		(var is_author (session.user_id == store_book.user_id))
 
 		(if ((! is_admin) and (! is_author)) (
 			(# Normal user)
@@ -75,14 +75,14 @@
 
 			(# Check if the user is on the Pro plan)
 			(func render_validation_errors ((list
-				(func validate_dav_pro_user (decoded_jwt.user_id))
+				(func validate_dav_pro_user (session.user_id))
 			)))
 		))
 	))
 
 	(# User can copy the store book into the library)
 	(# Check if the StoreBook is already in the library of the user)
-	(if (func is_store_book_in_user_library (decoded_jwt.user_id store_book.uuid)) (
+	(if (func is_store_book_in_user_library (session.user_id store_book.uuid)) (
 		(func render_validation_errors ((list (hash (error (get_error 1112)) (status 422)))))
 	))
 
@@ -102,10 +102,10 @@
 	(if (!(is_nil purchase)) (var book_properties.purchase purchase.id))
 	(if (book_type == "application/pdf") (var book_properties.title store_book.properties.title))
 
-	(var book (func create_table_object (decoded_jwt.user_id env.BOOK_TABLE_ID book_properties)))
+	(var book (func create_table_object (session.user_id env.BOOK_TABLE_ID book_properties)))
 
 	(# Create a TableObjectUserAccess for the file)
-	(func create_table_object_user_access (book.properties.file decoded_jwt.user_id env.BOOK_FILE_TABLE_ID))
+	(func create_table_object_user_access (book.properties.file session.user_id env.BOOK_FILE_TABLE_ID))
 
 	(if (book_type == "application/pdf") (
 		(# Render the result as pdf book)
