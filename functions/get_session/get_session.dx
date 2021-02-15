@@ -1,0 +1,22 @@
+(# params: token: string)
+(catch (
+	(Session.get token)
+) (
+	(var error errors#0)
+
+	(if (error.code == 0) (
+		(# Session does not exist)
+		(var error_code 2802)
+		(var status_code 404)
+	) elseif (error.code == 1) (
+		(# Can't use old access token)
+		(var error_code 1601)
+		(var status_code 403)
+	) else (
+		(# Session needs to be renewed)
+		(var error_code 1602)
+		(var status_code 403)
+	))
+
+	(func render_validation_errors ((list (hash (error (get_error error_code)) (status status_code)))))
+))
