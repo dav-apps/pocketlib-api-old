@@ -3,36 +3,37 @@ const assert = chai.assert
 import axios from 'axios'
 import constants from '../constants.js'
 import * as utils from '../utils.js'
+import { TableObjectsController } from 'dav-npm'
 
 const createAuthorEndpointUrl = `${constants.apiBaseUrl}/api/1/call/author`
 var resetAuthors = false
 
 afterEach(async () => {
-	if(resetAuthors){
+	if (resetAuthors) {
 		await utils.resetAuthors()
 		resetAuthors = false
 	}
 })
 
 describe("CreateAuthor endpoint", async () => {
-	it("should not create author without jwt", async () => {
-		try{
+	it("should not create author without access token", async () => {
+		try {
 			await axios.default({
 				method: 'post',
 				url: createAuthorEndpointUrl
-			});
-		}catch(error){
-			assert.equal(400, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(2101, error.response.data.errors[0].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(400, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(2101, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
-	it("should not create author with invalid jwt", async () => {
-		try{
+	it("should not create author with access token for session that does not exist", async () => {
+		try {
 			await axios.default({
 				method: 'post',
 				url: createAuthorEndpointUrl,
@@ -40,180 +41,180 @@ describe("CreateAuthor endpoint", async () => {
 					Authorization: "blablablabla",
 					'Content-Type': 'application/json'
 				}
-			});
-		}catch(error){
-			assert.equal(401, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1302, error.response.data.errors[0].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(404, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(2802, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
-	it("should not create author without content type json", async () => {
-		try{
+	it("should not create author without Content-Type json", async () => {
+		try {
 			await axios.default({
 				method: 'post',
 				url: createAuthorEndpointUrl,
 				headers: {
-					Authorization: constants.davUser.jwt,
+					Authorization: constants.davUser.accessToken,
 					'Content-Type': 'application/xml'
 				}
-			});
-		}catch(error){
-			assert.equal(415, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1104, error.response.data.errors[0].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(415, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(1104, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
-	it("should not create author if jwt is for another app", async () => {
-		try{
+	it("should not create author with access token for another app", async () => {
+		try {
 			await axios.default({
 				method: 'post',
 				url: createAuthorEndpointUrl,
 				headers: {
-					Authorization: constants.davClassLibraryTestUserTestAppJWT,
+					Authorization: constants.testUserTestAppAccessToken,
 					'Content-Type': 'application/json'
 				},
 				data: {
 					first_name: "Dav",
 					last_name: "Tester"
 				}
-			});
-		}catch(error){
-			assert.equal(403, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1102, error.response.data.errors[0].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(403, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(1102, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should not create author without required properties", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'post',
 				url: createAuthorEndpointUrl,
 				headers: {
-					Authorization: constants.davUser.jwt,
+					Authorization: constants.davUser.accessToken,
 					'Content-Type': 'application/json'
 				}
-			});
-		}catch(error){
-			assert.equal(400, error.response.status);
-			assert.equal(2, error.response.data.errors.length);
-			assert.equal(2102, error.response.data.errors[0].code);
-			assert.equal(2103, error.response.data.errors[1].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(400, error.response.status)
+			assert.equal(2, error.response.data.errors.length)
+			assert.equal(2102, error.response.data.errors[0].code)
+			assert.equal(2103, error.response.data.errors[1].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should not create author with properties with wrong types", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'post',
 				url: createAuthorEndpointUrl,
 				headers: {
-					Authorization: constants.davUser.jwt,
+					Authorization: constants.davUser.accessToken,
 					'Content-Type': 'application/json'
 				},
 				data: {
 					first_name: 12,
 					last_name: true
 				}
-			});
-		}catch(error){
-			assert.equal(400, error.response.status);
-			assert.equal(2, error.response.data.errors.length);
-			assert.equal(2201, error.response.data.errors[0].code);
-			assert.equal(2202, error.response.data.errors[1].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(400, error.response.status)
+			assert.equal(2, error.response.data.errors.length)
+			assert.equal(2201, error.response.data.errors[0].code)
+			assert.equal(2202, error.response.data.errors[1].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should not create author with too short properties", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'post',
 				url: createAuthorEndpointUrl,
 				headers: {
-					Authorization: constants.davUser.jwt,
+					Authorization: constants.davUser.accessToken,
 					'Content-Type': 'application/json'
 				},
 				data: {
 					first_name: "a",
 					last_name: "a"
 				}
-			});
-		}catch(error){
-			assert.equal(400, error.response.status);
-			assert.equal(2, error.response.data.errors.length);
-			assert.equal(2301, error.response.data.errors[0].code);
-			assert.equal(2302, error.response.data.errors[1].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(400, error.response.status)
+			assert.equal(2, error.response.data.errors.length)
+			assert.equal(2301, error.response.data.errors[0].code)
+			assert.equal(2302, error.response.data.errors[1].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should not create author with too long properties", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'post',
 				url: createAuthorEndpointUrl,
 				headers: {
-					Authorization: constants.davUser.jwt,
+					Authorization: constants.davUser.accessToken,
 					'Content-Type': 'application/json'
 				},
 				data: {
 					first_name: "a".repeat(30),
 					last_name: "a".repeat(30),
 				}
-			});
-		}catch(error){
-			assert.equal(400, error.response.status);
-			assert.equal(2, error.response.data.errors.length);
-			assert.equal(2401, error.response.data.errors[0].code);
-			assert.equal(2402, error.response.data.errors[1].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(400, error.response.status)
+			assert.equal(2, error.response.data.errors.length)
+			assert.equal(2401, error.response.data.errors[0].code)
+			assert.equal(2402, error.response.data.errors[1].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should not create author if the user is already an author", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'post',
 				url: createAuthorEndpointUrl,
 				headers: {
-					Authorization: constants.authorUser.jwt,
+					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
 				},
 				data: {
 					first_name: "Dav",
 					last_name: "Tester"
 				}
-			});
-		}catch(error){
-			assert.equal(400, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1106, error.response.data.errors[0].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(400, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(1106, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should create author", async () => {
 		resetAuthors = true
@@ -221,12 +222,12 @@ describe("CreateAuthor endpoint", async () => {
 		let lastName = "Tester"
 		let response
 
-		try{
+		try {
 			response = await axios.default({
 				method: 'post',
 				url: createAuthorEndpointUrl,
 				headers: {
-					Authorization: constants.davClassLibraryTestUser.jwt,
+					Authorization: constants.testUser.accessToken,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -234,7 +235,7 @@ describe("CreateAuthor endpoint", async () => {
 					last_name: lastName
 				}
 			})
-		}catch(error){
+		} catch (error) {
 			assert.fail()
 		}
 
@@ -252,30 +253,26 @@ describe("CreateAuthor endpoint", async () => {
 		assert.isNull(response.data.profile_image_blurhash)
 
 		// Check if the author was correctly created on the server
-		let objResponse
-		try{
-			objResponse = await axios.default({
-				method: 'get',
-				url: `${constants.apiBaseUrl}/apps/object/${response.data.uuid}`,
-				headers: {
-					Authorization: constants.davClassLibraryTestUser.jwt
-				}
-			})
-		}catch(error){
+		let objResponse = await TableObjectsController.GetTableObject({
+			accessToken: constants.testUser.accessToken,
+			uuid: response.data.uuid
+		})
+
+		if (objResponse.status != 200) {
 			assert.fail()
 		}
 
-		assert.equal(response.data.uuid, objResponse.data.uuid)
-		assert.equal(response.data.first_name, objResponse.data.properties.first_name)
-		assert.equal(response.data.last_name, objResponse.data.properties.last_name)
-		assert.isUndefined(objResponse.data.properties.website_url)
-		assert.isUndefined(objResponse.data.properties.facebook_username)
-		assert.isUndefined(objResponse.data.properties.instagram_username)
-		assert.isUndefined(objResponse.data.properties.twitter_username)
-		assert.isUndefined(objResponse.data.properties.bios)
-		assert.isUndefined(objResponse.data.properties.collections)
-		assert.isUndefined(objResponse.data.properties.profile_image)
-		assert.isUndefined(objResponse.data.properties.profile_image_blurhash)
+		assert.equal(response.data.uuid, objResponse.data.Uuid)
+		assert.equal(response.data.first_name, objResponse.data.GetPropertyValue("first_name"))
+		assert.equal(response.data.last_name, objResponse.data.GetPropertyValue("last_name"))
+		assert.isNull(objResponse.data.GetPropertyValue("website_url"))
+		assert.isNull(objResponse.data.GetPropertyValue("facebook_username"))
+		assert.isNull(objResponse.data.GetPropertyValue("instagram_username"))
+		assert.isNull(objResponse.data.GetPropertyValue("twitter_username"))
+		assert.isNull(objResponse.data.GetPropertyValue("bios"))
+		assert.isNull(objResponse.data.GetPropertyValue("collections"))
+		assert.isNull(objResponse.data.GetPropertyValue("profile_image"))
+		assert.isNull(objResponse.data.GetPropertyValue("profile_image_blurhash"))
 	})
 
 	it("should create multiple authors if the user is an admin", async () => {
@@ -286,12 +283,12 @@ describe("CreateAuthor endpoint", async () => {
 		let lastName1 = "Gabler"
 		let response1
 
-		try{
+		try {
 			response1 = await axios.default({
 				method: 'post',
 				url: createAuthorEndpointUrl,
 				headers: {
-					Authorization: constants.davUser.jwt,
+					Authorization: constants.davUser.accessToken,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -299,7 +296,7 @@ describe("CreateAuthor endpoint", async () => {
 					last_name: lastName1
 				}
 			})
-		}catch(error){
+		} catch (error) {
 			assert.fail()
 		}
 
@@ -321,12 +318,12 @@ describe("CreateAuthor endpoint", async () => {
 		let firstName2 = "Andrew"
 		let lastName2 = "Lane"
 
-		try{
+		try {
 			response2 = await axios.default({
 				method: 'post',
 				url: createAuthorEndpointUrl,
 				headers: {
-					Authorization: constants.davUser.jwt,
+					Authorization: constants.davUser.accessToken,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -334,7 +331,7 @@ describe("CreateAuthor endpoint", async () => {
 					last_name: lastName2
 				}
 			})
-		}catch(error){
+		} catch (error) {
 			assert.fail()
 		}
 
@@ -352,52 +349,42 @@ describe("CreateAuthor endpoint", async () => {
 		assert.isNull(response2.data.profile_image_blurhash)
 
 		// Check if the authors were correctly created on the server
-		let objResponse1
+		let objResponse1 = await TableObjectsController.GetTableObject({
+			accessToken: constants.davUser.accessToken,
+			uuid: response1.data.uuid
+		})
 
-		try{
-			objResponse1 = await axios.default({
-				method: 'get',
-				url: `${constants.apiBaseUrl}/apps/object/${response1.data.uuid}`,
-				headers: {
-					Authorization: constants.davUser.jwt
-				}
-			})
-		}catch(error){
+		if (objResponse1.status != 200) {
 			assert.fail()
 		}
 
-		assert.equal(response1.data.uuid, objResponse1.data.uuid)
-		assert.equal(response1.data.first_name, objResponse1.data.properties.first_name)
-		assert.equal(response1.data.last_name, objResponse1.data.properties.last_name)
-		assert.isUndefined(objResponse1.data.properties.website_url)
-		assert.isUndefined(objResponse1.data.properties.facebook_username)
-		assert.isUndefined(objResponse1.data.properties.instagram_username)
-		assert.isUndefined(objResponse1.data.properties.twitter_username)
-		assert.isUndefined(objResponse1.data.properties.bios)
-		assert.isUndefined(objResponse1.data.properties.collections)
-		assert.isUndefined(objResponse1.data.properties.profile_image)
-		assert.isUndefined(objResponse1.data.properties.profile_image_blurhash)
+		assert.equal(response1.data.uuid, objResponse1.data.Uuid)
+		assert.equal(response1.data.first_name, objResponse1.data.GetPropertyValue("first_name"))
+		assert.equal(response1.data.last_name, objResponse1.data.GetPropertyValue("last_name"))
+		assert.isNull(objResponse1.data.GetPropertyValue("website_url"))
+		assert.isNull(objResponse1.data.GetPropertyValue("facebook_username"))
+		assert.isNull(objResponse1.data.GetPropertyValue("instagram_username"))
+		assert.isNull(objResponse1.data.GetPropertyValue("twitter_username"))
+		assert.isNull(objResponse1.data.GetPropertyValue("bios"))
+		assert.isNull(objResponse1.data.GetPropertyValue("collections"))
+		assert.isNull(objResponse1.data.GetPropertyValue("profile_image"))
+		assert.isNull(objResponse1.data.GetPropertyValue("profile_image_blurhash"))
 
-		let objResponse2
+		let objResponse2 = await TableObjectsController.GetTableObject({
+			accessToken: constants.davUser.accessToken,
+			uuid: response2.data.uuid
+		})
 
-		try{
-			objResponse2 = await axios.default({
-				method: 'get',
-				url: `${constants.apiBaseUrl}/apps/object/${response2.data.uuid}`,
-				headers: {
-					Authorization: constants.davUser.jwt
-				}
-			})
-		}catch(error){
+		if (objResponse2.status != 200) {
 			assert.fail()
 		}
 
-		assert.equal(response2.data.uuid, objResponse2.data.uuid)
-		assert.equal(response2.data.first_name, objResponse2.data.properties.first_name)
-		assert.equal(response2.data.last_name, objResponse2.data.properties.last_name)
-		assert.isUndefined(objResponse2.data.properties.bios)
-		assert.isUndefined(objResponse2.data.properties.collections)
-		assert.isUndefined(objResponse2.data.properties.profile_image)
-		assert.isUndefined(objResponse2.data.properties.profile_image_blurhash)
+		assert.equal(response2.data.uuid, objResponse2.data.Uuid)
+		assert.equal(response2.data.first_name, objResponse2.data.GetPropertyValue("first_name"))
+		assert.equal(response2.data.last_name, objResponse2.data.GetPropertyValue("last_name"))
+		assert.isNull(objResponse2.data.GetPropertyValue("bios"))
+		assert.isNull(objResponse2.data.GetPropertyValue("collections"))
+		assert.isNull(objResponse2.data.GetPropertyValue("profile_image"))
+		assert.isNull(objResponse2.data.GetPropertyValue("profile_image_blurhash"))
 	})
 })
