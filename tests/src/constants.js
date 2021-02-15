@@ -13,12 +13,12 @@ let constants = {
 	storeBookFileTableId: 26,
 	categoryTableId: 27,
 	categoryNameTableId: 28,
-	// User id: 5, Dev id: 2, App id: 3 (davClassLibraryTestApp)
-	davClassLibraryTestUserTestAppJWT: "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImRhdmNsYXNzbGlicmFyeXRlc3RAZGF2LWFwcHMudGVjaCIsInVzZXJfaWQiOjUsImRldl9pZCI6MiwiZXhwIjozNzU2MTA1MDAyMn0.jZpdLre_ZMWGN2VNbZOn2Xg51RLAT6ocGnyM38jljHI.1",
+	// User id: 2, Dev id: 2, App id: 1 (TestApp)
+	testUserTestAppAccessToken: "ckktuu0gs00008iw3ctnrofzf",
 	authorUser: {
-		// User id: 6, Dev id: 1, App id: 6 (PocketLib)
-		id: 6,
-		jwt: "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImF1dGhvckBkYXYtYXBwcy50ZWNoIiwidXNlcl9pZCI6NiwiZGV2X2lkIjoxLCJleHAiOjM3NTYxMDE3NjAwfQ.npXRbu87twmlyqBSPuGb1qOn7Mh1ug_j0qEQiLz3N6U.2",
+		// User id: 3, Dev id: 1, App id: 6 (PocketLib)
+		id: 3,
+		accessToken: "ckktuub8p00018iw3hy7b5i0m",
 		author: {
 			uuid: "099fbfa5-a6f1-41c1-99e9-0d02d8364f2d",
 			firstName: "Lemony",
@@ -306,7 +306,7 @@ let constants = {
 	davUser: {
 		// User id: 1, Dev id: 1, App id: 6 (PocketLib)
 		id: 1,
-		jwt: "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImRhdkBkYXYtYXBwcy50ZWNoIiwidXNlcl9pZCI6MSwiZGV2X2lkIjoxLCJleHAiOjM3NTYxMDE3NjAwfQ.6LvizKcYttmWGLwGFS4A2nhSu6aOs8O9_pa2StxTQqE.3",
+		accessToken: "ckktuujpl00028iw3s8ssrrsb",
 		authors: [
 			{
 				uuid: "622ad623-b9a4-415d-92ee-a66f8a7f3c51",
@@ -462,10 +462,10 @@ let constants = {
 			}
 		]
 	},
-	davClassLibraryTestUser: {
-		// User id: 5, Dev id: 1, App id: 6 (PocketLib)
-		id: 5,
-		jwt: "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImRhdkNsYXNzTGlicmFyeVRlc3RAZGF2LWFwcHMudGVjaCIsInVzZXJfaWQiOjUsImRldl9pZCI6MSwiZXhwIjozNzU2MTAxNzYwMH0.unJZtU7Mua12L_GsW09BvoeSQd56VR_RK9x3TE2GWQo.4",
+	testUser: {
+		// User id: 2, Dev id: 1, App id: 6 (PocketLib)
+		id: 2,
+		accessToken: "ckktuuqa100038iw385wrhl78",
 		books: [
 			{
 				uuid: "e4183c7a-12fd-42e9-9bdd-b351cbf6448e",
@@ -476,9 +476,9 @@ let constants = {
 		]
 	},
 	klausUser: {
-		// User id: 7, Dev id: 1, App id: 6 (PocketLib)
-		id: 7,
-		jwt: "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImtsYXVzLmJhdWRlbGFpcmVAZGF2LWFwcHMudGVjaCIsInVzZXJfaWQiOjcsImRldl9pZCI6MSwiZXhwIjozNzU2MTAxNzYwMH0.Ow0dLs1x_HR6fJ02UqQBVRxDME7cqp_4LRxioJfe_F4.5",
+		// User id: 4, Dev id: 1, App id: 6 (PocketLib)
+		id: 4,
+		accessToken: "ckktuuy2h00048iw3sfsfdv76",
 		books: [
 			{
 				uuid: "916b7ba2-db45-4c49-bef6-a90280efc686",
@@ -565,36 +565,36 @@ constants.collections = [
 
 constants.purchases = [
 	{
-		// davClassLibraryTestUser purchased 1984 store book in English
+		// testUser purchased 1984 store book in English
 		id: 1,
-		userId: constants.davClassLibraryTestUser.id,
+		userId: constants.testUser.id,
 		tableObjectUuid: "b0e4b01d-d53d-47b5-b5e4-48ea7bab6619",
 		price: 1000,
 		currency: "eur",
 		completed: true
 	},
 	{
-		// davClassLibraryTestUser didn't purchase A Series of Unfortunate Events 2 store book in German
+		// testUser didn't purchase A Series of Unfortunate Events 2 store book in German
 		id: 2,
-		userId: constants.davClassLibraryTestUser.id,
+		userId: constants.testUser.id,
 		tableObjectUuid: "617833c8-4d0a-4d78-acd0-306a90e346ba",
 		price: 2000,
 		currency: "eur",
 		completed: false
 	},
 	{
-		// davClassLibraryTestUser purchased A Series of Unfortunate Events 4 store book in English
+		// testUser purchased A Series of Unfortunate Events 4 store book in English
 		id: 3,
-		userId: constants.davClassLibraryTestUser.id,
+		userId: constants.testUser.id,
 		tableObjectUuid: "d0ca384f-9d8e-4a56-b2e1-c76a0a5cac4b",
 		price: 3500,
 		currency: "eur",
 		completed: true
 	},
 	{
-		// davClassLibraryTestUser purchased La Ferme des animaux
+		// testUser purchased La Ferme des animaux
 		id: 4,
-		userId: constants.davClassLibraryTestUser.id,
+		userId: constants.testUser.id,
 		tableObjectUuid: "ba96f327-f096-4408-8bd0-620f9aad3f09",
 		price: 0,
 		currency: "eur",

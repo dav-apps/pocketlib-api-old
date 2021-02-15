@@ -4,49 +4,49 @@ var tableObjects = []
 
 // Authors & AuthorBios & AuthorProfileImages
 addAuthorToTableObjects(constants.authorUser.author, constants.authorUser.id)
-for(let authorBio of constants.authorUser.author.bios) addAuthorBioToTableObjects(authorBio, constants.authorUser.id)
+for (let authorBio of constants.authorUser.author.bios) addAuthorBioToTableObjects(authorBio, constants.authorUser.id)
 addAuthorProfileImageToTableObjects(constants.authorUser.author.profileImage, constants.authorUser.id)
 
-for(let author of constants.davUser.authors){
+for (let author of constants.davUser.authors) {
 	addAuthorToTableObjects(author, constants.davUser.id)
-	for(let authorBio of author.bios) addAuthorBioToTableObjects(authorBio, constants.davUser.id)
-	if(author.profileImage) addAuthorProfileImageToTableObjects(author.profileImage, constants.davUser.id)
+	for (let authorBio of author.bios) addAuthorBioToTableObjects(authorBio, constants.davUser.id)
+	if (author.profileImage) addAuthorProfileImageToTableObjects(author.profileImage, constants.davUser.id)
 }
 
 // StoreBookCollections
 for (let collection of constants.authorUser.author.collections) {
 	addStoreBookCollectionToTableObjects(collection, constants.authorUser.id, constants.authorUser.author.uuid)
-	for(let collectionName of collection.names) addStoreBookCollectionNameToTableObjects(collectionName, constants.authorUser.id)
-	for(let storeBook of collection.books){
+	for (let collectionName of collection.names) addStoreBookCollectionNameToTableObjects(collectionName, constants.authorUser.id)
+	for (let storeBook of collection.books) {
 		addStoreBookToTableObjects(storeBook, constants.authorUser.id, collection.uuid)
-		if(storeBook.cover) addStoreBookCoverToTableObjects(storeBook.cover, constants.authorUser.id)
-		if(storeBook.file) addStoreBookFileToTableObjects(storeBook.file, constants.authorUser.id)
+		if (storeBook.cover) addStoreBookCoverToTableObjects(storeBook.cover, constants.authorUser.id)
+		if (storeBook.file) addStoreBookFileToTableObjects(storeBook.file, constants.authorUser.id)
 	}
 }
 
-for(let author of constants.davUser.authors){
-	for(let collection of author.collections){
+for (let author of constants.davUser.authors) {
+	for (let collection of author.collections) {
 		addStoreBookCollectionToTableObjects(collection, constants.davUser.id, author.uuid)
-		for(let collectionName of collection.names) addStoreBookCollectionNameToTableObjects(collectionName, constants.davUser.id)
-		for(let storeBook of collection.books){
+		for (let collectionName of collection.names) addStoreBookCollectionNameToTableObjects(collectionName, constants.davUser.id)
+		for (let storeBook of collection.books) {
 			addStoreBookToTableObjects(storeBook, constants.davUser.id, collection.uuid)
-			if(storeBook.cover) addStoreBookCoverToTableObjects(storeBook.cover, constants.davUser.id)
-			if(storeBook.file) addStoreBookFileToTableObjects(storeBook.file, constants.davUser.id)
+			if (storeBook.cover) addStoreBookCoverToTableObjects(storeBook.cover, constants.davUser.id)
+			if (storeBook.file) addStoreBookFileToTableObjects(storeBook.file, constants.davUser.id)
 		}
 	}
 }
 
 // Books
-for(let book of constants.davClassLibraryTestUser.books){
-	addBookToTableObjects(book, constants.davClassLibraryTestUser.id)
+for (let book of constants.testUser.books) {
+	addBookToTableObjects(book, constants.testUser.id)
 }
 
-for(let book of constants.klausUser.books){
+for (let book of constants.klausUser.books) {
 	addBookToTableObjects(book, constants.klausUser.id)
 }
 
 // Categories & CategoryNames
-for(let category of constants.categories){
+for (let category of constants.categories) {
 	addCategoryToTableObjects(category, constants.davUser.id)
 
 	for (let categoryName of category.names) {
@@ -60,7 +60,7 @@ export default {
 	purchases: constants.purchases
 }
 
-function addAuthorToTableObjects(author, userId){
+function addAuthorToTableObjects(author, userId) {
 	let bios = []
 	author.bios.forEach(bio => bios.push(bio.uuid))
 
@@ -87,7 +87,7 @@ function addAuthorToTableObjects(author, userId){
 	})
 }
 
-function addAuthorBioToTableObjects(authorBio, userId){
+function addAuthorBioToTableObjects(authorBio, userId) {
 	tableObjects.push({
 		uuid: authorBio.uuid,
 		userId,
@@ -100,7 +100,7 @@ function addAuthorBioToTableObjects(authorBio, userId){
 	})
 }
 
-function addAuthorProfileImageToTableObjects(authorProfileImage, userId){
+function addAuthorProfileImageToTableObjects(authorProfileImage, userId) {
 	tableObjects.push({
 		uuid: authorProfileImage.uuid,
 		userId,
@@ -113,7 +113,7 @@ function addAuthorProfileImageToTableObjects(authorProfileImage, userId){
 	})
 }
 
-function addStoreBookCollectionToTableObjects(storeBookCollection, userId, authorUuid){
+function addStoreBookCollectionToTableObjects(storeBookCollection, userId, authorUuid) {
 	let names = []
 	storeBookCollection.names.forEach(name => names.push(name.uuid))
 
@@ -133,7 +133,7 @@ function addStoreBookCollectionToTableObjects(storeBookCollection, userId, autho
 	})
 }
 
-function addStoreBookCollectionNameToTableObjects(storeBookCollectionName, userId){
+function addStoreBookCollectionNameToTableObjects(storeBookCollectionName, userId) {
 	tableObjects.push({
 		uuid: storeBookCollectionName.uuid,
 		userId,
@@ -170,7 +170,7 @@ function addStoreBookToTableObjects(storeBook, userId, collectionUuid) {
 	})
 }
 
-function addStoreBookCoverToTableObjects(storeBookCover, userId){
+function addStoreBookCoverToTableObjects(storeBookCover, userId) {
 	tableObjects.push({
 		uuid: storeBookCover.uuid,
 		userId,
@@ -183,7 +183,7 @@ function addStoreBookCoverToTableObjects(storeBookCover, userId){
 	})
 }
 
-function addStoreBookFileToTableObjects(storeBookFile, userId){
+function addStoreBookFileToTableObjects(storeBookFile, userId) {
 	tableObjects.push({
 		uuid: storeBookFile.uuid,
 		userId,
@@ -196,13 +196,13 @@ function addStoreBookFileToTableObjects(storeBookFile, userId){
 	})
 }
 
-function addBookToTableObjects(book, userId){
+function addBookToTableObjects(book, userId) {
 	let properties = {
 		store_book: book.storeBook,
 		file: book.file
 	}
 
-	if(book.purchase) properties.purchase = book.purchase
+	if (book.purchase) properties.purchase = book.purchase
 
 	tableObjects.push({
 		uuid: book.uuid,
@@ -213,9 +213,9 @@ function addBookToTableObjects(book, userId){
 	})
 }
 
-function addCategoryToTableObjects(category, userId){
-	let names = [];
-	category.names.forEach(name => names.push(name.uuid));
+function addCategoryToTableObjects(category, userId) {
+	let names = []
+	category.names.forEach(name => names.push(name.uuid))
 
 	tableObjects.push({
 		uuid: category.uuid,
@@ -229,7 +229,7 @@ function addCategoryToTableObjects(category, userId){
 	})
 }
 
-function addCategoryNameToTableObjects(categoryName, userId){
+function addCategoryNameToTableObjects(categoryName, userId) {
 	tableObjects.push({
 		uuid: categoryName.uuid,
 		userId,
