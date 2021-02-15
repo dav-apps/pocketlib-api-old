@@ -229,7 +229,7 @@ async function resetAuthorUserAuthorBios() {
 		id: constants.authorBioTableId
 	})
 
-	if (response != 200) {
+	if (response.status != 200) {
 		console.log("Error in getting the author bio table")
 		console.log(response.errors)
 	}
