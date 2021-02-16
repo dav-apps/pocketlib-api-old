@@ -1,22 +1,22 @@
-(# Get the jwt)
-(var jwt (get_header Authorization))
+(# Get the access token)
+(var access_token (get_header Authorization))
 (var is_admin false)
 
-(if (!(is_nil jwt)) (
-	(func render_validation_errors ((list
-		(func validate_jwt_missing (jwt))
+(if (!(is_nil access_token)) (
+	(# func render_validation_errors ((list
+		(func validate_access_token_presence (access_token))
 	)))
 
-	(# Decode the jwt)
-	(var decoded_jwt (func decode_jwt (jwt)))
+	(# Get the session)
+	(var session (func get_session (access_token)))
 
 	(# Validate the dev)
 	(func render_validation_errors ((list
-		(func validate_dev_is_pocketlib_dev (decoded_jwt.dev_id))
+		(func validate_dev_is_pocketlib_dev (session.app.dev_id))
 	)))
 
 	(# Check if the user is an admin)
-	(var is_admin (env.ADMINS.contains decoded_jwt.user_id))
+	(var is_admin (env.ADMINS.contains session.user_id))
 ))
 
 (# Get the collection)
@@ -40,7 +40,7 @@
 
 (# Check if the user can access not published books)
 (var can_access ((status == "published") or (
-	(is_admin or (author.user_id == decoded_jwt.user_id))
+	(is_admin or (author.user_id == session.user_id))
 )))
 
 (# Get the store books of the collection)

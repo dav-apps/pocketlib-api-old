@@ -4,10 +4,10 @@
 (var name json.name)
 (var language json.language)
 
-(# Get the jwt)
-(var jwt (get_header Authorization))
+(# Get the access token)
+(var access_token (get_header Authorization))
 (func render_validation_errors ((list
-	(func validate_jwt_missing (jwt))
+	(func validate_access_token_presence (access_token))
 )))
 
 (# Make sure content type is json)
@@ -15,16 +15,16 @@
 	(func validate_content_type_json ((get_header Content-Type)))
 )))
 
-(# Decode the jwt)
-(var decoded_jwt (func decode_jwt (jwt)))
+(# Get the session)
+(var session (func get_session (access_token)))
 
 (# Validate the dev)
 (func render_validation_errors ((list
-	(func validate_dev_is_pocketlib_dev (decoded_jwt.dev_id))
+	(func validate_dev_is_pocketlib_dev (session.app.dev_id))
 )))
 
 (# Check if the user is an admin)
-(var is_admin (env.ADMINS.contains decoded_jwt.user_id))
+(var is_admin (env.ADMINS.contains session.user_id))
 
 (# Validate missing fields)
 (func render_validation_errors ((list
@@ -64,7 +64,7 @@
 		(func render_validation_errors ((list (hash (error (get_error 2803)) (status 404)))))
 	))
 ) else (
-	(var authors (func get_author_table_objects (decoded_jwt.user_id)))
+	(var authors (func get_author_table_objects (session.user_id)))
 
 	(if (authors.length == 0) (
 	(# Render User is not an author error)
@@ -79,14 +79,14 @@
 	(name name)
 	(language language)
 ))
-(var collection_name (func create_table_object (decoded_jwt.user_id env.STORE_BOOK_COLLECTION_NAME_TABLE_ID collection_name_properties)))
+(var collection_name (func create_table_object (session.user_id env.STORE_BOOK_COLLECTION_NAME_TABLE_ID collection_name_properties)))
 
 (# Create the collection)
 (var collection_properties (hash 
 	(author author_obj.uuid)
 	(names collection_name.uuid)
 ))
-(var collection (func create_table_object (decoded_jwt.user_id env.STORE_BOOK_COLLECTION_TABLE_ID collection_properties)))
+(var collection (func create_table_object (session.user_id env.STORE_BOOK_COLLECTION_TABLE_ID collection_properties)))
 
 (# Update the collections property of the author)
 (func add_collection_to_author (author_obj collection.uuid))
