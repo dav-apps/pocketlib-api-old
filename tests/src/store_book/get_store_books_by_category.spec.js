@@ -7,12 +7,12 @@ const getStoreBooksByCategoryEndpointUrl = `${constants.apiBaseUrl}/api/1/call/s
 
 describe("GetStoreBooksByCategory endpoint", () => {
 	it("should not return store books by category that does not exist", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'get',
 				url: getStoreBooksByCategoryEndpointUrl.replace('{0}', "asd")
 			})
-		}catch(error){
+		} catch (error) {
 			assert.equal(404, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
 			assert.equal(2810, error.response.data.errors[0].code)
@@ -23,7 +23,7 @@ describe("GetStoreBooksByCategory endpoint", () => {
 	})
 
 	it("should not return store books by category with not supported language", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'get',
 				url: getStoreBooksByCategoryEndpointUrl.replace('{0}', constants.categories[0].key),
@@ -31,7 +31,7 @@ describe("GetStoreBooksByCategory endpoint", () => {
 					languages: "bla"
 				}
 			})
-		}catch(error){
+		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
 			assert.equal(1107, error.response.data.errors[0].code)
@@ -45,19 +45,19 @@ describe("GetStoreBooksByCategory endpoint", () => {
 		let response
 		let category = constants.categories[0]
 
-		try{
+		try {
 			response = await axios.default({
 				method: 'get',
 				url: getStoreBooksByCategoryEndpointUrl.replace('{0}', category.key)
 			})
-		}catch(error){
+		} catch (error) {
 			assert.fail()
 		}
 
 		// Find all store books with the category and language = en
-		let storeBooks = [];
-		for(let collection of constants.authorUser.author.collections){
-			for(let storeBook of collection.books){
+		let storeBooks = []
+		for (let collection of constants.authorUser.author.collections) {
+			for (let storeBook of collection.books) {
 				if (
 					storeBook.language == "en" &&
 					storeBook.status == "published" &&
@@ -107,7 +107,7 @@ describe("GetStoreBooksByCategory endpoint", () => {
 		let category = constants.categories[0]
 		let language = "de"
 
-		try{
+		try {
 			response = await axios.default({
 				method: 'get',
 				url: getStoreBooksByCategoryEndpointUrl.replace('{0}', category.key),
@@ -115,14 +115,14 @@ describe("GetStoreBooksByCategory endpoint", () => {
 					languages: language
 				}
 			})
-		}catch(error){
+		} catch (error) {
 			assert.fail()
 		}
 
 		// Find all store books with the category and the language
 		let storeBooks = []
-		for(let collection of constants.authorUser.author.collections){
-			for(let storeBook of collection.books){
+		for (let collection of constants.authorUser.author.collections) {
+			for (let storeBook of collection.books) {
 				if (
 					storeBook.language == language &&
 					storeBook.status == "published" &&
@@ -186,13 +186,13 @@ describe("GetStoreBooksByCategory endpoint", () => {
 
 		// Find all store books with the category and the languages
 		let storeBooks = []
-		for(let collection of constants.authorUser.author.collections){
-			for(let storeBook of collection.books){
+		for (let collection of constants.authorUser.author.collections) {
+			for (let storeBook of collection.books) {
 				if (
-					languages.includes(storeBook.language) &&
-					storeBook.status == "published" &&
-					storeBook.categories &&
-					storeBook.categories.includes(category.uuid)
+					languages.includes(storeBook.language)
+					&& storeBook.status == "published"
+					&& storeBook.categories
+					&& storeBook.categories.includes(category.uuid)
 				) {
 					storeBooks.push(storeBook)
 				}

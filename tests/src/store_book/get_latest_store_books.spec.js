@@ -7,7 +7,7 @@ const getLatestStoreBooksEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store
 
 describe("GetLatestStoreBooks endpoint", async () => {
 	it("should not return latest store books with not supported language", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'get',
 				url: getLatestStoreBooksEndpointUrl,
@@ -15,7 +15,7 @@ describe("GetLatestStoreBooks endpoint", async () => {
 					languages: "asdasd"
 				}
 			})
-		}catch(error){
+		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
 			assert.equal(1107, error.response.data.errors[0].code)
@@ -28,30 +28,30 @@ describe("GetLatestStoreBooks endpoint", async () => {
 	it("should return latest store books", async () => {
 		let response
 
-		try{
+		try {
 			response = await axios.default({
 				method: 'get',
 				url: getLatestStoreBooksEndpointUrl
 			})
-		}catch(error){
+		} catch (error) {
 			assert.fail()
 		}
 
 		// Find all published store books with language = en
-		let storeBooks = [];
-		for(let collection of constants.authorUser.author.collections){
-			for(let storeBook of collection.books){
-				if(storeBook.language == "en" && storeBook.status == "published"){
-					storeBooks.push(storeBook);
+		let storeBooks = []
+		for (let collection of constants.authorUser.author.collections) {
+			for (let storeBook of collection.books) {
+				if (storeBook.language == "en" && storeBook.status == "published") {
+					storeBooks.push(storeBook)
 				}
 			}
 		}
-		
-		for(let author of constants.davUser.authors){
-			for(let collection of author.collections){
-				for(let storeBook of collection.books){
-					if(storeBook.language == "en" && storeBook.status == "published"){
-						storeBooks.push(storeBook);
+
+		for (let author of constants.davUser.authors) {
+			for (let collection of author.collections) {
+				for (let storeBook of collection.books) {
+					if (storeBook.language == "en" && storeBook.status == "published") {
+						storeBooks.push(storeBook)
 					}
 				}
 			}
@@ -96,7 +96,7 @@ describe("GetLatestStoreBooks endpoint", async () => {
 		let response
 		let language = "de"
 
-		try{
+		try {
 			response = await axios.default({
 				method: 'get',
 				url: getLatestStoreBooksEndpointUrl,
@@ -104,24 +104,24 @@ describe("GetLatestStoreBooks endpoint", async () => {
 					languages: language
 				}
 			})
-		}catch(error){
+		} catch (error) {
 			assert.fail()
 		}
 
 		// Find all published store books with the language
 		let storeBooks = []
-		for(let collection of constants.authorUser.author.collections){
-			for(let storeBook of collection.books){
-				if(storeBook.language == language && storeBook.status == "published"){
+		for (let collection of constants.authorUser.author.collections) {
+			for (let storeBook of collection.books) {
+				if (storeBook.language == language && storeBook.status == "published") {
 					storeBooks.push(storeBook)
 				}
 			}
 		}
-		
-		for(let author of constants.davUser.authors){
-			for(let collection of author.collections){
-				for(let storeBook of collection.books){
-					if(storeBook.language == language && storeBook.status == "published"){
+
+		for (let author of constants.davUser.authors) {
+			for (let collection of author.collections) {
+				for (let storeBook of collection.books) {
+					if (storeBook.language == language && storeBook.status == "published") {
 						storeBooks.push(storeBook)
 					}
 				}
