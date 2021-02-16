@@ -1,6 +1,7 @@
 import chai from 'chai'
 const assert = chai.assert
 import axios from 'axios'
+import { TableObjectsController } from 'dav-npm'
 import constants from '../constants.js'
 import * as utils from '../utils.js'
 
@@ -8,7 +9,7 @@ const createStoreBookEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/boo
 var resetStoreBooksAndCollections = false
 
 afterEach(async () => {
-	if(resetStoreBooksAndCollections){
+	if (resetStoreBooksAndCollections) {
 		await utils.resetStoreBooks()
 		await utils.resetStoreBookCollections()
 		resetStoreBooksAndCollections = false
@@ -16,24 +17,27 @@ afterEach(async () => {
 })
 
 describe("CreateStoreBook endpoint", () => {
-	it("should not create store book without jwt", async () => {
-		try{
+	it("should not create store book without access token", async () => {
+		try {
 			await axios.default({
 				method: 'post',
-				url: createStoreBookEndpointUrl
-			});
-		}catch(error){
-			assert.equal(400, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(2101, error.response.data.errors[0].code);
-			return;
+				url: createStoreBookEndpointUrl,
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			})
+		} catch (error) {
+			assert.equal(400, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(2101, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
-	it("should not create store book with invalid jwt", async () => {
-		try{
+	it("should not create store book with access token for session that does not exist", async () => {
+		try {
 			await axios.default({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
@@ -46,85 +50,85 @@ describe("CreateStoreBook endpoint", () => {
 					title: "Hello World",
 					language: "de"
 				}
-			});
-		}catch(error){
-			assert.equal(401, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1302, error.response.data.errors[0].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(404, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(2802, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
-	it("should not create store book without content type json", async () => {
-		try{
+	it("should not create store book without Content-Type json", async () => {
+		try {
 			await axios.default({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
-					Authorization: constants.authorUser.jwt
+					Authorization: constants.authorUser.accessToken
 				}
-			});
-		}catch(error){
-			assert.equal(415, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1104, error.response.data.errors[0].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(415, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(1104, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
-	it("should not create store book if jwt is for another app", async () => {
-		try{
+	it("should not create store book with access token for another app", async () => {
+		try {
 			await axios.default({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
-					Authorization: constants.davClassLibraryTestUserTestAppJWT,
+					Authorization: constants.testUserTestAppAccessToken,
 					'Content-Type': 'application/json'
 				}
-			});
-		}catch(error){
-			assert.equal(403, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1102, error.response.data.errors[0].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(403, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(1102, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should not create store book without required properties", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
-					Authorization: constants.authorUser.jwt,
+					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
 				}
-			});
-		}catch(error){
-			assert.equal(400, error.response.status);
-			assert.equal(3, error.response.data.errors.length);
-			assert.equal(2109, error.response.data.errors[0].code);
-			assert.equal(2105, error.response.data.errors[1].code);
-			assert.equal(2106, error.response.data.errors[2].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(400, error.response.status)
+			assert.equal(3, error.response.data.errors.length)
+			assert.equal(2109, error.response.data.errors[0].code)
+			assert.equal(2105, error.response.data.errors[1].code)
+			assert.equal(2106, error.response.data.errors[2].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should not create store book with properties with wrong types", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
-					Authorization: constants.authorUser.jwt,
+					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -132,26 +136,26 @@ describe("CreateStoreBook endpoint", () => {
 					title: false,
 					language: 23
 				}
-			});
-		}catch(error){
-			assert.equal(400, error.response.status);
-			assert.equal(3, error.response.data.errors.length);
-			assert.equal(2210, error.response.data.errors[0].code);
-			assert.equal(2204, error.response.data.errors[1].code);
-			assert.equal(2206, error.response.data.errors[2].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(400, error.response.status)
+			assert.equal(3, error.response.data.errors.length)
+			assert.equal(2210, error.response.data.errors[0].code)
+			assert.equal(2204, error.response.data.errors[1].code)
+			assert.equal(2206, error.response.data.errors[2].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should not create store book with optional properties with wrong types", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
-					Authorization: constants.authorUser.jwt,
+					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -164,7 +168,7 @@ describe("CreateStoreBook endpoint", () => {
 					categories: 51
 				}
 			})
-		}catch(error){
+		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(7, error.response.data.errors.length)
 			assert.equal(2210, error.response.data.errors[0].code)
@@ -181,12 +185,12 @@ describe("CreateStoreBook endpoint", () => {
 	})
 
 	it("should not create store book with too short properties", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
-					Authorization: constants.authorUser.jwt,
+					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -194,25 +198,25 @@ describe("CreateStoreBook endpoint", () => {
 					title: "a",
 					language: "en"
 				}
-			});
-		}catch(error){
-			assert.equal(400, error.response.status);
-			assert.equal(2, error.response.data.errors.length);
-			assert.equal(2308, error.response.data.errors[0].code);
-			assert.equal(2304, error.response.data.errors[1].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(400, error.response.status)
+			assert.equal(2, error.response.data.errors.length)
+			assert.equal(2308, error.response.data.errors[0].code)
+			assert.equal(2304, error.response.data.errors[1].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should not create store book with too short optional properties", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
-					Authorization: constants.authorUser.jwt,
+					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -221,26 +225,26 @@ describe("CreateStoreBook endpoint", () => {
 					description: "",
 					language: "en"
 				}
-			});
-		}catch(error){
-			assert.equal(400, error.response.status);
-			assert.equal(3, error.response.data.errors.length);
-			assert.equal(2308, error.response.data.errors[0].code);
-			assert.equal(2304, error.response.data.errors[1].code);
-			assert.equal(2305, error.response.data.errors[2].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(400, error.response.status)
+			assert.equal(3, error.response.data.errors.length)
+			assert.equal(2308, error.response.data.errors[0].code)
+			assert.equal(2304, error.response.data.errors[1].code)
+			assert.equal(2305, error.response.data.errors[2].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should not create store book with too long properties", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
-					Authorization: constants.authorUser.jwt,
+					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -248,25 +252,25 @@ describe("CreateStoreBook endpoint", () => {
 					title: "a".repeat(150),
 					language: "en"
 				}
-			});
-		}catch(error){
-			assert.equal(400, error.response.status);
-			assert.equal(2, error.response.data.errors.length);
-			assert.equal(2408, error.response.data.errors[0].code);
-			assert.equal(2404, error.response.data.errors[1].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(400, error.response.status)
+			assert.equal(2, error.response.data.errors.length)
+			assert.equal(2408, error.response.data.errors[0].code)
+			assert.equal(2404, error.response.data.errors[1].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should not create store book with too long optional properties", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
-					Authorization: constants.authorUser.jwt,
+					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -275,26 +279,26 @@ describe("CreateStoreBook endpoint", () => {
 					description: "a".repeat(2010),
 					language: "de"
 				}
-			});
-		}catch(error){
-			assert.equal(400, error.response.status);
-			assert.equal(3, error.response.data.errors.length);
-			assert.equal(2408, error.response.data.errors[0].code);
-			assert.equal(2404, error.response.data.errors[1].code);
-			assert.equal(2405, error.response.data.errors[2].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(400, error.response.status)
+			assert.equal(3, error.response.data.errors.length)
+			assert.equal(2408, error.response.data.errors[0].code)
+			assert.equal(2404, error.response.data.errors[1].code)
+			assert.equal(2405, error.response.data.errors[2].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should not create store book with not supported language", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
-					Authorization: constants.authorUser.jwt,
+					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -302,16 +306,16 @@ describe("CreateStoreBook endpoint", () => {
 					title: "Hello World",
 					language: "blabla"
 				}
-			});
-		}catch(error){
-			assert.equal(400, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1107, error.response.data.errors[0].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(400, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(1107, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should not create store book with invalid price", async () => {
 		try {
@@ -319,7 +323,7 @@ describe("CreateStoreBook endpoint", () => {
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
-					Authorization: constants.authorUser.jwt,
+					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -328,16 +332,16 @@ describe("CreateStoreBook endpoint", () => {
 					language: "en",
 					price: -123
 				}
-			});
+			})
 		} catch (error) {
-			assert.equal(400, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(2501, error.response.data.errors[0].code);
-			return;
+			assert.equal(400, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(2501, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should not create store book with invalid isbn", async () => {
 		try {
@@ -345,7 +349,7 @@ describe("CreateStoreBook endpoint", () => {
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
-					Authorization: constants.authorUser.jwt,
+					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -366,12 +370,12 @@ describe("CreateStoreBook endpoint", () => {
 	})
 
 	it("should not create store book if the user is not an author", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
-					Authorization: constants.davClassLibraryTestUser.jwt,
+					Authorization: constants.testUser.accessToken,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -379,24 +383,24 @@ describe("CreateStoreBook endpoint", () => {
 					title: "Hello World",
 					language: "de"
 				}
-			});
-		}catch(error){
-			assert.equal(400, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1105, error.response.data.errors[0].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(400, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(1105, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should not create store book for collection that is not a collection", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
-					Authorization: constants.authorUser.jwt,
+					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -404,24 +408,24 @@ describe("CreateStoreBook endpoint", () => {
 					title: "Hallo Welt",
 					language: "de"
 				}
-			});
-		}catch(error){
-			assert.equal(403, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1102, error.response.data.errors[0].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(403, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(1102, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should not create store book for collection that does not belong to the author", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
-					Authorization: constants.authorUser.jwt,
+					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -430,24 +434,24 @@ describe("CreateStoreBook endpoint", () => {
 					description: "Hallo Welt",
 					language: "de"
 				}
-			});
-		}catch(error){
-			assert.equal(403, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1102, error.response.data.errors[0].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(403, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(1102, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should not create store book for collection that does not exist", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
-					Authorization: constants.authorUser.jwt,
+					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -456,16 +460,16 @@ describe("CreateStoreBook endpoint", () => {
 					description: "Hello World",
 					language: "en"
 				}
-			});
-		}catch(error){
-			assert.equal(404, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(2805, error.response.data.errors[0].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(404, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(2805, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should create store book", async () => {
 		resetStoreBooksAndCollections = true
@@ -475,12 +479,12 @@ describe("CreateStoreBook endpoint", () => {
 		let response
 
 		// Create the store book
-		try{
+		try {
 			response = await axios.default({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
-					Authorization: constants.authorUser.jwt,
+					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -489,8 +493,8 @@ describe("CreateStoreBook endpoint", () => {
 					language
 				}
 			})
-		}catch(error){
-			assert.fail();
+		} catch (error) {
+			assert.fail()
 		}
 
 		assert.equal(201, response.status)
@@ -513,45 +517,37 @@ describe("CreateStoreBook endpoint", () => {
 
 		// Check if the data was correctly saved in the database
 		// Get the collection
-		let collectionObjResponse;
-		try{
-			collectionObjResponse = await axios.default({
-				method: 'get',
-				url: `${constants.apiBaseUrl}/apps/object/${collection.uuid}`,
-				headers: {
-					Authorization: constants.authorUser.jwt
-				}
-			});
-		}catch(error){
-			assert.fail();
+		let collectionObjResponse = await TableObjectsController.GetTableObject({
+			accessToken: constants.authorUser.accessToken,
+			uuid: collection.uuid
+		})
+
+		if (collectionObjResponse.status != 200) {
+			assert.fail()
 		}
 
-		let storeBookUuids = [];
-		for(let book of collection.books) storeBookUuids.push(book.uuid);
-		storeBookUuids.push(response.data.uuid);
-		
-		assert.equal(storeBookUuids.join(','), collectionObjResponse.data.properties.books);
-		
+		let storeBookUuids = []
+		for (let book of collection.books) storeBookUuids.push(book.uuid)
+		storeBookUuids.push(response.data.uuid)
+
+		assert.equal(storeBookUuids.join(','), collectionObjResponse.data.GetPropertyValue("books"))
+
 		// Get the store book
-		let storeBookObjResponse;
-		try{
-			storeBookObjResponse = await axios.default({
-				method: 'get',
-				url: `${constants.apiBaseUrl}/apps/object/${response.data.uuid}`,
-				headers: {
-					Authorization: constants.authorUser.jwt
-				}
-			});
-		}catch(error){
-			assert.fail();
+		let storeBookObjResponse = await TableObjectsController.GetTableObject({
+			accessToken: constants.authorUser.accessToken,
+			uuid: response.data.uuid
+		})
+
+		if (storeBookObjResponse.status != 200) {
+			assert.fail()
 		}
 
-		assert.equal(response.data.uuid, storeBookObjResponse.data.uuid)
-		assert.equal(collection.uuid, storeBookObjResponse.data.properties.collection)
-		assert.equal(title, storeBookObjResponse.data.properties.title)
-		assert.isUndefined(storeBookObjResponse.data.properties.description)
-		assert.equal(language, storeBookObjResponse.data.properties.language)
-		assert.isUndefined(storeBookObjResponse.data.properties.categories)
+		assert.equal(response.data.uuid, storeBookObjResponse.data.Uuid)
+		assert.equal(collection.uuid, storeBookObjResponse.data.GetPropertyValue("collection"))
+		assert.equal(title, storeBookObjResponse.data.GetPropertyValue("title"))
+		assert.isNull(storeBookObjResponse.data.GetPropertyValue("description"))
+		assert.equal(language, storeBookObjResponse.data.GetPropertyValue("language"))
+		assert.isNull(storeBookObjResponse.data.GetPropertyValue("categories"))
 	})
 
 	it("should create store book with optional properties", async () => {
@@ -567,12 +563,12 @@ describe("CreateStoreBook endpoint", () => {
 		let response
 
 		// Create the store book
-		try{
+		try {
 			response = await axios.default({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
-					Authorization: constants.authorUser.jwt,
+					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
 				},
 				data: {
@@ -585,7 +581,7 @@ describe("CreateStoreBook endpoint", () => {
 					categories
 				}
 			})
-		}catch(error){
+		} catch (error) {
 			assert.fail()
 		}
 
@@ -609,46 +605,38 @@ describe("CreateStoreBook endpoint", () => {
 
 		// Check if the data was correctly saved in the database
 		// Get the author
-		let collectionObjResponse
-		try{
-			collectionObjResponse = await axios.default({
-				method: 'get',
-				url: `${constants.apiBaseUrl}/apps/object/${collection.uuid}`,
-				headers: {
-					Authorization: constants.authorUser.jwt
-				}
-			})
-		}catch(error){
+		let collectionObjResponse = await TableObjectsController.GetTableObject({
+			accessToken: constants.authorUser.accessToken,
+			uuid: collection.uuid
+		})
+
+		if (collectionObjResponse.status != 200) {
 			assert.fail()
 		}
 
 		let storeBookUuids = []
-		for(let book of collection.books) storeBookUuids.push(book.uuid)
+		for (let book of collection.books) storeBookUuids.push(book.uuid)
 		storeBookUuids.push(response.data.uuid)
 
-		assert.equal(storeBookUuids.join(','), collectionObjResponse.data.properties.books)
+		assert.equal(storeBookUuids.join(','), collectionObjResponse.data.GetPropertyValue("books"))
 
 		// Get the store book
-		let storeBookObjResponse
-		try{
-			storeBookObjResponse = await axios.default({
-				method: 'get',
-				url: `${constants.apiBaseUrl}/apps/object/${response.data.uuid}`,
-				headers: {
-					Authorization: constants.authorUser.jwt
-				}
-			})
-		}catch(error){
+		let storeBookObjResponse = await TableObjectsController.GetTableObject({
+			accessToken: constants.authorUser.accessToken,
+			uuid: response.data.uuid
+		})
+
+		if (storeBookObjResponse.status != 200) {
 			assert.fail()
 		}
 
-		assert.equal(response.data.uuid, storeBookObjResponse.data.uuid)
-		assert.equal(collection.uuid, storeBookObjResponse.data.properties.collection)
-		assert.equal(title, storeBookObjResponse.data.properties.title)
-		assert.equal(description, storeBookObjResponse.data.properties.description)
-		assert.equal(language, storeBookObjResponse.data.properties.language)
-		assert.equal(price.toString(), storeBookObjResponse.data.properties.price)
-		assert.equal(isbn, storeBookObjResponse.data.properties.isbn)
-		assert.equal(categoryUuids.join(','), storeBookObjResponse.data.properties.categories)
+		assert.equal(response.data.uuid, storeBookObjResponse.data.Uuid)
+		assert.equal(collection.uuid, storeBookObjResponse.data.GetPropertyValue("collection"))
+		assert.equal(title, storeBookObjResponse.data.GetPropertyValue("title"))
+		assert.equal(description, storeBookObjResponse.data.GetPropertyValue("description"))
+		assert.equal(language, storeBookObjResponse.data.GetPropertyValue("language"))
+		assert.equal(price.toString(), storeBookObjResponse.data.GetPropertyValue("price"))
+		assert.equal(isbn, storeBookObjResponse.data.GetPropertyValue("isbn"))
+		assert.equal(categoryUuids.join(','), storeBookObjResponse.data.GetPropertyValue("categories"))
 	})
 })
