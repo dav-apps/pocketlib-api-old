@@ -6,149 +6,150 @@ import constants from '../constants.js'
 const getStoreBookCollectionEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/collection/{0}`
 
 describe("GetStoreBookCollection endpoint", async () => {
-	it("should not return collection with invalid jwt", async () => {
-		try{
+	it("should not return collection with access token for session that does not exist", async () => {
+		try {
 			await axios.default({
 				method: 'get',
 				url: getStoreBookCollectionEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].uuid),
 				headers: {
-					Authorization: "sdaaasdasd"
+					Authorization: "sdaaasdasd",
+					'Content-Type': 'application/json'
 				}
-			});
-		}catch(error){
-			assert.equal(401, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1302, error.response.data.errors[0].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(404, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(2802, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
-	it("should not return collection if jwt is for another app", async () => {
-		try{
+	it("should not return collection with access token for another app", async () => {
+		try {
 			await axios.default({
 				method: 'get',
 				url: getStoreBookCollectionEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].uuid),
 				headers: {
-					Authorization: constants.davClassLibraryTestUserTestAppJWT
+					Authorization: constants.testUserTestAppAccessToken
 				}
-			});
-		}catch(error){
-			assert.equal(403, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1102, error.response.data.errors[0].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(403, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(1102, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should not return collection if the store book collection does not exist", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'get',
 				url: getStoreBookCollectionEndpointUrl.replace('{0}', "asdasdasd"),
 				headers: {
-					Authorization: constants.authorUser.jwt
+					Authorization: constants.authorUser.accessToken
 				}
-			});
-		}catch(error){
-			assert.equal(404, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(2805, error.response.data.errors[0].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(404, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(2805, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should return collection with all store books if the user is the author", async () => {
-		let author = constants.authorUser.author;
-		let collection = author.collections[1];
-		
-		await testGetCollectionWithAllStoreBooks(author, collection, constants.authorUser.jwt);
-	});
+		let author = constants.authorUser.author
+		let collection = author.collections[1]
+
+		await testGetCollectionWithAllStoreBooks(author, collection, constants.authorUser.accessToken)
+	})
 
 	it("should return collection with all store books if the user is an admin", async () => {
-		let author = constants.authorUser.author;
-		let collection = author.collections[1];
+		let author = constants.authorUser.author
+		let collection = author.collections[1]
 
-		await testGetCollectionWithAllStoreBooks(author, collection, constants.davUser.jwt);
-	});
+		await testGetCollectionWithAllStoreBooks(author, collection, constants.davUser.accessToken)
+	})
 
 	it("should return collection with published store books if the user is not the author", async () => {
-		let author = constants.authorUser.author;
-		let collection = author.collections[1];
-		
-		await testGetCollectionWithPublishedStoreBooks(author, collection, constants.davClassLibraryTestUser.jwt);
-	});
+		let author = constants.authorUser.author
+		let collection = author.collections[1]
+
+		await testGetCollectionWithPublishedStoreBooks(author, collection, constants.testUser.accessToken)
+	})
 
 	it("should return collection of admin with all store books if the user is the author", async () => {
-		let author = constants.davUser.authors[0];
-		let collection = author.collections[0];
-		
-		await testGetCollectionWithAllStoreBooks(author, collection, constants.davUser.jwt);
-	});
+		let author = constants.davUser.authors[0]
+		let collection = author.collections[0]
+
+		await testGetCollectionWithAllStoreBooks(author, collection, constants.davUser.accessToken)
+	})
 
 	it("should return collection of admin with published store books if the user is not the author", async () => {
-		let author = constants.davUser.authors[0];
-		let collection = author.collections[0];
-		
-		await testGetCollectionWithPublishedStoreBooks(author, collection, constants.davClassLibraryTestUser.jwt);
-	});
+		let author = constants.davUser.authors[0]
+		let collection = author.collections[0]
+
+		await testGetCollectionWithPublishedStoreBooks(author, collection, constants.testUser.accessToken)
+	})
 
 	it("should return collection with published store books if the user is not logged in", async () => {
-		let author = constants.authorUser.author;
-		let collection = author.collections[1];
-		
-		await testGetCollectionWithPublishedStoreBooks(author, collection, null);
-	});
+		let author = constants.authorUser.author
+		let collection = author.collections[1]
+
+		await testGetCollectionWithPublishedStoreBooks(author, collection, null)
+	})
 
 	it("should return collection of admin with published store books if the user is not logged in", async () => {
-		let author = constants.davUser.authors[0];
-		let collection = author.collections[0];
-		
-		await testGetCollectionWithPublishedStoreBooks(author, collection, null);
-	});
+		let author = constants.davUser.authors[0]
+		let collection = author.collections[0]
 
-	async function testGetCollectionWithAllStoreBooks(author, collection, jwt){
-		let response;
+		await testGetCollectionWithPublishedStoreBooks(author, collection, null)
+	})
 
-		try{
+	async function testGetCollectionWithAllStoreBooks(author, collection, accessToken) {
+		let response
+
+		try {
 			let requestConfig = {
 				method: 'get',
 				url: getStoreBookCollectionEndpointUrl.replace('{0}', collection.uuid)
 			}
 
-			if(jwt){
+			if (accessToken) {
 				requestConfig.headers = {
-					Authorization: jwt
+					Authorization: accessToken
 				}
 			}
 
-			response = await axios.default(requestConfig);
-		}catch(error){
-			assert.fail();
+			response = await axios.default(requestConfig)
+		} catch (error) {
+			assert.fail()
 		}
 
-		assert.equal(200, response.status);
-		assert.equal(collection.uuid, response.data.uuid);
-		assert.equal(author.uuid, response.data.author);
+		assert.equal(200, response.status)
+		assert.equal(collection.uuid, response.data.uuid)
+		assert.equal(author.uuid, response.data.author)
 
-		assert.equal(collection.names.length, response.data.names.length);
+		assert.equal(collection.names.length, response.data.names.length)
 
-		for(let i = 0; i < collection.names.length; i++){
-			let collectionName = collection.names[i];
-			let responseCollectionName = response.data.names[i];
+		for (let i = 0; i < collection.names.length; i++) {
+			let collectionName = collection.names[i]
+			let responseCollectionName = response.data.names[i]
 
-			assert.equal(collectionName.name, responseCollectionName.name);
-			assert.equal(collectionName.language, responseCollectionName.language);
+			assert.equal(collectionName.name, responseCollectionName.name)
+			assert.equal(collectionName.language, responseCollectionName.language)
 		}
 
 		assert.equal(collection.books.length, response.data.books.length)
 
-		for(let i = 0; i < collection.books.length; i++){
+		for (let i = 0; i < collection.books.length; i++) {
 			let book = collection.books[i]
 			let responseBook = response.data.books[i]
 
@@ -165,23 +166,23 @@ describe("GetStoreBookCollection endpoint", async () => {
 		}
 	}
 
-	async function testGetCollectionWithPublishedStoreBooks(author, collection, jwt){
+	async function testGetCollectionWithPublishedStoreBooks(author, collection, accessToken) {
 		let response
 
-		try{
+		try {
 			let requestConfig = {
 				method: 'get',
 				url: getStoreBookCollectionEndpointUrl.replace('{0}', collection.uuid)
 			}
 
-			if(jwt){
+			if (accessToken) {
 				requestConfig.headers = {
-					Authorization: jwt
+					Authorization: accessToken
 				}
 			}
 
 			response = await axios.default(requestConfig)
-		}catch(error){
+		} catch (error) {
 			assert.fail()
 		}
 
@@ -191,7 +192,7 @@ describe("GetStoreBookCollection endpoint", async () => {
 
 		assert.equal(collection.names.length, response.data.names.length)
 
-		for(let i = 0; i < collection.names.length; i++){
+		for (let i = 0; i < collection.names.length; i++) {
 			let collectionName = collection.names[i]
 			let responseCollectionName = response.data.names[i]
 
@@ -200,11 +201,11 @@ describe("GetStoreBookCollection endpoint", async () => {
 		}
 
 		let booksCount = 0
-		for(let i = 0; i < collection.books.length; i++){
+		for (let i = 0; i < collection.books.length; i++) {
 			let book = collection.books[i]
 			let responseBook = response.data.books[booksCount]
 
-			if(book.status != "published") continue
+			if (book.status != "published") continue
 			booksCount++
 
 			assert.equal(book.uuid, responseBook.uuid)
