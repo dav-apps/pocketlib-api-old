@@ -7,11 +7,6 @@
 (# Get the session)
 (var session (func get_session (access_token)))
 
-(# Validate the dev)
-(func render_validation_errors ((list
-	(func validate_dev_is_pocketlib_dev (session.app.dev_id))
-)))
-
 (# Check if the user is an admin)
 (var is_admin (env.ADMINS.contains session.user_id))
 (if (! is_admin) (

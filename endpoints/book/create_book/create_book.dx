@@ -19,11 +19,6 @@
 (# Get the session)
 (var session (func get_session (access_token)))
 
-(# Validate the dev)
-(func render_validation_errors ((list
-	(func validate_dev_is_pocketlib_dev (session.app.dev_id))
-)))
-
 (if (content_type == "application/json") (
 	(# Copy the store book into the library by creating a book with the file of the store book)
 	(# Validate missing fields)

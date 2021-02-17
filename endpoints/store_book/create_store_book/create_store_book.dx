@@ -22,11 +22,6 @@
 (# Get the session)
 (var session (func get_session (access_token)))
 
-(# Validate the dev)
-(func render_validation_errors ((list
-	(func validate_dev_is_pocketlib_dev (session.app.dev_id))
-)))
-
 (# Validate missing fields)
 (func render_validation_errors ((list
 	(func validate_collection_missing (collection))
