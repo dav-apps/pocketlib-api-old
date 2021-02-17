@@ -2,11 +2,6 @@
 	"type": "functions",
 	"functions": [
 		{
-			"name": "validate_dev_is_pocketlib_dev",
-			"params": ["dev_id"],
-			"source": "./misc/validate_dev_is_pocketlib_dev.dx"
-		},
-		{
 			"name": "validate_content_type_json",
 			"params": ["content_type"],
 			"source": "./misc/validate_content_type_json.dx"

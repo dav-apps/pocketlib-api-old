@@ -1,6 +1,6 @@
 (# params: token: string)
 (catch (
-	(Session.get token)
+	(var session (Session.get token))
 ) (
 	(var error errors#0)
 
@@ -20,3 +20,11 @@
 
 	(func render_validation_errors ((list (hash (error (get_error error_code)) (status status_code)))))
 ))
+
+(# Check if the session belongs to PocketLib)
+(if (session.app_id != env.APP_ID) (
+	(# Action not allowed)
+	(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
+))
+
+(return session)

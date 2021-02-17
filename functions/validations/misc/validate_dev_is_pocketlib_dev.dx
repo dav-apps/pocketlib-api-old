@@ -1,5 +1,0 @@
-(# params: dev_id: int)
-(if (dev_id != env.POCKETLIB_DEV_ID) (
-	(# Action not allowed error)
-	(hash (error (get_error 1102)) (status 403))
-))
