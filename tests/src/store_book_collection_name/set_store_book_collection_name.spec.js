@@ -1,6 +1,7 @@
 import chai from 'chai'
 const assert = chai.assert
 import axios from 'axios'
+import { TableObjectsController } from 'dav-npm'
 import constants from '../constants.js'
 import * as utils from '../utils.js'
 
@@ -8,7 +9,7 @@ const setStoreBookCollectionNameEndpointUrl = `${constants.apiBaseUrl}/api/1/cal
 var resetStoreBookCollectionsAndStoreBookCollectionNames = false
 
 afterEach(async () => {
-	if(resetStoreBookCollectionsAndStoreBookCollectionNames){
+	if (resetStoreBookCollectionsAndStoreBookCollectionNames) {
 		await utils.resetStoreBookCollections()
 		await utils.resetStoreBookCollectionNames()
 		resetStoreBookCollectionsAndStoreBookCollectionNames = false
@@ -16,24 +17,27 @@ afterEach(async () => {
 })
 
 describe("SetStoreBookCollectionName endpoint", () => {
-	it("should not set collection name without jwt", async () => {
-		try{
+	it("should not set collection name without access token", async () => {
+		try {
 			await axios.default({
 				method: 'put',
-				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].uuid).replace('{1}', "en")
-			});
-		}catch(error){
-			assert.equal(400, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(2101, error.response.data.errors[0].code);
-			return;
+				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].uuid).replace('{1}', "en"),
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			})
+		} catch (error) {
+			assert.equal(400, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(2101, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
-	it("should not set collection name with invalid jwt", async () => {
-		try{
+	it("should not set collection name with access token for session that does not exist", async () => {
+		try {
 			await axios.default({
 				method: 'put',
 				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].uuid).replace('{1}', "en"),
@@ -41,500 +45,458 @@ describe("SetStoreBookCollectionName endpoint", () => {
 					Authorization: "asdasdadsasdasdasd",
 					'Content-Type': 'application/json'
 				}
-			});
-		}catch(error){
-			assert.equal(401, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1302, error.response.data.errors[0].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(404, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(2802, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
-	it("should not set collection name without content type json", async () => {
-		try{
+	it("should not set collection name without Content-Type json", async () => {
+		try {
 			await axios.default({
 				method: 'put',
 				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].uuid).replace('{1}', "en"),
 				headers: {
-					Authorization: constants.authorUser.jwt,
-					'Content-Type': "asdasd"
+					Authorization: constants.authorUser.accessToken,
+					'Content-Type': "application/xml"
 				}
-			});
-		}catch(error){
-			assert.equal(415, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1104, error.response.data.errors[0].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(415, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(1104, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should not set collection name if jwt is for another app", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'put',
 				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].uuid).replace('{1}', "en"),
 				headers: {
-					Authorization: constants.davClassLibraryTestUserTestAppJWT,
+					Authorization: constants.testUserTestAppAccessToken,
 					'Content-Type': 'application/json'
 				}
-			});
-		}catch(error){
-			assert.equal(403, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1102, error.response.data.errors[0].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(403, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(1102, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should not set collection name for collection of another user", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'put',
 				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].uuid).replace('{1}', "en"),
 				headers: {
-					Authorization: constants.davUser.jwt,
+					Authorization: constants.davUser.accessToken,
 					'Content-Type': 'application/json'
 				}
-			});
-		}catch(error){
-			assert.equal(403, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1102, error.response.data.errors[0].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(403, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(1102, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should not set collection name without required properties", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'put',
 				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].uuid).replace('{1}', "en"),
 				headers: {
-					Authorization: constants.authorUser.jwt,
+					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
 				}
-			});
-		}catch(error){
-			assert.equal(400, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(2108, error.response.data.errors[0].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(400, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(2108, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should not set collection name with properties with wrong types", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'put',
 				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].uuid).replace('{1}', "en"),
 				headers: {
-					Authorization: constants.authorUser.jwt,
+					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
 				},
 				data: {
 					name: 23
 				}
-			});
-		}catch(error){
-			assert.equal(400, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(2209, error.response.data.errors[0].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(400, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(2209, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should not set collection name with too short properties", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'put',
 				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].uuid).replace('{1}', "en"),
 				headers: {
-					Authorization: constants.authorUser.jwt,
+					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
 				},
 				data: {
 					name: "a"
 				}
-			});
-		}catch(error){
-			assert.equal(400, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(2307, error.response.data.errors[0].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(400, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(2307, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should not set collection name with too long properties", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'put',
 				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].uuid).replace('{1}', "en"),
 				headers: {
-					Authorization: constants.authorUser.jwt,
+					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
 				},
 				data: {
 					name: "a".repeat(150)
 				}
-			});
-		}catch(error){
-			assert.equal(400, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(2407, error.response.data.errors[0].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(400, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(2407, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should not set collection name for not supported language", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'put',
 				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].uuid).replace('{1}', "bla"),
 				headers: {
-					Authorization: constants.authorUser.jwt,
+					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
 				},
 				data: {
 					name: "Hello World"
 				}
-			});
-		}catch(error){
-			assert.equal(400, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(1107, error.response.data.errors[0].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(400, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(1107, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should create collection name", async () => {
-		// Create the collection name
-		let response;
-		let collection = constants.authorUser.author.collections[0];
-		let language = "fr";
-		let name = "Hello World";
-		let jwt = constants.authorUser.jwt;
+		resetStoreBookCollectionsAndStoreBookCollectionNames = true
 
-		try{
+		// Create the collection name
+		let response
+		let collection = constants.authorUser.author.collections[0]
+		let language = "fr"
+		let name = "Hello World"
+		let accessToken = constants.authorUser.accessToken
+
+		try {
 			response = await axios.default({
 				method: 'put',
 				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', collection.uuid).replace('{1}', language),
 				headers: {
-					Authorization: jwt,
+					Authorization: accessToken,
 					'Content-Type': 'application/json'
 				},
 				data: {
 					name
 				}
-			});
-		}catch(error){
-			assert.fail();
+			})
+		} catch (error) {
+			assert.fail()
 		}
 
-		assert.equal(200, response.status);
-		assert.equal(name, response.data.name);
-		assert.equal(language, response.data.language);
+		assert.equal(200, response.status)
+		assert.equal(name, response.data.name)
+		assert.equal(language, response.data.language)
 
 		// Check if the data was correctly saved on the server
 		// Get the collection
-		let collectionResponse;
+		let collectionResponse = await TableObjectsController.GetTableObject({
+			accessToken,
+			uuid: collection.uuid
+		})
 
-		try{
-			collectionResponse = await axios.default({
-				method: 'get',
-				url: `${constants.apiBaseUrl}/apps/object/${collection.uuid}`,
-				headers: {
-					Authorization: jwt
-				}
-			});
-		}catch(error){
-			assert.fail();
+		if (collectionResponse.status != 200) {
+			assert.fail()
 		}
 
-		let responseCollectionNames = collectionResponse.data.properties.names;
-		let responseCollectionNameUuids = responseCollectionNames.split(',');
+		let responseCollectionNames = collectionResponse.data.GetPropertyValue("names")
+		let responseCollectionNameUuids = responseCollectionNames.split(',')
 
-		let collectionNameUuids = [];
-		collection.names.forEach(name => collectionNameUuids.push(name.uuid));
-		collectionNameUuids.push(responseCollectionNameUuids[responseCollectionNameUuids.length - 1]);
-		let collectionNames = collectionNameUuids.join(',');
+		let collectionNameUuids = []
+		collection.names.forEach(name => collectionNameUuids.push(name.uuid))
+		collectionNameUuids.push(responseCollectionNameUuids[responseCollectionNameUuids.length - 1])
+		let collectionNames = collectionNameUuids.join(',')
 
-		assert.equal(collectionNameUuids.length, responseCollectionNameUuids.length);
-		assert.equal(collectionNames, responseCollectionNames);
+		assert.equal(collectionNameUuids.length, responseCollectionNameUuids.length)
+		assert.equal(collectionNames, responseCollectionNames)
 
 		// Get the collection name
-		let collectionNameResponse;
-		let newCollectionNameUuid = responseCollectionNameUuids[responseCollectionNameUuids.length - 1];
+		let newCollectionNameUuid = responseCollectionNameUuids[responseCollectionNameUuids.length - 1]
 
-		try{
-			collectionNameResponse = await axios.default({
-				method: 'get',
-				url: `${constants.apiBaseUrl}/apps/object/${newCollectionNameUuid}`,
-				headers: {
-					Authorization: jwt
-				}
-			});
-		}catch(error){
-			assert.fail();
+		let collectionNameResponse = await TableObjectsController.GetTableObject({
+			accessToken,
+			uuid: newCollectionNameUuid
+		})
+
+		if (collectionNameResponse.status != 200) {
+			assert.fail()
 		}
 
-		assert.equal(newCollectionNameUuid, collectionNameResponse.data.uuid);
-		assert.equal(name, collectionNameResponse.data.properties.name);
-		assert.equal(language, collectionNameResponse.data.properties.language);
-
-		// Tidy up
-		resetStoreBookCollectionsAndStoreBookCollectionNames = true;
-	});
+		assert.equal(newCollectionNameUuid, collectionNameResponse.data.Uuid)
+		assert.equal(name, collectionNameResponse.data.GetPropertyValue("name"))
+		assert.equal(language, collectionNameResponse.data.GetPropertyValue("language"))
+	})
 
 	it("should update collection name", async () => {
-		// Update the collection name
-		let response;
-		let collection = constants.authorUser.author.collections[0];
-		let language = "en";
-		let name = "Hello World";
-		let collectionNameUuid = collection.names[0].uuid;
-		let jwt = constants.authorUser.jwt;
+		resetStoreBookCollectionsAndStoreBookCollectionNames = true
 
-		try{
+		// Update the collection name
+		let response
+		let collection = constants.authorUser.author.collections[0]
+		let language = "en"
+		let name = "Hello World"
+		let collectionNameUuid = collection.names[0].uuid
+		let accessToken = constants.authorUser.accessToken
+
+		try {
 			response = await axios.default({
 				method: 'put',
 				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', collection.uuid).replace('{1}', language),
 				headers: {
-					Authorization: jwt,
+					Authorization: accessToken,
 					'Content-Type': 'application/json'
 				},
 				data: {
 					name
 				}
-			});
-		}catch(error){
-			assert.fail();
+			})
+		} catch (error) {
+			assert.fail()
 		}
 
-		assert.equal(200, response.status);
-		assert.equal(name, response.data.name);
-		assert.equal(language, response.data.language);
+		assert.equal(200, response.status)
+		assert.equal(name, response.data.name)
+		assert.equal(language, response.data.language)
 
 		// Check if the data was correctly updated on the server
 		// Get the collection
-		let collectionResponse;
+		let collectionResponse = await TableObjectsController.GetTableObject({
+			accessToken,
+			uuid: collection.uuid
+		})
 
-		try{
-			collectionResponse = await axios.default({
-				method: 'get',
-				url: `${constants.apiBaseUrl}/apps/object/${collection.uuid}`,
-				headers: {
-					Authorization: jwt
-				}
-			});
-		}catch(error){
-			assert.fail();
+		if (collectionResponse.status != 200) {
+			assert.fail()
 		}
 
-		let responseCollectionNames = collectionResponse.data.properties.names;
-		let responseCollectionNameUuids = responseCollectionNames.split(',');
+		let responseCollectionNames = collectionResponse.data.GetPropertyValue("names")
+		let responseCollectionNameUuids = responseCollectionNames.split(',')
 
-		let collectionNameUuids = [];
-		collection.names.forEach(name => collectionNameUuids.push(name.uuid));
-		let collectionNames = collectionNameUuids.join(',');
+		let collectionNameUuids = []
+		collection.names.forEach(name => collectionNameUuids.push(name.uuid))
+		let collectionNames = collectionNameUuids.join(',')
 
-		assert.equal(collectionNameUuids.length, responseCollectionNameUuids.length);
-		assert.equal(collectionNames, responseCollectionNames);
+		assert.equal(collectionNameUuids.length, responseCollectionNameUuids.length)
+		assert.equal(collectionNames, responseCollectionNames)
 
 		// Get the collection name
-		let collectionNameResponse;
+		let collectionNameResponse = await TableObjectsController.GetTableObject({
+			accessToken,
+			uuid: collectionNameUuid
+		})
 
-		try{
-			collectionNameResponse = await axios.default({
-				method: 'get',
-				url: `${constants.apiBaseUrl}/apps/object/${collectionNameUuid}`,
-				headers: {
-					Authorization: jwt
-				}
-			});
-		}catch(error){
-			assert.fail();
+		if (collectionNameResponse.status != 200) {
+			assert.fail()
 		}
 
-		assert.equal(collectionNameUuid, collectionNameResponse.data.uuid);
-		assert.equal(name, collectionNameResponse.data.properties.name);
-		assert.equal(language, collectionNameResponse.data.properties.language);
-
-		// Tidy up
-		resetStoreBookCollectionsAndStoreBookCollectionNames = true;
-	});
+		assert.equal(collectionNameUuid, collectionNameResponse.data.Uuid)
+		assert.equal(name, collectionNameResponse.data.GetPropertyValue("name"))
+		assert.equal(language, collectionNameResponse.data.GetPropertyValue("language"))
+	})
 
 	it("should create collection name for collection of admin", async () => {
-		// Create the collection name
-		let response;
-		let collection = constants.davUser.authors[0].collections[0];
-		let language = "fr";
-		let name = "Updated name";
-		let jwt = constants.davUser.jwt;
+		resetStoreBookCollectionsAndStoreBookCollectionNames = true
 
-		try{
+		// Create the collection name
+		let response
+		let collection = constants.davUser.authors[0].collections[0]
+		let language = "fr"
+		let name = "Updated name"
+		let accessToken = constants.davUser.accessToken
+
+		try {
 			response = await axios.default({
 				method: 'put',
 				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', collection.uuid).replace('{1}', language),
 				headers: {
-					Authorization: jwt,
+					Authorization: accessToken,
 					'Content-Type': 'application/json'
 				},
 				data: {
 					name
 				}
-			});
-		}catch(error){
-			assert.fail();
+			})
+		} catch (error) {
+			assert.fail()
 		}
 
-		assert.equal(200, response.status);
-		assert.equal(name, response.data.name);
-		assert.equal(language, response.data.language);
+		assert.equal(200, response.status)
+		assert.equal(name, response.data.name)
+		assert.equal(language, response.data.language)
 
 		// Check if the data was correctly saved on the server
 		// Get the collection
-		let collectionResponse;
+		let collectionResponse = await TableObjectsController.GetTableObject({
+			accessToken,
+			uuid: collection.uuid
+		})
 
-		try{
-			collectionResponse = await axios.default({
-				method: 'get',
-				url: `${constants.apiBaseUrl}/apps/object/${collection.uuid}`,
-				headers: {
-					Authorization: jwt
-				}
-			});
-		}catch(error){
-			assert.fail();
+		if (collectionResponse.status != 200) {
+			assert.fail()
 		}
 
-		let responseCollectionNames = collectionResponse.data.properties.names;
-		let responseCollectionNameUuids = responseCollectionNames.split(',');
+		let responseCollectionNames = collectionResponse.data.GetPropertyValue("names")
+		let responseCollectionNameUuids = responseCollectionNames.split(',')
 
-		let collectionNameUuids = [];
-		collection.names.forEach(name => collectionNameUuids.push(name.uuid));
-		collectionNameUuids.push(responseCollectionNameUuids[responseCollectionNameUuids.length - 1]);
-		let collectionNames = collectionNameUuids.join(',');
+		let collectionNameUuids = []
+		collection.names.forEach(name => collectionNameUuids.push(name.uuid))
+		collectionNameUuids.push(responseCollectionNameUuids[responseCollectionNameUuids.length - 1])
+		let collectionNames = collectionNameUuids.join(',')
 
-		assert.equal(collectionNameUuids.length, responseCollectionNameUuids.length);
-		assert.equal(collectionNames, responseCollectionNames);
+		assert.equal(collectionNameUuids.length, responseCollectionNameUuids.length)
+		assert.equal(collectionNames, responseCollectionNames)
 
 		// Get the collection name
-		let collectionNameResponse;
-		let newCollectionNameUuid = responseCollectionNameUuids[responseCollectionNameUuids.length - 1];
+		let newCollectionNameUuid = responseCollectionNameUuids[responseCollectionNameUuids.length - 1]
 
-		try{
-			collectionNameResponse = await axios.default({
-				method: 'get',
-				url: `${constants.apiBaseUrl}/apps/object/${newCollectionNameUuid}`,
-				headers: {
-					Authorization: jwt
-				}
-			});
-		}catch(error){
-			assert.fail();
+		let collectionNameResponse = await TableObjectsController.GetTableObject({
+			accessToken,
+			uuid: newCollectionNameUuid
+		})
+
+		if (collectionNameResponse.status != 200) {
+			assert.fail()
 		}
 
-		assert.equal(newCollectionNameUuid, collectionNameResponse.data.uuid);
-		assert.equal(name, collectionNameResponse.data.properties.name);
-		assert.equal(language, collectionNameResponse.data.properties.language);
-
-		// Tidy up
-		resetStoreBookCollectionsAndStoreBookCollectionNames = true;
-	});
+		assert.equal(newCollectionNameUuid, collectionNameResponse.data.Uuid)
+		assert.equal(name, collectionNameResponse.data.GetPropertyValue("name"))
+		assert.equal(language, collectionNameResponse.data.GetPropertyValue("language"))
+	})
 
 	it("should update collection name for collection of admin", async () => {
-		// Update the collection name
-		let response;
-		let collection = constants.davUser.authors[0].collections[0];
-		let language = "en";
-		let name = "Hallo Welt";
-		let collectionNameUuid = collection.names[0].uuid;
-		let jwt = constants.davUser.jwt;
+		resetStoreBookCollectionsAndStoreBookCollectionNames = true
 
-		try{
+		// Update the collection name
+		let response
+		let collection = constants.davUser.authors[0].collections[0]
+		let language = "en"
+		let name = "Hallo Welt"
+		let collectionNameUuid = collection.names[0].uuid
+		let accessToken = constants.davUser.accessToken
+
+		try {
 			response = await axios.default({
 				method: 'put',
 				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', collection.uuid).replace('{1}', language),
 				headers: {
-					Authorization: jwt,
+					Authorization: accessToken,
 					'Content-Type': 'application/json'
 				},
 				data: {
 					name
 				}
-			});
-		}catch(error){
-			assert.fail();
+			})
+		} catch (error) {
+			assert.fail()
 		}
 
-		assert.equal(200, response.status);
-		assert.equal(name, response.data.name);
-		assert.equal(language, response.data.language);
+		assert.equal(200, response.status)
+		assert.equal(name, response.data.name)
+		assert.equal(language, response.data.language)
 
 		// Check if the data was correctly updated on the server
 		// Get the collection
-		let collectionResponse;
+		let collectionResponse = await TableObjectsController.GetTableObject({
+			accessToken,
+			uuid: collection.uuid
+		})
 
-		try{
-			collectionResponse = await axios.default({
-				method: 'get',
-				url: `${constants.apiBaseUrl}/apps/object/${collection.uuid}`,
-				headers: {
-					Authorization: jwt
-				}
-			});
-		}catch(error){
-			assert.fail();
+		if (collectionResponse.status != 200) {
+			assert.fail()
 		}
 
-		let responseCollectionNames = collectionResponse.data.properties.names;
-		let responseCollectionNameUuids = responseCollectionNames.split(',');
+		let responseCollectionNames = collectionResponse.data.GetPropertyValue("names")
+		let responseCollectionNameUuids = responseCollectionNames.split(',')
 
-		let collectionNameUuids = [];
-		collection.names.forEach(name => collectionNameUuids.push(name.uuid));
-		let collectionNames = collectionNameUuids.join(',');
+		let collectionNameUuids = []
+		collection.names.forEach(name => collectionNameUuids.push(name.uuid))
+		let collectionNames = collectionNameUuids.join(',')
 
-		assert.equal(collectionNameUuids.length, responseCollectionNameUuids.length);
-		assert.equal(collectionNames, responseCollectionNames);
+		assert.equal(collectionNameUuids.length, responseCollectionNameUuids.length)
+		assert.equal(collectionNames, responseCollectionNames)
 
 		// Get the collection name
-		let collectionNameResponse;
+		let collectionNameResponse = await TableObjectsController.GetTableObject({
+			accessToken,
+			uuid: collectionNameUuid
+		})
 
-		try{
-			collectionNameResponse = await axios.default({
-				method: 'get',
-				url: `${constants.apiBaseUrl}/apps/object/${collectionNameUuid}`,
-				headers: {
-					Authorization: jwt
-				}
-			});
-		}catch(error){
-			assert.fail();
+		if (collectionNameResponse.status != 200) {
+			assert.fail()
 		}
 
-		assert.equal(collectionNameUuid, collectionNameResponse.data.uuid);
-		assert.equal(name, collectionNameResponse.data.properties.name);
-		assert.equal(language, collectionNameResponse.data.properties.language);
-
-		// Tidy up
-		resetStoreBookCollectionsAndStoreBookCollectionNames = true;
-	});
-});
+		assert.equal(collectionNameUuid, collectionNameResponse.data.Uuid)
+		assert.equal(name, collectionNameResponse.data.GetPropertyValue("name"))
+		assert.equal(language, collectionNameResponse.data.GetPropertyValue("language"))
+	})
+})
