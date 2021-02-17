@@ -8,7 +8,7 @@ const getProfileImageOfAuthorEndpoint = `${constants.apiBaseUrl}/api/1/call/auth
 var resetAuthorProfileImages = false
 
 afterEach(async () => {
-	if(resetAuthorProfileImages){
+	if (resetAuthorProfileImages) {
 		await utils.resetAuthorProfileImages()
 		resetAuthorProfileImages = false
 	}
@@ -16,126 +16,122 @@ afterEach(async () => {
 
 describe("GetProfileImageOfAuthor", async () => {
 	it("should not return profile image if the author has no profile image", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'get',
 				url: getProfileImageOfAuthorEndpoint.replace('{0}', constants.davUser.authors[1].uuid),
 				headers: {
-					Authorization: constants.authorUser.jwt
+					Authorization: constants.authorUser.accessToken
 				}
-			});
-		}catch(error){
-			assert.equal(404, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(2804, error.response.data.errors[0].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(404, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(2804, error.response.data.errors[0].code)
+			return
 		}
 
-		assert.fail();
-	});
+		assert.fail()
+	})
 
 	it("should not return profile image if the author does not exist", async () => {
-		try{
+		try {
 			await axios.default({
 				method: 'get',
 				url: getProfileImageOfAuthorEndpoint.replace('{0}', "adasdasdasdasad"),
 				headers: {
-					Authorization: constants.davUser.jwt
+					Authorization: constants.davUser.accessToken
 				}
-			});
-		}catch(error){
-			assert.equal(404, error.response.status);
-			assert.equal(1, error.response.data.errors.length);
-			assert.equal(2803, error.response.data.errors[0].code);
-			return;
+			})
+		} catch (error) {
+			assert.equal(404, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(2803, error.response.data.errors[0].code)
+			return
 		}
-	});
+	})
 
 	it("should return profile image", async () => {
-		let author = constants.davUser.authors[0];
-		let profileImageContent = "Lorem ipsum dolor sit amet";
-		let profileImageType = "image/jpeg";
+		resetAuthorProfileImages = true
+		let author = constants.davUser.authors[0]
+		let profileImageContent = "Lorem ipsum dolor sit amet"
+		let profileImageType = "image/jpeg"
 
 		// Set the profile image
-		await setProfileImageOfAuthor(constants.davUser.jwt, author.uuid, profileImageType, profileImageContent);
+		await setProfileImageOfAuthor(constants.davUser.accessToken, author.uuid, profileImageType, profileImageContent)
 
 		// Try to get the profile image
-		let response;
+		let response
 
-		try{
+		try {
 			response = await axios.default({
 				method: 'get',
 				url: getProfileImageOfAuthorEndpoint.replace('{0}', author.uuid)
-			});
-		}catch(error){
-			assert.fail();
+			})
+		} catch (error) {
+			assert.fail()
 		}
 
-		assert.equal(200, response.status);
-		assert.equal(profileImageType, response.headers['content-type']);
-		assert.equal(profileImageContent, response.data);
-
-		// Tidy up
-		resetAuthorProfileImages = true;
-	});
+		assert.equal(200, response.status)
+		assert.equal(profileImageType, response.headers['content-type'])
+		assert.equal(profileImageContent, response.data)
+	})
 
 	it("should return profile image of author of user", async () => {
-		let author = constants.authorUser.author;
-		let profileImageContent = "Lorem ipsum dolor sit amet";
-		let profileImageType = "image/jpeg";
+		resetAuthorProfileImages = true
+		let author = constants.authorUser.author
+		let profileImageContent = "Lorem ipsum dolor sit amet"
+		let profileImageType = "image/jpeg"
 
 		// Set the profile image
-		await setProfileImageOfAuthorOfUser(constants.authorUser.jwt, profileImageType, profileImageContent);
+		await setProfileImageOfAuthorOfUser(constants.authorUser.accessToken, profileImageType, profileImageContent)
 
 		// Try to get the profile image
-		let response;
+		let response
 
-		try{
+		try {
 			response = await axios.default({
 				method: 'get',
 				url: getProfileImageOfAuthorEndpoint.replace('{0}', author.uuid)
-			});
-		}catch(error){
-			assert.fail();
+			})
+		} catch (error) {
+			assert.fail()
 		}
 
-		assert.equal(200, response.status);
-		assert.equal(profileImageType, response.headers['content-type']);
-		assert.equal(profileImageContent, response.data);
+		assert.equal(200, response.status)
+		assert.equal(profileImageType, response.headers['content-type'])
+		assert.equal(profileImageContent, response.data)
+	})
+})
 
-		// Tidy up
-		resetAuthorProfileImages = true;
-	});
-});
-
-async function setProfileImageOfAuthor(jwt, uuid, type, content){
-	try{
+async function setProfileImageOfAuthor(accessToken, uuid, type, content) {
+	try {
 		await axios.default({
 			method: 'put',
 			url: getProfileImageOfAuthorEndpoint.replace('{0}', uuid),
 			headers: {
-				Authorization: jwt,
+				Authorization: accessToken,
 				'Content-Type': type
 			},
 			data: content
-		});
-	}catch(error){
-		assert.fail();
+		})
+	} catch (error) {
+		assert.fail()
 	}
 }
 
-async function setProfileImageOfAuthorOfUser(jwt, type, content){
-	try{
+async function setProfileImageOfAuthorOfUser(accessToken, type, content) {
+	try {
 		await axios.default({
 			method: 'put',
 			url: `${constants.apiBaseUrl}/api/1/call/author/profile_image`,
 			headers: {
-				Authorization: jwt,
+				Authorization: accessToken,
 				'Content-Type': type
 			},
 			data: content
-		});
-	}catch(error){
-		assert.fail();
+		})
+	} catch (error) {
+		assert.fail()
 	}
 }
