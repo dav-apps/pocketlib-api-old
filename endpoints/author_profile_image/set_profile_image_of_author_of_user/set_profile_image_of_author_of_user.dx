@@ -1,9 +1,9 @@
 (var data (get_body))
 
-(# Get the jwt)
-(var jwt (get_header Authorization))
+(# Get the access token)
+(var access_token (get_header Authorization))
 (func render_validation_errors ((list
-	(func validate_jwt_missing (jwt))
+	(func validate_access_token_presence (access_token))
 )))
 
 (# Check if content type is supported)
@@ -12,23 +12,23 @@
 	(func validate_content_type_image (content_type))
 )))
 
-(# Decode the jwt)
-(var decoded_jwt (func decode_jwt (jwt)))
+(# Get the session)
+(var session (func get_session (access_token)))
 
 (# Validate the dev)
 (func render_validation_errors ((list
-	(func validate_dev_is_pocketlib_dev (decoded_jwt.dev_id))
+	(func validate_dev_is_pocketlib_dev (session.app.dev_id))
 )))
 
 (# Check if the user is an admin)
-(var is_admin (env.ADMINS.contains decoded_jwt.user_id))
+(var is_admin (env.ADMINS.contains session.user_id))
 
 (if is_admin (
 	(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
 ))
 
 (# Get the author of the user)
-(var authors (func get_author_table_objects (decoded_jwt.user_id)))
+(var authors (func get_author_table_objects (session.user_id)))
 
 (if (authors.length == 0) (
 	(func render_validation_errors ((list (hash (error (get_error 1105)) (status 400)))))
@@ -39,7 +39,7 @@
 (# Define functions for creating and updating the profile image table object)
 (def create_profile_image () (
 	(# Create the profile image table object)
-	(var profile_image (func create_author_profile_image_table_object (decoded_jwt.user_id content_type data)))
+	(var profile_image (func create_author_profile_image_table_object (session.user_id content_type data)))
 
 	(# Update the author with the uuid of the profile image table object)
 	(var author.properties.profile_image profile_image.uuid)
