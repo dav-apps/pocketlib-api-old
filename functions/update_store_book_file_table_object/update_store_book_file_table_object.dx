@@ -13,12 +13,12 @@
 	
 	(if (error.code == 2) (
 		(# Action not allowed)
-		(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
+		(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
 	) elseif (error.code == 3) (
 		(# Not enough free storage)
-		(func render_validation_errors ((list (hash (error (get_error 1108)) (status 400)))))
+		(func render_validation_errors ((list (hash (error (get_error 3007)) (status 400)))))
 	) else (
 		(# Unexpected error)
-		(func render_validation_errors ((list (hash (error (get_error 1103)) (status 500)))))
+		(func render_validation_errors ((list (hash (error (get_error 1000)) (status 500)))))
 	))
 ))

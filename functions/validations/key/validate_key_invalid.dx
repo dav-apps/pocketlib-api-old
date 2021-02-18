@@ -1,4 +1,4 @@
 (# params: key: string)
 (if (key.contains " ") (
-	(hash (error (get_error 2502)) (status 400))
+	(hash (error (get_error 2506)) (status 400))
 ))

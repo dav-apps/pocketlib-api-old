@@ -14,5 +14,5 @@
 		(return contains_wrong_type)
 	)
 ) (
-	(hash (error (get_error 2215)) (status 400))
+	(hash (error (get_error 2216)) (status 400))
 ))

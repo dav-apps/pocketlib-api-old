@@ -1,4 +1,4 @@
 (# params: price: int)
 (if ((price < 0) or (price > 100000)) (
-	(hash (error (get_error 2501)) (status 400))
+	(hash (error (get_error 2504)) (status 400))
 ))

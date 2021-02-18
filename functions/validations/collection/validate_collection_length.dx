@@ -1,6 +1,6 @@
 (# params: collection: string)
 (if ((is_nil collection) or (collection.length < 2)) (
-	(hash (error (get_error 2308)) (status 400))
+	(hash (error (get_error 2305)) (status 400))
 ) elseif (collection.length > 200) (
-	(hash (error (get_error 2408)) (status 400))
+	(hash (error (get_error 2405)) (status 400))
 ))

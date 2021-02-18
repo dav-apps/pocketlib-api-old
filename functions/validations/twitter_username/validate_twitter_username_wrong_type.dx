@@ -1,4 +1,4 @@
 (# params: twitter_username: string)
 (if (twitter_username.class != "String") (
-	(hash (error (get_error 2219) (status 400)))
+	(hash (error (get_error 2206) (status 400)))
 ))

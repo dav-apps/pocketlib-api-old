@@ -1,4 +1,4 @@
 (# params: author: string)
 (if (author.class != "String") (
-	(hash (error (get_error 2208)) (status 400))
+	(hash (error (get_error 2209)) (status 400))
 ))

@@ -1,4 +1,4 @@
 (# params: bio: string)
 (if (bio.class != "String") (
-	(hash (error (get_error 2203)) (status 400))
+	(hash (error (get_error 2207)) (status 400))
 ))

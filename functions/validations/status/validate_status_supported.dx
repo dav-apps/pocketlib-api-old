@@ -2,5 +2,5 @@
 (var states (list "unpublished" "review" "published" "hidden"))
 (if (!(states.contains status)) (
 	(# Status not supported)
-	(hash (error (get_error 1113)) (status 400))
+	(hash (error (get_error 3006)) (status 400))
 ))

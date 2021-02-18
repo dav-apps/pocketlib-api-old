@@ -1,5 +1,5 @@
 (# params: content_type: string)
 (if ((content_type != "image/png") and (content_type != "image/jpeg")) (
 	(# Content-Type not supported error)
-	(hash (error (get_error 1104)) (status 415))
+	(hash (error (get_error 1003)) (status 415))
 ))

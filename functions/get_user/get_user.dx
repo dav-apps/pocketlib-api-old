@@ -2,7 +2,7 @@
 (var user (User.get user_id))
 (if (is_nil user) (
 	(# User does not exist)
-	(func render_validation_errors ((list (hash (error (get_error 2801)) (status 404)))))
+	(func render_validation_errors ((list (hash (error (get_error 3500)) (status 404)))))
 ))
 
 (return user)

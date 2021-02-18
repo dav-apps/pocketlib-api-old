@@ -3,5 +3,5 @@
 	(Table.get_table_objects env.AUTHOR_TABLE_ID user_id)
 ) (
 	(# Render Action not allowed error)
-	(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
+	(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
 ))

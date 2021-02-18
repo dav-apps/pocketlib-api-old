@@ -1,4 +1,4 @@
 (# params: title: string)
 (if (title.class != "String") (
-	(hash (error (get_error 2204)) (status 400))
+	(hash (error (get_error 2211)) (status 400))
 ))

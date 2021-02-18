@@ -5,5 +5,5 @@
 ))
 
 (if (((isbn.length != 0) and (isbn.length != 10) and (isbn.length != 13)) or (!isbn_valid)) (
-	(hash (error (get_error 2507)) (status 400))
+	(hash (error (get_error 2505)) (status 400))
 ))

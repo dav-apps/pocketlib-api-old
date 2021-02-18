@@ -3,7 +3,7 @@
 	(var obj (TableObject.get uuid))
 ) (
 	(# Access not allowed)
-	(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
+	(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
 ))
 
 (if (is_nil obj) (
@@ -12,7 +12,7 @@
 	(# Check if the table object belongs to the given table)
 	(if (obj.table_id != table_id) (
 		(# Action not allowed)
-		(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
+		(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
 	))
 
 	(return obj)

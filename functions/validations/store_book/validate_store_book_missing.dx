@@ -1,4 +1,4 @@
 (# params: store_book: string)
 (if (is_nil store_book) (
-	(hash (error (get_error 2110)) (status 400))
+	(hash (error (get_error 2109)) (status 400))
 ))

@@ -5,5 +5,5 @@
 	(content_type != "application/json")
 ) (
 	(# Content-Type not supported error)
-	(hash (error (get_error 1104)) (status 415))
+	(hash (error (get_error 1003)) (status 415))
 ))

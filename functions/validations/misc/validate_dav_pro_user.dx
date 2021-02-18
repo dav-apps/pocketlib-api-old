@@ -4,8 +4,8 @@
 
 (if (is_nil user) (
 	(# User does not exist)
-	(hash (error (get_error 2800)) (status 404))
+	(hash (error (get_error 3500)) (status 404))
 ) elseif (user.plan != 2) (
 	(# dav Pro required)
-	(hash (error (get_error 1110)) (status 422))
+	(hash (error (get_error 3008)) (status 422))
 ))

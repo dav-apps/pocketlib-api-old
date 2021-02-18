@@ -1,6 +1,6 @@
 (# params: title: string)
 (if ((is_nil title) or (title.length < 2)) (
-	(hash (error (get_error 2304)) (status 400))
+	(hash (error (get_error 2306)) (status 400))
 ) elseif (title.length > 100) (
-	(hash (error (get_error 2404)) (status 400))
+	(hash (error (get_error 2406)) (status 400))
 ))
