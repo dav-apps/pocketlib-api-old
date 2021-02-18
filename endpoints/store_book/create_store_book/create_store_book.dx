@@ -42,7 +42,6 @@
 
 (# Validate the property length)
 (func render_validation_errors ((list
-	(func validate_collection_length (collection))
 	(func validate_title_length (title))
 	(if (!(is_nil description)) (func validate_description_length (description)))
 )))

@@ -220,24 +220,9 @@
 			"source": "./description/validate_description_length.dx"
 		},
 		{
-			"name": "validate_author_length",
-			"params": ["author"],
-			"source": "./author/validate_author_length.dx"
-		},
-		{
 			"name": "validate_name_length",
 			"params": ["name"],
 			"source": "./name/validate_name_length.dx"
-		},
-		{
-			"name": "validate_collection_length",
-			"params": ["collection"],
-			"source": "./collection/validate_collection_length.dx"
-		},
-		{
-			"name": "validate_store_book_length",
-			"params": ["store_book"],
-			"source": "./store_book/validate_store_book_length.dx"
 		},
 		{
 			"name": "validate_key_length",

@@ -31,11 +31,6 @@
 		(func validate_store_book_wrong_type (store_book_uuid))
 	)))
 
-	(# Validate the property length)
-	(func render_validation_errors ((list
-		(func validate_store_book_length (store_book_uuid))
-	)))
-
 	(# Get the store book)
 	(var store_book (func get_table_object (store_book_uuid env.STORE_BOOK_TABLE_ID)))
 
