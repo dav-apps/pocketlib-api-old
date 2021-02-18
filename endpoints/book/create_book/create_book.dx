@@ -7,7 +7,7 @@
 (# Get the access token)
 (var access_token (get_header Authorization))
 (func render_validation_errors ((list
-	(func validate_access_token_presence (access_token))
+	(func validate_auth_header_presence (access_token))
 )))
 
 (# Validate the content type)
@@ -41,7 +41,7 @@
 
 	(if (is_nil store_book) (
 		(# StoreBook does not exist)
-		(func render_validation_errors ((list (hash (error (get_error 2807)) (status 404)))))
+		(func render_validation_errors ((list (hash (error (get_error 3508)) (status 404)))))
 	))
 
 	(# Check if the user has purchased the store book)
@@ -59,13 +59,13 @@
 			(# Check if the user can access the store book)
 			(if (status != "published") (
 				(# Access not allowed)
-				(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
+				(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
 			))
 
 			(# Check if the store book is free)
 			(if ((is_nil store_book.properties.price) or (store_book.properties.price == "0")) (
 				(# Can't add free StoreBook to library without Purchase)
-				(func render_validation_errors ((list (hash (error (get_error 1111)) (status 422)))))
+				(func render_validation_errors ((list (hash (error (get_error 3004)) (status 422)))))
 			))
 
 			(# Check if the user is on the Pro plan)
@@ -78,7 +78,7 @@
 	(# User can copy the store book into the library)
 	(# Check if the StoreBook is already in the library of the user)
 	(if (func is_store_book_in_user_library (session.user_id store_book.uuid)) (
-		(func render_validation_errors ((list (hash (error (get_error 1112)) (status 422)))))
+		(func render_validation_errors ((list (hash (error (get_error 3005)) (status 422)))))
 	))
 
 	(# Get the table object of the store book file)
@@ -86,7 +86,7 @@
 
 	(if (is_nil file_obj) (
 		(# StoreBookFile does not exist)
-		(func render_validation_errors ((list (hash (error (get_error 2809)) (status 404)))))
+		(func render_validation_errors ((list (hash (error (get_error 2510)) (status 404)))))
 	))
 
 	(# Get the type of the store book file)

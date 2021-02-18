@@ -3,7 +3,7 @@
 (# Get the access token)
 (var access_token (get_header Authorization))
 (func render_validation_errors ((list
-	(func validate_access_token_presence (access_token))
+	(func validate_auth_header_presence (access_token))
 )))
 
 (# Check if content type is supported)
@@ -20,7 +20,7 @@
 
 (if (is_nil store_book) (
 	(# StoreBook does not exist)
-	(func render_validation_errors ((list (hash (error (get_error 2807)) (status 404)))))
+	(func render_validation_errors ((list (hash (error (get_error 3508)) (status 404)))))
 ))
 
 (# Get the collection of the store book)
@@ -28,7 +28,7 @@
 
 (if (is_nil collection) (
 	(# Collection does not exist)
-	(func render_validation_errors ((list (hash (error (get_error 2805)) (status 404)))))
+	(func render_validation_errors ((list (hash (error (get_error 3506)) (status 404)))))
 ))
 
 (# Get the author of the collection)
@@ -36,13 +36,13 @@
 
 (if (is_nil author) (
 	(# Resource does not exist: Author)
-	(func render_validation_errors ((list (hash (error (get_error 2803)) (status 404)))))
+	(func render_validation_errors ((list (hash (error (get_error 3503)) (status 404)))))
 ))
 
 (# Check if the store book belongs to the author of the user)
 (if (session.user_id != author.user_id) (
 	(# Action not allowed)
-	(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
+	(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
 ))
 
 (# Define functions for creating and updating the cover table object)

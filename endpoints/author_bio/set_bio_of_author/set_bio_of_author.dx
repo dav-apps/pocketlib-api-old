@@ -5,7 +5,7 @@
 (# Get the access token)
 (var access_token (get_header Authorization))
 (func render_validation_errors ((list
-	(func validate_access_token_presence (access_token))
+	(func validate_auth_header_presence (access_token))
 )))
 
 (# Make sure content type is json)
@@ -20,20 +20,20 @@
 (var is_admin (env.ADMINS.contains session.user_id))
 
 (if (! is_admin) (
-	(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
+	(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
 ))
 
 (# Get the author)
 (var author (func get_table_object (uuid env.AUTHOR_TABLE_ID)))
 
 (if (is_nil author) (
-	(func render_validation_errors ((list (hash (error (get_error 2803)) (status 404)))))
+	(func render_validation_errors ((list (hash (error (get_error 3503)) (status 404)))))
 ))
 
 (# Check if the author belongs to the user)
 (if (session.user_id != author.user_id) (
 	(# Action not allowed)
-	(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
+	(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
 ))
 
 (# Validate missing fields)

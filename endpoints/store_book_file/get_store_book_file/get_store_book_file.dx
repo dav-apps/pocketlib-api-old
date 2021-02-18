@@ -1,7 +1,7 @@
 (# Get the access token)
 (var access_token (get_header Authorization))
 (func render_validation_errors ((list
-	(func validate_access_token_presence (access_token))
+	(func validate_auth_header_presence (access_token))
 )))
 
 (# Get the session)
@@ -18,7 +18,7 @@
 
 (if (is_nil store_book) (
 	(# StoreBook does not exist)
-	(func render_validation_errors ((list (hash (error (get_error 2807)) (status 404)))))
+	(func render_validation_errors ((list (hash (error (get_error 3508)) (status 404)))))
 ))
 
 (# Check if the user is the author of the store book)
@@ -39,12 +39,12 @@
 
 (if (! can_access) (
 	(# Access not allowed)
-	(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
+	(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
 ))
 
 (# Define function for rendering no file error)
 (def render_no_file () (
-	(func render_validation_errors ((list (hash (error (get_error 2809)) (status 404)))))
+	(func render_validation_errors ((list (hash (error (get_error 3510)) (status 404)))))
 ))
 
 (# Check if the store book has a file)

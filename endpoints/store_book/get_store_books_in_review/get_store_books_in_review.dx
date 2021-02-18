@@ -1,7 +1,7 @@
 (# Get the access token)
 (var access_token (get_header Authorization))
 (func render_validation_errors ((list
-	(func validate_access_token_presence (access_token))
+	(func validate_auth_header_presence (access_token))
 )))
 
 (# Get the session)
@@ -11,7 +11,7 @@
 (var is_admin (env.ADMINS.contains session.user_id))
 (if (! is_admin) (
 	(# Action not allowed)
-	(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
+	(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
 ))
 
 (# Get all store books in review)

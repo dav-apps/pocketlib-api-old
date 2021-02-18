@@ -1,7 +1,7 @@
 (# Get the access token)
 (var access_token (get_header Authorization))
 (func render_validation_errors ((list
-	(func validate_access_token_presence (access_token))
+	(func validate_auth_header_presence (access_token))
 )))
 
 (# Get the session)
@@ -13,8 +13,8 @@
 (# Get the authors of the user)
 (var author_objects (func get_author_table_objects (session.user_id)))
 (if ((author_objects.length == 0) and (! is_admin)) (
-	(# Render Resource does not exist: Author error)
-	(func render_validation_errors ((list (hash (error (get_error 1105)) (status 400)))))
+	(# User is not an author)
+	(func render_validation_errors ((list (hash (error (get_error 3000)) (status 400)))))
 ))
 
 (if is_admin (

@@ -5,7 +5,7 @@
 (# Get the access token)
 (var access_token (get_header Authorization))
 (func render_validation_errors ((list
-	(func validate_access_token_presence (access_token))
+	(func validate_auth_header_presence (access_token))
 )))
 
 (# Make sure content type is json)
@@ -21,7 +21,7 @@
 
 (if (is_nil collection) (
 	(# Collection does not exist)
-	(func render_validation_errors ((list (hash (error (get_error 2805)) (status 404)))))
+	(func render_validation_errors ((list (hash (error (get_error 3506)) (status 404)))))
 ))
 
 (# Get the author)
@@ -29,12 +29,12 @@
 
 (if (is_nil author) (
 	(# Author does not exist)
-	(func render_validation_errors ((list (hash (error (get_error 2803)) (status 404)))))
+	(func render_validation_errors ((list (hash (error (get_error 3503)) (status 404)))))
 ))
 
 (# Check if the author belongs to the user)
 (if (author.user_id != session.user_id) (
-	(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
+	(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
 ))
 
 (# Validate missing fields)

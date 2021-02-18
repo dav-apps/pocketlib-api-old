@@ -5,7 +5,7 @@
 (# Get the access token)
 (var access_token (get_header Authorization))
 (func render_validation_errors ((list
-	(func validate_access_token_presence (access_token))
+	(func validate_auth_header_presence (access_token))
 )))
 
 (# Make sure content type is json)
@@ -20,7 +20,7 @@
 (var is_admin (env.ADMINS.contains session.user_id))
 (if (! is_admin) (
 	(# Action not allowed)
-	(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
+	(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
 ))
 
 (# Get the category)
@@ -28,7 +28,7 @@
 
 (if (is_nil category) (
 	(# Category does not exist)
-	(func render_validation_errors ((list (hash (error (get_error 2810)) (status 404)))))
+	(func render_validation_errors ((list (hash (error (get_error 3511)) (status 404)))))
 ))
 
 (# Validate missing fields)

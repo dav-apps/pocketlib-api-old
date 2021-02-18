@@ -2,6 +2,11 @@
 	"type": "functions",
 	"functions": [
 		{
+			"name": "validate_auth_header_presence",
+			"params": ["auth_header"],
+			"source": "./misc/validate_auth_header_presence.dx"
+		},
+		{
 			"name": "validate_content_type_json",
 			"params": ["content_type"],
 			"source": "./misc/validate_content_type_json.dx"
@@ -37,11 +42,6 @@
 			"source": "./status/validate_status_supported.dx"
 		},
 		
-		{
-			"name": "validate_access_token_presence",
-			"params": ["access_token"],
-			"source": "./access_token/validate_access_token_presence.dx"
-		},
 		{
 			"name": "validate_first_name_missing",
 			"params": ["first_name"],

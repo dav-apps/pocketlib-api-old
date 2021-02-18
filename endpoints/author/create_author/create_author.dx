@@ -6,7 +6,7 @@
 (# Get the access token)
 (var access_token (get_header Authorization))
 (func render_validation_errors ((list
-	(func validate_access_token_presence (access_token))
+	(func validate_auth_header_presence (access_token))
 )))
 
 (# Make sure content type is json)
@@ -24,7 +24,7 @@
 (var authors (func get_author_table_objects (session.user_id)))
 
 (if ((! is_admin) and (authors.length > 0)) (
-	(func render_validation_errors ((list (hash (error (get_error 1106)) (status 400)))))
+	(func render_validation_errors ((list (hash (error (get_error 3001)) (status 400)))))
 ))
 
 (# Validate missing fields)

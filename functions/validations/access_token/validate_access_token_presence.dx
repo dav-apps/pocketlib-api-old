@@ -1,5 +1,0 @@
-(# params: access_token: string)
-(if (is_nil access_token) (
-	(# Show error for missing access token)
-	(hash (error (get_error 2101)) (status 400))
-))

@@ -11,7 +11,7 @@
 (# Get the access token)
 (var access_token (get_header Authorization))
 (func render_validation_errors ((list
-	(func validate_access_token_presence (access_token))
+	(func validate_auth_header_presence (access_token))
 )))
 
 (# Make sure content type is json)
@@ -62,7 +62,7 @@
 (var authors (func get_author_table_objects (session.user_id)))
 (if (authors.length == 0) (
 	(# Render User is not an author error)
-	(func render_validation_errors ((list (hash (error (get_error 1105)) (status 400)))))
+	(func render_validation_errors ((list (hash (error (get_error 3000)) (status 400)))))
 ))
 
 (var author authors#0)
@@ -72,13 +72,13 @@
 
 (if (is_nil collection_obj) (
 	(# Collection does not exist)
-	(func render_validation_errors ((list (hash (error (get_error 2805)) (status 404)))))
+	(func render_validation_errors ((list (hash (error (get_error 3506)) (status 404)))))
 ))
 
 (# Check if the collection belongs to the user)
 (if (collection_obj.user_id != session.user_id) (
 	(# Action not allowed)
-	(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
+	(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
 ))
 
 (# Create the store book)

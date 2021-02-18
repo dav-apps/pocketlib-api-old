@@ -12,7 +12,7 @@
 (# Get the access token)
 (var access_token (get_header Authorization))
 (func render_validation_errors ((list
-	(func validate_access_token_presence (access_token))
+	(func validate_auth_header_presence (access_token))
 )))
 
 (# Make sure content type is json)
@@ -31,7 +31,7 @@
 
 (if (is_nil store_book) (
 	(# Render Resource does not exist: StoreBook)
-	(func render_validation_errors ((list (hash (error (get_error 2807)) (status 404)))))
+	(func render_validation_errors ((list (hash (error (get_error 3508)) (status 404)))))
 ))
 
 (# Get the collection of the store book)
@@ -39,7 +39,7 @@
 
 (if (is_nil collection) (
 	(# Collection does not exist)
-	(func render_validation_errors ((list (hash (error (get_error 2805)) (status 404)))))
+	(func render_validation_errors ((list (hash (error (get_error 3506)) (status 404)))))
 ))
 
 (# Get the author of the collection)
@@ -47,13 +47,13 @@
 
 (if (is_nil author) (
 	(# Author does not exist)
-	(func render_validation_errors ((list (hash (error (get_error 2803)) (status 404)))))
+	(func render_validation_errors ((list (hash (error (get_error 3503)) (status 404)))))
 ))
 
 (# Check if the user is an admin or if the store book belongs to the author of the user)
 (if ((! is_admin) and (session.user_id != author.user_id)) (
 	(# Action not allowed)
-	(func render_validation_errors ((list (hash (error (get_error 1102)) (status 403)))))
+	(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
 ))
 
 (# Validate the property types)
@@ -97,15 +97,15 @@
 (# Don't update language, price or isbn if the StoreBook is already published)
 (if ((store_book.properties.status == "published") or (store_book.properties.status == "hidden")) (
 	(if (!(is_nil language)) (
-		(func render_validation_errors ((list (hash (error (get_error 1501)) (status 422)))))
+		(func render_validation_errors ((list (hash (error (get_error 3400)) (status 422)))))
 	))
 
 	(if (!(is_nil price)) (
-		(func render_validation_errors ((list (hash (error (get_error 1502)) (status 422)))))
+		(func render_validation_errors ((list (hash (error (get_error 3401)) (status 422)))))
 	))
 
 	(if (!(is_nil isbn)) (
-		(func render_validation_errors ((list (hash (error (get_error 1505)) (status 422)))))
+		(func render_validation_errors ((list (hash (error (get_error 3402)) (status 422)))))
 	))
 ))
 
@@ -132,15 +132,15 @@
 		(var errors (list))
 
 		(if (is_nil store_book.properties.description) (
-			(errors.push (hash (error (get_error 1401)) (status 422)))
+			(errors.push (hash (error (get_error 3300)) (status 422)))
 		))
 
 		(if (is_nil store_book.properties.cover) (
-			(errors.push (hash (error (get_error 1402)) (status 422)))
+			(errors.push (hash (error (get_error 3301)) (status 422)))
 		))
 
 		(if (is_nil store_book.properties.file) (
-			(errors.push (hash (error (get_error 1403)) (status 422)))
+			(errors.push (hash (error (get_error 3302)) (status 422)))
 		))
 		
 		(if (errors.length > 0) (

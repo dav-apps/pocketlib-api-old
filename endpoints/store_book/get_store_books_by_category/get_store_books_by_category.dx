@@ -18,7 +18,7 @@
 (var categories (TableObject.find_by_property env.ADMINS#0 env.CATEGORY_TABLE_ID "key" key))
 (if (categories.length == 0) (
 	(# Category does not exist)
-	(func render_validation_errors ((list (hash (error (get_error 2810)) (status 404)))))
+	(func render_validation_errors ((list (hash (error (get_error 3511)) (status 404)))))
 ))
 
 (var category categories#0)

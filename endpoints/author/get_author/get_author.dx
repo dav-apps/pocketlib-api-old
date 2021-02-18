@@ -21,7 +21,7 @@
 
 (if (is_nil author) (
 	(# Author does not exist)
-	(func render_validation_errors ((list (hash (error (get_error 2803)) (status 404)))))
+	(func render_validation_errors ((list (hash (error (get_error 3503)) (status 404)))))
 ))
 
 (# Get the bios of the author)
