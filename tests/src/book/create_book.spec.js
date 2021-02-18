@@ -4,6 +4,7 @@ import axios from 'axios'
 import { TableObjectsController } from 'dav-npm'
 import constants from '../constants.js'
 import * as utils from '../utils.js'
+import * as ErrorCodes from '../errorCodes.js'
 
 const createBookEndpointUrl = `${constants.apiBaseUrl}/api/1/call/book`
 var resetBooks = false
@@ -26,9 +27,9 @@ describe("CreateBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
+			assert.equal(401, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2101, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.AuthorizationHeaderMissing, error.response.data.errors[0].code)
 			return
 		}
 
@@ -48,7 +49,7 @@ describe("CreateBook endpoint", () => {
 		} catch (error) {
 			assert.equal(404, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2802, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.SessionDoesNotExist, error.response.data.errors[0].code)
 			return
 		}
 
@@ -68,7 +69,7 @@ describe("CreateBook endpoint", () => {
 		} catch (error) {
 			assert.equal(415, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1104, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.ContentTypeNotSupported, error.response.data.errors[0].code)
 			return
 		}
 	})
@@ -86,7 +87,7 @@ describe("CreateBook endpoint", () => {
 		} catch (error) {
 			assert.equal(403, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1102, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
 			return
 		}
 
@@ -106,7 +107,7 @@ describe("CreateBook endpoint", () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2110, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.StoreBookMissing, error.response.data.errors[0].code)
 			return
 		}
 
@@ -129,7 +130,7 @@ describe("CreateBook endpoint", () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2212, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.StoreBookWrongType, error.response.data.errors[0].code)
 			return
 		}
 
@@ -152,7 +153,7 @@ describe("CreateBook endpoint", () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2309, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.StoreBookTooShort, error.response.data.errors[0].code)
 			return
 		}
 
@@ -175,7 +176,7 @@ describe("CreateBook endpoint", () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2409, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.StoreBookTooLong, error.response.data.errors[0].code)
 			return
 		}
 
@@ -198,7 +199,7 @@ describe("CreateBook endpoint", () => {
 		} catch (error) {
 			assert.equal(422, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1110, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.DavProRequired, error.response.data.errors[0].code)
 			return
 		}
 
@@ -242,7 +243,7 @@ describe("CreateBook endpoint", () => {
 		} catch (error) {
 			assert.equal(422, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1111, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.FreeStoreBooksMustBePurchased, error.response.data.errors[0].code)
 			return
 		}
 
@@ -272,7 +273,7 @@ describe("CreateBook endpoint", () => {
 		} catch (error) {
 			assert.equal(422, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1111, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.FreeStoreBooksMustBePurchased, error.response.data.errors[0].code)
 			return
 		}
 
@@ -302,7 +303,7 @@ describe("CreateBook endpoint", () => {
 		} catch (error) {
 			assert.equal(422, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1112, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.StoreBookIsAlreadyInLibrary, error.response.data.errors[0].code)
 			return
 		}
 
@@ -449,7 +450,7 @@ describe("CreateBook endpoint", () => {
 		} catch (error) {
 			assert.equal(403, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1102, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
 			return
 		}
 

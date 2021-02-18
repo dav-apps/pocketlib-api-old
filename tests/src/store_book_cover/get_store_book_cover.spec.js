@@ -2,6 +2,7 @@ import chai from 'chai'
 const assert = chai.assert
 import axios from 'axios'
 import constants from '../constants.js'
+import * as ErrorCodes from '../errorCodes.js'
 
 const getStoreBookCoverEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/book/{0}/cover`
 
@@ -18,7 +19,7 @@ describe("GetStoreBookCover endpoint", () => {
 		} catch (error) {
 			assert.equal(404, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2808, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.StoreBookCoverDoesNotExist, error.response.data.errors[0].code)
 			return
 		}
 
@@ -37,7 +38,7 @@ describe("GetStoreBookCover endpoint", () => {
 		} catch (error) {
 			assert.equal(404, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2807, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.StoreBookDoesNotExist, error.response.data.errors[0].code)
 			return
 		}
 

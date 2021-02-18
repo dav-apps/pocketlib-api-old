@@ -2,6 +2,7 @@ import chai from 'chai'
 const assert = chai.assert
 import axios from 'axios'
 import constants from '../constants.js'
+import * as ErrorCodes from '../errorCodes.js'
 
 const getAuthorEndpointUrl = `${constants.apiBaseUrl}/api/1/call/author/{0}`
 
@@ -15,7 +16,7 @@ describe("GetAuthor endpoint", async () => {
 		} catch (error) {
 			assert.equal(404, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2803, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.AuthorDoesNotExist, error.response.data.errors[0].code)
 			return
 		}
 
@@ -31,7 +32,7 @@ describe("GetAuthor endpoint", async () => {
 		} catch (error) {
 			assert.equal(403, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1102, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
 			return
 		}
 
@@ -51,7 +52,7 @@ describe("GetAuthor endpoint", async () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1107, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.LanguageNotSupported, error.response.data.errors[0].code)
 			return
 		}
 
@@ -160,7 +161,7 @@ async function testGetAuthorWithBooks(author, language) {
 	}
 
 	// Find the store books
-	let storeBooks = [];
+	let storeBooks = []
 	for (let collection of author.collections) {
 		for (let storeBook of collection.books) {
 			if (storeBook.status == "published" && storeBook.language == language) {

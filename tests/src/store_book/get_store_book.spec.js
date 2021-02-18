@@ -2,6 +2,7 @@ import chai from 'chai'
 const assert = chai.assert
 import axios from 'axios'
 import constants from '../constants.js'
+import * as ErrorCodes from '../errorCodes.js'
 
 const getStoreBookEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/book/{0}`
 
@@ -18,7 +19,7 @@ describe("GetStoreBook endpoint", () => {
 		} catch (error) {
 			assert.equal(404, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2802, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.SessionDoesNotExist, error.response.data.errors[0].code)
 			return
 		}
 
@@ -37,7 +38,7 @@ describe("GetStoreBook endpoint", () => {
 		} catch (error) {
 			assert.equal(403, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1102, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
 			return
 		}
 
@@ -56,7 +57,7 @@ describe("GetStoreBook endpoint", () => {
 		} catch (error) {
 			assert.equal(404, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2807, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.StoreBookDoesNotExist, error.response.data.errors[0].code)
 			return
 		}
 
@@ -151,8 +152,8 @@ describe("GetStoreBook endpoint", () => {
 			assert.equal(0, response.data.categories.length)
 		}
 
-		assert.equal(false, response.data.in_library)
-		assert.equal(false, response.data.purchased)
+		assert.isFalse(response.data.in_library)
+		assert.isFalse(response.data.purchased)
 	})
 
 	it("should not return unpublished store book if the user is not the author", async () => {
@@ -170,7 +171,7 @@ describe("GetStoreBook endpoint", () => {
 		} catch (error) {
 			assert.equal(403, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1102, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
 			return
 		}
 
@@ -189,7 +190,7 @@ describe("GetStoreBook endpoint", () => {
 		} catch (error) {
 			assert.equal(403, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1102, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
 			return
 		}
 
@@ -303,14 +304,14 @@ describe("GetStoreBook endpoint", () => {
 		} catch (error) {
 			assert.equal(403, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1102, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
 			return
 		}
 
 		assert.fail()
 	})
 
-	it("should not return store book in review without jwt", async () => {
+	it("should not return store book in review without access token", async () => {
 		let collection = constants.authorUser.author.collections[0]
 		let storeBook = collection.books[0]
 
@@ -322,7 +323,7 @@ describe("GetStoreBook endpoint", () => {
 		} catch (error) {
 			assert.equal(403, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1102, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
 			return
 		}
 
@@ -617,7 +618,7 @@ describe("GetStoreBook endpoint", () => {
 		} catch (error) {
 			assert.equal(403, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1102, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
 			return
 		}
 
@@ -636,7 +637,7 @@ describe("GetStoreBook endpoint", () => {
 		} catch (error) {
 			assert.equal(403, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1102, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
 			return
 		}
 

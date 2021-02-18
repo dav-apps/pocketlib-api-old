@@ -2,6 +2,7 @@ import chai from 'chai'
 const assert = chai.assert
 import axios from 'axios'
 import constants from '../constants.js'
+import * as ErrorCodes from '../errorCodes.js'
 
 const getAuthorOfUserEndpointUrl = `${constants.apiBaseUrl}/api/1/call/author`
 
@@ -13,9 +14,9 @@ describe("GetAuthorOfUser endpoint", () => {
 				url: getAuthorOfUserEndpointUrl
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
+			assert.equal(401, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2101, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.AuthorizationHeaderMissing, error.response.data.errors[0].code)
 			return
 		}
 
@@ -34,7 +35,7 @@ describe("GetAuthorOfUser endpoint", () => {
 		} catch (error) {
 			assert.equal(404, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2802, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.SessionDoesNotExist, error.response.data.errors[0].code)
 			return
 		}
 
@@ -53,8 +54,8 @@ describe("GetAuthorOfUser endpoint", () => {
 		} catch (error) {
 			assert.equal(403, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1102, error.response.data.errors[0].code)
-			return;
+			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
+			return
 		}
 
 		assert.fail()
@@ -72,7 +73,7 @@ describe("GetAuthorOfUser endpoint", () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1105, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.UserIsNotAuthor, error.response.data.errors[0].code)
 			return
 		}
 

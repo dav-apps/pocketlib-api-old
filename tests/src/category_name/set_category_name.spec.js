@@ -4,6 +4,7 @@ import axios from 'axios'
 import { TableObjectsController } from 'dav-npm'
 import constants from '../constants.js'
 import * as utils from '../utils.js'
+import * as ErrorCodes from '../errorCodes.js'
 
 const setCategoryNameEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/category/{0}/name/{1}`
 var resetCategoriesAndCategoryNames = false
@@ -27,9 +28,9 @@ describe("SetCategoryName endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
+			assert.equal(401, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2101, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.AuthorizationHeaderMissing, error.response.data.errors[0].code)
 			return
 		}
 
@@ -49,7 +50,7 @@ describe("SetCategoryName endpoint", () => {
 		} catch (error) {
 			assert.equal(404, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2802, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.SessionDoesNotExist, error.response.data.errors[0].code)
 			return
 		}
 
@@ -69,7 +70,7 @@ describe("SetCategoryName endpoint", () => {
 		} catch (error) {
 			assert.equal(415, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1104, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.ContentTypeNotSupported, error.response.data.errors[0].code)
 			return
 		}
 
@@ -89,7 +90,7 @@ describe("SetCategoryName endpoint", () => {
 		} catch (error) {
 			assert.equal(403, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1102, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
 			return
 		}
 
@@ -109,7 +110,7 @@ describe("SetCategoryName endpoint", () => {
 		} catch (error) {
 			assert.equal(403, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1102, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
 			return
 		}
 
@@ -129,7 +130,7 @@ describe("SetCategoryName endpoint", () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2108, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.NameMissing, error.response.data.errors[0].code)
 			return
 		}
 
@@ -152,7 +153,7 @@ describe("SetCategoryName endpoint", () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2209, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.NameWrongType, error.response.data.errors[0].code)
 			return
 		}
 
@@ -175,7 +176,7 @@ describe("SetCategoryName endpoint", () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2307, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.NameTooShort, error.response.data.errors[0].code)
 			return
 		}
 
@@ -198,7 +199,7 @@ describe("SetCategoryName endpoint", () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2407, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.NameTooLong, error.response.data.errors[0].code)
 			return
 		}
 
@@ -221,7 +222,7 @@ describe("SetCategoryName endpoint", () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1107, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.LanguageNotSupported, error.response.data.errors[0].code)
 			return
 		}
 

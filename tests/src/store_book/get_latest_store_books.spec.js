@@ -2,6 +2,7 @@ import chai from 'chai'
 const assert = chai.assert
 import axios from 'axios'
 import constants from '../constants.js'
+import * as ErrorCodes from '../errorCodes.js'
 
 const getLatestStoreBooksEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/books/latest`
 
@@ -18,7 +19,7 @@ describe("GetLatestStoreBooks endpoint", async () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1107, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.LanguageNotSupported, error.response.data.errors[0].code)
 			return
 		}
 

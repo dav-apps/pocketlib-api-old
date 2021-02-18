@@ -2,6 +2,7 @@ import chai from 'chai'
 const assert = chai.assert
 import axios from 'axios'
 import constants from '../constants.js'
+import * as ErrorCodes from '../errorCodes.js'
 
 const getStoreBookFileEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/book/{0}/file`
 
@@ -13,9 +14,9 @@ describe("GetStoreBookFile endpoint", () => {
 				url: getStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[1].uuid)
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
+			assert.equal(401, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2101, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.AuthorizationHeaderMissing, error.response.data.errors[0].code)
 			return
 		}
 
@@ -34,7 +35,7 @@ describe("GetStoreBookFile endpoint", () => {
 		} catch (error) {
 			assert.equal(404, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2802, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.SessionDoesNotExist, error.response.data.errors[0].code)
 			return
 		}
 
@@ -53,7 +54,7 @@ describe("GetStoreBookFile endpoint", () => {
 		} catch (error) {
 			assert.equal(403, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1102, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
 			return
 		}
 
@@ -72,7 +73,7 @@ describe("GetStoreBookFile endpoint", () => {
 		} catch (error) {
 			assert.equal(404, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2809, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.StoreBookFileDoesNotExist, error.response.data.errors[0].code)
 			return
 		}
 
@@ -91,7 +92,7 @@ describe("GetStoreBookFile endpoint", () => {
 		} catch (error) {
 			assert.equal(404, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2807, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.StoreBookDoesNotExist, error.response.data.errors[0].code)
 			return
 		}
 
@@ -250,7 +251,7 @@ async function testShouldNotReturnFile(accessToken, storeBook) {
 	} catch (error) {
 		assert.equal(403, error.response.status)
 		assert.equal(1, error.response.data.errors.length)
-		assert.equal(1102, error.response.data.errors[0].code)
+		assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
 		return
 	}
 

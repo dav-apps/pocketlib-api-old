@@ -4,6 +4,7 @@ import axios from 'axios'
 import { TableObjectsController } from 'dav-npm'
 import constants from '../constants.js'
 import * as utils from '../utils.js'
+import * as ErrorCodes from '../errorCodes.js'
 
 const setBioOfAuthorOfUserEndpointUrl = `${constants.apiBaseUrl}/api/1/call/author/bio/{0}`
 var resetAuthorsAndAuthorBios = false
@@ -27,9 +28,9 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
+			assert.equal(401, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2101, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.AuthorizationHeaderMissing, error.response.data.errors[0].code)
 			return
 		}
 
@@ -49,7 +50,7 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 		} catch (error) {
 			assert.equal(404, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2802, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.SessionDoesNotExist, error.response.data.errors[0].code)
 			return
 		}
 
@@ -68,7 +69,7 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 		} catch (error) {
 			assert.equal(415, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1104, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.ContentTypeNotSupported, error.response.data.errors[0].code)
 			return
 		}
 
@@ -88,7 +89,7 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 		} catch (error) {
 			assert.equal(403, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1102, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
 			return
 		}
 
@@ -108,7 +109,7 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1105, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.UserIsNotAuthor, error.response.data.errors[0].code)
 			return
 		}
 
@@ -128,7 +129,7 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 		} catch (error) {
 			assert.equal(403, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1102, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
 			return
 		}
 
@@ -148,7 +149,7 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2104, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.BioMissing, error.response.data.errors[0].code)
 			return
 		}
 
@@ -171,7 +172,7 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2203, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.BioWrongType, error.response.data.errors[0].code)
 			return
 		}
 
@@ -194,7 +195,7 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2303, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.BioTooShort, error.response.data.errors[0].code)
 			return
 		}
 
@@ -217,7 +218,7 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2403, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.BioTooLong, error.response.data.errors[0].code)
 			return
 		}
 
@@ -240,7 +241,7 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1107, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.LanguageNotSupported, error.response.data.errors[0].code)
 			return
 		}
 

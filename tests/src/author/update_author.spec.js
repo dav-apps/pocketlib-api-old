@@ -4,6 +4,7 @@ import axios from 'axios'
 import { TableObjectsController } from 'dav-npm'
 import constants from '../constants.js'
 import * as utils from '../utils.js'
+import * as ErrorCodes from '../errorCodes.js'
 
 const updateAuthorEndpointUrl = `${constants.apiBaseUrl}/api/1/call/author/{0}`
 var resetAuthors = false
@@ -26,9 +27,9 @@ describe("UpdateAuthor endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
+			assert.equal(401, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2101, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.AuthorizationHeaderMissing, error.response.data.errors[0].code)
 			return
 		}
 
@@ -48,7 +49,7 @@ describe("UpdateAuthor endpoint", () => {
 		} catch (error) {
 			assert.equal(404, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2802, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.SessionDoesNotExist, error.response.data.errors[0].code)
 			return
 		}
 
@@ -67,7 +68,7 @@ describe("UpdateAuthor endpoint", () => {
 		} catch (error) {
 			assert.equal(415, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1104, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.ContentTypeNotSupported, error.response.data.errors[0].code)
 			return
 		}
 
@@ -87,7 +88,7 @@ describe("UpdateAuthor endpoint", () => {
 		} catch (error) {
 			assert.equal(403, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1102, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
 			return
 		}
 
@@ -107,7 +108,7 @@ describe("UpdateAuthor endpoint", () => {
 		} catch (error) {
 			assert.equal(403, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1102, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
 			return
 		}
 
@@ -127,7 +128,7 @@ describe("UpdateAuthor endpoint", () => {
 		} catch (error) {
 			assert.equal(403, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1102, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
 			return
 		}
 
@@ -155,12 +156,12 @@ describe("UpdateAuthor endpoint", () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(6, error.response.data.errors.length)
-			assert.equal(2201, error.response.data.errors[0].code)
-			assert.equal(2202, error.response.data.errors[1].code)
-			assert.equal(2216, error.response.data.errors[2].code)
-			assert.equal(2217, error.response.data.errors[3].code)
-			assert.equal(2218, error.response.data.errors[4].code)
-			assert.equal(2219, error.response.data.errors[5].code)
+			assert.equal(ErrorCodes.FirstNameWrongType, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.LastNameWrongType, error.response.data.errors[1].code)
+			assert.equal(ErrorCodes.WebsiteUrlWrongType, error.response.data.errors[2].code)
+			assert.equal(ErrorCodes.FacebookUsernameWrongType, error.response.data.errors[3].code)
+			assert.equal(ErrorCodes.InstagramUsernameWrongType, error.response.data.errors[4].code)
+			assert.equal(ErrorCodes.TwitterUsernameWrongType, error.response.data.errors[5].code)
 			return
 		}
 
@@ -184,8 +185,8 @@ describe("UpdateAuthor endpoint", () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(2, error.response.data.errors.length)
-			assert.equal(2301, error.response.data.errors[0].code)
-			assert.equal(2302, error.response.data.errors[1].code)
+			assert.equal(ErrorCodes.FirstNameTooShort, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.LastNameTooShort, error.response.data.errors[1].code)
 			return
 		}
 
@@ -209,8 +210,8 @@ describe("UpdateAuthor endpoint", () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(2, error.response.data.errors.length)
-			assert.equal(2401, error.response.data.errors[0].code)
-			assert.equal(2402, error.response.data.errors[1].code)
+			assert.equal(ErrorCodes.FirstNameTooLong, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.LastNameTooLong, error.response.data.errors[1].code)
 			return
 		}
 
@@ -236,10 +237,10 @@ describe("UpdateAuthor endpoint", () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(4, error.response.data.errors.length)
-			assert.equal(2503, error.response.data.errors[0].code)
-			assert.equal(2504, error.response.data.errors[1].code)
-			assert.equal(2505, error.response.data.errors[2].code)
-			assert.equal(2506, error.response.data.errors[3].code)
+			assert.equal(ErrorCodes.WebsiteUrlInvalid, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.FacebookUsernameInvalid, error.response.data.errors[1].code)
+			assert.equal(ErrorCodes.InstagramUsernameInvalid, error.response.data.errors[2].code)
+			assert.equal(ErrorCodes.TwitterUsernameInvalid, error.response.data.errors[3].code)
 			return
 		}
 

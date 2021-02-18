@@ -4,6 +4,7 @@ import axios from 'axios'
 import { TableObjectsController } from 'dav-npm'
 import constants from '../constants.js'
 import * as utils from '../utils.js'
+import * as ErrorCodes from '../errorCodes.js'
 
 const updateStoreBookEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/book/{0}`
 var resetStoreBooks = false
@@ -23,9 +24,9 @@ describe("UpdateStoreBook endpoint", () => {
 				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid)
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
+			assert.equal(401, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2101, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.AuthorizationHeaderMissing, error.response.data.errors[0].code)
 			return
 		}
 
@@ -48,7 +49,7 @@ describe("UpdateStoreBook endpoint", () => {
 		} catch (error) {
 			assert.equal(404, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2802, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.SessionDoesNotExist, error.response.data.errors[0].code)
 			return
 		}
 
@@ -67,7 +68,7 @@ describe("UpdateStoreBook endpoint", () => {
 		} catch (error) {
 			assert.equal(415, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1104, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.ContentTypeNotSupported, error.response.data.errors[0].code)
 			return
 		}
 
@@ -91,7 +92,7 @@ describe("UpdateStoreBook endpoint", () => {
 		} catch (error) {
 			assert.equal(404, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2807, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.StoreBookDoesNotExist, error.response.data.errors[0].code)
 			return
 		}
 
@@ -120,13 +121,13 @@ describe("UpdateStoreBook endpoint", () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(7, error.response.data.errors.length)
-			assert.equal(2204, error.response.data.errors[0].code)
-			assert.equal(2205, error.response.data.errors[1].code)
-			assert.equal(2206, error.response.data.errors[2].code)
-			assert.equal(2211, error.response.data.errors[3].code)
-			assert.equal(2220, error.response.data.errors[4].code)
-			assert.equal(2207, error.response.data.errors[5].code)
-			assert.equal(2215, error.response.data.errors[6].code)
+			assert.equal(ErrorCodes.TitleWrongType, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.DescriptionWrongType, error.response.data.errors[1].code)
+			assert.equal(ErrorCodes.LanguageWrongType, error.response.data.errors[2].code)
+			assert.equal(ErrorCodes.PriceWrongType, error.response.data.errors[3].code)
+			assert.equal(ErrorCodes.IsbnWrongType, error.response.data.errors[4].code)
+			assert.equal(ErrorCodes.PublishedWrongType, error.response.data.errors[5].code)
+			assert.equal(ErrorCodes.CategoriesWrongType, error.response.data.errors[6].code)
 			return
 		}
 
@@ -149,7 +150,7 @@ describe("UpdateStoreBook endpoint", () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2214, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.StatusWrongType, error.response.data.errors[0].code)
 			return
 		}
 
@@ -173,8 +174,8 @@ describe("UpdateStoreBook endpoint", () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(2, error.response.data.errors.length)
-			assert.equal(2304, error.response.data.errors[0].code)
-			assert.equal(2305, error.response.data.errors[1].code)
+			assert.equal(ErrorCodes.TitleTooShort, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.DescriptionTooShort, error.response.data.errors[1].code)
 			return
 		}
 
@@ -198,8 +199,8 @@ describe("UpdateStoreBook endpoint", () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(2, error.response.data.errors.length)
-			assert.equal(2404, error.response.data.errors[0].code)
-			assert.equal(2405, error.response.data.errors[1].code)
+			assert.equal(ErrorCodes.TitleTooLong, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.DescriptionTooLong, error.response.data.errors[1].code)
 			return
 		}
 
@@ -222,7 +223,7 @@ describe("UpdateStoreBook endpoint", () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1107, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.LanguageNotSupported, error.response.data.errors[0].code)
 			return
 		}
 
@@ -245,7 +246,7 @@ describe("UpdateStoreBook endpoint", () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2501, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.PriceInvalid, error.response.data.errors[0].code)
 			return
 		}
 
@@ -268,7 +269,7 @@ describe("UpdateStoreBook endpoint", () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2507, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.IsbnInvalid, error.response.data.errors[0].code)
 			return
 		}
 
@@ -291,7 +292,7 @@ describe("UpdateStoreBook endpoint", () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1113, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.StatusNotSupported, error.response.data.errors[0].code)
 			return
 		}
 
@@ -865,7 +866,7 @@ describe("UpdateStoreBook endpoint", () => {
 		} catch (error) {
 			assert.equal(422, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1401, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.CannotPublishStoreBookWitoutDescription, error.response.data.errors[0].code)
 			return
 		}
 
@@ -907,7 +908,7 @@ describe("UpdateStoreBook endpoint", () => {
 		} catch (error) {
 			assert.equal(422, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1402, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.CannotPublishStoreBookWithoutCover, error.response.data.errors[0].code)
 			return
 		}
 
@@ -949,7 +950,7 @@ describe("UpdateStoreBook endpoint", () => {
 		} catch (error) {
 			assert.equal(422, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1403, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.CannotPublishStoreBookWithoutFile, error.response.data.errors[0].code)
 			return
 		}
 
@@ -1209,7 +1210,7 @@ describe("UpdateStoreBook endpoint", () => {
 		} catch (error) {
 			assert.equal(422, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1401, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.CannotPublishStoreBookWitoutDescription, error.response.data.errors[0].code)
 			return
 		}
 
@@ -1251,7 +1252,7 @@ describe("UpdateStoreBook endpoint", () => {
 		} catch (error) {
 			assert.equal(422, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1402, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.CannotPublishStoreBookWithoutCover, error.response.data.errors[0].code)
 			return
 		}
 
@@ -1293,7 +1294,7 @@ describe("UpdateStoreBook endpoint", () => {
 		} catch (error) {
 			assert.equal(422, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1403, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.CannotPublishStoreBookWithoutFile, error.response.data.errors[0].code)
 			return
 		}
 
@@ -1735,7 +1736,7 @@ async function testShouldNotUpdateLanguageOfStoreBook(storeBook, accessToken) {
 	} catch (error) {
 		assert.equal(422, error.response.status)
 		assert.equal(1, error.response.data.errors.length)
-		assert.equal(1501, error.response.data.errors[0].code)
+		assert.equal(ErrorCodes.CannotUpdateLanguageOfPublishedStoreBook, error.response.data.errors[0].code)
 		return
 	}
 
@@ -1826,7 +1827,7 @@ async function testShouldNotUpdatePriceOfStoreBook(storeBook, accessToken) {
 	} catch (error) {
 		assert.equal(422, error.response.status)
 		assert.equal(1, error.response.data.errors.length)
-		assert.equal(1502, error.response.data.errors[0].code)
+		assert.equal(ErrorCodes.CannotUpdatePriceOfPublishedStoreBook, error.response.data.errors[0].code)
 		return
 	}
 
@@ -1978,7 +1979,7 @@ async function testShouldNotUpdateIsbnOfStoreBook(storeBook, accessToken) {
 	} catch (error) {
 		assert.equal(422, error.response.status)
 		assert.equal(1, error.response.data.errors.length)
-		assert.equal(1505, error.response.data.errors[0].code)
+		assert.equal(ErrorCodes.CannotUpdateIsbnOfPublishedStoreBook, error.response.data.errors[0].code)
 		return
 	}
 

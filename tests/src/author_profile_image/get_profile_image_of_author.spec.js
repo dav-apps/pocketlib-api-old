@@ -3,6 +3,7 @@ const assert = chai.assert
 import axios from 'axios'
 import constants from '../constants.js'
 import * as utils from '../utils.js'
+import * as ErrorCodes from '../errorCodes.js'
 
 const getProfileImageOfAuthorEndpoint = `${constants.apiBaseUrl}/api/1/call/author/{0}/profile_image`
 var resetAuthorProfileImages = false
@@ -27,7 +28,7 @@ describe("GetProfileImageOfAuthor", async () => {
 		} catch (error) {
 			assert.equal(404, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2804, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.AuthorProfileImageDoesNotExist, error.response.data.errors[0].code)
 			return
 		}
 
@@ -46,7 +47,7 @@ describe("GetProfileImageOfAuthor", async () => {
 		} catch (error) {
 			assert.equal(404, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2803, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.AuthorDoesNotExist, error.response.data.errors[0].code)
 			return
 		}
 	})

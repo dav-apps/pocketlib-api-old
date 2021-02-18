@@ -2,6 +2,7 @@ import chai from 'chai'
 const assert = chai.assert
 import axios from 'axios'
 import constants from '../constants.js'
+import * as ErrorCodes from '../errorCodes.js'
 
 const getStoreBookCollectionEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/collection/{0}`
 
@@ -19,7 +20,7 @@ describe("GetStoreBookCollection endpoint", async () => {
 		} catch (error) {
 			assert.equal(404, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2802, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.SessionDoesNotExist, error.response.data.errors[0].code)
 			return
 		}
 
@@ -38,7 +39,7 @@ describe("GetStoreBookCollection endpoint", async () => {
 		} catch (error) {
 			assert.equal(403, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1102, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
 			return
 		}
 
@@ -57,7 +58,7 @@ describe("GetStoreBookCollection endpoint", async () => {
 		} catch (error) {
 			assert.equal(404, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2805, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.StoreBookCollectionDoesNotExist, error.response.data.errors[0].code)
 			return
 		}
 

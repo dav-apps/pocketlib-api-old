@@ -4,6 +4,7 @@ import axios from 'axios'
 import { TableObjectsController } from 'dav-npm'
 import constants from '../constants.js'
 import * as utils from '../utils.js'
+import * as ErrorCodes from '../errorCodes.js'
 
 const getProfileImageOfAuthorOfUserEndpoint = `${constants.apiBaseUrl}/api/1/call/author/profile_image`
 var resetAuthors = false
@@ -29,9 +30,9 @@ describe("GetProfileImageOfAuthorOfUser endpoint", async () => {
 				url: getProfileImageOfAuthorOfUserEndpoint
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
+			assert.equal(401, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2101, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.AuthorizationHeaderMissing, error.response.data.errors[0].code)
 			return
 		}
 
@@ -50,7 +51,7 @@ describe("GetProfileImageOfAuthorOfUser endpoint", async () => {
 		} catch (error) {
 			assert.equal(404, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2802, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.SessionDoesNotExist, error.response.data.errors[0].code)
 			return
 		}
 
@@ -69,7 +70,7 @@ describe("GetProfileImageOfAuthorOfUser endpoint", async () => {
 		} catch (error) {
 			assert.equal(403, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1102, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
 			return
 		}
 
@@ -103,7 +104,7 @@ describe("GetProfileImageOfAuthorOfUser endpoint", async () => {
 		} catch (error) {
 			assert.equal(404, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2804, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.AuthorProfileImageDoesNotExist, error.response.data.errors[0].code)
 			return
 		}
 
@@ -122,7 +123,7 @@ describe("GetProfileImageOfAuthorOfUser endpoint", async () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1105, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.UserIsNotAuthor, error.response.data.errors[0].code)
 			return
 		}
 
@@ -141,7 +142,7 @@ describe("GetProfileImageOfAuthorOfUser endpoint", async () => {
 		} catch (error) {
 			assert.equal(403, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1102, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
 			return
 		}
 

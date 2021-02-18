@@ -4,6 +4,7 @@ import axios from 'axios'
 import { TableObjectsController } from 'dav-npm'
 import constants from '../constants.js'
 import * as utils from '../utils.js'
+import * as ErrorCodes from '../errorCodes.js'
 
 const createAuthorEndpointUrl = `${constants.apiBaseUrl}/api/1/call/author`
 var resetAuthors = false
@@ -23,9 +24,9 @@ describe("CreateAuthor endpoint", async () => {
 				url: createAuthorEndpointUrl
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
+			assert.equal(401, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2101, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.AuthorizationHeaderMissing, error.response.data.errors[0].code)
 			return
 		}
 
@@ -45,7 +46,7 @@ describe("CreateAuthor endpoint", async () => {
 		} catch (error) {
 			assert.equal(404, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2802, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.SessionDoesNotExist, error.response.data.errors[0].code)
 			return
 		}
 
@@ -65,7 +66,7 @@ describe("CreateAuthor endpoint", async () => {
 		} catch (error) {
 			assert.equal(415, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1104, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.ContentTypeNotSupported, error.response.data.errors[0].code)
 			return
 		}
 
@@ -89,7 +90,7 @@ describe("CreateAuthor endpoint", async () => {
 		} catch (error) {
 			assert.equal(403, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1102, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
 			return
 		}
 
@@ -109,8 +110,8 @@ describe("CreateAuthor endpoint", async () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(2, error.response.data.errors.length)
-			assert.equal(2102, error.response.data.errors[0].code)
-			assert.equal(2103, error.response.data.errors[1].code)
+			assert.equal(ErrorCodes.FirstNameMissing, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.LastNameMissing, error.response.data.errors[1].code)
 			return
 		}
 
@@ -134,8 +135,8 @@ describe("CreateAuthor endpoint", async () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(2, error.response.data.errors.length)
-			assert.equal(2201, error.response.data.errors[0].code)
-			assert.equal(2202, error.response.data.errors[1].code)
+			assert.equal(ErrorCodes.FirstNameWrongType, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.LastNameWrongType, error.response.data.errors[1].code)
 			return
 		}
 
@@ -159,8 +160,8 @@ describe("CreateAuthor endpoint", async () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(2, error.response.data.errors.length)
-			assert.equal(2301, error.response.data.errors[0].code)
-			assert.equal(2302, error.response.data.errors[1].code)
+			assert.equal(ErrorCodes.FirstNameTooShort, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.LastNameTooShort, error.response.data.errors[1].code)
 			return
 		}
 
@@ -184,8 +185,8 @@ describe("CreateAuthor endpoint", async () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(2, error.response.data.errors.length)
-			assert.equal(2401, error.response.data.errors[0].code)
-			assert.equal(2402, error.response.data.errors[1].code)
+			assert.equal(ErrorCodes.FirstNameTooLong, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.LastNameTooLong, error.response.data.errors[1].code)
 			return
 		}
 
@@ -209,7 +210,7 @@ describe("CreateAuthor endpoint", async () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1106, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.UserIsAlreadyAuthor, error.response.data.errors[0].code)
 			return
 		}
 

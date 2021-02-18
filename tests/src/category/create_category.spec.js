@@ -4,6 +4,7 @@ import axios from 'axios'
 import { TableObjectsController } from 'dav-npm'
 import constants from '../constants.js'
 import * as utils from '../utils.js'
+import * as ErrorCodes from '../errorCodes.js'
 
 const createCategoryEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/category`
 var resetCategories = false
@@ -26,9 +27,9 @@ describe("CreateCategory endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
+			assert.equal(401, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2101, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.AuthorizationHeaderMissing, error.response.data.errors[0].code)
 			return
 		}
 
@@ -48,7 +49,7 @@ describe("CreateCategory endpoint", () => {
 		} catch (error) {
 			assert.equal(404, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2802, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.SessionDoesNotExist, error.response.data.errors[0].code)
 			return
 		}
 
@@ -67,7 +68,7 @@ describe("CreateCategory endpoint", () => {
 		} catch (error) {
 			assert.equal(415, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1104, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.ContentTypeNotSupported, error.response.data.errors[0].code)
 			return
 		}
 
@@ -87,7 +88,7 @@ describe("CreateCategory endpoint", () => {
 		} catch (error) {
 			assert.equal(403, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1102, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
 			return
 		}
 
@@ -110,7 +111,7 @@ describe("CreateCategory endpoint", () => {
 		} catch (error) {
 			assert.equal(403, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(1102, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
 			return
 		}
 
@@ -130,7 +131,7 @@ describe("CreateCategory endpoint", () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2111, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.KeyMissing, error.response.data.errors[0].code)
 			return
 		}
 
@@ -153,7 +154,7 @@ describe("CreateCategory endpoint", () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2213, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.KeyWrongType, error.response.data.errors[0].code)
 			return
 		}
 
@@ -176,7 +177,7 @@ describe("CreateCategory endpoint", () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2310, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.KeyTooShort, error.response.data.errors[0].code)
 			return
 		}
 
@@ -199,7 +200,7 @@ describe("CreateCategory endpoint", () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2410, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.KeyTooLong, error.response.data.errors[0].code)
 			return
 		}
 
@@ -222,7 +223,7 @@ describe("CreateCategory endpoint", () => {
 		} catch (error) {
 			assert.equal(400, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2502, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.KeyInvalid, error.response.data.errors[0].code)
 			return
 		}
 
@@ -245,7 +246,7 @@ describe("CreateCategory endpoint", () => {
 		} catch (error) {
 			assert.equal(422, error.response.status)
 			assert.equal(1, error.response.data.errors.length)
-			assert.equal(2601, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.KeyAlreadyInUse, error.response.data.errors[0].code)
 			return
 		}
 
