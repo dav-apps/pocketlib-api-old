@@ -2,11 +2,6 @@
 	"type": "functions",
 	"functions": [
 		{
-			"name": "validate_auth_header_presence",
-			"params": ["auth_header"],
-			"source": "./misc/validate_auth_header_presence.dx"
-		},
-		{
 			"name": "validate_content_type_json",
 			"params": ["content_type"],
 			"source": "./misc/validate_content_type_json.dx"
@@ -26,22 +21,13 @@
 			"params": ["content_type"],
 			"source": "./misc/validate_content_type_ebook_or_json.dx"
 		},
-		{
-			"name": "validate_language_supported",
-			"params": ["language"],
-			"source": "./language/validate_language_supported.dx"
-		},
-		{
-			"name": "validate_dav_pro_user",
-			"params": ["user_id"],
-			"source": "./misc/validate_dav_pro_user.dx"
-		},
-		{
-			"name": "validate_status_supported",
-			"params": ["status"],
-			"source": "./status/validate_status_supported.dx"
-		},
 		
+		{
+			"name": "validate_auth_header_presence",
+			"params": ["auth_header"],
+			"source": "./misc/validate_auth_header_presence.dx"
+		},
+
 		{
 			"name": "validate_first_name_missing",
 			"params": ["first_name"],
@@ -53,14 +39,14 @@
 			"source": "./last_name/validate_last_name_missing.dx"
 		},
 		{
+			"name": "validate_name_missing",
+			"params": ["name"],
+			"source": "./name/validate_name_missing.dx"
+		},
+		{
 			"name": "validate_bio_missing",
 			"params": ["bio"],
 			"source": "./bio/validate_bio_missing.dx"
-		},
-		{
-			"name": "validate_title_missing",
-			"params": ["title"],
-			"source": "./title/validate_title_missing.dx"
 		},
 		{
 			"name": "validate_language_missing",
@@ -73,24 +59,24 @@
 			"source": "./author/validate_author_missing.dx"
 		},
 		{
-			"name": "validate_name_missing",
-			"params": ["name"],
-			"source": "./name/validate_name_missing.dx"
-		},
-		{
 			"name": "validate_collection_missing",
 			"params": ["collection"],
 			"source": "./collection/validate_collection_missing.dx"
 		},
 		{
-			"name": "validate_store_book_missing",
-			"params": ["store_book"],
-			"source": "./store_book/validate_store_book_missing.dx"
+			"name": "validate_title_missing",
+			"params": ["title"],
+			"source": "./title/validate_title_missing.dx"
 		},
 		{
 			"name": "validate_key_missing",
 			"params": ["key"],
 			"source": "./key/validate_key_missing.dx"
+		},
+		{
+			"name": "validate_store_book_missing",
+			"params": ["store_book"],
+			"source": "./store_book/validate_store_book_missing.dx"
 		},
 
 		{
@@ -104,69 +90,9 @@
 			"source": "./last_name/validate_last_name_wrong_type.dx"
 		},
 		{
-			"name": "validate_bio_wrong_type",
-			"params": ["bio"],
-			"source": "./bio/validate_bio_wrong_type.dx"
-		},
-		{
-			"name": "validate_title_wrong_type",
-			"params": ["title"],
-			"source": "./title/validate_title_wrong_type.dx"
-		},
-		{
-			"name": "validate_description_wrong_type",
-			"params": ["description"],
-			"source": "./description/validate_description_wrong_type.dx"
-		},
-		{
-			"name": "validate_language_wrong_type",
-			"params": ["language"],
-			"source": "./language/validate_language_wrong_type.dx"
-		},
-		{
-			"name": "validate_published_wrong_type",
-			"params": ["published"],
-			"source": "./published/validate_published_wrong_type.dx"
-		},
-		{
-			"name": "validate_author_wrong_type",
-			"params": ["author"],
-			"source": "./author/validate_author_wrong_type.dx"
-		},
-		{
 			"name": "validate_name_wrong_type",
 			"params": ["name"],
 			"source": "./name/validate_name_wrong_type.dx"
-		},
-		{
-			"name": "validate_collection_wrong_type",
-			"params": ["collection"],
-			"source": "./collection/validate_collection_wrong_type.dx"
-		},
-		{
-			"name": "validate_price_wrong_type",
-			"params": ["price"],
-			"source": "./price/validate_price_wrong_type.dx"
-		},
-		{
-			"name": "validate_store_book_wrong_type",
-			"params": ["store_book"],
-			"source": "./store_book/validate_store_book_wrong_type.dx"
-		},
-		{
-			"name": "validate_key_wrong_type",
-			"params": ["key"],
-			"source": "./key/validate_key_wrong_type.dx"
-		},
-		{
-			"name": "validate_status_wrong_type",
-			"params": ["status"],
-			"source": "./status/validate_status_wrong_type.dx"
-		},
-		{
-			"name": "validate_categories_wrong_type",
-			"params": ["categories"],
-			"source": "./categories/validate_categories_wrong_type.dx"
 		},
 		{
 			"name": "validate_website_url_wrong_type",
@@ -189,9 +115,69 @@
 			"source": "./twitter_username/validate_twitter_username_wrong_type.dx"
 		},
 		{
+			"name": "validate_bio_wrong_type",
+			"params": ["bio"],
+			"source": "./bio/validate_bio_wrong_type.dx"
+		},
+		{
+			"name": "validate_language_wrong_type",
+			"params": ["language"],
+			"source": "./language/validate_language_wrong_type.dx"
+		},
+		{
+			"name": "validate_author_wrong_type",
+			"params": ["author"],
+			"source": "./author/validate_author_wrong_type.dx"
+		},
+		{
+			"name": "validate_collection_wrong_type",
+			"params": ["collection"],
+			"source": "./collection/validate_collection_wrong_type.dx"
+		},
+		{
+			"name": "validate_title_wrong_type",
+			"params": ["title"],
+			"source": "./title/validate_title_wrong_type.dx"
+		},
+		{
+			"name": "validate_description_wrong_type",
+			"params": ["description"],
+			"source": "./description/validate_description_wrong_type.dx"
+		},
+		{
+			"name": "validate_price_wrong_type",
+			"params": ["price"],
+			"source": "./price/validate_price_wrong_type.dx"
+		},
+		{
 			"name": "validate_isbn_wrong_type",
 			"params": ["isbn"],
 			"source": "./isbn/validate_isbn_wrong_type.dx"
+		},
+		{
+			"name": "validate_status_wrong_type",
+			"params": ["status"],
+			"source": "./status/validate_status_wrong_type.dx"
+		},
+		{
+			"name": "validate_categories_wrong_type",
+			"params": ["categories"],
+			"source": "./categories/validate_categories_wrong_type.dx"
+		},
+		{
+			"name": "validate_published_wrong_type",
+			"params": ["published"],
+			"source": "./published/validate_published_wrong_type.dx"
+		},
+		{
+			"name": "validate_key_wrong_type",
+			"params": ["key"],
+			"source": "./key/validate_key_wrong_type.dx"
+		},
+		{
+			"name": "validate_store_book_wrong_type",
+			"params": ["store_book"],
+			"source": "./store_book/validate_store_book_wrong_type.dx"
 		},
 
 		{
@@ -203,6 +189,11 @@
 			"name": "validate_last_name_length",
 			"params": ["last_name"],
 			"source": "./last_name/validate_last_name_length.dx"
+		},
+		{
+			"name": "validate_name_length",
+			"params": ["name"],
+			"source": "./name/validate_name_length.dx"
 		},
 		{
 			"name": "validate_bio_length",
@@ -220,35 +211,46 @@
 			"source": "./description/validate_description_length.dx"
 		},
 		{
-			"name": "validate_name_length",
-			"params": ["name"],
-			"source": "./name/validate_name_length.dx"
-		},
-		{
 			"name": "validate_key_length",
 			"params": ["key"],
 			"source": "./key/validate_key_length.dx"
 		},
 
 		{
+			"name": "validate_website_url_invalid",
+			"params": ["website_url"],
+			"source": "./website_url/validate_website_url_invalid.dx"
+		},
+		{
 			"name": "validate_price_invalid",
 			"params": ["price"],
 			"source": "./price/validate_price_invalid.dx"
+		},
+		{
+			"name": "validate_isbn_invalid",
+			"params": ["isbn"],
+			"source": "./isbn/validate_isbn_invalid.dx"
 		},
 		{
 			"name": "validate_key_invalid",
 			"params": ["key"],
 			"source": "./key/validate_key_invalid.dx"
 		},
+
 		{
-			"name": "validate_website_url_invalid",
-			"params": ["website_url"],
-			"source": "./website_url/validate_website_url_invalid.dx"
+			"name": "validate_language_supported",
+			"params": ["language"],
+			"source": "./language/validate_language_supported.dx"
 		},
 		{
-			"name": "validate_isbn_invalid",
-			"params": ["isbn"],
-			"source": "./isbn/validate_isbn_invalid.dx"
+			"name": "validate_status_supported",
+			"params": ["status"],
+			"source": "./status/validate_status_supported.dx"
+		},
+		{
+			"name": "validate_dav_pro_user",
+			"params": ["user_id"],
+			"source": "./misc/validate_dav_pro_user.dx"
 		}
 	]
 }
