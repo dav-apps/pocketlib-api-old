@@ -137,52 +137,6 @@ describe("CreateBook endpoint", () => {
 		assert.fail()
 	})
 
-	it("should not create book from store book with too short properties", async () => {
-		try {
-			await axios.default({
-				method: 'post',
-				url: createBookEndpointUrl,
-				headers: {
-					Authorization: constants.klausUser.accessToken,
-					'Content-Type': 'application/json'
-				},
-				data: {
-					store_book: "a"
-				}
-			})
-		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.StoreBookTooShort, error.response.data.errors[0].code)
-			return
-		}
-
-		assert.fail()
-	})
-
-	it("should not create book from store book with too long properties", async () => {
-		try {
-			await axios.default({
-				method: 'post',
-				url: createBookEndpointUrl,
-				headers: {
-					Authorization: constants.klausUser.accessToken,
-					'Content-Type': 'application/json'
-				},
-				data: {
-					store_book: "a".repeat(210)
-				}
-			})
-		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.StoreBookTooLong, error.response.data.errors[0].code)
-			return
-		}
-
-		assert.fail()
-	})
-
 	it("should not create book from not purchased store book without dav Pro", async () => {
 		try {
 			await axios.default({

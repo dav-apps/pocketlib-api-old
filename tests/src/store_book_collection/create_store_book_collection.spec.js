@@ -281,9 +281,8 @@ describe("CreateStoreBookCollection endpoint", () => {
 			})
 		} catch (error) {
 			assert.equal(400, error.response.status)
-			assert.equal(2, error.response.data.errors.length)
-			assert.equal(ErrorCodes.AuthorTooShort, error.response.data.errors[0].code)
-			assert.equal(ErrorCodes.NameTooShort, error.response.data.errors[1].code)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(ErrorCodes.NameTooShort, error.response.data.errors[0].code)
 			return
 		}
 
@@ -307,9 +306,8 @@ describe("CreateStoreBookCollection endpoint", () => {
 			})
 		} catch (error) {
 			assert.equal(400, error.response.status)
-			assert.equal(2, error.response.data.errors.length)
-			assert.equal(ErrorCodes.AuthorTooLong, error.response.data.errors[0].code)
-			assert.equal(ErrorCodes.NameTooLong, error.response.data.errors[1].code)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(ErrorCodes.NameTooLong, error.response.data.errors[0].code)
 			return
 		}
 

@@ -50,24 +50,18 @@ export const FirstNameTooShort = 2300
 export const LastNameTooShort = 2301
 export const NameTooShort = 2302
 export const BioTooShort = 2303
-export const AuthorTooShort = 2304
-export const CollectionTooShort = 2305
-export const TitleTooShort = 2306
-export const DescriptionTooShort = 2307
-export const KeyTooShort = 2308
-export const StoreBookTooShort = 2309
+export const TitleTooShort = 2304
+export const DescriptionTooShort = 2305
+export const KeyTooShort = 2306
 
 // Too long fields
 export const FirstNameTooLong = 2400
 export const LastNameTooLong = 2401
 export const NameTooLong = 2402
 export const BioTooLong = 2403
-export const AuthorTooLong = 2404
-export const CollectionTooLong = 2405
-export const TitleTooLong = 2406
-export const DescriptionTooLong = 2407
-export const KeyTooLong = 2408
-export const StoreBookTooLong = 2409
+export const TitleTooLong = 2404
+export const DescriptionTooLong = 2405
+export const KeyTooLong = 2406
 
 // Invalid fields
 export const WebsiteUrlInvalid = 2500

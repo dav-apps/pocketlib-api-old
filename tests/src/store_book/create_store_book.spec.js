@@ -202,9 +202,8 @@ describe("CreateStoreBook endpoint", () => {
 			})
 		} catch (error) {
 			assert.equal(400, error.response.status)
-			assert.equal(2, error.response.data.errors.length)
-			assert.equal(ErrorCodes.CollectionTooShort, error.response.data.errors[0].code)
-			assert.equal(ErrorCodes.TitleTooShort, error.response.data.errors[1].code)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(ErrorCodes.TitleTooShort, error.response.data.errors[0].code)
 			return
 		}
 
@@ -229,10 +228,9 @@ describe("CreateStoreBook endpoint", () => {
 			})
 		} catch (error) {
 			assert.equal(400, error.response.status)
-			assert.equal(3, error.response.data.errors.length)
-			assert.equal(ErrorCodes.CollectionTooShort, error.response.data.errors[0].code)
-			assert.equal(ErrorCodes.TitleTooShort, error.response.data.errors[1].code)
-			assert.equal(ErrorCodes.DescriptionTooShort, error.response.data.errors[2].code)
+			assert.equal(2, error.response.data.errors.length)
+			assert.equal(ErrorCodes.TitleTooShort, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.DescriptionTooShort, error.response.data.errors[1].code)
 			return
 		}
 
@@ -256,9 +254,8 @@ describe("CreateStoreBook endpoint", () => {
 			})
 		} catch (error) {
 			assert.equal(400, error.response.status)
-			assert.equal(2, error.response.data.errors.length)
-			assert.equal(ErrorCodes.CollectionTooLong, error.response.data.errors[0].code)
-			assert.equal(ErrorCodes.TitleTooLong, error.response.data.errors[1].code)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(ErrorCodes.TitleTooLong, error.response.data.errors[0].code)
 			return
 		}
 
@@ -283,10 +280,9 @@ describe("CreateStoreBook endpoint", () => {
 			})
 		} catch (error) {
 			assert.equal(400, error.response.status)
-			assert.equal(3, error.response.data.errors.length)
-			assert.equal(ErrorCodes.CollectionTooLong, error.response.data.errors[0].code)
-			assert.equal(ErrorCodes.TitleTooLong, error.response.data.errors[1].code)
-			assert.equal(ErrorCodes.DescriptionTooLong, error.response.data.errors[2].code)
+			assert.equal(2, error.response.data.errors.length)
+			assert.equal(ErrorCodes.TitleTooLong, error.response.data.errors[0].code)
+			assert.equal(ErrorCodes.DescriptionTooLong, error.response.data.errors[1].code)
 			return
 		}
 
