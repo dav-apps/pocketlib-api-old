@@ -29,155 +29,155 @@
 		},
 
 		{
-			"name": "validate_first_name_missing",
+			"name": "validate_first_name_presence",
 			"params": ["first_name"],
-			"source": "./first_name/validate_first_name_missing.dx"
+			"source": "./first_name/validate_first_name_presence.dx"
 		},
 		{
-			"name": "validate_last_name_missing",
+			"name": "validate_last_name_presence",
 			"params": ["last_name"],
-			"source": "./last_name/validate_last_name_missing.dx"
+			"source": "./last_name/validate_last_name_presence.dx"
 		},
 		{
-			"name": "validate_name_missing",
+			"name": "validate_name_presence",
 			"params": ["name"],
-			"source": "./name/validate_name_missing.dx"
+			"source": "./name/validate_name_presence.dx"
 		},
 		{
-			"name": "validate_bio_missing",
+			"name": "validate_bio_presence",
 			"params": ["bio"],
-			"source": "./bio/validate_bio_missing.dx"
+			"source": "./bio/validate_bio_presence.dx"
 		},
 		{
-			"name": "validate_language_missing",
+			"name": "validate_language_presence",
 			"params": ["language"],
-			"source": "./language/validate_language_missing.dx"
+			"source": "./language/validate_language_presence.dx"
 		},
 		{
-			"name": "validate_author_missing",
+			"name": "validate_author_presence",
 			"params": ["author"],
-			"source": "./author/validate_author_missing.dx"
+			"source": "./author/validate_author_presence.dx"
 		},
 		{
-			"name": "validate_collection_missing",
+			"name": "validate_collection_presence",
 			"params": ["collection"],
-			"source": "./collection/validate_collection_missing.dx"
+			"source": "./collection/validate_collection_presence.dx"
 		},
 		{
-			"name": "validate_title_missing",
+			"name": "validate_title_presence",
 			"params": ["title"],
-			"source": "./title/validate_title_missing.dx"
+			"source": "./title/validate_title_presence.dx"
 		},
 		{
-			"name": "validate_key_missing",
+			"name": "validate_key_presence",
 			"params": ["key"],
-			"source": "./key/validate_key_missing.dx"
+			"source": "./key/validate_key_presence.dx"
 		},
 		{
-			"name": "validate_store_book_missing",
+			"name": "validate_store_book_presence",
 			"params": ["store_book"],
-			"source": "./store_book/validate_store_book_missing.dx"
+			"source": "./store_book/validate_store_book_presence.dx"
 		},
 
 		{
-			"name": "validate_first_name_wrong_type",
+			"name": "validate_first_name_type",
 			"params": ["first_name"],
-			"source": "./first_name/validate_first_name_wrong_type.dx"
+			"source": "./first_name/validate_first_name_type.dx"
 		},
 		{
-			"name": "validate_last_name_wrong_type",
+			"name": "validate_last_name_type",
 			"params": ["last_name"],
-			"source": "./last_name/validate_last_name_wrong_type.dx"
+			"source": "./last_name/validate_last_name_type.dx"
 		},
 		{
-			"name": "validate_name_wrong_type",
+			"name": "validate_name_type",
 			"params": ["name"],
-			"source": "./name/validate_name_wrong_type.dx"
+			"source": "./name/validate_name_type.dx"
 		},
 		{
-			"name": "validate_website_url_wrong_type",
+			"name": "validate_website_url_type",
 			"params": ["website_url"],
-			"source": "./website_url/validate_website_url_wrong_type.dx"
+			"source": "./website_url/validate_website_url_type.dx"
 		},
 		{
-			"name": "validate_facebook_username_wrong_type",
+			"name": "validate_facebook_username_type",
 			"params": ["facebook_username"],
-			"source": "./facebook_username/validate_facebook_username_wrong_type.dx"
+			"source": "./facebook_username/validate_facebook_username_type.dx"
 		},
 		{
-			"name": "validate_instagram_username_wrong_type",
+			"name": "validate_instagram_username_type",
 			"params": ["instagram_username"],
-			"source": "./instagram_username/validate_instagram_username_wrong_type.dx"
+			"source": "./instagram_username/validate_instagram_username_type.dx"
 		},
 		{
-			"name": "validate_twitter_username_wrong_type",
+			"name": "validate_twitter_username_type",
 			"params": ["twitter_username"],
-			"source": "./twitter_username/validate_twitter_username_wrong_type.dx"
+			"source": "./twitter_username/validate_twitter_username_type.dx"
 		},
 		{
-			"name": "validate_bio_wrong_type",
+			"name": "validate_bio_type",
 			"params": ["bio"],
-			"source": "./bio/validate_bio_wrong_type.dx"
+			"source": "./bio/validate_bio_type.dx"
 		},
 		{
-			"name": "validate_language_wrong_type",
+			"name": "validate_language_type",
 			"params": ["language"],
-			"source": "./language/validate_language_wrong_type.dx"
+			"source": "./language/validate_language_type.dx"
 		},
 		{
-			"name": "validate_author_wrong_type",
+			"name": "validate_author_type",
 			"params": ["author"],
-			"source": "./author/validate_author_wrong_type.dx"
+			"source": "./author/validate_author_type.dx"
 		},
 		{
-			"name": "validate_collection_wrong_type",
+			"name": "validate_collection_type",
 			"params": ["collection"],
-			"source": "./collection/validate_collection_wrong_type.dx"
+			"source": "./collection/validate_collection_type.dx"
 		},
 		{
-			"name": "validate_title_wrong_type",
+			"name": "validate_title_type",
 			"params": ["title"],
-			"source": "./title/validate_title_wrong_type.dx"
+			"source": "./title/validate_title_type.dx"
 		},
 		{
-			"name": "validate_description_wrong_type",
+			"name": "validate_description_type",
 			"params": ["description"],
-			"source": "./description/validate_description_wrong_type.dx"
+			"source": "./description/validate_description_type.dx"
 		},
 		{
-			"name": "validate_price_wrong_type",
+			"name": "validate_price_type",
 			"params": ["price"],
-			"source": "./price/validate_price_wrong_type.dx"
+			"source": "./price/validate_price_type.dx"
 		},
 		{
-			"name": "validate_isbn_wrong_type",
+			"name": "validate_isbn_type",
 			"params": ["isbn"],
-			"source": "./isbn/validate_isbn_wrong_type.dx"
+			"source": "./isbn/validate_isbn_type.dx"
 		},
 		{
-			"name": "validate_status_wrong_type",
+			"name": "validate_status_type",
 			"params": ["status"],
-			"source": "./status/validate_status_wrong_type.dx"
+			"source": "./status/validate_status_type.dx"
 		},
 		{
-			"name": "validate_categories_wrong_type",
+			"name": "validate_categories_type",
 			"params": ["categories"],
-			"source": "./categories/validate_categories_wrong_type.dx"
+			"source": "./categories/validate_categories_type.dx"
 		},
 		{
-			"name": "validate_published_wrong_type",
+			"name": "validate_published_type",
 			"params": ["published"],
-			"source": "./published/validate_published_wrong_type.dx"
+			"source": "./published/validate_published_type.dx"
 		},
 		{
-			"name": "validate_key_wrong_type",
+			"name": "validate_key_type",
 			"params": ["key"],
-			"source": "./key/validate_key_wrong_type.dx"
+			"source": "./key/validate_key_type.dx"
 		},
 		{
-			"name": "validate_store_book_wrong_type",
+			"name": "validate_store_book_type",
 			"params": ["store_book"],
-			"source": "./store_book/validate_store_book_wrong_type.dx"
+			"source": "./store_book/validate_store_book_type.dx"
 		},
 
 		{
@@ -217,24 +217,24 @@
 		},
 
 		{
-			"name": "validate_website_url_invalid",
+			"name": "validate_website_url_validity",
 			"params": ["website_url"],
-			"source": "./website_url/validate_website_url_invalid.dx"
+			"source": "./website_url/validate_website_url_validity.dx"
 		},
 		{
-			"name": "validate_price_invalid",
+			"name": "validate_price_validity",
 			"params": ["price"],
-			"source": "./price/validate_price_invalid.dx"
+			"source": "./price/validate_price_validity.dx"
 		},
 		{
-			"name": "validate_isbn_invalid",
+			"name": "validate_isbn_validity",
 			"params": ["isbn"],
-			"source": "./isbn/validate_isbn_invalid.dx"
+			"source": "./isbn/validate_isbn_validity.dx"
 		},
 		{
-			"name": "validate_key_invalid",
+			"name": "validate_key_validity",
 			"params": ["key"],
-			"source": "./key/validate_key_invalid.dx"
+			"source": "./key/validate_key_validity.dx"
 		},
 
 		{
