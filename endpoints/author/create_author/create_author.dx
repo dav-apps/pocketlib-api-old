@@ -29,14 +29,14 @@
 
 (# Validate missing fields)
 (func render_validation_errors ((list 
-	(func validate_first_name_missing (first_name)) 
-	(func validate_last_name_missing (last_name))
+	(func validate_first_name_presence (first_name)) 
+	(func validate_last_name_presence (last_name))
 )))
 
 (# Validate field types)
 (func render_validation_errors ((list
-	(func validate_first_name_wrong_type (first_name))
-	(func validate_last_name_wrong_type (last_name))
+	(func validate_first_name_type (first_name))
+	(func validate_last_name_type (last_name))
 )))
 
 (# Validate too short and too long fields)

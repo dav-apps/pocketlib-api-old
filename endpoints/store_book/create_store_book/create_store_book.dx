@@ -24,20 +24,20 @@
 
 (# Validate missing fields)
 (func render_validation_errors ((list
-	(func validate_collection_missing (collection))
-	(func validate_title_missing (title))
-	(func validate_language_missing (language))
+	(func validate_collection_presence (collection))
+	(func validate_title_presence (title))
+	(func validate_language_presence (language))
 )))
 
 (# Validate the property types)
 (func render_validation_errors ((list
-	(func validate_collection_wrong_type (collection))
-	(func validate_title_wrong_type (title))
-	(if (!(is_nil description)) (func validate_description_wrong_type (description)))
-	(func validate_language_wrong_type (language))
-	(if (!(is_nil price)) (func validate_price_wrong_type (price)))
-	(if (!(is_nil isbn)) (func validate_isbn_wrong_type (isbn)))
-	(if (!(is_nil categories)) (func validate_categories_wrong_type (categories)))
+	(func validate_collection_type (collection))
+	(func validate_title_type (title))
+	(if (!(is_nil description)) (func validate_description_type (description)))
+	(func validate_language_type (language))
+	(if (!(is_nil price)) (func validate_price_type (price)))
+	(if (!(is_nil isbn)) (func validate_isbn_type (isbn)))
+	(if (!(is_nil categories)) (func validate_categories_type (categories)))
 )))
 
 (# Validate the property length)
@@ -53,8 +53,8 @@
 
 (# Validate price and isbn)
 (func render_validation_errors ((list
-	(if (!(is_nil price)) (func validate_price_invalid (price)))
-	(if (!(is_nil isbn)) (func validate_isbn_invalid (isbn)))
+	(if (!(is_nil price)) (func validate_price_validity (price)))
+	(if (!(is_nil isbn)) (func validate_isbn_validity (isbn)))
 )))
 
 (# Get the author of the user)

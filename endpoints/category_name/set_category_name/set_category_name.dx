@@ -33,12 +33,12 @@
 
 (# Validate missing fields)
 (func render_validation_errors ((list
-	(func validate_name_missing (name))
+	(func validate_name_presence (name))
 )))
 
 (# Validate property types)
 (func render_validation_errors ((list
-	(func validate_name_wrong_type (name))
+	(func validate_name_type (name))
 )))
 
 (# Validate too short and too long fields)

@@ -38,12 +38,12 @@
 
 (# Validate missing fields)
 (func render_validation_errors ((list
-	(func validate_bio_missing (bio))
+	(func validate_bio_presence (bio))
 )))
 
 (# Validate property types)
 (func render_validation_errors ((list
-	(func validate_bio_wrong_type (bio))
+	(func validate_bio_type (bio))
 )))
 
 (# Validate too short and too long fields)

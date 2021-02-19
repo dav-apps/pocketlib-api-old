@@ -25,12 +25,12 @@
 
 (# Validate missing fields)
 (func render_validation_errors ((list
-	(func validate_key_missing (key))
+	(func validate_key_presence (key))
 )))
 
 (# Validate property types)
 (func render_validation_errors ((list
-	(func validate_key_wrong_type (key))
+	(func validate_key_type (key))
 )))
 
 (# Validate too short and too long fields)
@@ -40,7 +40,7 @@
 
 (# Validate the key)
 (func render_validation_errors ((list
-	(func validate_key_invalid (key))
+	(func validate_key_validity (key))
 )))
 
 (var key key.downcase)

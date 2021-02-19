@@ -58,14 +58,14 @@
 
 (# Validate the property types)
 (func render_validation_errors ((list
-	(if (!(is_nil title)) (func validate_title_wrong_type (title)))
-	(if (!(is_nil description)) (func validate_description_wrong_type (description)))
-	(if (!(is_nil language)) (func validate_language_wrong_type (language)))
-	(if (!(is_nil price)) (func validate_price_wrong_type (price)))
-	(if (!(is_nil isbn)) (func validate_isbn_wrong_type (isbn)))
-	(if (!(is_nil published)) (func validate_published_wrong_type (published)))
-	(if ((!(is_nil status)) and is_admin) (func validate_status_wrong_type (status)))
-	(if (!(is_nil categories)) (func validate_categories_wrong_type (categories)))
+	(if (!(is_nil title)) (func validate_title_type (title)))
+	(if (!(is_nil description)) (func validate_description_type (description)))
+	(if (!(is_nil language)) (func validate_language_type (language)))
+	(if (!(is_nil price)) (func validate_price_type (price)))
+	(if (!(is_nil isbn)) (func validate_isbn_type (isbn)))
+	(if (!(is_nil published)) (func validate_published_type (published)))
+	(if ((!(is_nil status)) and is_admin) (func validate_status_type (status)))
+	(if (!(is_nil categories)) (func validate_categories_type (categories)))
 )))
 
 (# Validate the property length)
@@ -83,8 +83,8 @@
 
 (# Validate price and isbn)
 (func render_validation_errors ((list
-	(if (!(is_nil price)) (func validate_price_invalid (price)))
-	(if (!(is_nil isbn)) (func validate_isbn_invalid (isbn)))
+	(if (!(is_nil price)) (func validate_price_validity (price)))
+	(if (!(is_nil isbn)) (func validate_isbn_validity (isbn)))
 )))
 
 (if ((!(is_nil status)) and is_admin) (

@@ -40,12 +40,12 @@
 
 (# Validate the property types)
 (func render_validation_errors ((list
-	(if (!(is_nil first_name)) (func validate_first_name_wrong_type (first_name)))
-	(if (!(is_nil last_name)) (func validate_last_name_wrong_type (last_name)))
-	(if (!(is_nil website_url)) (func validate_website_url_wrong_type (website_url)))
-	(if (!(is_nil raw_facebook_username)) (func validate_facebook_username_wrong_type (raw_facebook_username)))
-	(if (!(is_nil raw_instagram_username)) (func validate_instagram_username_wrong_type (raw_instagram_username)))
-	(if (!(is_nil raw_twitter_username)) (func validate_twitter_username_wrong_type (raw_twitter_username)))
+	(if (!(is_nil first_name)) (func validate_first_name_type (first_name)))
+	(if (!(is_nil last_name)) (func validate_last_name_type (last_name)))
+	(if (!(is_nil website_url)) (func validate_website_url_type (website_url)))
+	(if (!(is_nil raw_facebook_username)) (func validate_facebook_username_type (raw_facebook_username)))
+	(if (!(is_nil raw_instagram_username)) (func validate_instagram_username_type (raw_instagram_username)))
+	(if (!(is_nil raw_twitter_username)) (func validate_twitter_username_type (raw_twitter_username)))
 )))
 
 (# Validate the property length)
@@ -71,7 +71,7 @@
 
 (# Show errors for invalid usernames)
 (func render_validation_errors ((list
-	(if (!(is_nil website_url)) (func validate_website_url_invalid (website_url)))
+	(if (!(is_nil website_url)) (func validate_website_url_validity (website_url)))
 	(if ((!(is_nil raw_facebook_username)) and (is_nil facebook_username)) (hash (error (get_error 2501)) (status 400)))
 	(if ((!(is_nil raw_instagram_username)) and (is_nil instagram_username)) (hash (error (get_error 2502)) (status 400)))
 	(if ((!(is_nil raw_twitter_username)) and (is_nil twitter_username)) (hash (error (get_error 2503)) (status 400)))

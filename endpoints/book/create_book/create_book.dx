@@ -23,12 +23,12 @@
 	(# Copy the store book into the library by creating a book with the file of the store book)
 	(# Validate missing fields)
 	(func render_validation_errors ((list
-		(func validate_store_book_missing (store_book_uuid))
+		(func validate_store_book_presence (store_book_uuid))
 	)))
 
 	(# Validate the property type)
 	(func render_validation_errors ((list
-		(func validate_store_book_wrong_type (store_book_uuid))
+		(func validate_store_book_type (store_book_uuid))
 	)))
 
 	(# Get the store book)

@@ -23,16 +23,16 @@
 
 (# Validate missing fields)
 (func render_validation_errors ((list
-	(if is_admin (func validate_author_missing (author)))
-	(func validate_name_missing (name))
-	(func validate_language_missing (language))
+	(if is_admin (func validate_author_presence (author)))
+	(func validate_name_presence (name))
+	(func validate_language_presence (language))
 )))
 
 (# Validate property types)
 (func render_validation_errors ((list
-	(if is_admin (func validate_author_wrong_type (author)))
-	(func validate_name_wrong_type (name))
-	(func validate_language_wrong_type (language))
+	(if is_admin (func validate_author_type (author)))
+	(func validate_name_type (name))
+	(func validate_language_type (language))
 )))
 
 (# Validate too short and too long fields)
