@@ -2,7 +2,7 @@ import constants from './constants.js'
 import {
 	TablesController,
 	TableObjectsController,
-} from 'dav-npm'
+} from 'dav-js'
 
 export async function resetDatabase() {
 	await resetAuthors()

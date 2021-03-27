@@ -5,7 +5,7 @@ import path from 'path'
 import url from 'url'
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
 import fs from 'fs'
-import { TableObjectsController } from 'dav-npm'
+import { TableObjectsController } from 'dav-js'
 import constants from '../constants.js'
 import * as utils from '../utils.js'
 import * as ErrorCodes from '../errorCodes.js'

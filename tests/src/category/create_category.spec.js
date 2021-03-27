@@ -1,7 +1,7 @@
 import chai from 'chai'
 const assert = chai.assert
 import axios from 'axios'
-import { TableObjectsController } from 'dav-npm'
+import { TableObjectsController } from 'dav-js'
 import constants from '../constants.js'
 import * as utils from '../utils.js'
 import * as ErrorCodes from '../errorCodes.js'
