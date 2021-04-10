@@ -124,6 +124,9 @@
 
 (var store_book (func create_table_object (session.user_id env.STORE_BOOK_TABLE_ID store_book_properties)))
 
+(# Set the price of the table object)
+(func set_table_object_price (store_book.uuid (if (is_nil price) 0 else price) "eur"))
+
 (# Update the collection with the book)
 (func add_book_to_collection (collection_obj store_book.uuid))
 

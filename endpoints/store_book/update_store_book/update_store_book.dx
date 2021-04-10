@@ -113,7 +113,12 @@
 (if (!(is_nil title)) (var store_book.properties.title title))
 (if (!(is_nil description)) (var store_book.properties.description description))
 (if (!(is_nil language)) (var store_book.properties.language language))
-(if (!(is_nil price)) (var store_book.properties.price price))
+(if (!(is_nil price)) (
+	(var store_book.properties.price price)
+
+	(# Set the price of the table object)
+	(func set_table_object_price (store_book.uuid price "eur"))
+))
 (if (!(is_nil isbn)) (var store_book.properties.isbn (if (isbn.length == 0) nil else isbn)))
 
 (if ((!(is_nil status)) and is_admin) (
