@@ -568,73 +568,104 @@ constants.purchases = [
 		// testUser purchased 1984 store book in English
 		id: 1,
 		userId: constants.testUser.id,
-		tableObjectUuid: "b0e4b01d-d53d-47b5-b5e4-48ea7bab6619",
+		uuid: "303d722a-38b2-4400-ae42-a04c3e27ee30",
 		price: 1000,
 		currency: "eur",
-		completed: true
+		completed: true,
+		tableObjects: [
+			"b0e4b01d-d53d-47b5-b5e4-48ea7bab6619",
+			"32adbdaa-0cbe-4672-80a6-19d4b8d6e943"
+		]
 	},
 	{
 		// testUser didn't purchase A Series of Unfortunate Events 2 store book in German
 		id: 2,
 		userId: constants.testUser.id,
-		tableObjectUuid: "617833c8-4d0a-4d78-acd0-306a90e346ba",
+		uuid: "5b704e03-60e2-4e5e-b1c0-9032ccc0cae9",
 		price: 2000,
 		currency: "eur",
-		completed: false
+		completed: false,
+		tableObjects: [
+			"617833c8-4d0a-4d78-acd0-306a90e346ba",
+			"d6f52b96-6bca-40ee-bb70-fb1347e1c8ba"
+		]
 	},
 	{
 		// testUser purchased A Series of Unfortunate Events 4 store book in English
 		id: 3,
 		userId: constants.testUser.id,
-		tableObjectUuid: "d0ca384f-9d8e-4a56-b2e1-c76a0a5cac4b",
+		uuid: "1ac1cbfb-cfe4-4680-b15c-afcb08bfb760",
 		price: 3500,
 		currency: "eur",
-		completed: true
+		completed: true,
+		tableObjects: [
+			"d0ca384f-9d8e-4a56-b2e1-c76a0a5cac4b",
+			"4dd8c2cf-82a0-4887-95f1-68284679a026"
+		]
 	},
 	{
 		// testUser purchased La Ferme des animaux
 		id: 4,
 		userId: constants.testUser.id,
-		tableObjectUuid: "ba96f327-f096-4408-8bd0-620f9aad3f09",
+		uuid: "7c62fcac-5522-422e-aec1-f03fdf874e9b",
 		price: 0,
 		currency: "eur",
-		completed: true
+		completed: true,
+		tableObjects: [
+			"ba96f327-f096-4408-8bd0-620f9aad3f09",
+			"ab3f8f74-b335-4bf2-bc1e-4f85f866ae22"
+		]
 	},
 	{
 		// AuthorUser purchased Childrens category
 		id: 5,
 		userId: constants.authorUser.id,
-		tableObjectUuid: "0d29f1a8-e181-448c-81d1-5000b167cb16",
+		uuid: "6f0762ac-7f80-452e-9d6d-38f843fae8ff",
 		price: 10,
 		currency: "eur",
-		completed: true
+		completed: true,
+		tableObjects: [
+			"0d29f1a8-e181-448c-81d1-5000b167cb16"
+		]
 	},
 	{
 		// AuthorUser purchased Animal Farm in French
 		id: 6,
 		userId: constants.authorUser.id,
-		tableObjectUuid: "ba96f327-f096-4408-8bd0-620f9aad3f09",
+		uuid: "1fdeca3c-25b1-4ba5-8f6e-15bac25b307c",
 		price: 0,
 		currency: "eur",
-		completed: true
+		completed: true,
+		tableObjects: [
+			"ba96f327-f096-4408-8bd0-620f9aad3f09",
+			"ab3f8f74-b335-4bf2-bc1e-4f85f866ae22"
+		]
 	},
 	{
 		// Klaus purchased A Series of Unfortunate Events 4 store book in English
 		id: 7,
 		userId: constants.klausUser.id,
-		tableObjectUuid: "d0ca384f-9d8e-4a56-b2e1-c76a0a5cac4b",
+		uuid: "c9294689-a6ba-4549-a47b-de36f44e2810",
 		price: 3500,
 		currency: "eur",
-		completed: true
+		completed: true,
+		tableObjects: [
+			"d0ca384f-9d8e-4a56-b2e1-c76a0a5cac4b",
+			"4dd8c2cf-82a0-4887-95f1-68284679a026"
+		]
 	},
 	{
 		// Klaus purchased La Ferme des animaux store book in French
 		id: 8,
 		userId: constants.klausUser.id,
-		tableObjectUuid: "ba96f327-f096-4408-8bd0-620f9aad3f09",
+		uuid: "82182b3b-1d3f-44ea-8b7b-9d7f9d7aeb03",
 		price: 0,
 		currency: "eur",
-		completed: true
+		completed: true,
+		tableObjects: [
+			"ba96f327-f096-4408-8bd0-620f9aad3f09",
+			"ab3f8f74-b335-4bf2-bc1e-4f85f866ae22"
+		]
 	}
 ]
 
