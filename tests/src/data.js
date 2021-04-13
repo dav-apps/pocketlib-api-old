@@ -147,7 +147,7 @@ function addStoreBookCollectionNameToTableObjects(storeBookCollectionName, userI
 }
 
 function addStoreBookToTableObjects(storeBook, userId, collectionUuid) {
-	tableObjects.push({
+	let tableObject = {
 		uuid: storeBook.uuid,
 		userId,
 		tableId: constants.storeBookTableId,
@@ -167,7 +167,16 @@ function addStoreBookToTableObjects(storeBook, userId, collectionUuid) {
 			file_name: storeBook.fileName ? storeBook.fileName : "",
 			categories: storeBook.categories ? storeBook.categories.join(',') : ""
 		}
-	})
+	}
+
+	if (storeBook.price != null) {
+		tableObject.price = {
+			price: storeBook.price,
+			currency: "eur"
+		}
+	}
+
+	tableObjects.push(tableObject)
 }
 
 function addStoreBookCoverToTableObjects(storeBookCover, userId) {

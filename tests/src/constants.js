@@ -1,3 +1,5 @@
+import { Auth } from 'dav-js'
+
 let constants = {
 	apiBaseUrl: "http://localhost:3111/v1",
 	pocketlibAppId: 4,
@@ -13,6 +15,11 @@ let constants = {
 	storeBookFileTableId: 21,
 	categoryTableId: 22,
 	categoryNameTableId: 23,
+	davDev: new Auth({
+		apiKey: "eUzs3PQZYweXvumcWvagRHjdUroGe5Mo7kN1inHm",
+		secretKey: "Stac8pRhqH0CSO5o9Rxqjhu7vyVp4PINEMJumqlpvRQai4hScADamQ",
+		uuid: "d133e303-9dbb-47db-9531-008b20e5aae8"
+	}),
 	// User id: 2, Dev id: 2, App id: 1 (TestApp)
 	testUserTestAppAccessToken: "ckktuu0gs00008iw3ctnrofzf",
 	authorUser: {

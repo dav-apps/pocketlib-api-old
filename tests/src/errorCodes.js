@@ -22,6 +22,7 @@ export const CollectionMissing = 2106
 export const TitleMissing = 2107
 export const KeyMissing = 2108
 export const StoreBookMissing = 2109
+export const CurrencyMissing = 2110
 
 // Fields with wrong type
 export const FirstNameWrongType = 2200
@@ -44,6 +45,7 @@ export const CategoriesWrongType = 2216
 export const PublishedWrongType = 2217
 export const KeyWrongType = 2218
 export const StoreBookWrongType = 2219
+export const CurrencyWrongType = 2220
 
 // Too short fields
 export const FirstNameTooShort = 2300
@@ -82,6 +84,8 @@ export const StoreBookIsAlreadyInLibrary = 3005
 export const StatusNotSupported = 3006
 export const NotSufficientStorageAvailable = 3007
 export const DavProRequired = 3008
+export const UserAlreadyPurchasedThisStoreBook = 3009
+export const UserOfStoreBookMustHaveProvider = 3010
 
 // Access token errors
 export const CannotUseOldAccessToken = 3100
@@ -116,3 +120,4 @@ export const StoreBookCoverDoesNotExist = 3509
 export const StoreBookFileDoesNotExist = 3510
 export const CategoryDoesNotExist = 3511
 export const CategoryNameDoesNotExist = 3512
+export const TableObjectPriceDoesNotExist = 3513
