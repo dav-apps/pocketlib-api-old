@@ -21,6 +21,7 @@
 		{"code": 2107, "message": "Missing field: title"},
 		{"code": 2108, "message": "Missing field: key"},
 		{"code": 2109, "message": "Missing field: store_book"},
+		{"code": 2110, "message": "Missing field: currency"},
 
 		{"code": 2200, "message": "Field has wrong type: first_name"},
 		{"code": 2201, "message": "Field has wrong type: last_name"},
@@ -42,6 +43,7 @@
 		{"code": 2217, "message": "Field has wrong type: published"},
 		{"code": 2218, "message": "Field has wrong type: key"},
 		{"code": 2219, "message": "Field has wrong type: store_book"},
+		{"code": 2220, "message": "Field has wrong type: currency"},
 
 		{"code": 2300, "message": "Field too short: first_name"},
 		{"code": 2301, "message": "Field too short: last_name"},
@@ -76,6 +78,8 @@
 		{"code": 3006, "message": "Status not supported"},
 		{"code": 3007, "message": "Not sufficient storage available"},
 		{"code": 3008, "message": "dav Pro required"},
+		{"code": 3009, "message": "The user already purchased this StoreBook"},
+		{"code": 3010, "message": "The user of the StoreBook must have a Provider"},
 
 		{"code": 3100, "message": "Can't use old access token"},
 		{"code": 3101, "message": "Access token must be renewed"},
@@ -104,6 +108,7 @@
 		{"code": 3509, "message": "Resource does not exist: StoreBookCover"},
 		{"code": 3510, "message": "Resource does not exist: StoreBookFile"},
 		{"code": 3511, "message": "Resource does not exist: Category"},
-		{"code": 3512, "message": "Resource does not exist: CategoryName"}
+		{"code": 3512, "message": "Resource does not exist: CategoryName"},
+		{"code": 3513, "message": "Resource does not exist: TableObjectPrice"}
 	]
 }

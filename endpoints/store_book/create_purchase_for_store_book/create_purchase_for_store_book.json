@@ -1,0 +1,6 @@
+{
+	"type": "endpoint",
+	"path": "store/book/:uuid/purchase",
+	"method": "POST",
+	"source": "./create_purchase_for_store_book.dx"
+}

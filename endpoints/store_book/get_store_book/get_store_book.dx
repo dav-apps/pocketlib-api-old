@@ -39,7 +39,7 @@
 ))
 
 (if (! can_access) (
-	(# Access not allowed)
+	(# Action not allowed)
 	(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
 ))
 

@@ -53,7 +53,7 @@
 
 			(# Check if the user can access the store book)
 			(if (status != "published") (
-				(# Access not allowed)
+				(# Action not allowed)
 				(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
 			))
 

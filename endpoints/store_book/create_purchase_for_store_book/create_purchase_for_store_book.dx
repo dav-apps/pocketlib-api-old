@@ -1,0 +1,120 @@
+(var json (parse_json (get_body)))
+
+(var currency json.currency)
+
+(# Get the access token)
+(var access_token (get_header Authorization))
+(func render_validation_errors ((list
+	(func validate_auth_header_presence (access_token))
+)))
+
+(# Make sure content type is json)
+(func render_validation_errors ((list
+	(func validate_content_type_json ((get_header Content-Type)))
+)))
+
+(# Get the session)
+(var session (func get_session (access_token)))
+
+(# Validate missing fields)
+(func render_validation_errors ((list
+	(func validate_currency_presence (currency))
+)))
+
+(# Validate the property types)
+(func render_validation_errors ((list
+	(func validate_currency_type (currency))
+)))
+
+(# Get the store book)
+(var store_book (func get_table_object (uuid env.STORE_BOOK_TABLE_ID)))
+
+(if (is_nil store_book) (
+	(# StoreBook does not exist)
+	(func render_validation_errors ((list (hash (error (get_error 3508)) (status 404)))))
+))
+
+(# Check if the user already purchased the store book)
+(if (func has_user_purchased_table_object (session.user_id store_book.id)) (
+	(func render_validation_errors ((list (hash (error (get_error 3009)) (status 422)))))
+))
+
+(# Get the status)
+(var status (if (is_nil store_book.properties.status) "unpublished" else store_book.properties.status))
+
+(# Check if the user can access the store book)
+(var can_access (
+	(if (status == "published") (
+		(return true)
+	) else (
+		(# Check if the user is the author of the store book)
+		(return (session.user_id == store_book.user_id))
+	))
+))
+
+(if (! can_access) (
+	(# Action not allowed)
+	(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
+))
+
+(var price (func get_table_object_price (store_book.uuid currency)))
+
+(if (is_nil price) (
+	(# TableObjectPrice does not exist)
+	(func render_validation_errors ((list (hash (error (get_error 3513)) (status 404)))))
+))
+
+(# Set the price to 0 if the store book belongs to the user)
+(if (session.user_id == store_book.user_id) (
+	(var price 0)
+))
+
+(if (price > 0) (
+	(# Make sure the user of the table object has a provider)
+	(if (! (func user_is_provider (store_book.user_id))) (
+		(# User must have a provider)
+		(func render_validation_errors ((list (hash (error (get_error 3010)) (status 412)))))
+	))
+))
+
+(# Get the name of the author)
+(var store_book_collection (func get_table_object (store_book.properties.collection env.STORE_BOOK_COLLECTION_TABLE_ID)))
+
+(if (is_nil store_book_collection) (
+	(# Collection does not exist)
+	(func render_validation_errors ((list (hash (error (get_error 3506)) (status 404)))))
+))
+
+(var author (func get_table_object (store_book_collection.properties.author env.AUTHOR_TABLE_ID)))
+
+(if (is_nil author) (
+	(# Author does not exist)
+	(func render_validation_errors ((list (hash (error (get_error 3503)) (status 404)))))
+))
+
+(# Create the purchase)
+(var purchase (func create_purchase (
+	session.user_id
+	(author.properties.first_name + " " + author.properties.last_name)
+	(env.API_BASE_URL + "/author/" + author.uuid + "/profile_image")
+	store_book.properties.title
+	(env.API_BASE_URL + "/store/book/" + store_book.uuid + "/cover")
+	price
+	currency
+	(list store_book.uuid store_book.properties.file)
+)))
+
+(# Render the result)
+(render_json (hash
+	(id purchase.id)
+	(user_id purchase.user_id)
+	(uuid purchase.uuid)
+	(payment_intent_id purchase.payment_intent_id)
+	(provider_name purchase.provider_name)
+	(provider_image purchase.provider_image)
+	(product_name purchase.product_name)
+	(product_image purchase.product_image)
+	(price purchase.price)
+	(currency purchase.currency)
+	(completed purchase.completed)
+) 201)

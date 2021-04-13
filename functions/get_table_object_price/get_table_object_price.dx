@@ -1,0 +1,7 @@
+(# params: uuid: string, currency: string)
+(catch (
+	(TableObject.get_price uuid currency)
+) (
+	(# Action not allowed)
+	(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
+))
