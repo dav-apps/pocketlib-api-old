@@ -211,8 +211,6 @@ function addBookToTableObjects(book, userId) {
 		file: book.file
 	}
 
-	if (book.purchase) properties.purchase = book.purchase
-
 	tableObjects.push({
 		uuid: book.uuid,
 		userId,

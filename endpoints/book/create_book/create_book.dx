@@ -1,7 +1,6 @@
 (var json (parse_json (get_body)))
 
 (var store_book_uuid json.store_book)
-(var purchase_id json.purchase)
 (var type json.type)
 
 (# Get the access token)
@@ -89,7 +88,6 @@
 
 	(# Create the book)
 	(var book_properties (hash (store_book store_book.uuid) (file store_book.properties.file)))
-	(if (!(is_nil purchase)) (var book_properties.purchase purchase.id))
 	(if (book_type == "application/pdf") (var book_properties.title store_book.properties.title))
 
 	(var book (func create_table_object (session.user_id env.BOOK_TABLE_ID book_properties)))

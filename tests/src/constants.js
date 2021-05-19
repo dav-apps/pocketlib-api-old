@@ -477,7 +477,6 @@ let constants = {
 			{
 				uuid: "e4183c7a-12fd-42e9-9bdd-b351cbf6448e",
 				storeBook: "b0e4b01d-d53d-47b5-b5e4-48ea7bab6619",
-				purchase: 1,
 				file: "32adbdaa-0cbe-4672-80a6-19d4b8d6e943"
 			}
 		]
