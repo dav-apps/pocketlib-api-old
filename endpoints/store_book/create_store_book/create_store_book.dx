@@ -1,5 +1,6 @@
 (var json (parse_json (get_body)))
 
+(var author json.author)
 (var collection json.collection)
 (var title json.title)
 (var description json.description)
@@ -22,16 +23,20 @@
 (# Get the session)
 (var session (func get_session (access_token)))
 
+(# Check if the user is an admin)
+(var is_admin (env.ADMINS.contains session.user_id))
+
 (# Validate missing fields)
 (func render_validation_errors ((list
-	(func validate_collection_presence (collection))
+	(if (is_admin and (is_nil collection)) (func validate_author_presence (author)))
 	(func validate_title_presence (title))
 	(func validate_language_presence (language))
 )))
 
 (# Validate the property types)
 (func render_validation_errors ((list
-	(func validate_collection_type (collection))
+	(if (!(is_nil author)) (func validate_author_type (author)))
+	(if (!(is_nil collection)) (func validate_collection_type (collection)))
 	(func validate_title_type (title))
 	(if (!(is_nil description)) (func validate_description_type (description)))
 	(func validate_language_type (language))
@@ -57,27 +62,52 @@
 	(if (!(is_nil isbn)) (func validate_isbn_validity (isbn)))
 )))
 
-(# Get the author of the user)
-(var authors (func get_author_table_objects (session.user_id)))
-(if (authors.length == 0) (
-	(# Render User is not an author error)
-	(func render_validation_errors ((list (hash (error (get_error 3000)) (status 400)))))
+(if (! is_admin) (
+	(# Check if the user is an author)
+	(var authors (func get_author_table_objects (session.user_id)))
+	(if (authors.length == 0) (
+		(# User is not an author)
+		(func render_validation_errors ((list (hash (error (get_error 3000)) (status 400)))))
+	))
+
+	(var author_obj authors#0)
 ))
 
-(var author authors#0)
+(if (is_nil collection) (
+	(# Create a new collection)
+	(if (is_admin) (
+		(var author_obj (func get_table_object (author env.AUTHOR_TABLE_ID session.user_id)))
 
-(# Get the collection)
-(var collection_obj (func get_table_object (collection env.STORE_BOOK_COLLECTION_TABLE_ID)))
+		(if (is_nil author_obj) (
+			(# Author does not exist)
+			(func render_validation_errors ((list (hash (error (get_error 3503)) (status 404)))))
+		))		
+	))
 
-(if (is_nil collection_obj) (
-	(# Collection does not exist)
-	(func render_validation_errors ((list (hash (error (get_error 3506)) (status 404)))))
-))
+	(# Create the collection name)
+	(var collection_name_properties (hash
+		(name title)
+		(language language)
+	))
+	(var collection_name (func create_table_object (session.user_id env.STORE_BOOK_COLLECTION_NAME_TABLE_ID collection_name_properties)))
 
-(# Check if the collection belongs to the user)
-(if (collection_obj.user_id != session.user_id) (
-	(# Action not allowed)
-	(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
+	(# Create the collection)
+	(var collection_properties (hash 
+		(author author_obj.uuid)
+		(names collection_name.uuid)
+	))
+	(var collection_obj (func create_table_object (session.user_id env.STORE_BOOK_COLLECTION_TABLE_ID collection_properties)))
+
+	(# Update the collections property of the author)
+	(func add_collection_to_author (author_obj collection_obj.uuid))
+) else (
+	(# Get the collection)
+	(var collection_obj (func get_table_object (collection env.STORE_BOOK_COLLECTION_TABLE_ID session.user_id)))
+
+	(if (is_nil collection_obj) (
+		(# Collection does not exist)
+		(func render_validation_errors ((list (hash (error (get_error 3506)) (status 404)))))
+	))
 ))
 
 (# Create the store book)
