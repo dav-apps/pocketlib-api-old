@@ -1,6 +1,6 @@
 {
 	"type": "function",
 	"name": "get_table_object",
-	"params": ["uuid", "table_id"],
+	"params": ["uuid", "table_id", "user_id"],
 	"source": "./get_table_object.dx"
 }

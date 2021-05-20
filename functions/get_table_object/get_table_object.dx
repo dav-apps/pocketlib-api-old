@@ -1,4 +1,4 @@
-(# params: uuid: string, table_id: int)
+(# params: uuid: string, table_id: int, user_id: int)
 (catch (
 	(var obj (TableObject.get uuid))
 ) (
@@ -9,8 +9,11 @@
 (if (is_nil obj) (
 	(return nil)
 ) else (
-	(# Check if the table object belongs to the given table)
-	(if (obj.table_id != table_id) (
+	(# Check if the table object belongs to the user and to the table)
+	(if (
+		(obj.table_id != table_id)
+		or ((!(is_nil user_id)) and (obj.user_id != user_id))
+	) (
 		(# Action not allowed)
 		(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
 	))
