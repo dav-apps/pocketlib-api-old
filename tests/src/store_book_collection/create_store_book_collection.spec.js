@@ -339,6 +339,31 @@ describe("CreateStoreBookCollection endpoint", () => {
 		assert.fail()
 	})
 
+	it("should not create store book collection as admin for author that does not belong to the user", async () => {
+		try {
+			await axios.default({
+				method: 'post',
+				url: createStoreBookCollectionEndpointUrl,
+				headers: {
+					Authorization: constants.davUser.accessToken,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					author: constants.authorUser.author.uuid,
+					name: "Hello World",
+					language: "en"
+				}
+			})
+		} catch (error) {
+			assert.equal(403, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
+			return
+		}
+
+		assert.fail()
+	})
+
 	it("should not create store book collection as admin for author that does not exist", async () => {
 		try {
 			await axios.default({
