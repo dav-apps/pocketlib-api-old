@@ -108,6 +108,21 @@
 		(# Collection does not exist)
 		(func render_validation_errors ((list (hash (error (get_error 3506)) (status 404)))))
 	))
+
+	(# Check if the collection already has a name for the given language)
+	(var names (func get_collection_names_by_string_as_hash (collection_obj.properties.names false)))
+
+	(if (is_nil names..language) (
+		(# Create the name for the language)
+		(var collection_name_properties (hash
+			(name title)
+			(language language)
+		))
+		(var collection_name (func create_table_object (session.user_id env.STORE_BOOK_COLLECTION_NAME_TABLE_ID collection_name_properties)))
+
+		(# Update the names property of the collection)
+		(func add_name_to_collection (collection_obj collection_name.uuid))
+	))
 ))
 
 (# Create the store book)
