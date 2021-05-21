@@ -726,7 +726,7 @@ async function resetDavUserStoreBooks() {
 		if (testDatabaseStoreBooks.includes(storeBook.uuid)) continue
 
 		// Delete the store book
-		await deleteTableObject(constants.authorUser.accessToken, storeBook.uuid)
+		await deleteTableObject(constants.davUser.accessToken, storeBook.uuid)
 	}
 }
 
