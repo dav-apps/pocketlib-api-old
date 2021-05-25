@@ -46,7 +46,7 @@ describe("GetAuthor endpoint", async () => {
 				url: getAuthorEndpointUrl.replace('{0}', constants.authorUser.author.uuid),
 				params: {
 					books: true,
-					language: "asd"
+					languages: "asd"
 				}
 			})
 		} catch (error) {
@@ -72,7 +72,11 @@ describe("GetAuthor endpoint", async () => {
 	})
 
 	it("should return author with books with specified language", async () => {
-		await testGetAuthorWithBooks(constants.authorUser.author, "de")
+		await testGetAuthorWithBooks(constants.authorUser.author, ["de"])
+	})
+
+	it("should return author with books with specified languages", async () => {
+		await testGetAuthorWithBooks(constants.authorUser.author, ["en", "de"])
 	})
 
 	it("should return author of admin with books", async () => {
@@ -80,7 +84,11 @@ describe("GetAuthor endpoint", async () => {
 	})
 
 	it("should return author of admin with books with specified language", async () => {
-		await testGetAuthorWithBooks(constants.davUser.authors[0], "de")
+		await testGetAuthorWithBooks(constants.davUser.authors[0], ["de"])
+	})
+
+	it("should return author of admin with books with specified languages", async () => {
+		await testGetAuthorWithBooks(constants.davUser.authors[0], ["en", "de"])
 	})
 })
 
@@ -135,7 +143,7 @@ async function testGetAuthor(author) {
 	}
 }
 
-async function testGetAuthorWithBooks(author, language) {
+async function testGetAuthorWithBooks(author, languages) {
 	let response
 
 	try {
@@ -147,8 +155,8 @@ async function testGetAuthorWithBooks(author, language) {
 			}
 		}
 
-		if (language) {
-			options.params["language"] = language
+		if (languages) {
+			options.params["languages"] = languages.join(',')
 		}
 
 		response = await axios.default(options)
@@ -156,15 +164,15 @@ async function testGetAuthorWithBooks(author, language) {
 		assert.fail()
 	}
 
-	if (!language) {
-		language = "en"
+	if (!languages) {
+		languages = ["en"]
 	}
 
 	// Find the store books
 	let storeBooks = []
 	for (let collection of author.collections) {
 		for (let storeBook of collection.books) {
-			if (storeBook.status == "published" && storeBook.language == language) {
+			if (storeBook.status == "published" && languages.includes(storeBook.language)) {
 				storeBooks.push(storeBook)
 			}
 		}

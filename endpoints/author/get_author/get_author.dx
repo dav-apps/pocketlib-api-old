@@ -1,3 +1,5 @@
+(var language_list (list))
+
 (if (is_nil books) (
 	(var books false)
 ) else (
@@ -5,14 +7,19 @@
 ))
 
 (if books (
-	(# Get the language)
-	(if (is_nil language) (
-		(var language "en")
+	(# Get the languages)
+	(if (is_nil languages) (
+		(language_list.push "en")
 	) else (
-		(# Validate the language)
-		(func render_validation_errors ((list
-			(func validate_language_supported (language))
-		)))
+		(# Read the languages string and add the languages to the list)
+		(for language in (languages.split ",") (
+			(# Validate the languages)
+			(func render_validation_errors ((list
+				(func validate_language_supported (language))
+			)))
+
+			(language_list.push language)
+		))
 	))
 ))
 
@@ -41,7 +48,7 @@
 			(var store_book (func get_table_object (uuid env.STORE_BOOK_TABLE_ID)))
 
 			(if (!(is_nil store_book)) (
-				(if ((store_book.properties.status == "published") and (store_book.properties.language == language)) (
+				(if ((store_book.properties.status == "published") and (language_list.contains store_book.properties.language)) (
 					(author_books.push (hash
 						(uuid store_book.uuid)
 						(title store_book.properties.title)
