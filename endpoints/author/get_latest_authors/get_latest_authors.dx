@@ -1,5 +1,12 @@
+(var limit (to_int limit))
+
+(if (limit <= 0) (
+	(var limit 8)
+))
+
 (# Get the latest authors)
 (var author_objects (func get_latest_author_table_objects ()))
+(var author_objects author_objects.reverse)
 (var authors (list))
 
 (for author_object in author_objects (
@@ -19,10 +26,13 @@
 		))
 
 		(authors.push author)
+
+		(# Check if the limit is reached)
+		(if (authors.length >= limit) (break))
 	))
 ))
 
 (# Render the result)
 (render_json (hash
-	(authors authors.reverse)
+	(authors authors)
 ) 200)

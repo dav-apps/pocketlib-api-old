@@ -3,7 +3,7 @@ const assert = chai.assert
 import axios from 'axios'
 import constants from '../constants.js'
 
-const getLatestAuthors = `${constants.apiBaseUrl}/api/1/call/authors/latest`
+const getLatestAuthorsEndpointUrl = `${constants.apiBaseUrl}/api/1/call/authors/latest`
 
 describe("GetLatestAuthors endpoint", () => {
 	it("should return latest authors", async () => {
@@ -12,7 +12,7 @@ describe("GetLatestAuthors endpoint", () => {
 		try {
 			response = await axios.default({
 				method: 'get',
-				url: getLatestAuthors
+				url: getLatestAuthorsEndpointUrl
 			})
 		} catch (error) {
 			assert.fail()
@@ -42,5 +42,43 @@ describe("GetLatestAuthors endpoint", () => {
 
 			i++
 		}
+	})
+
+	it("should return latest authors with limit", async () => {
+		let response
+
+		try {
+			response = await axios.default({
+				method: 'get',
+				url: getLatestAuthorsEndpointUrl,
+				params: {
+					limit: 1
+				}
+			})
+		} catch (error) {
+			assert.fail()
+		}
+
+		// Find all authors with a profile image
+		let authors = [constants.authorUser.author]
+		for (let author of constants.davUser.authors) {
+			if (author.profileImage) authors.push(author)
+		}
+		
+		let author = authors.pop()
+
+		assert.equal(200, response.status)
+		assert.equal(1, response.data.authors.length)
+
+		let responseAuthor = response.data.authors.pop()
+		assert.equal(author.uuid, responseAuthor.uuid)
+		assert.equal(author.firstName, responseAuthor.first_name)
+		assert.equal(author.lastName, responseAuthor.last_name)
+		assert.equal(author.websiteUrl, responseAuthor.website_url)
+		assert.equal(author.facebookUsername, responseAuthor.facebook_username)
+		assert.equal(author.instagramUsername, responseAuthor.instagram_username)
+		assert.equal(author.twitterUsername, responseAuthor.twitter_username)
+		assert.equal(author.profileImage != null, responseAuthor.profile_image)
+		assert.equal(author.profileImageBlurhash, responseAuthor.profile_image_blurhash)
 	})
 })
