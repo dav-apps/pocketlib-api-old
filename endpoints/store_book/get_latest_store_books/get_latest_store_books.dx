@@ -1,4 +1,6 @@
 (var language_list (list))
+(var limit (to_int limit))
+(var page (to_int page))
 
 (if (is_nil languages) (
 	(language_list.push "en")
@@ -14,8 +16,17 @@
 	))
 ))
 
+(if (limit <= 0) (
+	(var limit 50)
+))
+
+(if (page <= 0) (
+	(var page 1)
+))
+
 (# Get the latest store books)
 (var book_objects (func get_latest_store_book_table_objects ()))
+(var book_objects book_objects.reverse)
 (var books (list))
 
 (for book_object in book_objects (
@@ -45,7 +56,27 @@
 	))
 ))
 
+(# Calculate the available pages)
+(var pages 1)
+(if (books.length > 0) (
+	(if ((books.length % limit) == 0) (
+		(var pages (books.length / limit))
+	) else (
+		(var pages ((books.length / limit) + 1))
+	))
+))
+
+(if (page > pages) (
+	(var page pages)
+))
+
+(# Select the correct books)
+(var start (limit * (page - 1)))
+(var length (if (limit > books.length) books.length else limit))
+(var selected_books (books.select start length))
+
 (# Render the result)
 (render_json (hash
-	(books books.reverse)
+	(books selected_books)
+	(pages pages)
 ) 200)

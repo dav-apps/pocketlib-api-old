@@ -234,4 +234,125 @@ describe("GetLatestStoreBooks endpoint", async () => {
 			i++
 		}
 	})
+
+	it("should return latest store books with limit and page", async () => {
+		let response
+		let languages = ["de", "en"]
+		let limit = 2
+
+		try {
+			response = await axios.default({
+				method: 'get',
+				url: getLatestStoreBooksEndpointUrl,
+				params: {
+					languages: languages.join(','),
+					limit
+				}
+			})
+		} catch (error) {
+			assert.fail()
+		}
+
+		// Find all published store books with the languages
+		let storeBooks = []
+		for (let collection of constants.authorUser.author.collections) {
+			for (let storeBook of collection.books) {
+				if (languages.includes(storeBook.language) && storeBook.status == "published") {
+					storeBooks.push(storeBook)
+				}
+			}
+		}
+
+		for (let author of constants.davUser.authors) {
+			for (let collection of author.collections) {
+				for (let storeBook of collection.books) {
+					if (languages.includes(storeBook.language) && storeBook.status == "published") {
+						storeBooks.push(storeBook)
+					}
+				}
+			}
+		}
+
+		storeBooks = storeBooks.reverse()
+		let pages = Math.ceil(storeBooks.length / limit)
+
+		assert.equal(200, response.status)
+		assert.equal(limit, response.data.books.length)
+		assert.equal(pages, response.data.pages)
+
+		for (let i = 0; i < limit; i++){
+			let storeBook = storeBooks[i]
+			let responseBook = response.data.books[i]
+
+			assert.equal(storeBook.uuid, responseBook.uuid)
+			assert.equal(storeBook.title, responseBook.title)
+			assert.equal(storeBook.description, responseBook.description)
+			assert.equal(storeBook.language, responseBook.language)
+			assert.equal(storeBook.price ?? 0, responseBook.price)
+			assert.equal(storeBook.isbn, responseBook.isbn)
+			assert.equal(storeBook.status, responseBook.status)
+			assert.equal(storeBook.cover != null, responseBook.cover)
+			assert.equal(storeBook.coverAspectRatio, responseBook.cover_aspect_ratio)
+			assert.equal(storeBook.coverBlurhash, responseBook.cover_blurhash)
+			assert.equal(storeBook.file != null, responseBook.file)
+			assert.equal(storeBook.fileName, responseBook.file_name)
+
+			if (storeBook.categories) {
+				assert.equal(storeBook.categories.length, responseBook.categories.length)
+
+				for (let key of responseBook.categories) {
+					assert(constants.categories.find(c => c.key == key) != null)
+				}
+			} else {
+				assert.equal(0, responseBook.categories.length)
+			}
+		}
+
+		// Get the store books of the next page
+		try {
+			response = await axios.default({
+				method: 'get',
+				url: getLatestStoreBooksEndpointUrl,
+				params: {
+					languages: languages.join(','),
+					limit,
+					page: 2
+				}
+			})
+		} catch (error) {
+			assert.fail()
+		}
+
+		assert.equal(200, response.status)
+		assert.equal(limit, response.data.books.length)
+		assert.equal(pages, response.data.pages)
+
+		for (let i = 0; i < limit; i++){
+			let storeBook = storeBooks[i + limit]
+			let responseBook = response.data.books[i]
+
+			assert.equal(storeBook.uuid, responseBook.uuid)
+			assert.equal(storeBook.title, responseBook.title)
+			assert.equal(storeBook.description, responseBook.description)
+			assert.equal(storeBook.language, responseBook.language)
+			assert.equal(storeBook.price ?? 0, responseBook.price)
+			assert.equal(storeBook.isbn, responseBook.isbn)
+			assert.equal(storeBook.status, responseBook.status)
+			assert.equal(storeBook.cover != null, responseBook.cover)
+			assert.equal(storeBook.coverAspectRatio, responseBook.cover_aspect_ratio)
+			assert.equal(storeBook.coverBlurhash, responseBook.cover_blurhash)
+			assert.equal(storeBook.file != null, responseBook.file)
+			assert.equal(storeBook.fileName, responseBook.file_name)
+
+			if (storeBook.categories) {
+				assert.equal(storeBook.categories.length, responseBook.categories.length)
+
+				for (let key of responseBook.categories) {
+					assert(constants.categories.find(c => c.key == key) != null)
+				}
+			} else {
+				assert.equal(0, responseBook.categories.length)
+			}
+		}
+	})
 })
