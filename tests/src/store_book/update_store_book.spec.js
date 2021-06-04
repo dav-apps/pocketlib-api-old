@@ -193,7 +193,7 @@ describe("UpdateStoreBook endpoint", () => {
 				},
 				data: {
 					title: "a".repeat(150),
-					description: "a".repeat(2010)
+					description: "a".repeat(3010)
 				}
 			})
 		} catch (error) {
