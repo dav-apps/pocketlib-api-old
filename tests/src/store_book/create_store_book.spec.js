@@ -379,7 +379,7 @@ describe("CreateStoreBook endpoint", () => {
 				data: {
 					collection: "a".repeat(220),
 					title: "a".repeat(150),
-					description: "a".repeat(3010),
+					description: "a".repeat(4010),
 					language: "de"
 				}
 			})
