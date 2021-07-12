@@ -1,6 +1,6 @@
 (# params: description: string)
 (if ((is_nil description) or (description.length == 0)) (
 	(hash (error (get_error 2305)) (status 400))
-) elseif (description.length > 3500) (
+) elseif (description.length > 5700) (
 	(hash (error (get_error 2405)) (status 400))
 ))
