@@ -22,7 +22,8 @@
 (var session (func get_session (access_token)))
 
 (# Check if the user is an admin)
-(var is_admin (env.ADMINS.contains session.user_id))
+(var admins (get_env "ADMINS"))
+(var is_admin (admins.contains session.user_id))
 
 (if is_admin (
 	(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))

@@ -17,7 +17,8 @@
 (var session (func get_session (access_token)))
 
 (# Check if the user is an admin)
-(var is_admin (env.ADMINS.contains session.user_id))
+(var admins (get_env "ADMINS"))
+(var is_admin (admins.contains session.user_id))
 (if (! is_admin) (
 	(# Action not allowed)
 	(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
@@ -46,7 +47,7 @@
 (var key key.downcase)
 
 (# Check if a category with the key already exists)
-(var categories (TableObject.find_by_property env.ADMINS#0 env.CATEGORY_TABLE_ID "key" key))
+(var categories (TableObject.find_by_property admins#0 (get_env "CATEGORY_TABLE_ID") "key" key))
 
 (if (categories.length > 0) (
 	(# Key already taken)
@@ -54,7 +55,7 @@
 ))
 
 (# Create the category)
-(var category (func create_table_object (env.ADMINS#0 env.CATEGORY_TABLE_ID (hash (key key)))))
+(var category (func create_table_object (admins#0 (get_env "CATEGORY_TABLE_ID") (hash (key key)))))
 
 (# Render the result)
 (render_json (hash

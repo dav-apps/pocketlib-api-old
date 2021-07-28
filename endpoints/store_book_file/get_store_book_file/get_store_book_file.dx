@@ -8,13 +8,14 @@
 (var session (func get_session (access_token)))
 
 (# Check if the user is an admin)
-(var is_admin (env.ADMINS.contains session.user_id))
+(var admins (get_env "ADMINS"))
+(var is_admin (admins.contains session.user_id))
 
 (# Get the user)
 (var user (func get_user (session.user_id)))
 
 (# Get the store book)
-(var store_book (func get_table_object (uuid env.STORE_BOOK_TABLE_ID)))
+(var store_book (func get_table_object (uuid (get_env "STORE_BOOK_TABLE_ID"))))
 
 (if (is_nil store_book) (
 	(# StoreBook does not exist)
@@ -53,7 +54,7 @@
 ))
 
 (# Get the file)
-(var file_obj (func get_table_object (store_book.properties.file env.STORE_BOOK_FILE_TABLE_ID)))
+(var file_obj (func get_table_object (store_book.properties.file (get_env "STORE_BOOK_FILE_TABLE_ID"))))
 
 (if (is_nil file_obj) (
 	(func render_no_file ())

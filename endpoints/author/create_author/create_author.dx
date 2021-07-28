@@ -18,7 +18,8 @@
 (var session (func get_session (access_token)))
 
 (# Check if the user is an admin)
-(var is_admin (env.ADMINS.contains session.user_id))
+(var admins (get_env "ADMINS"))
+(var is_admin (admins.contains session.user_id))
 
 (# Get the authors of the user)
 (var authors (func get_author_table_objects (session.user_id)))
@@ -46,7 +47,7 @@
 )))
 
 (# Create the author)
-(var author (func create_table_object (session.user_id env.AUTHOR_TABLE_ID (hash (first_name first_name) (last_name last_name)))))
+(var author (func create_table_object (session.user_id (get_env "AUTHOR_TABLE_ID") (hash (first_name first_name) (last_name last_name)))))
 
 (# Add the author to the latest authors)
 (func add_author_to_latest_authors_collection (author))

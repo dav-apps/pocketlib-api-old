@@ -22,7 +22,7 @@
 ))
 
 (# Check if the session belongs to PocketLib)
-(if (session.app_id != env.APP_ID) (
+(if (session.app_id != (get_env "APP_ID")) (
 	(# Action not allowed)
 	(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
 ))

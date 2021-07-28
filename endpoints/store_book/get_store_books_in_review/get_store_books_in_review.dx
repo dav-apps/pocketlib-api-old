@@ -8,14 +8,15 @@
 (var session (func get_session (access_token)))
 
 (# Check if the user is an admin)
-(var is_admin (env.ADMINS.contains session.user_id))
+(var admins (get_env "ADMINS"))
+(var is_admin (admins.contains session.user_id))
 (if (! is_admin) (
 	(# Action not allowed)
 	(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
 ))
 
 (# Get all store books in review)
-(var book_objects (TableObject.find_by_property * env.STORE_BOOK_TABLE_ID "status" "review"))
+(var book_objects (TableObject.find_by_property * (get_env "STORE_BOOK_TABLE_ID") "status" "review"))
 (var books (list))
 
 (for book_object in book_objects (

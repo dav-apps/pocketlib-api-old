@@ -6,7 +6,7 @@
 	(var store_book_uuids (store_books_string.split ","))
 
 	(for uuid in store_book_uuids (
-		(var store_book (func get_table_object (uuid env.STORE_BOOK_TABLE_ID)))
+		(var store_book (func get_table_object (uuid (get_env "STORE_BOOK_TABLE_ID"))))
 
 		(if (!(is_nil store_book)) (
 			(# Get the status)

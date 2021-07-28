@@ -31,7 +31,7 @@
 	)))
 
 	(# Get the store book)
-	(var store_book (func get_table_object (store_book_uuid env.STORE_BOOK_TABLE_ID)))
+	(var store_book (func get_table_object (store_book_uuid (get_env "STORE_BOOK_TABLE_ID"))))
 
 	(if (is_nil store_book) (
 		(# StoreBook does not exist)
@@ -43,7 +43,8 @@
 
 	(if (is_nil purchase) (
 		(# Check if the user is an admin or the author of the store book)
-		(var is_admin (env.ADMINS.contains session.user_id))
+		(var admins (get_env "ADMINS"))
+		(var is_admin (admins.contains session.user_id))
 		(var is_author (session.user_id == store_book.user_id))
 
 		(if ((! is_admin) and (! is_author)) (
@@ -76,7 +77,7 @@
 	))
 
 	(# Get the table object of the store book file)
-	(var file_obj (func get_table_object (store_book.properties.file env.STORE_BOOK_FILE_TABLE_ID)))
+	(var file_obj (func get_table_object (store_book.properties.file (get_env "STORE_BOOK_FILE_TABLE_ID"))))
 
 	(if (is_nil file_obj) (
 		(# StoreBookFile does not exist)
@@ -90,10 +91,10 @@
 	(var book_properties (hash (store_book store_book.uuid) (file store_book.properties.file)))
 	(if (book_type == "application/pdf") (var book_properties.title store_book.properties.title))
 
-	(var book (func create_table_object (session.user_id env.BOOK_TABLE_ID book_properties)))
+	(var book (func create_table_object (session.user_id (get_env "BOOK_TABLE_ID") book_properties)))
 
 	(# Create a TableObjectUserAccess for the file)
-	(func create_table_object_user_access (book.properties.file session.user_id env.BOOK_FILE_TABLE_ID))
+	(func create_table_object_user_access (book.properties.file session.user_id (get_env "BOOK_FILE_TABLE_ID")))
 
 	(if (book_type == "application/pdf") (
 		(# Render the result as pdf book)

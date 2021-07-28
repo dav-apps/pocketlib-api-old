@@ -24,7 +24,8 @@
 (var session (func get_session (access_token)))
 
 (# Check if the user is an admin)
-(var is_admin (env.ADMINS.contains session.user_id))
+(var admins (get_env "ADMINS"))
+(var is_admin (admins.contains session.user_id))
 
 (# Validate missing fields)
 (func render_validation_errors ((list
@@ -76,7 +77,7 @@
 (if (is_nil collection) (
 	(# Create a new collection)
 	(if (is_admin) (
-		(var author_obj (func get_table_object (author env.AUTHOR_TABLE_ID session.user_id)))
+		(var author_obj (func get_table_object (author (get_env "AUTHOR_TABLE_ID") session.user_id)))
 
 		(if (is_nil author_obj) (
 			(# Author does not exist)
@@ -89,20 +90,20 @@
 		(name title)
 		(language language)
 	))
-	(var collection_name (func create_table_object (session.user_id env.STORE_BOOK_COLLECTION_NAME_TABLE_ID collection_name_properties)))
+	(var collection_name (func create_table_object (session.user_id (get_env "STORE_BOOK_COLLECTION_NAME_TABLE_ID") collection_name_properties)))
 
 	(# Create the collection)
 	(var collection_properties (hash 
 		(author author_obj.uuid)
 		(names collection_name.uuid)
 	))
-	(var collection_obj (func create_table_object (session.user_id env.STORE_BOOK_COLLECTION_TABLE_ID collection_properties)))
+	(var collection_obj (func create_table_object (session.user_id (get_env "STORE_BOOK_COLLECTION_TABLE_ID") collection_properties)))
 
 	(# Update the collections property of the author)
 	(func add_collection_to_author (author_obj collection_obj.uuid))
 ) else (
 	(# Get the collection)
-	(var collection_obj (func get_table_object (collection env.STORE_BOOK_COLLECTION_TABLE_ID session.user_id)))
+	(var collection_obj (func get_table_object (collection (get_env "STORE_BOOK_COLLECTION_TABLE_ID") session.user_id)))
 
 	(if (is_nil collection_obj) (
 		(# Collection does not exist)
@@ -118,7 +119,7 @@
 			(name title)
 			(language language)
 		))
-		(var collection_name (func create_table_object (session.user_id env.STORE_BOOK_COLLECTION_NAME_TABLE_ID collection_name_properties)))
+		(var collection_name (func create_table_object (session.user_id (get_env "STORE_BOOK_COLLECTION_NAME_TABLE_ID") collection_name_properties)))
 
 		(# Update the names property of the collection)
 		(func add_name_to_collection (collection_obj collection_name.uuid))
@@ -167,7 +168,7 @@
 	(var store_book_properties.categories (category_uuids.join ","))
 ))
 
-(var store_book (func create_table_object (session.user_id env.STORE_BOOK_TABLE_ID store_book_properties)))
+(var store_book (func create_table_object (session.user_id (get_env "STORE_BOOK_TABLE_ID") store_book_properties)))
 
 (# Set the price of the table object)
 (func set_table_object_price (store_book.uuid (if (is_nil price) 0 else price) "eur"))

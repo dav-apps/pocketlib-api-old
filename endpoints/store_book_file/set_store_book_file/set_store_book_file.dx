@@ -16,7 +16,7 @@
 (var session (func get_session (access_token)))
 
 (# Get the store book)
-(var store_book (func get_table_object (uuid env.STORE_BOOK_TABLE_ID)))
+(var store_book (func get_table_object (uuid (get_env "STORE_BOOK_TABLE_ID"))))
 
 (if (is_nil store_book) (
 	(# Render Resource does not exist: StoreBook)
@@ -29,7 +29,7 @@
 ))
 
 (# Get the collection of the store book)
-(var collection (func get_table_object (store_book.properties.collection env.STORE_BOOK_COLLECTION_TABLE_ID)))
+(var collection (func get_table_object (store_book.properties.collection (get_env "STORE_BOOK_COLLECTION_TABLE_ID"))))
 
 (if (is_nil collection) (
 	(# Collection does not exist)
@@ -37,7 +37,7 @@
 ))
 
 (# Get the author of the collection)
-(var author (func get_table_object (collection.properties.author env.AUTHOR_TABLE_ID)))
+(var author (func get_table_object (collection.properties.author (get_env "AUTHOR_TABLE_ID"))))
 
 (if (is_nil author) (
 	(# Resource does not exist: Author)
@@ -88,7 +88,7 @@
 	(func create_file ())
 ) else (
 	(# Try to get the file table object)
-	(var file (func get_table_object (file_uuid env.STORE_BOOK_FILE_TABLE_ID)))
+	(var file (func get_table_object (file_uuid (get_env "STORE_BOOK_FILE_TABLE_ID"))))
 
 	(if (is_nil file) (
 		(# Create the file)

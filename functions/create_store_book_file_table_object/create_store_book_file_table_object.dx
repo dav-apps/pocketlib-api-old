@@ -7,7 +7,7 @@
 			"pdf"
 		))
 	))
-	(TableObject.create_file user_id env.STORE_BOOK_FILE_TABLE_ID ext type file)
+	(TableObject.create_file user_id (get_env "STORE_BOOK_FILE_TABLE_ID") ext type file)
 ) (
 	(var error errors#0)
 

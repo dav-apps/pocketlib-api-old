@@ -25,7 +25,8 @@
 ))
 
 (# Get the category)
-(var categories (TableObject.find_by_property env.ADMINS#0 env.CATEGORY_TABLE_ID "key" key))
+(var admins (get_env "ADMINS"))
+(var categories (TableObject.find_by_property admins#0 (get_env "CATEGORY_TABLE_ID") "key" key))
 (if (categories.length == 0) (
 	(# Category does not exist)
 	(func render_validation_errors ((list (hash (error (get_error 3511)) (status 404)))))
@@ -34,7 +35,7 @@
 (var category categories#0)
 
 (# Find StoreBooks with the category)
-(var store_books (TableObject.find_by_property * env.STORE_BOOK_TABLE_ID "categories" category.uuid false))
+(var store_books (TableObject.find_by_property * (get_env "STORE_BOOK_TABLE_ID") "categories" category.uuid false))
 
 (# Get the appropriate store books)
 (var books (list))

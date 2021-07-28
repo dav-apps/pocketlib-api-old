@@ -8,7 +8,8 @@
 (var session (func get_session (access_token)))
 
 (# Check if the user is an admin)
-(var is_admin (env.ADMINS.contains session.user_id))
+(var admins (get_env "ADMINS"))
+(var is_admin (admins.contains session.user_id))
 
 (if is_admin (
 	(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
@@ -37,7 +38,7 @@
 ))
 
 (# Get the profile image table object)
-(var profile_image (func get_table_object (profile_image_uuid env.AUTHOR_PROFILE_IMAGE_TABLE_ID)))
+(var profile_image (func get_table_object (profile_image_uuid (get_env "AUTHOR_PROFILE_IMAGE_TABLE_ID"))))
 
 (if (is_nil profile_image) (
 	(func render_no_profile_image ())

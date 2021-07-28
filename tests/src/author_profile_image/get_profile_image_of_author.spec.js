@@ -15,7 +15,7 @@ afterEach(async () => {
 	}
 })
 
-describe("GetProfileImageOfAuthor", async () => {
+describe("GetProfileImageOfAuthor endpoint", async () => {
 	it("should not return profile image if the author has no profile image", async () => {
 		try {
 			await axios.default({

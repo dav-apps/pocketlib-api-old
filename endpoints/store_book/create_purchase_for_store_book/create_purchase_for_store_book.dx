@@ -27,7 +27,7 @@
 )))
 
 (# Get the store book)
-(var store_book (func get_table_object (uuid env.STORE_BOOK_TABLE_ID)))
+(var store_book (func get_table_object (uuid (get_env "STORE_BOOK_TABLE_ID"))))
 
 (if (is_nil store_book) (
 	(# StoreBook does not exist)
@@ -78,14 +78,14 @@
 ))
 
 (# Get the name of the author)
-(var store_book_collection (func get_table_object (store_book.properties.collection env.STORE_BOOK_COLLECTION_TABLE_ID)))
+(var store_book_collection (func get_table_object (store_book.properties.collection (get_env "STORE_BOOK_COLLECTION_TABLE_ID"))))
 
 (if (is_nil store_book_collection) (
 	(# Collection does not exist)
 	(func render_validation_errors ((list (hash (error (get_error 3506)) (status 404)))))
 ))
 
-(var author (func get_table_object (store_book_collection.properties.author env.AUTHOR_TABLE_ID)))
+(var author (func get_table_object (store_book_collection.properties.author (get_env "AUTHOR_TABLE_ID"))))
 
 (if (is_nil author) (
 	(# Author does not exist)
@@ -96,9 +96,9 @@
 (var purchase (func create_purchase (
 	session.user_id
 	(author.properties.first_name + " " + author.properties.last_name)
-	(env.API_BASE_URL + "/author/" + author.uuid + "/profile_image")
+	((get_env "API_BASE_URL") + "/author/" + author.uuid + "/profile_image")
 	store_book.properties.title
-	(env.API_BASE_URL + "/store/book/" + store_book.uuid + "/cover")
+	((get_env "API_BASE_URL") + "/store/book/" + store_book.uuid + "/cover")
 	price
 	currency
 	(list store_book.uuid store_book.properties.file)

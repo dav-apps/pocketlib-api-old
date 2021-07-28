@@ -19,7 +19,8 @@
 (var session (func get_session (access_token)))
 
 (# Check if the user is an admin)
-(var is_admin (env.ADMINS.contains session.user_id))
+(var admins (get_env "ADMINS"))
+(var is_admin (admins.contains session.user_id))
 
 (# Validate missing fields)
 (func render_validation_errors ((list
@@ -46,7 +47,7 @@
 )))
 
 (if is_admin (
-	(var author_obj (func get_table_object (author env.AUTHOR_TABLE_ID session.user_id)))
+	(var author_obj (func get_table_object (author (get_env "AUTHOR_TABLE_ID") session.user_id)))
 
 	(if (is_nil author_obj) (
 		(# Author does not exist)
@@ -68,14 +69,14 @@
 	(name name)
 	(language language)
 ))
-(var collection_name (func create_table_object (session.user_id env.STORE_BOOK_COLLECTION_NAME_TABLE_ID collection_name_properties)))
+(var collection_name (func create_table_object (session.user_id (get_env "STORE_BOOK_COLLECTION_NAME_TABLE_ID") collection_name_properties)))
 
 (# Create the collection)
 (var collection_properties (hash 
 	(author author_obj.uuid)
 	(names collection_name.uuid)
 ))
-(var collection (func create_table_object (session.user_id env.STORE_BOOK_COLLECTION_TABLE_ID collection_properties)))
+(var collection (func create_table_object (session.user_id (get_env "STORE_BOOK_COLLECTION_TABLE_ID") collection_properties)))
 
 (# Update the collections property of the author)
 (func add_collection_to_author (author_obj collection.uuid))

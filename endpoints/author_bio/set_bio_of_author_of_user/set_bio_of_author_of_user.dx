@@ -17,7 +17,8 @@
 (var session (func get_session (access_token)))
 
 (# Check if the user is an admin)
-(var is_admin (env.ADMINS.contains session.user_id))
+(var admins (get_env "ADMINS"))
+(var is_admin (admins.contains session.user_id))
 
 (if is_admin (
 	(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
@@ -65,14 +66,14 @@
 
 (if (is_nil bio_uuid) (
 	(# Create a new bio)
-	(var bio_obj (func create_table_object (session.user_id env.AUTHOR_BIO_TABLE_ID (hash (bio bio) (language language)))))
+	(var bio_obj (func create_table_object (session.user_id (get_env "AUTHOR_BIO_TABLE_ID") (hash (bio bio) (language language)))))
 
 	(# Update the author with the new bio uuid)
 	(func add_bio_to_author (author bio_obj.uuid))
 ) else (
 	(# Update the existing bio)
 	(func update_table_object (bio_uuid (hash (bio bio))))
-	(var bio_obj (func get_table_object (bio_uuid env.AUTHOR_BIO_TABLE_ID)))
+	(var bio_obj (func get_table_object (bio_uuid (get_env "AUTHOR_BIO_TABLE_ID"))))
 ))
 
 (# Render the result)

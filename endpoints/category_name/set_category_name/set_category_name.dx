@@ -17,14 +17,15 @@
 (var session (func get_session (access_token)))
 
 (# Check if the user is an admin)
-(var is_admin (env.ADMINS.contains session.user_id))
+(var admins (get_env "ADMINS"))
+(var is_admin (admins.contains session.user_id))
 (if (! is_admin) (
 	(# Action not allowed)
 	(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
 ))
 
 (# Get the category)
-(var category (func get_table_object (uuid env.CATEGORY_TABLE_ID)))
+(var category (func get_table_object (uuid (get_env "CATEGORY_TABLE_ID"))))
 
 (if (is_nil category) (
 	(# Category does not exist)
@@ -64,14 +65,14 @@
 
 (if (is_nil name_uuid) (
 	(# Create a new name)
-	(var name_obj (func create_table_object (env.ADMINS#0 env.CATEGORY_NAME_TABLE_ID (hash (name name) (language language)))))
+	(var name_obj (func create_table_object (admins#0 (get_env "CATEGORY_NAME_TABLE_ID") (hash (name name) (language language)))))
 
 	(# Update the category with the new name uuid)
 	(func add_name_to_category (category name_obj.uuid))
 ) else (
 	(# Update the existing name)
 	(func update_table_object (name_uuid (hash (name name))))
-	(var name_obj (func get_table_object (name_uuid env.CATEGORY_NAME_TABLE_ID)))
+	(var name_obj (func get_table_object (name_uuid (get_env "CATEGORY_NAME_TABLE_ID"))))
 ))
 
 (# Render the result)

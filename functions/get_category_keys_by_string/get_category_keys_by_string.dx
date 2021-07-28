@@ -6,7 +6,7 @@
 	(var uuids (categories_string.split ","))
 
 	(for uuid in uuids (
-		(var category (func get_table_object (uuid env.CATEGORY_TABLE_ID)))
+		(var category (func get_table_object (uuid (get_env "CATEGORY_TABLE_ID"))))
 
 		(if (!(is_nil category)) (
 			(keys.push category.properties.key)

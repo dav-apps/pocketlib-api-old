@@ -16,7 +16,7 @@
 (var session (func get_session (access_token)))
 
 (# Get the store book)
-(var store_book (func get_table_object (uuid env.STORE_BOOK_TABLE_ID)))
+(var store_book (func get_table_object (uuid (get_env "STORE_BOOK_TABLE_ID"))))
 
 (if (is_nil store_book) (
 	(# StoreBook does not exist)
@@ -24,7 +24,7 @@
 ))
 
 (# Get the collection of the store book)
-(var collection (func get_table_object (store_book.properties.collection env.STORE_BOOK_COLLECTION_TABLE_ID)))
+(var collection (func get_table_object (store_book.properties.collection (get_env "STORE_BOOK_COLLECTION_TABLE_ID"))))
 
 (if (is_nil collection) (
 	(# Collection does not exist)
@@ -32,7 +32,7 @@
 ))
 
 (# Get the author of the collection)
-(var author (func get_table_object (collection.properties.author env.AUTHOR_TABLE_ID)))
+(var author (func get_table_object (collection.properties.author (get_env "AUTHOR_TABLE_ID"))))
 
 (if (is_nil author) (
 	(# Resource does not exist: Author)
@@ -95,7 +95,7 @@
 	(func create_cover ())
 ) else (
 	(# Try to get the cover table object)
-	(var cover (func get_table_object (cover_uuid env.STORE_BOOK_COVER_TABLE_ID)))
+	(var cover (func get_table_object (cover_uuid (get_env "STORE_BOOK_COVER_TABLE_ID"))))
 
 	(if (is_nil cover) (
 		(# Create the cover)

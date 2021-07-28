@@ -9,12 +9,13 @@
 	(if (is_nil session) (
 		(return false)
 	) else (
-		(env.ADMINS.contains session.user_id)
+		(var admins (get_env "ADMINS"))
+		(admins.contains session.user_id)
 	))
 ))
 
 (# Get the store book)
-(var store_book (func get_table_object (uuid env.STORE_BOOK_TABLE_ID)))
+(var store_book (func get_table_object (uuid (get_env "STORE_BOOK_TABLE_ID"))))
 
 (if (is_nil store_book) (
 	(# StoreBook does not exist)

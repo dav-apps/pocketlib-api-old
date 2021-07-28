@@ -1,5 +1,5 @@
 (# Get the store book)
-(var store_book (func get_table_object (uuid env.STORE_BOOK_TABLE_ID)))
+(var store_book (func get_table_object (uuid (get_env "STORE_BOOK_TABLE_ID"))))
 
 (if (is_nil store_book) (
 	(# StoreBook does not exist)
@@ -17,7 +17,7 @@
 ))
 
 (# Get the cover)
-(var cover (func get_table_object (store_book.properties.cover env.STORE_BOOK_COVER_TABLE_ID)))
+(var cover (func get_table_object (store_book.properties.cover (get_env "STORE_BOOK_COVER_TABLE_ID"))))
 
 (if (is_nil cover) (
 	(func render_no_cover ())

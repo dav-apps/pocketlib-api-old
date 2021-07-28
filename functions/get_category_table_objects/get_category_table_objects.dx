@@ -1,6 +1,7 @@
 (# params: none)
 (catch (
-	(Table.get_table_objects env.CATEGORY_TABLE_ID env.ADMINS#0)
+	(var admins (get_env "ADMINS"))
+	(Table.get_table_objects (get_env "CATEGORY_TABLE_ID") admins#0)
 ) (
 	(# Unexpected error)
 	(func render_validation_errors ((list (hash (error (get_error 1000)) (status 500)))))

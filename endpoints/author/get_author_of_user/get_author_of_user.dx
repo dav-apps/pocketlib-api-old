@@ -8,7 +8,8 @@
 (var session (func get_session (access_token)))
 
 (# Check if the user is an admin)
-(var is_admin (env.ADMINS.contains session.user_id))
+(var admins (get_env "ADMINS"))
+(var is_admin (admins.contains session.user_id))
 
 (# Get the authors of the user)
 (var author_objects (func get_author_table_objects (session.user_id)))
