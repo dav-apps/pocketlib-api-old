@@ -1,12 +1,12 @@
 (# Get the access token)
-(var access_token (get_header Authorization))
+(var access_token (get_header "Authorization"))
 (func render_validation_errors ((list
 	(func validate_auth_header_presence (access_token))
 )))
 
 (# Make sure content type is json)
 (func render_validation_errors ((list
-	(func validate_content_type_json ((get_header Content-Type)))
+	(func validate_content_type_json ((get_header "Content-Type")))
 )))
 
 (var json (parse_json (get_body)))

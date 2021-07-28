@@ -1,13 +1,13 @@
 (var data (get_body))
 
 (# Get the access token)
-(var access_token (get_header Authorization))
+(var access_token (get_header "Authorization"))
 (func render_validation_errors ((list
 	(func validate_auth_header_presence (access_token))
 )))
 
 (# Check if content type is supported)
-(var content_type (get_header Content-Type))
+(var content_type (get_header "Content-Type"))
 (func render_validation_errors ((list
 	(func validate_content_type_ebook (content_type))
 )))
@@ -53,7 +53,7 @@
 (# Define functions for creating and updating the file table object)
 (def set_filename () (
 	(# Set the file name if there is one)
-	(var content_disposition (get_header Content-Disposition))
+	(var content_disposition (get_header "Content-Disposition"))
 
 	(if (! (is_nil content_disposition)) (
 		(var matches (Regex.match content_disposition /filename=\"(?<filename>.*)\"/))

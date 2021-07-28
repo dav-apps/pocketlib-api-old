@@ -1,5 +1,5 @@
 (# Get the access token)
-(var access_token (get_header Authorization))
+(var access_token (get_header "Authorization"))
 (var is_admin false)
 
 (if (!(is_nil access_token)) (
