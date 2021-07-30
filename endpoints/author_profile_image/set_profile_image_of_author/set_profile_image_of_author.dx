@@ -1,3 +1,6 @@
+(# Get the params)
+(var uuid (get_param uuid))
+
 (var data (get_body))
 
 (# Get the access token)

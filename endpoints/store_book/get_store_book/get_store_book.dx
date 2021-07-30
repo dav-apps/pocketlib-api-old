@@ -1,3 +1,6 @@
+(# Get the params)
+(var uuid (get_param uuid))
+
 (# Get the access token)
 (var access_token (get_header "Authorization"))
 

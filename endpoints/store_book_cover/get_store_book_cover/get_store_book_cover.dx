@@ -1,3 +1,6 @@
+(# Get the params)
+(var uuid (get_param uuid))
+
 (# Get the store book)
 (var store_book (func get_table_object (uuid (get_env "STORE_BOOK_TABLE_ID"))))
 

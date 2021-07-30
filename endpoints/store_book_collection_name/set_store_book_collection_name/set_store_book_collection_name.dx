@@ -1,3 +1,7 @@
+(# Get the params)
+(var uuid (get_param uuid))
+(var language (get_param language))
+
 (var json (parse_json (get_body)))
 
 (var name json.name)

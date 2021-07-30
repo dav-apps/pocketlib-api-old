@@ -1,6 +1,10 @@
+(# Get the params)
+(var key (get_param key))
+(var languages (get_param languages))
+(var limit (to_int (get_param limit)))
+(var page (to_int (get_param page)))
+
 (var language_list (list))
-(var limit (to_int limit))
-(var page (to_int page))
 
 (if (is_nil languages) (
 	(language_list.push "en")
