@@ -1,7 +1,7 @@
 (# Get the params)
-(var uuid (get_param uuid))
-(var books (get_param books))
-(var languages (get_param languages))
+(var uuid (get_param "uuid"))
+(var books (get_param "books"))
+(var languages (get_param "languages"))
 
 (var language_list (list))
 

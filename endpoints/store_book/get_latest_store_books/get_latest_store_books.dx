@@ -1,7 +1,7 @@
 (# Get the params)
-(var languages (get_param languages))
-(var limit (to_int (get_param limit)))
-(var page (to_int (get_param page)))
+(var languages (get_param "languages"))
+(var limit (to_int (get_param "limit")))
+(var page (to_int (get_param "page")))
 
 (var language_list (list))
 

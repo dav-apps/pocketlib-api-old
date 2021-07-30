@@ -1,5 +1,5 @@
 (# Get the params)
-(var uuid (get_param uuid))
+(var uuid (get_param "uuid"))
 
 (# Get the author)
 (var author (func get_table_object (uuid (get_env "AUTHOR_TABLE_ID"))))

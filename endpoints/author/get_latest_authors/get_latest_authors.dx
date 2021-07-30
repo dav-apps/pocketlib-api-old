@@ -1,5 +1,5 @@
 (# Get the params)
-(var limit (to_int (get_param limit)))
+(var limit (to_int (get_param "limit")))
 
 (if (limit <= 0) (
 	(var limit 8)

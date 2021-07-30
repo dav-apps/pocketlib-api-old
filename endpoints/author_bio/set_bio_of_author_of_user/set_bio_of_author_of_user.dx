@@ -1,5 +1,5 @@
 (# Get the params)
-(var language (get_param language))
+(var language (get_param "language"))
 
 (var json (parse_json (get_body)))
 

@@ -1,5 +1,5 @@
 (# Get the params)
-(var uuid (get_param uuid))
+(var uuid (get_param "uuid"))
 
 (var data (get_body))
 
