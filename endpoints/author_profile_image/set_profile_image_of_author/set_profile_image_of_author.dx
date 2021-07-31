@@ -40,7 +40,7 @@
 ))
 
 (# Define functions for creating and updating the profile image table object)
-(def create_profile_image () (
+(def create_profile_image (author session content_type data) (
 	(# Create the profile image table object)
 	(var profile_image (func create_author_profile_image_table_object (session.user_id content_type data)))
 
@@ -51,7 +51,7 @@
 	(var author.properties.profile_image_blurhash (Blurhash.encode data))
 ))
 
-(def update_profile_image () (
+(def update_profile_image (author profile_image content_type data) (
 	(# Update the profile image table object of the author)
 	(func update_author_profile_image_table_object (profile_image.uuid content_type data))
 
@@ -64,17 +64,17 @@
 
 (if (is_nil profile_image_uuid) (
 	(# Create the profile image)
-	(func create_profile_image ())
+	(func create_profile_image (author session content_type data))
 ) else (
 	(# Try to get the profile image table object)
 	(var profile_image (func get_table_object (profile_image_uuid (get_env "AUTHOR_PROFILE_IMAGE_TABLE_ID"))))
 
 	(if (is_nil profile_image) (
 		(# Create the profile image)
-		(func create_profile_image ())
+		(func create_profile_image (author session content_type data))
 	) else (
 		(# Update the profile image)
-		(func update_profile_image ())
+		(func update_profile_image (author profile_image content_type data))
 	))
 ))
 

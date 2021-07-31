@@ -1,4 +1,4 @@
-(params: instagram_username: string)
+(# params: instagram_username: string)
 (if (is_nil instagram_username) (return nil))
 (if (instagram_username.length == 0)
 	(return "")

@@ -47,7 +47,13 @@
 	(var collection_table_objects (TableObject.find_by_property author.user_id (get_env "STORE_BOOK_COLLECTION_TABLE_ID") "author" author.uuid))
 
 	(for collection_table_object in collection_table_objects (
-		(var store_book_uuids (collection_table_object.properties.books.split ","))
+		(var store_book_uuids (
+			(if (is_nil collection_table_object.properties.books) (
+				(list)
+			) else (
+				(collection_table_object.properties.books.split ",")
+			))
+		))
 
 		(for uuid in store_book_uuids (
 			(var store_book (func get_table_object (uuid (get_env "STORE_BOOK_TABLE_ID"))))
