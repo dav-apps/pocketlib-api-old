@@ -34,10 +34,10 @@
 (# Check if the user can access the store book file)
 (var can_access (
 	(if (is_admin or is_author) (
-		(return true)
+		(true)
 	) else (
 		(# Check if the user is on dav Pro and if the store book is in the library of the user)
-		(return ((status == "published") and (user.plan == 2) and (func is_store_book_in_user_library (user.id store_book.uuid))))
+		((status == "published") and (user.plan == 2) and (func is_store_book_in_user_library (user.id store_book.uuid)))
 	))
 ))
 

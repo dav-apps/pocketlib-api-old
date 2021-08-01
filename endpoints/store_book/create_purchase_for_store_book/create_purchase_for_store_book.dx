@@ -48,10 +48,10 @@
 (# Check if the user can access the store book)
 (var can_access (
 	(if (status == "published") (
-		(return true)
+		(true)
 	) else (
 		(# Check if the user is the author of the store book)
-		(return (session.user_id == store_book.user_id))
+		(session.user_id == store_book.user_id)
 	))
 ))
 

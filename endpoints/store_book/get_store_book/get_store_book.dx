@@ -10,7 +10,7 @@
 (# Check if the user is an admin)
 (var is_admin (
 	(if (is_nil session) (
-		(return false)
+		(false)
 	) else (
 		(var admins (get_env "ADMINS"))
 		(admins.contains session.user_id)
@@ -30,15 +30,13 @@
 
 (# Check if the user can access the store book)
 (var can_access (
-	(if (status == "published") (
-		(return true)
-	) elseif is_admin (
-		(return true)
+	(if ((status == "published") or is_admin) (
+		(true)
 	) elseif (is_nil session) (
-		(return false)
+		(false)
 	) else (
 		(# Check if the user is the author of the store book)
-		(return (session.user_id == store_book.user_id))
+		(session.user_id == store_book.user_id)
 	))
 ))
 
@@ -67,8 +65,8 @@
 		(file (!(is_nil store_book.properties.file)))
 		(file_name store_book.properties.file_name)
 		(categories categories)
-		(in_library (func is_store_book_in_user_library (session.user_id store_book.uuid)))
-		(purchased (func has_user_purchased_table_object (session.user_id store_book.id)))
+		(in_library (if (is_nil session) false else (func is_store_book_in_user_library (session.user_id store_book.uuid))))
+		(purchased (if (is_nil session) false else (func has_user_purchased_table_object (session.user_id store_book.id))))
 	) 
 	200
 )

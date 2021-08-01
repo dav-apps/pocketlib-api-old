@@ -49,7 +49,7 @@
 ))
 
 (# Define functions for creating and updating the cover table object)
-(def update_cover_properties () (
+(def update_cover_properties (store_book data) (
 	(# Update the store book with the blurhash)
 	(var store_book.properties.cover_blurhash (Blurhash.encode data))
 
@@ -73,21 +73,21 @@
 	(var store_book.properties.cover_aspect_ratio aspect_ratio)
 ))
 
-(def create_cover () (
+(def create_cover (store_book session content_type data) (
 	(# Create the cover table object)
 	(var cover (func create_store_book_cover_table_object (session.user_id content_type data)))
 
 	(# Update the store book with the uuid of the cover table object)
 	(var store_book.properties.cover cover.uuid)
 
-	(func update_cover_properties ())
+	(func update_cover_properties (store_book data))
 ))
 
-(def update_cover () (
+(def update_cover (store_book cover content_type data) (
 	(# Update the file of the cover table object)
 	(func update_store_book_cover_table_object (cover.uuid content_type data))
 
-	(func update_cover_properties ())
+	(func update_cover_properties (store_book data))
 ))
 
 (# Get the cover table object of the store book)
@@ -95,17 +95,17 @@
 
 (if (is_nil cover_uuid) (
 	(# Create the cover)
-	(func create_cover ())
+	(func create_cover (store_book session content_type data))
 ) else (
 	(# Try to get the cover table object)
 	(var cover (func get_table_object (cover_uuid (get_env "STORE_BOOK_COVER_TABLE_ID"))))
 
 	(if (is_nil cover) (
 		(# Create the cover)
-		(func create_cover ())
+		(func create_cover (store_book session content_type data))
 	) else (
 		(# Update the cover)
-		(func update_cover ())
+		(func update_cover (store_book cover content_type data))
 	))
 ))
 

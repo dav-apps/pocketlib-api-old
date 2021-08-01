@@ -39,7 +39,7 @@
 (var category categories#0)
 
 (# Find StoreBooks with the category)
-(var store_books (TableObject.find_by_property * (get_env "STORE_BOOK_TABLE_ID") "categories" category.uuid false))
+(var store_books (TableObject.find_by_property "*" (get_env "STORE_BOOK_TABLE_ID") "categories" category.uuid false))
 
 (# Get the appropriate store books)
 (var books (list))

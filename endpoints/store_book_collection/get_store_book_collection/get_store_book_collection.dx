@@ -38,9 +38,7 @@
 (var names (func get_collection_names_by_string (collection.properties.names false)))
 
 (# Check if the user can access not published books)
-(var can_access ((status == "published") or (
-	(is_admin or (author.user_id == session.user_id))
-)))
+(var can_access (is_admin or ((! (is_nil session)) and (author.user_id == session.user_id))))
 
 (# Get the store books of the collection)
 (var store_books (func get_store_books_by_string (collection.properties.books)))
