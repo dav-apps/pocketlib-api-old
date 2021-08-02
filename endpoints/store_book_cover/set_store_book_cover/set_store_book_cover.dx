@@ -61,11 +61,11 @@
 		(# Calculate the aspect ratio in the form width:height)
 		(var aspect_ratio "1:1")
 		(if (details.width < details.height) (
-			(var value (details.height.to_f / details.width.to_f))
-			(var aspect_ratio ("1:" + (Math.round value 5)))
+			(var value (Math.round (details.height.to_f / details.width.to_f) 5))
+			(var aspect_ratio ("1:" + value.to_s))
 		) elseif (details.width > details.height) (
-			(var value (details.width.to_f / details.height.to_f))
-			(var aspect_ratio ((Math.round value 5) + ":1"))
+			(var value (Math.round (details.width.to_f / details.height.to_f) 5))
+			(var aspect_ratio (value.to_s + ":1"))
 		))
 	))
 
