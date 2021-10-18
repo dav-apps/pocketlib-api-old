@@ -63,6 +63,13 @@
 	(if (!(is_nil isbn)) (func validate_isbn_validity (isbn)))
 )))
 
+(if (!(is_nil categories)) (
+	(# Validate the length of the categories)
+	(func render_validation_errors ((list
+		(func validate_categories_length (categories))
+	)))
+))
+
 (if (! is_admin) (
 	(# Check if the user is an author)
 	(var authors (func get_author_table_objects (session.user_id)))

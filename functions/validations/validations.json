@@ -170,6 +170,11 @@
 			"source": "./categories/validate_categories_type.dx"
 		},
 		{
+			"name": "validate_categories_length",
+			"params": ["categories"],
+			"source": "./categories/validate_categories_length.dx"
+		},
+		{
 			"name": "validate_published_type",
 			"params": ["published"],
 			"source": "./published/validate_published_type.dx"

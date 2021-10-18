@@ -98,6 +98,13 @@
 	)))
 ))
 
+(if (!(is_nil categories)) (
+	(# Validate the length of the categories)
+	(func render_validation_errors ((list
+		(func validate_categories_length (categories))
+	)))
+))
+
 (# Don't update language, price or isbn if the StoreBook is already published)
 (if ((store_book.properties.status == "published") or (store_book.properties.status == "hidden")) (
 	(if (!(is_nil language)) (
