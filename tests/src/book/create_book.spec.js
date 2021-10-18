@@ -19,7 +19,7 @@ afterEach(async () => {
 describe("CreateBook endpoint", () => {
 	it("should not create book without access token", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createBookEndpointUrl,
 				headers: {
@@ -38,7 +38,7 @@ describe("CreateBook endpoint", () => {
 
 	it("should not create book with access token for session that does not exist", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createBookEndpointUrl,
 				headers: {
@@ -58,7 +58,7 @@ describe("CreateBook endpoint", () => {
 
 	it("should not create book without supported Content-Type", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createBookEndpointUrl,
 				headers: {
@@ -76,7 +76,7 @@ describe("CreateBook endpoint", () => {
 
 	it("should not create book with access token for another app", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createBookEndpointUrl,
 				headers: {
@@ -96,7 +96,7 @@ describe("CreateBook endpoint", () => {
 
 	it("should not create book from store book without required fields", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createBookEndpointUrl,
 				headers: {
@@ -116,7 +116,7 @@ describe("CreateBook endpoint", () => {
 
 	it("should not create book from store book with properties with wrong types", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createBookEndpointUrl,
 				headers: {
@@ -139,7 +139,7 @@ describe("CreateBook endpoint", () => {
 
 	it("should not create book from not purchased store book without dav Pro", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createBookEndpointUrl,
 				headers: {
@@ -183,7 +183,7 @@ describe("CreateBook endpoint", () => {
 
 	it("should not create book from free not purchased store book without dav Pro", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createBookEndpointUrl,
 				headers: {
@@ -213,7 +213,7 @@ describe("CreateBook endpoint", () => {
 
 	it("should not create book from free not purchased store book with dav Pro", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createBookEndpointUrl,
 				headers: {
@@ -243,7 +243,7 @@ describe("CreateBook endpoint", () => {
 
 	it("should not create book from store book if the store book is already in the library of the user", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createBookEndpointUrl,
 				headers: {
@@ -322,7 +322,7 @@ describe("CreateBook endpoint", () => {
 		// Create the book
 		let response
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'post',
 				url: createBookEndpointUrl,
 				headers: {
@@ -390,7 +390,7 @@ describe("CreateBook endpoint", () => {
 
 	async function testShouldNotCreateBookFromStoreBook(accessToken, storeBook) {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createBookEndpointUrl,
 				headers: {

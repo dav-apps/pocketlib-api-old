@@ -9,7 +9,7 @@ const getStoreBookFileEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/bo
 describe("GetStoreBookFile endpoint", () => {
 	it("should not return store book file without access token", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[1].uuid)
 			})
@@ -25,7 +25,7 @@ describe("GetStoreBookFile endpoint", () => {
 
 	it("should not return store book file with access token for session that does not exist", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[1].uuid),
 				headers: {
@@ -44,7 +44,7 @@ describe("GetStoreBookFile endpoint", () => {
 
 	it("should not return store book file with access token for another app", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[1].uuid),
 				headers: {
@@ -63,7 +63,7 @@ describe("GetStoreBookFile endpoint", () => {
 
 	it("should not return store book file if the store book has no file", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getStoreBookFileEndpointUrl.replace('{0}', constants.davUser.authors[0].collections[0].books[2].uuid),
 				headers: {
@@ -82,7 +82,7 @@ describe("GetStoreBookFile endpoint", () => {
 
 	it("should not return store book file if the store book does not exist", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getStoreBookFileEndpointUrl.replace('{0}', "asdasdasdsda"),
 				headers: {
@@ -223,7 +223,7 @@ async function testShouldReturnFile(accessToken, storeBook) {
 	let response
 
 	try {
-		response = await axios.default({
+		response = await axios({
 			method: 'get',
 			url: getStoreBookFileEndpointUrl.replace('{0}', storeBook.uuid),
 			headers: {
@@ -241,7 +241,7 @@ async function testShouldReturnFile(accessToken, storeBook) {
 
 async function testShouldNotReturnFile(accessToken, storeBook) {
 	try {
-		await axios.default({
+		await axios({
 			method: 'get',
 			url: getStoreBookFileEndpointUrl.replace('{0}', storeBook.uuid),
 			headers: {

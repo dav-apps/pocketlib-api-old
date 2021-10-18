@@ -9,7 +9,7 @@ const getStoreBooksInReviewEndpointUrl = `${constants.apiBaseUrl}/api/1/call/sto
 describe("GetStoreBooksInReview endpoint", () => {
 	it("should not return store books in review without access token", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getStoreBooksInReviewEndpointUrl
 			})
@@ -25,7 +25,7 @@ describe("GetStoreBooksInReview endpoint", () => {
 
 	it("should not return store books in review with access token for session that does not exist", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getStoreBooksInReviewEndpointUrl,
 				headers: {
@@ -44,7 +44,7 @@ describe("GetStoreBooksInReview endpoint", () => {
 
 	it("should not return store books in review with access token for another app", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getStoreBooksInReviewEndpointUrl,
 				headers: {
@@ -63,7 +63,7 @@ describe("GetStoreBooksInReview endpoint", () => {
 
 	it("should not return store books in review if the user is not an admin", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getStoreBooksInReviewEndpointUrl,
 				headers: {
@@ -84,7 +84,7 @@ describe("GetStoreBooksInReview endpoint", () => {
 		let response
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'get',
 				url: getStoreBooksInReviewEndpointUrl,
 				headers: {

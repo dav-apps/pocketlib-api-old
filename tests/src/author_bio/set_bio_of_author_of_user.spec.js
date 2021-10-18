@@ -20,7 +20,7 @@ afterEach(async () => {
 describe("SetBioOfAuthorOfUser endpoint", () => {
 	it("should not set bio without access token", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setBioOfAuthorOfUserEndpointUrl.replace('{0}', "en"),
 				headers: {
@@ -39,7 +39,7 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 
 	it("should not set bio with access token for session that does not exist", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setBioOfAuthorOfUserEndpointUrl.replace('{0}', "en"),
 				headers: {
@@ -59,7 +59,7 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 
 	it("should not set bio without Content-Type json", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setBioOfAuthorOfUserEndpointUrl.replace('{0}', "en"),
 				headers: {
@@ -78,7 +78,7 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 
 	it("should not set bio with access token for another app", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setBioOfAuthorOfUserEndpointUrl.replace('{0}', "de"),
 				headers: {
@@ -98,7 +98,7 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 
 	it("should not set bio if the user is not an author", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setBioOfAuthorOfUserEndpointUrl.replace('{0}', "de"),
 				headers: {
@@ -118,7 +118,7 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 
 	it("should not set bio if the user is an admin", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setBioOfAuthorOfUserEndpointUrl.replace('{0}', "de"),
 				headers: {
@@ -138,7 +138,7 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 
 	it("should not set bio without required properties", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setBioOfAuthorOfUserEndpointUrl.replace('{0}', "en"),
 				headers: {
@@ -158,7 +158,7 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 
 	it("should not set bio with properties with wrong types", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setBioOfAuthorOfUserEndpointUrl.replace('{0}', "de"),
 				headers: {
@@ -181,7 +181,7 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 
 	it("should not set bio with too short properties", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setBioOfAuthorOfUserEndpointUrl.replace('{0}', "fr"),
 				headers: {
@@ -204,7 +204,7 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 
 	it("should not set bio with too long properties", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setBioOfAuthorOfUserEndpointUrl.replace('{0}', "en"),
 				headers: {
@@ -227,7 +227,7 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 
 	it("should not set bio for not supported language", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setBioOfAuthorOfUserEndpointUrl.replace('{0}', "asd"),
 				headers: {
@@ -255,7 +255,7 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 		let bio = "Hello World!!!"
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'put',
 				url: setBioOfAuthorOfUserEndpointUrl.replace('{0}', language),
 				headers: {
@@ -322,7 +322,7 @@ describe("SetBioOfAuthorOfUser endpoint", () => {
 		let bio = "Updated bio!"
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'put',
 				url: setBioOfAuthorOfUserEndpointUrl.replace('{0}', language),
 				headers: {

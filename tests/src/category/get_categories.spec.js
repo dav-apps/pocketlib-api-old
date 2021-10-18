@@ -10,7 +10,7 @@ describe("GetCategories endpoint", async () => {
 		let response
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'get',
 				url: getCategoriesEndpointUrl,
 				headers: {

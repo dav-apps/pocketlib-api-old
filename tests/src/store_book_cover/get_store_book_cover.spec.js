@@ -9,7 +9,7 @@ const getStoreBookCoverEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/b
 describe("GetStoreBookCover endpoint", () => {
 	it("should not return store book cover if the store book has no cover", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getStoreBookCoverEndpointUrl.replace('{0}', constants.davUser.authors[0].collections[0].books[1].uuid),
 				headers: {
@@ -28,7 +28,7 @@ describe("GetStoreBookCover endpoint", () => {
 
 	it("should not return store book cover if the store book does not exist", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getStoreBookCoverEndpointUrl.replace('{0}', "asdasdasdsad"),
 				headers: {
@@ -70,7 +70,7 @@ async function testShouldReturnCover(storeBook) {
 	let response
 
 	try {
-		response = await axios.default({
+		response = await axios({
 			method: 'get',
 			url: getStoreBookCoverEndpointUrl.replace('{0}', storeBook.uuid)
 		})

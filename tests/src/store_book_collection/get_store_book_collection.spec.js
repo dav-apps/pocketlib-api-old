@@ -9,7 +9,7 @@ const getStoreBookCollectionEndpointUrl = `${constants.apiBaseUrl}/api/1/call/st
 describe("GetStoreBookCollection endpoint", async () => {
 	it("should not return collection with access token for session that does not exist", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getStoreBookCollectionEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].uuid),
 				headers: {
@@ -29,7 +29,7 @@ describe("GetStoreBookCollection endpoint", async () => {
 
 	it("should not return collection with access token for another app", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getStoreBookCollectionEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].uuid),
 				headers: {
@@ -48,7 +48,7 @@ describe("GetStoreBookCollection endpoint", async () => {
 
 	it("should not return collection if the store book collection does not exist", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getStoreBookCollectionEndpointUrl.replace('{0}', "asdasdasd"),
 				headers: {
@@ -129,7 +129,7 @@ describe("GetStoreBookCollection endpoint", async () => {
 				}
 			}
 
-			response = await axios.default(requestConfig)
+			response = await axios(requestConfig)
 		} catch (error) {
 			assert.fail()
 		}
@@ -182,7 +182,7 @@ describe("GetStoreBookCollection endpoint", async () => {
 				}
 			}
 
-			response = await axios.default(requestConfig)
+			response = await axios(requestConfig)
 		} catch (error) {
 			assert.fail()
 		}

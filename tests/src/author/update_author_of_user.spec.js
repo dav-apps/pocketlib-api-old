@@ -19,7 +19,7 @@ afterEach(async () => {
 describe("UpdateAuthorOfUser endpoint", () => {
 	it("should not update author without access token", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: updateAuthorEndpointUrl,
 				headers: {
@@ -38,7 +38,7 @@ describe("UpdateAuthorOfUser endpoint", () => {
 
 	it("should not update author with access token for session that does not exist", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: updateAuthorEndpointUrl,
 				headers: {
@@ -58,7 +58,7 @@ describe("UpdateAuthorOfUser endpoint", () => {
 
 	it("should not update author without Content-Type json", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: updateAuthorEndpointUrl,
 				headers: {
@@ -77,7 +77,7 @@ describe("UpdateAuthorOfUser endpoint", () => {
 
 	it("should not update author with access token for another app", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: updateAuthorEndpointUrl,
 				headers: {
@@ -97,7 +97,7 @@ describe("UpdateAuthorOfUser endpoint", () => {
 
 	it("should not update author if the user is an admin", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: updateAuthorEndpointUrl,
 				headers: {
@@ -117,7 +117,7 @@ describe("UpdateAuthorOfUser endpoint", () => {
 
 	it("should not update author if the user is not an author", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: updateAuthorEndpointUrl,
 				headers: {
@@ -140,7 +140,7 @@ describe("UpdateAuthorOfUser endpoint", () => {
 
 	it("should not update author with properties with wrong types", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: updateAuthorEndpointUrl,
 				headers: {
@@ -173,7 +173,7 @@ describe("UpdateAuthorOfUser endpoint", () => {
 
 	it("should not update author with too short properties", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: updateAuthorEndpointUrl,
 				headers: {
@@ -198,7 +198,7 @@ describe("UpdateAuthorOfUser endpoint", () => {
 
 	it("should not update author with too long properties", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: updateAuthorEndpointUrl,
 				headers: {
@@ -223,7 +223,7 @@ describe("UpdateAuthorOfUser endpoint", () => {
 
 	it("should not update author with invalid properties", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: updateAuthorEndpointUrl,
 				headers: {
@@ -257,7 +257,7 @@ describe("UpdateAuthorOfUser endpoint", () => {
 		let response
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'put',
 				url: updateAuthorEndpointUrl,
 				headers: {
@@ -332,7 +332,7 @@ describe("UpdateAuthorOfUser endpoint", () => {
 		let response
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'put',
 				url: updateAuthorEndpointUrl,
 				headers: {
@@ -410,7 +410,7 @@ describe("UpdateAuthorOfUser endpoint", () => {
 		let response
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'put',
 				url: updateAuthorEndpointUrl,
 				headers: {
@@ -484,7 +484,7 @@ describe("UpdateAuthorOfUser endpoint", () => {
 
 		// Remove the website_url and usernames with empty strings
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'put',
 				url: updateAuthorEndpointUrl,
 				headers: {
@@ -522,7 +522,7 @@ describe("UpdateAuthorOfUser endpoint", () => {
 		let response
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'put',
 				url: updateAuthorEndpointUrl,
 				headers: {

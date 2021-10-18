@@ -24,7 +24,7 @@ afterEach(async () => {
 describe("SetStoreBookFile endpoint", () => {
 	it("should not set store book file without access token", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid)
 			})
@@ -40,7 +40,7 @@ describe("SetStoreBookFile endpoint", () => {
 
 	it("should not set store book file with access token for session that does not exist", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
@@ -60,7 +60,7 @@ describe("SetStoreBookFile endpoint", () => {
 
 	it("should not set store book file with access token for another app", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
@@ -80,7 +80,7 @@ describe("SetStoreBookFile endpoint", () => {
 
 	it("should not set store book file without supported ebook content type", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
@@ -100,7 +100,7 @@ describe("SetStoreBookFile endpoint", () => {
 
 	it("should not set store book file for store book that does not exist", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setStoreBookFileEndpointUrl.replace('{0}', "blablabla"),
 				headers: {
@@ -120,7 +120,7 @@ describe("SetStoreBookFile endpoint", () => {
 
 	it("should not set store book file for store book that does not belong to the author", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
@@ -140,7 +140,7 @@ describe("SetStoreBookFile endpoint", () => {
 
 	it("should not set store book file for published store book", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[1].books[1].uuid),
 				headers: {
@@ -161,7 +161,7 @@ describe("SetStoreBookFile endpoint", () => {
 
 	it("should not set store book cover for hidden store book", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[1].uuid),
 				headers: {
@@ -187,7 +187,7 @@ describe("SetStoreBookFile endpoint", () => {
 
 	it("should not set store book file for published store book of admin", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setStoreBookFileEndpointUrl.replace('{0}', constants.davUser.authors[0].collections[0].books[0].uuid),
 				headers: {
@@ -208,7 +208,7 @@ describe("SetStoreBookFile endpoint", () => {
 
 	it("should not set store book file for hidden store book of admin", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setStoreBookFileEndpointUrl.replace('{0}', constants.davUser.authors[0].collections[1].books[0].uuid),
 				headers: {
@@ -254,7 +254,7 @@ describe("SetStoreBookFile endpoint", () => {
 		let firstFileExt = "pdf"
 
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setStoreBookFileEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
@@ -315,7 +315,7 @@ describe("SetStoreBookFile endpoint", () => {
 		let secondFileContent = "Labore dicta cupiditate culpa cum harum. Corporis voluptatem debitis eos nam nisi esse in vitae. Molestiae rerum nesciunt sunt sed et dolorum."
 
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setStoreBookFileEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {

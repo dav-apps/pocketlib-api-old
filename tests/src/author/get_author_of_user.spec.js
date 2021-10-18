@@ -9,7 +9,7 @@ const getAuthorOfUserEndpointUrl = `${constants.apiBaseUrl}/api/1/call/author`
 describe("GetAuthorOfUser endpoint", () => {
 	it("should not return author without access token", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getAuthorOfUserEndpointUrl
 			})
@@ -25,7 +25,7 @@ describe("GetAuthorOfUser endpoint", () => {
 
 	it("should not return author with access token for session that does not exist", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getAuthorOfUserEndpointUrl,
 				headers: {
@@ -44,7 +44,7 @@ describe("GetAuthorOfUser endpoint", () => {
 
 	it("should not return author with access token for another app", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getAuthorOfUserEndpointUrl,
 				headers: {
@@ -63,7 +63,7 @@ describe("GetAuthorOfUser endpoint", () => {
 
 	it("should not return author if the user is not an author", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getAuthorOfUserEndpointUrl,
 				headers: {
@@ -85,7 +85,7 @@ describe("GetAuthorOfUser endpoint", () => {
 		let response
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'get',
 				url: getAuthorOfUserEndpointUrl,
 				headers: {
@@ -139,7 +139,7 @@ describe("GetAuthorOfUser endpoint", () => {
 		let response
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'get',
 				url: getAuthorOfUserEndpointUrl,
 				headers: {

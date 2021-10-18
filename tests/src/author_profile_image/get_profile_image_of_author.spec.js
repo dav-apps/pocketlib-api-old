@@ -18,7 +18,7 @@ afterEach(async () => {
 describe("GetProfileImageOfAuthor endpoint", async () => {
 	it("should not return profile image if the author has no profile image", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getProfileImageOfAuthorEndpoint.replace('{0}', constants.davUser.authors[1].uuid),
 				headers: {
@@ -37,7 +37,7 @@ describe("GetProfileImageOfAuthor endpoint", async () => {
 
 	it("should not return profile image if the author does not exist", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getProfileImageOfAuthorEndpoint.replace('{0}', "adasdasdasdasad"),
 				headers: {
@@ -65,7 +65,7 @@ describe("GetProfileImageOfAuthor endpoint", async () => {
 		let response
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'get',
 				url: getProfileImageOfAuthorEndpoint.replace('{0}', author.uuid)
 			})
@@ -91,7 +91,7 @@ describe("GetProfileImageOfAuthor endpoint", async () => {
 		let response
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'get',
 				url: getProfileImageOfAuthorEndpoint.replace('{0}', author.uuid)
 			})
@@ -107,7 +107,7 @@ describe("GetProfileImageOfAuthor endpoint", async () => {
 
 async function setProfileImageOfAuthor(accessToken, uuid, type, content) {
 	try {
-		await axios.default({
+		await axios({
 			method: 'put',
 			url: getProfileImageOfAuthorEndpoint.replace('{0}', uuid),
 			headers: {
@@ -123,7 +123,7 @@ async function setProfileImageOfAuthor(accessToken, uuid, type, content) {
 
 async function setProfileImageOfAuthorOfUser(accessToken, type, content) {
 	try {
-		await axios.default({
+		await axios({
 			method: 'put',
 			url: `${constants.apiBaseUrl}/api/1/call/author/profile_image`,
 			headers: {

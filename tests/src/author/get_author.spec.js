@@ -9,7 +9,7 @@ const getAuthorEndpointUrl = `${constants.apiBaseUrl}/api/1/call/author/{0}`
 describe("GetAuthor endpoint", async () => {
 	it("should not return author that does not exist", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getAuthorEndpointUrl.replace('{0}', "asdasdasd")
 			})
@@ -25,7 +25,7 @@ describe("GetAuthor endpoint", async () => {
 
 	it("should not return author if the table object is not an author", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].bios[0].uuid)
 			})
@@ -41,7 +41,7 @@ describe("GetAuthor endpoint", async () => {
 
 	it("should not return author with books with not supported language", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getAuthorEndpointUrl.replace('{0}', constants.authorUser.author.uuid),
 				params: {
@@ -96,7 +96,7 @@ async function testGetAuthor(author) {
 	let response
 
 	try {
-		response = await axios.default({
+		response = await axios({
 			method: 'get',
 			url: getAuthorEndpointUrl.replace('{0}', author.uuid)
 		})
@@ -159,7 +159,7 @@ async function testGetAuthorWithBooks(author, languages) {
 			options.params["languages"] = languages.join(',')
 		}
 
-		response = await axios.default(options)
+		response = await axios(options)
 	} catch (error) {
 		assert.fail()
 	}

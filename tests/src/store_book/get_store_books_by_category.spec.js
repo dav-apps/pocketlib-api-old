@@ -9,7 +9,7 @@ const getStoreBooksByCategoryEndpointUrl = `${constants.apiBaseUrl}/api/1/call/s
 describe("GetStoreBooksByCategory endpoint", () => {
 	it("should not return store books by category that does not exist", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getStoreBooksByCategoryEndpointUrl.replace('{0}', "asd")
 			})
@@ -25,7 +25,7 @@ describe("GetStoreBooksByCategory endpoint", () => {
 
 	it("should not return store books by category with not supported language", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getStoreBooksByCategoryEndpointUrl.replace('{0}', constants.categories[0].key),
 				params: {
@@ -47,7 +47,7 @@ describe("GetStoreBooksByCategory endpoint", () => {
 		let category = constants.categories[0]
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'get',
 				url: getStoreBooksByCategoryEndpointUrl.replace('{0}', category.key)
 			})
@@ -109,7 +109,7 @@ describe("GetStoreBooksByCategory endpoint", () => {
 		let language = "de"
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'get',
 				url: getStoreBooksByCategoryEndpointUrl.replace('{0}', category.key),
 				params: {
@@ -174,7 +174,7 @@ describe("GetStoreBooksByCategory endpoint", () => {
 		let languages = ["de", "en"]
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'get',
 				url: getStoreBooksByCategoryEndpointUrl.replace('{0}', category.key),
 				params: {
@@ -240,7 +240,7 @@ describe("GetStoreBooksByCategory endpoint", () => {
 		let limit = 2
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'get',
 				url: getStoreBooksByCategoryEndpointUrl.replace('{0}', category.key),
 				params: {
@@ -303,7 +303,7 @@ describe("GetStoreBooksByCategory endpoint", () => {
 
 		// Get the store books of the next page
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'get',
 				url: getStoreBooksByCategoryEndpointUrl.replace('{0}', category.key),
 				params: {

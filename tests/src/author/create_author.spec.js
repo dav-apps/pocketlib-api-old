@@ -19,7 +19,7 @@ afterEach(async () => {
 describe("CreateAuthor endpoint", async () => {
 	it("should not create author without access token", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createAuthorEndpointUrl
 			})
@@ -35,7 +35,7 @@ describe("CreateAuthor endpoint", async () => {
 
 	it("should not create author with access token for session that does not exist", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createAuthorEndpointUrl,
 				headers: {
@@ -55,7 +55,7 @@ describe("CreateAuthor endpoint", async () => {
 
 	it("should not create author without Content-Type json", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createAuthorEndpointUrl,
 				headers: {
@@ -75,7 +75,7 @@ describe("CreateAuthor endpoint", async () => {
 
 	it("should not create author with access token for another app", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createAuthorEndpointUrl,
 				headers: {
@@ -99,7 +99,7 @@ describe("CreateAuthor endpoint", async () => {
 
 	it("should not create author without required properties", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createAuthorEndpointUrl,
 				headers: {
@@ -120,7 +120,7 @@ describe("CreateAuthor endpoint", async () => {
 
 	it("should not create author with properties with wrong types", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createAuthorEndpointUrl,
 				headers: {
@@ -145,7 +145,7 @@ describe("CreateAuthor endpoint", async () => {
 
 	it("should not create author with too short properties", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createAuthorEndpointUrl,
 				headers: {
@@ -170,7 +170,7 @@ describe("CreateAuthor endpoint", async () => {
 
 	it("should not create author with too long properties", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createAuthorEndpointUrl,
 				headers: {
@@ -195,7 +195,7 @@ describe("CreateAuthor endpoint", async () => {
 
 	it("should not create author if the user is already an author", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createAuthorEndpointUrl,
 				headers: {
@@ -224,7 +224,7 @@ describe("CreateAuthor endpoint", async () => {
 		let response
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'post',
 				url: createAuthorEndpointUrl,
 				headers: {
@@ -285,7 +285,7 @@ describe("CreateAuthor endpoint", async () => {
 		let response1
 
 		try {
-			response1 = await axios.default({
+			response1 = await axios({
 				method: 'post',
 				url: createAuthorEndpointUrl,
 				headers: {
@@ -320,7 +320,7 @@ describe("CreateAuthor endpoint", async () => {
 		let lastName2 = "Lane"
 
 		try {
-			response2 = await axios.default({
+			response2 = await axios({
 				method: 'post',
 				url: createAuthorEndpointUrl,
 				headers: {

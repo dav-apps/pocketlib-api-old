@@ -20,7 +20,7 @@ afterEach(async () => {
 describe("SetCategoryName endpoint", () => {
 	it("should not set category name without access token", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setCategoryNameEndpointUrl.replace('{0}', constants.categories[0].uuid).replace('{1}', "en"),
 				headers: {
@@ -39,7 +39,7 @@ describe("SetCategoryName endpoint", () => {
 
 	it("should not set category name with access token for session that does not exist", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setCategoryNameEndpointUrl.replace('{0}', constants.categories[0].uuid).replace('{1}', "en"),
 				headers: {
@@ -59,7 +59,7 @@ describe("SetCategoryName endpoint", () => {
 
 	it("should not set category name without Content-Type json", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setCategoryNameEndpointUrl.replace('{0}', constants.categories[0].uuid).replace('{1}', "en"),
 				headers: {
@@ -79,7 +79,7 @@ describe("SetCategoryName endpoint", () => {
 
 	it("should not set category name with access token for another app", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setCategoryNameEndpointUrl.replace('{0}', constants.categories[0].uuid).replace('{1}', "en"),
 				headers: {
@@ -99,7 +99,7 @@ describe("SetCategoryName endpoint", () => {
 
 	it("should not set category name if the user is not an admin", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setCategoryNameEndpointUrl.replace('{0}', constants.categories[0].uuid).replace('{1}', "en"),
 				headers: {
@@ -119,7 +119,7 @@ describe("SetCategoryName endpoint", () => {
 
 	it("should not set category name without required properties", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setCategoryNameEndpointUrl.replace('{0}', constants.categories[0].uuid).replace('{1}', "en"),
 				headers: {
@@ -139,7 +139,7 @@ describe("SetCategoryName endpoint", () => {
 
 	it("should not set category name with properties with wrong types", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setCategoryNameEndpointUrl.replace('{0}', constants.categories[0].uuid).replace('{1}', "en"),
 				headers: {
@@ -162,7 +162,7 @@ describe("SetCategoryName endpoint", () => {
 
 	it("should not set category name with too short properties", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setCategoryNameEndpointUrl.replace('{0}', constants.categories[0].uuid).replace('{1}', "en"),
 				headers: {
@@ -185,7 +185,7 @@ describe("SetCategoryName endpoint", () => {
 
 	it("should not set category name with too long properties", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setCategoryNameEndpointUrl.replace('{0}', constants.categories[0].uuid).replace('{1}', "en"),
 				headers: {
@@ -208,7 +208,7 @@ describe("SetCategoryName endpoint", () => {
 
 	it("should not set category name for not supported language", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setCategoryNameEndpointUrl.replace('{0}', constants.categories[0].uuid).replace('{1}', "bla"),
 				headers: {
@@ -240,7 +240,7 @@ describe("SetCategoryName endpoint", () => {
 		let accessToken = constants.davUser.accessToken
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'put',
 				url: setCategoryNameEndpointUrl.replace('{0}', category.uuid).replace('{1}', language),
 				headers: {
@@ -310,7 +310,7 @@ describe("SetCategoryName endpoint", () => {
 		let accessToken = constants.davUser.accessToken
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'put',
 				url: setCategoryNameEndpointUrl.replace('{0}', category.uuid).replace('{1}', language),
 				headers: {

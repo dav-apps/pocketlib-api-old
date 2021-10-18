@@ -25,7 +25,7 @@ afterEach(async () => {
 describe("GetProfileImageOfAuthorOfUser endpoint", async () => {
 	it("should not return profile image without access token", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getProfileImageOfAuthorOfUserEndpoint
 			})
@@ -41,7 +41,7 @@ describe("GetProfileImageOfAuthorOfUser endpoint", async () => {
 
 	it("should not return profile image with access token for session that does not exist", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getProfileImageOfAuthorOfUserEndpoint,
 				headers: {
@@ -60,7 +60,7 @@ describe("GetProfileImageOfAuthorOfUser endpoint", async () => {
 
 	it("should should not return profile image with access token for another app", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getProfileImageOfAuthorOfUserEndpoint,
 				headers: {
@@ -94,7 +94,7 @@ describe("GetProfileImageOfAuthorOfUser endpoint", async () => {
 		}
 
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getProfileImageOfAuthorOfUserEndpoint,
 				headers: {
@@ -113,7 +113,7 @@ describe("GetProfileImageOfAuthorOfUser endpoint", async () => {
 
 	it("should not return profile image if the user is not an author", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getProfileImageOfAuthorOfUserEndpoint,
 				headers: {
@@ -132,7 +132,7 @@ describe("GetProfileImageOfAuthorOfUser endpoint", async () => {
 
 	it("should not return profile image if the user is an admin", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getProfileImageOfAuthorOfUserEndpoint,
 				headers: {
@@ -156,7 +156,7 @@ describe("GetProfileImageOfAuthorOfUser endpoint", async () => {
 
 		// Set the profile image
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: getProfileImageOfAuthorOfUserEndpoint,
 				headers: {
@@ -173,7 +173,7 @@ describe("GetProfileImageOfAuthorOfUser endpoint", async () => {
 		let response
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'get',
 				url: getProfileImageOfAuthorOfUserEndpoint,
 				headers: {

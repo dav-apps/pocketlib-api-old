@@ -26,7 +26,7 @@ afterEach(async () => {
 describe("CreateStoreBook endpoint", () => {
 	it("should not create store book without access token", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
@@ -45,7 +45,7 @@ describe("CreateStoreBook endpoint", () => {
 
 	it("should not create store book with access token for session that does not exist", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
@@ -70,7 +70,7 @@ describe("CreateStoreBook endpoint", () => {
 
 	it("should not create store book without Content-Type json", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
@@ -89,7 +89,7 @@ describe("CreateStoreBook endpoint", () => {
 
 	it("should not create store book with access token for another app", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
@@ -109,7 +109,7 @@ describe("CreateStoreBook endpoint", () => {
 
 	it("should not create store book without required properties", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
@@ -130,7 +130,7 @@ describe("CreateStoreBook endpoint", () => {
 
 	it("should not create store book without required properties as admin", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
@@ -152,7 +152,7 @@ describe("CreateStoreBook endpoint", () => {
 
 	it("should not create store book without required properties with collection as admin", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
@@ -176,7 +176,7 @@ describe("CreateStoreBook endpoint", () => {
 
 	it("should not create store book with properties with wrong types", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
@@ -203,7 +203,7 @@ describe("CreateStoreBook endpoint", () => {
 
 	it("should not create store book with optional properties with wrong types", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
@@ -238,7 +238,7 @@ describe("CreateStoreBook endpoint", () => {
 
 	it("should not create store book with properties with wrong types as admin", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
@@ -265,7 +265,7 @@ describe("CreateStoreBook endpoint", () => {
 
 	it("should not create store book with properties with wrong types with collection as admin", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
@@ -292,7 +292,7 @@ describe("CreateStoreBook endpoint", () => {
 
 	it("should not create store book with too short properties", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
@@ -317,7 +317,7 @@ describe("CreateStoreBook endpoint", () => {
 
 	it("should not create store book with too short optional properties", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
@@ -344,7 +344,7 @@ describe("CreateStoreBook endpoint", () => {
 
 	it("should not create store book with too long properties", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
@@ -369,7 +369,7 @@ describe("CreateStoreBook endpoint", () => {
 
 	it("should not create store book with too long optional properties", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
@@ -396,7 +396,7 @@ describe("CreateStoreBook endpoint", () => {
 
 	it("should not create store book with not supported language", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
@@ -421,7 +421,7 @@ describe("CreateStoreBook endpoint", () => {
 
 	it("should not create store book with invalid price", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
@@ -447,7 +447,7 @@ describe("CreateStoreBook endpoint", () => {
 
 	it("should not create store book with invalid isbn", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
@@ -473,7 +473,7 @@ describe("CreateStoreBook endpoint", () => {
 
 	it("should not create store book if the user is not an author", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
@@ -498,7 +498,7 @@ describe("CreateStoreBook endpoint", () => {
 
 	it("should not create store book as admin without collection for author that does not belong to the user", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
@@ -523,7 +523,7 @@ describe("CreateStoreBook endpoint", () => {
 
 	it("should not create store book as admin without collection for author that does not exist", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
@@ -548,7 +548,7 @@ describe("CreateStoreBook endpoint", () => {
 
 	it("should not create store book for collection that is not a collection", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
@@ -573,7 +573,7 @@ describe("CreateStoreBook endpoint", () => {
 
 	it("should not create store book for collection that does not belong to the author", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
@@ -599,7 +599,7 @@ describe("CreateStoreBook endpoint", () => {
 
 	it("should not create store book for collection that does not exist", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
@@ -632,7 +632,7 @@ describe("CreateStoreBook endpoint", () => {
 
 		// Create the store book
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
@@ -717,7 +717,7 @@ describe("CreateStoreBook endpoint", () => {
 
 		// Create the store book
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
@@ -805,7 +805,7 @@ describe("CreateStoreBook endpoint", () => {
 
 		// Create the store book
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
@@ -913,7 +913,7 @@ describe("CreateStoreBook endpoint", () => {
 
 		// Create the store book
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {
@@ -1031,7 +1031,7 @@ describe("CreateStoreBook endpoint", () => {
 
 		// Create the store book
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'post',
 				url: createStoreBookEndpointUrl,
 				headers: {

@@ -10,7 +10,7 @@ describe("GetLatestAuthors endpoint", () => {
 		let response
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'get',
 				url: getLatestAuthorsEndpointUrl
 			})
@@ -48,7 +48,7 @@ describe("GetLatestAuthors endpoint", () => {
 		let response
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'get',
 				url: getLatestAuthorsEndpointUrl,
 				params: {

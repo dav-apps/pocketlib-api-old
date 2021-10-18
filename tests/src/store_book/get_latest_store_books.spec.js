@@ -9,7 +9,7 @@ const getLatestStoreBooksEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store
 describe("GetLatestStoreBooks endpoint", async () => {
 	it("should not return latest store books with not supported language", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getLatestStoreBooksEndpointUrl,
 				params: {
@@ -30,7 +30,7 @@ describe("GetLatestStoreBooks endpoint", async () => {
 		let response
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'get',
 				url: getLatestStoreBooksEndpointUrl
 			})
@@ -98,7 +98,7 @@ describe("GetLatestStoreBooks endpoint", async () => {
 		let language = "de"
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'get',
 				url: getLatestStoreBooksEndpointUrl,
 				params: {
@@ -169,7 +169,7 @@ describe("GetLatestStoreBooks endpoint", async () => {
 		let languages = ["de", "en"]
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'get',
 				url: getLatestStoreBooksEndpointUrl,
 				params: {
@@ -241,7 +241,7 @@ describe("GetLatestStoreBooks endpoint", async () => {
 		let limit = 2
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'get',
 				url: getLatestStoreBooksEndpointUrl,
 				params: {
@@ -310,7 +310,7 @@ describe("GetLatestStoreBooks endpoint", async () => {
 
 		// Get the store books of the next page
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'get',
 				url: getLatestStoreBooksEndpointUrl,
 				params: {

@@ -20,7 +20,7 @@ afterEach(async () => {
 describe("CreatePurchaseForStoreBook endpoint", () => {
 	it("should not create purchase for store book without access token", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createPurchaseForStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
@@ -39,7 +39,7 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 
 	it("should not create purchase for store book with access token for session that does not exist", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createPurchaseForStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
@@ -62,7 +62,7 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 
 	it("should not create purchase for store book without Content-Type json", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createPurchaseForStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
@@ -81,7 +81,7 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 
 	it("should not create purchase for store book with access token for another app", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createPurchaseForStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
@@ -101,7 +101,7 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 
 	it("should not create purchase for store book without required properties", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createPurchaseForStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
@@ -121,7 +121,7 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 
 	it("should not create purchase for store book with properties with wrong types", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createPurchaseForStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
@@ -144,7 +144,7 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 
 	it("should not create purchase for store book that does not exist", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createPurchaseForStoreBookEndpointUrl.replace('{0}', "shodhosdhosdf"),
 				headers: {
@@ -167,7 +167,7 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 
 	it("should not create purchase for store book if the user already purchased the store book", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createPurchaseForStoreBookEndpointUrl.replace('{0}', constants.davUser.authors[0].collections[0].books[0].uuid),
 				headers: {
@@ -190,7 +190,7 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 
 	it("should not create purchase for store book that is not published", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createPurchaseForStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
@@ -213,7 +213,7 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 
 	it("should not create purchase for store book without TableObjectPrice", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createPurchaseForStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[2].books[1].uuid),
 				headers: {
@@ -236,7 +236,7 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 
 	it("should not create purchase for store book whose user is not a provider", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'post',
 				url: createPurchaseForStoreBookEndpointUrl.replace('{0}', constants.davUser.authors[0].collections[0].books[0].uuid),
 				headers: {
@@ -263,7 +263,7 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 		let response
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'post',
 				url: createPurchaseForStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
@@ -320,7 +320,7 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 		let response
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'post',
 				url: createPurchaseForStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {

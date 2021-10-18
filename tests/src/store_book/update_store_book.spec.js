@@ -19,7 +19,7 @@ afterEach(async () => {
 describe("UpdateStoreBook endpoint", () => {
 	it("should not update store book without access token", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid)
 			})
@@ -35,7 +35,7 @@ describe("UpdateStoreBook endpoint", () => {
 
 	it("should not update store book with access token for session that does not exist", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
@@ -58,7 +58,7 @@ describe("UpdateStoreBook endpoint", () => {
 
 	it("should not update store book without Content-Type json", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
@@ -77,7 +77,7 @@ describe("UpdateStoreBook endpoint", () => {
 
 	it("should not update store book that does not exist", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: updateStoreBookEndpointUrl.replace('{0}', "blabla"),
 				headers: {
@@ -101,7 +101,7 @@ describe("UpdateStoreBook endpoint", () => {
 
 	it("should not update store book with properties with wrong types", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
@@ -136,7 +136,7 @@ describe("UpdateStoreBook endpoint", () => {
 
 	it("should not update store book with status with wrong type as admin", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
@@ -159,7 +159,7 @@ describe("UpdateStoreBook endpoint", () => {
 
 	it("should not update store book with too short properties", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
@@ -184,7 +184,7 @@ describe("UpdateStoreBook endpoint", () => {
 
 	it("should not update store book with too long properties", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
@@ -209,7 +209,7 @@ describe("UpdateStoreBook endpoint", () => {
 
 	it("should not update store book with not supported language", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
@@ -232,7 +232,7 @@ describe("UpdateStoreBook endpoint", () => {
 
 	it("should not update store book with invalid price", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
@@ -255,7 +255,7 @@ describe("UpdateStoreBook endpoint", () => {
 
 	it("should not update store book with invalid isbn", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
@@ -278,7 +278,7 @@ describe("UpdateStoreBook endpoint", () => {
 
 	it("should not update store book with not supported status as admin", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: updateStoreBookEndpointUrl.replace('{0}', constants.davUser.authors[0].collections[0].books[0].uuid),
 				headers: {
@@ -852,7 +852,7 @@ describe("UpdateStoreBook endpoint", () => {
 
 		// Try to publish the store book
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
@@ -894,7 +894,7 @@ describe("UpdateStoreBook endpoint", () => {
 
 		// Try to publish the store book
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
@@ -936,7 +936,7 @@ describe("UpdateStoreBook endpoint", () => {
 
 		// Try to publish the store book
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
@@ -979,7 +979,7 @@ describe("UpdateStoreBook endpoint", () => {
 		let response
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'put',
 				url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
@@ -1048,7 +1048,7 @@ describe("UpdateStoreBook endpoint", () => {
 		let response
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'put',
 				url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
@@ -1115,7 +1115,7 @@ describe("UpdateStoreBook endpoint", () => {
 		let response
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'put',
 				url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
@@ -1196,7 +1196,7 @@ describe("UpdateStoreBook endpoint", () => {
 
 		// Try to publish the store book
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
@@ -1238,7 +1238,7 @@ describe("UpdateStoreBook endpoint", () => {
 
 		// Try to publish the store book
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
@@ -1280,7 +1280,7 @@ describe("UpdateStoreBook endpoint", () => {
 
 		// Try to publish the store book
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
@@ -1323,7 +1323,7 @@ describe("UpdateStoreBook endpoint", () => {
 		let response
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'put',
 				url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
@@ -1392,7 +1392,7 @@ describe("UpdateStoreBook endpoint", () => {
 		let response
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'put',
 				url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
@@ -1459,7 +1459,7 @@ describe("UpdateStoreBook endpoint", () => {
 		let response
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'put',
 				url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
@@ -1526,7 +1526,7 @@ async function testShouldUpdateTitleOfStoreBook(collection, storeBook, accessTok
 	let response
 
 	try {
-		response = await axios.default({
+		response = await axios({
 			method: 'put',
 			url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 			headers: {
@@ -1592,7 +1592,7 @@ async function testShouldUpdateDescriptionOfStoreBook(collection, storeBook, acc
 	let response
 
 	try {
-		response = await axios.default({
+		response = await axios({
 			method: 'put',
 			url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 			headers: {
@@ -1658,7 +1658,7 @@ async function testShouldUpdateLanguageOfStoreBook(collection, storeBook, access
 	let response
 
 	try {
-		response = await axios.default({
+		response = await axios({
 			method: 'put',
 			url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 			headers: {
@@ -1722,7 +1722,7 @@ async function testShouldNotUpdateLanguageOfStoreBook(storeBook, accessToken) {
 	let language = "fr"
 
 	try {
-		await axios.default({
+		await axios({
 			method: 'put',
 			url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 			headers: {
@@ -1749,7 +1749,7 @@ async function testShouldUpdatePriceOfStoreBook(collection, storeBook, accessTok
 	let response
 
 	try {
-		response = await axios.default({
+		response = await axios({
 			method: 'put',
 			url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 			headers: {
@@ -1813,7 +1813,7 @@ async function testShouldNotUpdatePriceOfStoreBook(storeBook, accessToken) {
 	let price = 354
 
 	try {
-		await axios.default({
+		await axios({
 			method: 'put',
 			url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 			headers: {
@@ -1840,7 +1840,7 @@ async function testShouldUpdateIsbnOfStoreBook(collection, storeBook, accessToke
 	let response
 
 	try {
-		response = await axios.default({
+		response = await axios({
 			method: 'put',
 			url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 			headers: {
@@ -1901,7 +1901,7 @@ async function testShouldUpdateIsbnOfStoreBook(collection, storeBook, accessToke
 
 	// Remove isbn with empty string
 	try {
-		response = await axios.default({
+		response = await axios({
 			method: 'put',
 			url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 			headers: {
@@ -1965,7 +1965,7 @@ async function testShouldNotUpdateIsbnOfStoreBook(storeBook, accessToken) {
 	let isbn = "3210987654321"
 
 	try {
-		await axios.default({
+		await axios({
 			method: 'put',
 			url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 			headers: {
@@ -1992,7 +1992,7 @@ async function testShouldUpdateStatusOfStoreBook(collection, storeBook, accessTo
 	let response
 
 	try {
-		response = await axios.default({
+		response = await axios({
 			method: 'put',
 			url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 			headers: {
@@ -2060,7 +2060,7 @@ async function testShouldUpdateCategoriesOfStoreBook(collection, storeBook, acce
 	let response
 
 	try {
-		response = await axios.default({
+		response = await axios({
 			method: 'put',
 			url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 			headers: {

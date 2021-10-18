@@ -24,7 +24,7 @@ afterEach(async () => {
 describe("SetStoreBookCover endpoint", () => {
 	it("should not set store book cover without access token", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setStoreBookCoverEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid)
 			})
@@ -40,7 +40,7 @@ describe("SetStoreBookCover endpoint", () => {
 
 	it("should not set store book cover with access token for session that does not exist", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setStoreBookCoverEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
@@ -60,7 +60,7 @@ describe("SetStoreBookCover endpoint", () => {
 
 	it("should not set store book cover with access token for another app", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setStoreBookCoverEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
@@ -80,7 +80,7 @@ describe("SetStoreBookCover endpoint", () => {
 
 	it("should not set store book cover without supported image content type", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setStoreBookCoverEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
@@ -100,7 +100,7 @@ describe("SetStoreBookCover endpoint", () => {
 
 	it("should not set store book cover for store book that does not exist", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setStoreBookCoverEndpointUrl.replace('{0}', "blablabla"),
 				headers: {
@@ -120,7 +120,7 @@ describe("SetStoreBookCover endpoint", () => {
 
 	it("should not set store book cover for store book that does not belong to the author", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setStoreBookCoverEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
@@ -191,7 +191,7 @@ describe("SetStoreBookCover endpoint", () => {
 		let firstFileExt = "png"
 
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setStoreBookCoverEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
@@ -251,7 +251,7 @@ describe("SetStoreBookCover endpoint", () => {
 		let secondFileContent = "Labore dicta cupiditate culpa cum harum. Corporis voluptatem debitis eos nam nisi esse in vitae. Molestiae rerum nesciunt sunt sed et dolorum."
 
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setStoreBookCoverEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
@@ -327,7 +327,7 @@ describe("SetStoreBookCover endpoint", () => {
 		let firstFileExt = "png"
 
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setStoreBookCoverEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
@@ -386,7 +386,7 @@ describe("SetStoreBookCover endpoint", () => {
 		let secondFileContent = "Labore dicta cupiditate culpa cum harum. Corporis voluptatem debitis eos nam nisi esse in vitae. Molestiae rerum nesciunt sunt sed et dolorum."
 
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setStoreBookCoverEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {

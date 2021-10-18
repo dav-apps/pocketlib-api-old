@@ -9,7 +9,7 @@ const getStoreBookEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/book/{
 describe("GetStoreBook endpoint", () => {
 	it("should not return store book with access token for session that does not exist", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
@@ -28,7 +28,7 @@ describe("GetStoreBook endpoint", () => {
 
 	it("should not return store book with access token for another app", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
@@ -47,7 +47,7 @@ describe("GetStoreBook endpoint", () => {
 
 	it("should not return store book if the store book does not exist", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getStoreBookEndpointUrl.replace('{0}', "blablabla"),
 				headers: {
@@ -70,7 +70,7 @@ describe("GetStoreBook endpoint", () => {
 		let response
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'get',
 				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
@@ -116,7 +116,7 @@ describe("GetStoreBook endpoint", () => {
 		let response
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'get',
 				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
@@ -161,7 +161,7 @@ describe("GetStoreBook endpoint", () => {
 		let storeBook = collection.books[0]
 
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
@@ -183,7 +183,7 @@ describe("GetStoreBook endpoint", () => {
 		let storeBook = collection.books[0]
 
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid)
 			})
@@ -203,7 +203,7 @@ describe("GetStoreBook endpoint", () => {
 		let response
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'get',
 				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
@@ -249,7 +249,7 @@ describe("GetStoreBook endpoint", () => {
 		let response
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'get',
 				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
@@ -294,7 +294,7 @@ describe("GetStoreBook endpoint", () => {
 		let storeBook = collection.books[0]
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'get',
 				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
@@ -316,7 +316,7 @@ describe("GetStoreBook endpoint", () => {
 		let storeBook = collection.books[0]
 
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid)
 			})
@@ -336,7 +336,7 @@ describe("GetStoreBook endpoint", () => {
 		let response
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'get',
 				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
@@ -382,7 +382,7 @@ describe("GetStoreBook endpoint", () => {
 		let response
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'get',
 				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
@@ -428,7 +428,7 @@ describe("GetStoreBook endpoint", () => {
 		let response
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'get',
 				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
@@ -474,7 +474,7 @@ describe("GetStoreBook endpoint", () => {
 		let response
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'get',
 				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid)
 			})
@@ -517,7 +517,7 @@ describe("GetStoreBook endpoint", () => {
 		let response
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'get',
 				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
@@ -563,7 +563,7 @@ describe("GetStoreBook endpoint", () => {
 		let response
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'get',
 				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
@@ -608,7 +608,7 @@ describe("GetStoreBook endpoint", () => {
 		let storeBook = collection.books[1]
 
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
@@ -630,7 +630,7 @@ describe("GetStoreBook endpoint", () => {
 		let storeBook = collection.books[1]
 
 		try {
-			await axios.default({
+			await axios({
 				method: 'get',
 				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid)
 			})

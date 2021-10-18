@@ -24,7 +24,7 @@ afterEach(async () => {
 describe("SetProfileImageOfAuthor endpoint", () => {
 	it("should not set profile image without access token", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setProfileImageOfAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
 				headers: {
@@ -43,7 +43,7 @@ describe("SetProfileImageOfAuthor endpoint", () => {
 
 	it("should not set profile image with access token for session that does not exist", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setProfileImageOfAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
 				headers: {
@@ -63,7 +63,7 @@ describe("SetProfileImageOfAuthor endpoint", () => {
 
 	it("should not set profile image with access token for another app", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setProfileImageOfAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
 				headers: {
@@ -83,7 +83,7 @@ describe("SetProfileImageOfAuthor endpoint", () => {
 
 	it("should not set profile image without supported image content type", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setProfileImageOfAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
 				headers: {
@@ -102,7 +102,7 @@ describe("SetProfileImageOfAuthor endpoint", () => {
 
 	it("should not set profile image if the user is not an admin", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setProfileImageOfAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
 				headers: {
@@ -122,7 +122,7 @@ describe("SetProfileImageOfAuthor endpoint", () => {
 
 	it("should not set profile image if the author does not exist", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setProfileImageOfAuthorEndpointUrl.replace('{0}', "asdasdasdads"),
 				headers: {
@@ -142,7 +142,7 @@ describe("SetProfileImageOfAuthor endpoint", () => {
 
 	it("should not set profile image if the author does not belong to the user", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setProfileImageOfAuthorEndpointUrl.replace('{0}', constants.authorUser.author.uuid),
 				headers: {
@@ -186,7 +186,7 @@ describe("SetProfileImageOfAuthor endpoint", () => {
 		let firstFileExt = "png"
 
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setProfileImageOfAuthorEndpointUrl.replace('{0}', author.uuid),
 				headers: {
@@ -245,7 +245,7 @@ describe("SetProfileImageOfAuthor endpoint", () => {
 		let secondFileContent = "Labore dicta cupiditate culpa cum harum. Corporis voluptatem debitis eos nam nisi esse in vitae. Molestiae rerum nesciunt sunt sed et dolorum."
 
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setProfileImageOfAuthorEndpointUrl.replace('{0}', author.uuid),
 				headers: {

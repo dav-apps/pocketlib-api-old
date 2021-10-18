@@ -19,7 +19,7 @@ afterEach(async () => {
 describe("UpdateAuthor endpoint", () => {
 	it("should not update author without access token", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: updateAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
 				headers: {
@@ -38,7 +38,7 @@ describe("UpdateAuthor endpoint", () => {
 
 	it("should not update author with access token for session that does not exist", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: updateAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
 				headers: {
@@ -58,7 +58,7 @@ describe("UpdateAuthor endpoint", () => {
 
 	it("should not update author without Content-Type json", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: updateAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
 				headers: {
@@ -77,7 +77,7 @@ describe("UpdateAuthor endpoint", () => {
 
 	it("should not update author with access token for another app", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: updateAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
 				headers: {
@@ -97,7 +97,7 @@ describe("UpdateAuthor endpoint", () => {
 
 	it("should not update author if the user is not an admin", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: updateAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
 				headers: {
@@ -117,7 +117,7 @@ describe("UpdateAuthor endpoint", () => {
 
 	it("should not update author if the author does not belong to the user", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: updateAuthorEndpointUrl.replace('{0}', constants.authorUser.author.uuid),
 				headers: {
@@ -137,7 +137,7 @@ describe("UpdateAuthor endpoint", () => {
 
 	it("should not update author with properties with wrong types", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: updateAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
 				headers: {
@@ -170,7 +170,7 @@ describe("UpdateAuthor endpoint", () => {
 
 	it("should not update author with too short properties", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: updateAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
 				headers: {
@@ -195,7 +195,7 @@ describe("UpdateAuthor endpoint", () => {
 
 	it("should not update author with too long properties", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: updateAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
 				headers: {
@@ -220,7 +220,7 @@ describe("UpdateAuthor endpoint", () => {
 
 	it("should not update author with invalid properties", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: updateAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
 				headers: {
@@ -254,7 +254,7 @@ describe("UpdateAuthor endpoint", () => {
 		let response
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'put',
 				url: updateAuthorEndpointUrl.replace('{0}', author.uuid),
 				headers: {
@@ -329,7 +329,7 @@ describe("UpdateAuthor endpoint", () => {
 		let response
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'put',
 				url: updateAuthorEndpointUrl.replace('{0}', author.uuid),
 				headers: {
@@ -407,7 +407,7 @@ describe("UpdateAuthor endpoint", () => {
 		let response
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'put',
 				url: updateAuthorEndpointUrl.replace('{0}', author.uuid),
 				headers: {
@@ -481,7 +481,7 @@ describe("UpdateAuthor endpoint", () => {
 
 		// Remove the website_url and usernames with empty strings
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'put',
 				url: updateAuthorEndpointUrl.replace('{0}', author.uuid),
 				headers: {
@@ -519,7 +519,7 @@ describe("UpdateAuthor endpoint", () => {
 		let response
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'put',
 				url: updateAuthorEndpointUrl.replace('{0}', author.uuid),
 				headers: {

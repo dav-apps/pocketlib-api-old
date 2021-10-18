@@ -20,7 +20,7 @@ afterEach(async () => {
 describe("SetStoreBookCollectionName endpoint", () => {
 	it("should not set collection name without access token", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].uuid).replace('{1}', "en"),
 				headers: {
@@ -39,7 +39,7 @@ describe("SetStoreBookCollectionName endpoint", () => {
 
 	it("should not set collection name with access token for session that does not exist", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].uuid).replace('{1}', "en"),
 				headers: {
@@ -59,7 +59,7 @@ describe("SetStoreBookCollectionName endpoint", () => {
 
 	it("should not set collection name without Content-Type json", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].uuid).replace('{1}', "en"),
 				headers: {
@@ -79,7 +79,7 @@ describe("SetStoreBookCollectionName endpoint", () => {
 
 	it("should not set collection name if jwt is for another app", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].uuid).replace('{1}', "en"),
 				headers: {
@@ -99,7 +99,7 @@ describe("SetStoreBookCollectionName endpoint", () => {
 
 	it("should not set collection name for collection of another user", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].uuid).replace('{1}', "en"),
 				headers: {
@@ -119,7 +119,7 @@ describe("SetStoreBookCollectionName endpoint", () => {
 
 	it("should not set collection name without required properties", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].uuid).replace('{1}', "en"),
 				headers: {
@@ -139,7 +139,7 @@ describe("SetStoreBookCollectionName endpoint", () => {
 
 	it("should not set collection name with properties with wrong types", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].uuid).replace('{1}', "en"),
 				headers: {
@@ -162,7 +162,7 @@ describe("SetStoreBookCollectionName endpoint", () => {
 
 	it("should not set collection name with too short properties", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].uuid).replace('{1}', "en"),
 				headers: {
@@ -185,7 +185,7 @@ describe("SetStoreBookCollectionName endpoint", () => {
 
 	it("should not set collection name with too long properties", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].uuid).replace('{1}', "en"),
 				headers: {
@@ -208,7 +208,7 @@ describe("SetStoreBookCollectionName endpoint", () => {
 
 	it("should not set collection name for not supported language", async () => {
 		try {
-			await axios.default({
+			await axios({
 				method: 'put',
 				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].uuid).replace('{1}', "bla"),
 				headers: {
@@ -240,7 +240,7 @@ describe("SetStoreBookCollectionName endpoint", () => {
 		let accessToken = constants.authorUser.accessToken
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'put',
 				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', collection.uuid).replace('{1}', language),
 				headers: {
@@ -310,7 +310,7 @@ describe("SetStoreBookCollectionName endpoint", () => {
 		let accessToken = constants.authorUser.accessToken
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'put',
 				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', collection.uuid).replace('{1}', language),
 				headers: {
@@ -376,7 +376,7 @@ describe("SetStoreBookCollectionName endpoint", () => {
 		let accessToken = constants.davUser.accessToken
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'put',
 				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', collection.uuid).replace('{1}', language),
 				headers: {
@@ -446,7 +446,7 @@ describe("SetStoreBookCollectionName endpoint", () => {
 		let accessToken = constants.davUser.accessToken
 
 		try {
-			response = await axios.default({
+			response = await axios({
 				method: 'put',
 				url: setStoreBookCollectionNameEndpointUrl.replace('{0}', collection.uuid).replace('{1}', language),
 				headers: {
