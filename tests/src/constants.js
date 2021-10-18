@@ -541,6 +541,22 @@ let constants = {
 					language: "de"
 				}
 			]
+		},
+		{
+			uuid: "76dd74fa-0fb3-4d80-8c0a-6d6a803383a7",
+			key: "adventure",
+			names: [
+				{
+					uuid: "074de601-477e-4fe5-bdda-cb127a162f1e",
+					name: "Adventure",
+					language: "en"
+				},
+				{
+					uuid: "81196b7a-8f5c-48a2-8ba0-7279efc3fba4",
+					name: "Abenteuer",
+					language: "de"
+				}
+			]
 		}
 	]
 }

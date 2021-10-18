@@ -471,6 +471,32 @@ describe("CreateStoreBook endpoint", () => {
 		assert.fail()
 	})
 
+	it("should not create store book with too many categories", async () => {
+		try {
+			await axios({
+				method: 'post',
+				url: createStoreBookEndpointUrl,
+				headers: {
+					Authorization: constants.authorUser.accessToken,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					collection: constants.authorUser.author.collections[0].uuid,
+					title: "Hello World",
+					language: "en",
+					categories: ["tragedy", "dystopia", "adventure", "childrens"]
+				}
+			})
+		} catch (error) {
+			assert.equal(400, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(ErrorCodes.TooManyCategoriesForStoreBook, error.response.data.errors[0].code)
+			return
+		}
+
+		assert.fail()
+	})
+
 	it("should not create store book if the user is not an author", async () => {
 		try {
 			await axios({

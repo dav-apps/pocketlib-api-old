@@ -276,6 +276,29 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.fail()
 	})
 
+	it("should not update store book with too many categories", async () => {
+		try {
+			await axios({
+				method: 'put',
+				url: updateStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
+				headers: {
+					Authorization: constants.authorUser.accessToken,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					categories: ["tragedy", "dystopia", "adventure", "childrens"]
+				}
+			})
+		} catch (error) {
+			assert.equal(400, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(ErrorCodes.TooManyCategoriesForStoreBook, error.response.data.errors[0].code)
+			return
+		}
+
+		assert.fail()
+	})
+
 	it("should not update store book with not supported status as admin", async () => {
 		try {
 			await axios({
