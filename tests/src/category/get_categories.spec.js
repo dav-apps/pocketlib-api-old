@@ -12,10 +12,7 @@ describe("GetCategories endpoint", async () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getCategoriesEndpointUrl,
-				headers: {
-					Authorization: constants.testUser.accessToken
-				}
+				url: getCategoriesEndpointUrl
 			})
 		} catch (error) {
 			assert.fail()
