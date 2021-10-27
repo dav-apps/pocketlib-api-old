@@ -1,5 +1,5 @@
 (# Get the params)
-(var key (get_param "key"))
+(var keys (get_param "keys"))
 (var languages (get_param "languages"))
 (var limit (to_int (get_param "limit")))
 (var page (to_int (get_param "page")))
@@ -28,41 +28,63 @@
 	(var page 1)
 ))
 
-(# Get the category)
+(# Get the categories)
 (var admins (get_env "ADMINS"))
-(var categories (TableObject.find_by_property admins#0 (get_env "CATEGORY_TABLE_ID") "key" key))
-(if (categories.length == 0) (
-	(# Category does not exist)
-	(func render_validation_errors ((list (hash (error (get_error 3511)) (status 404)))))
-))
 
-(var category categories#0)
-
-(# Find StoreBooks with the category)
-(var store_books (TableObject.find_by_property "*" (get_env "STORE_BOOK_TABLE_ID") "categories" category.uuid false))
-
-(# Get the appropriate store books)
 (var books (list))
+(var keys_list (keys.split ","))
 
-(for store_book in store_books (
-	(if ((store_book.properties.status == "published") and (language_list.contains store_book.properties.language)) (
+(for key in keys_list (
+	(var categories (TableObject.find_by_property admins#0 (get_env "CATEGORY_TABLE_ID") "key" key))
+	(if (categories.length == 0) (
+		(# Category does not exist)
+		(func render_validation_errors ((list (hash (error (get_error 3511)) (status 404)))))
+	))
+
+	(var category categories#0)
+
+	(# Find StoreBooks with the category)
+	(var store_books (TableObject.find_by_property "*" (get_env "STORE_BOOK_TABLE_ID") "categories" category.uuid false))
+
+	(# Get the appropriate store books)
+	(for store_book in store_books (
 		(# Get the categories)
 		(var categories (func get_category_keys_by_string (store_book.properties.categories)))
 
-		(books.push (hash
-			(uuid store_book.uuid)
-			(title store_book.properties.title)
-			(description (if (is_nil store_book.properties.description) "" else store_book.properties.description))
-			(language store_book.properties.language)
-			(price (to_int store_book.properties.price))
-			(isbn store_book.properties.isbn)
-			(status store_book.properties.status)
-			(cover (!(is_nil store_book.properties.cover)))
-			(cover_aspect_ratio store_book.properties.cover_aspect_ratio)
-			(cover_blurhash store_book.properties.cover_blurhash)
-			(file (!(is_nil store_book.properties.file)))
-			(file_name store_book.properties.file_name)
-			(categories categories)
+		(# Check if the store book is published)
+		(var is_published (store_book.properties.status == "published"))
+
+		(# Check if the store book is written in one of the given languages)
+		(var belongs_to_languages (language_list.contains store_book.properties.language))
+
+		(# Check if the store book belongs to all given categories)
+		(var belongs_to_categories (categories.contains_all keys_list))
+
+		(# Check if the store book is already in the books array)
+		(var is_not_in_books true)
+		(for book in books (
+			(if (book.uuid == store_book.uuid) (
+				(var is_not_in_books false)
+				(break)
+			))
+		))
+
+		(if (is_published and belongs_to_languages and belongs_to_categories and is_not_in_books) (
+			(books.push (hash
+				(uuid store_book.uuid)
+				(title store_book.properties.title)
+				(description (if (is_nil store_book.properties.description) "" else store_book.properties.description))
+				(language store_book.properties.language)
+				(price (to_int store_book.properties.price))
+				(isbn store_book.properties.isbn)
+				(status store_book.properties.status)
+				(cover (!(is_nil store_book.properties.cover)))
+				(cover_aspect_ratio store_book.properties.cover_aspect_ratio)
+				(cover_blurhash store_book.properties.cover_blurhash)
+				(file (!(is_nil store_book.properties.file)))
+				(file_name store_book.properties.file_name)
+				(categories categories)
+			))
 		))
 	))
 ))
