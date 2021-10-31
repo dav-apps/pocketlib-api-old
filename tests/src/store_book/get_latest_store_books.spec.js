@@ -4,7 +4,7 @@ import axios from 'axios'
 import constants from '../constants.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const getLatestStoreBooksEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/books/latest`
+const getLatestStoreBooksEndpointUrl = `${constants.apiBaseUrl}/store/books/latest`
 
 describe("GetLatestStoreBooks endpoint", async () => {
 	it("should not return latest store books with not supported language", async () => {

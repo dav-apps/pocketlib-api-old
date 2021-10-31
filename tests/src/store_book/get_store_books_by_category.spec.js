@@ -4,7 +4,7 @@ import axios from 'axios'
 import constants from '../constants.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const getStoreBooksByCategoryEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/books/category/{0}`
+const getStoreBooksByCategoryEndpointUrl = `${constants.apiBaseUrl}/store/books/category/{0}`
 
 describe("GetStoreBooksByCategory endpoint", () => {
 	it("should not return store books by category that does not exist", async () => {

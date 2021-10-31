@@ -6,7 +6,7 @@ import constants from '../constants.js'
 import * as utils from '../utils.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const createStoreBookEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/book`
+const createStoreBookEndpointUrl = `${constants.apiBaseUrl}/store/book`
 var resetStoreBooksAndCollections = false
 var resetAuthors = false
 

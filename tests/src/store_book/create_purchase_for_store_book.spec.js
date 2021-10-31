@@ -5,7 +5,7 @@ import { PurchasesController } from 'dav-js'
 import constants from '../constants.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const createPurchaseForStoreBookEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/book/{0}/purchase`
+const createPurchaseForStoreBookEndpointUrl = `${constants.apiBaseUrl}/store/book/{0}/purchase`
 var purchasesToRemove = []
 
 afterEach(async () => {
@@ -283,9 +283,9 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 		assert.isNotNull(response.data.uuid)
 		assert.isNotNull(response.data.payment_intent)
 		assert.equal(`${author.firstName} ${author.lastName}`, response.data.provider_name)
-		assert.equal(`${constants.apiBaseUrl}/api/1/call/author/${author.uuid}/profile_image`, response.data.provider_image)
+		assert.equal(`${constants.apiBaseUrl}/author/${author.uuid}/profile_image`, response.data.provider_image)
 		assert.equal(storeBook.title, response.data.product_name)
-		assert.equal(`${constants.apiBaseUrl}/api/1/call/store/book/${storeBook.uuid}/cover`, response.data.product_image)
+		assert.equal(`${constants.apiBaseUrl}/store/book/${storeBook.uuid}/cover`, response.data.product_image)
 		assert.equal(storeBook.price, response.data.price)
 		assert.equal("eur", response.data.currency)
 		assert.isFalse(response.data.completed)
@@ -340,9 +340,9 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 		assert.isNotNull(response.data.uuid)
 		assert.isNull(response.data.payment_intent_id)
 		assert.equal(`${author.firstName} ${author.lastName}`, response.data.provider_name)
-		assert.equal(`${constants.apiBaseUrl}/api/1/call/author/${author.uuid}/profile_image`, response.data.provider_image)
+		assert.equal(`${constants.apiBaseUrl}/author/${author.uuid}/profile_image`, response.data.provider_image)
 		assert.equal(storeBook.title, response.data.product_name)
-		assert.equal(`${constants.apiBaseUrl}/api/1/call/store/book/${storeBook.uuid}/cover`, response.data.product_image)
+		assert.equal(`${constants.apiBaseUrl}/store/book/${storeBook.uuid}/cover`, response.data.product_image)
 		assert.equal(0, response.data.price)
 		assert.equal("eur", response.data.currency)
 		assert.isTrue(response.data.completed)

@@ -4,7 +4,7 @@ import axios from 'axios'
 import constants from '../constants.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const getAuthorEndpointUrl = `${constants.apiBaseUrl}/api/1/call/author/{0}`
+const getAuthorEndpointUrl = `${constants.apiBaseUrl}/author/{0}`
 
 describe("GetAuthor endpoint", async () => {
 	it("should not return author that does not exist", async () => {

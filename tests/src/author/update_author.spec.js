@@ -6,7 +6,7 @@ import constants from '../constants.js'
 import * as utils from '../utils.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const updateAuthorEndpointUrl = `${constants.apiBaseUrl}/api/1/call/author/{0}`
+const updateAuthorEndpointUrl = `${constants.apiBaseUrl}/author/{0}`
 var resetAuthors = false
 
 afterEach(async () => {

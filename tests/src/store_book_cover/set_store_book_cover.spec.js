@@ -10,7 +10,7 @@ import constants from '../constants.js'
 import * as utils from '../utils.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const setStoreBookCoverEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/book/{0}/cover`
+const setStoreBookCoverEndpointUrl = `${constants.apiBaseUrl}/store/book/{0}/cover`
 var resetStoreBooksAndStoreBookCovers = false
 
 afterEach(async () => {

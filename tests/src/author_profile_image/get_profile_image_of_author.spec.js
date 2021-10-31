@@ -5,7 +5,7 @@ import constants from '../constants.js'
 import * as utils from '../utils.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const getProfileImageOfAuthorEndpoint = `${constants.apiBaseUrl}/api/1/call/author/{0}/profile_image`
+const getProfileImageOfAuthorEndpoint = `${constants.apiBaseUrl}/author/{0}/profile_image`
 var resetAuthorProfileImages = false
 
 afterEach(async () => {
@@ -125,7 +125,7 @@ async function setProfileImageOfAuthorOfUser(accessToken, type, content) {
 	try {
 		await axios({
 			method: 'put',
-			url: `${constants.apiBaseUrl}/api/1/call/author/profile_image`,
+			url: `${constants.apiBaseUrl}/author/profile_image`,
 			headers: {
 				Authorization: accessToken,
 				'Content-Type': type

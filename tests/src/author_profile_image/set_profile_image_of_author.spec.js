@@ -10,7 +10,7 @@ import constants from '../constants.js'
 import * as utils from '../utils.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const setProfileImageOfAuthorEndpointUrl = `${constants.apiBaseUrl}/api/1/call/author/{0}/profile_image`
+const setProfileImageOfAuthorEndpointUrl = `${constants.apiBaseUrl}/author/{0}/profile_image`
 let resetAuthorsAndAuthorProfileImages = false
 
 afterEach(async () => {

@@ -4,7 +4,7 @@ import axios from 'axios'
 import constants from '../constants.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const getStoreBookCollectionEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/collection/{0}`
+const getStoreBookCollectionEndpointUrl = `${constants.apiBaseUrl}/store/collection/{0}`
 
 describe("GetStoreBookCollection endpoint", async () => {
 	it("should not return collection with access token for session that does not exist", async () => {

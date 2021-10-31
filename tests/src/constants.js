@@ -1,7 +1,7 @@
 import { Auth } from 'dav-js'
 
 let constants = {
-	apiBaseUrl: "http://localhost:3111/v1",
+	apiBaseUrl: "http://localhost:3111/v1/api/1/master/call",
 	pocketlibAppId: 4,
 	bookTableId: 10,
 	bookFileTableId: 11,

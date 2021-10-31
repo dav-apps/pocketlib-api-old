@@ -3,7 +3,7 @@ const assert = chai.assert
 import axios from 'axios'
 import constants from '../constants.js'
 
-const getCategoriesEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/categories`
+const getCategoriesEndpointUrl = `${constants.apiBaseUrl}/store/categories`
 
 describe("GetCategories endpoint", async () => {
 	it("should return categories", async () => {

@@ -6,7 +6,7 @@ import constants from '../constants.js'
 import * as utils from '../utils.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const createBookEndpointUrl = `${constants.apiBaseUrl}/api/1/call/book`
+const createBookEndpointUrl = `${constants.apiBaseUrl}/book`
 var resetBooks = false
 
 afterEach(async () => {

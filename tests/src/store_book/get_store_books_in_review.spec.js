@@ -4,7 +4,7 @@ import axios from 'axios'
 import constants from '../constants.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const getStoreBooksInReviewEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/books/review`
+const getStoreBooksInReviewEndpointUrl = `${constants.apiBaseUrl}/store/books/review`
 
 describe("GetStoreBooksInReview endpoint", () => {
 	it("should not return store books in review without access token", async () => {

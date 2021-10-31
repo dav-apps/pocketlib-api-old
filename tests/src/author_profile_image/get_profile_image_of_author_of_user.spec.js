@@ -6,7 +6,7 @@ import constants from '../constants.js'
 import * as utils from '../utils.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const getProfileImageOfAuthorOfUserEndpoint = `${constants.apiBaseUrl}/api/1/call/author/profile_image`
+const getProfileImageOfAuthorOfUserEndpoint = `${constants.apiBaseUrl}/author/profile_image`
 var resetAuthors = false
 var resetAuthorProfileImages = false
 

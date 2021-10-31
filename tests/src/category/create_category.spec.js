@@ -6,7 +6,7 @@ import constants from '../constants.js'
 import * as utils from '../utils.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const createCategoryEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/category`
+const createCategoryEndpointUrl = `${constants.apiBaseUrl}/store/category`
 var resetCategories = false
 
 afterEach(async () => {

@@ -3,7 +3,7 @@ const assert = chai.assert
 import axios from 'axios'
 import constants from '../constants.js'
 
-const getLatestAuthorsEndpointUrl = `${constants.apiBaseUrl}/api/1/call/authors/latest`
+const getLatestAuthorsEndpointUrl = `${constants.apiBaseUrl}/authors/latest`
 
 describe("GetLatestAuthors endpoint", () => {
 	it("should return latest authors", async () => {

@@ -6,7 +6,7 @@ import constants from '../constants.js'
 import * as utils from '../utils.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const setStoreBookCollectionNameEndpointUrl = `${constants.apiBaseUrl}/api/1/call/store/collection/{0}/name/{1}`
+const setStoreBookCollectionNameEndpointUrl = `${constants.apiBaseUrl}/store/collection/{0}/name/{1}`
 var resetStoreBookCollectionsAndStoreBookCollectionNames = false
 
 afterEach(async () => {
