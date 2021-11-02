@@ -28,6 +28,9 @@
 		(# Get the collections of the author)
 		(var collections (func get_collections_by_string (author.properties.collections)))
 
+		(# Get the series of the author)
+		(var series (func get_series_by_string (author.properties.series)))
+
 		(authors.push (hash
 			(uuid author.uuid)
 			(first_name author.properties.first_name)
@@ -38,6 +41,7 @@
 			(twitter_username author.properties.twitter_username)
 			(bios bios)
 			(collections collections)
+			(series series)
 			(profile_image_blurhash author.properties.profile_image_blurhash)
 			(profile_image (!(is_nil author.properties.profile_image)))
 		))
@@ -54,6 +58,9 @@
 	(# Get the collections of the author)
 	(var collections (func get_collections_by_string (author.properties.collections)))
 
+	(# Get the series of the author)
+	(var series (func get_series_by_string (author.properties.series)))
+
 	(# Render the result)
 	(render_json (hash
 		(uuid author.uuid)
@@ -65,6 +72,7 @@
 		(twitter_username author.properties.twitter_username)
 		(bios bios)
 		(collections collections)
+		(series series)
 		(profile_image (!(is_nil author.properties.profile_image)))
 		(profile_image_blurhash author.properties.profile_image_blurhash)
 	) 200)

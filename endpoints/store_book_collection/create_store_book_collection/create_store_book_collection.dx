@@ -65,18 +65,24 @@
 ))
 
 (# Create the collection name)
-(var collection_name_properties (hash
-	(name name)
-	(language language)
-))
-(var collection_name (func create_table_object (session.user_id (get_env "STORE_BOOK_COLLECTION_NAME_TABLE_ID") collection_name_properties)))
+(var collection_name (func create_table_object (
+	session.user_id
+	(get_env "STORE_BOOK_COLLECTION_NAME_TABLE_ID")
+	(hash
+		(name name)
+		(language language)
+	)
+)))
 
 (# Create the collection)
-(var collection_properties (hash 
-	(author author_obj.uuid)
-	(names collection_name.uuid)
-))
-(var collection (func create_table_object (session.user_id (get_env "STORE_BOOK_COLLECTION_TABLE_ID") collection_properties)))
+(var collection (func create_table_object (
+	session.user_id
+	(get_env "STORE_BOOK_COLLECTION_TABLE_ID")
+	(hash 
+		(author author_obj.uuid)
+		(names collection_name.uuid)
+	)
+)))
 
 (# Update the collections property of the author)
 (func add_collection_to_author (author_obj collection.uuid))

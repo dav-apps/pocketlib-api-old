@@ -63,6 +63,7 @@
 	(twitter_username nil)
 	(bios (list))
 	(collections (list))
+	(series (list))
 	(profile_image false)
 	(profile_image_blurhash nil)
 ) 201)

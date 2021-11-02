@@ -1,0 +1,20 @@
+(# params: series_string: string)
+(var series (list))
+
+(if (!(is_nil series_string)) (
+	(# Get each series)
+	(var series_uuids (series_string.split ","))
+
+	(for uuid in series_uuids (
+		(var series_obj (func get_table_object (uuid (get_env "STORE_BOOK_SERIES_TABLE_ID"))))
+
+		(if (!(is_nil series_obj)) (
+			(# Get the names of the series)
+			(var names (func get_series_names_by_string (series_obj.properties.names false)))
+
+			(series.push (hash (uuid series_obj.uuid) (names names)))
+		))
+	))
+))
+
+(return series)
