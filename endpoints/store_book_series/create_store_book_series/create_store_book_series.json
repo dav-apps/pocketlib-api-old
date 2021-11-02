@@ -1,0 +1,6 @@
+{
+	"type": "endpoint",
+	"path": "store/series",
+	"method": "POST",
+	"source": "./create_store_book_series.dx"
+}
