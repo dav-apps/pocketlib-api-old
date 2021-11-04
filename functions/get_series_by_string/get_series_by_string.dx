@@ -12,7 +12,14 @@
 			(# Get the names of the series)
 			(var names (func get_series_names_by_string (series_obj.properties.names false)))
 
-			(series.push (hash (uuid series_obj.uuid) (names names)))
+			(# Get the collection uuids)
+			(if (is_nil series_obj.properties.collections) (
+				(var collections (list))
+			) else (
+				(var collections (series_obj.properties.collections.split ","))
+			))
+
+			(series.push (hash (uuid series_obj.uuid) (names names) (collections collections)))
 		))
 	))
 ))

@@ -44,6 +44,7 @@
 		{"code": 2218, "message": "Field has wrong type: key"},
 		{"code": 2219, "message": "Field has wrong type: store_book"},
 		{"code": 2220, "message": "Field has wrong type: currency"},
+		{"code": 2221, "message": "Field has wrong type: collections"},
 
 		{"code": 2300, "message": "Field too short: first_name"},
 		{"code": 2301, "message": "Field too short: last_name"},

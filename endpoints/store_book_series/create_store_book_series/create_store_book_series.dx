@@ -3,6 +3,7 @@
 (var author json.author)
 (var name json.name)
 (var language json.language)
+(var collections json.collections)
 
 (# Get the access token)
 (var access_token (get_header "Authorization"))
@@ -34,6 +35,7 @@
 	(if is_admin (func validate_author_type (author)))
 	(func validate_name_type (name))
 	(func validate_language_type (language))
+	(if (!(is_nil collections)) (func validate_collections_type (collections)))
 )))
 
 (# Validate too short and too long fields)
@@ -64,6 +66,21 @@
 	(var author_obj authors#0)
 ))
 
+(if (is_nil collections) (
+	(var collections (list))
+) else (
+	(# Validate the collections)
+	(for uuid in collections (
+		(# Get the collection)
+		(var collection_obj (func get_table_object (uuid (get_env "STORE_BOOK_COLLECTION_TABLE_ID") session.user_id)))
+
+		(if (is_nil collection_obj) (
+			(# Collection does not exist)
+			(func render_validation_errors ((list (hash (error (get_error 3506)) (status 404)))))
+		))
+	))
+))
+
 (# Create the series name)
 (var series_name (func create_table_object (
 	session.user_id
@@ -81,6 +98,7 @@
 	(hash
 		(author author_obj.uuid)
 		(names series_name.uuid)
+		(collections (collections.join ","))
 	)
 )))
 
@@ -92,5 +110,5 @@
 	(uuid series.uuid)
 	(author series.properties.author)
 	(names (list (hash (name name) (language language))))
-	(collections (list))
+	(collections collections)
 ) 201)

@@ -1,0 +1,16 @@
+(# params: collections: Array<string>)
+(var contains_wrong_type false)
+
+(if (collections.class == "Array") (
+	(# Check if collections is an Array with strings)
+	(for entry in collections (
+		(if (entry.class != "String") (
+			(var contains_wrong_type true)
+			(break)
+		))
+	))
+))
+
+(if ((collections.class != "Array") or contains_wrong_type) (
+	(hash (error (get_error 2221)) (status 400))
+))

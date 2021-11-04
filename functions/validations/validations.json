@@ -21,7 +21,7 @@
 			"params": ["content_type"],
 			"source": "./misc/validate_content_type_ebook_or_json.dx"
 		},
-		
+
 		{
 			"name": "validate_auth_header_presence",
 			"params": ["auth_header"],
@@ -193,6 +193,11 @@
 			"name": "validate_currency_type",
 			"params": ["currency"],
 			"source": "./currency/validate_currency_type.dx"
+		},
+		{
+			"name": "validate_collections_type",
+			"params": ["collections"],
+			"source": "./collections/validate_collections_type.dx"
 		},
 
 		{
