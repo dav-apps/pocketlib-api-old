@@ -74,7 +74,14 @@
 
 (if (is_nil name_uuid) (
 	(# Create a new name)
-	(var name_obj (func create_table_object (session.user_id (get_env "STORE_BOOK_COLLECTION_NAME_TABLE_ID") (hash (name name) (language language)))))
+	(var name_obj (func create_table_object (
+		session.user_id
+		(get_env "STORE_BOOK_COLLECTION_NAME_TABLE_ID")
+		(hash
+			(name name)
+			(language language)
+		)
+	)))
 
 	(# Update the collection with the new name uuid)
 	(func add_name_to_collection (collection name_obj.uuid))

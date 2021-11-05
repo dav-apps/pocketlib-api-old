@@ -111,6 +111,8 @@
 		{"code": 3510, "message": "Resource does not exist: StoreBookFile"},
 		{"code": 3511, "message": "Resource does not exist: Category"},
 		{"code": 3512, "message": "Resource does not exist: CategoryName"},
-		{"code": 3513, "message": "Resource does not exist: TableObjectPrice"}
+		{"code": 3513, "message": "Resource does not exist: TableObjectPrice"},
+		{"code": 3514, "message": "Resource does not exist: StoreBookSeries"},
+		{"code": 3515, "message": "Resource does not exist: StoreBookSeriesName"}
 	]
 }
