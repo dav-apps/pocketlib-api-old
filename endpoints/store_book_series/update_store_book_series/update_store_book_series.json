@@ -1,0 +1,6 @@
+{
+	"type": "endpoint",
+	"path": "store/series/:uuid",
+	"method": "PUT",
+	"source": "./update_store_book_series.dx"
+}

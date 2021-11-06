@@ -1,0 +1,77 @@
+(# Get the params)
+(var uuid (get_param "uuid"))
+
+(var json (parse_json (get_body)))
+
+(var collections json.collections)
+
+(# Get the access token)
+(var access_token (get_header "Authorization"))
+(func render_validation_errors ((list
+	(func validate_auth_header_presence (access_token))
+)))
+
+(# Make sure content type is json)
+(func render_validation_errors ((list
+	(func validate_content_type_json ((get_header "Content-Type")))
+)))
+
+(# Get the session)
+(var session (func get_session (access_token)))
+
+(# Check if the user is an admin)
+(var admins (get_env "ADMINS"))
+(var is_admin (admins.contains session.user_id))
+
+(# Get the series)
+(var series (func get_table_object (uuid (get_env "STORE_BOOK_SERIES_TABLE_ID"))))
+
+(if (is_nil series) (
+	(# Series does not exist)
+	(func render_validation_errors ((list (hash (error (get_error 3514)) (status 404)))))
+))
+
+(var series_author (func get_table_object (series.properties.author (get_env "AUTHOR_TABLE_ID") session.user_id)))
+
+(if (is_nil series_author) (
+	(# Author does not exist)
+	(func render_validation_errors ((list (hash (error (get_error 3503)) (status 404)))))
+))
+
+(# Check if the user is an admin or if the store book belongs to the author of the user)
+(if ((! is_admin) and (session.user_id != series_author.user_id)) (
+	(# Action not allowed)
+	(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
+))
+
+(# Validate property types)
+(func render_validation_errors ((list
+	(if (!(is_nil collections)) (func validate_collections_type (collections)))
+)))
+
+(if (!(is_nil collections)) (
+	(# Validate the collections)
+	(for uuid in collections (
+		(# Get the collection)
+		(var collection_obj (func get_table_object (uuid (get_env "STORE_BOOK_COLLECTION_TABLE_ID") session.user_id)))
+
+		(if (is_nil collection_obj) (
+			(# Collection does not exist)
+			(func render_validation_errors ((list (hash (error (get_error 3506)) (status 404)))))
+		))
+	))
+))
+
+(# Update the series)
+(if (!(is_nil collections)) (var series.properties.collections (collections.join ",")))
+
+(# Get the names of the series)
+(var names (func get_series_names_by_string (series.properties.names false)))
+
+(# Render the result)
+(render_json (hash
+	(uuid series.uuid)
+	(author series.properties.author)
+	(names names)
+	(collections collections)
+) 200)
