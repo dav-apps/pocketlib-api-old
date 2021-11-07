@@ -46,6 +46,7 @@ export const PublishedWrongType = 2217
 export const KeyWrongType = 2218
 export const StoreBookWrongType = 2219
 export const CurrencyWrongType = 2220
+export const CollectionsWrongType = 2221
 
 // Too short fields
 export const FirstNameTooShort = 2300

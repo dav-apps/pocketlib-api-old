@@ -10,6 +10,8 @@ let constants = {
 	authorProfileImageTableId: 16,
 	storeBookCollectionTableId: 17,
 	storeBookCollectionNameTableId: 18,
+	storeBookSeriesTableId: 26,
+	storeBookSeriesNameTableId: 27,
 	storeBookTableId: 19,
 	storeBookCoverTableId: 20,
 	storeBookFileTableId: 21,
@@ -302,6 +304,9 @@ let constants = {
 					]
 				}
 			],
+			series: [
+
+			],
 			profileImage: {
 				uuid: "14e5ad81-3105-4cbc-85c8-4ffeec1c3812",
 				ext: "png",
@@ -447,6 +452,9 @@ let constants = {
 						]
 					}
 				],
+				series: [
+
+				],
 				profileImage: {
 					uuid: "df45f27f-8ecb-41b0-864f-bb76669279f5",
 					ext: "jpg",
@@ -465,7 +473,8 @@ let constants = {
 						language: "en"
 					}
 				],
-				collections: []
+				collections: [],
+				series: []
 			}
 		]
 	},

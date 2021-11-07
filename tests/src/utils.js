@@ -10,6 +10,8 @@ export async function resetDatabase() {
 	await resetAuthorProfileImages()
 	await resetStoreBookCollections()
 	await resetStoreBookCollectionNames()
+	await resetStoreBookSeries()
+	await resetStoreBookSeriesNames()
 	await resetStoreBooks()
 	await resetStoreBookCovers()
 	await resetStoreBookFiles()
@@ -58,9 +60,27 @@ export async function resetStoreBookCollectionNames() {
 	// Delete StoreBookCollectionNames
 	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.storeBookCollectionNameTableId)
 
-	// Reset the StoreBookCollectionNames of the author user
+	// Reset the StoreBookCollectionNames of the author users
 	await resetAuthorUserStoreBookCollectionNames()
 	await resetDavUserStoreBookCollectionNames()
+}
+
+export async function resetStoreBookSeries() {
+	// Delete StoreBookSeries
+	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.storeBookSeriesTableId)
+
+	// Reset StoreBookSeries
+	await resetAuthorUserStoreBookSeries()
+	await resetDavUserStoreBookSeries()
+}
+
+export async function resetStoreBookSeriesNames() {
+	// Delete StoreBookSeriesNames
+	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.storeBookSeriesNameTableId)
+
+	// Reset StoreBookSeriesNames
+	await resetAuthorUserStoreBookSeriesNames()
+	await resetDavUserStoreBookSeriesNames()
 }
 
 export async function resetStoreBooks() {
@@ -115,6 +135,9 @@ async function resetAuthorUserAuthor() {
 	let collections = []
 	constants.authorUser.author.collections.forEach(collection => collections.push(collection.uuid))
 
+	let series = []
+	constants.authorUser.author.series.forEach(s => series.push(s.uuid))
+
 	let bios = []
 	constants.authorUser.author.bios.forEach(bio => bios.push(bio.uuid))
 
@@ -130,6 +153,7 @@ async function resetAuthorUserAuthor() {
 			twitter_username: constants.authorUser.author.twitterUsername ?? "",
 			bios: bios.join(','),
 			collections: collections.join(','),
+			series: series.join(','),
 			profile_image: constants.authorUser.author.profileImage?.uuid ?? "",
 			profile_image_blurhash: constants.authorUser.author.profileImageBlurhash ?? ""
 		}
@@ -151,6 +175,9 @@ async function resetDavUserAuthors() {
 		let collections = []
 		author.collections.forEach(collection => collections.push(collection.uuid))
 
+		let series = []
+		author.series.forEach(s => series.push(s.uuid))
+
 		let bios = []
 		author.bios.forEach(bio => bios.push(bio.uuid))
 
@@ -166,6 +193,7 @@ async function resetDavUserAuthors() {
 				twitter_username: author.twitterUsername ?? "",
 				bios: bios.join(','),
 				collections: collections.join(','),
+				series: series.join(','),
 				profile_image: author.profileImage?.uuid ?? "",
 				profile_image_blurhash: author.profileImageBlurhash ?? ""
 			}
@@ -609,6 +637,22 @@ async function resetDavUserStoreBookCollectionNames() {
 		// Delete the collection name
 		await deleteTableObject(constants.davUser.accessToken, collectionName.uuid)
 	}
+}
+
+async function resetAuthorUserStoreBookSeries() {
+	
+}
+
+async function resetDavUserStoreBookSeries() {
+	
+}
+
+async function resetAuthorUserStoreBookSeriesNames() {
+	
+}
+
+async function resetDavUserStoreBookSeriesNames() {
+	
 }
 
 async function resetAuthorUserStoreBooks() {

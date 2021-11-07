@@ -563,7 +563,7 @@ describe("CreateStoreBookCollection endpoint", () => {
 		}
 
 		let collections = []
-		for (let author of constants.davUser.authors) for (let collection of author.collections) collections.push(collection.uuid)
+		for (let a of constants.davUser.authors) for (let collection of a.collections) collections.push(collection.uuid)
 		collections.push(collectionResponse.data.Uuid)
 
 		assert.equal(collections.join(','), authorResponse.data.GetPropertyValue("collections"))
