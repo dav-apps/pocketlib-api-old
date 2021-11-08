@@ -305,7 +305,28 @@ let constants = {
 				}
 			],
 			series: [
-
+				{
+					uuid: "e9adbea1-18e2-4a46-b1f2-c0d2940567fd",
+					names: [
+						{
+							uuid: "70f54826-4398-47de-91bf-6702f37def6c",
+							name: "A Series of Unfortunate Events",
+							language: "en"
+						},
+						{
+							uuid: "91d46ad4-6500-4906-8932-78713fd3fd66",
+							name: "Eine Reihe betrüblicher Ereignisse",
+							language: "de"
+						}
+					],
+					collections: [
+						"2cfe3d1a-2853-4e5c-9261-1942a9c5ddd9",
+						"285a5fca-8db2-4f73-8b12-5d41cdac82ed",
+						"7bb97f7e-cd7d-4fa8-a734-ef4732d33fcd",
+						"0734712e-86dd-474f-bf99-e9b77faf9c71",
+						"b1156808-e81c-4cf9-b2ce-502baa23e548"
+					]
+				}
 			],
 			profileImage: {
 				uuid: "14e5ad81-3105-4cbc-85c8-4ffeec1c3812",
@@ -452,9 +473,7 @@ let constants = {
 						]
 					}
 				],
-				series: [
-
-				],
+				series: [],
 				profileImage: {
 					uuid: "df45f27f-8ecb-41b0-864f-bb76669279f5",
 					ext: "jpg",
@@ -475,6 +494,76 @@ let constants = {
 				],
 				collections: [],
 				series: []
+			},
+			{
+				uuid: "74667201-3a22-4486-a455-b4b381a9d45a",
+				firstName: "Daniel",
+				lastName: "Defoe",
+				bios: [],
+				collections: [
+					{
+						uuid: "98fbd4b0-6a97-4792-8b77-789b355b4dd7",
+						names: [
+							{
+								uuid: "d92ba11d-12b4-4ec9-9e3b-96ee5dd234cf",
+								name: "The Life and Adventures of Robinson Crusoe",
+								language: "en"
+							}
+						],
+						books: [
+							{
+								uuid: "fc5e9938-1fbf-420e-9d11-7143dd7d42f1",
+								title: "The Life and Adventures of Robinson Crusoe",
+								description: "Robinson Crusoe is one of the most popular books ever written in the English language, published in innumerable editions and translated into almost every language of the world, not to mention the many versions created in film, television and even radio.",
+								language: "en",
+								price: 1200,
+								status: "published",
+								categories: [
+									"76dd74fa-0fb3-4d80-8c0a-6d6a803383a7"		// Adventure
+								]
+							}
+						]
+					},
+					{
+						uuid: "8ea0b976-fe67-472d-ae2f-88869b7df625",
+						names: [
+							{
+								uuid: "1513dba4-22ee-463b-a186-ba44bb4f3ebf",
+								name: "The Further Adventures of Robinson Crusoe",
+								language: "en"
+							}
+						],
+						books: [
+							{
+								uuid: "36561f01-0523-4dbe-9bf3-2fb8a208e8f6",
+								title: "The Further Adventures of Robinson Crusoe",
+								description: "After his return from an uninhabited island, Robinson Crusoe marries and starts a family. Despite his comfortable life in England, he has an intense desire to go back to sea.",
+								language: "en",
+								price: 1200,
+								status: "published",
+								categories: [
+									"76dd74fa-0fb3-4d80-8c0a-6d6a803383a7"		// Adventure
+								]
+							}
+						]
+					}
+				],
+				series: [
+					{
+						uuid: "d6fc6518-ce3d-444d-8f35-901bfdd75d88",
+						names: [
+							{
+								uuid: "77a84a39-0e3a-4186-89f1-b1fc4f329e08",
+								name: "Robinson Crusoe",
+								language: "en"
+							}
+						],
+						collections: [
+							"98fbd4b0-6a97-4792-8b77-789b355b4dd7",
+							"8ea0b976-fe67-472d-ae2f-88869b7df625"
+						]
+					}
+				]
 			}
 		]
 	},

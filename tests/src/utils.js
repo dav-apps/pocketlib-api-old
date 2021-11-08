@@ -640,19 +640,201 @@ async function resetDavUserStoreBookCollectionNames() {
 }
 
 async function resetAuthorUserStoreBookSeries() {
-	
+	let testDatabaseSeries = []
+
+	for (let series of constants.authorUser.author.series) {
+		testDatabaseSeries.push(series.uuid)
+
+		// Reset the series
+		let names = []
+		series.names.forEach(name => names.push(name.uuid))
+
+		let response = await TableObjectsController.UpdateTableObject({
+			accessToken: constants.authorUser.accessToken,
+			uuid: series.uuid,
+			properties: {
+				author: constants.authorUser.author.uuid,
+				names: names.join(','),
+				collections: series.collections.join(',')
+			}
+		})
+
+		if (response.status != 200) {
+			console.log("Error in resetting a store book series")
+			console.log(response.errors)
+		}
+	}
+
+	// Get the StoreBookSeries table
+	let series = []
+
+	let response = await TablesController.GetTable({
+		accessToken: constants.authorUser.accessToken,
+		id: constants.storeBookSeriesTableId
+	})
+
+	if (response.status != 200) {
+		console.log("Error in getting the store book series table")
+		console.log(response.errors)
+	}
+
+	// Delete each series that is not part of the test database
+	for (let s of series) {
+		if (testDatabaseSeries.includes(s.uuid)) continue
+
+		// Delete the series
+		await deleteTableObject(constants.authorUser.accessToken, s.uuid)
+	}
 }
 
 async function resetDavUserStoreBookSeries() {
-	
+	let testDatabaseSeries = []
+
+	for (let author of constants.davUser.authors) {
+		for (let series of author.series) {
+			testDatabaseSeries.push(series.uuid)
+
+			// Reset the series
+			let names = []
+			series.names.forEach(name => names.push(name.uuid))
+
+			let response = await TableObjectsController.UpdateTableObject({
+				accessToken: constants.davUser.accessToken,
+				uuid: series.uuid,
+				properties: {
+					author: author.uuid,
+					names: names.join(','),
+					collections: series.collections.join(',')
+				}
+			})
+
+			if (response.status != 200) {
+				console.log(`Error in resetting a store book series of the author ${author.firstName} ${author.lastName}`)
+				console.log(response.errors)
+			}
+		}
+	}
+
+	// Get the StoreBookSeries table
+	let series = []
+
+	let response = await TablesController.GetTable({
+		accessToken: constants.davUser.accessToken,
+		id: constants.storeBookSeriesTableId
+	})
+
+	if (response.status != 200) {
+		console.log("Error in getting the store book series table")
+		console.log(response.errors)
+	} else {
+		series = response.data.tableObjects
+	}
+
+	// Delete each series that is not part of the test database
+	for (let s of series) {
+		if (testDatabaseSeries.includes(s.uuid)) continue
+
+		// Delete the series
+		await deleteTableObject(constants.davUser.accessToken, s.uuid)
+	}
 }
 
 async function resetAuthorUserStoreBookSeriesNames() {
-	
+	let testDatabaseSeriesNames = []
+
+	for (let series of constants.authorUser.author.collections) {
+		for (let seriesName of series.names) {
+			testDatabaseSeriesNames.push(seriesName.uuid)
+
+			// Reset the series name
+			let response = await TableObjectsController.UpdateTableObject({
+				accessToken: constants.authorUser.accessToken,
+				uuid: seriesName.uuid,
+				properties: {
+					name: seriesName.name,
+					language: seriesName.language
+				}
+			})
+
+			if (response.status != 200) {
+				console.log("Error in resetting a store book series name")
+				console.log(response.errors)
+			}
+		}
+	}
+
+	// Get the StoreBookSeriesName table
+	let seriesNames = []
+
+	let response = await TablesController.GetTable({
+		accessToken: constants.authorUser.accessToken,
+		id: constants.storeBookSeriesNameTableId
+	})
+
+	if (response.status != 200) {
+		console.log("Error in getting the store book series name table")
+		console.log(response.errors)
+	} else {
+		seriesNames = response.data.tableObjects
+	}
+
+	// Delete each series name that is not part of the test database
+	for (let seriesName of seriesNames) {
+		if (testDatabaseSeriesNames.includes(seriesName.uuid)) continue
+
+		// Delete the series name
+		await deleteTableObject(constants.authorUser.accessToken, seriesName.uuid)
+	}
 }
 
 async function resetDavUserStoreBookSeriesNames() {
-	
+	let testDatabaseSeriesNames = []
+
+	for (let author of constants.davUser.authors) {
+		for (let series of author.series) {
+			for (let seriesName of series.names) {
+				testDatabaseSeriesNames.push(seriesName.uuid)
+
+				// Reset the series name
+				let response = await TableObjectsController.UpdateTableObject({
+					accessToken: constants.davUser.accessToken,
+					uuid: seriesName.uuid,
+					properties: {
+						name: seriesName.name,
+						language: seriesName.language
+					}
+				})
+
+				if (response.status != 200) {
+					console.log("Error in resetting a store book series name")
+					console.log(response.errors)
+				}
+			}
+		}
+	}
+
+	// Get the StoreBookSeriesName table
+	let seriesNames = []
+
+	let response = await TablesController.GetTable({
+		accessToken: constants.davUser.accessToken,
+		id: constants.storeBookSeriesNameTableId
+	})
+
+	if (response.status != 200) {
+		console.log("Error in getting the store book series name table")
+		console.log(response.errors)
+	} else {
+		seriesNames = response.data.tableObjects
+	}
+
+	// Delete each series name that is not part of the test database
+	for (let seriesName of seriesNames) {
+		if (testDatabaseSeriesNames.includes(seriesName.uuid)) continue
+
+		// Delete the series name
+		await deleteTableObject(constants.davUser.accessToken, seriesName.uuid)
+	}
 }
 
 async function resetAuthorUserStoreBooks() {
