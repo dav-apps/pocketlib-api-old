@@ -472,6 +472,33 @@ describe("CreateStoreBookSeries endpoint", () => {
 		assert.fail()
 	})
 
+	it("should not create store book series with collections that do not belong to the author", async () => {
+		try {
+			await axios({
+				method: 'post',
+				url: createStoreBookSeriesEndpointUrl,
+				headers: {
+					Authorization: constants.authorUser.accessToken,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					name: "TestSeries",
+					language: "en",
+					collections: [
+						constants.davUser.authors[0].collections[0].uuid
+					]
+				}
+			})
+		} catch (error) {
+			assert.equal(403, error.response.status)
+			assert.equal(1, error.response.data.errors.length)
+			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
+			return
+		}
+
+		assert.fail()
+	})
+
 	it("should create store book series", async () => {
 		resetStoreBookSeriesAndAuthors = true
 		let response
@@ -705,7 +732,7 @@ describe("CreateStoreBookSeries endpoint", () => {
 		}
 
 		let series = []
-		for (let a of constants.davUser.authors) for (let s of a.series) series.push(s.uuid)
+		for (let s of constants.davUser.authors[0].series) series.push(s.uuid)
 		series.push(seriesResponse.data.Uuid)
 
 		assert.equal(series.join(','), authorResponse.data.GetPropertyValue("series"))
@@ -788,7 +815,7 @@ describe("CreateStoreBookSeries endpoint", () => {
 		})
 
 		let series = []
-		for (let a of constants.davUser.authors) for (let s of a.series) series.push(s.uuid)
+		for (let s of constants.davUser.authors[0].series) series.push(s.uuid)
 		series.push(seriesResponse.data.Uuid)
 
 		assert.equal(series.join(','), authorResponse.data.GetPropertyValue("series"))
