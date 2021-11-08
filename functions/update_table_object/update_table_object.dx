@@ -1,4 +1,4 @@
-(# params: uuid: string, properties: Array)
+(# params: uuid: string, properties: Hash)
 (catch (
 	(TableObject.update uuid properties)
 ) (

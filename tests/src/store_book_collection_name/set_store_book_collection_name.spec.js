@@ -77,7 +77,7 @@ describe("SetStoreBookCollectionName endpoint", () => {
 		assert.fail()
 	})
 
-	it("should not set collection name if jwt is for another app", async () => {
+	it("should not set collection name with access token for another app", async () => {
 		try {
 			await axios({
 				method: 'put',

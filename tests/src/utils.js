@@ -742,7 +742,7 @@ async function resetDavUserStoreBookSeries() {
 async function resetAuthorUserStoreBookSeriesNames() {
 	let testDatabaseSeriesNames = []
 
-	for (let series of constants.authorUser.author.collections) {
+	for (let series of constants.authorUser.author.series) {
 		for (let seriesName of series.names) {
 			testDatabaseSeriesNames.push(seriesName.uuid)
 
