@@ -493,7 +493,7 @@ describe("CreateStoreBookCollection endpoint", () => {
 	it("should create store book collection as admin", async () => {
 		resetStoreBookCollectionsAndAuthors = true
 		let response
-		let author = constants.davUser.authors[0].uuid
+		let author = constants.davUser.authors[0]
 		let name = "TestBook"
 		let language = "en"
 
@@ -507,7 +507,7 @@ describe("CreateStoreBookCollection endpoint", () => {
 					'Content-Type': 'application/json'
 				},
 				data: {
-					author,
+					author: author.uuid,
 					name,
 					language
 				}
@@ -518,7 +518,7 @@ describe("CreateStoreBookCollection endpoint", () => {
 
 		assert.equal(201, response.status)
 		assert(response.data.uuid != null)
-		assert.equal(author, response.data.author)
+		assert.equal(author.uuid, response.data.author)
 		assert.equal(1, response.data.names.length)
 		assert.equal(name, response.data.names[0].name)
 		assert.equal(language, response.data.names[0].language)
@@ -535,7 +535,7 @@ describe("CreateStoreBookCollection endpoint", () => {
 			assert.fail()
 		}
 
-		assert.equal(author, collectionResponse.data.GetPropertyValue("author"))
+		assert.equal(author.uuid, collectionResponse.data.GetPropertyValue("author"))
 		assert(collectionResponse.data.GetPropertyValue("names") != null)
 
 		// Get the store book collection name
@@ -555,7 +555,7 @@ describe("CreateStoreBookCollection endpoint", () => {
 		// Get the author
 		let authorResponse = await TableObjectsController.GetTableObject({
 			accessToken: constants.davUser.accessToken,
-			uuid: author
+			uuid: author.uuid
 		})
 
 		if (authorResponse.status != 200) {
@@ -563,7 +563,7 @@ describe("CreateStoreBookCollection endpoint", () => {
 		}
 
 		let collections = []
-		for (let a of constants.davUser.authors) for (let collection of a.collections) collections.push(collection.uuid)
+		for (let collection of author.collections) collections.push(collection.uuid)
 		collections.push(collectionResponse.data.Uuid)
 
 		assert.equal(collections.join(','), authorResponse.data.GetPropertyValue("collections"))

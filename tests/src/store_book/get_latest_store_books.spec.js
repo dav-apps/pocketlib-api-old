@@ -63,7 +63,7 @@ describe("GetLatestStoreBooks endpoint", async () => {
 		assert.equal(200, response.status)
 		assert.equal(storeBooks.length, response.data.books.length)
 
-		let i = 0;
+		let i = 0
 		for (let book of response.data.books) {
 			let storeBook = storeBooks[i]
 			assert.equal(storeBook.uuid, book.uuid)

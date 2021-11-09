@@ -669,7 +669,9 @@ constants.collections = [
 			"d0ca384f-9d8e-4a56-b2e1-c76a0a5cac4b",
 			"d59bdd46-428d-412d-964b-0c57b41df478",
 			"b0e4b01d-d53d-47b5-b5e4-48ea7bab6619",
-			"ba96f327-f096-4408-8bd0-620f9aad3f09"
+			"ba96f327-f096-4408-8bd0-620f9aad3f09",
+			"fc5e9938-1fbf-420e-9d11-7143dd7d42f1",
+			"36561f01-0523-4dbe-9bf3-2fb8a208e8f6"
 		]
 	},
 	{
@@ -678,7 +680,16 @@ constants.collections = [
 		tableObjects: [
 			"099fbfa5-a6f1-41c1-99e9-0d02d8364f2d",
 			"622ad623-b9a4-415d-92ee-a66f8a7f3c51",
-			"1dd980fd-ae20-4566-b842-a25e241bfb46"
+			"1dd980fd-ae20-4566-b842-a25e241bfb46",
+			"74667201-3a22-4486-a455-b4b381a9d45a"
+		]
+	},
+	{
+		name: "latest_series",
+		tableId: constants.storeBookSeriesTableId,
+		tableObjects: [
+			"e9adbea1-18e2-4a46-b1f2-c0d2940567fd",
+			"d6fc6518-ce3d-444d-8f35-901bfdd75d88"
 		]
 	}
 ]
