@@ -1,0 +1,6 @@
+{
+	"type": "function",
+	"name": "add_store_book_series_to_latest_series_collection",
+	"params": ["store_book_series"],
+	"source": "./add_store_book_series_to_latest_series_collection.dx"
+}

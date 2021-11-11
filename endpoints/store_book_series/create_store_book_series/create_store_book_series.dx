@@ -105,6 +105,9 @@
 (# Update the series property of the author)
 (func add_series_to_author (author_obj series.uuid))
 
+(# Add the store book series to the latest series)
+(func add_store_book_series_to_latest_series_collection (series))
+
 (# Render the result)
 (render_json (hash
 	(uuid series.uuid)
