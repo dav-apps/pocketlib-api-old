@@ -1,0 +1,101 @@
+(# Get the params)
+(var languages (get_param "languages"))
+(var limit (to_int (get_param "limit")))
+
+(var language_list (list))
+
+(if (is_nil languages) (
+	(language_list.push "en")
+) else (
+	(# Read the languages string and add the languages to the list)
+	(for language in (languages.split ",") (
+		(# Validate the languages)
+		(func render_validation_errors ((list
+			(func validate_language_supported (language))
+		)))
+
+		(language_list.push language)
+	))
+))
+
+(if (limit <= 0) (
+	(var limit 4)
+))
+
+(# Get the latest store book series)
+(var series_objects (func get_latest_store_book_series_table_objects ()))
+(var series_objects series_objects.reverse)
+(var series (list))
+
+(for series_object in series_objects (
+	(# Get the collections of the series)
+	(var collection_uuids_string series_object.properties.collections)
+	(if (is_nil collection_uuids_string) continue)
+
+	(var collection_uuids (collection_uuids_string.split ","))
+
+	(# Try to get a StoreBook for each given language)
+	(var language_books (hash))
+	(for lang in language_list (
+		(var language_books[lang] (list))
+	))
+
+	(for collection_uuid in collection_uuids (
+		(var collection (func get_table_object (
+			collection_uuid
+			(get_env "STORE_BOOK_COLLECTION_TABLE_ID")
+		)))
+		(if (is_nil collection) (continue))
+
+		(# Save for which language there is a store book for the current collection)
+		(var languages_books_presence (hash))
+		(for lang in language_list (
+			(var languages_books_presence[lang] false)
+		))
+
+		(var store_book_uuids_string collection.properties.books)
+		(if (is_nil store_book_uuids_string) (continue))
+
+		(for uuid in (store_book_uuids_string.split ",") (
+			(var store_book (func get_table_object (uuid (get_env "STORE_BOOK_TABLE_ID"))))
+			(if (is_nil store_book) (continue))
+
+			(# Check if the store book can be used)
+			(var store_book_language store_book.properties.language)
+
+			(if (
+				(language_list.contains store_book.properties.language)
+				and (languages_books_presence[store_book_language] == false)
+				and (store_book.properties.status == "published")
+			) (
+				(var languages_books_presence[store_book_language] true)
+				(language_books[store_book_language].push store_book)
+			))
+		))
+	))
+
+	(# Return the series only if it has at least one store book for each collection in one language)
+	(for lang in language_list (
+		(if (language_books[lang].length == collection_uuids.length) (
+			(var series_result (hash (uuid series_object.uuid) (books (list))))
+
+			(for book in language_books[lang] (
+				(series_result["books"].push (hash
+					(uuid book.uuid)
+					(title book.properties.title)
+					(language book.properties.language)
+					(cover_aspect_ratio book.properties.cover_aspect_ratio)
+					(cover_blurhash book.properties.cover_blurhash)
+				))
+			))
+
+			(series.push series_result)
+			(break)
+		))
+	))
+))
+
+(# Render the result)
+(render_json (hash
+	(series series)
+))
