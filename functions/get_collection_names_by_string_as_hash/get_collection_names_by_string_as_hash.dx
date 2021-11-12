@@ -9,7 +9,7 @@
 		(var name (func get_table_object (uuid (get_env "STORE_BOOK_COLLECTION_NAME_TABLE_ID"))))
 
 		(if (!(is_nil name)) (
-			(var collection_names..name.properties.language name.properties.name)
+			(var collection_names[name.properties.language] name.properties.name)
 		))
 	))
 ))
