@@ -88,6 +88,7 @@ export const DavProRequired = 3008
 export const UserAlreadyPurchasedThisStoreBook = 3009
 export const UserOfStoreBookMustHaveProvider = 3010
 export const TooManyCategoriesForStoreBook = 3011
+export const StoreBookSeriesIsIncomplete = 3012
 
 // Access token errors
 export const CannotUseOldAccessToken = 3100

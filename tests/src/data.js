@@ -80,6 +80,9 @@ function addAuthorToTableObjects(author, userId) {
 	let collections = []
 	author.collections.forEach(collection => collections.push(collection.uuid))
 
+	let series = []
+	author.series.forEach(s => series.push(s.uuid))
+
 	tableObjects.push({
 		uuid: author.uuid,
 		userId,
@@ -94,6 +97,7 @@ function addAuthorToTableObjects(author, userId) {
 			twitter_username: author.twitterUsername ?? "",
 			bios: bios.join(','),
 			collections: collections.join(','),
+			series: series.join(','),
 			profile_image: author.profileImage?.uuid ?? "",
 			profile_image_blurhash: author.profileImageBlurhash ?? ""
 		}
