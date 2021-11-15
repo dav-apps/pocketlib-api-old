@@ -2,6 +2,7 @@ import constants from './constants.js'
 import {
 	TablesController,
 	TableObjectsController,
+	CollectionsController
 } from 'dav-js'
 
 export async function resetDatabase() {
@@ -72,6 +73,9 @@ export async function resetStoreBookSeries() {
 	// Reset StoreBookSeries
 	await resetAuthorUserStoreBookSeries()
 	await resetDavUserStoreBookSeries()
+
+	// Reset the latest_series collection
+	await resetCollection("latest_series", constants.storeBookSeriesTableId)
 }
 
 export async function resetStoreBookSeriesNames() {
@@ -1522,6 +1526,27 @@ async function deleteTableObject(accessToken, uuid) {
 
 	if (response.status != 204) {
 		console.log("Error in deleting a TableObject")
+		console.log(response.errors)
+	}
+}
+
+async function resetCollection(name, tableId) {
+	let collection = constants.collections.find(c => c.name == "latest_series")
+
+	if (collection == null) {
+		console.log(`Error in resetting the ${name} collection`)
+		return
+	}
+
+	let response = await CollectionsController.SetTableObjectsOfCollection({
+		auth: constants.davDev,
+		name,
+		tableId,
+		tableObjects: collection.tableObjects
+	})
+
+	if (response.status != 200) {
+		console.log(`Error in resetting the ${name} collection`)
 		console.log(response.errors)
 	}
 }
