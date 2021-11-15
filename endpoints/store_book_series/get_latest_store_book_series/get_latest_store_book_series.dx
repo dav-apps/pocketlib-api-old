@@ -28,15 +28,29 @@
 (var series (list))
 
 (for series_object in series_objects (
+	(if (series.length >= limit) (break))
+
 	(# Get the collections of the series)
 	(var collection_uuids_string series_object.properties.collections)
-	(if (is_nil collection_uuids_string) continue)
+	(if (is_nil collection_uuids_string) (continue))
 
 	(var collection_uuids (collection_uuids_string.split ","))
 
+	(# Get the names of the series)
+	(var names (func get_series_names_by_string_as_hash (series_object.properties.names)))
+
+	(# Check each given language if the series has a name for it)
+	(var new_language_list (list))
+
+	(for lang in language_list (
+		(if (!(is_nil names[lang])) (
+			(new_language_list.push lang)
+		))
+	))
+
 	(# Try to get a StoreBook for each given language)
 	(var language_books (hash))
-	(for lang in language_list (
+	(for lang in new_language_list (
 		(var language_books[lang] (list))
 	))
 
@@ -49,7 +63,7 @@
 
 		(# Save for which language there is a store book for the current collection)
 		(var languages_books_presence (hash))
-		(for lang in language_list (
+		(for lang in new_language_list (
 			(var languages_books_presence[lang] false)
 		))
 
@@ -64,7 +78,7 @@
 			(var store_book_language store_book.properties.language)
 
 			(if (
-				(language_list.contains store_book.properties.language)
+				(new_language_list.contains store_book.properties.language)
 				and (languages_books_presence[store_book_language] == false)
 				and (store_book.properties.status == "published")
 			) (
@@ -75,9 +89,14 @@
 	))
 
 	(# Return the series only if it has at least one store book for each collection in one language)
-	(for lang in language_list (
+	(for lang in new_language_list (
 		(if (language_books[lang].length == collection_uuids.length) (
-			(var series_result (hash (uuid series_object.uuid) (books (list))))
+			(var series_result (hash
+				(uuid series_object.uuid)
+				(name names[lang])
+				(language lang)
+				(books (list))
+			))
 
 			(for book in language_books[lang] (
 				(series_result["books"].push (hash
