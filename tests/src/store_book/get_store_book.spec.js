@@ -65,7 +65,8 @@ describe("GetStoreBook endpoint", () => {
 	})
 
 	it("should return unpublished store book if the user is the author", async () => {
-		let collection = constants.authorUser.author.collections[1]
+		let author = constants.authorUser.author
+		let collection = author.collections[1]
 		let storeBook = collection.books[0]
 		let response
 
@@ -108,10 +109,22 @@ describe("GetStoreBook endpoint", () => {
 
 		assert.isFalse(response.data.in_library)
 		assert.isFalse(response.data.purchased)
+
+		let series = []
+
+		for (let s of author.series) {
+			if (s.collections.includes(collection.uuid)) {
+				series.push(s)
+				assert(response.data.series.includes(s.uuid))
+			}
+		}
+
+		assert.equal(series.length, response.data.series.length)
 	})
 
 	it("should return unpublished store book if the user is an admin", async () => {
-		let collection = constants.authorUser.author.collections[1]
+		let author = constants.authorUser.author
+		let collection = author.collections[1]
 		let storeBook = collection.books[0]
 		let response
 
@@ -154,6 +167,17 @@ describe("GetStoreBook endpoint", () => {
 
 		assert.isFalse(response.data.in_library)
 		assert.isFalse(response.data.purchased)
+
+		let series = []
+
+		for (let s of author.series) {
+			if (s.collections.includes(collection.uuid)) {
+				series.push(s)
+				assert(response.data.series.includes(s.uuid))
+			}
+		}
+
+		assert.equal(series.length, response.data.series.length)
 	})
 
 	it("should not return unpublished store book if the user is not the author", async () => {
@@ -198,7 +222,8 @@ describe("GetStoreBook endpoint", () => {
 	})
 
 	it("should return store book in review if the user is the author", async () => {
-		let collection = constants.authorUser.author.collections[0]
+		let author = constants.authorUser.author
+		let collection = author.collections[0]
 		let storeBook = collection.books[0]
 		let response
 
@@ -241,10 +266,22 @@ describe("GetStoreBook endpoint", () => {
 
 		assert.isFalse(response.data.in_library)
 		assert.isFalse(response.data.purchased)
+
+		let series = []
+
+		for (let s of author.series) {
+			if (s.collections.includes(collection.uuid)) {
+				series.push(s)
+				assert(response.data.series.includes(s.uuid))
+			}
+		}
+
+		assert.equal(series.length, response.data.series.length)
 	})
 
 	it("should return store book in review if the user is an admin", async () => {
-		let collection = constants.authorUser.author.collections[0]
+		let author = constants.authorUser.author
+		let collection = author.collections[0]
 		let storeBook = collection.books[0]
 		let response
 
@@ -287,6 +324,17 @@ describe("GetStoreBook endpoint", () => {
 
 		assert.isFalse(response.data.in_library)
 		assert.isFalse(response.data.purchased)
+
+		let series = []
+
+		for (let s of author.series) {
+			if (s.collections.includes(collection.uuid)) {
+				series.push(s)
+				assert(response.data.series.includes(s.uuid))
+			}
+		}
+
+		assert.equal(series.length, response.data.series.length)
 	})
 
 	it("should not return store book in review if the user is not the author", async () => {
@@ -331,7 +379,8 @@ describe("GetStoreBook endpoint", () => {
 	})
 
 	it("should return published store book if the user is the author", async () => {
-		let collection = constants.authorUser.author.collections[1]
+		let author = constants.authorUser.author
+		let collection = author.collections[1]
 		let storeBook = collection.books[1]
 		let response
 
@@ -374,10 +423,22 @@ describe("GetStoreBook endpoint", () => {
 
 		assert.isFalse(response.data.in_library)
 		assert.isFalse(response.data.purchased)
+
+		let series = []
+
+		for (let s of author.series) {
+			if (s.collections.includes(collection.uuid)) {
+				series.push(s)
+				assert(response.data.series.includes(s.uuid))
+			}
+		}
+
+		assert.equal(series.length, response.data.series.length)
 	})
 
 	it("should return published store book if the user is an admin", async () => {
-		let collection = constants.authorUser.author.collections[1]
+		let author = constants.authorUser.author
+		let collection = author.collections[1]
 		let storeBook = collection.books[1]
 		let response
 
@@ -420,10 +481,22 @@ describe("GetStoreBook endpoint", () => {
 
 		assert.isFalse(response.data.in_library)
 		assert.isFalse(response.data.purchased)
+
+		let series = []
+
+		for (let s of author.series) {
+			if (s.collections.includes(collection.uuid)) {
+				series.push(s)
+				assert(response.data.series.includes(s.uuid))
+			}
+		}
+
+		assert.equal(series.length, response.data.series.length)
 	})
 
 	it("should return published store book if the user is not the author", async () => {
-		let collection = constants.authorUser.author.collections[1]
+		let author = constants.authorUser.author
+		let collection = author.collections[1]
 		let storeBook = collection.books[1]
 		let response
 
@@ -466,10 +539,22 @@ describe("GetStoreBook endpoint", () => {
 
 		assert.isFalse(response.data.in_library)
 		assert.isFalse(response.data.purchased)
+
+		let series = []
+
+		for (let s of author.series) {
+			if (s.collections.includes(collection.uuid)) {
+				series.push(s)
+				assert(response.data.series.includes(s.uuid))
+			}
+		}
+
+		assert.equal(series.length, response.data.series.length)
 	})
 
 	it("should return published store book without access token", async () => {
-		let collection = constants.authorUser.author.collections[1]
+		let author = constants.authorUser.author
+		let collection = author.collections[1]
 		let storeBook = collection.books[1]
 		let response
 
@@ -509,10 +594,22 @@ describe("GetStoreBook endpoint", () => {
 
 		assert.isFalse(response.data.in_library)
 		assert.isFalse(response.data.purchased)
+
+		let series = []
+
+		for (let s of author.series) {
+			if (s.collections.includes(collection.uuid)) {
+				series.push(s)
+				assert(response.data.series.includes(s.uuid))
+			}
+		}
+
+		assert.equal(series.length, response.data.series.length)
 	})
 
 	it("should return hidden store book if the user is the author", async () => {
-		let collection = constants.authorUser.author.collections[0]
+		let author = constants.authorUser.author
+		let collection = author.collections[0]
 		let storeBook = collection.books[1]
 		let response
 
@@ -555,10 +652,22 @@ describe("GetStoreBook endpoint", () => {
 
 		assert.isFalse(response.data.in_library)
 		assert.isFalse(response.data.purchased)
+
+		let series = []
+
+		for (let s of author.series) {
+			if (s.collections.includes(collection.uuid)) {
+				series.push(s)
+				assert(response.data.series.includes(s.uuid))
+			}
+		}
+
+		assert.equal(series.length, response.data.series.length)
 	})
 
 	it("should return hidden store book if the user is an admin", async () => {
-		let collection = constants.authorUser.author.collections[0]
+		let author = constants.authorUser.author
+		let collection = author.collections[0]
 		let storeBook = collection.books[1]
 		let response
 
@@ -601,6 +710,17 @@ describe("GetStoreBook endpoint", () => {
 
 		assert.isFalse(response.data.in_library)
 		assert.isFalse(response.data.purchased)
+
+		let series = []
+
+		for (let s of author.series) {
+			if (s.collections.includes(collection.uuid)) {
+				series.push(s)
+				assert(response.data.series.includes(s.uuid))
+			}
+		}
+
+		assert.equal(series.length, response.data.series.length)
 	})
 
 	it("should not return hidden store book if the user is not the author", async () => {

@@ -692,6 +692,7 @@ describe("CreateStoreBook endpoint", () => {
 		assert.equal(0, response.data.categories.length)
 		assert.isFalse(response.data.in_library)
 		assert.isFalse(response.data.purchased)
+		assert.equal(0, response.data.series.length)
 
 		// Check if the data was correctly saved in the database
 		// Get the collection
@@ -781,6 +782,7 @@ describe("CreateStoreBook endpoint", () => {
 		assert.equal(categories.length, response.data.categories.length)
 		assert.isFalse(response.data.in_library)
 		assert.isFalse(response.data.purchased)
+		assert.equal(0, response.data.series.length)
 
 		// Check if the data was correctly saved in the database
 		// Get the collection
@@ -868,6 +870,7 @@ describe("CreateStoreBook endpoint", () => {
 		assert.equal(0, response.data.categories.length)
 		assert.isFalse(response.data.in_library)
 		assert.isFalse(response.data.purchased)
+		assert.equal(0, response.data.series.length)
 
 		// Check if the data was correctly saved in the database
 		// Get the collection
@@ -977,6 +980,7 @@ describe("CreateStoreBook endpoint", () => {
 		assert.equal(categories.length, response.data.categories.length)
 		assert.isFalse(response.data.in_library)
 		assert.isFalse(response.data.purchased)
+		assert.equal(0, response.data.series.length)
 
 		// Check if the data was correctly saved in the database
 		// Get the collection
@@ -1092,6 +1096,7 @@ describe("CreateStoreBook endpoint", () => {
 		assert.equal(0, response.data.categories.length)
 		assert.isFalse(response.data.in_library)
 		assert.isFalse(response.data.purchased)
+		assert.equal(0, response.data.series.length)
 
 		// Check if the data was correctly saved in the database
 		// Get the collection
