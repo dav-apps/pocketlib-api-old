@@ -67,6 +67,7 @@
 		(categories categories)
 		(in_library (if (is_nil session) false else (func is_store_book_in_user_library (session.user_id store_book.uuid))))
 		(purchased (if (is_nil session) false else (func has_user_purchased_table_object (session.user_id store_book.id))))
+		(series (func get_series_of_store_book (store_book)))
 	) 
 	200
 )

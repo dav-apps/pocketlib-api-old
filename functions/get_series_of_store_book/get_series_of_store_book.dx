@@ -1,0 +1,21 @@
+(# params: store_book: TableObject)
+(# Get the collection of the store book)
+(var collection_uuid store_book.properties.collection)
+(if (is_nil collection_uuid) (return (list)))
+
+(var result (list))
+
+(# Get all series where the collection uuid is in the collections property)
+(var series_list (TableObject.find_by_property
+	store_book.user_id
+	(get_env "STORE_BOOK_SERIES_TABLE_ID")
+	"collections"
+	collection_uuid
+	false
+))
+
+(for series in series_list (
+	(result.push series.uuid)
+))
+
+(return result)
