@@ -81,7 +81,7 @@
 
 	(if (is_nil file_obj) (
 		(# StoreBookFile does not exist)
-		(func render_validation_errors ((list (hash (error (get_error 2510)) (status 404)))))
+		(func render_validation_errors ((list (hash (error (get_error 3510)) (status 404)))))
 	))
 
 	(# Get the type of the store book file)

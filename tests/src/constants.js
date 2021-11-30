@@ -22,10 +22,10 @@ let constants = {
 		secretKey: "Stac8pRhqH0CSO5o9Rxqjhu7vyVp4PINEMJumqlpvRQai4hScADamQ",
 		uuid: "d133e303-9dbb-47db-9531-008b20e5aae8"
 	}),
-	// User id: 2, Dev id: 2, App id: 1 (TestApp)
+	// User id: 2, Dev id: 2, App id: 5 (TestApp)
 	testUserTestAppAccessToken: "ckktuu0gs00008iw3ctnrofzf",
 	authorUser: {
-		// User id: 3, Dev id: 1, App id: 6 (PocketLib)
+		// User id: 3, Dev id: 1, App id: 4 (PocketLib)
 		id: 3,
 		accessToken: "ckktuub8p00018iw3hy7b5i0m",
 		author: {
@@ -337,7 +337,7 @@ let constants = {
 		}
 	},
 	davUser: {
-		// User id: 1, Dev id: 1, App id: 6 (PocketLib)
+		// User id: 1, Dev id: 1, App id: 4 (PocketLib)
 		id: 1,
 		accessToken: "ckktuujpl00028iw3s8ssrrsb",
 		authors: [
@@ -568,7 +568,7 @@ let constants = {
 		]
 	},
 	testUser: {
-		// User id: 2, Dev id: 1, App id: 6 (PocketLib)
+		// User id: 2, Dev id: 1, App id: 4 (PocketLib)
 		id: 2,
 		accessToken: "ckktuuqa100038iw385wrhl78",
 		books: [
@@ -580,7 +580,7 @@ let constants = {
 		]
 	},
 	klausUser: {
-		// User id: 4, Dev id: 1, App id: 6 (PocketLib)
+		// User id: 4, Dev id: 1, App id: 4 (PocketLib)
 		id: 4,
 		accessToken: "ckktuuy2h00048iw3sfsfdv76",
 		books: [
