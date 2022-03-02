@@ -28,9 +28,7 @@
 	(var page 1)
 ))
 
-(# Get the categories)
 (var admins (get_env "ADMINS"))
-
 (var books (list))
 (var keys_list (keys.split ","))
 
@@ -73,17 +71,9 @@
 			(books.push (hash
 				(uuid store_book.uuid)
 				(title store_book.properties.title)
-				(description (if (is_nil store_book.properties.description) "" else store_book.properties.description))
-				(language store_book.properties.language)
-				(price (to_int store_book.properties.price))
-				(isbn store_book.properties.isbn)
-				(status store_book.properties.status)
 				(cover (!(is_nil store_book.properties.cover)))
 				(cover_aspect_ratio store_book.properties.cover_aspect_ratio)
 				(cover_blurhash store_book.properties.cover_blurhash)
-				(file (!(is_nil store_book.properties.file)))
-				(file_name store_book.properties.file_name)
-				(categories categories)
 			))
 		))
 	))

@@ -35,24 +35,13 @@
 (for book_object in book_objects (
 	(# Check if the store book is published)
 	(if ((book_object.properties.status == "published") and (language_list.contains book_object.properties.language)) (
-		(# Get the category keys)
-		(var categories (func get_category_keys_by_string (book_object.properties.categories)))
-
 		(# Convert the table object to hash)
 		(var book (hash
 			(uuid book_object.uuid)
 			(title book_object.properties.title)
-			(description (if (is_nil book_object.properties.description) "" else book_object.properties.description))
-			(language book_object.properties.language)
-			(price (if (is_nil book_object.properties.price) 0 else book_object.properties.price))
-			(isbn book_object.properties.isbn)
-			(status book_object.properties.status)
 			(cover (!(is_nil book_object.properties.cover)))
 			(cover_aspect_ratio book_object.properties.cover_aspect_ratio)
 			(cover_blurhash book_object.properties.cover_blurhash)
-			(file (!(is_nil book_object.properties.file)))
-			(file_name book_object.properties.file_name)
-			(categories categories)
 		))
 
 		(books.push book)

@@ -68,27 +68,9 @@ describe("GetLatestStoreBooks endpoint", async () => {
 			let storeBook = storeBooks[i]
 			assert.equal(storeBook.uuid, book.uuid)
 			assert.equal(storeBook.title, book.title)
-			assert.equal(storeBook.description, book.description)
-			assert.equal(storeBook.language, book.language)
-			assert.equal(storeBook.price ?? 0, book.price)
-			assert.equal(storeBook.isbn, book.isbn)
-			assert.equal(storeBook.status, book.status)
 			assert.equal(storeBook.cover != null, book.cover)
 			assert.equal(storeBook.coverAspectRatio, book.cover_aspect_ratio)
 			assert.equal(storeBook.coverBlurhash, book.cover_blurhash)
-			assert.equal(storeBook.file != null, book.file)
-			assert.equal(storeBook.fileName, book.file_name)
-
-			if (storeBook.categories) {
-				assert.equal(storeBook.categories.length, book.categories.length)
-
-				for (let key of book.categories) {
-					assert(constants.categories.find(c => c.key == key) != null)
-				}
-			} else {
-				assert.equal(0, book.categories.length)
-			}
-
 			i++
 		}
 	})
@@ -139,27 +121,9 @@ describe("GetLatestStoreBooks endpoint", async () => {
 			let storeBook = storeBooks[i]
 			assert.equal(storeBook.uuid, book.uuid)
 			assert.equal(storeBook.title, book.title)
-			assert.equal(storeBook.description, book.description)
-			assert.equal(storeBook.language, book.language)
-			assert.equal(storeBook.price ?? 0, book.price)
-			assert.equal(storeBook.isbn, book.isbn)
-			assert.equal(storeBook.status, book.status)
 			assert.equal(storeBook.cover != null, book.cover)
 			assert.equal(storeBook.coverAspectRatio, book.cover_aspect_ratio)
 			assert.equal(storeBook.coverBlurhash, book.cover_blurhash)
-			assert.equal(storeBook.file != null, book.file)
-			assert.equal(storeBook.fileName, book.file_name)
-
-			if (storeBook.categories) {
-				assert.equal(storeBook.categories.length, book.categories.length)
-
-				for (let key of book.categories) {
-					assert(constants.categories.find(c => c.key == key) != null)
-				}
-			} else {
-				assert.equal(0, book.categories.length)
-			}
-
 			i++
 		}
 	})
@@ -210,27 +174,9 @@ describe("GetLatestStoreBooks endpoint", async () => {
 			let storeBook = storeBooks[i]
 			assert.equal(storeBook.uuid, book.uuid)
 			assert.equal(storeBook.title, book.title)
-			assert.equal(storeBook.description, book.description)
-			assert.equal(storeBook.language, book.language)
-			assert.equal(storeBook.price ?? 0, book.price)
-			assert.equal(storeBook.isbn, book.isbn)
-			assert.equal(storeBook.status, book.status)
 			assert.equal(storeBook.cover != null, book.cover)
 			assert.equal(storeBook.coverAspectRatio, book.cover_aspect_ratio)
 			assert.equal(storeBook.coverBlurhash, book.cover_blurhash)
-			assert.equal(storeBook.file != null, book.file)
-			assert.equal(storeBook.fileName, book.file_name)
-
-			if (storeBook.categories) {
-				assert.equal(storeBook.categories.length, book.categories.length)
-
-				for (let key of book.categories) {
-					assert(constants.categories.find(c => c.key == key) != null)
-				}
-			} else {
-				assert.equal(0, book.categories.length)
-			}
-
 			i++
 		}
 	})
@@ -286,26 +232,9 @@ describe("GetLatestStoreBooks endpoint", async () => {
 
 			assert.equal(storeBook.uuid, responseBook.uuid)
 			assert.equal(storeBook.title, responseBook.title)
-			assert.equal(storeBook.description, responseBook.description)
-			assert.equal(storeBook.language, responseBook.language)
-			assert.equal(storeBook.price ?? 0, responseBook.price)
-			assert.equal(storeBook.isbn, responseBook.isbn)
-			assert.equal(storeBook.status, responseBook.status)
 			assert.equal(storeBook.cover != null, responseBook.cover)
 			assert.equal(storeBook.coverAspectRatio, responseBook.cover_aspect_ratio)
 			assert.equal(storeBook.coverBlurhash, responseBook.cover_blurhash)
-			assert.equal(storeBook.file != null, responseBook.file)
-			assert.equal(storeBook.fileName, responseBook.file_name)
-
-			if (storeBook.categories) {
-				assert.equal(storeBook.categories.length, responseBook.categories.length)
-
-				for (let key of responseBook.categories) {
-					assert(constants.categories.find(c => c.key == key) != null)
-				}
-			} else {
-				assert.equal(0, responseBook.categories.length)
-			}
 		}
 
 		// Get the store books of the next page
@@ -333,26 +262,9 @@ describe("GetLatestStoreBooks endpoint", async () => {
 
 			assert.equal(storeBook.uuid, responseBook.uuid)
 			assert.equal(storeBook.title, responseBook.title)
-			assert.equal(storeBook.description, responseBook.description)
-			assert.equal(storeBook.language, responseBook.language)
-			assert.equal(storeBook.price ?? 0, responseBook.price)
-			assert.equal(storeBook.isbn, responseBook.isbn)
-			assert.equal(storeBook.status, responseBook.status)
 			assert.equal(storeBook.cover != null, responseBook.cover)
 			assert.equal(storeBook.coverAspectRatio, responseBook.cover_aspect_ratio)
 			assert.equal(storeBook.coverBlurhash, responseBook.cover_blurhash)
-			assert.equal(storeBook.file != null, responseBook.file)
-			assert.equal(storeBook.fileName, responseBook.file_name)
-
-			if (storeBook.categories) {
-				assert.equal(storeBook.categories.length, responseBook.categories.length)
-
-				for (let key of responseBook.categories) {
-					assert(constants.categories.find(c => c.key == key) != null)
-				}
-			} else {
-				assert.equal(0, responseBook.categories.length)
-			}
 		}
 	})
 })
