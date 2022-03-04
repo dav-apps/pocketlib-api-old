@@ -71,15 +71,15 @@ describe("GetStoreBooksByCategory endpoint", () => {
 		assert.equal(200, response.status)
 		assert.equal(storeBooks.length, response.data.books.length)
 
-		let i = 0
 		for (let book of response.data.books) {
-			let storeBook = storeBooks[i]
+			let storeBook = storeBooks.find(sBook => sBook.uuid == book.uuid)
+
+			assert.isNotNull(storeBook)
 			assert.equal(storeBook.uuid, book.uuid)
 			assert.equal(storeBook.title, book.title)
 			assert.equal(storeBook.cover != null, book.cover)
 			assert.equal(storeBook.coverAspectRatio, book.cover_aspect_ratio)
 			assert.equal(storeBook.coverBlurhash, book.cover_blurhash)
-			i++
 		}
 	})
 
@@ -116,15 +116,15 @@ describe("GetStoreBooksByCategory endpoint", () => {
 		assert.equal(200, response.status)
 		assert.equal(storeBooks.length, response.data.books.length)
 
-		let i = 0
 		for (let book of response.data.books) {
-			let storeBook = storeBooks[i]
+			let storeBook = storeBooks.find(sBook => sBook.uuid == book.uuid)
+
+			assert.isNotNull(storeBook)
 			assert.equal(storeBook.uuid, book.uuid)
 			assert.equal(storeBook.title, book.title)
 			assert.equal(storeBook.cover != null, book.cover)
 			assert.equal(storeBook.coverAspectRatio, book.cover_aspect_ratio)
 			assert.equal(storeBook.coverBlurhash, book.cover_blurhash)
-			i++
 		}
 	})
 
@@ -161,15 +161,15 @@ describe("GetStoreBooksByCategory endpoint", () => {
 		assert.equal(200, response.status)
 		assert.equal(storeBooks.length, response.data.books.length)
 
-		let i = 0
 		for (let book of response.data.books) {
-			let storeBook = storeBooks[i]
+			let storeBook = storeBooks.find(sBook => sBook.uuid == book.uuid)
+
+			assert.isNotNull(storeBook)
 			assert.equal(storeBook.uuid, book.uuid)
 			assert.equal(storeBook.title, book.title)
 			assert.equal(storeBook.cover != null, book.cover)
 			assert.equal(storeBook.coverAspectRatio, book.cover_aspect_ratio)
 			assert.equal(storeBook.coverBlurhash, book.cover_blurhash)
-			i++
 		}
 	})
 
@@ -211,15 +211,15 @@ describe("GetStoreBooksByCategory endpoint", () => {
 		assert.equal(limit, response.data.books.length)
 		assert.equal(pages, response.data.pages)
 
-		for (let i = 0; i < limit; i++){
-			let storeBook = storeBooks[i]
-			let responseBook = response.data.books[i]
+		for (let book of response.data.books) {
+			let storeBook = storeBooks.find(sBook => sBook.uuid == book.uuid)
 
-			assert.equal(storeBook.uuid, responseBook.uuid)
-			assert.equal(storeBook.title, responseBook.title)
-			assert.equal(storeBook.cover != null, responseBook.cover)
-			assert.equal(storeBook.coverAspectRatio, responseBook.cover_aspect_ratio)
-			assert.equal(storeBook.coverBlurhash, responseBook.cover_blurhash)
+			assert.isNotNull(storeBook)
+			assert.equal(storeBook.uuid, book.uuid)
+			assert.equal(storeBook.title, book.title)
+			assert.equal(storeBook.cover != null, book.cover)
+			assert.equal(storeBook.coverAspectRatio, book.cover_aspect_ratio)
+			assert.equal(storeBook.coverBlurhash, book.cover_blurhash)
 		}
 
 		// Get the store books of the next page
@@ -241,15 +241,15 @@ describe("GetStoreBooksByCategory endpoint", () => {
 		assert.equal(limit, response.data.books.length)
 		assert.equal(pages, response.data.pages)
 
-		for (let i = 0; i < limit; i++){
-			let storeBook = storeBooks[i + limit]
-			let responseBook = response.data.books[i]
+		for (let book of response.data.books) {
+			let storeBook = storeBooks.find(sBook => sBook.uuid == book.uuid)
 
-			assert.equal(storeBook.uuid, responseBook.uuid)
-			assert.equal(storeBook.title, responseBook.title)
-			assert.equal(storeBook.cover != null, responseBook.cover)
-			assert.equal(storeBook.coverAspectRatio, responseBook.cover_aspect_ratio)
-			assert.equal(storeBook.coverBlurhash, responseBook.cover_blurhash)
+			assert.isNotNull(storeBook)
+			assert.equal(storeBook.uuid, book.uuid)
+			assert.equal(storeBook.title, book.title)
+			assert.equal(storeBook.cover != null, book.cover)
+			assert.equal(storeBook.coverAspectRatio, book.cover_aspect_ratio)
+			assert.equal(storeBook.coverBlurhash, book.cover_blurhash)
 		}
 	})
 
@@ -284,15 +284,15 @@ describe("GetStoreBooksByCategory endpoint", () => {
 		assert.equal(200, response.status)
 		assert.equal(storeBooks.length, response.data.books.length)
 
-		let i = 0
 		for (let book of response.data.books) {
-			let storeBook = storeBooks[i]
+			let storeBook = storeBooks.find(sBook => sBook.uuid == book.uuid)
+
+			assert.isNotNull(storeBook)
 			assert.equal(storeBook.uuid, book.uuid)
 			assert.equal(storeBook.title, book.title)
 			assert.equal(storeBook.cover != null, book.cover)
 			assert.equal(storeBook.coverAspectRatio, book.cover_aspect_ratio)
 			assert.equal(storeBook.coverBlurhash, book.cover_blurhash)
-			i++
 		}
 	})
 
@@ -331,15 +331,15 @@ describe("GetStoreBooksByCategory endpoint", () => {
 		assert.equal(200, response.status)
 		assert.equal(storeBooks.length, response.data.books.length)
 
-		let i = 0
 		for (let book of response.data.books) {
-			let storeBook = storeBooks[i]
+			let storeBook = storeBooks.find(sBook => sBook.uuid == book.uuid)
+
+			assert.isNotNull(storeBook)
 			assert.equal(storeBook.uuid, book.uuid)
 			assert.equal(storeBook.title, book.title)
 			assert.equal(storeBook.cover != null, book.cover)
 			assert.equal(storeBook.coverAspectRatio, book.cover_aspect_ratio)
 			assert.equal(storeBook.coverBlurhash, book.cover_blurhash)
-			i++
 		}
 	})
 
@@ -378,15 +378,15 @@ describe("GetStoreBooksByCategory endpoint", () => {
 		assert.equal(200, response.status)
 		assert.equal(storeBooks.length, response.data.books.length)
 
-		let i = 0
 		for (let book of response.data.books) {
-			let storeBook = storeBooks[i]
+			let storeBook = storeBooks.find(sBook => sBook.uuid == book.uuid)
+
+			assert.isNotNull(storeBook)
 			assert.equal(storeBook.uuid, book.uuid)
 			assert.equal(storeBook.title, book.title)
 			assert.equal(storeBook.cover != null, book.cover)
 			assert.equal(storeBook.coverAspectRatio, book.cover_aspect_ratio)
 			assert.equal(storeBook.coverBlurhash, book.cover_blurhash)
-			i++
 		}
 	})
 
@@ -430,15 +430,15 @@ describe("GetStoreBooksByCategory endpoint", () => {
 		assert.equal(limit, response.data.books.length)
 		assert.equal(pages, response.data.pages)
 
-		for (let i = 0; i < limit; i++){
-			let storeBook = storeBooks[i]
-			let responseBook = response.data.books[i]
+		for (let book of response.data.books) {
+			let storeBook = storeBooks.find(sBook => sBook.uuid == book.uuid)
 
-			assert.equal(storeBook.uuid, responseBook.uuid)
-			assert.equal(storeBook.title, responseBook.title)
-			assert.equal(storeBook.cover != null, responseBook.cover)
-			assert.equal(storeBook.coverAspectRatio, responseBook.cover_aspect_ratio)
-			assert.equal(storeBook.coverBlurhash, responseBook.cover_blurhash)
+			assert.isNotNull(storeBook)
+			assert.equal(storeBook.uuid, book.uuid)
+			assert.equal(storeBook.title, book.title)
+			assert.equal(storeBook.cover != null, book.cover)
+			assert.equal(storeBook.coverAspectRatio, book.cover_aspect_ratio)
+			assert.equal(storeBook.coverBlurhash, book.cover_blurhash)
 		}
 
 		try {
@@ -459,15 +459,15 @@ describe("GetStoreBooksByCategory endpoint", () => {
 		assert.equal(limit, response.data.books.length)
 		assert.equal(pages, response.data.pages)
 
-		for (let i = 0; i < limit; i++){
-			let storeBook = storeBooks[i + limit]
-			let responseBook = response.data.books[i]
+		for (let book of response.data.books) {
+			let storeBook = storeBooks.find(sBook => sBook.uuid == book.uuid)
 
-			assert.equal(storeBook.uuid, responseBook.uuid)
-			assert.equal(storeBook.title, responseBook.title)
-			assert.equal(storeBook.cover != null, responseBook.cover)
-			assert.equal(storeBook.coverAspectRatio, responseBook.cover_aspect_ratio)
-			assert.equal(storeBook.coverBlurhash, responseBook.cover_blurhash)
+			assert.isNotNull(storeBook)
+			assert.equal(storeBook.uuid, book.uuid)
+			assert.equal(storeBook.title, book.title)
+			assert.equal(storeBook.cover != null, book.cover)
+			assert.equal(storeBook.coverAspectRatio, book.cover_aspect_ratio)
+			assert.equal(storeBook.coverBlurhash, book.cover_blurhash)
 		}
 	})
 })

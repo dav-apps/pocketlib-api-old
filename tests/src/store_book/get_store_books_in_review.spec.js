@@ -118,9 +118,10 @@ describe("GetStoreBooksInReview endpoint", () => {
 		assert.equal(200, response.status)
 		assert.equal(storeBooks.length, response.data.books.length)
 
-		let i = 0;
 		for (let book of response.data.books) {
-			let storeBook = storeBooks[i]
+			let storeBook = storeBooks.find(sBook => sBook.uuid == book.uuid)
+
+			assert.isNotNull(storeBook)
 			assert.equal(storeBook.uuid, book.uuid)
 			assert.equal(storeBook.title, book.title)
 			assert.equal(storeBook.description, book.description)
@@ -133,8 +134,6 @@ describe("GetStoreBooksInReview endpoint", () => {
 			assert.equal(storeBook.coverBlurhash, book.cover_blurhash)
 			assert.equal(storeBook.file != null, book.file)
 			assert.equal(storeBook.fileName, book.file_name)
-
-			i++
 		}
 	})
 })

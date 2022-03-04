@@ -200,19 +200,19 @@ async function testGetAuthorWithBooks(author, languages) {
 		assert.equal(bio.language, responseBio.language)
 	}
 
-	let i = 0
 	for (let book of response.data.books) {
-		assert.equal(storeBooks[i].uuid, book.uuid)
-		assert.equal(storeBooks[i].title, book.title)
-		assert.equal(storeBooks[i].description, book.description)
-		assert.equal(storeBooks[i].language, book.language)
-		assert.equal(storeBooks[i].status, book.status)
-		assert.equal(storeBooks[i].cover != null, book.cover)
-		assert.equal(storeBooks[i].coverAspectRatio, book.cover_aspect_ratio)
-		assert.equal(storeBooks[i].coverBlurhash, book.cover_blurhash)
-		assert.equal(storeBooks[i].file != null, book.file)
-		assert.equal(storeBooks[i].fileName, book.file_name)
-
-		i++
+		let storeBook = storeBooks.find(sBook => sBook.uuid == book.uuid)
+		
+		assert.isNotNull(storeBook)
+		assert.equal(storeBook.uuid, book.uuid)
+		assert.equal(storeBook.title, book.title)
+		assert.equal(storeBook.description, book.description)
+		assert.equal(storeBook.language, book.language)
+		assert.equal(storeBook.status, book.status)
+		assert.equal(storeBook.cover != null, book.cover)
+		assert.equal(storeBook.coverAspectRatio, book.cover_aspect_ratio)
+		assert.equal(storeBook.coverBlurhash, book.cover_blurhash)
+		assert.equal(storeBook.file != null, book.file)
+		assert.equal(storeBook.fileName, book.file_name)
 	}
 }
