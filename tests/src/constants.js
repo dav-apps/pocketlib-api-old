@@ -13,7 +13,10 @@ let constants = {
 	storeBookSeriesTableId: 26,
 	storeBookSeriesNameTableId: 27,
 	storeBookTableId: 19,
+	storeBookReleaseTableId: 29,
+	storeBookCoverItemTableId: 30,
 	storeBookCoverTableId: 20,
+	storeBookFileItemTableId: 31,
 	storeBookFileTableId: 21,
 	categoryTableId: 22,
 	categoryNameTableId: 23,
@@ -63,25 +66,36 @@ let constants = {
 					books: [
 						{
 							uuid: "1cf6fc5f-8fa5-4972-895d-8b1d6552d41c",
-							title: "A Series of Unfortunate Events - Book the First",
-							description: "Dear Reader, I'm sorry to say that the book you are holding in your hands is extremely unpleasant. It tells an unhappy tale about three very unlucky children.",
 							language: "en",
-							price: 1399,
-							isbn: "9780064407663",
 							status: "review",
-							cover: {
-								uuid: "bb63e1c9-866c-47b5-b852-e8473df404f3",
-								ext: "png",
-								type: "image/png"
-							},
-							coverAspectRatio: "1:1.42377",
-							coverBlurhash: "LOK12L4?V]5FNeoJn~kB~8NKE3R%",
-							file: {
-								uuid: "b7cf0cee-fe8d-4f08-8b6e-d391065f1abb",
-								ext: "pdf",
-								type: "application/pdf"
-							},
-							fileName: "Bad Beginning.epub",
+							releases: [
+								{
+									uuid: "f1ea042a-46da-4a4b-911e-733d1f84b335",
+									title: "A Series of Unfortunate Events - Book the First",
+									description: "Dear Reader, I'm sorry to say that the book you are holding in your hands is extremely unpleasant. It tells an unhappy tale about three very unlucky children.",
+									price: 1399,
+									isbn: "9780064407663",
+									coverItem: {
+										uuid: "bf3b23fb-dd1e-4c7a-a526-6d997765e77e",
+										aspectRatio: "1:1.42377",
+										blurhash: "LOK12L4?V]5FNeoJn~kB~8NKE3R%",
+										cover: {
+											uuid: "bb63e1c9-866c-47b5-b852-e8473df404f3",
+											ext: "png",
+											type: "image/png"
+										}
+									},
+									fileItem: {
+										uuid: "18f44382-9f5a-4933-be7a-6c4a03daa790",
+										fileName: "Bad Beginning.epub",
+										file: {
+											uuid: "b7cf0cee-fe8d-4f08-8b6e-d391065f1abb",
+											ext: "pdf",
+											type: "application/pdf"
+										}
+									}
+								}
+							],
 							categories: [
 								"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
 								"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
@@ -89,24 +103,35 @@ let constants = {
 						},
 						{
 							uuid: "4df158a0-2157-4370-abac-dd3c25ca9ed3",
-							title: "Eine Reihe betrüblicher Ereignisse - Der schreckliche Anfang",
-							description: "Lieber Leser, es tut mir sehr Leid, aber das Buch, das du gerade in Händen hältst, ist außerordentlich unerfreulich. Es erzählt die traurige Geschichte von drei sehr bedauernswerten Kindern.",
 							language: "de",
-							isbn: "3442545790",
 							status: "hidden",
-							cover: {
-								uuid: "2ba327c3-d33c-4181-900e-f4c331ddf288",
-								ext: "jpg",
-								type: "image/jpeg"
-							},
-							coverAspectRatio: "1:1.4073",
-							coverBlurhash: "LQKmh00hrr5AI@j@s,j[^hWXENWB",
-							file: {
-								uuid: "8f219b89-eb25-4c55-b1a4-467e36bfa081",
-								ext: "epub",
-								type: "application/zip+epub"
-							},
-							fileName: "Schrecklicher Anfang.epub",
+							releases: [
+								{
+									uuid: "fd80ef43-ecd9-4002-afc4-77f4762b49cc",
+									title: "Eine Reihe betrüblicher Ereignisse - Der schreckliche Anfang",
+									description: "Lieber Leser, es tut mir sehr Leid, aber das Buch, das du gerade in Händen hältst, ist außerordentlich unerfreulich. Es erzählt die traurige Geschichte von drei sehr bedauernswerten Kindern.",
+									isbn: "3442545790",
+									coverItem: {
+										uuid: "22699239-8326-4508-9b9b-07178a228bba",
+										aspectRatio: "1:1.4073",
+										blurhash: "LQKmh00hrr5AI@j@s,j[^hWXENWB",
+										cover: {
+											uuid: "2ba327c3-d33c-4181-900e-f4c331ddf288",
+											ext: "jpg",
+											type: "image/jpeg"
+										}
+									},
+									fileItem: {
+										uuid: "e3737248-690a-4084-a5b6-5f9b56eb1f58",
+										fileName: "Schrecklicher Anfang.epub",
+										file: {
+											uuid: "8f219b89-eb25-4c55-b1a4-467e36bfa081",
+											ext: "epub",
+											type: "application/zip+epub"
+										}
+									}
+								}
+							],
 							categories: [
 								"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
 								"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
@@ -131,24 +156,35 @@ let constants = {
 					books: [
 						{
 							uuid: "5242102c-b107-4e82-8eb8-bebe2a990436",
-							title: "A Series of Unfortunate Events - Book the Second",
-							description: "Dear Reader, if you have picked up this book with the hope of finding a simple and cheery tale, I'm afraid you have picked up the wrong book altogether.",
 							language: "en",
-							isbn: "9780064407670",
 							status: "unpublished",
-							cover: {
-								uuid: "a557824f-26ed-4e5e-8afa-43e20e76e2ad",
-								ext: "png",
-								type: "image/png"
-							},
-							coverAspectRatio: "1:1.67151",
-							coverBlurhash: "LWJkJRja^hjaS}oei{WC~9ofIqWB",
-							file: {
-								uuid: "fb2745e4-f095-4237-97d5-660e41356790",
-								ext: "pdf",
-								type: "application/pdf"
-							},
-							fileName: "The Reptile Room",
+							releases: [
+								{
+									uuid: "7f5a550a-34dc-41ea-b71a-a36c625e8c05",
+									title: "A Series of Unfortunate Events - Book the Second",
+									description: "Dear Reader, if you have picked up this book with the hope of finding a simple and cheery tale, I'm afraid you have picked up the wrong book altogether.",
+									isbn: "9780064407670",
+									coverItem: {
+										uuid: "9f3549bc-c0da-4301-8346-65d6164fbe38",
+										aspectRatio: "1:1.67151",
+										blurhash: "LWJkJRja^hjaS}oei{WC~9ofIqWB",
+										cover: {
+											uuid: "a557824f-26ed-4e5e-8afa-43e20e76e2ad",
+											ext: "png",
+											type: "image/png"
+										}
+									},
+									fileItem: {
+										uuid: "a77579fc-5f77-4a0b-b616-99cb9d0d7ea7",
+										fileName: "The Reptile Room",
+										file: {
+											uuid: "fb2745e4-f095-4237-97d5-660e41356790",
+											ext: "pdf",
+											type: "application/pdf"
+										}
+									}
+								}
+							],
 							categories: [
 								"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
 								"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
@@ -156,25 +192,36 @@ let constants = {
 						},
 						{
 							uuid: "617833c8-4d0a-4d78-acd0-306a90e346ba",
-							title: "Eine Reihe betrüblicher Ereignisse - Das Haus der Schlangen",
-							description: "Lieber Leser, wenn du dieses Buch zur Hand genommen hast in der Hoffnung, darin Zerstreuung und Vergnügen zu finden, dann liegst du leider völlig falsch.",
 							language: "de",
-							price: 2000,
-							isbn: "3442545803",
 							status: "published",
-							cover: {
-								uuid: "33b486ae-a22e-414b-915c-9a9520970ed8",
-								ext: "jpg",
-								type: "image/jpeg"
-							},
-							coverAspectRatio: "1:1.49701",
-							coverBlurhash: "LUKJ}L9bix0$OYo0nifj^hNcEMo0",
-							file: {
-								uuid: "d6f52b96-6bca-40ee-bb70-fb1347e1c8ba",
-								ext: "epub",
-								type: "application/zip+epub"
-							},
-							fileName: "Haus der Schlangen.epub",
+							releases: [
+								{
+									uuid: "ffa4d644-4d2a-4a17-8d52-d2e26181d35c",
+									title: "Eine Reihe betrüblicher Ereignisse - Das Haus der Schlangen",
+									description: "Lieber Leser, wenn du dieses Buch zur Hand genommen hast in der Hoffnung, darin Zerstreuung und Vergnügen zu finden, dann liegst du leider völlig falsch.",
+									price: 2000,
+									isbn: "3442545803",
+									coverItem: {
+										uuid: "d9aaf019-b602-44a7-86ff-f39ec66ac8ae",
+										aspectRatio: "1:1.49701",
+										blurhash: "LUKJ}L9bix0$OYo0nifj^hNcEMo0",
+										cover: {
+											uuid: "33b486ae-a22e-414b-915c-9a9520970ed8",
+											ext: "jpg",
+											type: "image/jpeg"
+										}
+									},
+									fileItem: {
+										uuid: "a6500f16-b6f8-45fe-810a-4a2901a66aaa",
+										fileName: "Haus der Schlangen.epub",
+										file: {
+											uuid: "d6f52b96-6bca-40ee-bb70-fb1347e1c8ba",
+											ext: "epub",
+											type: "application/zip+epub"
+										}
+									}
+								}
+							],
 							categories: [
 								"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
 								"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
@@ -194,32 +241,48 @@ let constants = {
 					books: [
 						{
 							uuid: "45c14ab4-8789-41c4-b0f6-11be0a86a94c",
-							title: "A Series of Unfortunate Events - Book the Third",
-							description: "Dear Reader, if you have not read anything about the Baudelaire orphans, then before you read even one more sentence, you should know this: Violet, Klaus and Sunny are kindhearted and quick-witted, but their lives, I am sorry to say, are filled with bad luck and misery.",
 							language: "en",
-							isbn: "9780064407687",
-							status: "unpublished"
+							status: "unpublished",
+							releases: [
+								{
+									uuid: "5763aeb2-0843-4e2f-bac0-fd034d84d3fe",
+									title: "A Series of Unfortunate Events - Book the Third",
+									description: "Dear Reader, if you have not read anything about the Baudelaire orphans, then before you read even one more sentence, you should know this: Violet, Klaus and Sunny are kindhearted and quick-witted, but their lives, I am sorry to say, are filled with bad luck and misery.",
+									isbn: "9780064407687"
+								}
+							]
 						},
 						{
 							uuid: "2fd1beed-da6f-46c8-8631-a7931dda2ef2",
-							title: "Eine Reihe betrüblicher Ereignisse - Der Seufzersee",
-							description: "Lieber Leser, wenn du noch nie etwas von den Baudelaire-Kindern gehört hast, dann solltest du, bevor du auch nur eine einzige Zeile liest, Folgendes wissen: Violet, Klaus und Sunny sind nett, charmant und klug, aber ihr Leben - leider, leider - strotzt nur so vor Elend und Unheil.",
 							language: "de",
-							isbn: "3442545811",
 							status: "published",
-							cover: {
-								uuid: "c877a6e5-aebb-4c8c-b28d-817aaffc9226",
-								ext: "png",
-								type: "image/png"
-							},
-							coverAspectRatio: "1:1.49701",
-							coverBlurhash: "LSJQs39brr0*I[oJs,fk}-NeIrV@",
-							file: {
-								uuid: "090cb584-c10e-4068-9346-81f134c3a5e3",
-								ext: "pdf",
-								type: "application/pdf"
-							},
-							fileName: "Seufzersee.epub",
+							releases: [
+								{
+									uuid: "c46d5cd6-4555-4012-aa0d-56d4d0f53fcc",
+									title: "Eine Reihe betrüblicher Ereignisse - Der Seufzersee",
+									description: "Lieber Leser, wenn du noch nie etwas von den Baudelaire-Kindern gehört hast, dann solltest du, bevor du auch nur eine einzige Zeile liest, Folgendes wissen: Violet, Klaus und Sunny sind nett, charmant und klug, aber ihr Leben - leider, leider - strotzt nur so vor Elend und Unheil.",
+									isbn: "3442545811",
+									coverItem: {
+										uuid: "4fbcc890-03c1-4fcd-9e38-89c725be1bf0",
+										aspectRatio: "1:1.49701",
+										blurhash: "LSJQs39brr0*I[oJs,fk}-NeIrV@",
+										cover: {
+											uuid: "c877a6e5-aebb-4c8c-b28d-817aaffc9226",
+											ext: "png",
+											type: "image/png"
+										}
+									},
+									fileItem: {
+										uuid: "7f444ffc-e515-4f0f-a76d-7997cf64e63b",
+										fileName: "Seufzersee.epub",
+										file: {
+											uuid: "090cb584-c10e-4068-9346-81f134c3a5e3",
+											ext: "pdf",
+											type: "application/pdf"
+										}
+									}
+								}
+							],
 							categories: [
 								"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
 								"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
@@ -239,25 +302,36 @@ let constants = {
 					books: [
 						{
 							uuid: "d0ca384f-9d8e-4a56-b2e1-c76a0a5cac4b",
-							title: "A Series of Unfortunate Events - Book the Fourth",
-							description: "Dear Reader, I hope, for your sake, that you have not chosen to read this book because you are in the mood for a pleasant experience. If this is the case, I advise you to put this book down instantaneously, because of all the books describing the unhappy lives of the Baudelaire orphans, THE MISERABLE MILL might be the unhappiest yet.",
 							language: "en",
-							price: 3500,
-							isbn: "9780064407694",
 							status: "published",
-							cover: {
-								uuid: "33ddb7d6-03ff-430f-a526-e7ceeb43782d",
-								ext: "jpg",
-								type: "image/jpeg"
-							},
-							coverAspectRatio: "1:1.41224",
-							coverBlurhash: "LMLg8{0RjL5GX8WBs.of^gW=IXRk",
-							file: {
-								uuid: "4dd8c2cf-82a0-4887-95f1-68284679a026",
-								ext: "epub",
-								type: "application/zip+epub"
-							},
-							fileName: "The Miserable Mill.epub",
+							releases: [
+								{
+									uuid: "81d40349-0d9c-4167-b87b-94432090c1de",
+									title: "A Series of Unfortunate Events - Book the Fourth",
+									description: "Dear Reader, I hope, for your sake, that you have not chosen to read this book because you are in the mood for a pleasant experience. If this is the case, I advise you to put this book down instantaneously, because of all the books describing the unhappy lives of the Baudelaire orphans, THE MISERABLE MILL might be the unhappiest yet.",
+									price: 3500,
+									isbn: "9780064407694",
+									coverItem: {
+										uuid: "78182c23-faa0-4950-9011-e0a0d724fa4a",
+										aspectRatio: "1:1.41224",
+										blurhash: "LMLg8{0RjL5GX8WBs.of^gW=IXRk",
+										cover: {
+											uuid: "33ddb7d6-03ff-430f-a526-e7ceeb43782d",
+											ext: "jpg",
+											type: "image/jpeg"
+										}
+									},
+									fileItem: {
+										uuid: "47027837-ac77-4d30-8117-04e638e7d176",
+										fileName: "The Miserable Mill.epub",
+										file: {
+											uuid: "4dd8c2cf-82a0-4887-95f1-68284679a026",
+											ext: "epub",
+											type: "application/zip+epub"
+										}
+									}
+								}
+							],
 							categories: [
 								"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
 								"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
@@ -277,25 +351,36 @@ let constants = {
 					books: [
 						{
 							uuid: "d59bdd46-428d-412d-964b-0c57b41df478",
-							title: "A Series of Unfortunate Events - Book the Fifth",
-							description: "Dear Reader, if you are looking for a story about cheerful youngsters spending a jolly time at boarding school, look elsewhere. Violet, Klaus and Sunny Baudelaire are intelligent and resourceful children, and you might expect that they would do very well at school. Don't. For the Baudelaires, school turns out to be another miserable episode in their unlucky lives.",
 							language: "en",
-							price: 0,
-							isbn: "9780064408639",
 							status: "published",
-							cover: {
-								uuid: "fcd1ddb9-fab4-465e-ad8c-f5074e2d7fc3",
-								ext: "png",
-								type: "image/png"
-							},
-							coverAspectRatio: "1:1.41509",
-							cover_blurhash: "LbK18I9HjY4=NIodsnWX~SNIE3WX",
-							file: {
-								uuid: "35e1418d-ff2f-4498-8a93-a0bf7b47ccce",
-								ext: "pdf",
-								type: "application/pdf"
-							},
-							file_name: "The Austere Academy.epub",
+							releases: [
+								{
+									uuid: "4238eb86-9da3-4343-a8f0-94ea5c71130e",
+									title: "A Series of Unfortunate Events - Book the Fifth",
+									description: "Dear Reader, if you are looking for a story about cheerful youngsters spending a jolly time at boarding school, look elsewhere. Violet, Klaus and Sunny Baudelaire are intelligent and resourceful children, and you might expect that they would do very well at school. Don't. For the Baudelaires, school turns out to be another miserable episode in their unlucky lives.",
+									price: 0,
+									isbn: "9780064408639",
+									coverItem: {
+										uuid: "86ffda0f-0622-41b7-8fc5-0b98f6db5e98",
+										aspectRatio: "1:1.41509",
+										blurhash: "LbK18I9HjY4=NIodsnWX~SNIE3WX",
+										cover: {
+											uuid: "fcd1ddb9-fab4-465e-ad8c-f5074e2d7fc3",
+											ext: "png",
+											type: "image/png"
+										}
+									},
+									fileItem: {
+										uuid: "e276d6f1-1dc0-4e2d-bbad-cc0e975b4200",
+										fileName: "The Austere Academy.epub",
+										file: {
+											uuid: "35e1418d-ff2f-4498-8a93-a0bf7b47ccce",
+											ext: "pdf",
+											type: "application/pdf"
+										}
+									}
+								}
+							],
 							categories: [
 								"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
 								"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
@@ -365,51 +450,75 @@ let constants = {
 						books: [
 							{
 								uuid: "b0e4b01d-d53d-47b5-b5e4-48ea7bab6619",
-								title: "1984",
-								description: "Orwell's novel about the destruction of man by a perfect state machinery has long since become a metaphor for totalitarian conditions that no longer seems in need of explanation.",
 								language: "en",
-								price: 1000,
 								status: "published",
-								cover: {
-									uuid: "63960709-1aa5-40dd-a7a3-8fa79aaa1f5d",
-									ext: "jpg",
-									type: "image/jpeg"
-								},
-								coverAspectRatio: "1:1.44105",
-								coverBlurhash: "LML.f7~C-pbvI9J,%2oz^Q9ttRxu",
-								file: {
-									uuid: "32adbdaa-0cbe-4672-80a6-19d4b8d6e943",
-									ext: "pdf",
-									type: "application/pdf"
-								},
-								fileName: "1984.epub",
+								releases: [
+									{
+										uuid: "2e5bc1b6-747f-478b-8d6b-e94ca5c5757a",
+										title: "1984",
+										description: "Orwell's novel about the destruction of man by a perfect state machinery has long since become a metaphor for totalitarian conditions that no longer seems in need of explanation.",
+										price: 1000,
+										coverItem: {
+											uuid: "bac664ad-f5f4-464d-bf0f-bbf4b126e880",
+											aspectRatio: "1:1.44105",
+											blurhash: "LML.f7~C-pbvI9J,%2oz^Q9ttRxu",
+											cover: {
+												uuid: "63960709-1aa5-40dd-a7a3-8fa79aaa1f5d",
+												ext: "jpg",
+												type: "image/jpeg"
+											}
+										},
+										fileItem: {
+											uuid: "b7d0dd22-4f65-4f96-83d7-bdcc3d682e7d",
+											fileName: "1984.epub",
+											file: {
+												uuid: "32adbdaa-0cbe-4672-80a6-19d4b8d6e943",
+												ext: "pdf",
+												type: "application/pdf"
+											}
+										}
+									}
+								],
 								categories: [
 									"27c78f90-934e-41e3-8738-b20f6d76f0a9"		// Dystopia
 								]
 							},
 							{
 								uuid: "5aa1c310-cbc6-48b4-9000-63315e713d25",
-								title: "1984",
-								description: "Orwells Roman über die Zerstörung des Menschen durch eine perfekte Staatsmaschinerie ist längst zu einer scheinbar nicht mehr erklärungsbedürftigen Metapher für totalitäre Verhältnisse geworden.",
 								language: "de",
-								isbn: "9783548234106",
 								status: "review",
-								file: {
-									uuid: "050f7a0d-59a9-498a-9caa-8b418227e72b",
-									ext: "epub",
-									type: "application/zip+epub"
-								},
-								fileName: "1984.epub",
+								releases: [
+									{
+										uuid: "43708a0f-d06b-4733-850a-4bd22e5f4ac4",
+										title: "1984",
+										description: "Orwells Roman über die Zerstörung des Menschen durch eine perfekte Staatsmaschinerie ist längst zu einer scheinbar nicht mehr erklärungsbedürftigen Metapher für totalitäre Verhältnisse geworden.",
+										isbn: "9783548234106",
+										fileItem: {
+											uuid: "420fc2a1-d0f3-4770-8e60-c6da3b3b0985",
+											fileName: "1984.epub",
+											file: {
+												uuid: "050f7a0d-59a9-498a-9caa-8b418227e72b",
+												ext: "epub",
+												type: "application/zip+epub"
+											}
+										}
+									}
+								],
 								categories: [
 									"27c78f90-934e-41e3-8738-b20f6d76f0a9"		// Dystopia
 								]
 							},
 							{
 								uuid: "0c3d12b8-1398-4f4e-b912-2aa460671579",
-								title: "1984",
-								description: "Le roman d'Orwell sur la destruction de l'homme par une machine étatique parfaite est devenu depuis longtemps une métaphore des conditions totalitaires qui ne semble plus avoir besoin d'explication.",
 								language: "fr",
-								status: "unpublished"
+								status: "unpublished",
+								releases: [
+									{
+										uuid: "525bc760-1bc3-44ab-8a99-5abd92a2252b",
+										title: "1984",
+										description: "Le roman d'Orwell sur la destruction de l'homme par une machine étatique parfaite est devenu depuis longtemps une métaphore des conditions totalitaires qui ne semble plus avoir besoin d'explication."
+									}
+								]
 							}
 						]
 					},
@@ -425,50 +534,77 @@ let constants = {
 						books: [
 							{
 								uuid: "13836f22-040f-4efd-9f30-9202184b23bf",
-								title: "Animal Farm",
-								description: "Animal Farm is an allegorical novella by George Orwell, first published in England on 17 August 1945. The book tells the story of a group of farm animals who rebel against their human farmer, hoping to create a society where the animals can be equal, free, and happy.",
 								language: "en",
 								status: "hidden",
-								file: {
-									uuid: "6566a1b6-0b17-4ff8-ba01-c58374c179ee",
-									ext: "pdf",
-									type: "application/pdf"
-								},
-								fileName: "Animal Farm.epub"
+								releases: [
+									{
+										uuid: "0d4307c4-5568-48b5-a266-02df2f80de6f",
+										title: "Animal Farm",
+										description: "Animal Farm is an allegorical novella by George Orwell, first published in England on 17 August 1945. The book tells the story of a group of farm animals who rebel against their human farmer, hoping to create a society where the animals can be equal, free, and happy.",
+										fileItem: {
+											uuid: "290a762c-5c9a-4951-9c38-a64dd3b2a6e4",
+											fileName: "Animal Farm.epub",
+											file: {
+												uuid: "6566a1b6-0b17-4ff8-ba01-c58374c179ee",
+												ext: "pdf",
+												type: "application/pdf"
+											}
+										}
+									}
+								]
 							},
 							{
 								uuid: "f27a4472-d3f8-4310-9f76-156af7c03c43",
-								title: "Farm der Tiere",
-								description: "Farm der Tiere ist eine allegorische Novelle von George Orwell, die erstmals am 17. August 1945 in England veröffentlicht wurde. Das Buch erzählt die Geschichte einer Gruppe von Nutztieren, die sich gegen ihren menschlichen Bauern auflehnen, in der Hoffnung, eine Gesellschaft zu schaffen, in der die Tiere gleichberechtigt, frei und glücklich sein können.",
 								language: "de",
-								isbn: "3257201184",
-								file: {
-									uuid: "987335cf-4fd0-4c80-a6f1-97bedd46ecbf",
-									ext: "epub",
-									type: "application/zip+epub"
-								},
-								fileName: "Farm der Tiere.epub"
+								releases: [
+									{
+										uuid: "d425b3b5-3fad-45bb-808d-50fe797a3de0",
+										title: "Farm der Tiere",
+										description: "Farm der Tiere ist eine allegorische Novelle von George Orwell, die erstmals am 17. August 1945 in England veröffentlicht wurde. Das Buch erzählt die Geschichte einer Gruppe von Nutztieren, die sich gegen ihren menschlichen Bauern auflehnen, in der Hoffnung, eine Gesellschaft zu schaffen, in der die Tiere gleichberechtigt, frei und glücklich sein können.",
+										isbn: "3257201184",
+										fileItem: {
+											uuid: "4a7a2328-4522-4d06-ab45-a3cc4e502348",
+											fileName: "Farm der Tiere.epub",
+											file: {
+												uuid: "987335cf-4fd0-4c80-a6f1-97bedd46ecbf",
+												ext: "epub",
+												type: "application/zip+epub"
+											}
+										}
+									}
+								]
 							},
 							{
 								uuid: "ba96f327-f096-4408-8bd0-620f9aad3f09",
-								title: "La Ferme des animaux",
-								description: "La Ferme des animaux est un roman allégorique de George Orwell, publié pour la première fois en Angleterre le 17 août 1945. Le livre raconte l'histoire d'un groupe d'animaux de ferme qui se rebellent contre leur éleveur humain dans l'espoir de créer une société dans laquelle les animaux peuvent être égaux, libres et heureux.",
 								language: "fr",
-								price: 0,
 								status: "published",
-								cover: {
-									uuid: "9ac13017-9b5f-4fef-abe4-6964171767f0",
-									ext: "jpg",
-									type: "image/jpeg"
-								},
-								coverAspectRatio: "1:1.59309",
-								coverBlurhash: "LbR.uzbH.RsoHXa|x]n%xua|V@jt",
-								file: {
-									uuid: "ab3f8f74-b335-4bf2-bc1e-4f85f866ae22",
-									ext: "pdf",
-									type: "application/pdf"
-								},
-								fileName: "Ferme des animaux.epub"
+								releases: [
+									{
+										uuid: "d978c438-0711-439e-b12d-6549a5842851",
+										title: "La Ferme des animaux",
+										description: "La Ferme des animaux est un roman allégorique de George Orwell, publié pour la première fois en Angleterre le 17 août 1945. Le livre raconte l'histoire d'un groupe d'animaux de ferme qui se rebellent contre leur éleveur humain dans l'espoir de créer une société dans laquelle les animaux peuvent être égaux, libres et heureux.",
+										price: 0,
+										coverItem: {
+											uuid: "0091cc8d-7883-4019-8c2e-1d4fb092b950",
+											aspectRatio: "1:1.59309",
+											blurhash: "LbR.uzbH.RsoHXa|x]n%xua|V@jt",
+											cover: {
+												uuid: "9ac13017-9b5f-4fef-abe4-6964171767f0",
+												ext: "jpg",
+												type: "image/jpeg"
+											}
+										},
+										fileItem: {
+											uuid: "c8c4736b-ec69-4524-905d-eea43c69c73d",
+											fileName: "Ferme des animaux.epub",
+											file: {
+												uuid: "ab3f8f74-b335-4bf2-bc1e-4f85f866ae22",
+												ext: "pdf",
+												type: "application/pdf"
+											}
+										}
+									}
+								]
 							}
 						]
 					}
@@ -513,11 +649,16 @@ let constants = {
 						books: [
 							{
 								uuid: "fc5e9938-1fbf-420e-9d11-7143dd7d42f1",
-								title: "The Life and Adventures of Robinson Crusoe",
-								description: "Robinson Crusoe is one of the most popular books ever written in the English language, published in innumerable editions and translated into almost every language of the world, not to mention the many versions created in film, television and even radio.",
 								language: "en",
-								price: 1200,
 								status: "published",
+								releases: [
+									{
+										uuid: "1c9dfe5e-1de0-47fc-bb42-afd258e8d414",
+										title: "The Life and Adventures of Robinson Crusoe",
+										description: "Robinson Crusoe is one of the most popular books ever written in the English language, published in innumerable editions and translated into almost every language of the world, not to mention the many versions created in film, television and even radio.",
+										price: 1200
+									}
+								],
 								categories: [
 									"76dd74fa-0fb3-4d80-8c0a-6d6a803383a7"		// Adventure
 								]
@@ -536,11 +677,16 @@ let constants = {
 						books: [
 							{
 								uuid: "36561f01-0523-4dbe-9bf3-2fb8a208e8f6",
-								title: "The Further Adventures of Robinson Crusoe",
-								description: "After his return from an uninhabited island, Robinson Crusoe marries and starts a family. Despite his comfortable life in England, he has an intense desire to go back to sea.",
 								language: "en",
-								price: 1200,
 								status: "published",
+								releases: [
+									{
+										uuid: "335f6812-f897-4fbe-a385-17b4425f1394",
+										title: "The Further Adventures of Robinson Crusoe",
+										description: "After his return from an uninhabited island, Robinson Crusoe marries and starts a family. Despite his comfortable life in England, he has an intense desire to go back to sea.",
+										price: 1200
+									}
+								],
 								categories: [
 									"76dd74fa-0fb3-4d80-8c0a-6d6a803383a7"		// Adventure
 								]

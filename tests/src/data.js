@@ -2,54 +2,121 @@ import constants from './constants.js'
 
 var tableObjects = []
 
-// Authors & AuthorBios & AuthorProfileImages
+//#region Authors & AuthorBios & AuthorProfileImages
 addAuthorToTableObjects(constants.authorUser.author, constants.authorUser.id)
-for (let authorBio of constants.authorUser.author.bios) addAuthorBioToTableObjects(authorBio, constants.authorUser.id)
+
+for (let authorBio of constants.authorUser.author.bios) {
+	addAuthorBioToTableObjects(authorBio, constants.authorUser.id)
+}
+
 addAuthorProfileImageToTableObjects(constants.authorUser.author.profileImage, constants.authorUser.id)
 
 for (let author of constants.davUser.authors) {
 	addAuthorToTableObjects(author, constants.davUser.id)
-	for (let authorBio of author.bios) addAuthorBioToTableObjects(authorBio, constants.davUser.id)
-	if (author.profileImage) addAuthorProfileImageToTableObjects(author.profileImage, constants.davUser.id)
-}
 
-// StoreBookCollections
+	for (let authorBio of author.bios) {
+		addAuthorBioToTableObjects(authorBio, constants.davUser.id)
+	}
+
+	if (author.profileImage) {
+		addAuthorProfileImageToTableObjects(author.profileImage, constants.davUser.id)
+	}
+}
+//#endregion
+
+//#region StoreBookCollections
 for (let collection of constants.authorUser.author.collections) {
 	addStoreBookCollectionToTableObjects(collection, constants.authorUser.id, constants.authorUser.author.uuid)
-	for (let collectionName of collection.names) addStoreBookCollectionNameToTableObjects(collectionName, constants.authorUser.id)
+
+	for (let collectionName of collection.names) {
+		addStoreBookCollectionNameToTableObjects(collectionName, constants.authorUser.id)
+	}
+
 	for (let storeBook of collection.books) {
 		addStoreBookToTableObjects(storeBook, constants.authorUser.id, collection.uuid)
-		if (storeBook.cover) addStoreBookCoverToTableObjects(storeBook.cover, constants.authorUser.id)
-		if (storeBook.file) addStoreBookFileToTableObjects(storeBook.file, constants.authorUser.id)
+
+		for (let storeBookRelease of storeBook.releases) {
+			addStoreBookReleaseToTableObjects(storeBookRelease, constants.authorUser.id, storeBook.uuid)
+
+			if (storeBookRelease.coverItem) {
+				let coverItem = storeBookRelease.coverItem
+				addStoreBookCoverItemToTableObjects(coverItem, constants.authorUser.id)
+
+				if (coverItem.cover) {
+					addStoreBookCoverToTableObjects(coverItem.cover, constants.authorUser.id)
+				}
+			}
+
+			if (storeBookRelease.fileItem) {
+				let fileItem = storeBookRelease.fileItem
+				addStoreBookFileItemToTableObjects(fileItem, constants.authorUser.id)
+
+				if (fileItem.file) {
+					addStoreBookFileToTableObjects(fileItem.file, constants.authorUser.id)
+				}
+			}
+		}
 	}
 }
 
 for (let author of constants.davUser.authors) {
 	for (let collection of author.collections) {
 		addStoreBookCollectionToTableObjects(collection, constants.davUser.id, author.uuid)
-		for (let collectionName of collection.names) addStoreBookCollectionNameToTableObjects(collectionName, constants.davUser.id)
+
+		for (let collectionName of collection.names) {
+			addStoreBookCollectionNameToTableObjects(collectionName, constants.davUser.id)
+		}
+
 		for (let storeBook of collection.books) {
 			addStoreBookToTableObjects(storeBook, constants.davUser.id, collection.uuid)
-			if (storeBook.cover) addStoreBookCoverToTableObjects(storeBook.cover, constants.davUser.id)
-			if (storeBook.file) addStoreBookFileToTableObjects(storeBook.file, constants.davUser.id)
+
+			for (let storeBookRelease of storeBook.releases) {
+				addStoreBookReleaseToTableObjects(storeBookRelease, constants.davUser.id, storeBook.uuid)
+
+				if (storeBookRelease.coverItem) {
+					let coverItem = storeBookRelease.coverItem
+					addStoreBookCoverItemToTableObjects(coverItem, constants.davUser.id)
+
+					if (coverItem.cover) {
+						addStoreBookCoverToTableObjects(coverItem.cover, constants.davUser.id)
+					}
+				}
+
+				if (storeBookRelease.fileItem) {
+					let fileItem = storeBookRelease.fileItem
+					addStoreBookFileItemToTableObjects(fileItem, constants.davUser.id)
+
+					if (fileItem.file) {
+						addStoreBookFileToTableObjects(fileItem.file, constants.davUser.id)
+					}
+				}
+			}
 		}
 	}
 }
+//#endregion
 
-// StoreBookSeries
+//#region StoreBookSeries
 for (let series of constants.authorUser.author.series) {
 	addStoreBookSeriesToTableObjects(series, constants.authorUser.id, constants.authorUser.author.uuid)
-	for(let seriesName of series.names) addStoreBookSeriesNameToTableObject(seriesName, constants.authorUser.id)
+
+	for (let seriesName of series.names) {
+		addStoreBookSeriesNameToTableObject(seriesName, constants.authorUser.id)
+	}
 }
 
 for (let author of constants.davUser.authors) {
 	for (let series of author.series) {
 		addStoreBookSeriesToTableObjects(series, constants.davUser.id, author.uuid)
-		for(let seriesName of series.names) addStoreBookSeriesNameToTableObject(seriesName, constants.davUser.id)
+
+		for (let seriesName of series.names) {
+			addStoreBookSeriesNameToTableObject(seriesName, constants.davUser.id)
+		}
 	}
 }
+//#endregion
 
-// Books
+//#region Books
 for (let book of constants.testUser.books) {
 	addBookToTableObjects(book, constants.testUser.id)
 }
@@ -57,8 +124,9 @@ for (let book of constants.testUser.books) {
 for (let book of constants.klausUser.books) {
 	addBookToTableObjects(book, constants.klausUser.id)
 }
+//#endregion
 
-// Categories & CategoryNames
+//#region Categories & CategoryNames
 for (let category of constants.categories) {
 	addCategoryToTableObjects(category, constants.davUser.id)
 
@@ -66,6 +134,7 @@ for (let category of constants.categories) {
 		addCategoryNameToTableObjects(categoryName, constants.davUser.id)
 	}
 }
+//#endregion
 
 export default {
 	tableObjects,
@@ -194,6 +263,9 @@ function addStoreBookSeriesNameToTableObject(storeBookSeriesName, userId) {
 }
 
 function addStoreBookToTableObjects(storeBook, userId, collectionUuid) {
+	let releases = []
+	storeBook.releases.forEach(release => releases.push(release.uuid))
+
 	let tableObject = {
 		uuid: storeBook.uuid,
 		userId,
@@ -201,29 +273,56 @@ function addStoreBookToTableObjects(storeBook, userId, collectionUuid) {
 		file: false,
 		properties: {
 			collection: collectionUuid,
-			title: storeBook.title,
-			description: storeBook.description,
 			language: storeBook.language,
-			price: storeBook.price ? storeBook.price.toString() : "",
-			isbn: storeBook.isbn ? storeBook.isbn : "",
 			status: storeBook.status ? storeBook.status : "",
-			cover: storeBook.cover ? storeBook.cover.uuid : "",
-			cover_aspect_ratio: storeBook.coverAspectRatio ? storeBook.coverAspectRatio : "",
-			cover_blurhash: storeBook.coverBlurhash ? storeBook.coverBlurhash : "",
-			file: storeBook.file ? storeBook.file.uuid : "",
-			file_name: storeBook.fileName ? storeBook.fileName : "",
-			categories: storeBook.categories ? storeBook.categories.join(',') : ""
+			current_release: storeBook.currentRelease ? storeBook.currentRelease : "",
+			releases: releases.join(',')
 		}
 	}
 
-	if (storeBook.price != null) {
+	tableObjects.push(tableObject)
+}
+
+function addStoreBookReleaseToTableObjects(storeBookRelease, userId, storeBookUuid) {
+	let tableObject = {
+		uuid: storeBookRelease.uuid,
+		userId,
+		tableId: constants.storeBookReleaseTableId,
+		file: false,
+		properties: {
+			store_book: storeBookUuid,
+			title: storeBookRelease.title,
+			description: storeBookRelease.description,
+			price: storeBookRelease.price ? storeBookRelease.price.toString() : "",
+			isbn: storeBookRelease.isbn ? storeBookRelease.isbn : "",
+			cover_item: storeBookRelease.coverItem ? storeBookRelease.coverItem.uuid : "",
+			file_item: storeBookRelease.fileItem ? storeBookRelease.fileItem.uuid : "",
+			categories: storeBookRelease.categories ? storeBookRelease.categories.join(',') : ""
+		}
+	}
+
+	if (storeBookRelease.price != null) {
 		tableObject.price = {
-			price: storeBook.price,
+			price: storeBookRelease.price,
 			currency: "eur"
 		}
 	}
 
 	tableObjects.push(tableObject)
+}
+
+function addStoreBookCoverItemToTableObjects(storeBookCoverItem, userId) {
+	tableObjects.push({
+		uuid: storeBookCoverItem.uuid,
+		userId,
+		tableId: constants.storeBookCoverItemTableId,
+		file: false,
+		properties: {
+			aspect_ratio: storeBookCoverItem.aspectRatio ? storeBookCoverItem.aspectRatio : "",
+			blurhash: storeBookCoverItem.blurhash ? storeBookCoverItem.blurhash : "",
+			cover: storeBookCoverItem.cover ? storeBookCoverItem.cover.uuid : ""
+		}
+	})
 }
 
 function addStoreBookCoverToTableObjects(storeBookCover, userId) {
@@ -235,6 +334,19 @@ function addStoreBookCoverToTableObjects(storeBookCover, userId) {
 		properties: {
 			ext: storeBookCover.ext,
 			type: storeBookCover.type
+		}
+	})
+}
+
+function addStoreBookFileItemToTableObjects(storeBookFileItem, userId) {
+	tableObjects.push({
+		uuid: storeBookFileItem.uuid,
+		userId,
+		tableId: constants.storeBookFileItemTableId,
+		file: false,
+		properties: {
+			file_name: storeBookFileItem.fileName ? storeBookFileItem.fileName : "",
+			file: storeBookFileItem.file ? storeBookFileItem.file.uuid : ""
 		}
 	})
 }
