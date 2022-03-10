@@ -24,9 +24,9 @@ describe("CreateAuthor endpoint", async () => {
 				url: createAuthorEndpointUrl
 			})
 		} catch (error) {
-			assert.equal(401, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.AuthorizationHeaderMissing, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 401)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.AuthorizationHeaderMissing)
 			return
 		}
 
@@ -44,9 +44,9 @@ describe("CreateAuthor endpoint", async () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(404, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.SessionDoesNotExist, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 404)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.SessionDoesNotExist)
 			return
 		}
 
@@ -64,9 +64,9 @@ describe("CreateAuthor endpoint", async () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(415, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ContentTypeNotSupported, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 415)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ContentTypeNotSupported)
 			return
 		}
 
@@ -88,9 +88,9 @@ describe("CreateAuthor endpoint", async () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(403, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 403)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
 			return
 		}
 
@@ -108,10 +108,10 @@ describe("CreateAuthor endpoint", async () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(2, error.response.data.errors.length)
-			assert.equal(ErrorCodes.FirstNameMissing, error.response.data.errors[0].code)
-			assert.equal(ErrorCodes.LastNameMissing, error.response.data.errors[1].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 2)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.FirstNameMissing)
+			assert.equal(error.response.data.errors[1].code, ErrorCodes.LastNameMissing)
 			return
 		}
 
@@ -133,10 +133,10 @@ describe("CreateAuthor endpoint", async () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(2, error.response.data.errors.length)
-			assert.equal(ErrorCodes.FirstNameWrongType, error.response.data.errors[0].code)
-			assert.equal(ErrorCodes.LastNameWrongType, error.response.data.errors[1].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 2)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.FirstNameWrongType)
+			assert.equal(error.response.data.errors[1].code, ErrorCodes.LastNameWrongType)
 			return
 		}
 
@@ -158,10 +158,10 @@ describe("CreateAuthor endpoint", async () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(2, error.response.data.errors.length)
-			assert.equal(ErrorCodes.FirstNameTooShort, error.response.data.errors[0].code)
-			assert.equal(ErrorCodes.LastNameTooShort, error.response.data.errors[1].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 2)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.FirstNameTooShort)
+			assert.equal(error.response.data.errors[1].code, ErrorCodes.LastNameTooShort)
 			return
 		}
 
@@ -183,10 +183,10 @@ describe("CreateAuthor endpoint", async () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(2, error.response.data.errors.length)
-			assert.equal(ErrorCodes.FirstNameTooLong, error.response.data.errors[0].code)
-			assert.equal(ErrorCodes.LastNameTooLong, error.response.data.errors[1].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 2)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.FirstNameTooLong)
+			assert.equal(error.response.data.errors[1].code, ErrorCodes.LastNameTooLong)
 			return
 		}
 
@@ -208,9 +208,9 @@ describe("CreateAuthor endpoint", async () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.UserIsAlreadyAuthor, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.UserIsAlreadyAuthor)
 			return
 		}
 
@@ -240,18 +240,9 @@ describe("CreateAuthor endpoint", async () => {
 			assert.fail()
 		}
 
-		assert.equal(201, response.status)
+		assert.equal(response.status, 201)
+		assert.equal(Object.keys(response.data).length, 1)
 		assert.isNotNull(response.data.uuid)
-		assert.equal(firstName, response.data.first_name)
-		assert.equal(lastName, response.data.last_name)
-		assert.isNull(response.data.website_url)
-		assert.isNull(response.data.facebook_username)
-		assert.isNull(response.data.instagram_username)
-		assert.isNull(response.data.twitter_username)
-		assert.equal(0, response.data.bios.length)
-		assert.equal(0, response.data.collections.length)
-		assert.isFalse(response.data.profile_image)
-		assert.isNull(response.data.profile_image_blurhash)
 
 		// Check if the author was correctly created on the server
 		let objResponse = await TableObjectsController.GetTableObject({
@@ -263,17 +254,10 @@ describe("CreateAuthor endpoint", async () => {
 			assert.fail()
 		}
 
-		assert.equal(response.data.uuid, objResponse.data.Uuid)
-		assert.equal(response.data.first_name, objResponse.data.GetPropertyValue("first_name"))
-		assert.equal(response.data.last_name, objResponse.data.GetPropertyValue("last_name"))
-		assert.isNull(objResponse.data.GetPropertyValue("website_url"))
-		assert.isNull(objResponse.data.GetPropertyValue("facebook_username"))
-		assert.isNull(objResponse.data.GetPropertyValue("instagram_username"))
-		assert.isNull(objResponse.data.GetPropertyValue("twitter_username"))
-		assert.isNull(objResponse.data.GetPropertyValue("bios"))
-		assert.isNull(objResponse.data.GetPropertyValue("collections"))
-		assert.isNull(objResponse.data.GetPropertyValue("profile_image"))
-		assert.isNull(objResponse.data.GetPropertyValue("profile_image_blurhash"))
+		assert.equal(objResponse.data.Uuid, response.data.uuid)
+		assert.equal(Object.keys(objResponse.data.Properties).length, 2)
+		assert.equal(objResponse.data.GetPropertyValue("first_name"), firstName)
+		assert.equal(objResponse.data.GetPropertyValue("last_name"), lastName)
 	})
 
 	it("should create multiple authors if the user is an admin", async () => {
@@ -301,18 +285,9 @@ describe("CreateAuthor endpoint", async () => {
 			assert.fail()
 		}
 
-		assert.equal(201, response1.status)
+		assert.equal(response1.status, 201)
+		assert.equal(Object.keys(response1.data).length, 1)
 		assert.isNotNull(response1.data.uuid)
-		assert.equal(firstName1, response1.data.first_name)
-		assert.equal(lastName1, response1.data.last_name)
-		assert.isNull(response1.data.website_url)
-		assert.isNull(response1.data.facebook_username)
-		assert.isNull(response1.data.instagram_username)
-		assert.isNull(response1.data.twitter_username)
-		assert.equal(0, response1.data.bios.length)
-		assert.equal(0, response1.data.collections.length)
-		assert.isFalse(response1.data.profile_image)
-		assert.isNull(response1.data.profile_image_blurhash)
 
 		// Create second author for first user
 		let response2
@@ -336,18 +311,9 @@ describe("CreateAuthor endpoint", async () => {
 			assert.fail()
 		}
 
-		assert.equal(201, response2.status)
+		assert.equal(response2.status, 201)
+		assert.equal(Object.keys(response2.data).length, 1)
 		assert.isNotNull(response2.data.uuid)
-		assert.equal(firstName2, response2.data.first_name)
-		assert.equal(lastName2, response2.data.last_name)
-		assert.isNull(response2.data.website_url)
-		assert.isNull(response2.data.facebook_username)
-		assert.isNull(response2.data.instagram_username)
-		assert.isNull(response2.data.twitter_username)
-		assert.equal(0, response2.data.bios.length)
-		assert.equal(0, response2.data.collections.length)
-		assert.isFalse(response2.data.profile_image)
-		assert.isNull(response2.data.profile_image_blurhash)
 
 		// Check if the authors were correctly created on the server
 		let objResponse1 = await TableObjectsController.GetTableObject({
@@ -359,17 +325,9 @@ describe("CreateAuthor endpoint", async () => {
 			assert.fail()
 		}
 
-		assert.equal(response1.data.uuid, objResponse1.data.Uuid)
-		assert.equal(response1.data.first_name, objResponse1.data.GetPropertyValue("first_name"))
-		assert.equal(response1.data.last_name, objResponse1.data.GetPropertyValue("last_name"))
-		assert.isNull(objResponse1.data.GetPropertyValue("website_url"))
-		assert.isNull(objResponse1.data.GetPropertyValue("facebook_username"))
-		assert.isNull(objResponse1.data.GetPropertyValue("instagram_username"))
-		assert.isNull(objResponse1.data.GetPropertyValue("twitter_username"))
-		assert.isNull(objResponse1.data.GetPropertyValue("bios"))
-		assert.isNull(objResponse1.data.GetPropertyValue("collections"))
-		assert.isNull(objResponse1.data.GetPropertyValue("profile_image"))
-		assert.isNull(objResponse1.data.GetPropertyValue("profile_image_blurhash"))
+		assert.equal(objResponse1.data.Uuid, response1.data.uuid)
+		assert.equal(objResponse1.data.GetPropertyValue("first_name"), firstName1)
+		assert.equal(objResponse1.data.GetPropertyValue("last_name"), lastName1)
 
 		let objResponse2 = await TableObjectsController.GetTableObject({
 			accessToken: constants.davUser.accessToken,
@@ -380,12 +338,8 @@ describe("CreateAuthor endpoint", async () => {
 			assert.fail()
 		}
 
-		assert.equal(response2.data.uuid, objResponse2.data.Uuid)
-		assert.equal(response2.data.first_name, objResponse2.data.GetPropertyValue("first_name"))
-		assert.equal(response2.data.last_name, objResponse2.data.GetPropertyValue("last_name"))
-		assert.isNull(objResponse2.data.GetPropertyValue("bios"))
-		assert.isNull(objResponse2.data.GetPropertyValue("collections"))
-		assert.isNull(objResponse2.data.GetPropertyValue("profile_image"))
-		assert.isNull(objResponse2.data.GetPropertyValue("profile_image_blurhash"))
+		assert.equal(objResponse2.data.Uuid, response2.data.uuid)
+		assert.equal(objResponse2.data.GetPropertyValue("first_name"), firstName2)
+		assert.equal(objResponse2.data.GetPropertyValue("last_name"), lastName2)
 	})
 })
