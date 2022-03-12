@@ -1,0 +1,21 @@
+(# params: fields_string: string)
+(var fields (list))
+
+(for field in (fields_string.split /,(?![^(]*\))/) (
+	(if (Regex.check field /^\w+\([\w,\(\)]+\)$/) (
+		(# field contains parentheses with subfields)
+		(var matches (Regex.match field /^(?<parent>\w+)\((?<content>[\w,\(\)]+)\)$/))
+
+		(var parent matches.parent)
+		(var content matches.content)
+		(var inner_values (func process_fields (content)))
+
+		(for value in inner_values (
+			(fields.push (parent + "." + value))
+		))
+	) elseif (field.length > 0) (
+		(fields.push field)
+	))
+))
+
+(return fields)

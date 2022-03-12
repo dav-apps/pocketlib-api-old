@@ -1,0 +1,6 @@
+{
+	"type": "function",
+	"name": "process_fields",
+	"params": ["fields_string"],
+	"source": "./process_fields.dx"
+}
