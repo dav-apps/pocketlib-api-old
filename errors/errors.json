@@ -83,6 +83,7 @@
 		{"code": 3010, "message": "The user of the StoreBook must have a Provider"},
 		{"code": 3011, "message": "StoreBook can't have more than 3 categories"},
 		{"code": 3012, "message": "StoreBookSeries is incomplete"},
+		{"code": 3013, "message": "The user is an admin"},
 
 		{"code": 3100, "message": "Can't use old access token"},
 		{"code": 3101, "message": "Access token must be renewed"},

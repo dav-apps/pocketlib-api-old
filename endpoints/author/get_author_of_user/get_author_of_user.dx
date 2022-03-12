@@ -1,3 +1,15 @@
+(# Get the params)
+(var fields_str (get_param "fields"))
+
+(if (is_nil fields_str) (
+	(var fields (list "uuid"))
+) elseif (fields_str == "*") (
+	(var fields (list "uuid" "first_name" "last_name" "website_url" "facebook_username" "instagram_username" "twitter_username" "bios" "collections" "profile_image" "profile_image_blurhash"))
+) else (
+	(# Process the fields string)
+	(var fields (func process_fields (fields_str)))
+))
+
 (# Get the access token)
 (var access_token (get_header "Authorization"))
 (func render_validation_errors ((list
@@ -9,71 +21,49 @@
 
 (# Check if the user is an admin)
 (var admins (get_env "ADMINS"))
-(var is_admin (admins.contains session.user_id))
+(if (admins.contains session.user_id) (
+	(# User is an admin)
+	(func render_validation_errors ((list (hash (error (get_error 3013)) (status 400)))))
+))
 
-(# Get the authors of the user)
+(# Get the author of the user)
 (var author_objects (func get_author_table_objects (session.user_id)))
-(if ((author_objects.length == 0) and (! is_admin)) (
+(if (author_objects.length == 0) (
 	(# User is not an author)
 	(func render_validation_errors ((list (hash (error (get_error 3000)) (status 400)))))
 ))
 
-(if is_admin (
-	(var authors (list))
+(var author author_objects#0)
 
-	(for author in author_objects (
-		(# Get the bios of the author)
-		(var bios (func get_author_bios_by_string (author.properties.bios false)))
-
-		(# Get the collections of the author)
-		(var collections (func get_collections_by_string (author.properties.collections)))
-
-		(# Get the series of the author)
-		(var series (func get_series_by_string (author.properties.series)))
-
-		(authors.push (hash
-			(uuid author.uuid)
-			(first_name author.properties.first_name)
-			(last_name author.properties.last_name)
-			(website_url author.properties.website_url)
-			(facebook_username author.properties.facebook_username)
-			(instagram_username author.properties.instagram_username)
-			(twitter_username author.properties.twitter_username)
-			(bios bios)
-			(collections collections)
-			(series series)
-			(profile_image_blurhash author.properties.profile_image_blurhash)
-			(profile_image (!(is_nil author.properties.profile_image)))
-		))
-	))
-
-	(# Render the result)
-	(render_json (hash (authors authors)) 200)
-) else (
-	(var author author_objects#0)
-
+(if (fields.contains "bios") (
 	(# Get the bios of the author)
 	(var bios (func get_author_bios_by_string (author.properties.bios false)))
+))
 
+(if (fields.contains "collections") (
 	(# Get the collections of the author)
 	(var collections (func get_collections_by_string (author.properties.collections)))
+))
 
+(if (fields.contains "series") (
 	(# Get the series of the author)
 	(var series (func get_series_by_string (author.properties.series)))
-
-	(# Render the result)
-	(render_json (hash
-		(uuid author.uuid)
-		(first_name author.properties.first_name)
-		(last_name author.properties.last_name)
-		(website_url author.properties.website_url)
-		(facebook_username author.properties.facebook_username)
-		(instagram_username author.properties.instagram_username)
-		(twitter_username author.properties.twitter_username)
-		(bios bios)
-		(collections collections)
-		(series series)
-		(profile_image (!(is_nil author.properties.profile_image)))
-		(profile_image_blurhash author.properties.profile_image_blurhash)
-	) 200)
 ))
+
+(# Render the result)
+(var result (hash))
+
+(if (fields.contains "uuid") (var result.uuid author.uuid))
+(if (fields.contains "first_name") (var result.first_name author.properties.first_name))
+(if (fields.contains "last_name") (var result.last_name author.properties.last_name))
+(if (fields.contains "website_url") (var result.website_url author.properties.website_url))
+(if (fields.contains "facebook_username") (var result.facebook_username author.properties.facebook_username))
+(if (fields.contains "instagram_username") (var result.instagram_username author.properties.instagram_username))
+(if (fields.contains "twitter_username") (var result.twitter_username author.properties.twitter_username))
+(if (fields.contains "bios") (var result.bios bios))
+(if (fields.contains "collections") (var result.collections collections))
+(if (fields.contains "series") (var result.series series))
+(if (fields.contains "profile_image") (var result.profile_image (!(is_nil author.properties.profile_image))))
+(if (fields.contains "profile_image_blurhash") (var result.profile_image_blurhash author.properties.profile_image_blurhash))
+
+(render_json result 200)
