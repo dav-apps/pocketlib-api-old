@@ -76,6 +76,8 @@ describe("GetAuthorOfUser endpoint", () => {
 			assert.equal(error.response.data.errors[0].code, ErrorCodes.UserIsAdmin)
 			return
 		}
+
+		assert.fail()
 	})
 
 	it("should not return author if the user is not an author", async () => {
@@ -126,8 +128,9 @@ describe("GetAuthorOfUser endpoint", () => {
 		assert.equal(response.data.twitter_username, author.twitterUsername)
 		assert.equal(response.data.bios.length, author.bios.length)
 		assert.equal(response.data.collections.length, author.collections.length)
-		assert.isTrue(response.data.profile_image)
+		assert.equal(response.data.series.length, author.series.length)
 		assert.equal(response.data.profile_image_blurhash, author.profileImageBlurhash)
+		assert.isTrue(response.data.profile_image)
 
 		for (let i = 0; i < author.bios.length; i++) {
 			let bio = author.bios[i]
@@ -142,15 +145,31 @@ describe("GetAuthorOfUser endpoint", () => {
 			let collection = author.collections[i]
 			let responseCollection = response.data.collections[i]
 
-			assert.equal(collection.uuid, responseCollection.uuid)
+			assert.equal(responseCollection.uuid, collection.uuid)
 
 			for (let j = 0; j < collection.names.length; j++) {
 				let name = collection.names[j]
 				let responseName = responseCollection.names[j]
 
 				assert.isUndefined(responseName.uuid)
-				assert.equal(responseName.name, name.name)
-				assert.equal(responseName.language, name.language)
+				assert.equal(name.name, responseName.name)
+				assert.equal(name.language, responseName.language)
+			}
+		}
+
+		for (let i = 0; i < author.series.length; i++) {
+			let series = author.series[i]
+			let responseSeries = response.data.series[i]
+
+			assert.equal(responseSeries.uuid, series.uuid)
+
+			for (let j = 0; j < series.names.length; j++) {
+				let name = series.names[j]
+				let responseName = responseSeries.names[j]
+
+				assert.isUndefined(responseName.uuid)
+				assert.equal(name.name, responseName.name)
+				assert.equal(name.language, responseName.language)
 			}
 		}
 	})
