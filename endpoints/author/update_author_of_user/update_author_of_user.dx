@@ -86,12 +86,6 @@
 (if (!(is_nil instagram_username)) (var author.properties.instagram_username (if (instagram_username.length == 0) nil else instagram_username)))
 (if (!(is_nil twitter_username)) (var author.properties.twitter_username (if (twitter_username.length == 0) nil else twitter_username)))
 
-(# Get the bios)
-(var bios (func get_author_bios_by_string (author.properties.bios false)))
-
-(# Get the collections)
-(var collections (func get_collections_by_string (author.properties.collections)))
-
 (# Render the result)
 (render_json (hash
 	(uuid author.uuid)
@@ -101,8 +95,5 @@
 	(facebook_username author.properties.facebook_username)
 	(instagram_username author.properties.instagram_username)
 	(twitter_username author.properties.twitter_username)
-	(bios bios)
-	(collections collections)
-	(profile_image (!(is_nil author.properties.profile_image)))
 	(profile_image_blurhash author.properties.profile_image_blurhash)
 ) 200)

@@ -27,9 +27,9 @@ describe("UpdateAuthorOfUser endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(401, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.AuthorizationHeaderMissing, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 401)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.AuthorizationHeaderMissing)
 			return
 		}
 
@@ -47,9 +47,9 @@ describe("UpdateAuthorOfUser endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(404, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.SessionDoesNotExist, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 404)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.SessionDoesNotExist)
 			return
 		}
 
@@ -66,9 +66,9 @@ describe("UpdateAuthorOfUser endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(415, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ContentTypeNotSupported, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 415)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ContentTypeNotSupported)
 			return
 		}
 
@@ -86,9 +86,9 @@ describe("UpdateAuthorOfUser endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(403, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 403)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
 			return
 		}
 
@@ -106,9 +106,9 @@ describe("UpdateAuthorOfUser endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(403, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 403)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
 			return
 		}
 
@@ -129,9 +129,9 @@ describe("UpdateAuthorOfUser endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.UserIsNotAuthor, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.UserIsNotAuthor)
 			return
 		}
 
@@ -157,14 +157,14 @@ describe("UpdateAuthorOfUser endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(6, error.response.data.errors.length)
-			assert.equal(ErrorCodes.FirstNameWrongType, error.response.data.errors[0].code)
-			assert.equal(ErrorCodes.LastNameWrongType, error.response.data.errors[1].code)
-			assert.equal(ErrorCodes.WebsiteUrlWrongType, error.response.data.errors[2].code)
-			assert.equal(ErrorCodes.FacebookUsernameWrongType, error.response.data.errors[3].code)
-			assert.equal(ErrorCodes.InstagramUsernameWrongType, error.response.data.errors[4].code)
-			assert.equal(ErrorCodes.TwitterUsernameWrongType, error.response.data.errors[5].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 6)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.FirstNameWrongType)
+			assert.equal(error.response.data.errors[1].code, ErrorCodes.LastNameWrongType)
+			assert.equal(error.response.data.errors[2].code, ErrorCodes.WebsiteUrlWrongType)
+			assert.equal(error.response.data.errors[3].code, ErrorCodes.FacebookUsernameWrongType)
+			assert.equal(error.response.data.errors[4].code, ErrorCodes.InstagramUsernameWrongType)
+			assert.equal(error.response.data.errors[5].code, ErrorCodes.TwitterUsernameWrongType)
 			return
 		}
 
@@ -186,10 +186,10 @@ describe("UpdateAuthorOfUser endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(2, error.response.data.errors.length)
-			assert.equal(ErrorCodes.FirstNameTooShort, error.response.data.errors[0].code)
-			assert.equal(ErrorCodes.LastNameTooShort, error.response.data.errors[1].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 2)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.FirstNameTooShort)
+			assert.equal(error.response.data.errors[1].code, ErrorCodes.LastNameTooShort)
 			return
 		}
 
@@ -211,10 +211,10 @@ describe("UpdateAuthorOfUser endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(2, error.response.data.errors.length)
-			assert.equal(ErrorCodes.FirstNameTooLong, error.response.data.errors[0].code)
-			assert.equal(ErrorCodes.LastNameTooLong, error.response.data.errors[1].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 2)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.FirstNameTooLong)
+			assert.equal(error.response.data.errors[1].code, ErrorCodes.LastNameTooLong)
 			return
 		}
 
@@ -238,12 +238,12 @@ describe("UpdateAuthorOfUser endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(4, error.response.data.errors.length)
-			assert.equal(ErrorCodes.WebsiteUrlInvalid, error.response.data.errors[0].code)
-			assert.equal(ErrorCodes.FacebookUsernameInvalid, error.response.data.errors[1].code)
-			assert.equal(ErrorCodes.InstagramUsernameInvalid, error.response.data.errors[2].code)
-			assert.equal(ErrorCodes.TwitterUsernameInvalid, error.response.data.errors[3].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 4)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.WebsiteUrlInvalid)
+			assert.equal(error.response.data.errors[1].code, ErrorCodes.FacebookUsernameInvalid)
+			assert.equal(error.response.data.errors[2].code, ErrorCodes.InstagramUsernameInvalid)
+			assert.equal(error.response.data.errors[3].code, ErrorCodes.TwitterUsernameInvalid)
 			return
 		}
 
@@ -272,43 +272,15 @@ describe("UpdateAuthorOfUser endpoint", () => {
 			assert.fail()
 		}
 
-		assert.equal(200, response.status)
-		assert.equal(author.uuid, response.data.uuid)
-		assert.equal(firstName, response.data.first_name)
-		assert.equal(author.lastName, response.data.last_name)
-		assert.equal(author.websiteUrl, response.data.website_url)
-		assert.equal(author.facebookUsername, response.data.facebook_username)
-		assert.equal(author.instagramUsername, response.data.instagram_username)
-		assert.equal(author.twitterUsername, response.data.twitter_username)
-		assert.equal(author.bios.length, response.data.bios.length)
-		assert.equal(author.collections.length, response.data.collections.length)
-		assert.isTrue(response.data.profile_image)
-		assert.equal(author.profileImageBlurhash, response.data.profile_image_blurhash)
-
-		for (let i = 0; i < author.bios.length; i++) {
-			let bio = author.bios[i]
-			let responseBio = response.data.bios[i]
-
-			assert.isUndefined(responseBio.uuid)
-			assert.equal(bio.bio, responseBio.bio)
-			assert.equal(bio.language, responseBio.language)
-		}
-
-		for (let i = 0; i < author.collections.length; i++) {
-			let collection = author.collections[i]
-			let responseCollection = response.data.collections[i]
-
-			assert.equal(collection.uuid, responseCollection.uuid)
-
-			for (let j = 0; j < collection.names.length; j++) {
-				let name = collection.names[j]
-				let responseName = responseCollection.names[j]
-
-				assert.isUndefined(responseName.uuid)
-				assert.equal(name.name, responseName.name)
-				assert.equal(name.language, responseName.language)
-			}
-		}
+		assert.equal(response.status, 200)
+		assert.equal(response.data.uuid, author.uuid)
+		assert.equal(response.data.first_name, firstName)
+		assert.equal(response.data.last_name, author.lastName)
+		assert.equal(response.data.website_url, author.websiteUrl)
+		assert.equal(response.data.facebook_username, author.facebookUsername)
+		assert.equal(response.data.instagram_username, author.instagramUsername)
+		assert.equal(response.data.twitter_username, author.twitterUsername)
+		assert.equal(response.data.profile_image_blurhash, author.profileImageBlurhash)
 
 		// Check if the data was updated correctly on the server
 		let objResponse = await TableObjectsController.GetTableObject({
@@ -320,9 +292,9 @@ describe("UpdateAuthorOfUser endpoint", () => {
 			assert.fail()
 		}
 
-		assert.equal(author.uuid, objResponse.data.Uuid)
-		assert.equal(firstName, objResponse.data.GetPropertyValue("first_name"))
-		assert.equal(author.lastName, objResponse.data.GetPropertyValue("last_name"))
+		assert.equal(objResponse.data.Uuid, author.uuid)
+		assert.equal(objResponse.data.GetPropertyValue("first_name"), firstName)
+		assert.equal(objResponse.data.GetPropertyValue("last_name"), author.lastName)
 	})
 
 	it("should update last_name of author", async () => {
@@ -347,43 +319,15 @@ describe("UpdateAuthorOfUser endpoint", () => {
 			assert.fail()
 		}
 
-		assert.equal(200, response.status)
-		assert.equal(author.uuid, response.data.uuid)
-		assert.equal(author.firstName, response.data.first_name)
-		assert.equal(lastName, response.data.last_name)
-		assert.equal(author.websiteUrl, response.data.website_url)
-		assert.equal(author.facebookUsername, response.data.facebook_username)
-		assert.equal(author.instagramUsername, response.data.instagram_username)
-		assert.equal(author.twitterUsername, response.data.twitter_username)
-		assert.equal(author.bios.length, response.data.bios.length)
-		assert.equal(author.collections.length, response.data.collections.length)
-		assert.isTrue(response.data.profile_image)
-		assert.equal(author.profileImageBlurhash, response.data.profile_image_blurhash)
-
-		for (let i = 0; i < author.bios.length; i++) {
-			let bio = author.bios[i]
-			let responseBio = response.data.bios[i]
-
-			assert.isUndefined(responseBio.uuid)
-			assert.equal(bio.bio, responseBio.bio)
-			assert.equal(bio.language, responseBio.language)
-		}
-
-		for (let i = 0; i < author.collections.length; i++) {
-			let collection = author.collections[i]
-			let responseCollection = response.data.collections[i]
-
-			assert.equal(collection.uuid, responseCollection.uuid)
-
-			for (let j = 0; j < collection.names.length; j++) {
-				let name = collection.names[j]
-				let responseName = responseCollection.names[j]
-
-				assert.isUndefined(responseName.uuid)
-				assert.equal(name.name, responseName.name)
-				assert.equal(name.language, responseName.language)
-			}
-		}
+		assert.equal(response.status, 200)
+		assert.equal(response.data.uuid, author.uuid)
+		assert.equal(response.data.first_name, author.firstName)
+		assert.equal(response.data.last_name, lastName)
+		assert.equal(response.data.website_url, author.websiteUrl)
+		assert.equal(response.data.facebook_username, author.facebookUsername)
+		assert.equal(response.data.instagram_username, author.instagramUsername)
+		assert.equal(response.data.twitter_username, author.twitterUsername)
+		assert.equal(response.data.profile_image_blurhash, author.profileImageBlurhash)
 
 		// Check if the data was updated correctly on the server
 		let objResponse = await TableObjectsController.GetTableObject({
@@ -395,9 +339,9 @@ describe("UpdateAuthorOfUser endpoint", () => {
 			assert.fail()
 		}
 
-		assert.equal(author.uuid, objResponse.data.Uuid)
-		assert.equal(author.firstName, objResponse.data.GetPropertyValue("first_name"))
-		assert.equal(lastName, objResponse.data.GetPropertyValue("last_name"))
+		assert.equal(objResponse.data.Uuid, author.uuid)
+		assert.equal(objResponse.data.GetPropertyValue("first_name"), author.firstName)
+		assert.equal(objResponse.data.GetPropertyValue("last_name"), lastName)
 	})
 
 	it("should update website_url, facebook_username, instagram_username and twitter_username of author", async () => {
@@ -428,43 +372,15 @@ describe("UpdateAuthorOfUser endpoint", () => {
 			assert.fail()
 		}
 
-		assert.equal(200, response.status)
-		assert.equal(author.uuid, response.data.uuid)
-		assert.equal(author.firstName, response.data.first_name)
-		assert.equal(author.lastName, response.data.last_name)
-		assert.equal(websiteUrl, response.data.website_url)
-		assert.equal(facebookUsername, response.data.facebook_username)
-		assert.equal(instagramUsername, response.data.instagram_username)
-		assert.equal(twitterUsername, response.data.twitter_username)
-		assert.equal(author.bios.length, response.data.bios.length)
-		assert.equal(author.collections.length, response.data.collections.length)
-		assert.isTrue(response.data.profile_image)
-		assert.equal(author.profileImageBlurhash, response.data.profile_image_blurhash)
-
-		for (let i = 0; i < author.bios.length; i++) {
-			let bio = author.bios[i]
-			let responseBio = response.data.bios[i]
-
-			assert.isUndefined(responseBio.uuid)
-			assert.equal(bio.bio, responseBio.bio)
-			assert.equal(bio.language, responseBio.language)
-		}
-
-		for (let i = 0; i < author.collections.length; i++) {
-			let collection = author.collections[i]
-			let responseCollection = response.data.collections[i]
-
-			assert.equal(collection.uuid, responseCollection.uuid)
-
-			for (let j = 0; j < collection.names.length; j++) {
-				let name = collection.names[j]
-				let responseName = responseCollection.names[j]
-
-				assert.isUndefined(responseName.uuid)
-				assert.equal(name.name, responseName.name)
-				assert.equal(name.language, responseName.language)
-			}
-		}
+		assert.equal(response.status, 200)
+		assert.equal(response.data.uuid, author.uuid)
+		assert.equal(response.data.first_name, author.firstName)
+		assert.equal(response.data.last_name, author.lastName)
+		assert.equal(response.data.website_url, websiteUrl)
+		assert.equal(response.data.facebook_username, facebookUsername)
+		assert.equal(response.data.instagram_username, instagramUsername)
+		assert.equal(response.data.twitter_username, twitterUsername)
+		assert.equal(response.data.profile_image_blurhash, author.profileImageBlurhash)
 
 		// Check if the data was updated correctly on the server
 		let objResponse = await TableObjectsController.GetTableObject({
@@ -476,11 +392,11 @@ describe("UpdateAuthorOfUser endpoint", () => {
 			assert.fail()
 		}
 
-		assert.equal(author.uuid, objResponse.data.Uuid)
-		assert.equal(websiteUrl, objResponse.data.GetPropertyValue("website_url"))
-		assert.equal(facebookUsername, objResponse.data.GetPropertyValue("facebook_username"))
-		assert.equal(instagramUsername, objResponse.data.GetPropertyValue("instagram_username"))
-		assert.equal(twitterUsername, objResponse.data.GetPropertyValue("twitter_username"))
+		assert.equal(objResponse.data.Uuid, author.uuid)
+		assert.equal(objResponse.data.GetPropertyValue("website_url"), websiteUrl)
+		assert.equal(objResponse.data.GetPropertyValue("facebook_username"), facebookUsername)
+		assert.equal(objResponse.data.GetPropertyValue("instagram_username"), instagramUsername)
+		assert.equal(objResponse.data.GetPropertyValue("twitter_username"), twitterUsername)
 
 		// Remove the website_url and usernames with empty strings
 		try {
@@ -502,8 +418,8 @@ describe("UpdateAuthorOfUser endpoint", () => {
 			assert.fail()
 		}
 
-		assert.equal(200, response.status)
-		assert.equal(author.uuid, response.data.uuid)
+		assert.equal(response.status, 200)
+		assert.equal(response.data.uuid, author.uuid)
 		assert.isNull(response.data.website_url)
 		assert.isNull(response.data.facebook_username)
 		assert.isNull(response.data.instagram_username)
@@ -542,43 +458,15 @@ describe("UpdateAuthorOfUser endpoint", () => {
 			assert.fail()
 		}
 
-		assert.equal(200, response.status)
-		assert.equal(author.uuid, response.data.uuid)
-		assert.equal(firstName, response.data.first_name)
-		assert.equal(lastName, response.data.last_name)
-		assert.equal(websiteUrl, response.data.website_url)
-		assert.equal(facebookUsername, response.data.facebook_username)
-		assert.equal(instagramUsername, response.data.instagram_username)
-		assert.equal(twitterUsername, response.data.twitter_username)
-		assert.equal(author.bios.length, response.data.bios.length)
-		assert.equal(author.collections.length, response.data.collections.length)
-		assert.isTrue(response.data.profile_image)
-		assert.equal(author.profileImageBlurhash, response.data.profile_image_blurhash)
-
-		for (let i = 0; i < author.bios.length; i++) {
-			let bio = author.bios[i]
-			let responseBio = response.data.bios[i]
-
-			assert.isUndefined(responseBio.uuid)
-			assert.equal(bio.bio, responseBio.bio)
-			assert.equal(bio.language, responseBio.language)
-		}
-
-		for (let i = 0; i < author.collections.length; i++) {
-			let collection = author.collections[i]
-			let responseCollection = response.data.collections[i]
-
-			assert.equal(collection.uuid, responseCollection.uuid)
-
-			for (let j = 0; j < collection.names.length; j++) {
-				let name = collection.names[j]
-				let responseName = responseCollection.names[j]
-
-				assert.isUndefined(responseName.uuid)
-				assert.equal(name.name, responseName.name)
-				assert.equal(name.language, responseName.language)
-			}
-		}
+		assert.equal(response.status, 200)
+		assert.equal(response.data.uuid, author.uuid)
+		assert.equal(response.data.first_name, firstName)
+		assert.equal(response.data.last_name, lastName)
+		assert.equal(response.data.website_url, websiteUrl)
+		assert.equal(response.data.facebook_username, facebookUsername)
+		assert.equal(response.data.instagram_username, instagramUsername)
+		assert.equal(response.data.twitter_username, twitterUsername)
+		assert.equal(response.data.profile_image_blurhash, author.profileImageBlurhash)
 
 		// Check if the data was updated correctly on the server
 		let objResponse = await TableObjectsController.GetTableObject({
@@ -590,12 +478,12 @@ describe("UpdateAuthorOfUser endpoint", () => {
 			assert.fail()
 		}
 
-		assert.equal(author.uuid, objResponse.data.Uuid)
-		assert.equal(firstName, objResponse.data.GetPropertyValue("first_name"))
-		assert.equal(lastName, objResponse.data.GetPropertyValue("last_name"))
-		assert.equal(websiteUrl, objResponse.data.GetPropertyValue("website_url"))
-		assert.equal(facebookUsername, objResponse.data.GetPropertyValue("facebook_username"))
-		assert.equal(instagramUsername, objResponse.data.GetPropertyValue("instagram_username"))
-		assert.equal(twitterUsername, objResponse.data.GetPropertyValue("twitter_username"))
+		assert.equal(objResponse.data.Uuid, author.uuid)
+		assert.equal(objResponse.data.GetPropertyValue("first_name"), firstName)
+		assert.equal(objResponse.data.GetPropertyValue("last_name"), lastName)
+		assert.equal(objResponse.data.GetPropertyValue("website_url"), websiteUrl)
+		assert.equal(objResponse.data.GetPropertyValue("facebook_username"), facebookUsername)
+		assert.equal(objResponse.data.GetPropertyValue("instagram_username"), instagramUsername)
+		assert.equal(objResponse.data.GetPropertyValue("twitter_username"), twitterUsername)
 	})
 })
