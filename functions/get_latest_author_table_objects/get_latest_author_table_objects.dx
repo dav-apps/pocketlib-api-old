@@ -1,7 +1,0 @@
-(# params: none)
-(catch (
-	(Collection.get_table_objects (get_env "AUTHOR_TABLE_ID") "latest_authors")
-) (
-	(# Unexpected error)
-	(func render_validation_errors ((list (hash (error (get_error 1000)) (status 500)))))
-))

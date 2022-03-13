@@ -1,32 +1,45 @@
 (# Get the params)
+(var fields_str (get_param "fields"))
 (var limit (to_int (get_param "limit")))
+
+(if (is_nil fields_str) (
+	(var fields (list "authors.uuid"))
+) elseif (fields_str == "*") (
+	(var fields (list "authors.uuid" "authors.first_name" "authors.last_name" "authors.website_url" "authors.facebook_username" "authors.instagram_username" "authors.twitter_username" "authors.profile_image_blurhash"))
+) else (
+	(# Process the fields string)
+	(var fields (func process_fields (fields_str)))
+))
 
 (if (limit <= 0) (
 	(var limit 8)
 ))
 
 (# Get the latest authors)
-(var author_objects (func get_latest_author_table_objects ()))
-(var author_objects author_objects.reverse)
+(var author_uuids (func get_latest_author_table_object_uuids ()))
+(var author_uuids author_uuids.reverse)
 (var authors (list))
 
-(for author_object in author_objects (
-	(# Check if the author has uploaded a profile image)
-	(if (! (is_nil author_object.properties.profile_image)) (
-		(# Convert the table object to hash)
-		(var author (hash
-			(uuid author_object.uuid)
-			(first_name author_object.properties.first_name)
-			(last_name author_object.properties.last_name)
-			(website_url author_object.properties.website_url)
-			(facebook_username author_object.properties.facebook_username)
-			(instagram_username author_object.properties.instagram_username)
-			(twitter_username author_object.properties.twitter_username)
-			(profile_image true)
-			(profile_image_blurhash author_object.properties.profile_image_blurhash)
-		))
+(for author_uuid in author_uuids (
+	(# Get the author table object)
+	(var author (func get_table_object (author_uuid (get_env "AUTHOR_TABLE_ID"))))
+	(if (is_nil author) (continue))
 
-		(authors.push author)
+	(# Check if the author has uploaded a profile image)
+	(if (!(is_nil author.properties.profile_image)) (
+		(# Add the author to the list)
+		(var author_hash (hash))
+
+		(if (fields.contains "authors.uuid") (var author_hash.uuid author.uuid))
+		(if (fields.contains "authors.first_name") (var author_hash.first_name author.properties.first_name))
+		(if (fields.contains "authors.last_name") (var author_hash.last_name author.properties.last_name))
+		(if (fields.contains "authors.website_url") (var author_hash.website_url author.properties.website_url))
+		(if (fields.contains "authors.facebook_username") (var author_hash.facebook_username author.properties.facebook_username))
+		(if (fields.contains "authors.instagram_username") (var author_hash.instagram_username author.properties.instagram_username))
+		(if (fields.contains "authors.twitter_username") (var author_hash.twitter_username author.properties.twitter_username))
+		(if (fields.contains "authors.profile_image_blurhash") (var author_hash.profile_image_blurhash author.properties.profile_image_blurhash))
+
+		(authors.push author_hash)
 
 		(# Check if the limit is reached)
 		(if (authors.length >= limit) (break))

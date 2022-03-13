@@ -12,7 +12,10 @@ describe("GetLatestAuthors endpoint", () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getLatestAuthorsEndpointUrl
+				url: getLatestAuthorsEndpointUrl,
+				params: {
+					fields: "*"
+				}
 			})
 		} catch (error) {
 			assert.fail()
@@ -25,20 +28,19 @@ describe("GetLatestAuthors endpoint", () => {
 		}
 		authors = authors.reverse()
 
-		assert.equal(200, response.status)
-		assert.equal(authors.length, response.data.authors.length)
+		assert.equal(response.status, 200)
+		assert.equal(response.data.authors.length, authors.length)
 
 		let i = 0
 		for (let author of response.data.authors) {
-			assert.equal(authors[i].uuid, author.uuid)
-			assert.equal(authors[i].firstName, author.first_name)
-			assert.equal(authors[i].lastName, author.last_name)
-			assert.equal(authors[i].websiteUrl, author.website_url)
-			assert.equal(authors[i].facebookUsername, author.facebook_username)
-			assert.equal(authors[i].instagramUsername, author.instagram_username)
-			assert.equal(authors[i].twitterUsername, author.twitter_username)
-			assert.equal(authors[i].profileImage != null, author.profile_image)
-			assert.equal(authors[i].profileImageBlurhash, author.profile_image_blurhash)
+			assert.equal(author.uuid, authors[i].uuid)
+			assert.equal(author.first_name, authors[i].firstName)
+			assert.equal(author.last_name, authors[i].lastName)
+			assert.equal(author.website_url, authors[i].websiteUrl)
+			assert.equal(author.facebook_username, authors[i].facebookUsername)
+			assert.equal(author.instagram_username, authors[i].instagramUsername)
+			assert.equal(author.twitter_username, authors[i].twitterUsername)
+			assert.equal(author.profile_image_blurhash, authors[i].profileImageBlurhash)
 
 			i++
 		}
@@ -52,6 +54,7 @@ describe("GetLatestAuthors endpoint", () => {
 				method: 'get',
 				url: getLatestAuthorsEndpointUrl,
 				params: {
+					fields: "*",
 					limit: 1
 				}
 			})
@@ -64,21 +67,20 @@ describe("GetLatestAuthors endpoint", () => {
 		for (let author of constants.davUser.authors) {
 			if (author.profileImage) authors.push(author)
 		}
-		
+
 		let author = authors.pop()
 
-		assert.equal(200, response.status)
-		assert.equal(1, response.data.authors.length)
+		assert.equal(response.status, 200)
+		assert.equal(response.data.authors.length, 1)
 
 		let responseAuthor = response.data.authors.pop()
-		assert.equal(author.uuid, responseAuthor.uuid)
-		assert.equal(author.firstName, responseAuthor.first_name)
-		assert.equal(author.lastName, responseAuthor.last_name)
-		assert.equal(author.websiteUrl, responseAuthor.website_url)
-		assert.equal(author.facebookUsername, responseAuthor.facebook_username)
-		assert.equal(author.instagramUsername, responseAuthor.instagram_username)
-		assert.equal(author.twitterUsername, responseAuthor.twitter_username)
-		assert.equal(author.profileImage != null, responseAuthor.profile_image)
-		assert.equal(author.profileImageBlurhash, responseAuthor.profile_image_blurhash)
+		assert.equal(responseAuthor.uuid, author.uuid)
+		assert.equal(responseAuthor.first_name, author.firstName)
+		assert.equal(responseAuthor.last_name, author.lastName)
+		assert.equal(responseAuthor.website_url, author.websiteUrl)
+		assert.equal(responseAuthor.facebook_username, author.facebookUsername)
+		assert.equal(responseAuthor.instagram_username, author.instagramUsername)
+		assert.equal(responseAuthor.twitter_username, author.twitterUsername)
+		assert.equal(responseAuthor.profile_image_blurhash, author.profileImageBlurhash)
 	})
 })
