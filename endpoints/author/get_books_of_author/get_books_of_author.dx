@@ -1,0 +1,81 @@
+(# Get the params)
+(var uuid (get_param "uuid"))
+(var fields_str (get_param "fields"))
+(var languages (get_param "languages"))
+
+(if (is_nil fields_str) (
+	(var fields (list "books.uuid"))
+) elseif (fields_str == "*") (
+	(var fields (list "books.uuid" "books.title" "books.description" "books.language" "books.cover_aspect_ratio" "books.cover_blurhash"))
+) else (
+	(# Process the fields string)
+	(var fields (func process_fields (fields_str)))
+))
+
+(var language_list (list))
+
+(# Get the languages)
+(if (is_nil languages) (
+	(language_list.push "en")
+) else (
+	(# Read the languages string and add the languages to the list)
+	(for language in (languages.split ",") (
+		(# Validate the languages)
+		(func render_validation_errors ((list
+			(func validate_language_supported (language))
+		)))
+
+		(language_list.push language)
+	))
+))
+
+(# Get the author)
+(var author (func get_table_object (uuid (get_env "AUTHOR_TABLE_ID"))))
+
+(if (is_nil author) (
+	(# Author does not exist)
+	(func render_validation_errors ((list (hash (error (get_error 3503)) (status 404)))))
+))
+
+(# Get all store books of the author)
+(var books (list))
+
+(# Get the collection of the author)
+(var collection_table_objects (TableObject.find_by_property author.user_id (get_env "STORE_BOOK_COLLECTION_TABLE_ID") "author" author.uuid))
+
+(for collection_table_object in collection_table_objects (
+	(var store_book_uuids (
+		(if (is_nil collection_table_object.properties.books) (
+			(list)
+		) else (
+			(collection_table_object.properties.books.split ",")
+		))
+	))
+
+	(for uuid in store_book_uuids (
+		(var store_book (func get_table_object (uuid (get_env "STORE_BOOK_TABLE_ID"))))
+		(if (is_nil store_book) (continue))
+
+		(if ((store_book.properties.status == "published") and (language_list.contains store_book.properties.language)) (
+			(var store_book_release (func get_last_release_of_store_book (store_book)))
+			(if (is_nil store_book_release) (continue))
+
+			(var cover_item (func get_table_object (store_book_release.properties.cover_item (get_env "STORE_BOOK_COVER_ITEM_TABLE_ID"))))
+			(if (is_nil cover_item) (continue))
+
+			(var book_hash (hash))
+
+			(if (fields.contains "books.uuid") (var book_hash.uuid store_book.uuid))
+			(if (fields.contains "books.title") (var book_hash.title store_book_release.properties.title))
+			(if (fields.contains "books.description") (var book_hash.description store_book_release.properties.description))
+			(if (fields.contains "books.language") (var book_hash.language store_book.properties.language))
+			(if (fields.contains "books.cover_aspect_ratio") (var book_hash.cover_aspect_ratio cover_item.properties.aspect_ratio))
+			(if (fields.contains "books.cover_blurhash") (var book_hash.cover_blurhash cover_item.properties.blurhash))
+
+			(books.push book_hash)
+		))
+	))
+))
+
+(# Render the result)
+(render_json (hash (books books)) 200)

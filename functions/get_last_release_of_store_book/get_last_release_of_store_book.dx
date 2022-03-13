@@ -1,0 +1,6 @@
+(# params: store_book: TableObject)
+(var releases_str store_book.properties.releases)
+(if ((is_nil releases_str) or (releases_str.length == 0)) (return nil))
+
+(var releases (releases_str.split ","))
+(return (func get_table_object ((releases.pop) (get_env "STORE_BOOK_RELEASE_TABLE_ID"))))
