@@ -18,17 +18,17 @@ describe("GetCategories endpoint", async () => {
 			assert.fail()
 		}
 
-		assert.equal(200, response.status)
+		assert.equal(response.status, 200)
 
 		let i = 0
 		for (let category of constants.categories) {
-			assert.equal(category.uuid, response.data.categories[i].uuid)
-			assert.equal(category.key, response.data.categories[i].key)
+			assert.equal(response.data.categories[i].uuid, category.uuid)
+			assert.equal(response.data.categories[i].key, category.key)
 
 			let j = 0
 			for (let categoryName of category.names) {
-				assert.equal(categoryName.name, response.data.categories[i].names[j].name)
-				assert.equal(categoryName.language, response.data.categories[i].names[j].language)
+				assert.equal(response.data.categories[i].names[j].name, categoryName.name)
+				assert.equal(response.data.categories[i].names[j].language, categoryName.language)
 
 				j++
 			}

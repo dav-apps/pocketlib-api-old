@@ -28,9 +28,9 @@ describe("SetCategoryName endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(401, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.AuthorizationHeaderMissing, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 401)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.AuthorizationHeaderMissing)
 			return
 		}
 
@@ -48,9 +48,9 @@ describe("SetCategoryName endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(404, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.SessionDoesNotExist, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 404)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.SessionDoesNotExist)
 			return
 		}
 
@@ -68,9 +68,9 @@ describe("SetCategoryName endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(415, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ContentTypeNotSupported, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 415)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ContentTypeNotSupported)
 			return
 		}
 
@@ -88,9 +88,9 @@ describe("SetCategoryName endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(403, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 403)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
 			return
 		}
 
@@ -108,9 +108,9 @@ describe("SetCategoryName endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(403, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 403)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
 			return
 		}
 
@@ -128,9 +128,9 @@ describe("SetCategoryName endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.NameMissing, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.NameMissing)
 			return
 		}
 
@@ -151,9 +151,9 @@ describe("SetCategoryName endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.NameWrongType, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.NameWrongType)
 			return
 		}
 
@@ -174,9 +174,9 @@ describe("SetCategoryName endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.NameTooShort, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.NameTooShort)
 			return
 		}
 
@@ -197,9 +197,9 @@ describe("SetCategoryName endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.NameTooLong, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.NameTooLong)
 			return
 		}
 
@@ -220,9 +220,9 @@ describe("SetCategoryName endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.LanguageNotSupported, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.LanguageNotSupported)
 			return
 		}
 
@@ -255,9 +255,9 @@ describe("SetCategoryName endpoint", () => {
 			assert.fail()
 		}
 
-		assert.equal(200, response.status)
-		assert.equal(name, response.data.name)
-		assert.equal(language, response.data.language)
+		assert.equal(response.status, 200)
+		assert.equal(response.data.name, name)
+		assert.equal(response.data.language, language)
 
 		// Check if the data was correctly saved on the server
 		// Get the category table object
@@ -266,9 +266,7 @@ describe("SetCategoryName endpoint", () => {
 			uuid: category.uuid
 		})
 
-		if (categoryObjResponse.status != 200) {
-			assert.fail()
-		}
+		assert.equal(categoryObjResponse.status, 200)
 
 		let responseCategoryNames = categoryObjResponse.data.GetPropertyValue("names")
 		let responseCategoryNameUuids = responseCategoryNames.split(',')
@@ -278,8 +276,8 @@ describe("SetCategoryName endpoint", () => {
 		categoryNameUuids.push(responseCategoryNameUuids[responseCategoryNameUuids.length - 1])
 		let categoryNames = categoryNameUuids.join(',')
 
-		assert.equal(categoryNameUuids.length, responseCategoryNameUuids.length)
-		assert.equal(categoryNames, responseCategoryNames)
+		assert.equal(responseCategoryNameUuids.length, categoryNameUuids.length)
+		assert.equal(responseCategoryNames, categoryNames)
 
 		// Get the category name table object
 		let newCategoryNameUuid = responseCategoryNameUuids[responseCategoryNameUuids.length - 1]
@@ -289,13 +287,10 @@ describe("SetCategoryName endpoint", () => {
 			uuid: newCategoryNameUuid
 		})
 
-		if (categoryNameObjResponse.status != 200) {
-			assert.fail()
-		}
-
-		assert.equal(newCategoryNameUuid, categoryNameObjResponse.data.Uuid)
-		assert.equal(name, categoryNameObjResponse.data.GetPropertyValue("name"))
-		assert.equal(language, categoryNameObjResponse.data.GetPropertyValue("language"))
+		assert.equal(categoryNameObjResponse.status, 200)
+		assert.equal(categoryNameObjResponse.data.Uuid, newCategoryNameUuid)
+		assert.equal(categoryNameObjResponse.data.GetPropertyValue("name"), name)
+		assert.equal(categoryNameObjResponse.data.GetPropertyValue("language"), language)
 	})
 
 	it("should update category name", async () => {
@@ -325,9 +320,9 @@ describe("SetCategoryName endpoint", () => {
 			assert.fail()
 		}
 
-		assert.equal(200, response.status)
-		assert.equal(name, response.data.name)
-		assert.equal(language, response.data.language)
+		assert.equal(response.status, 200)
+		assert.equal(response.data.name, name)
+		assert.equal(response.data.language, language)
 
 		// Check if the data was correctly updated on the server
 		// Get the category
@@ -336,9 +331,7 @@ describe("SetCategoryName endpoint", () => {
 			uuid: category.uuid
 		})
 
-		if (categoryObjResponse.status != 200) {
-			assert.fail()
-		}
+		assert.equal(categoryObjResponse.status, 200)
 
 		let responseCategoryNames = categoryObjResponse.data.GetPropertyValue("names")
 		let responseCategoryNameUuids = responseCategoryNames.split(',')
@@ -347,8 +340,8 @@ describe("SetCategoryName endpoint", () => {
 		category.names.forEach(name => categoryNameUuids.push(name.uuid))
 		let categoryNames = categoryNameUuids.join(',')
 
-		assert.equal(categoryNameUuids.length, responseCategoryNameUuids.length)
-		assert.equal(categoryNames, responseCategoryNames)
+		assert.equal(responseCategoryNameUuids.length, categoryNameUuids.length)
+		assert.equal(responseCategoryNames, categoryNames)
 
 		// Get the category name table object
 		let categoryNameObjResponse = await TableObjectsController.GetTableObject({
@@ -356,12 +349,9 @@ describe("SetCategoryName endpoint", () => {
 			uuid: categoryNameUuid
 		})
 
-		if (categoryNameObjResponse.status != 200) {
-			assert.fail()
-		}
-
-		assert.equal(categoryNameUuid, categoryNameObjResponse.data.Uuid)
-		assert.equal(name, categoryNameObjResponse.data.GetPropertyValue("name"))
-		assert.equal(language, categoryNameObjResponse.data.GetPropertyValue("language"))
+		assert.equal(categoryNameObjResponse.status, 200)
+		assert.equal(categoryNameObjResponse.data.Uuid, categoryNameUuid)
+		assert.equal(categoryNameObjResponse.data.GetPropertyValue("name"), name)
+		assert.equal(categoryNameObjResponse.data.GetPropertyValue("language"), language)
 	})
 })
