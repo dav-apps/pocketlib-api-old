@@ -61,5 +61,4 @@
 (render_json (hash
 	(uuid category.uuid)
 	(key category.properties.key)
-	(names (list))
 ) 201)

@@ -27,9 +27,9 @@ describe("CreateCategory endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(401, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.AuthorizationHeaderMissing, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 401)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.AuthorizationHeaderMissing)
 			return
 		}
 
@@ -47,9 +47,9 @@ describe("CreateCategory endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(404, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.SessionDoesNotExist, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 404)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.SessionDoesNotExist)
 			return
 		}
 
@@ -66,9 +66,9 @@ describe("CreateCategory endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(415, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ContentTypeNotSupported, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 415)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ContentTypeNotSupported)
 			return
 		}
 
@@ -86,9 +86,9 @@ describe("CreateCategory endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(403, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 403)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
 			return
 		}
 
@@ -109,9 +109,9 @@ describe("CreateCategory endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(403, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 403)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
 			return
 		}
 
@@ -129,9 +129,9 @@ describe("CreateCategory endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.KeyMissing, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.KeyMissing)
 			return
 		}
 
@@ -152,9 +152,9 @@ describe("CreateCategory endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.KeyWrongType, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.KeyWrongType)
 			return
 		}
 
@@ -175,9 +175,9 @@ describe("CreateCategory endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.KeyTooShort, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.KeyTooShort)
 			return
 		}
 
@@ -198,9 +198,9 @@ describe("CreateCategory endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.KeyTooLong, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.KeyTooLong)
 			return
 		}
 
@@ -221,9 +221,9 @@ describe("CreateCategory endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.KeyInvalid, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.KeyInvalid)
 			return
 		}
 
@@ -244,9 +244,9 @@ describe("CreateCategory endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(422, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.KeyAlreadyInUse, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 422)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.KeyAlreadyInUse)
 			return
 		}
 
@@ -275,10 +275,9 @@ describe("CreateCategory endpoint", () => {
 			assert.fail()
 		}
 
-		assert.equal(201, response.status)
-		assert(response.data.uuid != null)
-		assert.equal(key, response.data.key)
-		assert.equal(0, response.data.names)
+		assert.equal(response.status, 201)
+		assert.isNotNull(response.data.uuid)
+		assert.equal(response.data.key, key)
 
 		// Check if the data was correctly saved on the server
 		// Get the Category table object
@@ -287,11 +286,8 @@ describe("CreateCategory endpoint", () => {
 			uuid: response.data.uuid
 		})
 
-		if (categoryObjResponse.status != 200) {
-			assert.fail()
-		}
-
-		assert.equal(key, categoryObjResponse.data.GetPropertyValue("key"))
-		assert.equal(null, categoryObjResponse.data.GetPropertyValue("names"))
+		assert.equal(categoryObjResponse.status, 200)
+		assert.equal(categoryObjResponse.data.GetPropertyValue("key"), key)
+		assert.isNull(categoryObjResponse.data.GetPropertyValue("names"))
 	})
 })
