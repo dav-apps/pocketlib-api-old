@@ -37,6 +37,22 @@
 	(func render_validation_errors ((list (hash (error (get_error 3508)) (status 404)))))
 ))
 
+(# Get the latest store book release)
+(var store_book_release (func get_last_release_of_store_book (store_book)))
+
+(if (is_nil store_book_release) (
+	(# StoreBookRelease does not exist)
+	(func render_validation_errors ((list (hash (error (get_error 3516)) (status 404)))))
+))
+
+(# Get the table object of the store book file)
+(var file_item_obj (func get_table_object (store_book_release.properties.file_item (get_env "STORE_BOOK_FILE_ITEM_TABLE_ID"))))
+
+(if (is_nil file_item_obj) (
+	(# StoreBookFileItem does not exist)
+	(func render_validation_errors ((list (hash (error (get_error 3518)) (status 404)))))
+))
+
 (# Check if the user already purchased the store book)
 (if (func has_user_purchased_table_object (session.user_id store_book.id)) (
 	(func render_validation_errors ((list (hash (error (get_error 3009)) (status 422)))))
@@ -100,11 +116,11 @@
 	session.user_id
 	(author.properties.first_name + " " + author.properties.last_name)
 	((get_env "API_BASE_URL") + "/author/" + author.uuid + "/profile_image")
-	store_book.properties.title
+	store_book_release.properties.title
 	((get_env "API_BASE_URL") + "/store/book/" + store_book.uuid + "/cover")
 	price
 	currency
-	(list store_book.uuid store_book.properties.file)
+	(list store_book.uuid file_item_obj.properties.file)
 )))
 
 (# Render the result)

@@ -28,9 +28,9 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(401, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.AuthorizationHeaderMissing, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 401)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.AuthorizationHeaderMissing)
 			return
 		}
 
@@ -51,9 +51,9 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(404, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.SessionDoesNotExist, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 404)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.SessionDoesNotExist)
 			return
 		}
 
@@ -70,9 +70,9 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(415, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ContentTypeNotSupported, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 415)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ContentTypeNotSupported)
 			return
 		}
 
@@ -90,9 +90,9 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(403, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 403)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
 			return
 		}
 
@@ -110,9 +110,9 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.CurrencyMissing, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.CurrencyMissing)
 			return
 		}
 
@@ -133,9 +133,9 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.CurrencyWrongType, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.CurrencyWrongType)
 			return
 		}
 
@@ -156,9 +156,9 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(404, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.StoreBookDoesNotExist, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 404)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.StoreBookDoesNotExist)
 			return
 		}
 
@@ -179,9 +179,9 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(422, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.UserAlreadyPurchasedThisStoreBook, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 422)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.UserAlreadyPurchasedThisStoreBook)
 			return
 		}
 
@@ -202,9 +202,9 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(403, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 403)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
 			return
 		}
 
@@ -225,9 +225,9 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(404, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.TableObjectPriceDoesNotExist, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 404)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.TableObjectPriceDoesNotExist)
 			return
 		}
 
@@ -248,9 +248,9 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(412, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.UserOfStoreBookMustHaveProvider, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 412)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.UserOfStoreBookMustHaveProvider)
 			return
 		}
 
@@ -278,16 +278,16 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 			assert.fail()
 		}
 
-		assert.equal(201, response.status)
-		assert.equal(constants.klausUser.id, response.data.user_id)
+		assert.equal(response.status, 201)
+		assert.equal(response.data.user_id, constants.klausUser.id)
 		assert.isNotNull(response.data.uuid)
 		assert.isNotNull(response.data.payment_intent)
-		assert.equal(`${author.firstName} ${author.lastName}`, response.data.provider_name)
-		assert.equal(`${constants.apiBaseUrl}/author/${author.uuid}/profile_image`, response.data.provider_image)
-		assert.equal(storeBook.title, response.data.product_name)
-		assert.equal(`${constants.apiBaseUrl}/store/book/${storeBook.uuid}/cover`, response.data.product_image)
-		assert.equal(storeBook.price, response.data.price)
-		assert.equal("eur", response.data.currency)
+		assert.equal(response.data.provider_name, `${author.firstName} ${author.lastName}`)
+		assert.equal(response.data.provider_image, `${constants.apiBaseUrl}/author/${author.uuid}/profile_image`)
+		assert.equal(response.data.product_name, storeBook.releases[0].title)
+		assert.equal(response.data.product_image, `${constants.apiBaseUrl}/store/book/${storeBook.uuid}/cover`)
+		assert.equal(response.data.price, storeBook.price)
+		assert.equal(response.data.currency, "eur")
 		assert.isFalse(response.data.completed)
 
 		purchasesToRemove.push({
@@ -301,17 +301,17 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 			uuid: response.data.uuid
 		})
 
-		assert.equal(200, purchaseResponse.status)
-		assert.equal(response.data.id, purchaseResponse.data.Id)
-		assert.equal(response.data.user_id, purchaseResponse.data.UserId)
-		assert.equal(response.data.payment_intent_id, purchaseResponse.data.PaymentIntentId)
-		assert.equal(response.data.provider_name, purchaseResponse.data.ProviderName)
-		assert.equal(response.data.provider_image, purchaseResponse.data.ProviderImage)
-		assert.equal(response.data.product_name, purchaseResponse.data.ProductName)
-		assert.equal(response.data.product_image, purchaseResponse.data.ProductImage)
-		assert.equal(response.data.price, purchaseResponse.data.Price)
-		assert.equal(response.data.currency, purchaseResponse.data.Currency)
-		assert.equal(response.data.completed, purchaseResponse.data.Completed)
+		assert.equal(purchaseResponse.status, 200)
+		assert.equal(purchaseResponse.data.Id, response.data.id)
+		assert.equal(purchaseResponse.data.UserId, response.data.user_id)
+		assert.equal(purchaseResponse.data.PaymentIntentId, response.data.payment_intent_id)
+		assert.equal(purchaseResponse.data.ProviderName, response.data.provider_name)
+		assert.equal(purchaseResponse.data.ProviderImage, response.data.provider_image)
+		assert.equal(purchaseResponse.data.ProductName, response.data.product_name)
+		assert.equal(purchaseResponse.data.ProductImage, response.data.product_image)
+		assert.equal(purchaseResponse.data.Price, response.data.price)
+		assert.equal(purchaseResponse.data.Currency, response.data.currency)
+		assert.equal(purchaseResponse.data.Completed, response.data.completed)
 	})
 
 	it("should create purchase for own store book", async () => {
@@ -335,16 +335,16 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 			assert.fail()
 		}
 
-		assert.equal(201, response.status)
-		assert.equal(constants.authorUser.id, response.data.user_id)
+		assert.equal(response.status, 201)
+		assert.equal(response.data.user_id, constants.authorUser.id)
 		assert.isNotNull(response.data.uuid)
 		assert.isNull(response.data.payment_intent_id)
-		assert.equal(`${author.firstName} ${author.lastName}`, response.data.provider_name)
-		assert.equal(`${constants.apiBaseUrl}/author/${author.uuid}/profile_image`, response.data.provider_image)
-		assert.equal(storeBook.title, response.data.product_name)
-		assert.equal(`${constants.apiBaseUrl}/store/book/${storeBook.uuid}/cover`, response.data.product_image)
-		assert.equal(0, response.data.price)
-		assert.equal("eur", response.data.currency)
+		assert.equal(response.data.provider_name, `${author.firstName} ${author.lastName}`)
+		assert.equal(response.data.provider_image, `${constants.apiBaseUrl}/author/${author.uuid}/profile_image`)
+		assert.equal(response.data.product_name, storeBook.releases[0].title)
+		assert.equal(response.data.product_image, `${constants.apiBaseUrl}/store/book/${storeBook.uuid}/cover`)
+		assert.equal(response.data.price, 0)
+		assert.equal(response.data.currency, "eur")
 		assert.isTrue(response.data.completed)
 
 		purchasesToRemove.push({
@@ -358,16 +358,16 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 			uuid: response.data.uuid
 		})
 
-		assert.equal(200, purchaseResponse.status)
-		assert.equal(response.data.id, purchaseResponse.data.Id)
-		assert.equal(response.data.user_id, purchaseResponse.data.UserId)
-		assert.equal(response.data.payment_intent_id, purchaseResponse.data.PaymentIntentId)
-		assert.equal(response.data.provider_name, purchaseResponse.data.ProviderName)
-		assert.equal(response.data.provider_image, purchaseResponse.data.ProviderImage)
-		assert.equal(response.data.product_name, purchaseResponse.data.ProductName)
-		assert.equal(response.data.product_image, purchaseResponse.data.ProductImage)
-		assert.equal(response.data.price, purchaseResponse.data.Price)
-		assert.equal(response.data.currency, purchaseResponse.data.Currency)
-		assert.equal(response.data.completed, purchaseResponse.data.Completed)
+		assert.equal(purchaseResponse.status, 200)
+		assert.equal(purchaseResponse.data.Id, response.data.id)
+		assert.equal(purchaseResponse.data.UserId, response.data.user_id)
+		assert.equal(purchaseResponse.data.PaymentIntentId, response.data.payment_intent_id)
+		assert.equal(purchaseResponse.data.ProviderName, response.data.provider_name)
+		assert.equal(purchaseResponse.data.ProviderImage, response.data.provider_image)
+		assert.equal(purchaseResponse.data.ProductName, response.data.product_name)
+		assert.equal(purchaseResponse.data.ProductImage, response.data.product_image)
+		assert.equal(purchaseResponse.data.Price, response.data.price)
+		assert.equal(purchaseResponse.data.Currency, response.data.currency)
+		assert.equal(purchaseResponse.data.Completed, response.data.completed)
 	})
 })
