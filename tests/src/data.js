@@ -274,9 +274,17 @@ function addStoreBookToTableObjects(storeBook, userId, collectionUuid) {
 		properties: {
 			collection: collectionUuid,
 			language: storeBook.language,
+			price: storeBook.price ? storeBook.price.toString() : "",
+			isbn: storeBook.isbn ? storeBook.isbn : "",
 			status: storeBook.status ? storeBook.status : "",
-			current_release: storeBook.currentRelease ? storeBook.currentRelease : "",
 			releases: releases.join(',')
+		}
+	}
+
+	if (storeBook.price != null) {
+		tableObject.price = {
+			price: storeBook.price,
+			currency: "eur"
 		}
 	}
 
@@ -293,18 +301,9 @@ function addStoreBookReleaseToTableObjects(storeBookRelease, userId, storeBookUu
 			store_book: storeBookUuid,
 			title: storeBookRelease.title,
 			description: storeBookRelease.description,
-			price: storeBookRelease.price ? storeBookRelease.price.toString() : "",
-			isbn: storeBookRelease.isbn ? storeBookRelease.isbn : "",
 			cover_item: storeBookRelease.coverItem ? storeBookRelease.coverItem.uuid : "",
 			file_item: storeBookRelease.fileItem ? storeBookRelease.fileItem.uuid : "",
 			categories: storeBookRelease.categories ? storeBookRelease.categories.join(',') : ""
-		}
-	}
-
-	if (storeBookRelease.price != null) {
-		tableObject.price = {
-			price: storeBookRelease.price,
-			currency: "eur"
 		}
 	}
 

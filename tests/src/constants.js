@@ -67,14 +67,14 @@ let constants = {
 						{
 							uuid: "1cf6fc5f-8fa5-4972-895d-8b1d6552d41c",
 							language: "en",
+							price: 1399,
+							isbn: "9780064407663",
 							status: "review",
 							releases: [
 								{
 									uuid: "f1ea042a-46da-4a4b-911e-733d1f84b335",
 									title: "A Series of Unfortunate Events - Book the First",
 									description: "Dear Reader, I'm sorry to say that the book you are holding in your hands is extremely unpleasant. It tells an unhappy tale about three very unlucky children.",
-									price: 1399,
-									isbn: "9780064407663",
 									coverItem: {
 										uuid: "bf3b23fb-dd1e-4c7a-a526-6d997765e77e",
 										aspectRatio: "1:1.42377",
@@ -104,13 +104,13 @@ let constants = {
 						{
 							uuid: "4df158a0-2157-4370-abac-dd3c25ca9ed3",
 							language: "de",
+							isbn: "3442545790",
 							status: "hidden",
 							releases: [
 								{
 									uuid: "fd80ef43-ecd9-4002-afc4-77f4762b49cc",
 									title: "Eine Reihe betrüblicher Ereignisse - Der schreckliche Anfang",
 									description: "Lieber Leser, es tut mir sehr Leid, aber das Buch, das du gerade in Händen hältst, ist außerordentlich unerfreulich. Es erzählt die traurige Geschichte von drei sehr bedauernswerten Kindern.",
-									isbn: "3442545790",
 									coverItem: {
 										uuid: "22699239-8326-4508-9b9b-07178a228bba",
 										aspectRatio: "1:1.4073",
@@ -157,13 +157,13 @@ let constants = {
 						{
 							uuid: "5242102c-b107-4e82-8eb8-bebe2a990436",
 							language: "en",
+							isbn: "9780064407670",
 							status: "unpublished",
 							releases: [
 								{
 									uuid: "7f5a550a-34dc-41ea-b71a-a36c625e8c05",
 									title: "A Series of Unfortunate Events - Book the Second",
 									description: "Dear Reader, if you have picked up this book with the hope of finding a simple and cheery tale, I'm afraid you have picked up the wrong book altogether.",
-									isbn: "9780064407670",
 									coverItem: {
 										uuid: "9f3549bc-c0da-4301-8346-65d6164fbe38",
 										aspectRatio: "1:1.67151",
@@ -193,14 +193,14 @@ let constants = {
 						{
 							uuid: "617833c8-4d0a-4d78-acd0-306a90e346ba",
 							language: "de",
+							price: 2000,
+							isbn: "3442545803",
 							status: "published",
 							releases: [
 								{
 									uuid: "ffa4d644-4d2a-4a17-8d52-d2e26181d35c",
 									title: "Eine Reihe betrüblicher Ereignisse - Das Haus der Schlangen",
 									description: "Lieber Leser, wenn du dieses Buch zur Hand genommen hast in der Hoffnung, darin Zerstreuung und Vergnügen zu finden, dann liegst du leider völlig falsch.",
-									price: 2000,
-									isbn: "3442545803",
 									coverItem: {
 										uuid: "d9aaf019-b602-44a7-86ff-f39ec66ac8ae",
 										aspectRatio: "1:1.49701",
@@ -255,13 +255,13 @@ let constants = {
 						{
 							uuid: "2fd1beed-da6f-46c8-8631-a7931dda2ef2",
 							language: "de",
+							isbn: "3442545811",
 							status: "published",
 							releases: [
 								{
 									uuid: "c46d5cd6-4555-4012-aa0d-56d4d0f53fcc",
 									title: "Eine Reihe betrüblicher Ereignisse - Der Seufzersee",
 									description: "Lieber Leser, wenn du noch nie etwas von den Baudelaire-Kindern gehört hast, dann solltest du, bevor du auch nur eine einzige Zeile liest, Folgendes wissen: Violet, Klaus und Sunny sind nett, charmant und klug, aber ihr Leben - leider, leider - strotzt nur so vor Elend und Unheil.",
-									isbn: "3442545811",
 									coverItem: {
 										uuid: "4fbcc890-03c1-4fcd-9e38-89c725be1bf0",
 										aspectRatio: "1:1.49701",
@@ -303,14 +303,14 @@ let constants = {
 						{
 							uuid: "d0ca384f-9d8e-4a56-b2e1-c76a0a5cac4b",
 							language: "en",
+							price: 3500,
+							isbn: "9780064407694",
 							status: "published",
 							releases: [
 								{
 									uuid: "81d40349-0d9c-4167-b87b-94432090c1de",
 									title: "A Series of Unfortunate Events - Book the Fourth",
 									description: "Dear Reader, I hope, for your sake, that you have not chosen to read this book because you are in the mood for a pleasant experience. If this is the case, I advise you to put this book down instantaneously, because of all the books describing the unhappy lives of the Baudelaire orphans, THE MISERABLE MILL might be the unhappiest yet.",
-									price: 3500,
-									isbn: "9780064407694",
 									coverItem: {
 										uuid: "78182c23-faa0-4950-9011-e0a0d724fa4a",
 										aspectRatio: "1:1.41224",
@@ -352,14 +352,14 @@ let constants = {
 						{
 							uuid: "d59bdd46-428d-412d-964b-0c57b41df478",
 							language: "en",
+							price: 0,
+							isbn: "9780064408639",
 							status: "published",
 							releases: [
 								{
 									uuid: "4238eb86-9da3-4343-a8f0-94ea5c71130e",
 									title: "A Series of Unfortunate Events - Book the Fifth",
 									description: "Dear Reader, if you are looking for a story about cheerful youngsters spending a jolly time at boarding school, look elsewhere. Violet, Klaus and Sunny Baudelaire are intelligent and resourceful children, and you might expect that they would do very well at school. Don't. For the Baudelaires, school turns out to be another miserable episode in their unlucky lives.",
-									price: 0,
-									isbn: "9780064408639",
 									coverItem: {
 										uuid: "86ffda0f-0622-41b7-8fc5-0b98f6db5e98",
 										aspectRatio: "1:1.41509",
@@ -451,13 +451,13 @@ let constants = {
 							{
 								uuid: "b0e4b01d-d53d-47b5-b5e4-48ea7bab6619",
 								language: "en",
+								price: 1000,
 								status: "published",
 								releases: [
 									{
 										uuid: "2e5bc1b6-747f-478b-8d6b-e94ca5c5757a",
 										title: "1984",
 										description: "Orwell's novel about the destruction of man by a perfect state machinery has long since become a metaphor for totalitarian conditions that no longer seems in need of explanation.",
-										price: 1000,
 										coverItem: {
 											uuid: "bac664ad-f5f4-464d-bf0f-bbf4b126e880",
 											aspectRatio: "1:1.44105",
@@ -486,13 +486,13 @@ let constants = {
 							{
 								uuid: "5aa1c310-cbc6-48b4-9000-63315e713d25",
 								language: "de",
+								isbn: "9783548234106",
 								status: "review",
 								releases: [
 									{
 										uuid: "43708a0f-d06b-4733-850a-4bd22e5f4ac4",
 										title: "1984",
 										description: "Orwells Roman über die Zerstörung des Menschen durch eine perfekte Staatsmaschinerie ist längst zu einer scheinbar nicht mehr erklärungsbedürftigen Metapher für totalitäre Verhältnisse geworden.",
-										isbn: "9783548234106",
 										fileItem: {
 											uuid: "420fc2a1-d0f3-4770-8e60-c6da3b3b0985",
 											fileName: "1984.epub",
@@ -556,12 +556,12 @@ let constants = {
 							{
 								uuid: "f27a4472-d3f8-4310-9f76-156af7c03c43",
 								language: "de",
+								isbn: "3257201184",
 								releases: [
 									{
 										uuid: "d425b3b5-3fad-45bb-808d-50fe797a3de0",
 										title: "Farm der Tiere",
 										description: "Farm der Tiere ist eine allegorische Novelle von George Orwell, die erstmals am 17. August 1945 in England veröffentlicht wurde. Das Buch erzählt die Geschichte einer Gruppe von Nutztieren, die sich gegen ihren menschlichen Bauern auflehnen, in der Hoffnung, eine Gesellschaft zu schaffen, in der die Tiere gleichberechtigt, frei und glücklich sein können.",
-										isbn: "3257201184",
 										fileItem: {
 											uuid: "4a7a2328-4522-4d06-ab45-a3cc4e502348",
 											fileName: "Farm der Tiere.epub",
@@ -577,13 +577,13 @@ let constants = {
 							{
 								uuid: "ba96f327-f096-4408-8bd0-620f9aad3f09",
 								language: "fr",
+								price: 0,
 								status: "published",
 								releases: [
 									{
 										uuid: "d978c438-0711-439e-b12d-6549a5842851",
 										title: "La Ferme des animaux",
 										description: "La Ferme des animaux est un roman allégorique de George Orwell, publié pour la première fois en Angleterre le 17 août 1945. Le livre raconte l'histoire d'un groupe d'animaux de ferme qui se rebellent contre leur éleveur humain dans l'espoir de créer une société dans laquelle les animaux peuvent être égaux, libres et heureux.",
-										price: 0,
 										coverItem: {
 											uuid: "0091cc8d-7883-4019-8c2e-1d4fb092b950",
 											aspectRatio: "1:1.59309",
@@ -650,13 +650,13 @@ let constants = {
 							{
 								uuid: "fc5e9938-1fbf-420e-9d11-7143dd7d42f1",
 								language: "en",
+								price: 1200,
 								status: "published",
 								releases: [
 									{
 										uuid: "1c9dfe5e-1de0-47fc-bb42-afd258e8d414",
 										title: "The Life and Adventures of Robinson Crusoe",
-										description: "Robinson Crusoe is one of the most popular books ever written in the English language, published in innumerable editions and translated into almost every language of the world, not to mention the many versions created in film, television and even radio.",
-										price: 1200
+										description: "Robinson Crusoe is one of the most popular books ever written in the English language, published in innumerable editions and translated into almost every language of the world, not to mention the many versions created in film, television and even radio."
 									}
 								],
 								categories: [
@@ -678,13 +678,13 @@ let constants = {
 							{
 								uuid: "36561f01-0523-4dbe-9bf3-2fb8a208e8f6",
 								language: "en",
+								price: 1200,
 								status: "published",
 								releases: [
 									{
 										uuid: "335f6812-f897-4fbe-a385-17b4425f1394",
 										title: "The Further Adventures of Robinson Crusoe",
-										description: "After his return from an uninhabited island, Robinson Crusoe marries and starts a family. Despite his comfortable life in England, he has an intense desire to go back to sea.",
-										price: 1200
+										description: "After his return from an uninhabited island, Robinson Crusoe marries and starts a family. Despite his comfortable life in England, he has an intense desire to go back to sea."
 									}
 								],
 								categories: [
