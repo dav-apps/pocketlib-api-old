@@ -29,9 +29,9 @@ describe("SetProfileImageOfAuthorOfUser endpoint", () => {
 				url: setProfileImageOfAuthorOfUserEndpointUrl
 			})
 		} catch (error) {
-			assert.equal(401, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.AuthorizationHeaderMissing, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 401)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.AuthorizationHeaderMissing)
 			return
 		}
 
@@ -49,9 +49,9 @@ describe("SetProfileImageOfAuthorOfUser endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(404, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.SessionDoesNotExist, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 404)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.SessionDoesNotExist)
 			return
 		}
 
@@ -69,9 +69,9 @@ describe("SetProfileImageOfAuthorOfUser endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(403, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 403)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
 			return
 		}
 
@@ -89,9 +89,9 @@ describe("SetProfileImageOfAuthorOfUser endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(415, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ContentTypeNotSupported, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 415)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ContentTypeNotSupported)
 			return
 		}
 
@@ -109,9 +109,9 @@ describe("SetProfileImageOfAuthorOfUser endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.UserIsNotAuthor, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.UserIsNotAuthor)
 			return
 		}
 
@@ -129,9 +129,9 @@ describe("SetProfileImageOfAuthorOfUser endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(403, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 403)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
 			return
 		}
 
@@ -149,13 +149,11 @@ describe("SetProfileImageOfAuthorOfUser endpoint", () => {
 			uuid: author.uuid
 		})
 
-		if (getAuthorObjResponse.status != 200) {
-			assert.fail()
-		}
+		assert.equal(getAuthorObjResponse.status, 200)
 
 		// The author should have a profile image but no profile image blurhash
-		assert.equal(author.profileImage.uuid, getAuthorObjResponse.data.GetPropertyValue("profile_image"))
-		assert.equal(author.profileImageBlurhash, getAuthorObjResponse.data.GetPropertyValue("profile_image_blurhash"))
+		assert.equal(getAuthorObjResponse.data.GetPropertyValue("profile_image"), author.profileImage.uuid)
+		assert.equal(getAuthorObjResponse.data.GetPropertyValue("profile_image_blurhash"), author.profileImageBlurhash)
 
 		// Remove the profile image uuid from the author table object
 		let updateAuthorObjResponse = await TableObjectsController.UpdateTableObject({
@@ -167,13 +165,11 @@ describe("SetProfileImageOfAuthorOfUser endpoint", () => {
 			}
 		})
 
-		if (updateAuthorObjResponse.status != 200) {
-			assert.fail()
-		}
+		assert.equal(updateAuthorObjResponse.status, 200)
 
 		// The author now should not have a profile image
 		assert.isNull(updateAuthorObjResponse.data.GetPropertyValue("profile_image"))
-		assert.equal(null, updateAuthorObjResponse.data.GetPropertyValue("profile_image_blurhash"))
+		assert.isNull(updateAuthorObjResponse.data.GetPropertyValue("profile_image_blurhash"))
 
 		// Upload the profile image (1)
 		let filePath = path.resolve(__dirname, '../files/cover.png')
@@ -201,9 +197,7 @@ describe("SetProfileImageOfAuthorOfUser endpoint", () => {
 			uuid: author.uuid
 		})
 
-		if (getAuthorObjResponse2.status != 200) {
-			assert.fail()
-		}
+		assert.equal(getAuthorObjResponse2.status, 200)
 
 		// The author should now have a profile image and a profile image blurhash
 		let profileImageUuid = getAuthorObjResponse2.data.GetPropertyValue("profile_image")
@@ -216,10 +210,7 @@ describe("SetProfileImageOfAuthorOfUser endpoint", () => {
 			uuid: profileImageUuid
 		})
 
-		if (getProfileImageFileObjResponse.status != 200) {
-			assert.fail()
-		}
-
+		assert.equal(getProfileImageFileObjResponse.status, 200)
 		assert.equal(getProfileImageFileObjResponse.data, firstFileContent)
 
 		// Get the profile image table object (1)
@@ -228,12 +219,9 @@ describe("SetProfileImageOfAuthorOfUser endpoint", () => {
 			uuid: profileImageUuid
 		})
 
-		if (getProfileImageObjResponse.status != 200) {
-			assert.fail()
-		}
-
-		assert.equal(firstFileType, getProfileImageObjResponse.data.GetPropertyValue("type"))
-		assert.equal(firstFileExt, getProfileImageObjResponse.data.GetPropertyValue("ext"))
+		assert.equal(getProfileImageObjResponse.status, 200)
+		assert.equal(getProfileImageObjResponse.data.GetPropertyValue("type"), firstFileType)
+		assert.equal(getProfileImageObjResponse.data.GetPropertyValue("ext"), firstFileExt)
 
 		// Update the profile image (2)
 		let secondFileType = "image/jpeg"
@@ -260,13 +248,11 @@ describe("SetProfileImageOfAuthorOfUser endpoint", () => {
 			uuid: author.uuid
 		})
 
-		if (getAuthorObjResponse3.status != 200) {
-			assert.fail()
-		}
+		assert.equal(getAuthorObjResponse3.status, 200)
 
 		// The author should have the same profile image, but no profile image blurhash
-		assert.equal(profileImageUuid, getAuthorObjResponse3.data.GetPropertyValue("profile_image"))
-		assert.equal(null, getAuthorObjResponse3.data.GetPropertyValue("profile_image_blurhash"))
+		assert.equal(getAuthorObjResponse3.data.GetPropertyValue("profile_image"), profileImageUuid)
+		assert.isNull(getAuthorObjResponse3.data.GetPropertyValue("profile_image_blurhash"))
 
 		// Get the profile image table object file (2)
 		let getProfileImageFileObjResponse2 = await TableObjectsController.GetTableObjectFile({
@@ -274,10 +260,7 @@ describe("SetProfileImageOfAuthorOfUser endpoint", () => {
 			uuid: profileImageUuid
 		})
 
-		if (getProfileImageFileObjResponse2.status != 200) {
-			assert.fail()
-		}
-
+		assert.equal(getProfileImageFileObjResponse2.status, 200)
 		assert.equal(getProfileImageFileObjResponse2.data, secondFileContent)
 
 		// Get the profile image table object (2)
@@ -286,10 +269,7 @@ describe("SetProfileImageOfAuthorOfUser endpoint", () => {
 			uuid: profileImageUuid
 		})
 
-		if (getProfileImageObjResponse2.status != 200) {
-			assert.fail()
-		}
-
+		assert.equal(getProfileImageObjResponse2.status, 200)
 		assert.equal(secondFileType, getProfileImageObjResponse2.data.GetPropertyValue("type"))
 		assert.equal(secondFileExt, getProfileImageObjResponse2.data.GetPropertyValue("ext"))
 	})

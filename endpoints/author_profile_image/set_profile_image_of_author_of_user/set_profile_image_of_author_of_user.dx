@@ -71,4 +71,4 @@
 	))
 ))
 
-(render_json (hash) 200)
+(render_json nil 204)
