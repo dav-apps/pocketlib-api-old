@@ -27,9 +27,9 @@ describe("CreateBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(401, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.AuthorizationHeaderMissing, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 401)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.AuthorizationHeaderMissing)
 			return
 		}
 
@@ -47,9 +47,9 @@ describe("CreateBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(404, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.SessionDoesNotExist, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 404)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.SessionDoesNotExist)
 			return
 		}
 
@@ -67,9 +67,9 @@ describe("CreateBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(415, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ContentTypeNotSupported, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 415)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ContentTypeNotSupported)
 			return
 		}
 	})
@@ -85,9 +85,9 @@ describe("CreateBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(403, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 403)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
 			return
 		}
 
@@ -105,9 +105,9 @@ describe("CreateBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.StoreBookMissing, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.StoreBookMissing)
 			return
 		}
 
@@ -128,9 +128,9 @@ describe("CreateBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.StoreBookWrongType, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.StoreBookWrongType)
 			return
 		}
 
@@ -151,9 +151,9 @@ describe("CreateBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(422, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.DavProRequired, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 422)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.DavProRequired)
 			return
 		}
 
@@ -195,9 +195,9 @@ describe("CreateBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(422, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.FreeStoreBooksMustBePurchased, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 422)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.FreeStoreBooksMustBePurchased)
 			return
 		}
 
@@ -225,9 +225,9 @@ describe("CreateBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(422, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.FreeStoreBooksMustBePurchased, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 422)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.FreeStoreBooksMustBePurchased)
 			return
 		}
 
@@ -255,9 +255,9 @@ describe("CreateBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(422, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.StoreBookIsAlreadyInLibrary, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 422)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.StoreBookIsAlreadyInLibrary)
 			return
 		}
 
@@ -337,10 +337,10 @@ describe("CreateBook endpoint", () => {
 			assert.fail()
 		}
 
-		assert.equal(201, response.status)
-		assert(response.data.uuid != null)
+		assert.equal(response.status, 201)
+		assert.isNotNull(response.data.uuid)
 		assert.equal(response.data.store_book, storeBook.uuid)
-		assert(response.data.file != null)
+		assert.isNotNull(response.data.file)
 
 		// Get the store book file table object
 		let storeBookFileObjResponse = await TableObjectsController.GetTableObject({
@@ -348,20 +348,7 @@ describe("CreateBook endpoint", () => {
 			uuid: response.data.file
 		})
 
-		if (storeBookFileObjResponse.status != 200) {
-			assert.fail()
-		}
-
-		if (storeBookFileObjResponse.data.GetPropertyValue("type") == "application/pdf") {
-			// PDF Book
-			assert.equal(storeBook.title, response.data.title)
-			assert.equal(0, response.data.page)
-			assert.equal(0, response.data.bookmarks.length)
-		} else {
-			// EPUB Book
-			assert.equal(0, response.data.chapter)
-			assert.equal(0, response.data.progress)
-		}
+		assert.equal(storeBookFileObjResponse.status, 200)
 
 		// Check if the book was correctly created on the server
 		let bookObjResponse = await TableObjectsController.GetTableObject({
@@ -369,23 +356,9 @@ describe("CreateBook endpoint", () => {
 			uuid: response.data.uuid
 		})
 
-		if (bookObjResponse.status != 200) {
-			assert.fail()
-		}
-
-		assert.equal(response.data.store_book, bookObjResponse.data.GetPropertyValue("store_book"))
-		assert.equal(response.data.file, bookObjResponse.data.GetPropertyValue("file"))
-
-		if (storeBookFileObjResponse.data.GetPropertyValue("type") == "application/pdf") {
-			// PDF Book
-			assert.equal(response.data.title, bookObjResponse.data.GetPropertyValue("title"))
-			assert.isNull(bookObjResponse.data.GetPropertyValue("page"))
-			assert.isNull(bookObjResponse.data.GetPropertyValue("bookmarks"))
-		} else {
-			// EPUB Book
-			assert.isNull(bookObjResponse.data.GetPropertyValue("chapter"))
-			assert.isNull(bookObjResponse.data.GetPropertyValue("progress"))
-		}
+		assert.equal(bookObjResponse.status, 200)
+		assert.equal(bookObjResponse.data.GetPropertyValue("store_book"), response.data.store_book)
+		assert.equal(bookObjResponse.data.GetPropertyValue("file"), response.data.file)
 	}
 
 	async function testShouldNotCreateBookFromStoreBook(accessToken, storeBook) {
@@ -402,9 +375,9 @@ describe("CreateBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(403, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 403)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
 			return
 		}
 

@@ -16,11 +16,6 @@
 			"params": ["content_type"],
 			"source": "./misc/validate_content_type_ebook.dx"
 		},
-		{
-			"name": "validate_content_type_ebook_or_json",
-			"params": ["content_type"],
-			"source": "./misc/validate_content_type_ebook_or_json.dx"
-		},
 
 		{
 			"name": "validate_auth_header_presence",
