@@ -28,9 +28,9 @@ describe("SetBioOfAuthor endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(401, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.AuthorizationHeaderMissing, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 401)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.AuthorizationHeaderMissing)
 			return
 		}
 
@@ -48,9 +48,9 @@ describe("SetBioOfAuthor endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(404, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.SessionDoesNotExist, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 404)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.SessionDoesNotExist)
 			return
 		}
 
@@ -68,9 +68,9 @@ describe("SetBioOfAuthor endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(415, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ContentTypeNotSupported, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 415)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ContentTypeNotSupported)
 			return
 		}
 
@@ -88,9 +88,9 @@ describe("SetBioOfAuthor endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(403, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 403)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
 			return
 		}
 
@@ -108,9 +108,9 @@ describe("SetBioOfAuthor endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(403, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 403)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
 			return
 		}
 
@@ -128,9 +128,9 @@ describe("SetBioOfAuthor endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(403, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 403)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
 			return
 		}
 
@@ -148,9 +148,9 @@ describe("SetBioOfAuthor endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.BioMissing, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.BioMissing)
 			return
 		}
 
@@ -171,9 +171,9 @@ describe("SetBioOfAuthor endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.BioWrongType, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.BioWrongType)
 			return
 		}
 
@@ -194,9 +194,9 @@ describe("SetBioOfAuthor endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.BioTooShort, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.BioTooShort)
 			return
 		}
 
@@ -217,9 +217,9 @@ describe("SetBioOfAuthor endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.BioTooLong, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.BioTooLong)
 			return
 		}
 
@@ -240,9 +240,9 @@ describe("SetBioOfAuthor endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.LanguageNotSupported, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.LanguageNotSupported)
 			return
 		}
 
@@ -272,9 +272,9 @@ describe("SetBioOfAuthor endpoint", () => {
 			assert.fail()
 		}
 
-		assert.equal(200, response.status)
-		assert.equal(bio, response.data.bio)
-		assert.equal(language, response.data.language)
+		assert.equal(response.status, 200)
+		assert.equal(response.data.bio, bio)
+		assert.equal(response.data.language, language)
 
 		// Check if the data was correctly saved on the server
 		// Get the author
@@ -283,9 +283,7 @@ describe("SetBioOfAuthor endpoint", () => {
 			uuid: author.uuid
 		})
 
-		if (authorResponse.status != 200) {
-			assert.fail()
-		}
+		assert.equal(authorResponse.status, 200)
 
 		let responseAuthorBios = authorResponse.data.GetPropertyValue("bios")
 		let responseAuthorBioUuids = responseAuthorBios.split(',')
@@ -295,8 +293,8 @@ describe("SetBioOfAuthor endpoint", () => {
 		authorBioUuids.push(responseAuthorBioUuids[responseAuthorBioUuids.length - 1])
 		let authorBios = authorBioUuids.join(',')
 
-		assert.equal(authorBioUuids.length, responseAuthorBioUuids.length)
-		assert.equal(authorBios, responseAuthorBios)
+		assert.equal(responseAuthorBioUuids.length, authorBioUuids.length)
+		assert.equal(responseAuthorBios, authorBios)
 
 		// Get the AuthorBio
 		let newAuthorBioUuid = responseAuthorBioUuids[responseAuthorBioUuids.length - 1]
@@ -306,13 +304,10 @@ describe("SetBioOfAuthor endpoint", () => {
 			uuid: newAuthorBioUuid
 		})
 
-		if (authorBioResponse.status != 200) {
-			assert.fail()
-		}
-
-		assert.equal(newAuthorBioUuid, authorBioResponse.data.Uuid)
-		assert.equal(bio, authorBioResponse.data.GetPropertyValue("bio"))
-		assert.equal(language, authorBioResponse.data.GetPropertyValue("language"))
+		assert.equal(authorBioResponse.status, 200)
+		assert.equal(authorBioResponse.data.Uuid, newAuthorBioUuid)
+		assert.equal(authorBioResponse.data.GetPropertyValue("bio"), bio)
+		assert.equal(authorBioResponse.data.GetPropertyValue("language"), language)
 	})
 
 	it("should update author bio", async () => {
@@ -340,9 +335,9 @@ describe("SetBioOfAuthor endpoint", () => {
 			assert.fail()
 		}
 
-		assert.equal(200, response.status)
-		assert.equal(bio, response.data.bio)
-		assert.equal(language, response.data.language)
+		assert.equal(response.status, 200)
+		assert.equal(response.data.bio, bio)
+		assert.equal(response.data.language, language)
 
 		// Check if the data was correctly updated on the server
 		// Get the author
@@ -351,9 +346,7 @@ describe("SetBioOfAuthor endpoint", () => {
 			uuid: author.uuid
 		})
 
-		if (authorResponse.status != 200) {
-			assert.fail()
-		}
+		assert.equal(authorResponse.status, 200)
 
 		let responseAuthorBios = authorResponse.data.GetPropertyValue("bios")
 		let responseAuthorBioUuids = responseAuthorBios.split(',')
@@ -362,8 +355,8 @@ describe("SetBioOfAuthor endpoint", () => {
 		author.bios.forEach(bio => authorBioUuids.push(bio.uuid))
 		let authorBios = authorBioUuids.join(',')
 
-		assert.equal(authorBioUuids.length, responseAuthorBioUuids.length)
-		assert.equal(authorBios, responseAuthorBios)
+		assert.equal(responseAuthorBioUuids.length, authorBioUuids.length)
+		assert.equal(responseAuthorBios, authorBios)
 
 		// Get the AuthorBio
 		let authorBioResponse = await TableObjectsController.GetTableObject({
@@ -371,12 +364,9 @@ describe("SetBioOfAuthor endpoint", () => {
 			uuid: authorBioUuid
 		})
 
-		if (authorBioResponse.status != 200) {
-			assert.fail()
-		}
-
-		assert.equal(authorBioUuid, authorBioResponse.data.Uuid)
-		assert.equal(bio, authorBioResponse.data.GetPropertyValue("bio"))
-		assert.equal(language, authorBioResponse.data.GetPropertyValue("language"))
+		assert.equal(authorBioResponse.status, 200)
+		assert.equal(authorBioResponse.data.Uuid, authorBioUuid)
+		assert.equal(authorBioResponse.data.GetPropertyValue("bio"), bio)
+		assert.equal(authorBioResponse.data.GetPropertyValue("language"), language)
 	})
 })
