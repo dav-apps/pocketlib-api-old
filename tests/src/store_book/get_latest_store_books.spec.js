@@ -17,9 +17,9 @@ describe("GetLatestStoreBooks endpoint", async () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.LanguageNotSupported, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.LanguageNotSupported)
 			return
 		}
 
@@ -32,7 +32,10 @@ describe("GetLatestStoreBooks endpoint", async () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getLatestStoreBooksEndpointUrl
+				url: getLatestStoreBooksEndpointUrl,
+				params: {
+					fields: "*"
+				}
 			})
 		} catch (error) {
 			assert.fail()
@@ -42,7 +45,13 @@ describe("GetLatestStoreBooks endpoint", async () => {
 		let storeBooks = []
 		for (let collection of constants.authorUser.author.collections) {
 			for (let storeBook of collection.books) {
-				if (storeBook.language == "en" && storeBook.status == "published") {
+				let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+
+				if (
+					storeBook.language == "en"
+					&& storeBook.status == "published"
+					&& storeBookRelease.coverItem
+				) {
 					storeBooks.push(storeBook)
 				}
 			}
@@ -51,7 +60,13 @@ describe("GetLatestStoreBooks endpoint", async () => {
 		for (let author of constants.davUser.authors) {
 			for (let collection of author.collections) {
 				for (let storeBook of collection.books) {
-					if (storeBook.language == "en" && storeBook.status == "published") {
+					let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+
+					if (
+						storeBook.language == "en"
+						&& storeBook.status == "published"
+						&& storeBookRelease.coverItem
+					) {
 						storeBooks.push(storeBook)
 					}
 				}
@@ -60,17 +75,22 @@ describe("GetLatestStoreBooks endpoint", async () => {
 
 		storeBooks = storeBooks.reverse()
 
-		assert.equal(200, response.status)
-		assert.equal(storeBooks.length, response.data.books.length)
+		assert.equal(response.status, 200)
+		assert.equal(response.data.books.length, storeBooks.length)
 
 		let i = 0
 		for (let book of response.data.books) {
 			let storeBook = storeBooks[i]
-			assert.equal(storeBook.uuid, book.uuid)
-			assert.equal(storeBook.title, book.title)
-			assert.equal(storeBook.cover != null, book.cover)
-			assert.equal(storeBook.coverAspectRatio, book.cover_aspect_ratio)
-			assert.equal(storeBook.coverBlurhash, book.cover_blurhash)
+			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+
+			assert.equal(book.uuid, storeBook.uuid)
+			assert.equal(book.title, storeBookRelease.title)
+			assert.equal(book.description, storeBookRelease.description)
+			assert.equal(book.language, storeBook.language)
+			assert.equal(book.price, storeBook.price == null ? 0 : storeBook.price)
+			assert.equal(book.isbn, storeBook.isbn)
+			assert.equal(book.cover_aspect_ratio, storeBookRelease.coverItem.aspectRatio)
+			assert.equal(book.cover_blurhash, storeBookRelease.coverItem.blurhash)
 			i++
 		}
 	})
@@ -84,6 +104,7 @@ describe("GetLatestStoreBooks endpoint", async () => {
 				method: 'get',
 				url: getLatestStoreBooksEndpointUrl,
 				params: {
+					fields: "*",
 					languages: language
 				}
 			})
@@ -95,7 +116,13 @@ describe("GetLatestStoreBooks endpoint", async () => {
 		let storeBooks = []
 		for (let collection of constants.authorUser.author.collections) {
 			for (let storeBook of collection.books) {
-				if (storeBook.language == language && storeBook.status == "published") {
+				let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+
+				if (
+					storeBook.language == language
+					&& storeBook.status == "published"
+					&& storeBookRelease.coverItem
+				) {
 					storeBooks.push(storeBook)
 				}
 			}
@@ -104,7 +131,13 @@ describe("GetLatestStoreBooks endpoint", async () => {
 		for (let author of constants.davUser.authors) {
 			for (let collection of author.collections) {
 				for (let storeBook of collection.books) {
-					if (storeBook.language == language && storeBook.status == "published") {
+					let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+
+					if (
+						storeBook.language == language
+						&& storeBook.status == "published"
+						&& storeBookRelease.coverItem
+					) {
 						storeBooks.push(storeBook)
 					}
 				}
@@ -113,17 +146,22 @@ describe("GetLatestStoreBooks endpoint", async () => {
 
 		storeBooks = storeBooks.reverse()
 
-		assert.equal(200, response.status)
-		assert.equal(storeBooks.length, response.data.books.length)
+		assert.equal(response.status, 200)
+		assert.equal(response.data.books.length, storeBooks.length)
 
 		let i = 0
 		for (let book of response.data.books) {
 			let storeBook = storeBooks[i]
-			assert.equal(storeBook.uuid, book.uuid)
-			assert.equal(storeBook.title, book.title)
-			assert.equal(storeBook.cover != null, book.cover)
-			assert.equal(storeBook.coverAspectRatio, book.cover_aspect_ratio)
-			assert.equal(storeBook.coverBlurhash, book.cover_blurhash)
+			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+
+			assert.equal(book.uuid, storeBook.uuid)
+			assert.equal(book.title, storeBookRelease.title)
+			assert.equal(book.description, storeBookRelease.description)
+			assert.equal(book.language, storeBook.language)
+			assert.equal(book.price, storeBook.price == null ? 0 : storeBook.price)
+			assert.equal(book.isbn, storeBook.isbn)
+			assert.equal(book.cover_aspect_ratio, storeBookRelease.coverItem.aspectRatio)
+			assert.equal(book.cover_blurhash, storeBookRelease.coverItem.blurhash)
 			i++
 		}
 	})
@@ -137,6 +175,7 @@ describe("GetLatestStoreBooks endpoint", async () => {
 				method: 'get',
 				url: getLatestStoreBooksEndpointUrl,
 				params: {
+					fields: "*",
 					languages: languages.join(',')
 				}
 			})
@@ -148,7 +187,13 @@ describe("GetLatestStoreBooks endpoint", async () => {
 		let storeBooks = []
 		for (let collection of constants.authorUser.author.collections) {
 			for (let storeBook of collection.books) {
-				if (languages.includes(storeBook.language) && storeBook.status == "published") {
+				let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+
+				if (
+					languages.includes(storeBook.language)
+					&& storeBook.status == "published"
+					&& storeBookRelease.coverItem
+				) {
 					storeBooks.push(storeBook)
 				}
 			}
@@ -157,7 +202,13 @@ describe("GetLatestStoreBooks endpoint", async () => {
 		for (let author of constants.davUser.authors) {
 			for (let collection of author.collections) {
 				for (let storeBook of collection.books) {
-					if (languages.includes(storeBook.language) && storeBook.status == "published") {
+					let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+
+					if (
+						languages.includes(storeBook.language)
+						&& storeBook.status == "published"
+						&& storeBookRelease.coverItem
+					) {
 						storeBooks.push(storeBook)
 					}
 				}
@@ -166,17 +217,22 @@ describe("GetLatestStoreBooks endpoint", async () => {
 
 		storeBooks = storeBooks.reverse()
 
-		assert.equal(200, response.status)
-		assert.equal(storeBooks.length, response.data.books.length)
+		assert.equal(response.status, 200)
+		assert.equal(response.data.books.length, storeBooks.length)
 
 		let i = 0
 		for (let book of response.data.books) {
 			let storeBook = storeBooks[i]
-			assert.equal(storeBook.uuid, book.uuid)
-			assert.equal(storeBook.title, book.title)
-			assert.equal(storeBook.cover != null, book.cover)
-			assert.equal(storeBook.coverAspectRatio, book.cover_aspect_ratio)
-			assert.equal(storeBook.coverBlurhash, book.cover_blurhash)
+			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+
+			assert.equal(book.uuid, storeBook.uuid)
+			assert.equal(book.title, storeBookRelease.title)
+			assert.equal(book.description, storeBookRelease.description)
+			assert.equal(book.language, storeBook.language)
+			assert.equal(book.price, storeBook.price == null ? 0 : storeBook.price)
+			assert.equal(book.isbn, storeBook.isbn)
+			assert.equal(book.cover_aspect_ratio, storeBookRelease.coverItem.aspectRatio)
+			assert.equal(book.cover_blurhash, storeBookRelease.coverItem.blurhash)
 			i++
 		}
 	})
@@ -191,6 +247,7 @@ describe("GetLatestStoreBooks endpoint", async () => {
 				method: 'get',
 				url: getLatestStoreBooksEndpointUrl,
 				params: {
+					fields: "*",
 					languages: languages.join(','),
 					limit
 				}
@@ -203,7 +260,13 @@ describe("GetLatestStoreBooks endpoint", async () => {
 		let storeBooks = []
 		for (let collection of constants.authorUser.author.collections) {
 			for (let storeBook of collection.books) {
-				if (languages.includes(storeBook.language) && storeBook.status == "published") {
+				let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+
+				if (
+					languages.includes(storeBook.language)
+					&& storeBook.status == "published"
+					&& storeBookRelease.coverItem
+				) {
 					storeBooks.push(storeBook)
 				}
 			}
@@ -212,7 +275,13 @@ describe("GetLatestStoreBooks endpoint", async () => {
 		for (let author of constants.davUser.authors) {
 			for (let collection of author.collections) {
 				for (let storeBook of collection.books) {
-					if (languages.includes(storeBook.language) && storeBook.status == "published") {
+					let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+
+					if (
+						languages.includes(storeBook.language)
+						&& storeBook.status == "published"
+						&& storeBookRelease.coverItem
+					) {
 						storeBooks.push(storeBook)
 					}
 				}
@@ -222,19 +291,23 @@ describe("GetLatestStoreBooks endpoint", async () => {
 		storeBooks = storeBooks.reverse()
 		let pages = Math.ceil(storeBooks.length / limit)
 
-		assert.equal(200, response.status)
-		assert.equal(limit, response.data.books.length)
-		assert.equal(pages, response.data.pages)
+		assert.equal(response.status, 200)
+		assert.equal(response.data.books.length, limit)
+		assert.equal(response.data.pages, pages)
 
-		for (let i = 0; i < limit; i++){
+		for (let i = 0; i < limit; i++) {
 			let storeBook = storeBooks[i]
-			let responseBook = response.data.books[i]
+			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+			let book = response.data.books[i]
 
-			assert.equal(storeBook.uuid, responseBook.uuid)
-			assert.equal(storeBook.title, responseBook.title)
-			assert.equal(storeBook.cover != null, responseBook.cover)
-			assert.equal(storeBook.coverAspectRatio, responseBook.cover_aspect_ratio)
-			assert.equal(storeBook.coverBlurhash, responseBook.cover_blurhash)
+			assert.equal(book.uuid, storeBook.uuid)
+			assert.equal(book.title, storeBookRelease.title)
+			assert.equal(book.description, storeBookRelease.description)
+			assert.equal(book.language, storeBook.language)
+			assert.equal(book.price, storeBook.price == null ? 0 : storeBook.price)
+			assert.equal(book.isbn, storeBook.isbn)
+			assert.equal(book.cover_aspect_ratio, storeBookRelease.coverItem.aspectRatio)
+			assert.equal(book.cover_blurhash, storeBookRelease.coverItem.blurhash)
 		}
 
 		// Get the store books of the next page
@@ -243,6 +316,7 @@ describe("GetLatestStoreBooks endpoint", async () => {
 				method: 'get',
 				url: getLatestStoreBooksEndpointUrl,
 				params: {
+					fields: "*",
 					languages: languages.join(','),
 					limit,
 					page: 2
@@ -252,19 +326,23 @@ describe("GetLatestStoreBooks endpoint", async () => {
 			assert.fail()
 		}
 
-		assert.equal(200, response.status)
-		assert.equal(limit, response.data.books.length)
-		assert.equal(pages, response.data.pages)
+		assert.equal(response.status, 200)
+		assert.equal(response.data.books.length, limit)
+		assert.equal(response.data.pages, pages)
 
-		for (let i = 0; i < limit; i++){
+		for (let i = 0; i < limit; i++) {
 			let storeBook = storeBooks[i + limit]
-			let responseBook = response.data.books[i]
+			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+			let book = response.data.books[i]
 
-			assert.equal(storeBook.uuid, responseBook.uuid)
-			assert.equal(storeBook.title, responseBook.title)
-			assert.equal(storeBook.cover != null, responseBook.cover)
-			assert.equal(storeBook.coverAspectRatio, responseBook.cover_aspect_ratio)
-			assert.equal(storeBook.coverBlurhash, responseBook.cover_blurhash)
+			assert.equal(book.uuid, storeBook.uuid)
+			assert.equal(book.title, storeBookRelease.title)
+			assert.equal(book.description, storeBookRelease.description)
+			assert.equal(book.language, storeBook.language)
+			assert.equal(book.price, storeBook.price == null ? 0 : storeBook.price)
+			assert.equal(book.isbn, storeBook.isbn)
+			assert.equal(book.cover_aspect_ratio, storeBookRelease.coverItem.aspectRatio)
+			assert.equal(book.cover_blurhash, storeBookRelease.coverItem.blurhash)
 		}
 	})
 })

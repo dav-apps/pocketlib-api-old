@@ -1,7 +1,17 @@
 (# Get the params)
+(var fields_str (get_param "fields"))
 (var languages (get_param "languages"))
 (var limit (to_int (get_param "limit")))
 (var page (to_int (get_param "page")))
+
+(if (is_nil fields_str) (
+	(var fields (list "books.uuid" "pages"))
+) elseif (fields_str == "*") (
+	(var fields (list "books.uuid" "books.title" "books.description" "books.language" "books.price" "books.isbn" "books.cover_aspect_ratio" "books.cover_blurhash" "pages"))
+) else (
+	(# Process the fields string)
+	(var fields (func process_fields (fields_str)))
+))
 
 (var language_list (list))
 
@@ -28,23 +38,41 @@
 ))
 
 (# Get the latest store books)
-(var book_objects (func get_latest_store_book_table_objects ()))
-(var book_objects book_objects.reverse)
+(var book_uuids (func get_latest_store_book_table_object_uuids ()))
+(var book_uuids book_uuids.reverse)
 (var books (list))
 
-(for book_object in book_objects (
-	(# Check if the store book is published)
-	(if ((book_object.properties.status == "published") and (language_list.contains book_object.properties.language)) (
-		(# Convert the table object to hash)
-		(var book (hash
-			(uuid book_object.uuid)
-			(title book_object.properties.title)
-			(cover (!(is_nil book_object.properties.cover)))
-			(cover_aspect_ratio book_object.properties.cover_aspect_ratio)
-			(cover_blurhash book_object.properties.cover_blurhash)
-		))
+(for book_uuid in book_uuids (
+	(# Get the book table object)
+	(var book (func get_table_object (book_uuid (get_env "STORE_BOOK_TABLE_ID"))))
+	(if (is_nil book) (continue))
 
-		(books.push book)
+	(# Check if the store book is published)
+	(if ((book.properties.status == "published") and (language_list.contains book.properties.language)) (
+		(# Get the latest release)
+		(var book_release (func get_last_release_of_store_book (book)))
+		(if (is_nil book_release) (continue))
+
+		(# Get the cover item)
+		(var cover_item (func get_table_object (book_release.cover_item (get_env "STORE_BOOK_COVER_ITEM_TABLE_ID"))))
+		(if (is_nil cover_item) (continue))
+
+		(# Add the book to the list)
+		(var book_hash (hash))
+
+		(if (fields.contains "books.uuid") (var book_hash.uuid book.uuid))
+		(if (fields.contains "books.title") (var book_hash.title book_release.properties.title))
+		(if (fields.contains "books.description") (var book_hash.description book_release.properties.description))
+		(if (fields.contains "books.language") (var book_hash.language book.properties.language))
+		(if (fields.contains "books.price") (var book_hash.price (if (is_nil book.properties.price) 0 else book.properties.price)))
+		(if (fields.contains "books.isbn") (var book_hash.isbn book.properties.isbn))
+		(if (fields.contains "books.cover_aspect_ratio") (var book_hash.cover_aspect_ratio cover_item.properties.aspect_ratio))
+		(if (fields.contains "books.cover_blurhash") (var book_hash.cover_blurhash cover_item.properties.blurhash))
+
+		(books.push book_hash)
+
+		(# Check if the limit is reached)
+		(# if (books.length >= limit) (break))
 	))
 ))
 
@@ -68,7 +96,18 @@
 (var selected_books (books.select start length))
 
 (# Render the result)
-(render_json (hash
-	(books selected_books)
-	(pages pages)
-) 200)
+(var result (hash))
+
+(if (
+	(fields.contains "books.uuid")
+	or (fields.contains "books.title")
+	or (fields.contains "books.description")
+	or (fields.contains "books.language")
+	or (fields.contains "books.price")
+	or (fields.contains "books.isbn")
+	or (fields.contains "books.cover_aspect_ratio")
+	or (fields.contains "books.cover_blurhash")
+) (var result.books selected_books))
+(if (fields.contains "pages") (var result.pages pages))
+
+(render_json result 200)
