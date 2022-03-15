@@ -34,9 +34,9 @@ describe("CreateStoreBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(401, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.AuthorizationHeaderMissing, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 401)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.AuthorizationHeaderMissing)
 			return
 		}
 
@@ -59,9 +59,9 @@ describe("CreateStoreBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(404, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.SessionDoesNotExist, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 404)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.SessionDoesNotExist)
 			return
 		}
 
@@ -78,9 +78,9 @@ describe("CreateStoreBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(415, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ContentTypeNotSupported, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 415)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ContentTypeNotSupported)
 			return
 		}
 
@@ -98,9 +98,9 @@ describe("CreateStoreBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(403, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 403)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
 			return
 		}
 
@@ -118,10 +118,10 @@ describe("CreateStoreBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(2, error.response.data.errors.length)
-			assert.equal(ErrorCodes.TitleMissing, error.response.data.errors[0].code)
-			assert.equal(ErrorCodes.LanguageMissing, error.response.data.errors[1].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 2)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.TitleMissing)
+			assert.equal(error.response.data.errors[1].code, ErrorCodes.LanguageMissing)
 			return
 		}
 
@@ -139,11 +139,11 @@ describe("CreateStoreBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(3, error.response.data.errors.length)
-			assert.equal(ErrorCodes.AuthorMissing, error.response.data.errors[0].code)
-			assert.equal(ErrorCodes.TitleMissing, error.response.data.errors[1].code)
-			assert.equal(ErrorCodes.LanguageMissing, error.response.data.errors[2].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 3)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.AuthorMissing)
+			assert.equal(error.response.data.errors[1].code, ErrorCodes.TitleMissing)
+			assert.equal(error.response.data.errors[2].code, ErrorCodes.LanguageMissing)
 			return
 		}
 
@@ -164,10 +164,10 @@ describe("CreateStoreBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(2, error.response.data.errors.length)
-			assert.equal(ErrorCodes.TitleMissing, error.response.data.errors[0].code)
-			assert.equal(ErrorCodes.LanguageMissing, error.response.data.errors[1].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 2)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.TitleMissing)
+			assert.equal(error.response.data.errors[1].code, ErrorCodes.LanguageMissing)
 			return
 		}
 
@@ -190,11 +190,11 @@ describe("CreateStoreBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(3, error.response.data.errors.length)
-			assert.equal(ErrorCodes.CollectionWrongType, error.response.data.errors[0].code)
-			assert.equal(ErrorCodes.TitleWrongType, error.response.data.errors[1].code)
-			assert.equal(ErrorCodes.LanguageWrongType, error.response.data.errors[2].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 3)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.CollectionWrongType)
+			assert.equal(error.response.data.errors[1].code, ErrorCodes.TitleWrongType)
+			assert.equal(error.response.data.errors[2].code, ErrorCodes.LanguageWrongType)
 			return
 		}
 
@@ -221,15 +221,15 @@ describe("CreateStoreBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(7, error.response.data.errors.length)
-			assert.equal(ErrorCodes.CollectionWrongType, error.response.data.errors[0].code)
-			assert.equal(ErrorCodes.TitleWrongType, error.response.data.errors[1].code)
-			assert.equal(ErrorCodes.DescriptionWrongType, error.response.data.errors[2].code)
-			assert.equal(ErrorCodes.LanguageWrongType, error.response.data.errors[3].code)
-			assert.equal(ErrorCodes.PriceWrongType, error.response.data.errors[4].code)
-			assert.equal(ErrorCodes.IsbnWrongType, error.response.data.errors[5].code)
-			assert.equal(ErrorCodes.CategoriesWrongType, error.response.data.errors[6].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 7)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.CollectionWrongType)
+			assert.equal(error.response.data.errors[1].code, ErrorCodes.TitleWrongType)
+			assert.equal(error.response.data.errors[2].code, ErrorCodes.DescriptionWrongType)
+			assert.equal(error.response.data.errors[3].code, ErrorCodes.LanguageWrongType)
+			assert.equal(error.response.data.errors[4].code, ErrorCodes.PriceWrongType)
+			assert.equal(error.response.data.errors[5].code, ErrorCodes.IsbnWrongType)
+			assert.equal(error.response.data.errors[6].code, ErrorCodes.CategoriesWrongType)
 			return
 		}
 
@@ -252,11 +252,11 @@ describe("CreateStoreBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(3, error.response.data.errors.length)
-			assert.equal(ErrorCodes.AuthorWrongType, error.response.data.errors[0].code)
-			assert.equal(ErrorCodes.TitleWrongType, error.response.data.errors[1].code)
-			assert.equal(ErrorCodes.LanguageWrongType, error.response.data.errors[2].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 3)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.AuthorWrongType)
+			assert.equal(error.response.data.errors[1].code, ErrorCodes.TitleWrongType)
+			assert.equal(error.response.data.errors[2].code, ErrorCodes.LanguageWrongType)
 			return
 		}
 
@@ -279,11 +279,11 @@ describe("CreateStoreBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(3, error.response.data.errors.length)
-			assert.equal(ErrorCodes.CollectionWrongType, error.response.data.errors[0].code)
-			assert.equal(ErrorCodes.TitleWrongType, error.response.data.errors[1].code)
-			assert.equal(ErrorCodes.LanguageWrongType, error.response.data.errors[2].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 3)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.CollectionWrongType)
+			assert.equal(error.response.data.errors[1].code, ErrorCodes.TitleWrongType)
+			assert.equal(error.response.data.errors[2].code, ErrorCodes.LanguageWrongType)
 			return
 		}
 
@@ -306,9 +306,9 @@ describe("CreateStoreBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.TitleTooShort, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.TitleTooShort)
 			return
 		}
 
@@ -332,10 +332,10 @@ describe("CreateStoreBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(2, error.response.data.errors.length)
-			assert.equal(ErrorCodes.TitleTooShort, error.response.data.errors[0].code)
-			assert.equal(ErrorCodes.DescriptionTooShort, error.response.data.errors[1].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 2)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.TitleTooShort)
+			assert.equal(error.response.data.errors[1].code, ErrorCodes.DescriptionTooShort)
 			return
 		}
 
@@ -358,9 +358,9 @@ describe("CreateStoreBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.TitleTooLong, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.TitleTooLong)
 			return
 		}
 
@@ -384,10 +384,10 @@ describe("CreateStoreBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(2, error.response.data.errors.length)
-			assert.equal(ErrorCodes.TitleTooLong, error.response.data.errors[0].code)
-			assert.equal(ErrorCodes.DescriptionTooLong, error.response.data.errors[1].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 2)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.TitleTooLong)
+			assert.equal(error.response.data.errors[1].code, ErrorCodes.DescriptionTooLong)
 			return
 		}
 
@@ -410,9 +410,9 @@ describe("CreateStoreBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.LanguageNotSupported, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.LanguageNotSupported)
 			return
 		}
 
@@ -436,9 +436,9 @@ describe("CreateStoreBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.PriceInvalid, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.PriceInvalid)
 			return
 		}
 
@@ -462,9 +462,9 @@ describe("CreateStoreBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.IsbnInvalid, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.IsbnInvalid)
 			return
 		}
 
@@ -488,9 +488,9 @@ describe("CreateStoreBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.TooManyCategoriesForStoreBook, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.TooManyCategoriesForStoreBook)
 			return
 		}
 
@@ -513,9 +513,9 @@ describe("CreateStoreBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.UserIsNotAuthor, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.UserIsNotAuthor)
 			return
 		}
 
@@ -538,9 +538,9 @@ describe("CreateStoreBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(403, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 403)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
 			return
 		}
 
@@ -563,9 +563,9 @@ describe("CreateStoreBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(404, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.AuthorDoesNotExist, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 404)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.AuthorDoesNotExist)
 			return
 		}
 
@@ -588,9 +588,9 @@ describe("CreateStoreBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(403, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 403)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
 			return
 		}
 
@@ -614,9 +614,9 @@ describe("CreateStoreBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(403, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 403)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
 			return
 		}
 
@@ -640,9 +640,9 @@ describe("CreateStoreBook endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(404, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.StoreBookCollectionDoesNotExist, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 404)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.StoreBookCollectionDoesNotExist)
 			return
 		}
 
@@ -675,24 +675,8 @@ describe("CreateStoreBook endpoint", () => {
 			assert.fail()
 		}
 
-		assert.equal(201, response.status)
-		assert(response.data.uuid != null)
-		assert.equal(collection.uuid, response.data.collection)
-		assert.equal(title, response.data.title)
-		assert.equal("", response.data.description)
-		assert.equal(language, response.data.language)
-		assert.equal(0, response.data.price)
-		assert.isNull(response.data.isbn)
-		assert.equal("unpublished", response.data.status)
-		assert.isFalse(response.data.cover)
-		assert.isNull(response.data.cover_aspect_ratio)
-		assert.isNull(response.data.cover_blurhash)
-		assert.isFalse(response.data.file)
-		assert.isNull(response.data.file_name)
-		assert.equal(0, response.data.categories.length)
-		assert.isFalse(response.data.in_library)
-		assert.isFalse(response.data.purchased)
-		assert.equal(0, response.data.series.length)
+		assert.equal(response.status, 201)
+		assert.isNotNull(response.data.uuid)
 
 		// Check if the data was correctly saved in the database
 		// Get the collection
@@ -701,15 +685,13 @@ describe("CreateStoreBook endpoint", () => {
 			uuid: collection.uuid
 		})
 
-		if (collectionObjResponse.status != 200) {
-			assert.fail()
-		}
+		assert.equal(collectionObjResponse.status, 200)
 
 		let storeBookUuids = []
 		for (let book of collection.books) storeBookUuids.push(book.uuid)
 		storeBookUuids.push(response.data.uuid)
 
-		assert.equal(storeBookUuids.join(','), collectionObjResponse.data.GetPropertyValue("books"))
+		assert.equal(collectionObjResponse.data.GetPropertyValue("books"), storeBookUuids.join(','))
 
 		// Get the store book
 		let storeBookObjResponse = await TableObjectsController.GetTableObject({
@@ -717,17 +699,23 @@ describe("CreateStoreBook endpoint", () => {
 			uuid: response.data.uuid
 		})
 
-		if (storeBookObjResponse.status != 200) {
-			assert.fail()
-		}
+		assert.equal(storeBookObjResponse.status, 200)
+		assert.equal(storeBookObjResponse.data.Uuid, response.data.uuid)
+		assert.equal(storeBookObjResponse.data.GetPropertyValue("collection"), collection.uuid)
+		assert.isNotNull(storeBookObjResponse.data.GetPropertyValue("releases"))
+		assert.equal(storeBookObjResponse.data.GetPropertyValue("language"), language)
 
-		assert.equal(response.data.uuid, storeBookObjResponse.data.Uuid)
-		assert.equal(collection.uuid, storeBookObjResponse.data.GetPropertyValue("collection"))
-		assert.equal(title, storeBookObjResponse.data.GetPropertyValue("title"))
-		assert.isNull(storeBookObjResponse.data.GetPropertyValue("description"))
-		assert.equal(language, storeBookObjResponse.data.GetPropertyValue("language"))
-		assert.isNull(storeBookObjResponse.data.GetPropertyValue("isbn"))
-		assert.isNull(storeBookObjResponse.data.GetPropertyValue("categories"))
+		// Get the store book release
+		let storeBookReleaseUuid = storeBookObjResponse.data.GetPropertyValue("releases")
+
+		let storeBookReleaseObjResponse = await TableObjectsController.GetTableObject({
+			accessToken: constants.authorUser.accessToken,
+			uuid: storeBookReleaseUuid
+		})
+
+		assert.equal(storeBookReleaseObjResponse.status, 200)
+		assert.equal(storeBookReleaseObjResponse.data.Uuid, storeBookReleaseUuid)
+		assert.equal(storeBookReleaseObjResponse.data.GetPropertyValue("title"), title)
 	})
 
 	it("should create store book with optional properties", async () => {
@@ -765,24 +753,8 @@ describe("CreateStoreBook endpoint", () => {
 			assert.fail()
 		}
 
-		assert.equal(201, response.status)
+		assert.equal(response.status, 201)
 		assert.isNotNull(response.data.uuid)
-		assert.equal(collection.uuid, response.data.collection)
-		assert.equal(title, response.data.title)
-		assert.equal(description, response.data.description)
-		assert.equal(language, response.data.language)
-		assert.equal(price, response.data.price)
-		assert.equal(isbn, response.data.isbn)
-		assert.equal("unpublished", response.data.status)
-		assert.isFalse(response.data.cover)
-		assert.isNull(response.data.cover_aspect_ratio)
-		assert.isNull(response.data.cover_blurhash)
-		assert.isFalse(response.data.file)
-		assert.isNull(response.data.file_name)
-		assert.equal(categories.length, response.data.categories.length)
-		assert.isFalse(response.data.in_library)
-		assert.isFalse(response.data.purchased)
-		assert.equal(0, response.data.series.length)
 
 		// Check if the data was correctly saved in the database
 		// Get the collection
@@ -791,15 +763,13 @@ describe("CreateStoreBook endpoint", () => {
 			uuid: collection.uuid
 		})
 
-		if (collectionObjResponse.status != 200) {
-			assert.fail()
-		}
+		assert.equal(collectionObjResponse.status, 200)
 
 		let storeBookUuids = []
 		for (let book of collection.books) storeBookUuids.push(book.uuid)
 		storeBookUuids.push(response.data.uuid)
 
-		assert.equal(storeBookUuids.join(','), collectionObjResponse.data.GetPropertyValue("books"))
+		assert.equal(collectionObjResponse.data.GetPropertyValue("books"), storeBookUuids.join(','))
 
 		// Get the store book
 		let storeBookObjResponse = await TableObjectsController.GetTableObject({
@@ -807,18 +777,27 @@ describe("CreateStoreBook endpoint", () => {
 			uuid: response.data.uuid
 		})
 
-		if (storeBookObjResponse.status != 200) {
-			assert.fail()
-		}
+		assert.equal(storeBookObjResponse.status, 200)
+		assert.equal(storeBookObjResponse.data.Uuid, response.data.uuid)
+		assert.equal(storeBookObjResponse.data.GetPropertyValue("collection"), collection.uuid)
+		assert.isNotNull(storeBookObjResponse.data.GetPropertyValue("releases"))
+		assert.equal(storeBookObjResponse.data.GetPropertyValue("language"), language)
+		assert.equal(storeBookObjResponse.data.GetPropertyValue("price"), price.toString())
+		assert.equal(storeBookObjResponse.data.GetPropertyValue("isbn"), isbn)
 
-		assert.equal(response.data.uuid, storeBookObjResponse.data.Uuid)
-		assert.equal(collection.uuid, storeBookObjResponse.data.GetPropertyValue("collection"))
-		assert.equal(title, storeBookObjResponse.data.GetPropertyValue("title"))
-		assert.equal(description, storeBookObjResponse.data.GetPropertyValue("description"))
-		assert.equal(language, storeBookObjResponse.data.GetPropertyValue("language"))
-		assert.equal(price.toString(), storeBookObjResponse.data.GetPropertyValue("price"))
-		assert.equal(isbn, storeBookObjResponse.data.GetPropertyValue("isbn"))
-		assert.equal(categoryUuids.join(','), storeBookObjResponse.data.GetPropertyValue("categories"))
+		// Get the store book release
+		let storeBookReleaseUuid = storeBookObjResponse.data.GetPropertyValue("releases")
+
+		let storeBookReleaseObjResponse = await TableObjectsController.GetTableObject({
+			accessToken: constants.authorUser.accessToken,
+			uuid: storeBookReleaseUuid
+		})
+
+		assert.equal(storeBookReleaseObjResponse.status, 200)
+		assert.equal(storeBookReleaseObjResponse.data.Uuid, storeBookReleaseUuid)
+		assert.equal(storeBookReleaseObjResponse.data.GetPropertyValue("title"), title)
+		assert.equal(storeBookReleaseObjResponse.data.GetPropertyValue("description"), description)
+		assert.equal(storeBookReleaseObjResponse.data.GetPropertyValue("categories"), categoryUuids.join(','))
 	})
 
 	it("should create store book and new collection name", async () => {
@@ -853,24 +832,8 @@ describe("CreateStoreBook endpoint", () => {
 			assert.fail()
 		}
 
-		assert.equal(201, response.status)
+		assert.equal(response.status, 201)
 		assert.isNotNull(response.data.uuid)
-		assert.equal(collection.uuid, response.data.collection)
-		assert.equal(title, response.data.title)
-		assert.equal(description, response.data.description)
-		assert.equal(language, response.data.language)
-		assert.equal(price, response.data.price)
-		assert.equal(isbn, response.data.isbn)
-		assert.equal("unpublished", response.data.status)
-		assert.isFalse(response.data.cover)
-		assert.isNull(response.data.cover_aspect_ratio)
-		assert.isNull(response.data.cover_blurhash)
-		assert.isFalse(response.data.file)
-		assert.isNull(response.data.file_name)
-		assert.equal(0, response.data.categories.length)
-		assert.isFalse(response.data.in_library)
-		assert.isFalse(response.data.purchased)
-		assert.equal(0, response.data.series.length)
 
 		// Check if the data was correctly saved in the database
 		// Get the collection
@@ -879,13 +842,11 @@ describe("CreateStoreBook endpoint", () => {
 			uuid: collection.uuid
 		})
 
-		if (collectionObjResponse.status != 200) {
-			assert.fail()
-		}
+		assert.equal(collectionObjResponse.status, 200)
 
 		let newCollectionNames = collectionObjResponse.data.GetPropertyValue("names")
 		let newCollectionName = newCollectionNames.split(',').pop()
-		assert.equal(collection.names.length + 1, newCollectionNames.split(',').length)
+		assert.equal(newCollectionNames.split(',').length, collection.names.length + 1)
 
 		// Get the collection name
 		let collectionNameObjResponse = await TableObjectsController.GetTableObject({
@@ -893,19 +854,16 @@ describe("CreateStoreBook endpoint", () => {
 			uuid: newCollectionName
 		})
 
-		if (collectionNameObjResponse.status != 200) {
-			assert.fail()
-		}
-
-		assert.equal(newCollectionName, collectionNameObjResponse.data.Uuid)
-		assert.equal(title, collectionNameObjResponse.data.GetPropertyValue("name"))
-		assert.equal(language, collectionNameObjResponse.data.GetPropertyValue("language"))
+		assert.equal(collectionNameObjResponse.status, 200)
+		assert.equal(collectionNameObjResponse.data.Uuid, newCollectionName)
+		assert.equal(collectionNameObjResponse.data.GetPropertyValue("name"), title)
+		assert.equal(collectionNameObjResponse.data.GetPropertyValue("language"), language)
 
 		let storeBookUuids = []
 		for (let book of collection.books) storeBookUuids.push(book.uuid)
 		storeBookUuids.push(response.data.uuid)
 
-		assert.equal(storeBookUuids.join(','), collectionObjResponse.data.GetPropertyValue("books"))
+		assert.equal(collectionObjResponse.data.GetPropertyValue("books"), storeBookUuids.join(','))
 
 		// Get the store book
 		let storeBookObjResponse = await TableObjectsController.GetTableObject({
@@ -913,18 +871,26 @@ describe("CreateStoreBook endpoint", () => {
 			uuid: response.data.uuid
 		})
 
-		if (storeBookObjResponse.status != 200) {
-			assert.fail()
-		}
+		assert.equal(storeBookObjResponse.status, 200)
+		assert.equal(storeBookObjResponse.data.Uuid, response.data.uuid)
+		assert.equal(storeBookObjResponse.data.GetPropertyValue("collection"), collection.uuid)
+		assert.isNotNull(storeBookObjResponse.data.GetPropertyValue("releases"))
+		assert.equal(storeBookObjResponse.data.GetPropertyValue("language"), language)
+		assert.equal(storeBookObjResponse.data.GetPropertyValue("price"), price.toString())
+		assert.equal(storeBookObjResponse.data.GetPropertyValue("isbn"), isbn)
 
-		assert.equal(response.data.uuid, storeBookObjResponse.data.Uuid)
-		assert.equal(collection.uuid, storeBookObjResponse.data.GetPropertyValue("collection"))
-		assert.equal(title, storeBookObjResponse.data.GetPropertyValue("title"))
-		assert.equal(description, storeBookObjResponse.data.GetPropertyValue("description"))
-		assert.equal(language, storeBookObjResponse.data.GetPropertyValue("language"))
-		assert.equal(price.toString(), storeBookObjResponse.data.GetPropertyValue("price"))
-		assert.equal(isbn, storeBookObjResponse.data.GetPropertyValue("isbn"))
-		assert.isNull(storeBookObjResponse.data.GetPropertyValue("categories"))
+		// Get the store book release
+		let storeBookReleaseUuid = storeBookObjResponse.data.GetPropertyValue("releases")
+
+		let storeBookReleaseObjResponse = await TableObjectsController.GetTableObject({
+			accessToken: constants.authorUser.accessToken,
+			uuid: storeBookReleaseUuid
+		})
+
+		assert.equal(storeBookReleaseObjResponse.status, 200)
+		assert.equal(storeBookReleaseObjResponse.data.Uuid, storeBookReleaseUuid)
+		assert.equal(storeBookReleaseObjResponse.data.GetPropertyValue("title"), title)
+		assert.equal(storeBookReleaseObjResponse.data.GetPropertyValue("description"), description)
 	})
 
 	it("should create store book and collection as admin", async () => {
@@ -963,71 +929,17 @@ describe("CreateStoreBook endpoint", () => {
 			assert.fail()
 		}
 
-		assert.equal(201, response.status)
+		assert.equal(response.status, 201)
 		assert.isNotNull(response.data.uuid)
-		assert.isNotNull(response.data.collection)
-		assert.equal(title, response.data.title)
-		assert.equal(description, response.data.description)
-		assert.equal(language, response.data.language)
-		assert.equal(price, response.data.price)
-		assert.equal(isbn, response.data.isbn)
-		assert.equal("unpublished", response.data.status)
-		assert.isFalse(response.data.cover)
-		assert.isNull(response.data.cover_aspect_ratio)
-		assert.isNull(response.data.cover_blurhash)
-		assert.isFalse(response.data.file)
-		assert.isNull(response.data.file_name)
-		assert.equal(categories.length, response.data.categories.length)
-		assert.isFalse(response.data.in_library)
-		assert.isFalse(response.data.purchased)
-		assert.equal(0, response.data.series.length)
 
 		// Check if the data was correctly saved in the database
-		// Get the collection
-		let collectionObjResponse = await TableObjectsController.GetTableObject({
-			accessToken: constants.davUser.accessToken,
-			uuid: response.data.collection
-		})
-
-		if (collectionObjResponse.status != 200) {
-			assert.fail()
-		}
-
-		let collectionNameUuid = collectionObjResponse.data.GetPropertyValue("names")
-		assert.equal(response.data.collection, collectionObjResponse.data.Uuid)
-		assert.equal(author.uuid, collectionObjResponse.data.GetPropertyValue("author"))
-		assert.isNotNull(collectionNameUuid)
-		assert.equal(response.data.uuid, collectionObjResponse.data.GetPropertyValue("books"))
-
-		// Get the collection name
-		let collectionNameObjResponse = await TableObjectsController.GetTableObject({
-			accessToken: constants.davUser.accessToken,
-			uuid: collectionNameUuid
-		})
-
-		if (collectionNameObjResponse.status != 200) {
-			assert.fail()
-		}
-
-		assert.equal(collectionNameUuid, collectionNameObjResponse.data.Uuid)
-		assert.equal(title, collectionNameObjResponse.data.GetPropertyValue("name"))
-		assert.equal(language, collectionNameObjResponse.data.GetPropertyValue("language"))
-
 		// Get the author
 		let authorObjResponse = await TableObjectsController.GetTableObject({
 			accessToken: constants.davUser.accessToken,
 			uuid: author.uuid
 		})
 
-		if (authorObjResponse.status != 200) {
-			assert.fail()
-		}
-
-		let collectionUuids = []
-		for (let collection of author.collections) collectionUuids.push(collection.uuid)
-		collectionUuids.push(response.data.collection)
-
-		assert.equal(collectionUuids.join(','), authorObjResponse.data.GetPropertyValue("collections"))
+		assert.equal(authorObjResponse.status, 200)
 
 		// Get the store book
 		let storeBookObjResponse = await TableObjectsController.GetTableObject({
@@ -1035,18 +947,61 @@ describe("CreateStoreBook endpoint", () => {
 			uuid: response.data.uuid
 		})
 
-		if (storeBookObjResponse.status != 200) {
-			assert.fail()
-		}
+		assert.equal(storeBookObjResponse.status, 200)
+		assert.equal(storeBookObjResponse.data.Uuid, response.data.uuid)
+		assert.isNotNull(storeBookObjResponse.data.GetPropertyValue("collection"))
+		assert.isNotNull(storeBookObjResponse.data.GetPropertyValue("releases"))
+		assert.equal(storeBookObjResponse.data.GetPropertyValue("language"), language)
+		assert.equal(storeBookObjResponse.data.GetPropertyValue("price"), price.toString())
+		assert.equal(storeBookObjResponse.data.GetPropertyValue("isbn"), isbn)
 
-		assert.equal(response.data.uuid, storeBookObjResponse.data.Uuid)
-		assert.equal(response.data.collection, storeBookObjResponse.data.GetPropertyValue("collection"))
-		assert.equal(title, storeBookObjResponse.data.GetPropertyValue("title"))
-		assert.equal(description, storeBookObjResponse.data.GetPropertyValue("description"))
-		assert.equal(language, storeBookObjResponse.data.GetPropertyValue("language"))
-		assert.equal(price.toString(), storeBookObjResponse.data.GetPropertyValue("price"))
-		assert.equal(isbn, storeBookObjResponse.data.GetPropertyValue("isbn"))
-		assert.equal(categoryUuids.join(','), storeBookObjResponse.data.GetPropertyValue("categories"))
+		// Get the store book release
+		let storeBookReleaseUuid = storeBookObjResponse.data.GetPropertyValue("releases")
+
+		let storeBookReleaseObjResponse = await TableObjectsController.GetTableObject({
+			accessToken: constants.davUser.accessToken,
+			uuid: storeBookReleaseUuid
+		})
+
+		assert.equal(storeBookReleaseObjResponse.status, 200)
+		assert.equal(storeBookReleaseObjResponse.data.Uuid, storeBookReleaseUuid)
+		assert.equal(storeBookReleaseObjResponse.data.GetPropertyValue("title"), title)
+		assert.equal(storeBookReleaseObjResponse.data.GetPropertyValue("description"), description)
+		assert.equal(storeBookReleaseObjResponse.data.GetPropertyValue("categories"), categoryUuids.join(','))
+
+		// Get the collection
+		let collectionUuid = storeBookObjResponse.data.GetPropertyValue("collection")
+
+		let collectionObjResponse = await TableObjectsController.GetTableObject({
+			accessToken: constants.davUser.accessToken,
+			uuid: collectionUuid
+		})
+
+		assert.equal(collectionObjResponse.status, 200)
+
+		let collectionNameUuid = collectionObjResponse.data.GetPropertyValue("names")
+		assert.equal(collectionObjResponse.data.Uuid, collectionUuid)
+		assert.equal(collectionObjResponse.data.GetPropertyValue("author"), author.uuid)
+		assert.isNotNull(collectionNameUuid)
+		assert.equal(collectionObjResponse.data.GetPropertyValue("books"), response.data.uuid)
+
+		// Get the collection name
+		let collectionNameObjResponse = await TableObjectsController.GetTableObject({
+			accessToken: constants.davUser.accessToken,
+			uuid: collectionNameUuid
+		})
+
+		assert.equal(collectionNameObjResponse.status, 200)
+		assert.equal(collectionNameObjResponse.data.Uuid, collectionNameUuid)
+		assert.equal(collectionNameObjResponse.data.GetPropertyValue("name"), title)
+		assert.equal(collectionNameObjResponse.data.GetPropertyValue("language"), language)
+
+		// Check the collections of the author
+		let collectionUuids = []
+		for (let collection of author.collections) collectionUuids.push(collection.uuid)
+		collectionUuids.push(collectionUuid)
+
+		assert.equal(authorObjResponse.data.GetPropertyValue("collections"), collectionUuids.join(','))
 	})
 
 	it("should create store book and collection", async () => {
@@ -1079,71 +1034,17 @@ describe("CreateStoreBook endpoint", () => {
 			assert.fail()
 		}
 
-		assert.equal(201, response.status)
+		assert.equal(response.status, 201)
 		assert.isNotNull(response.data.uuid)
-		assert.isNotNull(response.data.collection)
-		assert.equal(title, response.data.title)
-		assert.equal(description, response.data.description)
-		assert.equal(language, response.data.language)
-		assert.equal(price, response.data.price)
-		assert.isNull(response.data.isbn)
-		assert.equal("unpublished", response.data.status)
-		assert.isFalse(response.data.cover)
-		assert.isNull(response.data.cover_aspect_ratio)
-		assert.isNull(response.data.cover_blurhash)
-		assert.isFalse(response.data.file)
-		assert.isNull(response.data.file_name)
-		assert.equal(0, response.data.categories.length)
-		assert.isFalse(response.data.in_library)
-		assert.isFalse(response.data.purchased)
-		assert.equal(0, response.data.series.length)
 
 		// Check if the data was correctly saved in the database
-		// Get the collection
-		let collectionObjResponse = await TableObjectsController.GetTableObject({
-			accessToken: constants.authorUser.accessToken,
-			uuid: response.data.collection
-		})
-
-		if (collectionObjResponse.status != 200) {
-			assert.fail()
-		}
-
-		let collectionNameUuid = collectionObjResponse.data.GetPropertyValue("names")
-		assert.equal(response.data.collection, collectionObjResponse.data.Uuid)
-		assert.equal(author.uuid, collectionObjResponse.data.GetPropertyValue("author"))
-		assert.isNotNull(collectionNameUuid)
-		assert.equal(response.data.uuid, collectionObjResponse.data.GetPropertyValue("books"))
-
-		// Get the collection name
-		let collectionNameObjResponse = await TableObjectsController.GetTableObject({
-			accessToken: constants.authorUser.accessToken,
-			uuid: collectionNameUuid
-		})
-
-		if (collectionNameObjResponse.status != 200) {
-			assert.fail()
-		}
-
-		assert.equal(collectionNameUuid, collectionNameObjResponse.data.Uuid)
-		assert.equal(title, collectionNameObjResponse.data.GetPropertyValue("name"))
-		assert.equal(language, collectionNameObjResponse.data.GetPropertyValue("language"))
-
 		// Get the author
 		let authorObjResponse = await TableObjectsController.GetTableObject({
 			accessToken: constants.authorUser.accessToken,
 			uuid: author.uuid
 		})
 
-		if (authorObjResponse.status != 200) {
-			assert.fail()
-		}
-
-		let collectionUuids = []
-		for (let collection of author.collections) collectionUuids.push(collection.uuid)
-		collectionUuids.push(response.data.collection)
-
-		assert.equal(collectionUuids.join(','), authorObjResponse.data.GetPropertyValue("collections"))
+		assert.equal(authorObjResponse.status, 200)
 
 		// Get the store book
 		let storeBookObjResponse = await TableObjectsController.GetTableObject({
@@ -1155,13 +1056,58 @@ describe("CreateStoreBook endpoint", () => {
 			assert.fail()
 		}
 
-		assert.equal(response.data.uuid, storeBookObjResponse.data.Uuid)
-		assert.equal(response.data.collection, storeBookObjResponse.data.GetPropertyValue("collection"))
-		assert.equal(title, storeBookObjResponse.data.GetPropertyValue("title"))
-		assert.equal(description, storeBookObjResponse.data.GetPropertyValue("description"))
-		assert.equal(language, storeBookObjResponse.data.GetPropertyValue("language"))
-		assert.equal(price.toString(), storeBookObjResponse.data.GetPropertyValue("price"))
-		assert.isNull(storeBookObjResponse.data.GetPropertyValue("isbn"))
-		assert.isNull(storeBookObjResponse.data.GetPropertyValue("categories"))
+		assert.equal(storeBookObjResponse.status, 200)
+		assert.equal(storeBookObjResponse.data.Uuid, response.data.uuid)
+		assert.isNotNull(storeBookObjResponse.data.GetPropertyValue("collection"))
+		assert.isNotNull(storeBookObjResponse.data.GetPropertyValue("releases"))
+		assert.equal(storeBookObjResponse.data.GetPropertyValue("language"), language)
+		assert.equal(storeBookObjResponse.data.GetPropertyValue("price"), price.toString())
+
+		// Get the store book release
+		let storeBookReleaseUuid = storeBookObjResponse.data.GetPropertyValue("releases")
+
+		let storeBookReleaseObjResponse = await TableObjectsController.GetTableObject({
+			accessToken: constants.authorUser.accessToken,
+			uuid: storeBookReleaseUuid
+		})
+
+		assert.equal(storeBookReleaseObjResponse.status, 200)
+		assert.equal(storeBookReleaseObjResponse.data.Uuid, storeBookReleaseUuid)
+		assert.equal(storeBookReleaseObjResponse.data.GetPropertyValue("title"), title)
+		assert.equal(storeBookReleaseObjResponse.data.GetPropertyValue("description"), description)
+
+		// Get the collection
+		let collectionUuid = storeBookObjResponse.data.GetPropertyValue("collection")
+
+		let collectionObjResponse = await TableObjectsController.GetTableObject({
+			accessToken: constants.authorUser.accessToken,
+			uuid: collectionUuid
+		})
+
+		assert.equal(collectionObjResponse.status, 200)
+
+		let collectionNameUuid = collectionObjResponse.data.GetPropertyValue("names")
+		assert.equal(collectionObjResponse.data.Uuid, collectionUuid)
+		assert.equal(collectionObjResponse.data.GetPropertyValue("author"), author.uuid)
+		assert.isNotNull(collectionNameUuid)
+		assert.equal(collectionObjResponse.data.GetPropertyValue("books"), response.data.uuid)
+
+		// Get the collection name
+		let collectionNameObjResponse = await TableObjectsController.GetTableObject({
+			accessToken: constants.authorUser.accessToken,
+			uuid: collectionNameUuid
+		})
+
+		assert.equal(collectionNameObjResponse.status, 200)
+		assert.equal(collectionNameObjResponse.data.Uuid, collectionNameUuid)
+		assert.equal(collectionNameObjResponse.data.GetPropertyValue("name"), title)
+		assert.equal(collectionNameObjResponse.data.GetPropertyValue("language"), language)
+
+		// Check the collections of the author
+		let collectionUuids = []
+		for (let collection of author.collections) collectionUuids.push(collection.uuid)
+		collectionUuids.push(collectionUuid)
+
+		assert.equal(authorObjResponse.data.GetPropertyValue("collections"), collectionUuids.join(','))
 	})
 })

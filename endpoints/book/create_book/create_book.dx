@@ -64,7 +64,7 @@
 		))
 
 		(# Check if the store book is free)
-		(if ((is_nil store_book_release.properties.price) or (store_book_release.properties.price == "0")) (
+		(if ((is_nil store_book.properties.price) or (store_book.properties.price == "0")) (
 			(# Can't add free StoreBook to library without Purchase)
 			(func render_validation_errors ((list (hash (error (get_error 3004)) (status 422)))))
 		))

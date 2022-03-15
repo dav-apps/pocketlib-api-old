@@ -120,7 +120,7 @@
 	(# Check if the collection already has a name for the given language)
 	(var names (func get_collection_names_by_string_as_hash (collection_obj.properties.names)))
 
-	(if (is_nil names..language) (
+	(if (is_nil names[language]) (
 		(# Create the name for the language)
 		(var collection_name_properties (hash
 			(name title)
@@ -133,23 +133,13 @@
 	))
 ))
 
-(# Create the store book)
-(var store_book_properties (hash
-	(collection collection_obj.uuid)
+(# Create the store book release)
+(var store_book_release_properties (hash
 	(title title)
-	(language language)
 ))
 
 (if (!(is_nil description)) (
-	(var store_book_properties.description description)
-))
-
-(if (!(is_nil price)) (
-	(var store_book_properties.price price)
-))
-
-(if (!(is_nil isbn)) (
-	(var store_book_properties.isbn isbn)
+	(var store_book_release_properties.description description)
 ))
 
 (var category_keys (list))
@@ -172,7 +162,24 @@
 		))
 	))
 
-	(var store_book_properties.categories (category_uuids.join ","))
+	(var store_book_release_properties.categories (category_uuids.join ","))
+))
+
+(var store_book_release (func create_table_object (session.user_id (get_env "STORE_BOOK_RELEASE_TABLE_ID") store_book_release_properties)))
+
+(# Create the store book)
+(var store_book_properties (hash
+	(collection collection_obj.uuid)
+	(releases store_book_release.uuid)
+	(language language)
+))
+
+(if (!(is_nil price)) (
+	(var store_book_properties.price price)
+))
+
+(if (!(is_nil isbn)) (
+	(var store_book_properties.isbn isbn)
 ))
 
 (var store_book (func create_table_object (session.user_id (get_env "STORE_BOOK_TABLE_ID") store_book_properties)))
@@ -186,20 +193,4 @@
 (# Render the result)
 (render_json (hash 
 	(uuid store_book.uuid)
-	(collection store_book.properties.collection)
-	(title store_book.properties.title)
-	(description (if (is_nil store_book.properties.description) "" else store_book.properties.description))
-	(language store_book.properties.language)
-	(price (to_int store_book.properties.price))
-	(isbn store_book.properties.isbn)
-	(status "unpublished")
-	(cover false)
-	(cover_aspect_ratio nil)
-	(cover_blurhash nil)
-	(file false)
-	(file_name nil)
-	(categories category_keys)
-	(in_library false)
-	(purchased false)
-	(series (list))
 ) 201)
