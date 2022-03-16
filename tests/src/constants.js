@@ -93,12 +93,12 @@ let constants = {
 											ext: "pdf",
 											type: "application/pdf"
 										}
-									}
+									},
+									categories: [
+										"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
+										"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
+									]
 								}
-							],
-							categories: [
-								"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
-								"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
 							]
 						},
 						{
@@ -129,12 +129,12 @@ let constants = {
 											ext: "epub",
 											type: "application/zip+epub"
 										}
-									}
+									},
+									categories: [
+										"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
+										"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
+									]
 								}
-							],
-							categories: [
-								"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
-								"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
 							]
 						}
 					]
@@ -182,12 +182,12 @@ let constants = {
 											ext: "pdf",
 											type: "application/pdf"
 										}
-									}
+									},
+									categories: [
+										"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
+										"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
+									]
 								}
-							],
-							categories: [
-								"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
-								"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
 							]
 						},
 						{
@@ -219,12 +219,12 @@ let constants = {
 											ext: "epub",
 											type: "application/zip+epub"
 										}
-									}
+									},
+									categories: [
+										"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
+										"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
+									]
 								}
-							],
-							categories: [
-								"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
-								"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
 							]
 						}
 					]
@@ -280,12 +280,12 @@ let constants = {
 											ext: "pdf",
 											type: "application/pdf"
 										}
-									}
+									},
+									categories: [
+										"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
+										"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
+									]
 								}
-							],
-							categories: [
-								"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
-								"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
 							]
 						}
 					]
@@ -329,12 +329,12 @@ let constants = {
 											ext: "epub",
 											type: "application/zip+epub"
 										}
-									}
+									},
+									categories: [
+										"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
+										"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
+									]
 								}
-							],
-							categories: [
-								"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
-								"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
 							]
 						}
 					]
@@ -378,12 +378,12 @@ let constants = {
 											ext: "pdf",
 											type: "application/pdf"
 										}
-									}
+									},
+									categories: [
+										"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
+										"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
+									]
 								}
-							],
-							categories: [
-								"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
-								"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
 							]
 						}
 					]
@@ -476,11 +476,11 @@ let constants = {
 												ext: "pdf",
 												type: "application/pdf"
 											}
-										}
+										},
+										categories: [
+											"27c78f90-934e-41e3-8738-b20f6d76f0a9"		// Dystopia
+										]
 									}
-								],
-								categories: [
-									"27c78f90-934e-41e3-8738-b20f6d76f0a9"		// Dystopia
 								]
 							},
 							{
@@ -501,11 +501,11 @@ let constants = {
 												ext: "epub",
 												type: "application/zip+epub"
 											}
-										}
+										},
+										categories: [
+											"27c78f90-934e-41e3-8738-b20f6d76f0a9"		// Dystopia
+										]
 									}
-								],
-								categories: [
-									"27c78f90-934e-41e3-8738-b20f6d76f0a9"		// Dystopia
 								]
 							},
 							{
@@ -656,11 +656,11 @@ let constants = {
 									{
 										uuid: "1c9dfe5e-1de0-47fc-bb42-afd258e8d414",
 										title: "The Life and Adventures of Robinson Crusoe",
-										description: "Robinson Crusoe is one of the most popular books ever written in the English language, published in innumerable editions and translated into almost every language of the world, not to mention the many versions created in film, television and even radio."
+										description: "Robinson Crusoe is one of the most popular books ever written in the English language, published in innumerable editions and translated into almost every language of the world, not to mention the many versions created in film, television and even radio.",
+										categories: [
+											"76dd74fa-0fb3-4d80-8c0a-6d6a803383a7"		// Adventure
+										]
 									}
-								],
-								categories: [
-									"76dd74fa-0fb3-4d80-8c0a-6d6a803383a7"		// Adventure
 								]
 							}
 						]
@@ -684,11 +684,11 @@ let constants = {
 									{
 										uuid: "335f6812-f897-4fbe-a385-17b4425f1394",
 										title: "The Further Adventures of Robinson Crusoe",
-										description: "After his return from an uninhabited island, Robinson Crusoe marries and starts a family. Despite his comfortable life in England, he has an intense desire to go back to sea."
+										description: "After his return from an uninhabited island, Robinson Crusoe marries and starts a family. Despite his comfortable life in England, he has an intense desire to go back to sea.",
+										categories: [
+											"76dd74fa-0fb3-4d80-8c0a-6d6a803383a7"		// Adventure
+										]
 									}
-								],
-								categories: [
-									"76dd74fa-0fb3-4d80-8c0a-6d6a803383a7"		// Adventure
 								]
 							}
 						]
