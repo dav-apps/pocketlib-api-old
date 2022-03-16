@@ -1,4 +1,6 @@
 (# params: uuid: string, table_id: int, user_id: int)
+(if (is_nil uuid) (return nil))
+
 (catch (
 	(var obj (TableObject.get uuid))
 ) (

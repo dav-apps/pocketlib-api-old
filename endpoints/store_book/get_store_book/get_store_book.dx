@@ -1,5 +1,15 @@
 (# Get the params)
 (var uuid (get_param "uuid"))
+(var fields_str (get_param "fields"))
+
+(if (is_nil fields_str) (
+	(var fields (list "uuid"))
+) elseif (fields_str == "*") (
+	(var fields (list "uuid" "collection" "title" "description" "language" "price" "isbn" "status" "cover" "cover_aspect_ratio" "cover_blurhash" "file" "file_name" "categories" "in_library" "purchased" "series"))
+) else (
+	(# Process the fields string)
+	(var fields (func process_fields (fields_str)))
+))
 
 (# Get the access token)
 (var access_token (get_header "Authorization"))
@@ -25,6 +35,20 @@
 	(func render_validation_errors ((list (hash (error (get_error 3508)) (status 404)))))
 ))
 
+(# Get the store book release)
+(var store_book_release (func get_last_release_of_store_book (store_book)))
+
+(if (is_nil store_book_release) (
+	(# StoreBookRelease does not exist)
+	(func render_validation_errors ((list (hash (error (get_error 3516)) (status 404)))))
+))
+
+(# Get the cover item)
+(var cover_item (func get_table_object (store_book_release.properties.cover_item (get_env "STORE_BOOK_COVER_ITEM_TABLE_ID"))))
+
+(# Get the file item)
+(var file_item (func get_table_object (store_book_release.properties.file_item (get_env "STORE_BOOK_FILE_ITEM_TABLE_ID"))))
+
 (# Get the status)
 (var status (if (is_nil store_book.properties.status) "unpublished" else store_book.properties.status))
 
@@ -45,29 +69,30 @@
 	(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
 ))
 
-(# Get the categories)
-(var categories (func get_category_keys_by_string (store_book.properties.categories)))
+(if (fields.contains "categories") (
+	(# Get the categories)
+	(var categories (func get_category_keys_by_string (store_book.properties.categories)))
+))
 
 (# Return the store book)
-(render_json 
-	(hash 
-		(uuid store_book.uuid)
-		(collection store_book.properties.collection)
-		(title store_book.properties.title)
-		(description (if (is_nil store_book.properties.description) "" else store_book.properties.description))
-		(language store_book.properties.language)
-		(price (to_int store_book.properties.price))
-		(isbn store_book.properties.isbn)
-		(status status)
-		(cover (!(is_nil store_book.properties.cover)))
-		(cover_aspect_ratio store_book.properties.cover_aspect_ratio)
-		(cover_blurhash store_book.properties.cover_blurhash)
-		(file (!(is_nil store_book.properties.file)))
-		(file_name store_book.properties.file_name)
-		(categories categories)
-		(in_library (if (is_nil session) false else (func is_store_book_in_user_library (session.user_id store_book.uuid))))
-		(purchased (if (is_nil session) false else (func has_user_purchased_table_object (session.user_id store_book.id))))
-		(series (func get_series_of_store_book (store_book)))
-	) 
-	200
-)
+(var result (hash))
+
+(if (fields.contains "uuid") (var result.uuid store_book.uuid))
+(if (fields.contains "collection") (var result.collection store_book.properties.collection))
+(if (fields.contains "title") (var result.title store_book_release.properties.title))
+(if (fields.contains "description") (var result.description (if (is_nil store_book_release.properties.description) "" else store_book_release.properties.description)))
+(if (fields.contains "language") (var result.language store_book.properties.language))
+(if (fields.contains "price") (var result.price (to_int store_book.properties.price)))
+(if (fields.contains "isbn") (var result.isbn store_book.properties.isbn))
+(if (fields.contains "status") (var result.status status))
+(if (fields.contains "cover") (var result.cover (!(is_nil cover_item))))
+(if (fields.contains "cover_aspect_ratio") (var result.cover_aspect_ratio (if (is_nil cover_item) nil else cover_item.properties.aspect_ratio)))
+(if (fields.contains "cover_blurhash") (var result.cover_blurhash (if (is_nil cover_item) nil else cover_item.properties.blurhash)))
+(if (fields.contains "file") (var result.file (!(is_nil file_item))))
+(if (fields.contains "file_name") (var result.file_name (if (is_nil file_item) nil else file_item.properties.file_name)))
+(if (fields.contains "categories") (var result.categories categories))
+(if (fields.contains "in_library") (var result.in_library (if (is_nil session) false else (func is_store_book_in_user_library (session.user_id store_book.uuid)))))
+(if (fields.contains "purchased") (var result.purchased (if (is_nil session) false else (func has_user_purchased_table_object (session.user_id store_book.id)))))
+(if (fields.contains "series") (var result.series (func get_series_of_store_book (store_book))))
+
+(render_json result 200)
