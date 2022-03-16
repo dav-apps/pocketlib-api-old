@@ -37,6 +37,8 @@
 	(var page 1)
 ))
 
+(var calculate_pages (!((page == 1) and (!(fields.contains "pages")))))
+
 (# Get the latest store books)
 (var book_uuids (func get_latest_store_book_table_object_uuids ()))
 (var book_uuids book_uuids.reverse)
@@ -71,29 +73,35 @@
 
 		(books.push book_hash)
 
-		(# Check if the limit is reached)
-		(# if (books.length >= limit) (break))
+		(if (! calculate_pages) (
+			(# Check if the limit is reached)
+			(if (books.length >= limit) (break))
+		))
 	))
 ))
 
-(# Calculate the available pages)
-(var pages 1)
-(if (books.length > 0) (
-	(if ((books.length % limit) == 0) (
-		(var pages (books.length / limit))
-	) else (
-		(var pages ((books.length / limit) + 1))
+(if calculate_pages (
+	(# Calculate the available pages)
+	(var pages 1)
+	(if (books.length > 0) (
+		(if ((books.length % limit) == 0) (
+			(var pages (books.length / limit))
+		) else (
+			(var pages ((books.length / limit) + 1))
+		))
 	))
-))
 
-(if (page > pages) (
-	(var page pages)
-))
+	(if (page > pages) (
+		(var page pages)
+	))
 
-(# Select the correct books)
-(var start (limit * (page - 1)))
-(var length (if (limit > books.length) books.length else limit))
-(var selected_books (books.select start length))
+	(# Select the correct books)
+	(var start (limit * (page - 1)))
+	(var length (if (limit > books.length) books.length else limit))
+	(var selected_books (books.select start length))
+) else (
+	(var selected_books books)
+))
 
 (# Render the result)
 (var result (hash))
