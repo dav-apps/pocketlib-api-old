@@ -6,8 +6,8 @@ import * as ErrorCodes from '../errorCodes.js'
 
 const getBooksOfAuthorEndpointUrl = `${constants.apiBaseUrl}/author/{0}/books`
 
-describe("GetBooksOfAuthor endpoint", () => {
-	it("should not return books of author that does not exist", async () => {
+describe("GetStoreBooksOfAuthor endpoint", () => {
+	it("should not return store books of author that does not exist", async () => {
 		try {
 			await axios({
 				method: 'get',
@@ -23,7 +23,7 @@ describe("GetBooksOfAuthor endpoint", () => {
 		assert.fail()
 	})
 
-	it("should not return books of author if the table object is not an author", async () => {
+	it("should not return store books of author if the table object is not an author", async () => {
 		try {
 			await axios({
 				method: 'get',
@@ -39,7 +39,7 @@ describe("GetBooksOfAuthor endpoint", () => {
 		assert.fail()
 	})
 
-	it("should not return author with books with not supported language", async () => {
+	it("should not return author with store books with not supported language", async () => {
 		try {
 			await axios({
 				method: 'get',
@@ -58,31 +58,31 @@ describe("GetBooksOfAuthor endpoint", () => {
 		assert.fail()
 	})
 
-	it("should return books of author", async () => {
-		await testGetBooksOfAuthor(constants.authorUser.author)
+	it("should return store books of author", async () => {
+		await testGetStoreBooksOfAuthor(constants.authorUser.author)
 	})
 
-	it("should return books of author with specified language", async () => {
-		await testGetBooksOfAuthor(constants.authorUser.author, ["de"])
+	it("should return store books of author with specified language", async () => {
+		await testGetStoreBooksOfAuthor(constants.authorUser.author, ["de"])
 	})
 
-	it("should return books of author with specified languages", async () => {
-		await testGetBooksOfAuthor(constants.authorUser.author, ["en", "de"])
+	it("should return store books of author with specified languages", async () => {
+		await testGetStoreBooksOfAuthor(constants.authorUser.author, ["en", "de"])
 	})
 
-	it("should return books of author of admin", async () => {
-		await testGetBooksOfAuthor(constants.davUser.authors[0])
+	it("should return store books of author of admin", async () => {
+		await testGetStoreBooksOfAuthor(constants.davUser.authors[0])
 	})
 
-	it("should return books of author of admin with specified language", async () => {
-		await testGetBooksOfAuthor(constants.davUser.authors[0], ["de"])
+	it("should return store books of author of admin with specified language", async () => {
+		await testGetStoreBooksOfAuthor(constants.davUser.authors[0], ["de"])
 	})
 
-	it("should return books of author of admin with specified languages", async () => {
-		await testGetBooksOfAuthor(constants.davUser.authors[0], ["en", "de"])
+	it("should return store books of author of admin with specified languages", async () => {
+		await testGetStoreBooksOfAuthor(constants.davUser.authors[0], ["en", "de"])
 	})
 
-	async function testGetBooksOfAuthor(author, languages) {
+	async function testGetStoreBooksOfAuthor(author, languages) {
 		let response
 
 		try {
