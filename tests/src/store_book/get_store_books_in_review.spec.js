@@ -14,9 +14,9 @@ describe("GetStoreBooksInReview endpoint", () => {
 				url: getStoreBooksInReviewEndpointUrl
 			})
 		} catch (error) {
-			assert.equal(401, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.AuthorizationHeaderMissing, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 401)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.AuthorizationHeaderMissing)
 			return
 		}
 
@@ -33,9 +33,9 @@ describe("GetStoreBooksInReview endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(404, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.SessionDoesNotExist, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 404)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.SessionDoesNotExist)
 			return
 		}
 
@@ -52,9 +52,9 @@ describe("GetStoreBooksInReview endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(403, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 403)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
 			return
 		}
 
@@ -71,9 +71,9 @@ describe("GetStoreBooksInReview endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(403, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 403)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
 			return
 		}
 
@@ -89,6 +89,9 @@ describe("GetStoreBooksInReview endpoint", () => {
 				url: getStoreBooksInReviewEndpointUrl,
 				headers: {
 					Authorization: constants.davUser.accessToken
+				},
+				params: {
+					fields: "*"
 				}
 			})
 		} catch (error) {
@@ -115,25 +118,32 @@ describe("GetStoreBooksInReview endpoint", () => {
 			}
 		}
 
-		assert.equal(200, response.status)
-		assert.equal(storeBooks.length, response.data.books.length)
+		assert.equal(response.status, 200)
+		assert.equal(response.data.books.length, storeBooks.length)
 
 		for (let book of response.data.books) {
 			let storeBook = storeBooks.find(sBook => sBook.uuid == book.uuid)
+			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
 
-			assert.isNotNull(storeBook)
-			assert.equal(storeBook.uuid, book.uuid)
-			assert.equal(storeBook.title, book.title)
-			assert.equal(storeBook.description, book.description)
-			assert.equal(storeBook.language, book.language)
-			assert.equal(storeBook.price ?? 0, book.price)
-			assert.equal(storeBook.isbn, book.isbn)
-			assert.equal(storeBook.status, book.status)
-			assert.equal(storeBook.cover != null, book.cover)
-			assert.equal(storeBook.coverAspectRatio, book.cover_aspect_ratio)
-			assert.equal(storeBook.coverBlurhash, book.cover_blurhash)
-			assert.equal(storeBook.file != null, book.file)
-			assert.equal(storeBook.fileName, book.file_name)
+			assert.equal(book.uuid, storeBook.uuid)
+			assert.equal(book.title, storeBookRelease.title)
+			assert.equal(book.description, storeBookRelease.description)
+			assert.equal(book.language, storeBook.language)
+			assert.equal(book.price, storeBook.price ?? 0)
+			assert.equal(book.isbn, storeBook.isbn)
+			assert.equal(book.cover, storeBookRelease.coverItem != null)
+			assert.equal(book.cover_aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
+			assert.equal(book.cover_blurhash, storeBookRelease.coverItem?.blurhash)
+			assert.equal(book.file, storeBookRelease.fileItem != null)
+			assert.equal(book.file_name, storeBookRelease.fileItem?.fileName)
+			assert.equal(book.categories.length, storeBookRelease.categories.length)
+
+			for (let key of book.categories) {
+				let category = constants.categories.find(c => c.key == key)
+
+				assert.isNotNull(category)
+				assert.isTrue(storeBookRelease.categories.includes(category.uuid))
+			}
 		}
 	})
 })

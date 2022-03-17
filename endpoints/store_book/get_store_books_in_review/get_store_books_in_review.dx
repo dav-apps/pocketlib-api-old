@@ -1,3 +1,15 @@
+(# Get the params)
+(var fields_str (get_param "fields"))
+
+(if (is_nil fields_str) (
+	(var fields (list "books.uuid"))
+) elseif (fields_str == "*") (
+	(var fields (list "books.uuid" "books.title" "books.description" "books.language" "books.price" "books.isbn" "books.cover" "books.cover_aspect_ratio" "books.cover_blurhash" "books.file" "books.file_name" "books.categories"))
+) else (
+	(# Process the fields string)
+	(var fields (func process_fields (fields_str)))
+))
+
 (# Get the access token)
 (var access_token (get_header "Authorization"))
 (func render_validation_errors ((list
@@ -16,31 +28,53 @@
 ))
 
 (# Get all store books in review)
-(var book_objects (TableObject.find_by_property "*" (get_env "STORE_BOOK_TABLE_ID") "status" "review"))
+(var store_books (TableObject.find_by_property "*" (get_env "STORE_BOOK_TABLE_ID") "status" "review"))
 (var books (list))
 
-(for book_object in book_objects (
-	(# Get the categories)
-	(var categories (func get_category_keys_by_string (book_object.properties.categories)))
+(for store_book in store_books (
+	(# Get the latest release)
+	(var store_book_release (func get_last_release_of_store_book (store_book)))
+	(if (is_nil store_book_release) (continue))
 
-	(# Convert the table object to hash)
-	(var book (hash
-		(uuid book_object.uuid)
-		(title book_object.properties.title)
-		(description (if (is_nil book_object.properties.description) "" else book_object.properties.description))
-		(language book_object.properties.language)
-		(price (to_int book_object.properties.price))
-		(isbn book_object.properties.isbn)
-		(status book_object.properties.status)
-		(cover (!(is_nil book_object.properties.cover)))
-		(cover_aspect_ratio book_object.properties.cover_aspect_ratio)
-		(cover_blurhash book_object.properties.cover_blurhash)
-		(file (!(is_nil book_object.properties.file)))
-		(file_name book_object.properties.file_name)
-		(categories categories)
+	(if (
+		(fields.contains "books.cover")
+		or (fields.contains "books.cover_aspect_ratio")
+		or (fields.contains "books.cover_blurhash")
+	) (
+		(# Get the cover item)
+		(var cover_item (func get_table_object (store_book_release.properties.cover_item (get_env "STORE_BOOK_COVER_ITEM_TABLE_ID"))))
 	))
 
-	(books.push book)
+	(if (
+		(fields.contains "books.file")
+		or (fields.contains "books.file_name")
+	) (
+		(# Get the file item)
+		(var file_item (func get_table_object (store_book_release.properties.file_item (get_env "STORE_BOOK_FILE_ITEM_TABLE_ID"))))
+	))
+
+	(if (fields.contains "books.categories") (
+		(# Get the categories)
+		(var categories (func get_category_keys_by_string (store_book_release.properties.categories)))
+	))
+
+	(# Add the book to the list)
+	(var book_hash (hash))
+
+	(if (fields.contains "books.uuid") (var book_hash.uuid store_book.uuid))
+	(if (fields.contains "books.title") (var book_hash.title store_book_release.properties.title))
+	(if (fields.contains "books.description") (var book_hash.description (if (is_nil store_book_release.properties.description) "" else store_book_release.properties.description)))
+	(if (fields.contains "books.language") (var book_hash.language store_book.properties.language))
+	(if (fields.contains "books.price") (var book_hash.price (to_int store_book.properties.price)))
+	(if (fields.contains "books.isbn") (var book_hash.isbn store_book.properties.isbn))
+	(if (fields.contains "books.cover") (var book_hash.cover (!(is_nil cover_item))))
+	(if (fields.contains "books.cover_aspect_ratio") (var book_hash.cover_aspect_ratio (if (is_nil cover_item) nil else cover_item.properties.aspect_ratio)))
+	(if (fields.contains "books.cover_blurhash") (var book_hash.cover_blurhash (if (is_nil cover_item) nil else cover_item.properties.blurhash)))
+	(if (fields.contains "books.file") (var book_hash.file (!(is_nil file_item))))
+	(if (fields.contains "books.file_name") (var book_hash.file_name (if (is_nil file_item) nil else file_item.properties.file_name)))
+	(if (fields.contains "books.categories") (var book_hash.categories categories))
+
+	(books.push book_hash)
 ))
 
 (# Render the result)
