@@ -66,7 +66,7 @@
 		(if (fields.contains "books.title") (var book_hash.title book_release.properties.title))
 		(if (fields.contains "books.description") (var book_hash.description book_release.properties.description))
 		(if (fields.contains "books.language") (var book_hash.language book.properties.language))
-		(if (fields.contains "books.price") (var book_hash.price (if (is_nil book.properties.price) 0 else book.properties.price)))
+		(if (fields.contains "books.price") (var book_hash.price (to_int book.properties.price)))
 		(if (fields.contains "books.isbn") (var book_hash.isbn book.properties.isbn))
 		(if (fields.contains "books.cover_aspect_ratio") (var book_hash.cover_aspect_ratio cover_item.properties.aspect_ratio))
 		(if (fields.contains "books.cover_blurhash") (var book_hash.cover_blurhash cover_item.properties.blurhash))

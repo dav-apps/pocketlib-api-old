@@ -101,8 +101,8 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(response.data.file, storeBookRelease.fileItem != null)
 		assert.equal(response.data.file_name, storeBookRelease.fileItem?.fileName)
 
-		if (storeBook.categories) {
-			assert.equal(response.data.categories.length, storeBook.categories.length)
+		if (storeBookRelease.categories) {
+			assert.equal(response.data.categories.length, storeBookRelease.categories.length)
 
 			for (let key of response.data.categories) {
 				assert.isNotNull(constants.categories.find(c => c.key == key))
@@ -163,8 +163,8 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(response.data.file, storeBookRelease.fileItem != null)
 		assert.equal(response.data.file_name, storeBookRelease.fileItem?.fileName)
 
-		if (storeBook.categories) {
-			assert.equal(response.data.categories.length, storeBook.categories.length)
+		if (storeBookRelease.categories) {
+			assert.equal(response.data.categories.length, storeBookRelease.categories.length)
 
 			for (let key of response.data.categories) {
 				assert.isNotNull(constants.categories.find(c => c.key == key))
@@ -266,8 +266,8 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(response.data.file, storeBookRelease.fileItem != null)
 		assert.equal(response.data.file_name, storeBookRelease.fileItem?.fileName)
 
-		if (storeBook.categories) {
-			assert.equal(storeBook.categories.length, response.data.categories.length)
+		if (storeBookRelease.categories) {
+			assert.equal(response.data.categories.length, storeBookRelease.categories.length)
 
 			for (let key of response.data.categories) {
 				assert.isNotNull(constants.categories.find(c => c.key == key))
@@ -328,11 +328,11 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(response.data.file, storeBookRelease.fileItem != null)
 		assert.equal(response.data.file_name, storeBookRelease.fileItem?.fileName)
 
-		if (storeBook.categories) {
-			assert.equal(response.data.categories.length, storeBook.categories.length)
+		if (storeBookRelease.categories) {
+			assert.equal(response.data.categories.length, storeBookRelease.categories.length)
 
 			for (let key of response.data.categories) {
-				assert(constants.categories.find(c => c.key == key) != null)
+				assert.isNotNull(constants.categories.find(c => c.key == key))
 			}
 		} else {
 			assert.equal(response.data.categories.length, 0)
@@ -431,8 +431,8 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(response.data.file, storeBookRelease.fileItem != null)
 		assert.equal(response.data.file_name, storeBookRelease.fileItem?.fileName)
 
-		if (storeBook.categories) {
-			assert.equal(response.data.categories.length, storeBook.categories.length)
+		if (storeBookRelease.categories) {
+			assert.equal(response.data.categories.length, storeBookRelease.categories.length)
 
 			for (let key of response.data.categories) {
 				assert.isNotNull(constants.categories.find(c => c.key == key))
@@ -493,8 +493,8 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(response.data.file, storeBookRelease.fileItem != null)
 		assert.equal(response.data.file_name, storeBookRelease.fileItem?.fileName)
 
-		if (storeBook.categories) {
-			assert.equal(response.data.categories.length, storeBook.categories.length)
+		if (storeBookRelease.categories) {
+			assert.equal(response.data.categories.length, storeBookRelease.categories.length)
 
 			for (let key of response.data.categories) {
 				assert.isNotNull(constants.categories.find(c => c.key == key))
@@ -555,14 +555,14 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(response.data.file, storeBookRelease.fileItem != null)
 		assert.equal(response.data.file_name, storeBookRelease.fileItem?.fileName)
 
-		if (storeBook.categories) {
-			assert.equal(response.data.categories.length, storeBook.categories.length)
+		if (storeBookRelease.categories) {
+			assert.equal(response.data.categories.length, storeBookRelease.categories.length)
 
 			for (let key of response.data.categories) {
 				assert.isNotNull(constants.categories.find(c => c.key == key))
 			}
 		} else {
-			assert.equal(0, response.data.categories.length)
+			assert.equal(response.data.categories.length, 0)
 		}
 
 		assert.isFalse(response.data.in_library)
@@ -614,8 +614,8 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(response.data.file, storeBookRelease.fileItem != null)
 		assert.equal(response.data.file_name, storeBookRelease.fileItem?.fileName)
 
-		if (storeBook.categories) {
-			assert.equal(response.data.categories.length, storeBook.categories.length)
+		if (storeBookRelease.categories) {
+			assert.equal(response.data.categories.length, storeBookRelease.categories.length)
 
 			for (let key of response.data.categories) {
 				assert.isNotNull(constants.categories.find(c => c.key == key))
@@ -676,8 +676,8 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(response.data.file, storeBookRelease.fileItem != null)
 		assert.equal(response.data.file_name, storeBookRelease.fileItem?.fileName)
 
-		if (storeBook.categories) {
-			assert.equal(response.data.categories.length, storeBook.categories.length)
+		if (storeBookRelease.categories) {
+			assert.equal(response.data.categories.length, storeBookRelease.categories.length)
 
 			for (let key of response.data.categories) {
 				assert.isNotNull(constants.categories.find(c => c.key == key))
@@ -738,8 +738,8 @@ describe("GetStoreBook endpoint", () => {
 		assert.equal(response.data.file, storeBookRelease.fileItem != null)
 		assert.equal(response.data.file_name, storeBookRelease.fileItem?.fileName)
 
-		if (storeBook.categories) {
-			assert.equal(response.data.categories.length, storeBook.categories.length)
+		if (storeBookRelease.categories) {
+			assert.equal(response.data.categories.length, storeBookRelease.categories.length)
 
 			for (let key of response.data.categories) {
 				assert.isNotNull(constants.categories.find(c => c.key == key))

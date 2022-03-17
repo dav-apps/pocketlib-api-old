@@ -43,11 +43,22 @@
 	(func render_validation_errors ((list (hash (error (get_error 3516)) (status 404)))))
 ))
 
-(# Get the cover item)
-(var cover_item (func get_table_object (store_book_release.properties.cover_item (get_env "STORE_BOOK_COVER_ITEM_TABLE_ID"))))
+(if (
+	(fields.contains "cover")
+	or (fields.contains "cover_aspect_ratio")
+	or (fields.contains "cover_blurhash")
+) (
+	(# Get the cover item)
+	(var cover_item (func get_table_object (store_book_release.properties.cover_item (get_env "STORE_BOOK_COVER_ITEM_TABLE_ID"))))
+))
 
-(# Get the file item)
-(var file_item (func get_table_object (store_book_release.properties.file_item (get_env "STORE_BOOK_FILE_ITEM_TABLE_ID"))))
+(if (
+	(fields.contains "file")
+	or (fields.contains "file_name")
+) (
+	(# Get the file item)
+	(var file_item (func get_table_object (store_book_release.properties.file_item (get_env "STORE_BOOK_FILE_ITEM_TABLE_ID"))))
+))
 
 (# Get the status)
 (var status (if (is_nil store_book.properties.status) "unpublished" else store_book.properties.status))
@@ -71,7 +82,7 @@
 
 (if (fields.contains "categories") (
 	(# Get the categories)
-	(var categories (func get_category_keys_by_string (store_book.properties.categories)))
+	(var categories (func get_category_keys_by_string (store_book_release.properties.categories)))
 ))
 
 (# Return the store book)
