@@ -14,9 +14,9 @@ describe("GetStoreBooksByCategory endpoint", () => {
 				url: getStoreBooksByCategoryEndpointUrl.replace('{0}', "asd")
 			})
 		} catch (error) {
-			assert.equal(404, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.CategoryDoesNotExist, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 404)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.CategoryDoesNotExist)
 			return
 		}
 
@@ -33,9 +33,9 @@ describe("GetStoreBooksByCategory endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.LanguageNotSupported, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.LanguageNotSupported)
 			return
 		}
 
@@ -49,7 +49,10 @@ describe("GetStoreBooksByCategory endpoint", () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getStoreBooksByCategoryEndpointUrl.replace('{0}', category.key)
+				url: getStoreBooksByCategoryEndpointUrl.replace('{0}', category.key),
+				params: {
+					fields: "*"
+				}
 			})
 		} catch (error) {
 			assert.fail()
@@ -59,27 +62,107 @@ describe("GetStoreBooksByCategory endpoint", () => {
 		let storeBooks = []
 		for (let collection of constants.authorUser.author.collections) {
 			for (let storeBook of collection.books) {
+				let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+
 				if (
 					storeBook.language == "en"
 					&& storeBook.status == "published"
-					&& storeBook.categories
-					&& storeBook.categories.includes(category.uuid)
+					&& storeBookRelease.categories
+					&& storeBookRelease.categories.includes(category.uuid)
+					&& storeBookRelease.coverItem
 				) storeBooks.push(storeBook)
 			}
 		}
 
-		assert.equal(200, response.status)
-		assert.equal(storeBooks.length, response.data.books.length)
+		for (let author of constants.davUser.authors) {
+			for (let collection of author.collections) {
+				for (let storeBook of collection.books) {
+					let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+
+					if (
+						storeBook.language == "en"
+						&& storeBook.status == "published"
+						&& storeBookRelease.categories
+						&& storeBookRelease.categories.includes(category.uuid)
+						&& storeBookRelease.coverItem
+					) storeBooks.push(storeBook)
+				}
+			}
+		}
+
+		assert.equal(response.status, 200)
+		assert.equal(response.data.books.length, storeBooks.length)
+
+		for (let book of response.data.books) {
+			let storeBook = storeBooks.find(sBook => sBook.uuid == book.uuid)
+			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+
+			assert.equal(book.uuid, storeBook.uuid)
+			assert.equal(book.title, storeBookRelease.title)
+			assert.equal(book.description, storeBookRelease.description)
+			assert.equal(book.language, storeBook.language)
+			assert.equal(book.price, storeBook.price == null ? 0 : storeBook.price)
+			assert.equal(book.isbn, storeBook.isbn)
+			assert.equal(book.cover_aspect_ratio, storeBookRelease.coverItem.aspectRatio)
+			assert.equal(book.cover_blurhash, storeBookRelease.coverItem.blurhash)
+		}
+	})
+
+	it("should return store books by category without page", async () => {
+		let response
+		let category = constants.categories[0]
+
+		try {
+			response = await axios({
+				method: 'get',
+				url: getStoreBooksByCategoryEndpointUrl.replace('{0}', category.key),
+				params: {
+					fields: "books.uuid"
+				}
+			})
+		} catch (error) {
+			assert.fail()
+		}
+
+		// Find all store books with the category and language = en
+		let storeBooks = []
+		for (let collection of constants.authorUser.author.collections) {
+			for (let storeBook of collection.books) {
+				let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+
+				if (
+					storeBook.language == "en"
+					&& storeBook.status == "published"
+					&& storeBookRelease.categories
+					&& storeBookRelease.categories.includes(category.uuid)
+					&& storeBookRelease.coverItem
+				) storeBooks.push(storeBook)
+			}
+		}
+
+		for (let author of constants.davUser.authors) {
+			for (let collection of author.collections) {
+				for (let storeBook of collection.books) {
+					let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+
+					if (
+						storeBook.language == "en"
+						&& storeBook.status == "published"
+						&& storeBookRelease.categories
+						&& storeBookRelease.categories.includes(category.uuid)
+						&& storeBookRelease.coverItem
+					) storeBooks.push(storeBook)
+				}
+			}
+		}
+
+		assert.equal(response.status, 200)
+		assert.equal(response.data.books.length, storeBooks.length)
 
 		for (let book of response.data.books) {
 			let storeBook = storeBooks.find(sBook => sBook.uuid == book.uuid)
 
-			assert.isNotNull(storeBook)
-			assert.equal(storeBook.uuid, book.uuid)
-			assert.equal(storeBook.title, book.title)
-			assert.equal(storeBook.cover != null, book.cover)
-			assert.equal(storeBook.coverAspectRatio, book.cover_aspect_ratio)
-			assert.equal(storeBook.coverBlurhash, book.cover_blurhash)
+			assert.equal(book.uuid, storeBook.uuid)
 		}
 	})
 
@@ -93,6 +176,7 @@ describe("GetStoreBooksByCategory endpoint", () => {
 				method: 'get',
 				url: getStoreBooksByCategoryEndpointUrl.replace('{0}', category.key),
 				params: {
+					fields: "*",
 					languages: language
 				}
 			})
@@ -104,27 +188,49 @@ describe("GetStoreBooksByCategory endpoint", () => {
 		let storeBooks = []
 		for (let collection of constants.authorUser.author.collections) {
 			for (let storeBook of collection.books) {
+				let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+
 				if (
 					storeBook.language == language
 					&& storeBook.status == "published"
-					&& storeBook.categories
-					&& storeBook.categories.includes(category.uuid)
+					&& storeBookRelease.categories
+					&& storeBookRelease.categories.includes(category.uuid)
+					&& storeBookRelease.coverItem
 				) storeBooks.push(storeBook)
 			}
 		}
 
-		assert.equal(200, response.status)
-		assert.equal(storeBooks.length, response.data.books.length)
+		for (let author of constants.davUser.authors) {
+			for (let collection of author.collections) {
+				for (let storeBook of collection.books) {
+					let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+
+					if (
+						storeBook.language == language
+						&& storeBook.status == "published"
+						&& storeBookRelease.categories
+						&& storeBookRelease.categories.includes(category.uuid)
+						&& storeBookRelease.coverItem
+					) storeBooks.push(storeBook)
+				}
+			}
+		}
+
+		assert.equal(response.status, 200)
+		assert.equal(response.data.books.length, storeBooks.length)
 
 		for (let book of response.data.books) {
 			let storeBook = storeBooks.find(sBook => sBook.uuid == book.uuid)
+			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
 
-			assert.isNotNull(storeBook)
-			assert.equal(storeBook.uuid, book.uuid)
-			assert.equal(storeBook.title, book.title)
-			assert.equal(storeBook.cover != null, book.cover)
-			assert.equal(storeBook.coverAspectRatio, book.cover_aspect_ratio)
-			assert.equal(storeBook.coverBlurhash, book.cover_blurhash)
+			assert.equal(book.uuid, storeBook.uuid)
+			assert.equal(book.title, storeBookRelease.title)
+			assert.equal(book.description, storeBookRelease.description)
+			assert.equal(book.language, storeBook.language)
+			assert.equal(book.price, storeBook.price == null ? 0 : storeBook.price)
+			assert.equal(book.isbn, storeBook.isbn)
+			assert.equal(book.cover_aspect_ratio, storeBookRelease.coverItem.aspectRatio)
+			assert.equal(book.cover_blurhash, storeBookRelease.coverItem.blurhash)
 		}
 	})
 
@@ -138,6 +244,7 @@ describe("GetStoreBooksByCategory endpoint", () => {
 				method: 'get',
 				url: getStoreBooksByCategoryEndpointUrl.replace('{0}', category.key),
 				params: {
+					fields: "*",
 					languages: languages.join(',')
 				}
 			})
@@ -149,27 +256,49 @@ describe("GetStoreBooksByCategory endpoint", () => {
 		let storeBooks = []
 		for (let collection of constants.authorUser.author.collections) {
 			for (let storeBook of collection.books) {
+				let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+
 				if (
 					languages.includes(storeBook.language)
 					&& storeBook.status == "published"
-					&& storeBook.categories
-					&& storeBook.categories.includes(category.uuid)
+					&& storeBookRelease.categories
+					&& storeBookRelease.categories.includes(category.uuid)
+					&& storeBookRelease.coverItem
 				) storeBooks.push(storeBook)
 			}
 		}
 
-		assert.equal(200, response.status)
-		assert.equal(storeBooks.length, response.data.books.length)
+		for (let author of constants.davUser.authors) {
+			for (let collection of author.collections) {
+				for (let storeBook of collection.books) {
+					let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+
+					if (
+						languages.includes(storeBook.language)
+						&& storeBook.status == "published"
+						&& storeBookRelease.categories
+						&& storeBookRelease.categories.includes(category.uuid)
+						&& storeBookRelease.coverItem
+					) storeBooks.push(storeBook)
+				}
+			}
+		}
+
+		assert.equal(response.status, 200)
+		assert.equal(response.data.books.length, storeBooks.length)
 
 		for (let book of response.data.books) {
 			let storeBook = storeBooks.find(sBook => sBook.uuid == book.uuid)
+			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
 
-			assert.isNotNull(storeBook)
-			assert.equal(storeBook.uuid, book.uuid)
-			assert.equal(storeBook.title, book.title)
-			assert.equal(storeBook.cover != null, book.cover)
-			assert.equal(storeBook.coverAspectRatio, book.cover_aspect_ratio)
-			assert.equal(storeBook.coverBlurhash, book.cover_blurhash)
+			assert.equal(book.uuid, storeBook.uuid)
+			assert.equal(book.title, storeBookRelease.title)
+			assert.equal(book.description, storeBookRelease.description)
+			assert.equal(book.language, storeBook.language)
+			assert.equal(book.price, storeBook.price == null ? 0 : storeBook.price)
+			assert.equal(book.isbn, storeBook.isbn)
+			assert.equal(book.cover_aspect_ratio, storeBookRelease.coverItem.aspectRatio)
+			assert.equal(book.cover_blurhash, storeBookRelease.coverItem.blurhash)
 		}
 	})
 
@@ -184,6 +313,7 @@ describe("GetStoreBooksByCategory endpoint", () => {
 				method: 'get',
 				url: getStoreBooksByCategoryEndpointUrl.replace('{0}', category.key),
 				params: {
+					fields: "*",
 					languages: languages.join(','),
 					limit
 				}
@@ -196,30 +326,52 @@ describe("GetStoreBooksByCategory endpoint", () => {
 		let storeBooks = []
 		for (let collection of constants.authorUser.author.collections) {
 			for (let storeBook of collection.books) {
+				let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+
 				if (
 					languages.includes(storeBook.language)
 					&& storeBook.status == "published"
-					&& storeBook.categories
-					&& storeBook.categories.includes(category.uuid)
+					&& storeBookRelease.categories
+					&& storeBookRelease.categories.includes(category.uuid)
+					&& storeBookRelease.coverItem
 				) storeBooks.push(storeBook)
+			}
+		}
+
+		for (let author of constants.davUser.authors) {
+			for (let collection of author.collections) {
+				for (let storeBook of collection.books) {
+					let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+
+					if (
+						languages.includes(storeBook.language)
+						&& storeBook.status == "published"
+						&& storeBookRelease.categories
+						&& storeBookRelease.categories.includes(category.uuid)
+						&& storeBookRelease.coverItem
+					) storeBooks.push(storeBook)
+				}
 			}
 		}
 
 		let pages = Math.ceil(storeBooks.length / limit)
 
-		assert.equal(200, response.status)
-		assert.equal(limit, response.data.books.length)
-		assert.equal(pages, response.data.pages)
+		assert.equal(response.status, 200)
+		assert.equal(response.data.books.length, limit)
+		assert.equal(response.data.pages, pages)
 
 		for (let book of response.data.books) {
 			let storeBook = storeBooks.find(sBook => sBook.uuid == book.uuid)
+			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
 
-			assert.isNotNull(storeBook)
-			assert.equal(storeBook.uuid, book.uuid)
-			assert.equal(storeBook.title, book.title)
-			assert.equal(storeBook.cover != null, book.cover)
-			assert.equal(storeBook.coverAspectRatio, book.cover_aspect_ratio)
-			assert.equal(storeBook.coverBlurhash, book.cover_blurhash)
+			assert.equal(book.uuid, storeBook.uuid)
+			assert.equal(book.title, storeBookRelease.title)
+			assert.equal(book.description, storeBookRelease.description)
+			assert.equal(book.language, storeBook.language)
+			assert.equal(book.price, storeBook.price == null ? 0 : storeBook.price)
+			assert.equal(book.isbn, storeBook.isbn)
+			assert.equal(book.cover_aspect_ratio, storeBookRelease.coverItem.aspectRatio)
+			assert.equal(book.cover_blurhash, storeBookRelease.coverItem.blurhash)
 		}
 
 		// Get the store books of the next page
@@ -228,6 +380,7 @@ describe("GetStoreBooksByCategory endpoint", () => {
 				method: 'get',
 				url: getStoreBooksByCategoryEndpointUrl.replace('{0}', category.key),
 				params: {
+					fields: "*",
 					languages: languages.join(','),
 					limit,
 					page: 2
@@ -237,19 +390,22 @@ describe("GetStoreBooksByCategory endpoint", () => {
 			assert.fail()
 		}
 
-		assert.equal(200, response.status)
-		assert.equal(limit, response.data.books.length)
-		assert.equal(pages, response.data.pages)
+		assert.equal(response.status, 200)
+		assert.equal(response.data.books.length, limit)
+		assert.equal(response.data.pages, pages)
 
 		for (let book of response.data.books) {
 			let storeBook = storeBooks.find(sBook => sBook.uuid == book.uuid)
+			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
 
-			assert.isNotNull(storeBook)
-			assert.equal(storeBook.uuid, book.uuid)
-			assert.equal(storeBook.title, book.title)
-			assert.equal(storeBook.cover != null, book.cover)
-			assert.equal(storeBook.coverAspectRatio, book.cover_aspect_ratio)
-			assert.equal(storeBook.coverBlurhash, book.cover_blurhash)
+			assert.equal(book.uuid, storeBook.uuid)
+			assert.equal(book.title, storeBookRelease.title)
+			assert.equal(book.description, storeBookRelease.description)
+			assert.equal(book.language, storeBook.language)
+			assert.equal(book.price, storeBook.price == null ? 0 : storeBook.price)
+			assert.equal(book.isbn, storeBook.isbn)
+			assert.equal(book.cover_aspect_ratio, storeBookRelease.coverItem.aspectRatio)
+			assert.equal(book.cover_blurhash, storeBookRelease.coverItem.blurhash)
 		}
 	})
 
@@ -261,7 +417,10 @@ describe("GetStoreBooksByCategory endpoint", () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getStoreBooksByCategoryEndpointUrl.replace('{0}', `${firstCategory.key},${secondCategory.key}`)
+				url: getStoreBooksByCategoryEndpointUrl.replace('{0}', `${firstCategory.key},${secondCategory.key}`),
+				params: {
+					fields: "*"
+				}
 			})
 		} catch (error) {
 			assert.fail()
@@ -271,28 +430,51 @@ describe("GetStoreBooksByCategory endpoint", () => {
 		let storeBooks = []
 		for (let collection of constants.authorUser.author.collections) {
 			for (let storeBook of collection.books) {
+				let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+
 				if (
 					storeBook.language == "en"
 					&& storeBook.status == "published"
-					&& storeBook.categories
-					&& storeBook.categories.includes(firstCategory.uuid)
-					&& storeBook.categories.includes(secondCategory.uuid)
+					&& storeBookRelease.categories
+					&& storeBookRelease.categories.includes(firstCategory.uuid)
+					&& storeBookRelease.categories.includes(secondCategory.uuid)
+					&& storeBookRelease.coverItem
 				) storeBooks.push(storeBook)
 			}
 		}
 
-		assert.equal(200, response.status)
-		assert.equal(storeBooks.length, response.data.books.length)
+		for (let author of constants.davUser.authors) {
+			for (let collection of author.collections) {
+				for (let storeBook of collection.books) {
+					let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+
+					if (
+						storeBook.language == "en"
+						&& storeBook.status == "published"
+						&& storeBookRelease.categories
+						&& storeBookRelease.categories.includes(firstCategory.uuid)
+						&& storeBookRelease.categories.includes(secondCategory.uuid)
+						&& storeBookRelease.coverItem
+					) storeBooks.push(storeBook)
+				}
+			}
+		}
+
+		assert.equal(response.status, 200)
+		assert.equal(response.data.books.length, storeBooks.length)
 
 		for (let book of response.data.books) {
 			let storeBook = storeBooks.find(sBook => sBook.uuid == book.uuid)
+			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
 
-			assert.isNotNull(storeBook)
-			assert.equal(storeBook.uuid, book.uuid)
-			assert.equal(storeBook.title, book.title)
-			assert.equal(storeBook.cover != null, book.cover)
-			assert.equal(storeBook.coverAspectRatio, book.cover_aspect_ratio)
-			assert.equal(storeBook.coverBlurhash, book.cover_blurhash)
+			assert.equal(book.uuid, storeBook.uuid)
+			assert.equal(book.title, storeBookRelease.title)
+			assert.equal(book.description, storeBookRelease.description)
+			assert.equal(book.language, storeBook.language)
+			assert.equal(book.price, storeBook.price == null ? 0 : storeBook.price)
+			assert.equal(book.isbn, storeBook.isbn)
+			assert.equal(book.cover_aspect_ratio, storeBookRelease.coverItem.aspectRatio)
+			assert.equal(book.cover_blurhash, storeBookRelease.coverItem.blurhash)
 		}
 	})
 
@@ -307,6 +489,7 @@ describe("GetStoreBooksByCategory endpoint", () => {
 				method: 'get',
 				url: getStoreBooksByCategoryEndpointUrl.replace('{0}', `${firstCategory.key},${secondCategory.key}`),
 				params: {
+					fields: "*",
 					languages: language
 				}
 			})
@@ -318,28 +501,51 @@ describe("GetStoreBooksByCategory endpoint", () => {
 		let storeBooks = []
 		for (let collection of constants.authorUser.author.collections) {
 			for (let storeBook of collection.books) {
+				let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+
 				if (
 					storeBook.language == language
 					&& storeBook.status == "published"
-					&& storeBook.categories
-					&& storeBook.categories.includes(firstCategory.uuid)
-					&& storeBook.categories.includes(secondCategory.uuid)
+					&& storeBookRelease.categories
+					&& storeBookRelease.categories.includes(firstCategory.uuid)
+					&& storeBookRelease.categories.includes(secondCategory.uuid)
+					&& storeBookRelease.coverItem
 				) storeBooks.push(storeBook)
 			}
 		}
 
-		assert.equal(200, response.status)
-		assert.equal(storeBooks.length, response.data.books.length)
+		for (let author of constants.davUser.authors) {
+			for (let collection of author.collections) {
+				for (let storeBook of collection.books) {
+					let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+
+					if (
+						storeBook.language == language
+						&& storeBook.status == "published"
+						&& storeBookRelease.categories
+						&& storeBookRelease.categories.includes(firstCategory.uuid)
+						&& storeBookRelease.categories.includes(secondCategory.uuid)
+						&& storeBookRelease.coverItem
+					) storeBooks.push(storeBook)
+				}
+			}
+		}
+
+		assert.equal(response.status, 200)
+		assert.equal(response.data.books.length, storeBooks.length)
 
 		for (let book of response.data.books) {
 			let storeBook = storeBooks.find(sBook => sBook.uuid == book.uuid)
+			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
 
-			assert.isNotNull(storeBook)
-			assert.equal(storeBook.uuid, book.uuid)
-			assert.equal(storeBook.title, book.title)
-			assert.equal(storeBook.cover != null, book.cover)
-			assert.equal(storeBook.coverAspectRatio, book.cover_aspect_ratio)
-			assert.equal(storeBook.coverBlurhash, book.cover_blurhash)
+			assert.equal(book.uuid, storeBook.uuid)
+			assert.equal(book.title, storeBookRelease.title)
+			assert.equal(book.description, storeBookRelease.description)
+			assert.equal(book.language, storeBook.language)
+			assert.equal(book.price, storeBook.price == null ? 0 : storeBook.price)
+			assert.equal(book.isbn, storeBook.isbn)
+			assert.equal(book.cover_aspect_ratio, storeBookRelease.coverItem.aspectRatio)
+			assert.equal(book.cover_blurhash, storeBookRelease.coverItem.blurhash)
 		}
 	})
 
@@ -354,6 +560,7 @@ describe("GetStoreBooksByCategory endpoint", () => {
 				method: 'get',
 				url: getStoreBooksByCategoryEndpointUrl.replace('{0}', `${firstCategory.key},${secondCategory.key}`),
 				params: {
+					fields: "*",
 					languages: languages.join(',')
 				}
 			})
@@ -365,28 +572,51 @@ describe("GetStoreBooksByCategory endpoint", () => {
 		let storeBooks = []
 		for (let collection of constants.authorUser.author.collections) {
 			for (let storeBook of collection.books) {
+				let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+
 				if (
 					languages.includes(storeBook.language)
 					&& storeBook.status == "published"
-					&& storeBook.categories
-					&& storeBook.categories.includes(firstCategory.uuid)
-					&& storeBook.categories.includes(secondCategory.uuid)
+					&& storeBookRelease.categories
+					&& storeBookRelease.categories.includes(firstCategory.uuid)
+					&& storeBookRelease.categories.includes(secondCategory.uuid)
+					&& storeBookRelease.coverItem
 				) storeBooks.push(storeBook)
 			}
 		}
 
-		assert.equal(200, response.status)
-		assert.equal(storeBooks.length, response.data.books.length)
+		for (let author of constants.davUser.authors) {
+			for (let collection of author.collections) {
+				for (let storeBook of collection.books) {
+					let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+
+					if (
+						languages.includes(storeBook.language)
+						&& storeBook.status == "published"
+						&& storeBookRelease.categories
+						&& storeBookRelease.categories.includes(firstCategory.uuid)
+						&& storeBookRelease.categories.includes(secondCategory.uuid)
+						&& storeBookRelease.coverItem
+					) storeBooks.push(storeBook)
+				}
+			}
+		}
+
+		assert.equal(response.status, 200)
+		assert.equal(response.data.books.length, storeBooks.length)
 
 		for (let book of response.data.books) {
 			let storeBook = storeBooks.find(sBook => sBook.uuid == book.uuid)
+			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
 
-			assert.isNotNull(storeBook)
-			assert.equal(storeBook.uuid, book.uuid)
-			assert.equal(storeBook.title, book.title)
-			assert.equal(storeBook.cover != null, book.cover)
-			assert.equal(storeBook.coverAspectRatio, book.cover_aspect_ratio)
-			assert.equal(storeBook.coverBlurhash, book.cover_blurhash)
+			assert.equal(book.uuid, storeBook.uuid)
+			assert.equal(book.title, storeBookRelease.title)
+			assert.equal(book.description, storeBookRelease.description)
+			assert.equal(book.language, storeBook.language)
+			assert.equal(book.price, storeBook.price == null ? 0 : storeBook.price)
+			assert.equal(book.isbn, storeBook.isbn)
+			assert.equal(book.cover_aspect_ratio, storeBookRelease.coverItem.aspectRatio)
+			assert.equal(book.cover_blurhash, storeBookRelease.coverItem.blurhash)
 		}
 	})
 
@@ -402,6 +632,7 @@ describe("GetStoreBooksByCategory endpoint", () => {
 				method: 'get',
 				url: getStoreBooksByCategoryEndpointUrl.replace('{0}', `${firstCategory.key},${secondCategory.key}`),
 				params: {
+					fields: "*",
 					languages: languages.join(','),
 					limit
 				}
@@ -414,31 +645,54 @@ describe("GetStoreBooksByCategory endpoint", () => {
 		let storeBooks = []
 		for (let collection of constants.authorUser.author.collections) {
 			for (let storeBook of collection.books) {
+				let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+
 				if (
 					languages.includes(storeBook.language)
 					&& storeBook.status == "published"
-					&& storeBook.categories
-					&& storeBook.categories.includes(firstCategory.uuid)
-					&& storeBook.categories.includes(secondCategory.uuid)
+					&& storeBookRelease.categories
+					&& storeBookRelease.categories.includes(firstCategory.uuid)
+					&& storeBookRelease.categories.includes(secondCategory.uuid)
+					&& storeBookRelease.coverItem
 				) storeBooks.push(storeBook)
+			}
+		}
+
+		for (let author of constants.davUser.authors) {
+			for (let collection of author.collections) {
+				for (let storeBook of collection.books) {
+					let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+
+					if (
+						languages.includes(storeBook.language)
+						&& storeBook.status == "published"
+						&& storeBookRelease.categories
+						&& storeBookRelease.categories.includes(firstCategory.uuid)
+						&& storeBookRelease.categories.includes(secondCategory.uuid)
+						&& storeBookRelease.coverItem
+					) storeBooks.push(storeBook)
+				}
 			}
 		}
 		
 		let pages = Math.ceil(storeBooks.length / limit)
 
-		assert.equal(200, response.status)
-		assert.equal(limit, response.data.books.length)
-		assert.equal(pages, response.data.pages)
+		assert.equal(response.status, 200)
+		assert.equal(response.data.books.length, limit)
+		assert.equal(response.data.pages, pages)
 
 		for (let book of response.data.books) {
 			let storeBook = storeBooks.find(sBook => sBook.uuid == book.uuid)
+			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
 
-			assert.isNotNull(storeBook)
-			assert.equal(storeBook.uuid, book.uuid)
-			assert.equal(storeBook.title, book.title)
-			assert.equal(storeBook.cover != null, book.cover)
-			assert.equal(storeBook.coverAspectRatio, book.cover_aspect_ratio)
-			assert.equal(storeBook.coverBlurhash, book.cover_blurhash)
+			assert.equal(book.uuid, storeBook.uuid)
+			assert.equal(book.title, storeBookRelease.title)
+			assert.equal(book.description, storeBookRelease.description)
+			assert.equal(book.language, storeBook.language)
+			assert.equal(book.price, storeBook.price == null ? 0 : storeBook.price)
+			assert.equal(book.isbn, storeBook.isbn)
+			assert.equal(book.cover_aspect_ratio, storeBookRelease.coverItem.aspectRatio)
+			assert.equal(book.cover_blurhash, storeBookRelease.coverItem.blurhash)
 		}
 
 		try {
@@ -446,6 +700,7 @@ describe("GetStoreBooksByCategory endpoint", () => {
 				method: 'get',
 				url: getStoreBooksByCategoryEndpointUrl.replace('{0}', `${firstCategory.key},${secondCategory.key}`),
 				params: {
+					fields: "*",
 					languages: languages.join(','),
 					limit,
 					page: 2
@@ -455,19 +710,22 @@ describe("GetStoreBooksByCategory endpoint", () => {
 			assert.fail()
 		}
 
-		assert.equal(200, response.status)
-		assert.equal(limit, response.data.books.length)
-		assert.equal(pages, response.data.pages)
+		assert.equal(response.status, 200)
+		assert.equal(response.data.books.length, limit)
+		assert.equal(response.data.pages, pages)
 
 		for (let book of response.data.books) {
 			let storeBook = storeBooks.find(sBook => sBook.uuid == book.uuid)
+			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
 
-			assert.isNotNull(storeBook)
-			assert.equal(storeBook.uuid, book.uuid)
-			assert.equal(storeBook.title, book.title)
-			assert.equal(storeBook.cover != null, book.cover)
-			assert.equal(storeBook.coverAspectRatio, book.cover_aspect_ratio)
-			assert.equal(storeBook.coverBlurhash, book.cover_blurhash)
+			assert.equal(book.uuid, storeBook.uuid)
+			assert.equal(book.title, storeBookRelease.title)
+			assert.equal(book.description, storeBookRelease.description)
+			assert.equal(book.language, storeBook.language)
+			assert.equal(book.price, storeBook.price == null ? 0 : storeBook.price)
+			assert.equal(book.isbn, storeBook.isbn)
+			assert.equal(book.cover_aspect_ratio, storeBookRelease.coverItem.aspectRatio)
+			assert.equal(book.cover_blurhash, storeBookRelease.coverItem.blurhash)
 		}
 	})
 })

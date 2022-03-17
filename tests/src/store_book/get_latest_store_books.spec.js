@@ -95,6 +95,69 @@ describe("GetLatestStoreBooks endpoint", async () => {
 		}
 	})
 
+	it("should return latest store books without page", async () => {
+		let response
+		let limit = 3
+
+		try {
+			response = await axios({
+				method: 'get',
+				url: getLatestStoreBooksEndpointUrl,
+				params: {
+					fields: "books.uuid",
+					limit
+				}
+			})
+		} catch (error) {
+			assert.fail()
+		}
+
+		// Find all published store books with language = en
+		let storeBooks = []
+		for (let collection of constants.authorUser.author.collections) {
+			for (let storeBook of collection.books) {
+				let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+
+				if (
+					storeBook.language == "en"
+					&& storeBook.status == "published"
+					&& storeBookRelease.coverItem
+				) {
+					storeBooks.push(storeBook)
+				}
+			}
+		}
+
+		for (let author of constants.davUser.authors) {
+			for (let collection of author.collections) {
+				for (let storeBook of collection.books) {
+					let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+
+					if (
+						storeBook.language == "en"
+						&& storeBook.status == "published"
+						&& storeBookRelease.coverItem
+					) {
+						storeBooks.push(storeBook)
+					}
+				}
+			}
+		}
+
+		storeBooks = storeBooks.reverse()
+
+		assert.equal(response.status, 200)
+		assert.equal(response.data.books.length, limit)
+
+		let i = 0
+		for (let book of response.data.books) {
+			let storeBook = storeBooks[i]
+
+			assert.equal(book.uuid, storeBook.uuid)
+			i++
+		}
+	})
+
 	it("should return latest store books with single specified language", async () => {
 		let response
 		let language = "de"
@@ -343,69 +406,6 @@ describe("GetLatestStoreBooks endpoint", async () => {
 			assert.equal(book.isbn, storeBook.isbn)
 			assert.equal(book.cover_aspect_ratio, storeBookRelease.coverItem.aspectRatio)
 			assert.equal(book.cover_blurhash, storeBookRelease.coverItem.blurhash)
-		}
-	})
-
-	it("should return latest store books without page", async () => {
-		let response
-		let limit = 3
-
-		try {
-			response = await axios({
-				method: 'get',
-				url: getLatestStoreBooksEndpointUrl,
-				params: {
-					fields: "books.uuid",
-					limit
-				}
-			})
-		} catch (error) {
-			assert.fail()
-		}
-
-		// Find all published store books with language = en
-		let storeBooks = []
-		for (let collection of constants.authorUser.author.collections) {
-			for (let storeBook of collection.books) {
-				let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
-
-				if (
-					storeBook.language == "en"
-					&& storeBook.status == "published"
-					&& storeBookRelease.coverItem
-				) {
-					storeBooks.push(storeBook)
-				}
-			}
-		}
-
-		for (let author of constants.davUser.authors) {
-			for (let collection of author.collections) {
-				for (let storeBook of collection.books) {
-					let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
-
-					if (
-						storeBook.language == "en"
-						&& storeBook.status == "published"
-						&& storeBookRelease.coverItem
-					) {
-						storeBooks.push(storeBook)
-					}
-				}
-			}
-		}
-
-		storeBooks = storeBooks.reverse()
-
-		assert.equal(response.status, 200)
-		assert.equal(response.data.books.length, limit)
-
-		let i = 0
-		for (let book of response.data.books) {
-			let storeBook = storeBooks[i]
-
-			assert.equal(book.uuid, storeBook.uuid)
-			i++
 		}
 	})
 })
