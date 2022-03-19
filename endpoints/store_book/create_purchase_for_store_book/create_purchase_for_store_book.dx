@@ -38,7 +38,7 @@
 ))
 
 (# Get the latest store book release)
-(var store_book_release (func get_last_release_of_store_book (store_book)))
+(var store_book_release (func get_last_release_of_store_book (store_book true)))
 
 (if (is_nil store_book_release) (
 	(# StoreBookRelease does not exist)
@@ -63,7 +63,7 @@
 
 (# Check if the user can access the store book)
 (var can_access (
-	(if (status == "published") (
+	(if ((status == "published") and (store_book_release.properties.status == "published")) (
 		(true)
 	) else (
 		(# Check if the user is the author of the store book)

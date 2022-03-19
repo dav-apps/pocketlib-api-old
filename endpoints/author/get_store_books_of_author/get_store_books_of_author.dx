@@ -57,7 +57,7 @@
 		(if (is_nil store_book) (continue))
 
 		(if ((store_book.properties.status == "published") and (language_list.contains store_book.properties.language)) (
-			(var store_book_release (func get_last_release_of_store_book (store_book)))
+			(var store_book_release (func get_last_release_of_store_book (store_book true)))
 			(if (is_nil store_book_release) (continue))
 
 			(var cover_item (func get_table_object (store_book_release.properties.cover_item (get_env "STORE_BOOK_COVER_ITEM_TABLE_ID"))))

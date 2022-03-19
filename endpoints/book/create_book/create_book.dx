@@ -37,7 +37,7 @@
 ))
 
 (# Get the latest store book release)
-(var store_book_release (func get_last_release_of_store_book (store_book)))
+(var store_book_release (func get_last_release_of_store_book (store_book true)))
 
 (if (is_nil store_book_release) (
 	(# StoreBookRelease does not exist)

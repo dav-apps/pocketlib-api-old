@@ -33,7 +33,7 @@
 
 (for store_book in store_books (
 	(# Get the latest release)
-	(var store_book_release (func get_last_release_of_store_book (store_book)))
+	(var store_book_release (func get_last_release_of_store_book (store_book true)))
 	(if (is_nil store_book_release) (continue))
 
 	(if (

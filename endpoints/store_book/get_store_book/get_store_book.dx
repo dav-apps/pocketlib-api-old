@@ -36,7 +36,7 @@
 ))
 
 (# Get the store book release)
-(var store_book_release (func get_last_release_of_store_book (store_book)))
+(var store_book_release (func get_last_release_of_store_book (store_book true)))
 
 (if (is_nil store_book_release) (
 	(# StoreBookRelease does not exist)
@@ -65,7 +65,7 @@
 
 (# Check if the user can access the store book)
 (var can_access (
-	(if ((status == "published") or is_admin) (
+	(if (((status == "published") and (store_book_release.properties.status == "published")) or is_admin) (
 		(true)
 	) elseif (is_nil session) (
 		(false)

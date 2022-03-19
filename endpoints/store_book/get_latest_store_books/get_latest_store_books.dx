@@ -52,8 +52,8 @@
 	(# Check if the store book is published)
 	(if ((book.properties.status == "published") and (language_list.contains book.properties.language)) (
 		(# Get the latest release)
-		(var book_release (func get_last_release_of_store_book (book)))
-		(if (is_nil book_release) (continue))
+		(var book_release (func get_last_release_of_store_book (book true)))
+		(if ((is_nil book_release) or (book_release.properties.status != "published")) (continue))
 
 		(# Get the cover item)
 		(var cover_item (func get_table_object (book_release.cover_item (get_env "STORE_BOOK_COVER_ITEM_TABLE_ID"))))
