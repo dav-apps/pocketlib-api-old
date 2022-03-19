@@ -8,7 +8,6 @@
 (var language json.language)
 (var price json.price)
 (var isbn json.isbn)
-(var published json.published)
 (var status json.status)
 (var categories json.categories)
 
@@ -36,6 +35,14 @@
 (if (is_nil store_book) (
 	(# Render Resource does not exist: StoreBook)
 	(func render_validation_errors ((list (hash (error (get_error 3508)) (status 404)))))
+))
+
+(# Get the latest store book release)
+(var store_book_release (func get_last_release_of_store_book (store_book)))
+
+(if (is_nil store_book_release) (
+	(# StoreBookRelease does not exist)
+	(func render_validation_errors ((list (hash (error (get_error 3516)) (status 404)))))
 ))
 
 (# Get the collection of the store book)
@@ -67,8 +74,7 @@
 	(if (!(is_nil language)) (func validate_language_type (language)))
 	(if (!(is_nil price)) (func validate_price_type (price)))
 	(if (!(is_nil isbn)) (func validate_isbn_type (isbn)))
-	(if (!(is_nil published)) (func validate_published_type (published)))
-	(if ((!(is_nil status)) and is_admin) (func validate_status_type (status)))
+	(if (!(is_nil status)) (func validate_status_type (status)))
 	(if (!(is_nil categories)) (func validate_categories_type (categories)))
 )))
 
@@ -120,9 +126,31 @@
 	))
 ))
 
+(# Check if the release is already published)
+(if (store_book_release.properties.status == "published") (
+	(# Create a new release)
+	(var new_release (func create_table_object (
+		store_book.user_id
+		(get_env "STORE_BOOK_RELEASE_TABLE_ID")
+		(hash
+			(store_book store_book.uuid)
+			(title store_book_release.properties.title)
+			(description store_book_release.properties.description)
+			(cover_item store_book_release.properties.cover_item)
+			(file_item store_book_release.properties.file_item)
+			(categories store_book_release.properties.categories)
+		)
+	)))
+
+	(# Add the new release to the releases of the store book)
+	(func add_release_to_store_book (store_book new_release.uuid))
+
+	(var store_book_release new_release)
+))
+
 (# Update the values)
-(if (!(is_nil title)) (var store_book.properties.title title))
-(if (!(is_nil description)) (var store_book.properties.description description))
+(if (!(is_nil title)) (var store_book_release.properties.title title))
+(if (!(is_nil description)) (var store_book_release.properties.description description))
 (if (!(is_nil language)) (var store_book.properties.language language))
 (if (!(is_nil price)) (
 	(var store_book.properties.price price)
@@ -132,45 +160,73 @@
 ))
 (if (!(is_nil isbn)) (var store_book.properties.isbn (if (isbn.length == 0) nil else isbn)))
 
-(if ((!(is_nil status)) and is_admin) (
-	(# Update the status)
-	(var store_book.properties.status status)
+(def check_properties_for_publishing (store_book_release) (
+	(var errors (list))
 
-	(if (status == "published") (
-		(# Add the store book to the latest store books)
-		(func add_store_book_to_latest_books_collection (store_book))
+	(if (is_nil store_book_release.properties.description) (
+		(errors.push (hash (error (get_error 3300)) (status 422)))
 	))
-) elseif (!(is_nil published)) (
-	(var status store_book.properties.status)
 
-	(if (published and ((is_nil status) or (status == "unpublished"))) (
-		(# Check if the book can be published)
-		(var errors (list))
+	(if (is_nil store_book_release.properties.cover_item) (
+		(errors.push (hash (error (get_error 3301)) (status 422)))
+	))
 
-		(if (is_nil store_book.properties.description) (
-			(errors.push (hash (error (get_error 3300)) (status 422)))
+	(if (is_nil store_book_release.properties.file_item) (
+		(errors.push (hash (error (get_error 3302)) (status 422)))
+	))
+
+	(if (errors.length > 0) (
+		(func render_validation_errors (errors))
+	))
+))
+
+(if (!(is_nil status)) (
+	(if is_admin (
+		(if ((
+			(is_nil store_book_release.properties.status)
+			or (store_book_release.properties.status == "unpublished")
+			or (store_book_release.properties.status == "review")
+		) and (
+			(status == "hidden")
+			or (status == "published")
+		)) (
+			(# Check if the book can be published)
+			(func check_properties_for_publishing (store_book_release))
 		))
 
-		(if (is_nil store_book.properties.cover) (
-			(errors.push (hash (error (get_error 3301)) (status 422)))
-		))
+		(# Update the status)
+		(var store_book.properties.status status)
 
-		(if (is_nil store_book.properties.file) (
-			(errors.push (hash (error (get_error 3302)) (status 422)))
-		))
-		
-		(if (errors.length > 0) (
-			(func render_validation_errors (errors))
-		))
+		(if (status == "published") (
+			(# Set the status of the release to "published")
+			(var store_book_release.properties.status "published")
 
-		(# Change the status of the book to "review")
-		(var store_book.properties.status "review")
-	) elseif ((! published) and (status == "review")) (
-		(var store_book.properties.status "unpublished")
-	) elseif ((! published) and (status == "published")) (
-		(var store_book.properties.status "hidden")
-	) elseif (published and (status == "hidden")) (
-		(var store_book.properties.status "published")
+			(# Add the store book to the latest store books)
+			(func add_store_book_to_latest_books_collection (store_book))
+		))
+	) else (
+		(if (
+			((is_nil store_book.properties.status) or (store_book.properties.status == "unpublished"))
+			and (status == "review")
+		) (
+			(# Check if the book can be published)
+			(func check_properties_for_publishing (store_book_release))
+
+			(# Change the status of the book to "review")
+			(var store_book.properties.status "review")
+		) elseif ((store_book.properties.status == "review") and (status == "unpublished")) (
+			(# Change the status of the book to "unpublished")
+			(var store_book.properties.status "unpublished")
+		) elseif ((store_book.properties.status == "hidden") and (status == "published")) (
+			(# Change the status of the book to "published")
+			(var store_book.properties.status "published")
+		) elseif ((store_book.properties.status == "published") and (status == "hidden")) (
+			(# Change the status of the book to "hidden")
+			(var store_book.properties.status "hidden")
+		) else (
+			(# Action not allowed)
+			(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
+		))
 	))
 ))
 
@@ -196,10 +252,10 @@
 		))
 	))
 
-	(var store_book.properties.categories (category_uuids.join ","))
+	(var store_book_release.properties.categories (category_uuids.join ","))
 ) else (
 	(# Get the categories)
-	(var category_keys (func get_category_keys_by_string (store_book.properties.categories)))
+	(var category_keys (func get_category_keys_by_string (store_book_release.properties.categories)))
 ))
 
 (# Get the status)
@@ -208,19 +264,11 @@
 (# Return the store book)
 (render_json (hash 
 	(uuid store_book.uuid)
-	(collection store_book.properties.collection)
-	(title store_book.properties.title)
-	(description (if (is_nil store_book.properties.description) "" else store_book.properties.description))
+	(title store_book_release.properties.title)
+	(description (if (is_nil store_book_release.properties.description) "" else store_book_release.properties.description))
 	(language store_book.properties.language)
 	(price (to_int store_book.properties.price))
 	(isbn store_book.properties.isbn)
 	(status status)
-	(cover (!(is_nil store_book.properties.cover)))
-	(cover_aspect_ratio store_book.properties.cover_aspect_ratio)
-	(cover_blurhash store_book.properties.cover_blurhash)
-	(file (!(is_nil store_book.properties.file)))
-	(file_name store_book.properties.file_name)
 	(categories category_keys)
-	(in_library (func is_store_book_in_user_library (session.user_id store_book.uuid)))
-	(purchased (func has_user_purchased_table_object (session.user_id store_book.id)))
 ) 200)

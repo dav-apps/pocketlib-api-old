@@ -1,0 +1,6 @@
+{
+	"type": "function",
+	"name": "add_release_to_store_book",
+	"params": ["store_book", "uuid"],
+	"source": "./add_release_to_store_book.dx"
+}
