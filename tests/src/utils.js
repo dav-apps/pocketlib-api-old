@@ -14,7 +14,10 @@ export async function resetDatabase() {
 	await resetStoreBookSeries()
 	await resetStoreBookSeriesNames()
 	await resetStoreBooks()
+	await resetStoreBookReleases()
+	await resetStoreBookCoverItems()
 	await resetStoreBookCovers()
+	await resetStoreBookFileItems()
 	await resetStoreBookFiles()
 	await resetBooks()
 	await resetCategories()
@@ -96,6 +99,24 @@ export async function resetStoreBooks() {
 	await resetDavUserStoreBooks()
 }
 
+export async function resetStoreBookReleases() {
+	// Delete StoreBookReleases
+	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.storeBookReleaseTableId)
+
+	// Reset StoreBookReleases
+	await resetAuthorUserStoreBookReleases()
+	await resetDavUserStoreBookReleases()
+}
+
+export async function resetStoreBookCoverItems() {
+	// Delete StoreBookCoverItems
+	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.storeBookCoverItemTableId)
+
+	// Reset StoreBookCoverItems
+	await resetAuthorUserStoreBookCoverItems()
+	await resetDavUserStoreBookCoverItems()
+}
+
 export async function resetStoreBookCovers() {
 	// Delete StoreBookCovers
 	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.storeBookCoverTableId)
@@ -103,6 +124,15 @@ export async function resetStoreBookCovers() {
 	// Reset StoreBookCovers
 	await resetAuthorUserStoreBookCovers()
 	await resetDavUserStoreBookCovers()
+}
+
+export async function resetStoreBookFileItems() {
+	// Delete StoreBookCoverItems
+	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.storeBookFileItemTableId)
+
+	// Reset StoreBookFileItems
+	await resetAuthorUserStoreBookFileItems()
+	await resetDavUserStoreBookFileItems()
 }
 
 export async function resetStoreBookFiles() {
@@ -849,23 +879,19 @@ async function resetAuthorUserStoreBooks() {
 			testDatabaseStoreBooks.push(book.uuid)
 
 			// Reset the store book
+			let releases = []
+			book.releases.forEach(release => releases.push(release.uuid))
+
 			let response = await TableObjectsController.UpdateTableObject({
 				accessToken: constants.authorUser.accessToken,
 				uuid: book.uuid,
 				properties: {
 					collection: collection.uuid,
-					title: book.title,
-					description: book.description,
 					language: book.language,
 					price: book.price?.toString() ?? "",
 					isbn: book.isbn ?? "",
-					status: book.status,
-					cover: book.cover?.uuid ?? "",
-					cover_aspect_ratio: book.coverAspectRatio ?? "",
-					cover_blurhash: book.coverBlurhash ?? "",
-					file: book.file?.uuid ?? "",
-					file_name: book.fileName ?? "",
-					categories: book.categories ? book.categories.join(',') : ""
+					status: book.status ?? "",
+					releases: releases.join(',')
 				}
 			})
 
@@ -909,22 +935,19 @@ async function resetDavUserStoreBooks() {
 				testDatabaseStoreBooks.push(book.uuid)
 
 				// Reset the store book
+				let releases = []
+				book.releases.forEach(release => releases.push(release.uuid))
+
 				let response = await TableObjectsController.UpdateTableObject({
 					accessToken: constants.davUser.accessToken,
 					uuid: book.uuid,
 					properties: {
 						collection: collection.uuid,
-						title: book.title,
-						description: book.description,
 						language: book.language,
 						price: book.price?.toString() ?? "",
 						isbn: book.isbn ?? "",
 						status: book.status ?? "",
-						cover_aspect_ratio: book.coverAspectRatio ?? "",
-						cover_blurhash: book.coverBlurhash ?? "",
-						cover: book.cover?.uuid ?? "",
-						file: book.file?.uuid ?? "",
-						categories: book.categories?.join(',') ?? ""
+						releases: releases.join(',')
 					}
 				})
 
@@ -957,6 +980,226 @@ async function resetDavUserStoreBooks() {
 
 		// Delete the store book
 		await deleteTableObject(constants.davUser.accessToken, storeBook.uuid)
+	}
+}
+
+async function resetAuthorUserStoreBookReleases() {
+	let testDatabaseStoreBookReleases = []
+
+	for (let collection of constants.authorUser.author.collections) {
+		for (let book of collection.books) {
+			for (let release of book.releases) {
+				testDatabaseStoreBookReleases.push(release.uuid)
+
+				// Reset the store book release
+				let response = await TableObjectsController.UpdateTableObject({
+					accessToken: constants.authorUser.accessToken,
+					uuid: release.uuid,
+					properties: {
+						store_book: book.uuid,
+						title: release.title,
+						description: release.description,
+						status: release.status ?? "",
+						cover_item: release.coverItem?.uuid,
+						file_item: release.fileItem?.uuid,
+						categories: release.categories?.join(',') ?? ""
+					}
+				})
+
+				if (response.status != 200) {
+					console.log("Error in resetting a store book release")
+					console.log(response.errors)
+				}
+			}
+		}
+	}
+
+	// Get the store book release table
+	let storeBookReleases = []
+
+	let response = await TablesController.GetTable({
+		accessToken: constants.authorUser.accessToken,
+		id: constants.storeBookReleaseTableId
+	})
+
+	if (response.status != 200) {
+		console.log("Error in getting the store book release table")
+		console.log(response.errors)
+	} else {
+		storeBookReleases = response.data.tableObjects
+	}
+
+	// Delete each store book release that is not part of the test database
+	for (let storeBookRelease of storeBookReleases) {
+		if (testDatabaseStoreBookReleases.includes(storeBookRelease.uuid)) continue
+
+		// Delete the store book release
+		await deleteTableObject(constants.authorUser.accessToken, storeBookRelease.uuid)
+	}
+}
+
+async function resetDavUserStoreBookReleases() {
+	let testDatabaseStoreBookReleases = []
+
+	for (let author of constants.davUser.authors) {
+		for (let collection of author.collections) {
+			for (let book of collection.books) {
+				for (let release of book.releases) {
+					testDatabaseStoreBookReleases.push(release.uuid)
+
+					// Reset the store book release
+					let response = await TableObjectsController.UpdateTableObject({
+						accessToken: constants.davUser.accessToken,
+						uuid: release.uuid,
+						properties: {
+							store_book: book.uuid,
+							title: release.title,
+							description: release.description,
+							status: release.status ?? "",
+							cover_item: release.coverItem?.uuid,
+							file_item: release.fileItem?.uuid,
+							categories: release.categories?.join(',') ?? ""
+						}
+					})
+
+					if (response.status != 200) {
+						console.log("Error in resetting a store book release")
+						console.log(response.errors)
+					}
+				}
+			}
+		}
+	}
+
+	// Get the store book release table
+	let storeBookReleases = []
+
+	let response = await TablesController.GetTable({
+		accessToken: constants.davUser.accessToken,
+		id: constants.storeBookReleaseTableId
+	})
+
+	if (response.status != 200) {
+		console.log("Error in getting the store book release table")
+		console.log(response.errors)
+	} else {
+		storeBookReleases = response.data.tableObjects
+	}
+
+	// Delete each store book release that is not part of the test database
+	for (let storeBookRelease of storeBookReleases) {
+		if (testDatabaseStoreBookReleases.includes(storeBookRelease.uuid)) continue
+
+		// Delete the store book release
+		await deleteTableObject(constants.davUser.accessToken, storeBookRelease.uuid)
+	}
+}
+
+async function resetAuthorUserStoreBookCoverItems() {
+	let testDatabaseStoreBookCoverItems = []
+
+	for (let collection of constants.authorUser.author.collections) {
+		for (let book of collection.books) {
+			for (let release of book.releases) {
+				let coverItem = release.coverItem
+				if (coverItem == null) continue
+
+				testDatabaseStoreBookCoverItems.push(coverItem.uuid)
+
+				// Reset the cover item
+				let response = await TableObjectsController.UpdateTableObject({
+					accessToken: constants.authorUser.accessToken,
+					uuid: coverItem.uuid,
+					properties: {
+						aspect_ratio: coverItem.aspectRatio,
+						blurhash: coverItem.blurhash,
+						cover: coverItem.cover.uuid
+					}
+				})
+
+				if (response.status != 200) {
+					console.log("Error in resetting StoreBookCoverItem")
+				}
+			}
+		}
+	}
+
+	// Get the StoreBookCoverItem table
+	let coverItems = []
+
+	let response = await TablesController.GetTable({
+		accessToken: constants.authorUser.accessToken,
+		id: constants.storeBookCoverItemTableId
+	})
+
+	if (response.status != 200) {
+		console.log("Error in getting the StoreBookCoverItem table")
+		console.log(response.errors)
+	} else {
+		coverItems = response.data.tableObjects
+	}
+
+	// Delete each cover item that is not part of the test database
+	for (let coverItem of coverItems) {
+		if (testDatabaseStoreBookCoverItems.includes(coverItem.uuid)) continue
+
+		// Delete the cover item
+		await deleteTableObject(constants.authorUser.accessToken, coverItem.uuid)
+	}
+}
+
+async function resetDavUserStoreBookCoverItems() {
+	let testDatabaseStoreBookCoverItems = []
+
+	for (let author of constants.davUser.authors) {
+		for (let collection of author.collections) {
+			for (let book of collection.books) {
+				for (let release of book.releases) {
+					let coverItem = release.coverItem
+					if (coverItem == null) continue
+
+					testDatabaseStoreBookCoverItems.push(coverItem.uuid)
+
+					// Reset the cover item
+					let response = await TableObjectsController.UpdateTableObject({
+						accessToken: constants.davUser.accessToken,
+						uuid: coverItem.uuid,
+						properties: {
+							aspect_ratio: coverItem.aspectRatio,
+							blurhash: coverItem.blurhash,
+							cover: coverItem.cover.uuid
+						}
+					})
+
+					if (response.status != 200) {
+						console.log("Error in resetting StoreBookCoverItem")
+					}
+				}
+			}
+		}
+	}
+
+	// Get the StoreBookCoverItem table
+	let coverItems = []
+
+	let response = await TablesController.GetTable({
+		accessToken: constants.davUser.accessToken,
+		id: constants.storeBookCoverItemTableId
+	})
+
+	if (response.status != 200) {
+		console.log("Error in getting the StoreBookCoverItem table")
+		console.log(response.errors)
+	} else {
+		coverItems = response.data.tableObjects
+	}
+
+	// Delete each cover item that is not part of the test database
+	for (let coverItem of coverItems) {
+		if (testDatabaseStoreBookCoverItems.includes(coverItem.uuid)) continue
+
+		// Delete the cover item
+		await deleteTableObject(constants.davUser.accessToken, coverItem.uuid)
 	}
 }
 
@@ -1093,6 +1336,112 @@ async function resetDavUserStoreBookCovers() {
 				console.log(response.errors)
 			}
 		}
+	}
+}
+
+async function resetAuthorUserStoreBookFileItems() {
+	let testDatabaseStoreBookFileItems = []
+
+	for (let collection of constants.authorUser.author.collections) {
+		for (let book of collection.books) {
+			for (let release of book.releases) {
+				let fileItem = release.fileItem
+				if (fileItem == null) continue
+
+				testDatabaseStoreBookFileItems.push(fileItem.uuid)
+
+				// Reset the file item
+				let response = await TableObjectsController.UpdateTableObject({
+					accessToken: constants.authorUser.accessToken,
+					uuid: fileItem.uuid,
+					properties: {
+						file_name: fileItem.fileName,
+						file: fileItem.file.uuid
+					}
+				})
+
+				if (response.status != 200) {
+					console.log("Error in resetting StoreBookFileItem")
+				}
+			}
+		}
+	}
+
+	// Get the StoreBookFileItem table
+	let fileItems = []
+
+	let response = await TablesController.GetTable({
+		accessToken: constants.authorUser.accessToken,
+		id: constants.storeBookFileItemTableId
+	})
+
+	if (response.status != 200) {
+		console.log("Error in getting the StoreBookFileItem table")
+		console.log(response.errors)
+	} else {
+		fileItems = response.data.tableObjects
+	}
+
+	// Delete each file item that is not part of the test database
+	for (let fileItem of fileItems) {
+		if (testDatabaseStoreBookFileItems.includes(fileItem.uuid)) continue
+
+		// Delete the file item
+		await deleteTableObject(constants.authorUser.accessToken, fileItem.uuid)
+	}
+}
+
+async function resetDavUserStoreBookFileItems() {
+	let testDatabaseStoreBookFileItems = []
+
+	for (let author of constants.davUser.authors) {
+		for (let collection of author.collections) {
+			for (let book of collection.books) {
+				for (let release of book.releases) {
+					let fileItem = release.fileItem
+					if (fileItem == null) continue
+	
+					testDatabaseStoreBookFileItems.push(fileItem.uuid)
+	
+					// Reset the file item
+					let response = await TableObjectsController.UpdateTableObject({
+						accessToken: constants.davUser.accessToken,
+						uuid: fileItem.uuid,
+						properties: {
+							file_name: fileItem.fileName,
+							file: fileItem.file.uuid
+						}
+					})
+	
+					if (response.status != 200) {
+						console.log("Error in resetting StoreBookFileItem")
+					}
+				}
+			}
+		}
+	}
+
+	// Get the StoreBookFileItem table
+	let fileItems = []
+
+	let response = await TablesController.GetTable({
+		accessToken: constants.davUser.accessToken,
+		id: constants.storeBookFileItemTableId
+	})
+
+	if (response.status != 200) {
+		console.log("Error in getting the StoreBookFileItem table")
+		console.log(response.errors)
+	} else {
+		fileItems = response.data.tableObjects
+	}
+
+	// Delete each file item that is not part of the test database
+	for (let fileItem of fileItems) {
+		if (testDatabaseStoreBookFileItems.includes(fileItem.uuid)) continue
+
+		// Delete the file item
+		await deleteTableObject(constants.davUser.accessToken, fileItem.uuid)
 	}
 }
 

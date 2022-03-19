@@ -111,6 +111,7 @@ let constants = {
 									uuid: "fd80ef43-ecd9-4002-afc4-77f4762b49cc",
 									title: "Eine Reihe betrüblicher Ereignisse - Der schreckliche Anfang",
 									description: "Lieber Leser, es tut mir sehr Leid, aber das Buch, das du gerade in Händen hältst, ist außerordentlich unerfreulich. Es erzählt die traurige Geschichte von drei sehr bedauernswerten Kindern.",
+									status: "published",
 									coverItem: {
 										uuid: "22699239-8326-4508-9b9b-07178a228bba",
 										aspectRatio: "1:1.4073",
@@ -164,6 +165,7 @@ let constants = {
 									uuid: "7f5a550a-34dc-41ea-b71a-a36c625e8c05",
 									title: "A Series of Unfortunate Events - Book the Second",
 									description: "Dear Reader, if you have picked up this book with the hope of finding a simple and cheery tale, I'm afraid you have picked up the wrong book altogether.",
+									status: "unpublished",
 									coverItem: {
 										uuid: "9f3549bc-c0da-4301-8346-65d6164fbe38",
 										aspectRatio: "1:1.67151",
@@ -201,6 +203,7 @@ let constants = {
 									uuid: "ffa4d644-4d2a-4a17-8d52-d2e26181d35c",
 									title: "Eine Reihe betrüblicher Ereignisse - Das Haus der Schlangen",
 									description: "Lieber Leser, wenn du dieses Buch zur Hand genommen hast in der Hoffnung, darin Zerstreuung und Vergnügen zu finden, dann liegst du leider völlig falsch.",
+									status: "published",
 									coverItem: {
 										uuid: "d9aaf019-b602-44a7-86ff-f39ec66ac8ae",
 										aspectRatio: "1:1.49701",
@@ -242,13 +245,13 @@ let constants = {
 						{
 							uuid: "45c14ab4-8789-41c4-b0f6-11be0a86a94c",
 							language: "en",
+							isbn: "9780064407687",
 							status: "unpublished",
 							releases: [
 								{
 									uuid: "5763aeb2-0843-4e2f-bac0-fd034d84d3fe",
 									title: "A Series of Unfortunate Events - Book the Third",
-									description: "Dear Reader, if you have not read anything about the Baudelaire orphans, then before you read even one more sentence, you should know this: Violet, Klaus and Sunny are kindhearted and quick-witted, but their lives, I am sorry to say, are filled with bad luck and misery.",
-									isbn: "9780064407687"
+									description: "Dear Reader, if you have not read anything about the Baudelaire orphans, then before you read even one more sentence, you should know this: Violet, Klaus and Sunny are kindhearted and quick-witted, but their lives, I am sorry to say, are filled with bad luck and misery."
 								}
 							]
 						},
@@ -262,6 +265,7 @@ let constants = {
 									uuid: "c46d5cd6-4555-4012-aa0d-56d4d0f53fcc",
 									title: "Eine Reihe betrüblicher Ereignisse - Der Seufzersee",
 									description: "Lieber Leser, wenn du noch nie etwas von den Baudelaire-Kindern gehört hast, dann solltest du, bevor du auch nur eine einzige Zeile liest, Folgendes wissen: Violet, Klaus und Sunny sind nett, charmant und klug, aber ihr Leben - leider, leider - strotzt nur so vor Elend und Unheil.",
+									status: "published",
 									coverItem: {
 										uuid: "4fbcc890-03c1-4fcd-9e38-89c725be1bf0",
 										aspectRatio: "1:1.49701",
@@ -311,6 +315,7 @@ let constants = {
 									uuid: "81d40349-0d9c-4167-b87b-94432090c1de",
 									title: "A Series of Unfortunate Events - Book the Fourth",
 									description: "Dear Reader, I hope, for your sake, that you have not chosen to read this book because you are in the mood for a pleasant experience. If this is the case, I advise you to put this book down instantaneously, because of all the books describing the unhappy lives of the Baudelaire orphans, THE MISERABLE MILL might be the unhappiest yet.",
+									status: "published",
 									coverItem: {
 										uuid: "78182c23-faa0-4950-9011-e0a0d724fa4a",
 										aspectRatio: "1:1.41224",
@@ -360,6 +365,7 @@ let constants = {
 									uuid: "4238eb86-9da3-4343-a8f0-94ea5c71130e",
 									title: "A Series of Unfortunate Events - Book the Fifth",
 									description: "Dear Reader, if you are looking for a story about cheerful youngsters spending a jolly time at boarding school, look elsewhere. Violet, Klaus and Sunny Baudelaire are intelligent and resourceful children, and you might expect that they would do very well at school. Don't. For the Baudelaires, school turns out to be another miserable episode in their unlucky lives.",
+									status: "published",
 									coverItem: {
 										uuid: "86ffda0f-0622-41b7-8fc5-0b98f6db5e98",
 										aspectRatio: "1:1.41509",
@@ -458,6 +464,7 @@ let constants = {
 										uuid: "2e5bc1b6-747f-478b-8d6b-e94ca5c5757a",
 										title: "1984",
 										description: "Orwell's novel about the destruction of man by a perfect state machinery has long since become a metaphor for totalitarian conditions that no longer seems in need of explanation.",
+										status: "published",
 										coverItem: {
 											uuid: "bac664ad-f5f4-464d-bf0f-bbf4b126e880",
 											aspectRatio: "1:1.44105",
@@ -541,6 +548,17 @@ let constants = {
 										uuid: "0d4307c4-5568-48b5-a266-02df2f80de6f",
 										title: "Animal Farm",
 										description: "Animal Farm is an allegorical novella by George Orwell, first published in England on 17 August 1945. The book tells the story of a group of farm animals who rebel against their human farmer, hoping to create a society where the animals can be equal, free, and happy.",
+										status: "published",
+										coverItem: {
+											uuid: "708bf15c-8e6e-49c6-8113-33f5ddb28d15",
+											aspectRatio: "1:1.59309",
+											blurhash: "LbR.uzbH.RsoHXa|x]n%xua|V@jt",
+											cover: {
+												uuid: "244d873a-ce11-4a01-920b-c1ef2855d4e5",
+												ext: "jpg",
+												type: "image/jpeg"
+											}
+										},
 										fileItem: {
 											uuid: "290a762c-5c9a-4951-9c38-a64dd3b2a6e4",
 											fileName: "Animal Farm.epub",
@@ -584,6 +602,7 @@ let constants = {
 										uuid: "d978c438-0711-439e-b12d-6549a5842851",
 										title: "La Ferme des animaux",
 										description: "La Ferme des animaux est un roman allégorique de George Orwell, publié pour la première fois en Angleterre le 17 août 1945. Le livre raconte l'histoire d'un groupe d'animaux de ferme qui se rebellent contre leur éleveur humain dans l'espoir de créer une société dans laquelle les animaux peuvent être égaux, libres et heureux.",
+										status: "published",
 										coverItem: {
 											uuid: "0091cc8d-7883-4019-8c2e-1d4fb092b950",
 											aspectRatio: "1:1.59309",
@@ -657,6 +676,7 @@ let constants = {
 										uuid: "1c9dfe5e-1de0-47fc-bb42-afd258e8d414",
 										title: "The Life and Adventures of Robinson Crusoe",
 										description: "Robinson Crusoe is one of the most popular books ever written in the English language, published in innumerable editions and translated into almost every language of the world, not to mention the many versions created in film, television and even radio.",
+										status: "published",
 										categories: [
 											"76dd74fa-0fb3-4d80-8c0a-6d6a803383a7"		// Adventure
 										]
@@ -685,6 +705,7 @@ let constants = {
 										uuid: "335f6812-f897-4fbe-a385-17b4425f1394",
 										title: "The Further Adventures of Robinson Crusoe",
 										description: "After his return from an uninhabited island, Robinson Crusoe marries and starts a family. Despite his comfortable life in England, he has an intense desire to go back to sea.",
+										status: "published",
 										categories: [
 											"76dd74fa-0fb3-4d80-8c0a-6d6a803383a7"		// Adventure
 										]
