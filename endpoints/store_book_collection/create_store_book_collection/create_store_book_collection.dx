@@ -90,7 +90,5 @@
 (# Render the result)
 (render_json (hash
 	(uuid collection.uuid)
-	(author collection.properties.author)
 	(names (list (hash (name name) (language language))))
-	(books (list))
 ) 201)
