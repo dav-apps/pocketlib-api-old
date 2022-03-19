@@ -42,7 +42,6 @@ export const PriceWrongType = 2213
 export const IsbnWrongType = 2214
 export const StatusWrongType = 2215
 export const CategoriesWrongType = 2216
-export const PublishedWrongType = 2217
 export const KeyWrongType = 2218
 export const StoreBookWrongType = 2219
 export const CurrencyWrongType = 2220
