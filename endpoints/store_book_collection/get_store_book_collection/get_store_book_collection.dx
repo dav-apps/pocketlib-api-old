@@ -1,21 +1,14 @@
 (# Get the params)
 (var uuid (get_param "uuid"))
+(var fields_str (get_param "fields"))
 
-(# Get the access token)
-(var access_token (get_header "Authorization"))
-(var is_admin false)
-
-(if (!(is_nil access_token)) (
-	(# func render_validation_errors ((list
-		(func validate_auth_header_presence (access_token))
-	)))
-
-	(# Get the session)
-	(var session (func get_session (access_token)))
-
-	(# Check if the user is an admin)
-	(var admins (get_env "ADMINS"))
-	(var is_admin (admins.contains session.user_id))
+(if (is_nil fields_str) (
+	(var fields (list "uuid"))
+) elseif (fields_str == "*") (
+	(var fields (list "uuid" "author"))
+) else (
+	(# Process the fields string)
+	(var fields (func process_fields (fields_str)))
 ))
 
 (# Get the collection)
@@ -26,40 +19,8 @@
 	(func render_validation_errors ((list (hash (error (get_error 3506)) (status 404)))))
 ))
 
-(# Get the author)
-(var author (func get_table_object (collection.properties.author (get_env "AUTHOR_TABLE_ID"))))
-
-(if (is_nil author) (
-	(# Author does not exist)
-	(func render_validation_errors ((list (hash (error (get_error 3503)) (status 404)))))
-))
-
-(# Get the names of the collection)
-(var names (func get_collection_names_by_string (collection.properties.names false)))
-
-(# Check if the user can access not published books)
-(var can_access (is_admin or ((! (is_nil session)) and (author.user_id == session.user_id))))
-
-(# Get the store books of the collection)
-(var store_books (func get_store_books_by_string (collection.properties.books)))
-
-(if (! can_access) (
-	(var new_store_books (list))
-
-	(# Sort out store books that are not published)
-	(for store_book in store_books (
-		(if (store_book.status == "published") (
-			(new_store_books.push store_book)
-		))
-	))
-
-	(var store_books new_store_books)
-))
-
 (# Render the result)
 (render_json (hash
 	(uuid collection.uuid)
 	(author collection.properties.author)
-	(names names)
-	(books store_books)
 ))

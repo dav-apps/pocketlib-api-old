@@ -2,7 +2,7 @@ import constants from './constants.js'
 
 var tableObjects = []
 
-//#region Authors & AuthorBios & AuthorProfileImages
+//#region Authors, AuthorBios & AuthorProfileImages
 addAuthorToTableObjects(constants.authorUser.author, constants.authorUser.id)
 
 for (let authorBio of constants.authorUser.author.bios) {
@@ -24,7 +24,7 @@ for (let author of constants.davUser.authors) {
 }
 //#endregion
 
-//#region StoreBookCollections
+//#region StoreBookCollections, StoreBooks, StoreBookReleases, StoreBookCoverItems, StoreBookCovers, StoreBookFileItems & StoreBookFiles
 for (let collection of constants.authorUser.author.collections) {
 	addStoreBookCollectionToTableObjects(collection, constants.authorUser.id, constants.authorUser.author.uuid)
 
@@ -96,7 +96,7 @@ for (let author of constants.davUser.authors) {
 }
 //#endregion
 
-//#region StoreBookSeries
+//#region StoreBookSeries & StoreBookSeriesNames
 for (let series of constants.authorUser.author.series) {
 	addStoreBookSeriesToTableObjects(series, constants.authorUser.id, constants.authorUser.author.uuid)
 
