@@ -9,24 +9,39 @@
 	(func render_validation_errors ((list (hash (error (get_error 3508)) (status 404)))))
 ))
 
+(# Get the store book release)
+(var store_book_release (func get_last_release_of_store_book (store_book false)))
+
+(if (is_nil store_book_release) (
+	(# StoreBookRelease does not exist)
+	(func render_validation_errors ((list (hash (error (get_error 3516)) (status 404)))))
+))
+
 (# Define function for rendering no cover error)
 (def render_no_cover () (
 	(func render_validation_errors ((list (hash (error (get_error 3509)) (status 404)))))
 ))
 
 (# Check if the store book has a cover)
-(if (is_nil store_book.properties.cover) (
+(if (is_nil store_book_release.properties.cover_item) (
+	(func render_no_cover ())
+))
+
+(# Get the cover item)
+(var cover_item (func get_table_object (store_book_release.properties.cover_item (get_env "STORE_BOOK_COVER_ITEM_TABLE_ID"))))
+
+(if (is_nil cover_item) (
 	(func render_no_cover ())
 ))
 
 (# Get the cover)
-(var cover (func get_table_object (store_book.properties.cover (get_env "STORE_BOOK_COVER_TABLE_ID"))))
+(var cover (func get_table_object (cover_item.properties.cover (get_env "STORE_BOOK_COVER_TABLE_ID"))))
 
 (if (is_nil cover) (
 	(func render_no_cover ())
 ))
 
-(var cover_file (func get_table_object_file (store_book.properties.cover)))
+(var cover_file (func get_table_object_file (cover.uuid)))
 
 (# Return the content of the file)
-(render_file cover_file cover.properties.type (store_book.properties.title + "." + cover.properties.ext) 200)
+(render_file cover_file cover.properties.type (store_book_release.properties.title + "." + cover.properties.ext) 200)

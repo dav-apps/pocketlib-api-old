@@ -17,9 +17,9 @@ describe("GetStoreBookCover endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(404, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.StoreBookCoverDoesNotExist, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 404)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.StoreBookCoverDoesNotExist)
 			return
 		}
 
@@ -36,9 +36,9 @@ describe("GetStoreBookCover endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(404, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.StoreBookDoesNotExist, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 404)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.StoreBookDoesNotExist)
 			return
 		}
 
@@ -68,6 +68,8 @@ describe("GetStoreBookCover endpoint", () => {
 
 async function testShouldReturnCover(storeBook) {
 	let response
+	let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+	let coverItem = storeBookRelease.coverItem
 
 	try {
 		response = await axios({
@@ -78,7 +80,7 @@ async function testShouldReturnCover(storeBook) {
 		assert.fail()
 	}
 
-	assert.equal(200, response.status)
-	assert.equal(storeBook.cover.type, response.headers['content-type'])
-	assert(response.data.length > 0)
+	assert.equal(response.status, 200)
+	assert.equal(response.headers['content-type'], coverItem.cover.type)
+	assert.isTrue(response.data.length > 0)
 }
