@@ -127,3 +127,6 @@ export const CategoryNameDoesNotExist = 3512
 export const TableObjectPriceDoesNotExist = 3513
 export const StoreBookSeriesDoesNotExist = 3514
 export const StoreBookSeriesNameDoesNotExist = 3515
+export const StoreBookReleaseDoesNotExist = 3516
+export const StoreBookCoverItemDoesNotExist = 3517
+export const StoreBookFileItemDoesNotExist = 3518

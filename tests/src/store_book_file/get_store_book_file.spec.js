@@ -14,9 +14,9 @@ describe("GetStoreBookFile endpoint", () => {
 				url: getStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[1].uuid)
 			})
 		} catch (error) {
-			assert.equal(401, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.AuthorizationHeaderMissing, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 401)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.AuthorizationHeaderMissing)
 			return
 		}
 
@@ -33,9 +33,9 @@ describe("GetStoreBookFile endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(404, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.SessionDoesNotExist, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 404)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.SessionDoesNotExist)
 			return
 		}
 
@@ -52,9 +52,9 @@ describe("GetStoreBookFile endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(403, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 403)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
 			return
 		}
 
@@ -71,9 +71,9 @@ describe("GetStoreBookFile endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(404, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.StoreBookFileDoesNotExist, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 404)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.StoreBookFileItemDoesNotExist)
 			return
 		}
 
@@ -90,9 +90,9 @@ describe("GetStoreBookFile endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(404, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.StoreBookDoesNotExist, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 404)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.StoreBookDoesNotExist)
 			return
 		}
 
@@ -234,9 +234,9 @@ async function testShouldReturnFile(accessToken, storeBook) {
 		assert.fail()
 	}
 
-	assert.equal(200, response.status)
-	assert.equal(storeBook.file.type, response.headers['content-type'])
-	assert(response.data.length > 0)
+	assert.equal(response.status, 200)
+	assert.equal(response.headers['content-type'], storeBook.releases[storeBook.releases.length - 1].fileItem.file.type)
+	assert.isTrue(response.data.length > 0)
 }
 
 async function testShouldNotReturnFile(accessToken, storeBook) {
@@ -249,9 +249,9 @@ async function testShouldNotReturnFile(accessToken, storeBook) {
 			}
 		})
 	} catch (error) {
-		assert.equal(403, error.response.status)
-		assert.equal(1, error.response.data.errors.length)
-		assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
+		assert.equal(error.response.status, 403)
+		assert.equal(error.response.data.errors.length, 1)
+		assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
 		return
 	}
 

@@ -25,6 +25,14 @@
 	(func render_validation_errors ((list (hash (error (get_error 3508)) (status 404)))))
 ))
 
+(# Get the store book release)
+(var store_book_release (func get_last_release_of_store_book (store_book true)))
+
+(if (is_nil store_book_release) (
+	(# StoreBookRelease does not exist)
+	(func render_validation_errors ((list (hash (error (get_error 3516)) (status 404)))))
+))
+
 (# Check if the user is the author of the store book)
 (var is_author (session.user_id == store_book.user_id))
 
@@ -46,24 +54,23 @@
 	(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
 ))
 
-(# Define function for rendering no file error)
-(def render_no_file () (
-	(func render_validation_errors ((list (hash (error (get_error 3510)) (status 404)))))
-))
+(# Get the file item)
+(var file_item_obj (func get_table_object (store_book_release.properties.file_item (get_env "STORE_BOOK_FILE_ITEM_TABLE_ID"))))
 
-(# Check if the store book has a file)
-(if (is_nil store_book.properties.file) (
-	(func render_no_file ())
+(if (is_nil file_item_obj) (
+	(# StoreBookFileItem does not exist)
+	(func render_validation_errors ((list (hash (error (get_error 3518)) (status 404)))))
 ))
 
 (# Get the file)
-(var file_obj (func get_table_object (store_book.properties.file (get_env "STORE_BOOK_FILE_TABLE_ID"))))
+(var file_obj (func get_table_object (file_item_obj.properties.file (get_env "STORE_BOOK_FILE_TABLE_ID"))))
 
 (if (is_nil file_obj) (
-	(func render_no_file ())
+	(# StoreBookFile does not exist)
+	(func render_validation_errors ((list (hash (error (get_error 3510)) (status 404)))))
 ))
 
-(var file (func get_table_object_file (store_book.properties.file)))
+(var file (func get_table_object_file (file_obj.uuid)))
 
 (# Return the content of the file)
-(render_file file file_obj.properties.type (store_book.properties.title + "." + file_obj.properties.ext) 200)
+(render_file file file_obj.properties.type (store_book_release.properties.title + "." + file_obj.properties.ext) 200)
