@@ -26,6 +26,21 @@
 	(func render_validation_errors ((list (hash (error (get_error 3508)) (status 404)))))
 ))
 
+(# Get the latest store book release)
+(if (is_nil store_book.properties.releases) (
+	(# StoreBookRelease does not exist)
+	(func render_validation_errors ((list (hash (error (get_error 3516)) (status 404)))))
+))
+
+(var releases (store_book.properties.releases.split ","))
+(var releases releases.reverse)
+(var latest_release (func get_table_object ((releases.pop) (get_env "STORE_BOOK_RELEASE_TABLE_ID"))))
+
+(if (is_nil latest_release) (
+	(# StoreBookRelease does not exist)
+	(func render_validation_errors ((list (hash (error (get_error 3516)) (status 404)))))
+))
+
 (# Get the collection of the store book)
 (var collection (func get_table_object (store_book.properties.collection (get_env "STORE_BOOK_COLLECTION_TABLE_ID"))))
 
@@ -49,9 +64,9 @@
 ))
 
 (# Define functions for creating and updating the cover table object)
-(def update_cover_properties (store_book data) (
+(def update_cover_item_properties (cover_item data) (
 	(# Update the store book with the blurhash)
-	(var store_book.properties.cover_blurhash (Blurhash.encode data))
+	(var cover_item.properties.blurhash (Blurhash.encode data))
 
 	(# Get the width and height of the cover)
 	(var details (Image.get_details data))
@@ -70,43 +85,89 @@
 	))
 
 	(# Update the store book with the aspect ratio)
-	(var store_book.properties.cover_aspect_ratio aspect_ratio)
+	(var cover_item.properties.aspect_ratio aspect_ratio)
 ))
 
-(def create_cover (store_book session content_type data) (
+(def create_cover (store_book_release session content_type data) (
 	(# Create the cover table object)
 	(var cover (func create_store_book_cover_table_object (session.user_id content_type data)))
 
-	(# Update the store book with the uuid of the cover table object)
-	(var store_book.properties.cover cover.uuid)
+	(# Create the cover item table object)
+	(var cover_item (func create_table_object (
+		store_book_release.user_id
+		(get_env "STORE_BOOK_COVER_ITEM_TABLE_ID")
+		(hash
+			(cover cover.uuid)
+		)
+	)))
 
-	(func update_cover_properties (store_book data))
+	(# Set the properties of the cover item)
+	(func update_cover_item_properties (cover_item data))
+
+	(return cover_item)
 ))
 
-(def update_cover (store_book cover content_type data) (
+(def update_cover (cover_item content_type data) (
 	(# Update the file of the cover table object)
-	(func update_store_book_cover_table_object (cover.uuid content_type data))
+	(func update_store_book_cover_table_object (cover_item.properties.cover content_type data))
 
-	(func update_cover_properties (store_book data))
+	(func update_cover_item_properties (cover_item data))
 ))
 
-(# Get the cover table object of the store book)
-(var cover_uuid store_book.properties.cover)
+(if (latest_release.status == "published") (
+	(# Create a new release)
+	(var new_release (func create_table_object (
+		store_book.user_id
+		(get_env "STORE_BOOK_RELEASE_TABLE_ID")
+		(hash
+			(store_book store_book.uuid)
+			(title latest_release.properties.title)
+			(description latest_release.properties.description)
+			(file_item latest_release.properties.file_item)
+			(categories latest_release.properties.categories)
+		)
+	)))
 
-(if (is_nil cover_uuid) (
-	(# Create the cover)
-	(func create_cover (store_book session content_type data))
+	(# Add the new release to the releases of the store book)
+	(func add_release_to_store_book (store_book new_release.uuid))
+
+	(# Create the new cover and cover item)
+	(var cover_item (func create_cover (new_release session content_type data)))
+	(var new_release.properties.cover_item cover_item.uuid)
 ) else (
-	(# Try to get the cover table object)
-	(var cover (func get_table_object (cover_uuid (get_env "STORE_BOOK_COVER_TABLE_ID"))))
+	(var release_uuid (releases.pop))
+	(var release nil)
+	(var update_cover true)
 
-	(if (is_nil cover) (
-		(# Create the cover)
-		(func create_cover (store_book session content_type data))
+	(if (!(is_nil release_uuid)) (
+		(var release (func get_table_object (release_uuid (get_env "STORE_BOOK_RELEASE_TABLE_ID"))))
+
+		(if (!(is_nil release)) (
+			(# Check if the release is published and uses the cover item of the latest release)
+			(if (
+				(release.properties.status == "published")
+				and (release.properties.cover_item == latest_release.properties.cover_item)
+			) (
+				(var update_cover false)
+			))
+		))
+	))
+
+	(if update_cover (
+		(# Update the cover of the latest release)
+		(var cover_item (func get_table_object (latest_release.properties.cover_item (get_env "STORE_BOOK_COVER_ITEM_TABLE_ID"))))
+
+		(if (is_nil cover_item) (
+			(var cover_item (func create_cover (latest_release session content_type data)))
+			(var latest_release.properties.cover_item cover_item.uuid)
+		) else (
+			(func update_cover (cover_item content_type data))
+		))
 	) else (
-		(# Update the cover)
-		(func update_cover (store_book cover content_type data))
+		(# Create a new cover and cover item)
+		(var cover_item (func create_cover (latest_release session content_type data)))
+		(var latest_release.properties.cover_item cover_item.uuid)
 	))
 ))
 
-(render_json (hash) 200)
+(render_json (hash) 204)
