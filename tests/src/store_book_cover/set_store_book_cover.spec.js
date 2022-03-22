@@ -11,13 +11,30 @@ import * as utils from '../utils.js'
 import * as ErrorCodes from '../errorCodes.js'
 
 const setStoreBookCoverEndpointUrl = `${constants.apiBaseUrl}/store/book/{0}/cover`
-var resetStoreBooksAndStoreBookCovers = false
+var resetStoreBooks = false
+var resetStoreBookReleases = false
+var resetStoreBookCoverItems = false
+var resetStoreBookCovers = false
 
 afterEach(async () => {
-	if (resetStoreBooksAndStoreBookCovers) {
+	if (resetStoreBooks) {
 		await utils.resetStoreBooks()
+		resetStoreBooks = false
+	}
+
+	if (resetStoreBookReleases) {
+		await utils.resetStoreBookReleases()
+		resetStoreBookReleases = false
+	}
+
+	if (resetStoreBookCoverItems) {
+		await utils.resetStoreBookCoverItems()
+		resetStoreBookCoverItems = false
+	}
+
+	if (resetStoreBookCovers) {
 		await utils.resetStoreBookCovers()
-		resetStoreBooksAndStoreBookCovers = false
+		resetStoreBookCovers = false
 	}
 })
 
@@ -29,9 +46,9 @@ describe("SetStoreBookCover endpoint", () => {
 				url: setStoreBookCoverEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid)
 			})
 		} catch (error) {
-			assert.equal(401, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.AuthorizationHeaderMissing, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 401)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.AuthorizationHeaderMissing)
 			return
 		}
 
@@ -49,9 +66,9 @@ describe("SetStoreBookCover endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(404, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.SessionDoesNotExist, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 404)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.SessionDoesNotExist)
 			return
 		}
 
@@ -69,9 +86,9 @@ describe("SetStoreBookCover endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(403, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 403)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
 			return
 		}
 
@@ -89,9 +106,9 @@ describe("SetStoreBookCover endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(415, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ContentTypeNotSupported, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 415)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ContentTypeNotSupported)
 			return
 		}
 
@@ -109,9 +126,9 @@ describe("SetStoreBookCover endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(404, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.StoreBookDoesNotExist, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 404)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.StoreBookDoesNotExist)
 			return
 		}
 
@@ -129,66 +146,77 @@ describe("SetStoreBookCover endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(403, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 403)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
 			return
 		}
 
 		assert.fail()
 	})
 
-	it("should set store book cover for published store book", async () => {
-		resetStoreBooksAndStoreBookCovers = true
-		await testUpdateStoreBookCover(constants.authorUser.author.collections[1].books[1], constants.authorUser.accessToken)
+	it("should set store book cover for published store book by creating new release", async () => {
+		resetStoreBooks = true
+		resetStoreBookReleases = true
+		resetStoreBookCoverItems = true
+		resetStoreBookCovers = true
+		await testCreateNewRelease(constants.authorUser.author.collections[1].books[1], constants.authorUser.accessToken)
 	})
 
-	it("should set store book cover for hidden store book", async () => {
-		resetStoreBooksAndStoreBookCovers = true
-		await testUpdateStoreBookCover(constants.authorUser.author.collections[0].books[1], constants.authorUser.accessToken)
+	it("should set store book cover for hidden store book by creating new release", async () => {
+		resetStoreBooks = true
+		resetStoreBookReleases = true
+		resetStoreBookCoverItems = true
+		resetStoreBookCovers = true
+		await testCreateNewRelease(constants.authorUser.author.collections[0].books[1], constants.authorUser.accessToken)
 	})
 
-	it("should create and update store book cover", async () => {
-		resetStoreBooksAndStoreBookCovers = true
-		await testCreateAndUpdateStoreBookCover(constants.authorUser.author.collections[2].books[0], constants.authorUser.accessToken)
+	it("should set store book cover for unpublished store book by updating existing release", async () => {
+		resetStoreBookCoverItems = true
+		resetStoreBookCovers = true
+		await testUpdateExistingRelease(constants.authorUser.author.collections[1].books[0], constants.authorUser.accessToken)
 	})
 
-	it("should set store book cover for published store book of admin", async () => {
-		resetStoreBooksAndStoreBookCovers = true
-		await testUpdateStoreBookCover(constants.davUser.authors[0].collections[0].books[0], constants.davUser.accessToken)
+	it("should set store book cover for published store book of admin by creating new release", async () => {
+		resetStoreBooks = true
+		resetStoreBookReleases = true
+		resetStoreBookCoverItems = true
+		resetStoreBookCovers = true
+		await testCreateNewRelease(constants.davUser.authors[0].collections[0].books[0], constants.davUser.accessToken)
 	})
 
-	it("should set store book cover for hidden store book of admin", async () => {
-		resetStoreBooksAndStoreBookCovers = true
-		await testCreateAndUpdateStoreBookCover(constants.davUser.authors[0].collections[1].books[0], constants.davUser.accessToken)
+	it("should set store book cover for hidden store book of admin by creating new release", async () => {
+		resetStoreBooks = true
+		resetStoreBookReleases = true
+		resetStoreBookCoverItems = true
+		resetStoreBookCovers = true
+		await testCreateNewRelease(constants.davUser.authors[0].collections[1].books[0], constants.davUser.accessToken)
 	})
 
-	it("should create and update store book cover of store book of an admin", async () => {
-		resetStoreBooksAndStoreBookCovers = true
-		await testCreateAndUpdateStoreBookCover(constants.davUser.authors[0].collections[0].books[1], constants.davUser.accessToken)
+	it("should set store book cover for unpublished store book of admin by updating existing release", async () => {
+		resetStoreBookCoverItems = true
+		resetStoreBookCovers = true
+		await testUpdateExistingRelease(constants.davUser.authors[0].collections[0].books[2], constants.davUser.accessToken)
 	})
 
-	async function testCreateAndUpdateStoreBookCover(storeBook, accessToken) {
-		// Get the store book table object (1)
-		let getStoreBookObjResponse = await TableObjectsController.GetTableObject({
+	async function testCreateNewRelease(storeBook, accessToken) {
+		// Get the store book
+		let storeBookResponse = await TableObjectsController.GetTableObject({
 			accessToken,
 			uuid: storeBook.uuid
 		})
 
-		if (getStoreBookObjResponse.status != 200) {
-			assert.fail()
-		}
+		assert.equal(storeBookResponse.status, 200)
 
-		// The store book should not have a cover
-		assert.isNull(getStoreBookObjResponse.data.GetPropertyValue("cover_aspect_ratio"))
-		assert.isNull(getStoreBookObjResponse.data.GetPropertyValue("cover_blurhash"))
-		assert.isNull(getStoreBookObjResponse.data.GetPropertyValue("cover"))
+		// Get the uuid of the last release
+		let releases = storeBookResponse.data.tableObject.GetPropertyValue("releases").split(",")
+		let lastRelease = releases.pop()
 
-		// Upload the cover (1)
+		// Upload the cover
 		let filePath = path.resolve(__dirname, '../files/cover.png')
-		let firstFileContent = fs.readFileSync(filePath)
-		let firstFileType = "image/png"
-		let firstFileExt = "png"
+		let fileContent = fs.readFileSync(filePath)
+		let fileType = "image/png"
+		let fileExt = "png"
 
 		try {
 			await axios({
@@ -196,135 +224,94 @@ describe("SetStoreBookCover endpoint", () => {
 				url: setStoreBookCoverEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
 					Authorization: accessToken,
-					'Content-Type': firstFileType
+					'Content-Type': fileType
 				},
-				data: firstFileContent
+				data: fileContent
 			})
 		} catch (error) {
 			assert.fail()
 		}
 
-		// Get the store book table object (2)
-		let getStoreBookObjResponse2 = await TableObjectsController.GetTableObject({
+		// Get the store book (2)
+		let storeBookResponse2 = await TableObjectsController.GetTableObject({
 			accessToken,
 			uuid: storeBook.uuid
 		})
 
-		if (getStoreBookObjResponse2.status != 200) {
-			assert.fail()
-		}
+		assert.equal(storeBookResponse2.status, 200)
 
-		// The store book should now have a cover and a cover_blurhash
-		let coverUuid = getStoreBookObjResponse2.data.GetPropertyValue("cover")
+		// Get the uuid of the last release
+		let releases2 = storeBookResponse2.data.tableObject.GetPropertyValue("releases").split(",")
+		let lastRelease2 = releases2.pop()
+
+		// Check if there is a new release
+		assert.notEqual(lastRelease2, lastRelease)
+
+		// Get the store book release
+		let storeBookReleaseResponse = await TableObjectsController.GetTableObject({
+			accessToken,
+			uuid: lastRelease2
+		})
+
+		assert.equal(storeBookReleaseResponse.status, 200)
+		assert.equal(storeBookReleaseResponse.data.tableObject.GetPropertyValue("status") ?? "unpublished", "unpublished")
+
+		let coverItemUuid = storeBookReleaseResponse.data.tableObject.GetPropertyValue("cover_item")
+		assert.isNotNull(coverItemUuid)
+		assert.notEqual(coverItemUuid, storeBook.releases[0].coverItem.uuid)
+
+		// Get the cover item
+		let coverItemResponse = await TableObjectsController.GetTableObject({
+			accessToken,
+			uuid: coverItemUuid
+		})
+
+		assert.equal(coverItemResponse.status, 200)
+		assert.equal(coverItemResponse.data.tableObject.Uuid, coverItemUuid)
+		assert.equal(coverItemResponse.data.tableObject.GetPropertyValue("aspect_ratio"), "1:1")
+		assert.isNotNull(coverItemResponse.data.tableObject.GetPropertyValue("blurhash"))
+
+		let coverUuid = coverItemResponse.data.tableObject.GetPropertyValue("cover")
 		assert.isNotNull(coverUuid)
-		assert.equal("1:1", getStoreBookObjResponse2.data.GetPropertyValue("cover_aspect_ratio"))
-		assert.isNotNull(getStoreBookObjResponse2.data.GetPropertyValue("cover_blurhash"))
 
-		// Get the cover table object file (1)
-		let getCoverFileObjResponse = await TableObjectsController.GetTableObjectFile({
+		// Get the cover
+		let coverResponse = await TableObjectsController.GetTableObject({
 			accessToken,
 			uuid: coverUuid
 		})
 
-		if (getCoverFileObjResponse.status != 200) {
-			assert.fail()
-		}
+		assert.equal(coverResponse.status, 200)
+		assert.equal(coverResponse.data.tableObject.GetPropertyValue("type"), fileType)
+		assert.equal(coverResponse.data.tableObject.GetPropertyValue("ext"), fileExt)
 
-		assert.equal(getCoverFileObjResponse.data, firstFileContent)
-
-		// Get the cover table object (1)
-		let getCoverObjResponse = await TableObjectsController.GetTableObject({
+		// Get the cover file
+		let coverFileResponse = await TableObjectsController.GetTableObjectFile({
 			accessToken,
 			uuid: coverUuid
 		})
 
-		if (getCoverObjResponse.status != 200) {
-			assert.fail()
-		}
-
-		assert.equal(firstFileType, getCoverObjResponse.data.GetPropertyValue("type"))
-		assert.equal(firstFileExt, getCoverObjResponse.data.GetPropertyValue("ext"))
-
-		// Update the cover (2)
-		let secondFileType = "image/jpeg"
-		let secondFileExt = "jpg"
-		let secondFileContent = "Labore dicta cupiditate culpa cum harum. Corporis voluptatem debitis eos nam nisi esse in vitae. Molestiae rerum nesciunt sunt sed et dolorum."
-
-		try {
-			await axios({
-				method: 'put',
-				url: setStoreBookCoverEndpointUrl.replace('{0}', storeBook.uuid),
-				headers: {
-					Authorization: accessToken,
-					'Content-Type': secondFileType
-				},
-				data: secondFileContent
-			})
-		} catch (error) {
-			assert.fail()
-		}
-
-		// Get the store book table object (3)
-		let getStoreBookObjResponse3 = await TableObjectsController.GetTableObject({
-			accessToken,
-			uuid: storeBook.uuid
-		})
-
-		if (getStoreBookObjResponse3.status != 200) {
-			assert.fail()
-		}
-
-		// The cover_aspect_ratio and cover_blurhash of the store book should be null
-		assert.equal(coverUuid, getStoreBookObjResponse3.data.GetPropertyValue("cover"))
-		assert.isNull(getStoreBookObjResponse3.data.GetPropertyValue("cover_aspect_ratio"))
-		assert.isNull(getStoreBookObjResponse3.data.GetPropertyValue("cover_blurhash"))
-
-		// Get the cover table object file (2)
-		let getCoverFileObjResponse2 = await TableObjectsController.GetTableObjectFile({
-			accessToken,
-			uuid: coverUuid
-		})
-
-		if (getCoverFileObjResponse2.status != 200) {
-			assert.fail()
-		}
-
-		assert.equal(getCoverFileObjResponse2.data, secondFileContent)
-
-		// Get the cover table object (2)
-		let getCoverObjResponse2 = await TableObjectsController.GetTableObject({
-			accessToken,
-			uuid: coverUuid
-		})
-
-		if (getCoverObjResponse2.status != 200) {
-			assert.fail()
-		}
-
-		assert.equal(secondFileType, getCoverObjResponse2.data.GetPropertyValue("type"))
-		assert.equal(secondFileExt, getCoverObjResponse2.data.GetPropertyValue("ext"))
+		assert.equal(coverFileResponse.status, 200)
+		assert.equal(coverFileResponse.data, fileContent)
 	}
 
-	async function testUpdateStoreBookCover(storeBook, accessToken) {
-		// Get the store book table object (1)
-		let getStoreBookObjResponse = await TableObjectsController.GetTableObject({
+	async function testUpdateExistingRelease(storeBook, accessToken) {
+		// Get the store book
+		let storeBookResponse = await TableObjectsController.GetTableObject({
 			accessToken,
 			uuid: storeBook.uuid
 		})
 
-		if (getStoreBookObjResponse.status != 200) {
-			assert.fail()
-		}
+		assert.equal(storeBookResponse.status, 200)
 
-		// The store book should have a cover
-		let coverUuid = getStoreBookObjResponse.data.GetPropertyValue("cover")
-		assert.isNotNull(coverUuid)
+		// Get the uuid of the last release
+		let releases = storeBookResponse.data.tableObject.GetPropertyValue("releases").split(",")
+		let lastRelease = releases.pop()
 
-		// Upload the cover (1)
+		// Upload the cover
 		let filePath = path.resolve(__dirname, '../files/cover.png')
-		let firstFileContent = fs.readFileSync(filePath)
-		let firstFileType = "image/png"
-		let firstFileExt = "png"
+		let fileContent = fs.readFileSync(filePath)
+		let fileType = "image/png"
+		let fileExt = "png"
 
 		try {
 			await axios({
@@ -332,111 +319,78 @@ describe("SetStoreBookCover endpoint", () => {
 				url: setStoreBookCoverEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
 					Authorization: accessToken,
-					'Content-Type': firstFileType
+					'Content-Type': fileType
 				},
-				data: firstFileContent
+				data: fileContent
 			})
 		} catch (error) {
 			assert.fail()
 		}
 
-		// Get the store book table object (2)
-		let getStoreBookObjResponse2 = await TableObjectsController.GetTableObject({
+		// Get the store book (2)
+		let storeBookResponse2 = await TableObjectsController.GetTableObject({
 			accessToken,
 			uuid: storeBook.uuid
 		})
 
-		if (getStoreBookObjResponse2.status != 200) {
-			assert.fail()
+		assert.equal(storeBookResponse2.status, 200)
+
+		// Get the uuid of the last release
+		let releases2 = storeBookResponse2.data.tableObject.GetPropertyValue("releases").split(",")
+		let lastRelease2 = releases2.pop()
+
+		// Check if this is the same release
+		assert.equal(lastRelease2, lastRelease)
+
+		// Get the store book release
+		let storeBookReleaseResponse = await TableObjectsController.GetTableObject({
+			accessToken,
+			uuid: lastRelease2
+		})
+
+		assert.equal(storeBookReleaseResponse.status, 200)
+
+		let coverItemUuid = storeBookReleaseResponse.data.tableObject.GetPropertyValue("cover_item")
+		assert.isNotNull(coverItemUuid)
+
+		if (storeBook.releases[0].coverItem) {
+			assert.equal(coverItemUuid, storeBook.releases[0].coverItem.uuid)
 		}
 
-		// The store book should have the cover and a cover_blurhash
-		assert.equal(coverUuid, getStoreBookObjResponse2.data.GetPropertyValue("cover"))
-		assert.equal("1:1", getStoreBookObjResponse2.data.GetPropertyValue("cover_aspect_ratio"))
-		assert.isNotNull(getStoreBookObjResponse2.data.GetPropertyValue("cover_blurhash"))
+		// Get the cover item
+		let coverItemResponse = await TableObjectsController.GetTableObject({
+			accessToken,
+			uuid: coverItemUuid
+		})
 
-		// Get the cover table object file (1)
-		let getCoverFileObjResponse = await TableObjectsController.GetTableObjectFile({
+		assert.equal(coverItemResponse.status, 200)
+		assert.equal(coverItemResponse.data.tableObject.Uuid, coverItemUuid)
+		assert.equal(coverItemResponse.data.tableObject.GetPropertyValue("aspect_ratio"), "1:1")
+		assert.isNotNull(coverItemResponse.data.tableObject.GetPropertyValue("blurhash"))
+
+		let coverUuid = coverItemResponse.data.tableObject.GetPropertyValue("cover")
+
+		if (storeBook.releases[0].coverItem) {
+			assert.equal(storeBook.releases[0].coverItem.cover.uuid, coverUuid)
+		}
+
+		// Get the cover
+		let coverResponse = await TableObjectsController.GetTableObject({
 			accessToken,
 			uuid: coverUuid
 		})
 
-		if (getCoverFileObjResponse.status != 200) {
-			assert.fail()
-		}
+		assert.equal(coverResponse.status, 200)
+		assert.equal(coverResponse.data.tableObject.GetPropertyValue("type"), fileType)
+		assert.equal(coverResponse.data.tableObject.GetPropertyValue("ext"), fileExt)
 
-		assert.equal(getCoverFileObjResponse.data, firstFileContent)
-
-		// Get the cover table object (1)
-		let getCoverObjResponse = await TableObjectsController.GetTableObject({
+		// Get the cover file
+		let coverFileResponse = await TableObjectsController.GetTableObjectFile({
 			accessToken,
 			uuid: coverUuid
 		})
 
-		if (getCoverObjResponse.status != 200) {
-			assert.fail()
-		}
-
-		assert.equal(firstFileType, getCoverObjResponse.data.GetPropertyValue("type"))
-		assert.equal(firstFileExt, getCoverObjResponse.data.GetPropertyValue("ext"))
-
-		// Update the cover (2)
-		let secondFileType = "image/jpeg"
-		let secondFileExt = "jpg"
-		let secondFileContent = "Labore dicta cupiditate culpa cum harum. Corporis voluptatem debitis eos nam nisi esse in vitae. Molestiae rerum nesciunt sunt sed et dolorum."
-
-		try {
-			await axios({
-				method: 'put',
-				url: setStoreBookCoverEndpointUrl.replace('{0}', storeBook.uuid),
-				headers: {
-					Authorization: accessToken,
-					'Content-Type': secondFileType
-				},
-				data: secondFileContent
-			})
-		} catch (error) {
-			assert.fail()
-		}
-
-		// Get the store book table object (3)
-		let getStoreBookObjResponse3 = await TableObjectsController.GetTableObject({
-			accessToken,
-			uuid: storeBook.uuid
-		})
-
-		if (getStoreBookObjResponse3.status != 200) {
-			assert.fail()
-		}
-
-		// The cover_aspect_ratio and cover_blurhash of the store book should be null
-		assert.equal(coverUuid, getStoreBookObjResponse3.data.GetPropertyValue("cover"))
-		assert.isNull(getStoreBookObjResponse3.data.GetPropertyValue("cover_aspect_ratio"))
-		assert.isNull(getStoreBookObjResponse3.data.GetPropertyValue("cover_blurhash"))
-
-		// Get the cover table object file (2)
-		let getCoverFileObjResponse2 = await TableObjectsController.GetTableObjectFile({
-			accessToken,
-			uuid: coverUuid
-		})
-
-		if (getCoverFileObjResponse2.status != 200) {
-			assert.fail()
-		}
-
-		assert.equal(getCoverFileObjResponse2.data, secondFileContent)
-
-		// Get the cover table object (2)
-		let getCoverObjResponse2 = await TableObjectsController.GetTableObject({
-			accessToken,
-			uuid: coverUuid
-		})
-
-		if (getCoverObjResponse2.status != 200) {
-			assert.fail()
-		}
-
-		assert.equal(secondFileType, getCoverObjResponse2.data.GetPropertyValue("type"))
-		assert.equal(secondFileExt, getCoverObjResponse2.data.GetPropertyValue("ext"))
+		assert.equal(coverFileResponse.status, 200)
+		assert.equal(coverFileResponse.data, fileContent)
 	}
 })
