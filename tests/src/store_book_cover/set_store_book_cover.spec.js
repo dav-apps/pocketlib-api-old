@@ -284,7 +284,7 @@ describe("SetStoreBookCover endpoint", () => {
 		assert.equal(coverResponse.data.tableObject.GetPropertyValue("type"), fileType)
 		assert.equal(coverResponse.data.tableObject.GetPropertyValue("ext"), fileExt)
 
-		// Get the cover file
+		// Download the cover
 		let coverFileResponse = await TableObjectsController.GetTableObjectFile({
 			accessToken,
 			uuid: coverUuid
@@ -384,7 +384,7 @@ describe("SetStoreBookCover endpoint", () => {
 		assert.equal(coverResponse.data.tableObject.GetPropertyValue("type"), fileType)
 		assert.equal(coverResponse.data.tableObject.GetPropertyValue("ext"), fileExt)
 
-		// Get the cover file
+		// Download the cover
 		let coverFileResponse = await TableObjectsController.GetTableObjectFile({
 			accessToken,
 			uuid: coverUuid

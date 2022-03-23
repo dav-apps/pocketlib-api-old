@@ -11,13 +11,30 @@ import * as utils from '../utils.js'
 import * as ErrorCodes from '../errorCodes.js'
 
 const setStoreBookFileEndpointUrl = `${constants.apiBaseUrl}/store/book/{0}/file`
-var resetStoreBooksAndStoreBookFiles = false
+var resetStoreBooks = false
+var resetStoreBookReleases = false
+var resetStoreBookFileItems = false
+var resetStoreBookFiles = false
 
 afterEach(async () => {
-	if (resetStoreBooksAndStoreBookFiles) {
+	if (resetStoreBooks) {
 		await utils.resetStoreBooks()
+		resetStoreBooks = false
+	}
+
+	if (resetStoreBookReleases) {
+		await utils.resetStoreBookReleases()
+		resetStoreBookReleases = false
+	}
+
+	if (resetStoreBookFileItems) {
+		await utils.resetStoreBookFileItems()
+		resetStoreBookFileItems = false
+	}
+
+	if (resetStoreBookFiles) {
 		await utils.resetStoreBookFiles()
-		resetStoreBooksAndStoreBookFiles = false
+		resetStoreBookFiles = false
 	}
 })
 
@@ -29,9 +46,9 @@ describe("SetStoreBookFile endpoint", () => {
 				url: setStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid)
 			})
 		} catch (error) {
-			assert.equal(401, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.AuthorizationHeaderMissing, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 401)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.AuthorizationHeaderMissing)
 			return
 		}
 
@@ -49,9 +66,9 @@ describe("SetStoreBookFile endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(404, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.SessionDoesNotExist, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 404)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.SessionDoesNotExist)
 			return
 		}
 
@@ -69,9 +86,9 @@ describe("SetStoreBookFile endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(403, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 403)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
 			return
 		}
 
@@ -89,9 +106,9 @@ describe("SetStoreBookFile endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(415, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ContentTypeNotSupported, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 415)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ContentTypeNotSupported)
 			return
 		}
 
@@ -109,9 +126,9 @@ describe("SetStoreBookFile endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(404, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.StoreBookDoesNotExist, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 404)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.StoreBookDoesNotExist)
 			return
 		}
 
@@ -129,129 +146,78 @@ describe("SetStoreBookFile endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(403, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 403)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
 			return
 		}
 
 		assert.fail()
 	})
 
-	it("should not set store book file for published store book", async () => {
-		try {
-			await axios({
-				method: 'put',
-				url: setStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[1].books[1].uuid),
-				headers: {
-					Authorization: constants.authorUser.accessToken,
-					'Content-Type': 'application/pdf'
-				},
-				data: "Hello World"
-			})
-		} catch (error) {
-			assert.equal(422, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.CannotUpdateFileOfPublishedStoreBook, error.response.data.errors[0].code)
-			return
-		}
-
-		assert.fail()
+	it("should set store book file for published store book by creating new release", async () => {
+		resetStoreBooks = true
+		resetStoreBookReleases = true
+		resetStoreBookFileItems = true
+		resetStoreBookFiles = true
+		await testCreateNewRelease(constants.authorUser.author.collections[1].books[1], constants.authorUser.accessToken)
 	})
 
-	it("should not set store book cover for hidden store book", async () => {
-		try {
-			await axios({
-				method: 'put',
-				url: setStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[1].uuid),
-				headers: {
-					Authorization: constants.authorUser.accessToken,
-					'Content-Type': 'application/pdf'
-				},
-				data: "Hello World"
-			})
-		} catch (error) {
-			assert.equal(422, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.CannotUpdateFileOfPublishedStoreBook, error.response.data.errors[0].code)
-			return
-		}
-
-		assert.fail()
+	it("should set store book file for hidden store book by creating new release", async () => {
+		resetStoreBooks = true
+		resetStoreBookReleases = true
+		resetStoreBookFileItems = true
+		resetStoreBookFiles = true
+		await testCreateNewRelease(constants.authorUser.author.collections[0].books[1], constants.authorUser.accessToken)
 	})
 
-	it("should create and update store book file", async () => {
-		resetStoreBooksAndStoreBookFiles = true
-		await testCreateAndUpdateStoreBookFile(constants.authorUser.author.collections[2].books[0], constants.authorUser.accessToken)
+	it("should set store book file for unpublished store book by updating existing release", async () => {
+		resetStoreBookFileItems = true
+		resetStoreBookFiles = true
+		await testUpdateExistingRelease(constants.authorUser.author.collections[1].books[0], constants.authorUser.accessToken)
 	})
 
-	it("should not set store book file for published store book of admin", async () => {
-		try {
-			await axios({
-				method: 'put',
-				url: setStoreBookFileEndpointUrl.replace('{0}', constants.davUser.authors[0].collections[0].books[0].uuid),
-				headers: {
-					Authorization: constants.davUser.accessToken,
-					'Content-Type': 'application/pdf'
-				},
-				data: "Hello World"
-			})
-		} catch (error) {
-			assert.equal(422, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.CannotUpdateFileOfPublishedStoreBook, error.response.data.errors[0].code)
-			return
-		}
-
-		assert.fail()
+	it("should set store book file for published store book of admin by creating new release", async () => {
+		resetStoreBooks = true
+		resetStoreBookReleases = true
+		resetStoreBookFileItems = true
+		resetStoreBookFiles = true
+		await testCreateNewRelease(constants.davUser.authors[0].collections[0].books[0], constants.davUser.accessToken)
 	})
 
-	it("should not set store book file for hidden store book of admin", async () => {
-		try {
-			await axios({
-				method: 'put',
-				url: setStoreBookFileEndpointUrl.replace('{0}', constants.davUser.authors[0].collections[1].books[0].uuid),
-				headers: {
-					Authorization: constants.davUser.accessToken,
-					'Content-Type': 'application/pdf'
-				},
-				data: "Hello World"
-			})
-		} catch (error) {
-			assert.equal(422, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.CannotUpdateFileOfPublishedStoreBook, error.response.data.errors[0].code)
-			return
-		}
-
-		assert.fail()
+	it("should set store book file for hidden store book of admin by creating new release", async () => {
+		resetStoreBooks = true
+		resetStoreBookReleases = true
+		resetStoreBookFileItems = true
+		resetStoreBookFiles = true
+		await testCreateNewRelease(constants.davUser.authors[0].collections[1].books[0], constants.davUser.accessToken)
 	})
 
-	it("should create and update store book file of store book of an admin", async () => {
-		resetStoreBooksAndStoreBookFiles = true
-		await testCreateAndUpdateStoreBookFile(constants.davUser.authors[0].collections[0].books[2], constants.davUser.accessToken)
+	it("should set store book file for unpublished store book of admin by updating existing release", async () => {
+		resetStoreBookFileItems = true
+		resetStoreBookFiles = true
+		await testUpdateExistingRelease(constants.davUser.authors[0].collections[0].books[2], constants.davUser.accessToken)
 	})
 
-	async function testCreateAndUpdateStoreBookFile(storeBook, accessToken) {
-		// Get the store book table object
-		let getStoreBookObjResponse = await TableObjectsController.GetTableObject({
+	async function testCreateNewRelease(storeBook, accessToken) {
+		// Get the store book
+		let storeBookResponse = await TableObjectsController.GetTableObject({
 			accessToken,
 			uuid: storeBook.uuid
 		})
 
-		if (getStoreBookObjResponse.status != 200) {
-			assert.fail()
-		}
+		assert.equal(storeBookResponse.status, 200)
 
-		// The store book should not have a file
-		assert.isNull(getStoreBookObjResponse.data.GetPropertyValue("file"))
+		// Get the uuid of the last release
+		let releases = storeBookResponse.data.tableObject.GetPropertyValue("releases").split(",")
+		let lastRelease = releases.pop()
 
-		// Upload the file (1)
+		// Upload the file
 		let fileName = "animal_farm.pdf"
 		let filePath = path.resolve(__dirname, `../files/${fileName}`)
-		let firstFileContent = fs.readFileSync(filePath)
-		let firstFileType = "application/pdf"
-		let firstFileExt = "pdf"
+		let fileContent = fs.readFileSync(filePath)
+		let fileType = "application/pdf"
+		let fileExt = "pdf"
 
 		try {
 			await axios({
@@ -259,60 +225,95 @@ describe("SetStoreBookFile endpoint", () => {
 				url: setStoreBookFileEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
 					Authorization: accessToken,
-					'Content-Type': firstFileType,
+					'Content-Type': fileType,
 					'Content-Disposition': `attachment; filename="${fileName}"`
 				},
-				data: firstFileContent
+				data: fileContent
 			})
 		} catch (error) {
 			assert.fail()
 		}
 
-		// Get the store book table object
-		let getStoreBookObjResponse2 = await TableObjectsController.GetTableObject({
+		// Get the store book (2)
+		let storeBookResponse2 = await TableObjectsController.GetTableObject({
 			accessToken,
 			uuid: storeBook.uuid
 		})
 
-		if (getStoreBookObjResponse2.status != 200) {
-			assert.fail()
-		}
+		assert.equal(storeBookResponse2.status, 200)
 
-		// The store book should now have a file
-		let fileUuid = getStoreBookObjResponse2.data.GetPropertyValue("file")
+		// Get the uuid of the last release
+		let releases2 = storeBookResponse2.data.tableObject.GetPropertyValue("releases").split(",")
+		let lastRelease2 = releases2.pop()
+
+		// Check if there is a new release
+		assert.notEqual(lastRelease2, lastRelease)
+
+		// Get the store book release
+		let storeBookReleaseResponse = await TableObjectsController.GetTableObject({
+			accessToken,
+			uuid: lastRelease2
+		})
+
+		assert.equal(storeBookReleaseResponse.status, 200)
+		assert.equal(storeBookReleaseResponse.data.tableObject.GetPropertyValue("status") ?? "unpublished", "unpublished")
+
+		let fileItemUuid = storeBookReleaseResponse.data.tableObject.GetPropertyValue("file_item")
+		assert.isNotNull(fileItemUuid)
+		assert.notEqual(fileItemUuid, storeBook.releases[0].fileItem.uuid)
+
+		// Get the file item
+		let fileItemResponse = await TableObjectsController.GetTableObject({
+			accessToken,
+			uuid: fileItemUuid
+		})
+
+		assert.equal(fileItemResponse.status, 200)
+		assert.equal(fileItemResponse.data.tableObject.Uuid, fileItemUuid)
+		assert.equal(fileItemResponse.data.tableObject.GetPropertyValue("file_name"), fileName)
+
+		let fileUuid = fileItemResponse.data.tableObject.GetPropertyValue("file")
 		assert.isNotNull(fileUuid)
-		assert.equal(fileName, getStoreBookObjResponse2.data.GetPropertyValue("file_name"))
 
-		// Get the file table object file (1)
-		let getFileFileObjResponse = await TableObjectsController.GetTableObjectFile({
+		// Get the file
+		let fileObjResponse = await TableObjectsController.GetTableObject({
 			accessToken,
 			uuid: fileUuid
 		})
 
-		if (getFileFileObjResponse.status != 200) {
-			assert.fail()
-		}
+		assert.equal(fileObjResponse.status, 200)
+		assert.equal(fileObjResponse.data.tableObject.GetPropertyValue("type"), fileType)
+		assert.equal(fileObjResponse.data.tableObject.GetPropertyValue("ext"), fileExt)
 
-		assert.equal(getFileFileObjResponse.data, firstFileContent)
-
-		// Get the file table object (1)
-		let getFileObjResponse = await TableObjectsController.GetTableObject({
+		// Download the file
+		let fileResponse = await TableObjectsController.GetTableObjectFile({
 			accessToken,
 			uuid: fileUuid
 		})
 
-		if (getFileObjResponse.status != 200) {
-			assert.fail()
-		}
+		assert.equal(fileResponse.status, 200)
+		assert.equal(fileResponse.data, fileContent)
+	}
 
-		assert.equal(firstFileType, getFileObjResponse.data.GetPropertyValue("type"))
-		assert.equal(firstFileExt, getFileObjResponse.data.GetPropertyValue("ext"))
+	async function testUpdateExistingRelease(storeBook, accessToken) {
+		// Get the store book
+		let storeBookResponse = await TableObjectsController.GetTableObject({
+			accessToken,
+			uuid: storeBook.uuid
+		})
 
-		// Update the file (2)
-		let secondFileName = "test.epub"
-		let secondFileType = "application/epub+zip"
-		let secondFileExt = "epub"
-		let secondFileContent = "Labore dicta cupiditate culpa cum harum. Corporis voluptatem debitis eos nam nisi esse in vitae. Molestiae rerum nesciunt sunt sed et dolorum."
+		assert.equal(storeBookResponse.status, 200)
+
+		// Get the uuid of the last release
+		let releases = storeBookResponse.data.tableObject.GetPropertyValue("releases").split(",")
+		let lastRelease = releases.pop()
+
+		// Upload the file
+		let fileName = "animal_farm.pdf"
+		let filePath = path.resolve(__dirname, `../files/${fileName}`)
+		let fileContent = fs.readFileSync(filePath)
+		let fileType = "application/pdf"
+		let fileExt = "pdf"
 
 		try {
 			await axios({
@@ -320,38 +321,78 @@ describe("SetStoreBookFile endpoint", () => {
 				url: setStoreBookFileEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
 					Authorization: accessToken,
-					'Content-Type': secondFileType,
-					'Content-Disposition': `attachment; filename="${secondFileName}"`
+					'Content-Type': fileType,
+					'Content-Disposition': `attachment; filename="${fileName}"`
 				},
-				data: secondFileContent
+				data: fileContent
 			})
 		} catch (error) {
 			assert.fail()
 		}
 
-		// Get the file table object file (2)
-		let getFileFileObjResponse2 = await TableObjectsController.GetTableObjectFile({
+		// Get the store book (2)
+		let storeBookResponse2 = await TableObjectsController.GetTableObject({
+			accessToken,
+			uuid: storeBook.uuid
+		})
+
+		assert.equal(storeBookResponse2.status, 200)
+
+		// Get the uuid of the last release
+		let releases2 = storeBookResponse2.data.tableObject.GetPropertyValue("releases").split(",")
+		let lastRelease2 = releases2.pop()
+
+		// Check if this is the same release
+		assert.equal(lastRelease2, lastRelease)
+
+		// Get the store book release
+		let storeBookReleaseResponse = await TableObjectsController.GetTableObject({
+			accessToken,
+			uuid: lastRelease2
+		})
+
+		assert.equal(storeBookReleaseResponse.status, 200)
+
+		let fileItemUuid = storeBookReleaseResponse.data.tableObject.GetPropertyValue("file_item")
+		assert.isNotNull(fileItemUuid)
+
+		if (storeBook.releases[0].fileItem) {
+			assert.equal(fileItemUuid, storeBook.releases[0].fileItem.uuid)
+		}
+
+		// Get the file item
+		let fileItemResponse = await TableObjectsController.GetTableObject({
+			accessToken,
+			uuid: fileItemUuid
+		})
+
+		assert.equal(fileItemResponse.status, 200)
+		assert.equal(fileItemResponse.data.tableObject.Uuid, fileItemUuid)
+		assert.equal(fileItemResponse.data.tableObject.GetPropertyValue("file_name"), fileName)
+
+		let fileUuid = fileItemResponse.data.tableObject.GetPropertyValue("file")
+
+		if (storeBook.releases[0].fileItem) {
+			assert.equal(storeBook.releases[0].fileItem.file.uuid, fileUuid)
+		}
+
+		// Get the file
+		let fileObjResponse = await TableObjectsController.GetTableObject({
 			accessToken,
 			uuid: fileUuid
 		})
 
-		if (getFileFileObjResponse2.status != 200) {
-			assert.fail()
-		}
+		assert.equal(fileObjResponse.status, 200)
+		assert.equal(fileObjResponse.data.tableObject.GetPropertyValue("type"), fileType)
+		assert.equal(fileObjResponse.data.tableObject.GetPropertyValue("ext"), fileExt)
 
-		assert.equal(getFileFileObjResponse2.data, secondFileContent)
-
-		// Get the file table object (2)
-		let getFileObjResponse2 = await TableObjectsController.GetTableObject({
+		// Download the file
+		let fileResponse = await TableObjectsController.GetTableObjectFile({
 			accessToken,
 			uuid: fileUuid
 		})
 
-		if (getFileObjResponse2.status != 200) {
-			assert.fail()
-		}
-
-		assert.equal(secondFileType, getFileObjResponse2.data.GetPropertyValue("type"))
-		assert.equal(secondFileExt, getFileObjResponse2.data.GetPropertyValue("ext"))
+		assert.equal(fileResponse.status, 200)
+		assert.equal(fileResponse.data, fileContent)
 	}
 })
