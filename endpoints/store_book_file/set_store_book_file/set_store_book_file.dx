@@ -26,9 +26,19 @@
 	(func render_validation_errors ((list (hash (error (get_error 3508)) (status 404)))))
 ))
 
-(# Check if the store book is already published)
-(if ((store_book.properties.status == "published") or (store_book.properties.status == "hidden")) (
-	(func render_validation_errors ((list (hash (error (get_error 3404)) (status 422)))))
+(# Get the latest store book release)
+(if (is_nil store_book.properties.releases) (
+	(# StoreBookRelease does not exist)
+	(func render_validation_errors ((list (hash (error (get_error 3516)) (status 404)))))
+))
+
+(var releases (store_book.properties.releases.split ","))
+(var releases releases.reverse)
+(var latest_release (func get_table_object ((releases.pop) (get_env "STORE_BOOK_RELEASE_TABLE_ID"))))
+
+(if (is_nil latest_release) (
+	(# StoreBookRelease does not exist)
+	(func render_validation_errors ((list (hash (error (get_error 3516)) (status 404)))))
 ))
 
 (# Get the collection of the store book)
@@ -54,52 +64,98 @@
 ))
 
 (# Define functions for creating and updating the file table object)
-(def set_filename (store_book) (
+(def set_filename (file_item) (
 	(# Set the file name if there is one)
 	(var content_disposition (get_header "Content-Disposition"))
 
 	(if (! (is_nil content_disposition)) (
 		(var matches (Regex.match content_disposition /filename=\"(?<filename>.*)\"/))
 		(if (! (is_nil matches.filename)) (
-			(var store_book.properties.file_name matches.filename)
+			(var file_item.properties.file_name matches.filename)
 		))
 	))
 ))
 
-(def create_file (store_book session content_type data) (
+(def create_file (store_book_release session content_type data) (
 	(# Create the file table object)
 	(var file (func create_store_book_file_table_object (session.user_id content_type data)))
 
-	(# Update the store book with the uuid of the file table object)
-	(var store_book.properties.file file.uuid)
+	(# Create the file item table object)
+	(var file_item (func create_table_object (
+		store_book_release.user_id
+		(get_env "STORE_BOOK_FILE_ITEM_TABLE_ID")
+		(hash
+			(file file.uuid)
+		)
+	)))
 
-	(func set_filename (store_book))
+	(# Set the properties of the file item)
+	(func set_filename (file_item))
+
+	(return file_item)
 ))
 
-(def update_file (store_book file content_type data) (
+(def update_file (file_item content_type data) (
 	(# Update the file of the file table object)
-	(func update_store_book_file_table_object (file.uuid content_type data))
+	(func update_store_book_file_table_object (file_item.properties.file content_type data))
 
-	(func set_filename (store_book))
+	(func set_filename (file_item))
 ))
 
-(# Get the file table object of the store book)
-(var file_uuid store_book.properties.file)
+(if (latest_release.status == "published") (
+	(# Create a new release)
+	(var new_release (func create_table_object (
+		store_book.user_id
+		(get_env "STORE_BOOK_RELEASE_TABLE_ID")
+		(hash
+			(store_book store_book.uuid)
+			(title latest_release.properties.title)
+			(description latest_release.properties.description)
+			(cover_item latest_release.properties.cover_item)
+			(categories latest_release.properties.categories)
+		)
+	)))
 
-(if (is_nil file_uuid) (
-	(# Create the file)
-	(func create_file (store_book session content_type data))
+	(# Add the new release to the releases of the store book)
+	(func add_release_to_store_book (store_book new_release.uuid))
+
+	(# Create new file and file item)
+	(var file_item (func create_file (new_release session content_type data)))
+	(var new_release.properties.file_item file_item.uuid)
 ) else (
-	(# Try to get the file table object)
-	(var file (func get_table_object (file_uuid (get_env "STORE_BOOK_FILE_TABLE_ID"))))
+	(var release_uuid (releases.pop))
+	(var release nil)
+	(var update_file true)
 
-	(if (is_nil file) (
-		(# Create the file)
-		(func create_file (store_book session content_type data))
+	(if (!(is_nil release_uuid)) (
+		(var release (func get_table_object (release_uuid (get_env "STORE_BOOK_RELEASE_TABLE_ID"))))
+
+		(if (!(is_nil release)) (
+			(# Check if the release is published and uses the file item of the latest release)
+			(if (
+				(release.properties.status == "published")
+				and (release.properties.file_item == latest_release.properties.file_item)
+			) (
+				(var update_file false)
+			))
+		))
+	))
+
+	(if update_file (
+		(# Update the file of the latest release)
+		(var file_item (func get_table_object (latest_release.properties.file_item (get_env "STORE_BOOK_FILE_ITEM_TABLE_ID"))))
+
+		(if (is_nil file_item) (
+			(var file_item (func create_file (latest_release session content_type data)))
+			(var latest_release.properties.file_item file_item.uuid)
+		) else (
+			(func update_file (file_item content_type data))
+		))
 	) else (
-		(# Update the file)
-		(func update_file (store_book file content_type data))
+		(# Create a new file and file item)
+		(var file_item (func create_file (latest_release session content_type data)))
+		(var latest_release.properties.file_item file_item.uuid)
 	))
 ))
 
-(render_json (hash) 200)
+(render_json (hash) 204)
