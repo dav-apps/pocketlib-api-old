@@ -677,6 +677,25 @@ let constants = {
 										title: "The Life and Adventures of Robinson Crusoe",
 										description: "Robinson Crusoe is one of the most popular books ever written in the English language, published in innumerable editions and translated into almost every language of the world, not to mention the many versions created in film, television and even radio.",
 										status: "published",
+										coverItem: {
+											uuid: "87c20601-bf63-423e-afa7-008a97e397d5",
+											aspectRatio: "1:3",
+											blurhash: "LbR.uzbH.RsoHXa|x]n%xua|V@jt",
+											cover: {
+												uuid: "fb230b01-ee89-4209-83f5-7680e116ed14",
+												ext: "jpg",
+												type: "image/jpeg"
+											}
+										},
+										fileItem: {
+											uuid: "ac91cf62-3013-43b2-ae4b-1829c6aa0c1c",
+											fileName: "The Life and Adventures of Robinson Crusoe.epub",
+											file: {
+												uuid: "97fd0673-d445-4e40-b72c-31698c9d1d8b",
+												ext: "epub",
+												type: "application/zip+epub"
+											}
+										},
 										categories: [
 											"76dd74fa-0fb3-4d80-8c0a-6d6a803383a7"		// Adventure
 										]
@@ -706,6 +725,25 @@ let constants = {
 										title: "The Further Adventures of Robinson Crusoe",
 										description: "After his return from an uninhabited island, Robinson Crusoe marries and starts a family. Despite his comfortable life in England, he has an intense desire to go back to sea.",
 										status: "published",
+										coverItem: {
+											uuid: "3a68a4a9-d6a0-4a32-b13c-32c753cb0038",
+											aspectRatio: "1:0.8",
+											blurhash: "LbR.uzbH.RsoHXa|x]n%xua|V@jt",
+											cover: {
+												uuid: "fb6d4537-3a71-40b7-9f58-bbbbce7bc62e",
+												ext: "jpg",
+												type: "image/jpeg"
+											}
+										},
+										fileItem: {
+											uuid: "671f2d6c-c6f1-449c-b392-320549794c29",
+											fileName: "The Further Adventures of Robinson Crusoe.epub",
+											file: {
+												uuid: "2cc4f77e-cda8-433d-9367-25cb431e9ea6",
+												ext: "epub",
+												type: "application/zip+epub"
+											}
+										},
 										categories: [
 											"76dd74fa-0fb3-4d80-8c0a-6d6a803383a7"		// Adventure
 										]

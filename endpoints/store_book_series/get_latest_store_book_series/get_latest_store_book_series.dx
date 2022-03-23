@@ -1,6 +1,16 @@
 (# Get the params)
+(var fields_str (get_param "fields"))
 (var languages (get_param "languages"))
 (var limit (to_int (get_param "limit")))
+
+(if (is_nil fields_str) (
+	(var fields (list "series.uuid"))
+) elseif (fields_str == "*") (
+	(var fields (list "series.uuid" "series.name" "series.language" "series.books.uuid" "series.books.title" "series.books.description" "series.books.language" "series.books.price" "series.books.isbn" "series.books.cover_aspect_ratio" "series.books.cover_blurhash"))
+) else (
+	(# Process the fields string)
+	(var fields (func process_fields (fields_str)))
+))
 
 (var language_list (list))
 
@@ -74,6 +84,13 @@
 			(var store_book (func get_table_object (uuid (get_env "STORE_BOOK_TABLE_ID"))))
 			(if (is_nil store_book) (continue))
 
+			(var store_book_release (func get_last_release_of_store_book (store_book true)))
+			(if ((is_nil store_book_release) or (store_book_release.properties.status != "published")) (continue))
+
+			(# Get the cover item)
+			(var cover_item (func get_table_object (store_book_release.properties.cover_item (get_env "STORE_BOOK_COVER_ITEM_TABLE_ID"))))
+			(if (is_nil cover_item) (continue))
+
 			(# Check if the store book can be used)
 			(var store_book_language store_book.properties.language)
 
@@ -82,8 +99,19 @@
 				and (languages_books_presence[store_book_language] == false)
 				and (store_book.properties.status == "published")
 			) (
+				(var book_hash (hash))
+
+				(if (fields.contains "series.books.uuid") (var book_hash.uuid store_book.uuid))
+				(if (fields.contains "series.books.title") (var book_hash.title store_book_release.properties.title))
+				(if (fields.contains "series.books.description") (var book_hash.description store_book_release.properties.description))
+				(if (fields.contains "series.books.language") (var book_hash.language store_book.properties.language))
+				(if (fields.contains "series.books.price") (var book_hash.price (to_int store_book.properties.price)))
+				(if (fields.contains "series.books.isbn") (var book_hash.isbn store_book.properties.isbn))
+				(if (fields.contains "series.books.cover_aspect_ratio") (var book_hash.cover_aspect_ratio cover_item.properties.aspect_ratio))
+				(if (fields.contains "series.books.cover_blurhash") (var book_hash.cover_blurhash cover_item.properties.blurhash))
+
 				(var languages_books_presence[store_book_language] true)
-				(language_books[store_book_language].push store_book)
+				(language_books[store_book_language].push book_hash)
 			))
 		))
 	))
@@ -91,20 +119,26 @@
 	(# Return the series only if it has at least one store book for each collection in one language)
 	(for lang in new_language_list (
 		(if (language_books[lang].length == collection_uuids.length) (
-			(var series_result (hash
-				(uuid series_object.uuid)
-				(name names[lang])
-				(language lang)
-				(books (list))
-			))
+			(var series_result (hash))
 
-			(for book in language_books[lang] (
-				(series_result["books"].push (hash
-					(uuid book.uuid)
-					(title book.properties.title)
-					(language book.properties.language)
-					(cover_aspect_ratio book.properties.cover_aspect_ratio)
-					(cover_blurhash book.properties.cover_blurhash)
+			(if (fields.contains "series.uuid") (var series_result.uuid series_object.uuid))
+			(if (fields.contains "series.name") (var series_result.name names[lang]))
+			(if (fields.contains "series.language") (var series_result.language lang))
+
+			(if (
+				(fields.contains "series.books.uuid")
+				or (fields.contains "series.books.title")
+				or (fields.contains "series.books.description")
+				or (fields.contains "series.books.language")
+				or (fields.contains "series.books.price")
+				or (fields.contains "series.books.isbn")
+				or (fields.contains "series.books.cover_aspect_ratio")
+				or (fields.contains "series.books.cover_blurhash")
+			) (
+				(var series_result.books (list))
+
+				(for book in language_books[lang] (
+					(series_result.books.push book)
 				))
 			))
 

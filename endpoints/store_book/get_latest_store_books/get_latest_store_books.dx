@@ -56,7 +56,7 @@
 		(if ((is_nil book_release) or (book_release.properties.status != "published")) (continue))
 
 		(# Get the cover item)
-		(var cover_item (func get_table_object (book_release.cover_item (get_env "STORE_BOOK_COVER_ITEM_TABLE_ID"))))
+		(var cover_item (func get_table_object (book_release.properties.cover_item (get_env "STORE_BOOK_COVER_ITEM_TABLE_ID"))))
 		(if (is_nil cover_item) (continue))
 
 		(# Add the book to the list)

@@ -4,7 +4,7 @@ import axios from 'axios'
 import constants from '../constants.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const getLatestStoreBookSeriesEndpointUrl = `${constants.apiBaseUrl}/store/series/latest`
+const getLatestStoreBookSeriesEndpointUrl = `${constants.apiBaseUrl}/store/book/series/latest`
 
 describe("GetLatestStoreBookSeries endpoint", () => {
 	it("should not return latest store book series with not supported languages", async () => {
@@ -17,9 +17,9 @@ describe("GetLatestStoreBookSeries endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.LanguageNotSupported, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.LanguageNotSupported)
 			return
 		}
 
@@ -35,6 +35,7 @@ describe("GetLatestStoreBookSeries endpoint", () => {
 				method: 'get',
 				url: getLatestStoreBookSeriesEndpointUrl,
 				params: {
+					fields: "*",
 					languages: languages.join(',')
 				}
 			})
@@ -54,30 +55,35 @@ describe("GetLatestStoreBookSeries endpoint", () => {
 			}
 		}
 
-		assert.equal(200, response.status)
-		assert.equal(series.length, response.data.series.length)
+		assert.equal(response.status, 200)
+		assert.equal(response.data.series.length, series.length)
 
 		for (let responseSeries of response.data.series) {
 			let s = series.find(s => s.series.uuid == responseSeries.uuid)
 			if (s == null) assert.fail()
 
-			assert.equal(s.series.uuid, responseSeries.uuid)
+			assert.equal(responseSeries.uuid, s.series.uuid)
 
 			let name = s.series.names.find(n => n.language == responseSeries.language)
-			assert(name != null)
-			assert.equal(name.name, responseSeries.name)
-
-			assert.equal(s.books.length, responseSeries.books.length)
+			assert.isNotNull(name)
+			assert.equal(responseSeries.name, name.name)
+			assert.equal(responseSeries.books.length, s.books.length)
 
 			for (let responseBook of responseSeries.books) {
-				let b = s.books.find(b => b.uuid == responseBook.uuid)
-				if (b == null) assert.fail()
+				let storeBook = s.books.find(b => b.uuid == responseBook.uuid)
+				assert.isNotNull(storeBook)
+				
+				let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+				assert.isNotNull(storeBookRelease)
 
-				assert.equal(b.uuid, responseBook.uuid)
-				assert.equal(b.title, responseBook.title)
-				assert.equal(b.language, responseBook.language)
-				assert.equal(b.coverAspectRatio, responseBook.cover_aspect_ratio)
-				assert.equal(b.coverBlurhash, responseBook.cover_blurhash)
+				assert.equal(responseBook.uuid, storeBook.uuid)
+				assert.equal(responseBook.title, storeBookRelease.title)
+				assert.equal(responseBook.description, storeBookRelease.description)
+				assert.equal(responseBook.language, storeBook.language)
+				assert.equal(responseBook.price, storeBook.price ?? 0)
+				assert.equal(responseBook.isbn, storeBook.isbn)
+				assert.equal(responseBook.cover_aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
+				assert.equal(responseBook.cover_blurhash, storeBookRelease.coverItem?.blurhash)
 			}
 		}
 	})
