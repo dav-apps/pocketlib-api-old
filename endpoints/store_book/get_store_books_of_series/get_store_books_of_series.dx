@@ -1,0 +1,143 @@
+(# Get the params)
+(var uuid (get_param "uuid"))
+(var fields_str (get_param "fields"))
+(var languages (get_param "languages"))
+
+(if (is_nil fields_str) (
+	(var fields (list "books.uuid"))
+) elseif (fields_str == "*") (
+	(var fields (list "books.uuid" "books.title" "books.description" "books.language" "books.price" "books.isbn" "books.cover_aspect_ratio" "books.cover_blurhash"))
+) else (
+	(# Process the fields string)
+	(var fields (func process_fields (fields_str)))
+))
+
+(var language_list (list))
+
+(if (is_nil languages) (
+	(language_list.push "en")
+) else (
+	(# Read the languages string and add the languages to the list)
+	(for language in (languages.split ",") (
+		(# Validate the languages)
+		(func render_validation_errors ((list
+			(func validate_language_supported (language))
+		)))
+
+		(language_list.push language)
+	))
+))
+
+(# Get the store book series)
+(var series (func get_table_object (uuid (get_env "STORE_BOOK_SERIES_TABLE_ID"))))
+
+(if (is_nil series) (
+	(# Series does not exist)
+	(func render_validation_errors ((list (hash (error (get_error 3514)) (status 404)))))
+))
+
+(# Get the collections of the series)
+(var collection_uuids_string series.properties.collections)
+(if (is_nil collection_uuids_string) (
+	(func render_validation_errors ((list (hash (error (get_error 3012)) (status 412)))))
+))
+
+(var collection_uuids (collection_uuids_string.split ","))
+
+(# Get the names of the series)
+(var names (func get_series_names_by_string_as_hash (series.properties.names)))
+
+(# Check each given language if the series has a name for it)
+(var new_language_list (list))
+
+(for lang in language_list (
+	(if (!(is_nil names[lang])) (
+		(new_language_list.push lang)
+	))
+))
+
+(var language_list new_language_list)
+
+(# Try to get a StoreBook for each given language)
+(var language_books (hash))
+(for lang in language_list (
+	(var language_books[lang] (list))
+))
+
+(for collection_uuid in collection_uuids (
+	(var collection (func get_table_object (
+		collection_uuid
+		(get_env "STORE_BOOK_COLLECTION_TABLE_ID")
+	)))
+	(if (is_nil collection) (continue))
+
+	(# Save for which language there is a store book for the current collection)
+	(var languages_books_presence (hash))
+	(for lang in language_list (
+		(var languages_books_presence[lang] false)
+	))
+
+	(var store_book_uuids_string collection.properties.books)
+	(if (is_nil store_book_uuids_string) (continue))
+
+	(for uuid in (store_book_uuids_string.split ",") (
+		(var store_book (func get_table_object (uuid (get_env "STORE_BOOK_TABLE_ID"))))
+		(if (is_nil store_book) (continue))
+
+		(# Check if the store book can be used)
+		(var store_book_language store_book.properties.language)
+
+		(if (
+			(language_list.contains store_book.properties.language)
+			and (! languages_books_presence[store_book_language])
+			and (store_book.properties.status == "published")
+		) (
+			(var languages_books_presence[store_book_language] true)
+			(language_books[store_book_language].push store_book)
+		))
+	))
+))
+
+(# Return the series only if it has a store book for each collection)
+(var language nil)
+(var books (list))
+
+(for lang in language_list (
+	(if (language_books[lang].length == collection_uuids.length) (
+		(for store_book in language_books[lang] (
+			(# Get the latest release)
+			(var store_book_release (func get_last_release_of_store_book (store_book true)))
+			(if ((is_nil store_book_release) or (store_book_release.properties.status != "published")) (continue))
+
+			(# Get the cover item)
+			(var cover_item (func get_table_object (store_book_release.properties.cover_item (get_env "STORE_BOOK_COVER_ITEM_TABLE_ID"))))
+			(if (is_nil cover_item) (continue))
+
+			(# Add the book to the list)
+			(var book_hash (hash))
+
+			(if (fields.contains "books.uuid") (var book_hash.uuid store_book.uuid))
+			(if (fields.contains "books.title") (var book_hash.title store_book_release.properties.title))
+			(if (fields.contains "books.description") (var book_hash.description store_book_release.properties.description))
+			(if (fields.contains "books.language") (var book_hash.language store_book.properties.language))
+			(if (fields.contains "books.price") (var book_hash.price (to_int store_book.properties.price)))
+			(if (fields.contains "books.isbn") (var book_hash.isbn store_book.properties.isbn))
+			(if (fields.contains "books.cover_aspect_ratio") (var book_hash.cover_aspect_ratio cover_item.properties.aspect_ratio))
+			(if (fields.contains "books.cover_blurhash") (var book_hash.cover_blurhash cover_item.properties.blurhash))
+
+			(books.push book_hash)
+		))
+
+		(var language lang)
+		(break)
+	))
+))
+
+(if (is_nil language) (
+	(func render_validation_errors ((list (hash (error (get_error 3012)) (status 412)))))
+))
+
+(# Render the result)
+(render_json (hash
+	(books books)
+) 200)
