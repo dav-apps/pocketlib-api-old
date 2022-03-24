@@ -87,10 +87,10 @@ describe("GetLatestStoreBooks endpoint", async () => {
 			assert.equal(book.title, storeBookRelease.title)
 			assert.equal(book.description, storeBookRelease.description)
 			assert.equal(book.language, storeBook.language)
-			assert.equal(book.price, storeBook.price == null ? 0 : storeBook.price)
+			assert.equal(book.price, storeBook.price ?? 0)
 			assert.equal(book.isbn, storeBook.isbn)
-			assert.equal(book.cover_aspect_ratio, storeBookRelease.coverItem.aspectRatio)
-			assert.equal(book.cover_blurhash, storeBookRelease.coverItem.blurhash)
+			assert.equal(book.cover_aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
+			assert.equal(book.cover_blurhash, storeBookRelease.coverItem?.blurhash)
 			i++
 		}
 	})
@@ -221,10 +221,10 @@ describe("GetLatestStoreBooks endpoint", async () => {
 			assert.equal(book.title, storeBookRelease.title)
 			assert.equal(book.description, storeBookRelease.description)
 			assert.equal(book.language, storeBook.language)
-			assert.equal(book.price, storeBook.price == null ? 0 : storeBook.price)
+			assert.equal(book.price, storeBook.price ?? 0)
 			assert.equal(book.isbn, storeBook.isbn)
-			assert.equal(book.cover_aspect_ratio, storeBookRelease.coverItem.aspectRatio)
-			assert.equal(book.cover_blurhash, storeBookRelease.coverItem.blurhash)
+			assert.equal(book.cover_aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
+			assert.equal(book.cover_blurhash, storeBookRelease.coverItem?.blurhash)
 			i++
 		}
 	})
@@ -292,10 +292,10 @@ describe("GetLatestStoreBooks endpoint", async () => {
 			assert.equal(book.title, storeBookRelease.title)
 			assert.equal(book.description, storeBookRelease.description)
 			assert.equal(book.language, storeBook.language)
-			assert.equal(book.price, storeBook.price == null ? 0 : storeBook.price)
+			assert.equal(book.price, storeBook.price ?? 0)
 			assert.equal(book.isbn, storeBook.isbn)
-			assert.equal(book.cover_aspect_ratio, storeBookRelease.coverItem.aspectRatio)
-			assert.equal(book.cover_blurhash, storeBookRelease.coverItem.blurhash)
+			assert.equal(book.cover_aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
+			assert.equal(book.cover_blurhash, storeBookRelease.coverItem?.blurhash)
 			i++
 		}
 	})
@@ -367,10 +367,10 @@ describe("GetLatestStoreBooks endpoint", async () => {
 			assert.equal(book.title, storeBookRelease.title)
 			assert.equal(book.description, storeBookRelease.description)
 			assert.equal(book.language, storeBook.language)
-			assert.equal(book.price, storeBook.price == null ? 0 : storeBook.price)
+			assert.equal(book.price, storeBook.price ?? 0)
 			assert.equal(book.isbn, storeBook.isbn)
-			assert.equal(book.cover_aspect_ratio, storeBookRelease.coverItem.aspectRatio)
-			assert.equal(book.cover_blurhash, storeBookRelease.coverItem.blurhash)
+			assert.equal(book.cover_aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
+			assert.equal(book.cover_blurhash, storeBookRelease.coverItem?.blurhash)
 		}
 
 		// Get the store books of the next page
@@ -402,10 +402,10 @@ describe("GetLatestStoreBooks endpoint", async () => {
 			assert.equal(book.title, storeBookRelease.title)
 			assert.equal(book.description, storeBookRelease.description)
 			assert.equal(book.language, storeBook.language)
-			assert.equal(book.price, storeBook.price == null ? 0 : storeBook.price)
+			assert.equal(book.price, storeBook.price ?? 0)
 			assert.equal(book.isbn, storeBook.isbn)
-			assert.equal(book.cover_aspect_ratio, storeBookRelease.coverItem.aspectRatio)
-			assert.equal(book.cover_blurhash, storeBookRelease.coverItem.blurhash)
+			assert.equal(book.cover_aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
+			assert.equal(book.cover_blurhash, storeBookRelease.coverItem?.blurhash)
 		}
 	})
 })
