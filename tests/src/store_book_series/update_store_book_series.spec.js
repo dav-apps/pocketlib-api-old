@@ -6,7 +6,7 @@ import constants from '../constants.js'
 import * as utils from '../utils.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const updateStoreBookSeriesEndpointUrl = `${constants.apiBaseUrl}/store/series/{0}`
+const updateStoreBookSeriesEndpointUrl = `${constants.apiBaseUrl}/store/book/series/{0}`
 var resetStoreBookSeries = false
 
 afterEach(async () => {
@@ -24,9 +24,9 @@ describe("UpdateStoreBookSeries endpoint", async () => {
 				url: updateStoreBookSeriesEndpointUrl.replace('{0}', constants.authorUser.author.series[0].uuid)
 			})
 		} catch (error) {
-			assert.equal(401, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.AuthorizationHeaderMissing, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 401)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.AuthorizationHeaderMissing)
 			return
 		}
 
@@ -44,9 +44,9 @@ describe("UpdateStoreBookSeries endpoint", async () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(404, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.SessionDoesNotExist, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 404)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.SessionDoesNotExist)
 			return
 		}
 
@@ -63,9 +63,9 @@ describe("UpdateStoreBookSeries endpoint", async () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(415, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ContentTypeNotSupported, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 415)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ContentTypeNotSupported)
 			return
 		}
 
@@ -83,9 +83,9 @@ describe("UpdateStoreBookSeries endpoint", async () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(403, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 403)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
 			return
 		}
 
@@ -106,9 +106,9 @@ describe("UpdateStoreBookSeries endpoint", async () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(404, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.StoreBookSeriesDoesNotExist, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 404)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.StoreBookSeriesDoesNotExist)
 			return
 		}
 
@@ -129,9 +129,9 @@ describe("UpdateStoreBookSeries endpoint", async () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.CollectionsWrongType, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.CollectionsWrongType)
 			return
 		}
 
@@ -155,9 +155,9 @@ describe("UpdateStoreBookSeries endpoint", async () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.CollectionsWrongType, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.CollectionsWrongType)
 			return
 		}
 
@@ -180,9 +180,9 @@ describe("UpdateStoreBookSeries endpoint", async () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(403, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 403)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
 			return
 		}
 
@@ -215,18 +215,18 @@ describe("UpdateStoreBookSeries endpoint", async () => {
 			assert.fail()
 		}
 
-		assert.equal(200, response.status)
-		assert.equal(series.uuid, response.data.uuid)
-		assert.equal(author.uuid, response.data.author)
-		assert.equal(series.names.length, response.data.names.length)
-		assert.equal(collections.length, response.data.collections.length)
-		assert.equal(collections[0], response.data.collections[0])
-		assert.equal(collections[1], response.data.collections[1])
+		assert.equal(response.status, 200)
+		assert.equal(response.data.uuid, series.uuid)
+		assert.equal(response.data.author, author.uuid)
+		assert.equal(response.data.names.length, series.names.length)
+		assert.equal(response.data.collections.length, collections.length)
+		assert.equal(response.data.collections[0], collections[0])
+		assert.equal(response.data.collections[1], collections[1])
 
 		let i = 0
 		for (let seriesName of series.names) {
-			assert.equal(seriesName.name, response.data.names[i].name)
-			assert.equal(seriesName.language, response.data.names[i].language)
+			assert.equal(response.data.names[i].name, seriesName.name)
+			assert.equal(response.data.names[i].language, seriesName.language)
 			i++
 		}
 
@@ -236,18 +236,15 @@ describe("UpdateStoreBookSeries endpoint", async () => {
 			uuid: series.uuid
 		})
 
-		if (objResponse.status != 200) {
-			assert.fail()
-		}
-
-		assert.equal(series.uuid, objResponse.data.Uuid)
-		assert.equal(author.uuid, objResponse.data.GetPropertyValue("author"))
+		assert.equal(objResponse.status, 200)
+		assert.equal(objResponse.data.tableObject.Uuid, series.uuid)
+		assert.equal(objResponse.data.tableObject.GetPropertyValue("author"), author.uuid)
 
 		let nameUuids = []
 		for (let name of series.names) nameUuids.push(name.uuid)
-		assert.equal(nameUuids.join(','), objResponse.data.GetPropertyValue("names"))
+		assert.equal(objResponse.data.tableObject.GetPropertyValue("names"), nameUuids.join(','))
 
-		assert.equal(collections.join(','), objResponse.data.GetPropertyValue("collections"))
+		assert.equal(objResponse.data.tableObject.GetPropertyValue("collections"), collections.join(','))
 	})
 
 	it("should update store book series as admin", async () => {
@@ -276,18 +273,18 @@ describe("UpdateStoreBookSeries endpoint", async () => {
 			assert.fail()
 		}
 
-		assert.equal(200, response.status)
-		assert.equal(series.uuid, response.data.uuid)
-		assert.equal(author.uuid, response.data.author)
-		assert.equal(series.names.length, response.data.names.length)
-		assert.equal(collections.length, response.data.collections.length)
-		assert.equal(collections[0], response.data.collections[0])
-		assert.equal(collections[1], response.data.collections[1])
+		assert.equal(response.status, 200)
+		assert.equal(response.data.uuid, series.uuid)
+		assert.equal(response.data.author, author.uuid)
+		assert.equal(response.data.names.length, series.names.length)
+		assert.equal(response.data.collections.length, collections.length)
+		assert.equal(response.data.collections[0], collections[0])
+		assert.equal(response.data.collections[1], collections[1])
 
 		let i = 0
 		for (let seriesName of series.names) {
-			assert.equal(seriesName.name, response.data.names[i].name)
-			assert.equal(seriesName.language, response.data.names[i].language)
+			assert.equal(response.data.names[i].name, seriesName.name)
+			assert.equal(response.data.names[i].language, seriesName.language)
 			i++
 		}
 
@@ -297,17 +294,14 @@ describe("UpdateStoreBookSeries endpoint", async () => {
 			uuid: series.uuid
 		})
 
-		if (objResponse.status != 200) {
-			assert.fail()
-		}
-
-		assert.equal(series.uuid, objResponse.data.Uuid)
-		assert.equal(author.uuid, objResponse.data.GetPropertyValue("author"))
+		assert.equal(objResponse.status, 200)
+		assert.equal(objResponse.data.tableObject.Uuid, series.uuid)
+		assert.equal(objResponse.data.tableObject.GetPropertyValue("author"), author.uuid)
 
 		let nameUuids = []
 		for (let name of series.names) nameUuids.push(name.uuid)
-		assert.equal(nameUuids.join(','), objResponse.data.GetPropertyValue("names"))
+		assert.equal(objResponse.data.tableObject.GetPropertyValue("names"), nameUuids.join(','))
 
-		assert.equal(collections.join(','), objResponse.data.GetPropertyValue("collections"))
+		assert.equal(objResponse.data.tableObject.GetPropertyValue("collections"), collections.join(','))
 	})
 })
