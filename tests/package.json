@@ -9,7 +9,7 @@
 	"dependencies": {
 		"axios": "^0.24.0",
 		"chai": "^4.3.4",
-		"dav-js": "git+https://github.com/dav-apps/dav-js.git#v2.1",
+		"dav-js": "git+https://github.com/dav-apps/dav-js.git#v2.4",
 		"mocha": "^9.1.3"
 	}
 }
