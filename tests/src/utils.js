@@ -2,7 +2,8 @@ import constants from './constants.js'
 import {
 	TablesController,
 	TableObjectsController,
-	CollectionsController
+	CollectionsController,
+	isSuccessStatusCode
 } from 'dav-js'
 
 export async function resetDatabase() {
@@ -193,7 +194,7 @@ async function resetAuthorUserAuthor() {
 		}
 	})
 
-	if (response.status != 200) {
+	if (!isSuccessStatusCode(response.status)) {
 		console.log("Error in resetting the author of author user")
 		console.log(response.errors)
 	}
@@ -233,7 +234,7 @@ async function resetDavUserAuthors() {
 			}
 		})
 
-		if (response.status != 200) {
+		if (!isSuccessStatusCode(response.status)) {
 			console.log(`Error in resetting the author ${author.firstName} ${author.lastName} of dav user`)
 			console.log(response.errors)
 		}
@@ -247,7 +248,7 @@ async function resetDavUserAuthors() {
 		id: constants.authorTableId
 	})
 
-	if (response.status != 200) {
+	if (!isSuccessStatusCode(response.status)) {
 		console.log("Error in getting the author table")
 		console.log(response.errors)
 	}
@@ -291,7 +292,7 @@ async function resetAuthorUserAuthorBios() {
 		id: constants.authorBioTableId
 	})
 
-	if (response.status != 200) {
+	if (!isSuccessStatusCode(response.status)) {
 		console.log("Error in getting the author bio table")
 		console.log(response.errors)
 	}
@@ -322,7 +323,7 @@ async function resetDavUserAuthorBios() {
 				}
 			})
 
-			if (response.status != 200) {
+			if (!isSuccessStatusCode(response.status)) {
 				console.log("Error in resetting an author bio")
 				console.log(response.errors)
 			}
@@ -337,7 +338,7 @@ async function resetDavUserAuthorBios() {
 		id: constants.authorBioTableId
 	})
 
-	if (response.status != 200) {
+	if (!isSuccessStatusCode(response.status)) {
 		console.log("Error in getting the author bio table")
 		console.log(response.errors)
 	}
@@ -361,7 +362,7 @@ async function resetAuthorUserAuthorProfileImages() {
 		id: constants.authorProfileImageTableId
 	})
 
-	if (response.status != 200) {
+	if (!isSuccessStatusCode(response.status)) {
 		console.log("Error in getting the author profile image table")
 		console.log(response.errors)
 	}
@@ -385,7 +386,7 @@ async function resetAuthorUserAuthorProfileImages() {
 			}
 		})
 
-		if (response.status != 200) {
+		if (!isSuccessStatusCode(response.status)) {
 			console.log("Error in creating profile image")
 			console.log(response.errors)
 		}
@@ -394,10 +395,11 @@ async function resetAuthorUserAuthorProfileImages() {
 		response = await TableObjectsController.SetTableObjectFile({
 			accessToken: constants.authorUser.accessToken,
 			uuid: testDatabaseProfileImageUuid,
-			file: new Blob(["Hello World"], { type: constants.authorUser.author.profileImage.type })
+			data: "Hello World",
+			type: constants.authorUser.author.profileImage.type
 		})
 
-		if (response.status != 200) {
+		if (!isSuccessStatusCode(response.status)) {
 			console.log("Error in creating profile image")
 			console.log(response.errors)
 		}
@@ -414,7 +416,7 @@ async function resetDavUserAuthorProfileImages() {
 		id: constants.authorProfileImageTableId
 	})
 
-	if (response.status != 200) {
+	if (!isSuccessStatusCode(response.status)) {
 		console.log("Error in getting the author profile image table")
 		console.log(response.errors)
 	} else {
@@ -450,7 +452,7 @@ async function resetDavUserAuthorProfileImages() {
 			}
 		})
 
-		if (response != 201) {
+		if (!isSuccessStatusCode(response.status)) {
 			console.log(`Error in creating profile image: ${profileImage.uuid}`)
 			console.log(response.errors)
 		} else {
@@ -458,10 +460,11 @@ async function resetDavUserAuthorProfileImages() {
 			response = await TableObjectsController.SetTableObjectFile({
 				accessToken: constants.davUser.accessToken,
 				uuid: profileImage.uuid,
-				file: new Blob(["Hello World"], { type: profileImage.type })
+				data: "Hello World",
+				type: profileImage.type
 			})
 
-			if (response.status != 200) {
+			if (!isSuccessStatusCode(response.status)) {
 				console.log(`Error in creating profile image: ${profileImage.uuid}`)
 				console.log(response.errors)
 			}
@@ -492,7 +495,7 @@ async function resetAuthorUserStoreBookCollections() {
 			}
 		})
 
-		if (response.status != 200) {
+		if (!isSuccessStatusCode(response.status)) {
 			console.log("Error in resetting a store book collection")
 			console.log(response.errors)
 		}
@@ -506,7 +509,7 @@ async function resetAuthorUserStoreBookCollections() {
 		id: constants.storeBookCollectionTableId
 	})
 
-	if (response.status != 200) {
+	if (!isSuccessStatusCode(response.status)) {
 		console.log("Error in getting the store book collection table")
 		console.log(response.errors)
 	}
@@ -544,7 +547,7 @@ async function resetDavUserStoreBookCollections() {
 				}
 			})
 
-			if (response.status != 200) {
+			if (!isSuccessStatusCode(response.status)) {
 				console.log(`Error in resetting a store book collection of the author ${author.firstName} ${author.lastName}`)
 				console.log(response.errors)
 			}
@@ -559,7 +562,7 @@ async function resetDavUserStoreBookCollections() {
 		id: constants.storeBookCollectionTableId
 	})
 
-	if (response.status != 200) {
+	if (!isSuccessStatusCode(response.status)) {
 		console.log("Error in getting the store book collection table")
 		console.log(response.errors)
 	} else {
@@ -592,7 +595,7 @@ async function resetAuthorUserStoreBookCollectionNames() {
 				}
 			})
 
-			if (response.status != 200) {
+			if (!isSuccessStatusCode(response.status)) {
 				console.log("Error in resetting a store book collection name")
 				console.log(response.errors)
 			}
@@ -607,7 +610,7 @@ async function resetAuthorUserStoreBookCollectionNames() {
 		id: constants.storeBookCollectionNameTableId
 	})
 
-	if (response.status != 200) {
+	if (!isSuccessStatusCode(response.status)) {
 		console.log("Error in getting the store book collection name table")
 		console.log(response.errors)
 	} else {
@@ -641,7 +644,7 @@ async function resetDavUserStoreBookCollectionNames() {
 					}
 				})
 
-				if (response.status != 200) {
+				if (!isSuccessStatusCode(response.status)) {
 					console.log("Error in resetting a store book collection name")
 					console.log(response.errors)
 				}
@@ -657,7 +660,7 @@ async function resetDavUserStoreBookCollectionNames() {
 		id: constants.storeBookCollectionNameTableId
 	})
 
-	if (response.status != 200) {
+	if (!isSuccessStatusCode(response.status)) {
 		console.log("Error in getting the store book collection name table")
 		console.log(response.errors)
 	} else {
@@ -693,7 +696,7 @@ async function resetAuthorUserStoreBookSeries() {
 			}
 		})
 
-		if (response.status != 200) {
+		if (!isSuccessStatusCode(response.status)) {
 			console.log("Error in resetting a store book series")
 			console.log(response.errors)
 		}
@@ -707,7 +710,7 @@ async function resetAuthorUserStoreBookSeries() {
 		id: constants.storeBookSeriesTableId
 	})
 
-	if (response.status != 200) {
+	if (!isSuccessStatusCode(response.status)) {
 		console.log("Error in getting the store book series table")
 		console.log(response.errors)
 	}
@@ -742,7 +745,7 @@ async function resetDavUserStoreBookSeries() {
 				}
 			})
 
-			if (response.status != 200) {
+			if (!isSuccessStatusCode(response.status)) {
 				console.log(`Error in resetting a store book series of the author ${author.firstName} ${author.lastName}`)
 				console.log(response.errors)
 			}
@@ -757,7 +760,7 @@ async function resetDavUserStoreBookSeries() {
 		id: constants.storeBookSeriesTableId
 	})
 
-	if (response.status != 200) {
+	if (!isSuccessStatusCode(response.status)) {
 		console.log("Error in getting the store book series table")
 		console.log(response.errors)
 	} else {
@@ -790,7 +793,7 @@ async function resetAuthorUserStoreBookSeriesNames() {
 				}
 			})
 
-			if (response.status != 200) {
+			if (!isSuccessStatusCode(response.status)) {
 				console.log("Error in resetting a store book series name")
 				console.log(response.errors)
 			}
@@ -805,7 +808,7 @@ async function resetAuthorUserStoreBookSeriesNames() {
 		id: constants.storeBookSeriesNameTableId
 	})
 
-	if (response.status != 200) {
+	if (!isSuccessStatusCode(response.status)) {
 		console.log("Error in getting the store book series name table")
 		console.log(response.errors)
 	} else {
@@ -839,7 +842,7 @@ async function resetDavUserStoreBookSeriesNames() {
 					}
 				})
 
-				if (response.status != 200) {
+				if (!isSuccessStatusCode(response.status)) {
 					console.log("Error in resetting a store book series name")
 					console.log(response.errors)
 				}
@@ -855,7 +858,7 @@ async function resetDavUserStoreBookSeriesNames() {
 		id: constants.storeBookSeriesNameTableId
 	})
 
-	if (response.status != 200) {
+	if (!isSuccessStatusCode(response.status)) {
 		console.log("Error in getting the store book series name table")
 		console.log(response.errors)
 	} else {
@@ -895,7 +898,7 @@ async function resetAuthorUserStoreBooks() {
 				}
 			})
 
-			if (response.status != 200) {
+			if (!isSuccessStatusCode(response.status)) {
 				console.log("Error in resetting a store book")
 				console.log(response.errors)
 			}
@@ -910,7 +913,7 @@ async function resetAuthorUserStoreBooks() {
 		id: constants.storeBookTableId
 	})
 
-	if (response.status != 200) {
+	if (!isSuccessStatusCode(response.status)) {
 		console.log("Error in getting the store book table")
 		console.log(response.errors)
 	} else {
@@ -951,7 +954,7 @@ async function resetDavUserStoreBooks() {
 					}
 				})
 
-				if (response.status != 200) {
+				if (!isSuccessStatusCode(response.status)) {
 					console.log("Error in resetting a store book")
 					console.log(response.errors)
 				}
@@ -967,7 +970,7 @@ async function resetDavUserStoreBooks() {
 		id: constants.storeBookTableId
 	})
 
-	if (response.status != 200) {
+	if (!isSuccessStatusCode(response.status)) {
 		console.log("Error in getting the store book table")
 		console.log(response.errors)
 	} else {
@@ -1006,7 +1009,7 @@ async function resetAuthorUserStoreBookReleases() {
 					}
 				})
 
-				if (response.status != 200) {
+				if (!isSuccessStatusCode(response.status)) {
 					console.log("Error in resetting a store book release")
 					console.log(response.errors)
 				}
@@ -1022,7 +1025,7 @@ async function resetAuthorUserStoreBookReleases() {
 		id: constants.storeBookReleaseTableId
 	})
 
-	if (response.status != 200) {
+	if (!isSuccessStatusCode(response.status)) {
 		console.log("Error in getting the store book release table")
 		console.log(response.errors)
 	} else {
@@ -1062,7 +1065,7 @@ async function resetDavUserStoreBookReleases() {
 						}
 					})
 
-					if (response.status != 200) {
+					if (!isSuccessStatusCode(response.status)) {
 						console.log("Error in resetting a store book release")
 						console.log(response.errors)
 					}
@@ -1079,7 +1082,7 @@ async function resetDavUserStoreBookReleases() {
 		id: constants.storeBookReleaseTableId
 	})
 
-	if (response.status != 200) {
+	if (!isSuccessStatusCode(response.status)) {
 		console.log("Error in getting the store book release table")
 		console.log(response.errors)
 	} else {
@@ -1117,7 +1120,7 @@ async function resetAuthorUserStoreBookCoverItems() {
 					}
 				})
 
-				if (response.status != 200) {
+				if (!isSuccessStatusCode(response.status)) {
 					console.log("Error in resetting StoreBookCoverItem")
 				}
 			}
@@ -1132,7 +1135,7 @@ async function resetAuthorUserStoreBookCoverItems() {
 		id: constants.storeBookCoverItemTableId
 	})
 
-	if (response.status != 200) {
+	if (!isSuccessStatusCode(response.status)) {
 		console.log("Error in getting the StoreBookCoverItem table")
 		console.log(response.errors)
 	} else {
@@ -1171,7 +1174,7 @@ async function resetDavUserStoreBookCoverItems() {
 						}
 					})
 
-					if (response.status != 200) {
+					if (!isSuccessStatusCode(response.status)) {
 						console.log("Error in resetting StoreBookCoverItem")
 					}
 				}
@@ -1187,7 +1190,7 @@ async function resetDavUserStoreBookCoverItems() {
 		id: constants.storeBookCoverItemTableId
 	})
 
-	if (response.status != 200) {
+	if (!isSuccessStatusCode(response.status)) {
 		console.log("Error in getting the StoreBookCoverItem table")
 		console.log(response.errors)
 	} else {
@@ -1213,7 +1216,7 @@ async function resetAuthorUserStoreBookCovers() {
 		id: constants.storeBookCoverTableId
 	})
 
-	if (response.status != 200) {
+	if (!isSuccessStatusCode(response.status)) {
 		console.log("Error in getting the store book cover table")
 		console.log(response.errors)
 	} else {
@@ -1223,7 +1226,9 @@ async function resetAuthorUserStoreBookCovers() {
 	// Get all covers of the test database
 	for (let collection of constants.authorUser.author.collections) {
 		for (let book of collection.books) {
-			if (book.cover) testDatabaseCovers.push(book.cover)
+			for (let release of book.releases) {
+				if (release.coverItem?.cover) testDatabaseCovers.push(release.coverItem.cover)
+			}
 		}
 	}
 
@@ -1252,7 +1257,7 @@ async function resetAuthorUserStoreBookCovers() {
 			}
 		})
 
-		if (response.status != 201) {
+		if (!isSuccessStatusCode(response.status)) {
 			console.log("Error in creating cover")
 			console.log(response.errors)
 		} else {
@@ -1260,12 +1265,13 @@ async function resetAuthorUserStoreBookCovers() {
 			response = await TableObjectsController.SetTableObjectFile({
 				accessToken: constants.authorUser.accessToken,
 				uuid: cover.uuid,
-				file: new Blob(["Hello World"], { type: cover.type })
+				data: "Hello World",
+				type: cover.type
 			})
 
-			if (response.status != 200) {
-				console.log("Error in creating cover")
-				console.log(response.errors)
+			if (!isSuccessStatusCode(response.status)) {
+				console.log("Error in uploading cover")
+				console.log(response)
 			}
 		}
 	}
@@ -1281,7 +1287,7 @@ async function resetDavUserStoreBookCovers() {
 		id: constants.storeBookCoverTableId
 	})
 
-	if (response.status != 200) {
+	if (!isSuccessStatusCode(response.status)) {
 		console.log("Error in getting the store book cover table")
 		console.log(response.errors)
 	} else {
@@ -1292,7 +1298,9 @@ async function resetDavUserStoreBookCovers() {
 	for (let author of constants.davUser.authors) {
 		for (let collection of author.collections) {
 			for (let book of collection.books) {
-				if (book.cover) testDatabaseCovers.push(book.cover)
+				for (let release of book.releases) {
+					if (release.coverItem?.cover)  testDatabaseCovers.push(release.coverItem.cover)
+				}
 			}
 		}
 	}
@@ -1321,19 +1329,20 @@ async function resetDavUserStoreBookCovers() {
 			}
 		})
 
-		if (response.status != 201) {
+		if (!isSuccessStatusCode(response.status)) {
 			console.log("Error in creating cover")
 			console.log(response.errors)
 		} else {
 			response = await TableObjectsController.SetTableObjectFile({
 				accessToken: constants.davUser.accessToken,
 				uuid: cover.uuid,
-				file: new Blob(["Hello World"], { type: cover.type })
+				data: "Hello World",
+				type: cover.type
 			})
 
-			if (response.status != 200) {
-				console.log("Error in creating cover")
-				console.log(response.errors)
+			if (!isSuccessStatusCode(response.status)) {
+				console.log("Error in uploading cover")
+				console.log(response)
 			}
 		}
 	}
@@ -1360,7 +1369,7 @@ async function resetAuthorUserStoreBookFileItems() {
 					}
 				})
 
-				if (response.status != 200) {
+				if (!isSuccessStatusCode(response.status)) {
 					console.log("Error in resetting StoreBookFileItem")
 				}
 			}
@@ -1375,7 +1384,7 @@ async function resetAuthorUserStoreBookFileItems() {
 		id: constants.storeBookFileItemTableId
 	})
 
-	if (response.status != 200) {
+	if (!isSuccessStatusCode(response.status)) {
 		console.log("Error in getting the StoreBookFileItem table")
 		console.log(response.errors)
 	} else {
@@ -1413,7 +1422,7 @@ async function resetDavUserStoreBookFileItems() {
 						}
 					})
 	
-					if (response.status != 200) {
+					if (!isSuccessStatusCode(response.status)) {
 						console.log("Error in resetting StoreBookFileItem")
 					}
 				}
@@ -1429,7 +1438,7 @@ async function resetDavUserStoreBookFileItems() {
 		id: constants.storeBookFileItemTableId
 	})
 
-	if (response.status != 200) {
+	if (!isSuccessStatusCode(response.status)) {
 		console.log("Error in getting the StoreBookFileItem table")
 		console.log(response.errors)
 	} else {
@@ -1455,7 +1464,7 @@ async function resetAuthorUserStoreBookFiles() {
 		id: constants.storeBookFileTableId
 	})
 
-	if (response.status != 200) {
+	if (!isSuccessStatusCode(response.status)) {
 		console.log("Error in getting the store book file table")
 		console.log(response.errors)
 	} else {
@@ -1465,7 +1474,9 @@ async function resetAuthorUserStoreBookFiles() {
 	// Get all files of the test database
 	for (let collection of constants.authorUser.author.collections) {
 		for (let book of collection.books) {
-			if (book.file) testDatabaseFiles.push(book.file)
+			for (let release of book.releases) {
+				if (release.fileItem?.file) testDatabaseFiles.push(release.fileItem.file)
+			}
 		}
 	}
 
@@ -1494,7 +1505,7 @@ async function resetAuthorUserStoreBookFiles() {
 			}
 		})
 
-		if (response.status != 201) {
+		if (!isSuccessStatusCode(response.status)) {
 			console.log("Error in creating file")
 			console.log(response.errors)
 		} else {
@@ -1502,11 +1513,12 @@ async function resetAuthorUserStoreBookFiles() {
 			response = await TableObjectsController.SetTableObjectFile({
 				accessToken: constants.authorUser.accessToken,
 				uuid: file.uuid,
-				file: new Blob(["Hello World"], { type: file.type })
+				data: "Hello World",
+				type: file.type
 			})
 
-			if (response.status != 200) {
-				console.log("Error in creating file")
+			if (!isSuccessStatusCode(response.status)) {
+				console.log("Error in uploading file")
 				console.log(response.errors)
 			}
 		}
@@ -1523,7 +1535,7 @@ async function resetDavUserStoreBookFiles() {
 		id: constants.storeBookFileTableId
 	})
 
-	if (response.status != 200) {
+	if (!isSuccessStatusCode(response.status)) {
 		console.log("Error in getting the store book file table")
 		console.log(response.errors)
 	} else {
@@ -1534,7 +1546,9 @@ async function resetDavUserStoreBookFiles() {
 	for (let author of constants.davUser.authors) {
 		for (let collection of author.collections) {
 			for (let book of collection.books) {
-				if (book.file) testDatabaseFiles.push(book.file)
+				for (let release of book.releases) {
+					if (release.fileItem?.file) testDatabaseFiles.push(release.fileItem.file)
+				}
 			}
 		}
 	}
@@ -1557,13 +1571,14 @@ async function resetDavUserStoreBookFiles() {
 		let response = await TableObjectsController.CreateTableObject({
 			accessToken: constants.davUser.accessToken,
 			uuid: file.uuid,
+			tableId: constants.storeBookFileTableId,
 			file: true,
 			properties: {
 				ext: file.ext
 			}
 		})
 
-		if (response.status != 201) {
+		if (!isSuccessStatusCode(response.status)) {
 			console.log("Error in creating file")
 			console.log(response.errors)
 		} else {
@@ -1571,11 +1586,12 @@ async function resetDavUserStoreBookFiles() {
 			response = await TableObjectsController.SetTableObjectFile({
 				accessToken: constants.davUser.accessToken,
 				uuid: file.uuid,
-				file: new Blob(["Hello World"], { type: file.type })
+				data: "Hello World",
+				type: file.type
 			})
 
-			if (response.status != 200) {
-				console.log("Error in creating file")
+			if (!isSuccessStatusCode(response.status)) {
+				console.log("Error in uploading file")
 				console.log(response.errors)
 			}
 		}
@@ -1592,7 +1608,7 @@ async function resetKlausUserBooks() {
 		id: constants.bookTableId
 	})
 
-	if (response.status != 200) {
+	if (!isSuccessStatusCode(response.status)) {
 		console.log("Error in getting the book table")
 		console.log(response.errors)
 	} else {
@@ -1634,7 +1650,7 @@ async function resetKlausUserBooks() {
 			properties
 		})
 
-		if (response.status != 201) {
+		if (!isSuccessStatusCode(response.status)) {
 			console.log("Error in creating Book")
 			console.log(response.errors)
 		}
@@ -1651,7 +1667,7 @@ async function resetTestUserBooks() {
 		id: constants.bookTableId
 	})
 
-	if (response.status != 200) {
+	if (!isSuccessStatusCode(response.status)) {
 		console.log("Error in getting book table")
 		console.log(response.errors)
 	} else {
@@ -1693,7 +1709,7 @@ async function resetTestUserBooks() {
 			properties
 		})
 
-		if (response.status != 201) {
+		if (!isSuccessStatusCode(response.status)) {
 			console.log("Error in creating Book")
 			console.log(response.errors)
 		}
@@ -1719,7 +1735,7 @@ async function resetDavUserCategories() {
 			}
 		})
 
-		if (response.status != 200) {
+		if (!isSuccessStatusCode(response.status)) {
 			console.log("Error in resetting Category")
 			console.log(response.errors)
 		}
@@ -1733,7 +1749,7 @@ async function resetDavUserCategories() {
 		id: constants.categoryTableId
 	})
 
-	if (response.status != 200) {
+	if (!isSuccessStatusCode(response.status)) {
 		console.log("Error in getting Category table")
 		console.log(response.errors)
 	} else {
@@ -1768,7 +1784,7 @@ async function resetDavUserCategories() {
 			}
 		})
 
-		if (response.status != 201) {
+		if (!isSuccessStatusCode(response.status)) {
 			console.log("Error in creating category")
 			console.log(response.errors)
 		}
@@ -1792,7 +1808,7 @@ async function resetDavUserCategoryNames() {
 				}
 			})
 
-			if (response.status != 200) {
+			if (!isSuccessStatusCode(response.status)) {
 				console.log("Error in resetting CategoryName")
 				console.log(response.errors)
 			}
@@ -1807,7 +1823,7 @@ async function resetDavUserCategoryNames() {
 		id: constants.categoryNameTableId
 	})
 
-	if (response.status != 200) {
+	if (!isSuccessStatusCode(response.status)) {
 		console.log("Error in getting the CategoryName table")
 		console.log(response.errors)
 	} else {
@@ -1838,7 +1854,7 @@ async function resetDavUserCategoryNames() {
 			}
 		})
 
-		if (response.status != 201) {
+		if (!isSuccessStatusCode(response.status)) {
 			console.log("Error in creating category name")
 			console.log(response.errors)
 		}
@@ -1854,7 +1870,7 @@ async function deleteTableObjectsOfTable(accessToken, tableId) {
 		id: tableId
 	})
 
-	if (response.status != 200) {
+	if (!isSuccessStatusCode(response.status)) {
 		console.log(`Error in getting the table with the id ${tableId}`)
 		console.log(response.errors)
 	} else {
@@ -1873,7 +1889,7 @@ async function deleteTableObject(accessToken, uuid) {
 		uuid
 	})
 
-	if (response.status != 204) {
+	if (!isSuccessStatusCode(response.status)) {
 		console.log("Error in deleting a TableObject")
 		console.log(response.errors)
 	}
@@ -1894,7 +1910,7 @@ async function resetCollection(name, tableId) {
 		tableObjects: collection.tableObjects
 	})
 
-	if (response.status != 200) {
+	if (!isSuccessStatusCode(response.status)) {
 		console.log(`Error in resetting the ${name} collection`)
 		console.log(response.errors)
 	}

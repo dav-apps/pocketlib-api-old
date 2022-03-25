@@ -301,8 +301,9 @@ function addStoreBookReleaseToTableObjects(storeBookRelease, userId, storeBookUu
 			store_book: storeBookUuid,
 			title: storeBookRelease.title,
 			description: storeBookRelease.description,
-			cover_item: storeBookRelease.coverItem ? storeBookRelease.coverItem.uuid : "",
-			file_item: storeBookRelease.fileItem ? storeBookRelease.fileItem.uuid : "",
+			status: storeBookRelease.status ?? "",
+			cover_item: storeBookRelease.coverItem?.uuid ?? "",
+			file_item: storeBookRelease.fileItem?.uuid ?? "",
 			categories: storeBookRelease.categories ? storeBookRelease.categories.join(',') : ""
 		}
 	}
@@ -317,9 +318,9 @@ function addStoreBookCoverItemToTableObjects(storeBookCoverItem, userId) {
 		tableId: constants.storeBookCoverItemTableId,
 		file: false,
 		properties: {
-			aspect_ratio: storeBookCoverItem.aspectRatio ? storeBookCoverItem.aspectRatio : "",
-			blurhash: storeBookCoverItem.blurhash ? storeBookCoverItem.blurhash : "",
-			cover: storeBookCoverItem.cover ? storeBookCoverItem.cover.uuid : ""
+			aspect_ratio: storeBookCoverItem.aspectRatio ?? "",
+			blurhash: storeBookCoverItem.blurhash ?? "",
+			cover: storeBookCoverItem.cover ?? ""
 		}
 	})
 }
@@ -344,8 +345,8 @@ function addStoreBookFileItemToTableObjects(storeBookFileItem, userId) {
 		tableId: constants.storeBookFileItemTableId,
 		file: false,
 		properties: {
-			file_name: storeBookFileItem.fileName ? storeBookFileItem.fileName : "",
-			file: storeBookFileItem.file ? storeBookFileItem.file.uuid : ""
+			file_name: storeBookFileItem.fileName ?? "",
+			file: storeBookFileItem.file ?? ""
 		}
 	})
 }
