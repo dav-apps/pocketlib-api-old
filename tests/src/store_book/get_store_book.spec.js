@@ -119,7 +119,7 @@ describe("GetStoreBook endpoint", () => {
 		for (let s of author.series) {
 			if (s.collections.includes(collection.uuid)) {
 				series.push(s)
-				assert(response.data.series.includes(s.uuid))
+				assert.isTrue(response.data.series.includes(s.uuid))
 			}
 		}
 
@@ -181,7 +181,7 @@ describe("GetStoreBook endpoint", () => {
 		for (let s of author.series) {
 			if (s.collections.includes(collection.uuid)) {
 				series.push(s)
-				assert(response.data.series.includes(s.uuid))
+				assert.isTrue(response.data.series.includes(s.uuid))
 			}
 		}
 
@@ -284,7 +284,7 @@ describe("GetStoreBook endpoint", () => {
 		for (let s of author.series) {
 			if (s.collections.includes(collection.uuid)) {
 				series.push(s)
-				assert(response.data.series.includes(s.uuid))
+				assert.isTrue(response.data.series.includes(s.uuid))
 			}
 		}
 
@@ -346,7 +346,7 @@ describe("GetStoreBook endpoint", () => {
 		for (let s of author.series) {
 			if (s.collections.includes(collection.uuid)) {
 				series.push(s)
-				assert(response.data.series.includes(s.uuid))
+				assert.isTrue(response.data.series.includes(s.uuid))
 			}
 		}
 
@@ -449,7 +449,7 @@ describe("GetStoreBook endpoint", () => {
 		for (let s of author.series) {
 			if (s.collections.includes(collection.uuid)) {
 				series.push(s)
-				assert(response.data.series.includes(s.uuid))
+				assert.isTrue(response.data.series.includes(s.uuid))
 			}
 		}
 
@@ -511,7 +511,7 @@ describe("GetStoreBook endpoint", () => {
 		for (let s of author.series) {
 			if (s.collections.includes(collection.uuid)) {
 				series.push(s)
-				assert(response.data.series.includes(s.uuid))
+				assert.isTrue(response.data.series.includes(s.uuid))
 			}
 		}
 
@@ -573,7 +573,7 @@ describe("GetStoreBook endpoint", () => {
 		for (let s of author.series) {
 			if (s.collections.includes(collection.uuid)) {
 				series.push(s)
-				assert(response.data.series.includes(s.uuid))
+				assert.isTrue(response.data.series.includes(s.uuid))
 			}
 		}
 
@@ -632,7 +632,7 @@ describe("GetStoreBook endpoint", () => {
 		for (let s of author.series) {
 			if (s.collections.includes(collection.uuid)) {
 				series.push(s)
-				assert(response.data.series.includes(s.uuid))
+				assert.isTrue(response.data.series.includes(s.uuid))
 			}
 		}
 
@@ -694,7 +694,7 @@ describe("GetStoreBook endpoint", () => {
 		for (let s of author.series) {
 			if (s.collections.includes(collection.uuid)) {
 				series.push(s)
-				assert(response.data.series.includes(s.uuid))
+				assert.isTrue(response.data.series.includes(s.uuid))
 			}
 		}
 
@@ -756,7 +756,7 @@ describe("GetStoreBook endpoint", () => {
 		for (let s of author.series) {
 			if (s.collections.includes(collection.uuid)) {
 				series.push(s)
-				assert(response.data.series.includes(s.uuid))
+				assert.isTrue(response.data.series.includes(s.uuid))
 			}
 		}
 

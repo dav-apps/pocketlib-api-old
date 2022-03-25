@@ -287,7 +287,7 @@ describe("CreateCategory endpoint", () => {
 		})
 
 		assert.equal(categoryObjResponse.status, 200)
-		assert.equal(categoryObjResponse.data.GetPropertyValue("key"), key)
-		assert.isNull(categoryObjResponse.data.GetPropertyValue("names"))
+		assert.equal(categoryObjResponse.data.tableObject.GetPropertyValue("key"), key)
+		assert.isNull(categoryObjResponse.data.tableObject.GetPropertyValue("names"))
 	})
 })

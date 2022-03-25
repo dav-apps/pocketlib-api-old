@@ -250,14 +250,11 @@ describe("CreateAuthor endpoint", async () => {
 			uuid: response.data.uuid
 		})
 
-		if (objResponse.status != 200) {
-			assert.fail()
-		}
-
-		assert.equal(objResponse.data.Uuid, response.data.uuid)
-		assert.equal(Object.keys(objResponse.data.Properties).length, 2)
-		assert.equal(objResponse.data.GetPropertyValue("first_name"), firstName)
-		assert.equal(objResponse.data.GetPropertyValue("last_name"), lastName)
+		assert.equal(objResponse.status, 200)
+		assert.equal(objResponse.data.tableObject.Uuid, response.data.uuid)
+		assert.equal(Object.keys(objResponse.data.tableObject.Properties).length, 2)
+		assert.equal(objResponse.data.tableObject.GetPropertyValue("first_name"), firstName)
+		assert.equal(objResponse.data.tableObject.GetPropertyValue("last_name"), lastName)
 	})
 
 	it("should create multiple authors if the user is an admin", async () => {
@@ -321,25 +318,19 @@ describe("CreateAuthor endpoint", async () => {
 			uuid: response1.data.uuid
 		})
 
-		if (objResponse1.status != 200) {
-			assert.fail()
-		}
-
-		assert.equal(objResponse1.data.Uuid, response1.data.uuid)
-		assert.equal(objResponse1.data.GetPropertyValue("first_name"), firstName1)
-		assert.equal(objResponse1.data.GetPropertyValue("last_name"), lastName1)
+		assert.equal(objResponse1.status, 200)
+		assert.equal(objResponse1.data.tableObject.Uuid, response1.data.uuid)
+		assert.equal(objResponse1.data.tableObject.GetPropertyValue("first_name"), firstName1)
+		assert.equal(objResponse1.data.tableObject.GetPropertyValue("last_name"), lastName1)
 
 		let objResponse2 = await TableObjectsController.GetTableObject({
 			accessToken: constants.davUser.accessToken,
 			uuid: response2.data.uuid
 		})
 
-		if (objResponse2.status != 200) {
-			assert.fail()
-		}
-
-		assert.equal(objResponse2.data.Uuid, response2.data.uuid)
-		assert.equal(objResponse2.data.GetPropertyValue("first_name"), firstName2)
-		assert.equal(objResponse2.data.GetPropertyValue("last_name"), lastName2)
+		assert.equal(objResponse2.status, 200)
+		assert.equal(objResponse2.data.tableObject.Uuid, response2.data.uuid)
+		assert.equal(objResponse2.data.tableObject.GetPropertyValue("first_name"), firstName2)
+		assert.equal(objResponse2.data.tableObject.GetPropertyValue("last_name"), lastName2)
 	})
 })

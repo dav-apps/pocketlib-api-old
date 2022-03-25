@@ -268,7 +268,7 @@ describe("SetCategoryName endpoint", () => {
 
 		assert.equal(categoryObjResponse.status, 200)
 
-		let responseCategoryNames = categoryObjResponse.data.GetPropertyValue("names")
+		let responseCategoryNames = categoryObjResponse.data.tableObject.GetPropertyValue("names")
 		let responseCategoryNameUuids = responseCategoryNames.split(',')
 
 		let categoryNameUuids = []
@@ -288,9 +288,9 @@ describe("SetCategoryName endpoint", () => {
 		})
 
 		assert.equal(categoryNameObjResponse.status, 200)
-		assert.equal(categoryNameObjResponse.data.Uuid, newCategoryNameUuid)
-		assert.equal(categoryNameObjResponse.data.GetPropertyValue("name"), name)
-		assert.equal(categoryNameObjResponse.data.GetPropertyValue("language"), language)
+		assert.equal(categoryNameObjResponse.data.tableObject.Uuid, newCategoryNameUuid)
+		assert.equal(categoryNameObjResponse.data.tableObject.GetPropertyValue("name"), name)
+		assert.equal(categoryNameObjResponse.data.tableObject.GetPropertyValue("language"), language)
 	})
 
 	it("should update category name", async () => {
@@ -333,7 +333,7 @@ describe("SetCategoryName endpoint", () => {
 
 		assert.equal(categoryObjResponse.status, 200)
 
-		let responseCategoryNames = categoryObjResponse.data.GetPropertyValue("names")
+		let responseCategoryNames = categoryObjResponse.data.tableObject.GetPropertyValue("names")
 		let responseCategoryNameUuids = responseCategoryNames.split(',')
 
 		let categoryNameUuids = []
@@ -350,8 +350,8 @@ describe("SetCategoryName endpoint", () => {
 		})
 
 		assert.equal(categoryNameObjResponse.status, 200)
-		assert.equal(categoryNameObjResponse.data.Uuid, categoryNameUuid)
-		assert.equal(categoryNameObjResponse.data.GetPropertyValue("name"), name)
-		assert.equal(categoryNameObjResponse.data.GetPropertyValue("language"), language)
+		assert.equal(categoryNameObjResponse.data.tableObject.Uuid, categoryNameUuid)
+		assert.equal(categoryNameObjResponse.data.tableObject.GetPropertyValue("name"), name)
+		assert.equal(categoryNameObjResponse.data.tableObject.GetPropertyValue("language"), language)
 	})
 })

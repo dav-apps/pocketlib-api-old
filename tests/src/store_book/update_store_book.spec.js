@@ -1082,8 +1082,8 @@ describe("UpdateStoreBook endpoint", () => {
 		})
 
 		assert.equal(storeBookObjResponse.status, 200)
-		assert.equal(storeBookObjResponse.data.Uuid, storeBook.uuid)
-		assert.equal(storeBookObjResponse.data.GetPropertyValue("status"), "review")
+		assert.equal(storeBookObjResponse.data.tableObject.Uuid, storeBook.uuid)
+		assert.equal(storeBookObjResponse.data.tableObject.GetPropertyValue("status"), "review")
 	})
 
 	it("should publish hidden store book", async () => {
@@ -1138,8 +1138,8 @@ describe("UpdateStoreBook endpoint", () => {
 		})
 
 		assert.equal(storeBookObjResponse.status, 200)
-		assert.equal(storeBookObjResponse.data.Uuid, storeBook.uuid)
-		assert.equal(storeBookObjResponse.data.GetPropertyValue("status"), "published")
+		assert.equal(storeBookObjResponse.data.tableObject.Uuid, storeBook.uuid)
+		assert.equal(storeBookObjResponse.data.tableObject.GetPropertyValue("status"), "published")
 	})
 
 	it("should hide published store book", async () => {
@@ -1192,8 +1192,8 @@ describe("UpdateStoreBook endpoint", () => {
 		})
 
 		assert.equal(storeBookObjResponse.status, 200)
-		assert.equal(storeBookObjResponse.data.Uuid, storeBook.uuid)
-		assert.equal(storeBookObjResponse.data.GetPropertyValue("status"), "hidden")
+		assert.equal(storeBookObjResponse.data.tableObject.Uuid, storeBook.uuid)
+		assert.equal(storeBookObjResponse.data.tableObject.GetPropertyValue("status"), "hidden")
 	})
 
 	it("should not publish store book of admin without description", async () => {
@@ -1418,8 +1418,8 @@ describe("UpdateStoreBook endpoint", () => {
 		})
 
 		assert.equal(storeBookObjResponse.status, 200)
-		assert.equal(storeBookObjResponse.data.Uuid, storeBook.uuid)
-		assert.equal(storeBookObjResponse.data.GetPropertyValue("status"), "review")
+		assert.equal(storeBookObjResponse.data.tableObject.Uuid, storeBook.uuid)
+		assert.equal(storeBookObjResponse.data.tableObject.GetPropertyValue("status"), "review")
 	})
 
 	it("should publish hidden store book of admin", async () => {
@@ -1474,8 +1474,8 @@ describe("UpdateStoreBook endpoint", () => {
 		})
 
 		assert.equal(storeBookObjResponse.status, 200)
-		assert.equal(storeBookObjResponse.data.Uuid, storeBook.uuid)
-		assert.equal(storeBookObjResponse.data.GetPropertyValue("status"), "published")
+		assert.equal(storeBookObjResponse.data.tableObject.Uuid, storeBook.uuid)
+		assert.equal(storeBookObjResponse.data.tableObject.GetPropertyValue("status"), "published")
 	})
 
 	it("should hide store book of admin", async () => {
@@ -1528,8 +1528,8 @@ describe("UpdateStoreBook endpoint", () => {
 		})
 
 		assert.equal(storeBookObjResponse.status, 200)
-		assert.equal(storeBookObjResponse.data.Uuid, storeBook.uuid)
-		assert.equal(storeBookObjResponse.data.GetPropertyValue("status"), "hidden")
+		assert.equal(storeBookObjResponse.data.tableObject.Uuid, storeBook.uuid)
+		assert.equal(storeBookObjResponse.data.tableObject.GetPropertyValue("status"), "hidden")
 	})
 })
 
@@ -1582,20 +1582,20 @@ async function testShouldUpdateTitleOfStoreBook(storeBook, accessToken, ownerAcc
 	})
 
 	assert.equal(storeBookObjResponse.status, 200)
-	assert.equal(storeBookObjResponse.data.Uuid, storeBook.uuid)
+	assert.equal(storeBookObjResponse.data.tableObject.Uuid, storeBook.uuid)
 
 	// Get the store book release table object
-	let releaseUuid = storeBookObjResponse.data.GetPropertyValue("releases").split(',').pop()
-	
+	let releaseUuid = storeBookObjResponse.data.tableObject.GetPropertyValue("releases").split(',').pop()
+
 	let releaseObjResponse = await TableObjectsController.GetTableObject({
 		accessToken: ownerAccessToken ?? accessToken,
 		uuid: releaseUuid
 	})
-	
+
 	assert.equal(releaseObjResponse.status, 200)
-	assert.equal(releaseObjResponse.data.Uuid, releaseUuid)
-	assert.equal(releaseObjResponse.data.GetPropertyValue("title"), title)
-	assert.equal(releaseObjResponse.data.GetPropertyValue("status") ?? "unpublished", "unpublished")
+	assert.equal(releaseObjResponse.data.tableObject.Uuid, releaseUuid)
+	assert.equal(releaseObjResponse.data.tableObject.GetPropertyValue("title"), title)
+	assert.equal(releaseObjResponse.data.tableObject.GetPropertyValue("status") ?? "unpublished", "unpublished")
 }
 
 async function testShouldUpdateDescriptionOfStoreBook(storeBook, accessToken, ownerAccessToken) {
@@ -1647,10 +1647,10 @@ async function testShouldUpdateDescriptionOfStoreBook(storeBook, accessToken, ow
 	})
 
 	assert.equal(storeBookObjResponse.status, 200)
-	assert.equal(storeBookObjResponse.data.Uuid, storeBook.uuid)
+	assert.equal(storeBookObjResponse.data.tableObject.Uuid, storeBook.uuid)
 
 	// Get the store book release table object
-	let releaseUuid = storeBookObjResponse.data.GetPropertyValue("releases").split(',').pop()
+	let releaseUuid = storeBookObjResponse.data.tableObject.GetPropertyValue("releases").split(',').pop()
 	
 	let releaseObjResponse = await TableObjectsController.GetTableObject({
 		accessToken: ownerAccessToken ?? accessToken,
@@ -1658,9 +1658,9 @@ async function testShouldUpdateDescriptionOfStoreBook(storeBook, accessToken, ow
 	})
 
 	assert.equal(releaseObjResponse.status, 200)
-	assert.equal(releaseObjResponse.data.Uuid, releaseUuid)
-	assert.equal(releaseObjResponse.data.GetPropertyValue("description"), description)
-	assert.equal(releaseObjResponse.data.GetPropertyValue("status") ?? "unpublished", "unpublished")
+	assert.equal(releaseObjResponse.data.tableObject.Uuid, releaseUuid)
+	assert.equal(releaseObjResponse.data.tableObject.GetPropertyValue("description"), description)
+	assert.equal(releaseObjResponse.data.tableObject.GetPropertyValue("status") ?? "unpublished", "unpublished")
 }
 
 async function testShouldUpdateLanguageOfStoreBook(storeBook, accessToken, ownerAccessToken) {
@@ -1712,8 +1712,8 @@ async function testShouldUpdateLanguageOfStoreBook(storeBook, accessToken, owner
 	})
 
 	assert.equal(storeBookObjResponse.status, 200)
-	assert.equal(storeBookObjResponse.data.Uuid, storeBook.uuid)
-	assert.equal(storeBookObjResponse.data.GetPropertyValue("language"), language)
+	assert.equal(storeBookObjResponse.data.tableObject.Uuid, storeBook.uuid)
+	assert.equal(storeBookObjResponse.data.tableObject.GetPropertyValue("language"), language)
 }
 
 async function testShouldNotUpdateLanguageOfStoreBook(storeBook, accessToken) {
@@ -1790,8 +1790,8 @@ async function testShouldUpdatePriceOfStoreBook(storeBook, accessToken, ownerAcc
 	})
 
 	assert.equal(storeBookObjResponse.status, 200)
-	assert.equal(storeBookObjResponse.data.Uuid, storeBook.uuid)
-	assert.equal(storeBookObjResponse.data.GetPropertyValue("price"), price)
+	assert.equal(storeBookObjResponse.data.tableObject.Uuid, storeBook.uuid)
+	assert.equal(storeBookObjResponse.data.tableObject.GetPropertyValue("price"), price)
 }
 
 async function testShouldNotUpdatePriceOfStoreBook(storeBook, accessToken) {
@@ -1868,8 +1868,8 @@ async function testShouldUpdateIsbnOfStoreBook(storeBook, accessToken, ownerAcce
 	})
 
 	assert.equal(storeBookObjResponse.status, 200)
-	assert.equal(storeBookObjResponse.data.Uuid, storeBook.uuid)
-	assert.equal(storeBookObjResponse.data.GetPropertyValue("isbn"), isbn)
+	assert.equal(storeBookObjResponse.data.tableObject.Uuid, storeBook.uuid)
+	assert.equal(storeBookObjResponse.data.tableObject.GetPropertyValue("isbn"), isbn)
 
 	// Remove isbn with empty string
 	try {
@@ -1914,8 +1914,8 @@ async function testShouldUpdateIsbnOfStoreBook(storeBook, accessToken, ownerAcce
 	})
 
 	assert.equal(storeBookObjResponse.status, 200)
-	assert.equal(storeBookObjResponse.data.Uuid, storeBook.uuid)
-	assert.isNull(storeBookObjResponse.data.GetPropertyValue("isbn"))
+	assert.equal(storeBookObjResponse.data.tableObject.Uuid, storeBook.uuid)
+	assert.isNull(storeBookObjResponse.data.tableObject.GetPropertyValue("isbn"))
 }
 
 async function testShouldNotUpdateIsbnOfStoreBook(storeBook, accessToken) {
@@ -1992,8 +1992,8 @@ async function testShouldUpdateStatusOfStoreBook(storeBook, accessToken, ownerAc
 	})
 
 	assert.equal(storeBookObjResponse.status, 200)
-	assert.equal(storeBookObjResponse.data.Uuid, storeBook.uuid)
-	assert.equal(storeBookObjResponse.data.GetPropertyValue("status"), status)
+	assert.equal(storeBookObjResponse.data.tableObject.Uuid, storeBook.uuid)
+	assert.equal(storeBookObjResponse.data.tableObject.GetPropertyValue("status"), status)
 }
 
 async function testShouldUpdateCategoriesOfStoreBook(storeBook, accessToken, ownerAccessToken) {
@@ -2043,10 +2043,10 @@ async function testShouldUpdateCategoriesOfStoreBook(storeBook, accessToken, own
 	})
 
 	assert.equal(storeBookObjResponse.status, 200)
-	assert.equal(storeBookObjResponse.data.Uuid, storeBook.uuid)
+	assert.equal(storeBookObjResponse.data.tableObject.Uuid, storeBook.uuid)
 
 	// Get the store book release table object
-	let releaseUuid = storeBookObjResponse.data.GetPropertyValue("releases").split(',').pop()
+	let releaseUuid = storeBookObjResponse.data.tableObject.GetPropertyValue("releases").split(',').pop()
 	
 	let releaseObjResponse = await TableObjectsController.GetTableObject({
 		accessToken: ownerAccessToken ?? accessToken,
@@ -2054,7 +2054,7 @@ async function testShouldUpdateCategoriesOfStoreBook(storeBook, accessToken, own
 	})
 
 	assert.equal(releaseObjResponse.status, 200)
-	assert.equal(releaseObjResponse.data.Uuid, releaseUuid)
-	assert.equal(releaseObjResponse.data.GetPropertyValue("categories"), categoryUuids.join(','))
-	assert.equal(releaseObjResponse.data.GetPropertyValue("status") ?? "unpublished", "unpublished")
+	assert.equal(releaseObjResponse.data.tableObject.Uuid, releaseUuid)
+	assert.equal(releaseObjResponse.data.tableObject.GetPropertyValue("categories"), categoryUuids.join(','))
+	assert.equal(releaseObjResponse.data.tableObject.GetPropertyValue("status") ?? "unpublished", "unpublished")
 }

@@ -26,9 +26,9 @@ describe("GetProfileImageOfAuthor endpoint", async () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(404, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.AuthorProfileImageDoesNotExist, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 404)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.AuthorProfileImageDoesNotExist)
 			return
 		}
 
@@ -45,9 +45,9 @@ describe("GetProfileImageOfAuthor endpoint", async () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(404, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.AuthorDoesNotExist, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 404)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.AuthorDoesNotExist)
 			return
 		}
 	})
@@ -73,9 +73,9 @@ describe("GetProfileImageOfAuthor endpoint", async () => {
 			assert.fail()
 		}
 
-		assert.equal(200, response.status)
-		assert.equal(profileImageType, response.headers['content-type'])
-		assert.equal(profileImageContent, response.data)
+		assert.equal(response.status, 200)
+		assert.equal(response.headers['content-type'], profileImageType)
+		assert.equal(response.data, profileImageContent)
 	})
 
 	it("should return profile image of author of user", async () => {
@@ -99,9 +99,9 @@ describe("GetProfileImageOfAuthor endpoint", async () => {
 			assert.fail()
 		}
 
-		assert.equal(200, response.status)
-		assert.equal(profileImageType, response.headers['content-type'])
-		assert.equal(profileImageContent, response.data)
+		assert.equal(response.status, 200)
+		assert.equal(response.headers['content-type'], profileImageType)
+		assert.equal(response.data, profileImageContent)
 	})
 })
 

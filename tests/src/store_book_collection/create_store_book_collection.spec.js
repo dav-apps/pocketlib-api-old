@@ -451,19 +451,19 @@ describe("CreateStoreBookCollection endpoint", () => {
 		})
 
 		assert.equal(collectionResponse.status, 200)
-		assert.equal(collectionResponse.data.GetPropertyValue("author"), constants.authorUser.author.uuid)
-		assert.isNotNull(collectionResponse.data.GetPropertyValue("names"))
+		assert.equal(collectionResponse.data.tableObject.GetPropertyValue("author"), constants.authorUser.author.uuid)
+		assert.isNotNull(collectionResponse.data.tableObject.GetPropertyValue("names"))
 
 		// Get the store book collection name
 		let collectionNameResponse = await TableObjectsController.GetTableObject({
 			accessToken: constants.authorUser.accessToken,
-			uuid: collectionResponse.data.GetPropertyValue("names")
+			uuid: collectionResponse.data.tableObject.GetPropertyValue("names")
 		})
 
 		assert.equal(collectionNameResponse.status, 200)
-		assert.equal(collectionNameResponse.data.Uuid, collectionResponse.data.GetPropertyValue("names"))
-		assert.equal(collectionNameResponse.data.GetPropertyValue("name"), name)
-		assert.equal(collectionNameResponse.data.GetPropertyValue("language"), language)
+		assert.equal(collectionNameResponse.data.tableObject.Uuid, collectionResponse.data.tableObject.GetPropertyValue("names"))
+		assert.equal(collectionNameResponse.data.tableObject.GetPropertyValue("name"), name)
+		assert.equal(collectionNameResponse.data.tableObject.GetPropertyValue("language"), language)
 
 		// Get the author
 		let authorResponse = await TableObjectsController.GetTableObject({
@@ -475,9 +475,9 @@ describe("CreateStoreBookCollection endpoint", () => {
 
 		let collections = []
 		for (let collection of constants.authorUser.author.collections) collections.push(collection.uuid)
-		collections.push(collectionResponse.data.Uuid)
+		collections.push(collectionResponse.data.tableObject.Uuid)
 
-		assert.equal(authorResponse.data.GetPropertyValue("collections"), collections.join(','))
+		assert.equal(authorResponse.data.tableObject.GetPropertyValue("collections"), collections.join(','))
 	})
 
 	it("should create store book collection as admin", async () => {
@@ -520,19 +520,19 @@ describe("CreateStoreBookCollection endpoint", () => {
 		})
 
 		assert.equal(collectionResponse.status, 200)
-		assert.equal(collectionResponse.data.GetPropertyValue("author"), author.uuid)
-		assert.isNotNull(collectionResponse.data.GetPropertyValue("names"))
+		assert.equal(collectionResponse.data.tableObject.GetPropertyValue("author"), author.uuid)
+		assert.isNotNull(collectionResponse.data.tableObject.GetPropertyValue("names"))
 
 		// Get the store book collection name
 		let collectionNameResponse = await TableObjectsController.GetTableObject({
 			accessToken: constants.davUser.accessToken,
-			uuid: collectionResponse.data.GetPropertyValue("names")
+			uuid: collectionResponse.data.tableObject.GetPropertyValue("names")
 		})
 
 		assert.equal(collectionNameResponse.status, 200)
-		assert.equal(collectionNameResponse.data.Uuid, collectionResponse.data.GetPropertyValue("names"))
-		assert.equal(collectionNameResponse.data.GetPropertyValue("name"), name)
-		assert.equal(collectionNameResponse.data.GetPropertyValue("language"), language)
+		assert.equal(collectionNameResponse.data.tableObject.Uuid, collectionResponse.data.tableObject.GetPropertyValue("names"))
+		assert.equal(collectionNameResponse.data.tableObject.GetPropertyValue("name"), name)
+		assert.equal(collectionNameResponse.data.tableObject.GetPropertyValue("language"), language)
 
 		// Get the author
 		let authorResponse = await TableObjectsController.GetTableObject({
@@ -544,8 +544,8 @@ describe("CreateStoreBookCollection endpoint", () => {
 
 		let collections = []
 		for (let collection of author.collections) collections.push(collection.uuid)
-		collections.push(collectionResponse.data.Uuid)
+		collections.push(collectionResponse.data.tableObject.Uuid)
 
-		assert.equal(authorResponse.data.GetPropertyValue("collections"), collections.join(','))
+		assert.equal(authorResponse.data.tableObject.GetPropertyValue("collections"), collections.join(','))
 	})
 })

@@ -174,8 +174,8 @@ describe("SetProfileImageOfAuthor endpoint", () => {
 		assert.equal(getAuthorObjResponse.status, 200)
 
 		// The author should not have a profile image
-		assert.isNull(getAuthorObjResponse.data.GetPropertyValue("profile_image"))
-		assert.isNull(getAuthorObjResponse.data.GetPropertyValue("profile_image_blurhash"))
+		assert.isNull(getAuthorObjResponse.data.tableObject.GetPropertyValue("profile_image"))
+		assert.isNull(getAuthorObjResponse.data.tableObject.GetPropertyValue("profile_image_blurhash"))
 
 		// Upload the profile image (1)
 		let filePath = path.resolve(__dirname, '../files/cover.png')
@@ -206,9 +206,9 @@ describe("SetProfileImageOfAuthor endpoint", () => {
 		assert.equal(getAuthorObjResponse2.status, 200)
 
 		// The author should now have a profile image
-		let profileImageUuid = getAuthorObjResponse2.data.GetPropertyValue("profile_image")
+		let profileImageUuid = getAuthorObjResponse2.data.tableObject.GetPropertyValue("profile_image")
 		assert.isNotNull(profileImageUuid)
-		assert.isNotNull(getAuthorObjResponse2.data.GetPropertyValue("profile_image_blurhash"))
+		assert.isNotNull(getAuthorObjResponse2.data.tableObject.GetPropertyValue("profile_image_blurhash"))
 
 		// Get the profile image table object file (1)
 		let getProfileImageFileObjResponse = await TableObjectsController.GetTableObjectFile({
@@ -226,8 +226,8 @@ describe("SetProfileImageOfAuthor endpoint", () => {
 		})
 
 		assert.equal(getProfileImageObjResponse.status, 200)
-		assert.equal(getProfileImageObjResponse.data.GetPropertyValue("type"), firstFileType)
-		assert.equal(getProfileImageObjResponse.data.GetPropertyValue("ext"), firstFileExt)
+		assert.equal(getProfileImageObjResponse.data.tableObject.GetPropertyValue("type"), firstFileType)
+		assert.equal(getProfileImageObjResponse.data.tableObject.GetPropertyValue("ext"), firstFileExt)
 
 		// Update the profile image (2)
 		let secondFileType = "image/jpeg"
@@ -257,8 +257,8 @@ describe("SetProfileImageOfAuthor endpoint", () => {
 		assert.equal(getAuthorObjResponse3.status, 200)
 
 		// The author should have the same profile image, but no profile image blurhash
-		assert.equal(getAuthorObjResponse3.data.GetPropertyValue("profile_image"), profileImageUuid)
-		assert.isNull(getAuthorObjResponse3.data.GetPropertyValue("profile_image_blurhash"))
+		assert.equal(getAuthorObjResponse3.data.tableObject.GetPropertyValue("profile_image"), profileImageUuid)
+		assert.isNull(getAuthorObjResponse3.data.tableObject.GetPropertyValue("profile_image_blurhash"))
 
 		// Get the profile image table object file (2)
 		let getProfileImageFileObjResponse2 = await TableObjectsController.GetTableObjectFile({
@@ -276,7 +276,7 @@ describe("SetProfileImageOfAuthor endpoint", () => {
 		})
 
 		assert.equal(getProfileImageObjResponse2.status, 200)
-		assert.equal(getProfileImageObjResponse2.data.GetPropertyValue("type"), secondFileType)
-		assert.equal(getProfileImageObjResponse2.data.GetPropertyValue("ext"), secondFileExt)
+		assert.equal(getProfileImageObjResponse2.data.tableObject.GetPropertyValue("type"), secondFileType)
+		assert.equal(getProfileImageObjResponse2.data.tableObject.GetPropertyValue("ext"), secondFileExt)
 	})
 })

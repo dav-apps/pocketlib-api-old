@@ -285,13 +285,10 @@ describe("UpdateAuthor endpoint", () => {
 			uuid: author.uuid
 		})
 
-		if (objResponse.status != 200) {
-			assert.fail()
-		}
-
-		assert.equal(objResponse.data.Uuid, author.uuid)
-		assert.equal(objResponse.data.GetPropertyValue("first_name"), firstName)
-		assert.equal(objResponse.data.GetPropertyValue("last_name"), author.lastName)
+		assert.equal(objResponse.status, 200)
+		assert.equal(objResponse.data.tableObject.Uuid, author.uuid)
+		assert.equal(objResponse.data.tableObject.GetPropertyValue("first_name"), firstName)
+		assert.equal(objResponse.data.tableObject.GetPropertyValue("last_name"), author.lastName)
 	})
 
 	it("should update last_name of author", async () => {
@@ -332,13 +329,10 @@ describe("UpdateAuthor endpoint", () => {
 			uuid: author.uuid
 		})
 
-		if (objResponse.status != 200) {
-			assert.fail()
-		}
-
-		assert.equal(objResponse.data.Uuid, author.uuid)
-		assert.equal(objResponse.data.GetPropertyValue("first_name"), author.firstName)
-		assert.equal(objResponse.data.GetPropertyValue("last_name"), lastName)
+		assert.equal(objResponse.status, 200)
+		assert.equal(objResponse.data.tableObject.Uuid, author.uuid)
+		assert.equal(objResponse.data.tableObject.GetPropertyValue("first_name"), author.firstName)
+		assert.equal(objResponse.data.tableObject.GetPropertyValue("last_name"), lastName)
 	})
 
 	it("should update website_url, facebook_username, instagram_username and twitter_username of author", async () => {
@@ -385,15 +379,12 @@ describe("UpdateAuthor endpoint", () => {
 			uuid: author.uuid
 		})
 
-		if (objResponse.status != 200) {
-			assert.fail()
-		}
-
-		assert.equal(objResponse.data.Uuid, author.uuid)
-		assert.equal(objResponse.data.GetPropertyValue("website_url"), websiteUrl)
-		assert.equal(objResponse.data.GetPropertyValue("facebook_username"), facebookUsername)
-		assert.equal(objResponse.data.GetPropertyValue("instagram_username"), instagramUsername)
-		assert.equal(objResponse.data.GetPropertyValue("twitter_username"), twitterUsername)
+		assert.equal(objResponse.status, 200)
+		assert.equal(objResponse.data.tableObject.Uuid, author.uuid)
+		assert.equal(objResponse.data.tableObject.GetPropertyValue("website_url"), websiteUrl)
+		assert.equal(objResponse.data.tableObject.GetPropertyValue("facebook_username"), facebookUsername)
+		assert.equal(objResponse.data.tableObject.GetPropertyValue("instagram_username"), instagramUsername)
+		assert.equal(objResponse.data.tableObject.GetPropertyValue("twitter_username"), twitterUsername)
 
 		// Remove the website_url and usernames with empty strings
 		try {
@@ -471,16 +462,13 @@ describe("UpdateAuthor endpoint", () => {
 			uuid: author.uuid
 		})
 
-		if (objResponse.status != 200) {
-			assert.fail()
-		}
-
-		assert.equal(objResponse.data.Uuid, author.uuid)
-		assert.equal(objResponse.data.GetPropertyValue("first_name"), firstName)
-		assert.equal(objResponse.data.GetPropertyValue("last_name"), lastName)
-		assert.equal(objResponse.data.GetPropertyValue("website_url"), websiteUrl)
-		assert.equal(objResponse.data.GetPropertyValue("facebook_username"), facebookUsername)
-		assert.equal(objResponse.data.GetPropertyValue("instagram_username"), instagramUsername)
-		assert.equal(objResponse.data.GetPropertyValue("twitter_username"), twitterUsername)
+		assert.equal(objResponse.status, 200)
+		assert.equal(objResponse.data.tableObject.Uuid, author.uuid)
+		assert.equal(objResponse.data.tableObject.GetPropertyValue("first_name"), firstName)
+		assert.equal(objResponse.data.tableObject.GetPropertyValue("last_name"), lastName)
+		assert.equal(objResponse.data.tableObject.GetPropertyValue("website_url"), websiteUrl)
+		assert.equal(objResponse.data.tableObject.GetPropertyValue("facebook_username"), facebookUsername)
+		assert.equal(objResponse.data.tableObject.GetPropertyValue("instagram_username"), instagramUsername)
+		assert.equal(objResponse.data.tableObject.GetPropertyValue("twitter_username"), twitterUsername)
 	})
 })

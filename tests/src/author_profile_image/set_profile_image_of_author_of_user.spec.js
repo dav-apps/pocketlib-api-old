@@ -152,8 +152,8 @@ describe("SetProfileImageOfAuthorOfUser endpoint", () => {
 		assert.equal(getAuthorObjResponse.status, 200)
 
 		// The author should have a profile image but no profile image blurhash
-		assert.equal(getAuthorObjResponse.data.GetPropertyValue("profile_image"), author.profileImage.uuid)
-		assert.equal(getAuthorObjResponse.data.GetPropertyValue("profile_image_blurhash"), author.profileImageBlurhash)
+		assert.equal(getAuthorObjResponse.data.tableObject.GetPropertyValue("profile_image"), author.profileImage.uuid)
+		assert.equal(getAuthorObjResponse.data.tableObject.GetPropertyValue("profile_image_blurhash"), author.profileImageBlurhash)
 
 		// Remove the profile image uuid from the author table object
 		let updateAuthorObjResponse = await TableObjectsController.UpdateTableObject({
@@ -168,8 +168,8 @@ describe("SetProfileImageOfAuthorOfUser endpoint", () => {
 		assert.equal(updateAuthorObjResponse.status, 200)
 
 		// The author now should not have a profile image
-		assert.isNull(updateAuthorObjResponse.data.GetPropertyValue("profile_image"))
-		assert.isNull(updateAuthorObjResponse.data.GetPropertyValue("profile_image_blurhash"))
+		assert.isNull(updateAuthorObjResponse.data.tableObject.GetPropertyValue("profile_image"))
+		assert.isNull(updateAuthorObjResponse.data.tableObject.GetPropertyValue("profile_image_blurhash"))
 
 		// Upload the profile image (1)
 		let filePath = path.resolve(__dirname, '../files/cover.png')
@@ -200,9 +200,9 @@ describe("SetProfileImageOfAuthorOfUser endpoint", () => {
 		assert.equal(getAuthorObjResponse2.status, 200)
 
 		// The author should now have a profile image and a profile image blurhash
-		let profileImageUuid = getAuthorObjResponse2.data.GetPropertyValue("profile_image")
+		let profileImageUuid = getAuthorObjResponse2.data.tableObject.GetPropertyValue("profile_image")
 		assert.isNotNull(profileImageUuid)
-		assert.isNotNull(getAuthorObjResponse2.data.GetPropertyValue("profile_image_blurhash"))
+		assert.isNotNull(getAuthorObjResponse2.data.tableObject.GetPropertyValue("profile_image_blurhash"))
 
 		// Get the profile image table object file (1)
 		let getProfileImageFileObjResponse = await TableObjectsController.GetTableObjectFile({
@@ -220,8 +220,8 @@ describe("SetProfileImageOfAuthorOfUser endpoint", () => {
 		})
 
 		assert.equal(getProfileImageObjResponse.status, 200)
-		assert.equal(getProfileImageObjResponse.data.GetPropertyValue("type"), firstFileType)
-		assert.equal(getProfileImageObjResponse.data.GetPropertyValue("ext"), firstFileExt)
+		assert.equal(getProfileImageObjResponse.data.tableObject.GetPropertyValue("type"), firstFileType)
+		assert.equal(getProfileImageObjResponse.data.tableObject.GetPropertyValue("ext"), firstFileExt)
 
 		// Update the profile image (2)
 		let secondFileType = "image/jpeg"
@@ -251,8 +251,8 @@ describe("SetProfileImageOfAuthorOfUser endpoint", () => {
 		assert.equal(getAuthorObjResponse3.status, 200)
 
 		// The author should have the same profile image, but no profile image blurhash
-		assert.equal(getAuthorObjResponse3.data.GetPropertyValue("profile_image"), profileImageUuid)
-		assert.isNull(getAuthorObjResponse3.data.GetPropertyValue("profile_image_blurhash"))
+		assert.equal(getAuthorObjResponse3.data.tableObject.GetPropertyValue("profile_image"), profileImageUuid)
+		assert.isNull(getAuthorObjResponse3.data.tableObject.GetPropertyValue("profile_image_blurhash"))
 
 		// Get the profile image table object file (2)
 		let getProfileImageFileObjResponse2 = await TableObjectsController.GetTableObjectFile({
@@ -270,7 +270,7 @@ describe("SetProfileImageOfAuthorOfUser endpoint", () => {
 		})
 
 		assert.equal(getProfileImageObjResponse2.status, 200)
-		assert.equal(secondFileType, getProfileImageObjResponse2.data.GetPropertyValue("type"))
-		assert.equal(secondFileExt, getProfileImageObjResponse2.data.GetPropertyValue("ext"))
+		assert.equal(secondFileType, getProfileImageObjResponse2.data.tableObject.GetPropertyValue("type"))
+		assert.equal(secondFileExt, getProfileImageObjResponse2.data.tableObject.GetPropertyValue("ext"))
 	})
 })

@@ -30,9 +30,9 @@ describe("GetProfileImageOfAuthorOfUser endpoint", async () => {
 				url: getProfileImageOfAuthorOfUserEndpoint
 			})
 		} catch (error) {
-			assert.equal(401, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.AuthorizationHeaderMissing, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 401)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.AuthorizationHeaderMissing)
 			return
 		}
 
@@ -49,9 +49,9 @@ describe("GetProfileImageOfAuthorOfUser endpoint", async () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(404, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.SessionDoesNotExist, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 404)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.SessionDoesNotExist)
 			return
 		}
 
@@ -68,9 +68,9 @@ describe("GetProfileImageOfAuthorOfUser endpoint", async () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(403, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 403)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
 			return
 		}
 
@@ -89,9 +89,7 @@ describe("GetProfileImageOfAuthorOfUser endpoint", async () => {
 			}
 		})
 
-		if (response.status != 200) {
-			assert.fail()
-		}
+		assert.equal(response.status, 200)
 
 		try {
 			await axios({
@@ -102,9 +100,9 @@ describe("GetProfileImageOfAuthorOfUser endpoint", async () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(404, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.AuthorProfileImageDoesNotExist, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 404)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.AuthorProfileImageDoesNotExist)
 			return
 		}
 
@@ -121,9 +119,9 @@ describe("GetProfileImageOfAuthorOfUser endpoint", async () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(400, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.UserIsNotAuthor, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.UserIsNotAuthor)
 			return
 		}
 
@@ -140,9 +138,9 @@ describe("GetProfileImageOfAuthorOfUser endpoint", async () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(403, error.response.status)
-			assert.equal(1, error.response.data.errors.length)
-			assert.equal(ErrorCodes.ActionNotAllowed, error.response.data.errors[0].code)
+			assert.equal(error.response.status, 403)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
 			return
 		}
 
@@ -184,8 +182,8 @@ describe("GetProfileImageOfAuthorOfUser endpoint", async () => {
 			assert.fail()
 		}
 
-		assert.equal(200, response.status)
-		assert.equal(profileImageType, response.headers['content-type'])
-		assert.equal(profileImageContent, response.data)
+		assert.equal(response.status, 200)
+		assert.equal(response.headers['content-type'], profileImageType)
+		assert.equal(response.data, profileImageContent)
 	})
 })

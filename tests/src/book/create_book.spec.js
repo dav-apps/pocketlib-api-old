@@ -357,8 +357,8 @@ describe("CreateBook endpoint", () => {
 		})
 
 		assert.equal(bookObjResponse.status, 200)
-		assert.equal(bookObjResponse.data.GetPropertyValue("store_book"), response.data.store_book)
-		assert.equal(bookObjResponse.data.GetPropertyValue("file"), response.data.file)
+		assert.equal(bookObjResponse.data.tableObject.GetPropertyValue("store_book"), response.data.store_book)
+		assert.equal(bookObjResponse.data.tableObject.GetPropertyValue("file"), response.data.file)
 	}
 
 	async function testShouldNotCreateBookFromStoreBook(accessToken, storeBook) {

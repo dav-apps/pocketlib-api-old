@@ -285,7 +285,7 @@ describe("SetBioOfAuthor endpoint", () => {
 
 		assert.equal(authorResponse.status, 200)
 
-		let responseAuthorBios = authorResponse.data.GetPropertyValue("bios")
+		let responseAuthorBios = authorResponse.data.tableObject.GetPropertyValue("bios")
 		let responseAuthorBioUuids = responseAuthorBios.split(',')
 
 		let authorBioUuids = []
@@ -305,9 +305,9 @@ describe("SetBioOfAuthor endpoint", () => {
 		})
 
 		assert.equal(authorBioResponse.status, 200)
-		assert.equal(authorBioResponse.data.Uuid, newAuthorBioUuid)
-		assert.equal(authorBioResponse.data.GetPropertyValue("bio"), bio)
-		assert.equal(authorBioResponse.data.GetPropertyValue("language"), language)
+		assert.equal(authorBioResponse.data.tableObject.Uuid, newAuthorBioUuid)
+		assert.equal(authorBioResponse.data.tableObject.GetPropertyValue("bio"), bio)
+		assert.equal(authorBioResponse.data.tableObject.GetPropertyValue("language"), language)
 	})
 
 	it("should update author bio", async () => {
@@ -348,7 +348,7 @@ describe("SetBioOfAuthor endpoint", () => {
 
 		assert.equal(authorResponse.status, 200)
 
-		let responseAuthorBios = authorResponse.data.GetPropertyValue("bios")
+		let responseAuthorBios = authorResponse.data.tableObject.GetPropertyValue("bios")
 		let responseAuthorBioUuids = responseAuthorBios.split(',')
 
 		let authorBioUuids = []
@@ -365,8 +365,8 @@ describe("SetBioOfAuthor endpoint", () => {
 		})
 
 		assert.equal(authorBioResponse.status, 200)
-		assert.equal(authorBioResponse.data.Uuid, authorBioUuid)
-		assert.equal(authorBioResponse.data.GetPropertyValue("bio"), bio)
-		assert.equal(authorBioResponse.data.GetPropertyValue("language"), language)
+		assert.equal(authorBioResponse.data.tableObject.Uuid, authorBioUuid)
+		assert.equal(authorBioResponse.data.tableObject.GetPropertyValue("bio"), bio)
+		assert.equal(authorBioResponse.data.tableObject.GetPropertyValue("language"), language)
 	})
 })
