@@ -1,0 +1,6 @@
+{
+	"type": "function",
+	"name": "get_author_bios_as_hash",
+	"params": ["bios_string"],
+	"source": "./get_author_bios_as_hash.dx"
+}

@@ -1,0 +1,18 @@
+(# Get the params)
+(var uuid (get_param "uuid"))
+
+(# Get the author)
+(var author (func get_table_object (uuid (get_env "AUTHOR_TABLE_ID"))))
+
+(if (is_nil author) (
+	(# Author does not exist)
+	(func render_validation_errors ((list (hash (error (get_error 3503)) (status 404)))))
+))
+
+(# Get the bios of the author)
+(var bios (func get_author_bios_as_hash (author.properties.bios)))
+
+(# Render the result)
+(render_json (hash
+	(bios bios)
+) 200)
