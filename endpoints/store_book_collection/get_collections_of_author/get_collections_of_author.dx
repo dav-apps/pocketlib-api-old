@@ -6,7 +6,7 @@
 (if (is_nil fields_str) (
 	(var fields (list "collections.uuid"))
 ) elseif (fields_str == "*") (
-	(var fields (list "collections.uuid" "collections.name.value" "collections.name.language"))
+	(var fields (list "collections.uuid" "collections.name"))
 ) else (
 	(# Process the fields string)
 	(var fields (func process_fields (fields_str)))
@@ -37,36 +37,17 @@
 	(if (fields.contains "collections.uuid") (var collection_hash.uuid collection.uuid))
 
 	(if (
-		(fields.contains "collections.name.value")
+		(fields.contains "collections.name")
+		or (fields.contains "collections.name.value")
 		or (fields.contains "collections.name.language")
 	) (
-		(# Get the names of the collection)
-		(var names (func get_collection_names_as_hash (collection.properties.names)))
-
-		(if (names.length == 0) (
-			(var collection_hash.name nil)
-		) else (
-			(var name_found false)
-			(var name_hash (hash))
-
-			(for lang in language_list (
-				(if (!(is_nil names[lang])) (
-					(# Add the name to the hash)
-					(if (fields.contains "collections.name.value") (var name_hash.value names[lang]))
-					(if (fields.contains "collections.name.language") (var name_hash.language lang))
-
-					(var name_found true)
-					(break)
-				))
+		(var collection_hash.name (
+			(func find_collection_name_by_languages (
+				collection.properties.names
+				language_list
+				((fields.contains "collections.name") or (fields.contains "collections.name.value"))
+				((fields.contains "collections.name") or (fields.contains "collections.name.language"))
 			))
-
-			(if (! name_found) (
-				(# Add the first name of the collection to the hash)
-				(if (fields.contains "collections.name.value") (var name_hash.value names[names.keys#0]))
-				(if (fields.contains "collections.name.language") (var name_hash.language names.keys#0))
-			))
-
-			(var collection_hash.name name_hash)
 		))
 	))
 
