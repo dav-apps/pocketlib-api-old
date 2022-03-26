@@ -6,7 +6,7 @@ import * as ErrorCodes from '../errorCodes.js'
 
 const getAuthorEndpointUrl = `${constants.apiBaseUrl}/author/{0}`
 
-describe("GetAuthor endpoint", async () => {
+describe("GetAuthor endpoint", () => {
 	it("should not return author that does not exist", async () => {
 		try {
 			await axios({

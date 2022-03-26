@@ -1,0 +1,6 @@
+{
+	"type": "endpoint",
+	"path": "author/:uuid/collections",
+	"method": "GET",
+	"source": "./get_collections_of_author.dx"
+}

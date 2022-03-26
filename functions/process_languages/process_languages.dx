@@ -1,0 +1,18 @@
+(# params: languages: string)
+(var language_list (list))
+
+(if (is_nil languages) (
+	(language_list.push "en")
+) else (
+	(# Read the languages string and add the languages to the list)
+	(for language in (languages.split ",") (
+		(# Validate the languages)
+		(func render_validation_errors ((list
+			(func validate_language_supported (language))
+		)))
+
+		(language_list.push language)
+	))
+))
+
+(return language_list)
