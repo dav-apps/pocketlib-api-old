@@ -23,19 +23,19 @@ describe("GetCollectionsOfAuthor endpoint", () => {
 		assert.fail()
 	})
 
-	it("should get collections of author", async () => {
+	it("should return collections of author", async () => {
 		await testGetCollections(constants.authorUser.author)
 	})
 
-	it("should get collections of author of admin", async () => {
+	it("should return collections of author of admin", async () => {
 		await testGetCollections(constants.davUser.authors[0])
 	})
 
-	it("should get collections of author with specified language", async () => {
+	it("should return collections of author with specified language", async () => {
 		await testGetCollectionsWithLanguage(constants.authorUser.author, "de")
 	})
 
-	it("should get collections of author of admin with specified language", async () => {
+	it("should return collections of author of admin with specified language", async () => {
 		await testGetCollectionsWithLanguage(constants.davUser.authors[0], "de")
 	})
 

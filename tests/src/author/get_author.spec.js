@@ -46,6 +46,14 @@ describe("GetAuthor endpoint", () => {
 	it("should return author of admin", async () => {
 		await testGetAuthor(constants.davUser.authors[0])
 	})
+
+	it("should return author with specified language", async () => {
+		await testGetAuthorWithLanguage(constants.authorUser.author, "de")
+	})
+
+	it("should return author of admin with specified language", async () => {
+		await testGetAuthor(constants.davUser.authors[0], "de")
+	})
 })
 
 async function testGetAuthor(author) {
@@ -67,37 +75,60 @@ async function testGetAuthor(author) {
 	assert.equal(response.data.uuid, author.uuid)
 	assert.equal(response.data.first_name, author.firstName)
 	assert.equal(response.data.last_name, author.lastName)
+	assert.isNotNull(response.data.bio)
 	assert.equal(response.data.website_url, author.websiteUrl)
 	assert.equal(response.data.facebook_username, author.facebookUsername)
 	assert.equal(response.data.instagram_username, author.instagramUsername)
 	assert.equal(response.data.twitter_username, author.twitterUsername)
-	assert.equal(response.data.bios.length, author.bios.length)
-	assert.equal(response.data.collections.length, author.collections.length)
 	assert.equal(response.data.profile_image, author.profileImage != null)
 	assert.equal(response.data.profile_image_blurhash, author.profileImageBlurhash)
 
-	for (let i = 0; i < author.bios.length; i++) {
-		let bio = author.bios[i]
-		let responseBio = response.data.bios[i]
+	let authorBio = author.bios.find(b => b.language == "en")
 
-		assert.isUndefined(responseBio.uuid)
-		assert.equal(responseBio.bio, bio.bio)
-		assert.equal(responseBio.language, bio.language)
+	assert.isNotNull(authorBio)
+	assert.equal(response.data.bio.language, "en")
+	assert.equal(response.data.bio.value, authorBio.bio)
+}
+
+async function testGetAuthorWithLanguage(author, language) {
+	let response
+
+	try {
+		response = await axios({
+			method: 'get',
+			url: getAuthorEndpointUrl.replace('{0}', author.uuid),
+			params: {
+				fields: "*",
+				languages: language
+			}
+		})
+	} catch (error) {
+		assert.fail()
 	}
 
-	for (let i = 0; i < author.collections.length; i++) {
-		let collection = author.collections[i]
-		let responseCollection = response.data.collections[i]
+	assert.equal(response.status, 200)
+	assert.equal(response.data.uuid, author.uuid)
+	assert.equal(response.data.first_name, author.firstName)
+	assert.equal(response.data.last_name, author.lastName)
+	assert.isNotNull(response.data.bio)
+	assert.equal(response.data.website_url, author.websiteUrl)
+	assert.equal(response.data.facebook_username, author.facebookUsername)
+	assert.equal(response.data.instagram_username, author.instagramUsername)
+	assert.equal(response.data.twitter_username, author.twitterUsername)
+	assert.equal(response.data.profile_image, author.profileImage != null)
+	assert.equal(response.data.profile_image_blurhash, author.profileImageBlurhash)
 
-		assert.equal(responseCollection.uuid, collection.uuid)
+	let authorBio = author.bios.find(b => b.language == language)
 
-		for (let j = 0; j < collection.names.length; j++) {
-			let name = collection.names[j]
-			let responseName = responseCollection.names[j]
+	if (authorBio == null) {
+		assert.equal(response.data.bio.language, "en")
 
-			assert.isUndefined(responseName.uuid)
-			assert.equal(responseName.name, name.name)
-			assert.equal(responseName.language, name.language)
-		}
+		authorBio = author.bios.find(b => b.language == "en")
+
+		assert.isNotNull(authorBio)
+		assert.equal(response.data.bio.value, authorBio.bio)
+	} else {
+		assert.equal(response.data.bio.language, language)
+		assert.equal(response.data.bio.value, authorBio.bio)
 	}
 }
