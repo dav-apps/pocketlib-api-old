@@ -63,7 +63,7 @@ describe("GetAuthorsOfAdmin endpoint", () => {
 
 	it("should not return authors if the user is not an admin", async () => {
 		try {
-			let response = await axios({
+			await axios({
 				method: 'get',
 				url: getAuthorsOfAdminEndpointUrl,
 				headers: {
@@ -99,11 +99,12 @@ describe("GetAuthorsOfAdmin endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
+		assert.equal(response.data.authors.length, constants.davUser.authors.length)
+		
+		for (let author of constants.davUser.authors) {
+			let responseAuthor = response.data.authors.find(a => a.uuid == author.uuid)
 
-		for (let i = 0; i < constants.davUser.authors.length; i++) {
-			let author = constants.davUser.authors[i]
-			let responseAuthor = response.data.authors[i]
-
+			assert.isNotNull(responseAuthor)
 			assert.equal(responseAuthor.uuid, author.uuid)
 			assert.equal(responseAuthor.first_name, author.firstName)
 			assert.equal(responseAuthor.last_name, author.lastName)
@@ -111,50 +112,73 @@ describe("GetAuthorsOfAdmin endpoint", () => {
 			assert.equal(responseAuthor.facebook_username, author.facebookUsername)
 			assert.equal(responseAuthor.instagram_username, author.instagramUsername)
 			assert.equal(responseAuthor.twitter_username, author.twitterUsername)
-			assert.equal(responseAuthor.bios.length, author.bios.length)
-			assert.equal(responseAuthor.collections.length, author.collections.length)
-			assert.equal(responseAuthor.series.length, author.series.length)
-			assert.equal(responseAuthor.profile_image_blurhash, author.profileImageBlurhash)
 			assert.equal(responseAuthor.profile_image, author.profileImage != null)
+			assert.equal(responseAuthor.profile_image_blurhash, author.profileImageBlurhash)
 
-			for (let j = 0; j < author.bios.length; j++) {
-				let bio = author.bios[j]
-				let responseBio = responseAuthor.bios[j]
+			if (author.bios.length == 0) {
+				assert.isNull(responseAuthor.bio)
+			} else {
+				let authorBio = author.bios.find(b => b.language == "en")
 
-				assert.isUndefined(responseBio.uuid)
-				assert.equal(responseBio.bio, bio.bio)
-				assert.equal(responseBio.language, bio.language)
+				assert.isNotNull(authorBio)
+				assert.equal(responseAuthor.bio.language, "en")
+				assert.equal(responseAuthor.bio.value, authorBio.bio)
 			}
+		}
+	})
 
-			for (let j = 0; j < author.collections.length; j++) {
-				let collection = author.collections[j]
-				let responseCollection = responseAuthor.collections[j]
+	it("should return authors with specified language", async () => {
+		let language = "de"
+		let response
 
-				assert.equal(responseCollection.uuid, collection.uuid)
-
-				for (let k = 0; k < collection.names.length; k++) {
-					let name = collection.names[k]
-					let responseName = responseCollection.names[k]
-
-					assert.isUndefined(responseName.uuid)
-					assert.equal(responseName.name, name.name)
-					assert.equal(responseName.language, name.language)
+		try {
+			response = await axios({
+				method: 'get',
+				url: getAuthorsOfAdminEndpointUrl,
+				headers: {
+					Authorization: constants.davUser.accessToken
+				},
+				params: {
+					fields: "*",
+					languages: language
 				}
-			}
+			})
+		} catch (error) {
+			assert.fail()
+		}
 
-			for (let j = 0; j < author.series.length; j++) {
-				let series = author.series[j]
-				let responseSeries = responseAuthor.series[j]
+		assert.equal(response.status, 200)
+		assert.equal(response.data.authors.length, constants.davUser.authors.length)
+		
+		for (let author of constants.davUser.authors) {
+			let responseAuthor = response.data.authors.find(a => a.uuid == author.uuid)
 
-				assert.equal(responseSeries.uuid, series.uuid)
+			assert.isNotNull(responseAuthor)
+			assert.equal(responseAuthor.uuid, author.uuid)
+			assert.equal(responseAuthor.first_name, author.firstName)
+			assert.equal(responseAuthor.last_name, author.lastName)
+			assert.equal(responseAuthor.website_url, author.websiteUrl)
+			assert.equal(responseAuthor.facebook_username, author.facebookUsername)
+			assert.equal(responseAuthor.instagram_username, author.instagramUsername)
+			assert.equal(responseAuthor.twitter_username, author.twitterUsername)
+			assert.equal(responseAuthor.profile_image, author.profileImage != null)
+			assert.equal(responseAuthor.profile_image_blurhash, author.profileImageBlurhash)
 
-				for (let k = 0; k < series.names.length; k++) {
-					let name = series.names[k]
-					let responseName = responseSeries.names[k]
+			if (author.bios.length == 0) {
+				assert.isNull(responseAuthor.bio)
+			} else {
+				let authorBio = author.bios.find(b => b.language == language)
 
-					assert.isUndefined(responseName.uuid)
-					assert.equal(responseName.name, name.name)
-					assert.equal(responseName.language, name.language)
+				if (authorBio == null) {
+					assert.equal(responseAuthor.bio.language, "en")
+
+					authorBio = author.bios.find(b => b.language == "en")
+
+					assert.isNotNull(authorBio)
+					assert.equal(responseAuthor.bio.value, authorBio.bio)
+				} else {
+					assert.equal(responseAuthor.bio.language, language)
+					assert.equal(responseAuthor.bio.value, authorBio.bio)
 				}
 			}
 		}
