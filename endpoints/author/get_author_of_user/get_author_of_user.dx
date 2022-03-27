@@ -5,7 +5,7 @@
 (if (is_nil fields_str) (
 	(var fields (list "uuid"))
 ) elseif (fields_str == "*") (
-	(var fields (list "uuid" "first_name" "last_name" "bio" "website_url" "facebook_username" "instagram_username" "twitter_username" "profile_image" "profile_image_blurhash"))
+	(var fields (list "uuid" "first_name" "last_name" "bio" "website_url" "facebook_username" "instagram_username" "twitter_username" "profile_image_blurhash"))
 ) else (
 	(# Process the fields string)
 	(var fields (func process_fields (fields_str)))
@@ -62,7 +62,6 @@
 (if (fields.contains "facebook_username") (var result.facebook_username author.properties.facebook_username))
 (if (fields.contains "instagram_username") (var result.instagram_username author.properties.instagram_username))
 (if (fields.contains "twitter_username") (var result.twitter_username author.properties.twitter_username))
-(if (fields.contains "profile_image") (var result.profile_image (!(is_nil author.properties.profile_image))))
 (if (fields.contains "profile_image_blurhash") (var result.profile_image_blurhash author.properties.profile_image_blurhash))
 
 (render_json result 200)

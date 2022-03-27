@@ -80,7 +80,6 @@ async function testGetAuthor(author) {
 	assert.equal(response.data.facebook_username, author.facebookUsername)
 	assert.equal(response.data.instagram_username, author.instagramUsername)
 	assert.equal(response.data.twitter_username, author.twitterUsername)
-	assert.equal(response.data.profile_image, author.profileImage != null)
 	assert.equal(response.data.profile_image_blurhash, author.profileImageBlurhash)
 
 	let authorBio = author.bios.find(b => b.language == "en")
@@ -115,7 +114,6 @@ async function testGetAuthorWithLanguage(author, language) {
 	assert.equal(response.data.facebook_username, author.facebookUsername)
 	assert.equal(response.data.instagram_username, author.instagramUsername)
 	assert.equal(response.data.twitter_username, author.twitterUsername)
-	assert.equal(response.data.profile_image, author.profileImage != null)
 	assert.equal(response.data.profile_image_blurhash, author.profileImageBlurhash)
 
 	let authorBio = author.bios.find(b => b.language == language)

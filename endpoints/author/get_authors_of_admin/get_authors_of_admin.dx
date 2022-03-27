@@ -5,7 +5,7 @@
 (if (is_nil fields_str) (
 	(var fields (list "authors.uuid"))
 ) elseif (fields_str == "*") (
-	(var fields (list "authors.uuid" "authors.first_name" "authors.last_name" "authors.bio" "authors.website_url" "authors.facebook_username" "authors.instagram_username" "authors.twitter_username" "authors.profile_image" "authors.profile_image_blurhash"))
+	(var fields (list "authors.uuid" "authors.first_name" "authors.last_name" "authors.bio" "authors.website_url" "authors.facebook_username" "authors.instagram_username" "authors.twitter_username" "authors.profile_image_blurhash"))
 ) else (
 	(# Process the fields string)
 	(var fields (func process_fields (fields_str)))
@@ -57,7 +57,6 @@
 	(if (fields.contains "authors.facebook_username") (var author_hash.facebook_username author.properties.facebook_username))
 	(if (fields.contains "authors.instagram_username") (var author_hash.instagram_username author.properties.instagram_username))
 	(if (fields.contains "authors.twitter_username") (var author_hash.twitter_username author.properties.twitter_username))
-	(if (fields.contains "authors.profile_image") (var author_hash.profile_image (!(is_nil author.properties.profile_image))))
 	(if (fields.contains "authors.profile_image_blurhash") (var author_hash.profile_image_blurhash author.properties.profile_image_blurhash))
 
 	(authors.push author_hash)

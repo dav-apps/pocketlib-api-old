@@ -112,7 +112,6 @@ describe("GetAuthorsOfAdmin endpoint", () => {
 			assert.equal(responseAuthor.facebook_username, author.facebookUsername)
 			assert.equal(responseAuthor.instagram_username, author.instagramUsername)
 			assert.equal(responseAuthor.twitter_username, author.twitterUsername)
-			assert.equal(responseAuthor.profile_image, author.profileImage != null)
 			assert.equal(responseAuthor.profile_image_blurhash, author.profileImageBlurhash)
 
 			if (author.bios.length == 0) {
@@ -161,7 +160,6 @@ describe("GetAuthorsOfAdmin endpoint", () => {
 			assert.equal(responseAuthor.facebook_username, author.facebookUsername)
 			assert.equal(responseAuthor.instagram_username, author.instagramUsername)
 			assert.equal(responseAuthor.twitter_username, author.twitterUsername)
-			assert.equal(responseAuthor.profile_image, author.profileImage != null)
 			assert.equal(responseAuthor.profile_image_blurhash, author.profileImageBlurhash)
 
 			if (author.bios.length == 0) {
