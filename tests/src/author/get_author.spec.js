@@ -4,7 +4,7 @@ import axios from 'axios'
 import constants from '../constants.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const getAuthorEndpointUrl = `${constants.apiBaseUrl}/author/{0}`
+const getAuthorEndpointUrl = `${constants.apiBaseUrl}/authors/{0}`
 
 describe("GetAuthor endpoint", () => {
 	it("should not return author that does not exist", async () => {
@@ -54,6 +54,98 @@ describe("GetAuthor endpoint", () => {
 	it("should return author of admin with specified language", async () => {
 		await testGetAuthor(constants.davUser.authors[0], "de")
 	})
+
+	it("should return author of user", async () => {
+		let author = constants.authorUser.author
+		let response
+
+		try {
+			response = await axios({
+				method: 'get',
+				url: getAuthorEndpointUrl.replace('{0}', "mine"),
+				headers: {
+					Authorization: constants.authorUser.accessToken
+				},
+				params: {
+					fields: "*"
+				}
+			})
+		} catch (error) {
+			assert.fail()
+		}
+
+		assert.equal(response.status, 200)
+		assert.equal(Object.keys(response.data).length, 9)
+		assert.equal(response.data.uuid, author.uuid)
+		assert.equal(response.data.first_name, author.firstName)
+		assert.equal(response.data.last_name, author.lastName)
+		assert.equal(response.data.website_url, author.websiteUrl)
+		assert.equal(response.data.facebook_username, author.facebookUsername)
+		assert.equal(response.data.instagram_username, author.instagramUsername)
+		assert.equal(response.data.twitter_username, author.twitterUsername)
+		assert.equal(response.data.profile_image?.blurhash, author.profileImageBlurhash)
+
+		if (author.bios.length == 0) {
+			assert.isNull(response.data.bios)
+		} else {
+			let authorBio = author.bios.find(b => b.language == "en")
+
+			assert.isNotNull(authorBio)
+			assert.equal(response.data.bio.language, "en")
+			assert.equal(response.data.bio.value, authorBio.bio)
+		}
+	})
+
+	it("should return author of user with specified language", async () => {
+		let author = constants.authorUser.author
+		let language = "de"
+		let response
+
+		try {
+			response = await axios({
+				method: 'get',
+				url: getAuthorEndpointUrl.replace('{0}', "mine"),
+				headers: {
+					Authorization: constants.authorUser.accessToken
+				},
+				params: {
+					fields: "*",
+					languages: language
+				}
+			})
+		} catch (error) {
+			assert.fail()
+		}
+
+		assert.equal(response.status, 200)
+		assert.equal(Object.keys(response.data).length, 9)
+		assert.equal(response.data.uuid, author.uuid)
+		assert.equal(response.data.first_name, author.firstName)
+		assert.equal(response.data.last_name, author.lastName)
+		assert.equal(response.data.website_url, author.websiteUrl)
+		assert.equal(response.data.facebook_username, author.facebookUsername)
+		assert.equal(response.data.instagram_username, author.instagramUsername)
+		assert.equal(response.data.twitter_username, author.twitterUsername)
+		assert.equal(response.data.profile_image?.blurhash, author.profileImageBlurhash)
+
+		if (author.bios.length == 0) {
+			assert.isNull(response.data.bio)
+		} else {
+			let authorBio = author.bios.find(b => b.language == language)
+
+			if (authorBio == null) {
+				assert.equal(response.data.bio.language, "en")
+		
+				authorBio = author.bios.find(b => b.language == "en")
+		
+				assert.isNotNull(authorBio)
+				assert.equal(response.data.bio.value, authorBio.bio)
+			} else {
+				assert.equal(response.data.bio.language, language)
+				assert.equal(response.data.bio.value, authorBio.bio)
+			}
+		}
+	})
 })
 
 async function testGetAuthor(author) {
@@ -72,21 +164,25 @@ async function testGetAuthor(author) {
 	}
 
 	assert.equal(response.status, 200)
+	assert.equal(Object.keys(response.data).length, 9)
 	assert.equal(response.data.uuid, author.uuid)
 	assert.equal(response.data.first_name, author.firstName)
 	assert.equal(response.data.last_name, author.lastName)
-	assert.isNotNull(response.data.bio)
 	assert.equal(response.data.website_url, author.websiteUrl)
 	assert.equal(response.data.facebook_username, author.facebookUsername)
 	assert.equal(response.data.instagram_username, author.instagramUsername)
 	assert.equal(response.data.twitter_username, author.twitterUsername)
-	assert.equal(response.data.profile_image_blurhash, author.profileImageBlurhash)
+	assert.equal(response.data.profile_image?.blurhash, author.profileImageBlurhash)
 
-	let authorBio = author.bios.find(b => b.language == "en")
+	if (author.bios.length == 0) {
+		assert.isNull(response.data.bios)
+	} else {
+		let authorBio = author.bios.find(b => b.language == "en")
 
-	assert.isNotNull(authorBio)
-	assert.equal(response.data.bio.language, "en")
-	assert.equal(response.data.bio.value, authorBio.bio)
+		assert.isNotNull(authorBio)
+		assert.equal(response.data.bio.language, "en")
+		assert.equal(response.data.bio.value, authorBio.bio)
+	}
 }
 
 async function testGetAuthorWithLanguage(author, language) {
@@ -106,27 +202,31 @@ async function testGetAuthorWithLanguage(author, language) {
 	}
 
 	assert.equal(response.status, 200)
+	assert.equal(Object.keys(response.data).length, 9)
 	assert.equal(response.data.uuid, author.uuid)
 	assert.equal(response.data.first_name, author.firstName)
 	assert.equal(response.data.last_name, author.lastName)
-	assert.isNotNull(response.data.bio)
 	assert.equal(response.data.website_url, author.websiteUrl)
 	assert.equal(response.data.facebook_username, author.facebookUsername)
 	assert.equal(response.data.instagram_username, author.instagramUsername)
 	assert.equal(response.data.twitter_username, author.twitterUsername)
-	assert.equal(response.data.profile_image_blurhash, author.profileImageBlurhash)
+	assert.equal(response.data.profile_image?.blurhash, author.profileImageBlurhash)
 
-	let authorBio = author.bios.find(b => b.language == language)
-
-	if (authorBio == null) {
-		assert.equal(response.data.bio.language, "en")
-
-		authorBio = author.bios.find(b => b.language == "en")
-
-		assert.isNotNull(authorBio)
-		assert.equal(response.data.bio.value, authorBio.bio)
+	if (author.bios.length == 0) {
+		assert.isNull(response.data.bio)
 	} else {
-		assert.equal(response.data.bio.language, language)
-		assert.equal(response.data.bio.value, authorBio.bio)
+		let authorBio = author.bios.find(b => b.language == language)
+
+		if (authorBio == null) {
+			assert.equal(response.data.bio.language, "en")
+	
+			authorBio = author.bios.find(b => b.language == "en")
+	
+			assert.isNotNull(authorBio)
+			assert.equal(response.data.bio.value, authorBio.bio)
+		} else {
+			assert.equal(response.data.bio.language, language)
+			assert.equal(response.data.bio.value, authorBio.bio)
+		}
 	}
 }
