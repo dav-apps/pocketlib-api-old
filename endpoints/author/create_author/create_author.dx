@@ -1,3 +1,16 @@
+(# Get the params)
+(var fields_str (get_param "fields"))
+(log fields_str)
+
+(if (is_nil fields_str) (
+	(var fields (list "uuid"))
+) elseif (fields_str == "*") (
+	(var fields (list "uuid" "first_name" "last_name" "bio" "website_url" "facebook_username" "instagram_username" "twitter_username" "profile_image"))
+) else (
+	(# Process the fields string)
+	(var fields (func process_fields (fields_str)))
+))
+
 (var json (parse_json (get_body)))
 
 (var first_name json.first_name)
@@ -53,6 +66,16 @@
 (func add_author_to_latest_authors_collection (author))
 
 (# Render the result)
-(render_json (hash
-	(uuid author.uuid)
-) 201)
+(var result (hash))
+
+(if (fields.contains "uuid") (var result.uuid author.uuid))
+(if (fields.contains "first_name") (var result.first_name author.properties.first_name))
+(if (fields.contains "last_name") (var result.last_name author.properties.last_name))
+(if (fields.contains "bio") (var result.bio nil))
+(if (fields.contains "website_url") (var result.website_url nil))
+(if (fields.contains "facebook_username") (var result.facebook_username nil))
+(if (fields.contains "instagram_username") (var result.instagram_username nil))
+(if (fields.contains "twitter_username") (var result.twitter_username nil))
+(if (fields.contains "profile_image") (var result.profile_image nil))
+
+(render_json result 201)

@@ -6,7 +6,7 @@ import constants from '../constants.js'
 import * as utils from '../utils.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const createAuthorEndpointUrl = `${constants.apiBaseUrl}/author`
+const createAuthorEndpointUrl = `${constants.apiBaseUrl}/authors`
 var resetAuthors = false
 
 afterEach(async () => {
@@ -231,6 +231,9 @@ describe("CreateAuthor endpoint", async () => {
 					Authorization: constants.testUser.accessToken,
 					'Content-Type': 'application/json'
 				},
+				params: {
+					fields: "*"
+				},
 				data: {
 					first_name: firstName,
 					last_name: lastName
@@ -241,8 +244,16 @@ describe("CreateAuthor endpoint", async () => {
 		}
 
 		assert.equal(response.status, 201)
-		assert.equal(Object.keys(response.data).length, 1)
+		assert.equal(Object.keys(response.data).length, 9)
 		assert.isNotNull(response.data.uuid)
+		assert.equal(response.data.first_name, firstName)
+		assert.equal(response.data.last_name, lastName)
+		assert.isNull(response.data.bio)
+		assert.isNull(response.data.website_url)
+		assert.isNull(response.data.facebook_username)
+		assert.isNull(response.data.instagram_username)
+		assert.isNull(response.data.twitter_username)
+		assert.isNull(response.data.profile_image)
 
 		// Check if the author was correctly created on the server
 		let objResponse = await TableObjectsController.GetTableObject({
@@ -273,6 +284,9 @@ describe("CreateAuthor endpoint", async () => {
 					Authorization: constants.davUser.accessToken,
 					'Content-Type': 'application/json'
 				},
+				params: {
+					fields: "*"
+				},
 				data: {
 					first_name: firstName1,
 					last_name: lastName1
@@ -283,8 +297,16 @@ describe("CreateAuthor endpoint", async () => {
 		}
 
 		assert.equal(response1.status, 201)
-		assert.equal(Object.keys(response1.data).length, 1)
+		assert.equal(Object.keys(response1.data).length, 9)
 		assert.isNotNull(response1.data.uuid)
+		assert.equal(response1.data.first_name, firstName1)
+		assert.equal(response1.data.last_name, lastName1)
+		assert.isNull(response1.data.bio)
+		assert.isNull(response1.data.website_url)
+		assert.isNull(response1.data.facebook_username)
+		assert.isNull(response1.data.instagram_username)
+		assert.isNull(response1.data.twitter_username)
+		assert.isNull(response1.data.profile_image)
 
 		// Create second author for first user
 		let response2
@@ -299,6 +321,9 @@ describe("CreateAuthor endpoint", async () => {
 					Authorization: constants.davUser.accessToken,
 					'Content-Type': 'application/json'
 				},
+				params: {
+					fields: "*"
+				},
 				data: {
 					first_name: firstName2,
 					last_name: lastName2
@@ -309,8 +334,16 @@ describe("CreateAuthor endpoint", async () => {
 		}
 
 		assert.equal(response2.status, 201)
-		assert.equal(Object.keys(response2.data).length, 1)
+		assert.equal(Object.keys(response2.data).length, 9)
 		assert.isNotNull(response2.data.uuid)
+		assert.equal(response2.data.first_name, firstName2)
+		assert.equal(response2.data.last_name, lastName2)
+		assert.isNull(response2.data.bio)
+		assert.isNull(response2.data.website_url)
+		assert.isNull(response2.data.facebook_username)
+		assert.isNull(response2.data.instagram_username)
+		assert.isNull(response2.data.twitter_username)
+		assert.isNull(response2.data.profile_image)
 
 		// Check if the authors were correctly created on the server
 		let objResponse1 = await TableObjectsController.GetTableObject({
