@@ -7,6 +7,82 @@ import * as ErrorCodes from '../errorCodes.js'
 const getAuthorEndpointUrl = `${constants.apiBaseUrl}/authors/{0}`
 
 describe("GetAuthor endpoint", () => {
+	it("should not return author of user with access token for session that does not exist", async () => {
+		try {
+			await axios({
+				method: 'get',
+				url: getAuthorEndpointUrl.replace('{0}', "mine"),
+				headers: {
+					Authorization: "asdasdasdasdasd"
+				}
+			})
+		} catch (error) {
+			assert.equal(error.response.status, 404)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.SessionDoesNotExist)
+			return
+		}
+
+		assert.fail()
+	})
+
+	it("should not return author of user with access token for another app", async () => {
+		try {
+			await axios({
+				method: 'get',
+				url: getAuthorEndpointUrl.replace('{0}', "mine"),
+				headers: {
+					Authorization: constants.testUserTestAppAccessToken
+				}
+			})
+		} catch (error) {
+			assert.equal(error.response.status, 403)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
+			return
+		}
+
+		assert.fail()
+	})
+
+	it("should not return author of user if the user is an admin", async () => {
+		try {
+			await axios({
+				method: 'get',
+				url: getAuthorEndpointUrl.replace('{0}', "mine"),
+				headers: {
+					Authorization: constants.davUser.accessToken
+				}
+			})
+		} catch (error) {
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.UserIsAdmin)
+			return
+		}
+
+		assert.fail()
+	})
+
+	it("should not return author of user if the user is not an author", async () => {
+		try {
+			await axios({
+				method: 'get',
+				url: getAuthorEndpointUrl.replace('{0}', "mine"),
+				headers: {
+					Authorization: constants.testUser.accessToken
+				}
+			})
+		} catch (error) {
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.UserIsNotAuthor)
+			return
+		}
+
+		assert.fail()
+	})
+
 	it("should not return author that does not exist", async () => {
 		try {
 			await axios({
