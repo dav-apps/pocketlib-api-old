@@ -2,6 +2,6 @@
 	"type": "endpoint",
 	"path": "authors/:uuid",
 	"method": "GET",
-	"source": "./get_author.dx",
+	"source": "./retrieve_author.dx",
 	"caching": true
 }

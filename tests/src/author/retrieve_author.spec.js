@@ -4,14 +4,14 @@ import axios from 'axios'
 import constants from '../constants.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const getAuthorEndpointUrl = `${constants.apiBaseUrl}/authors/{0}`
+const retrieveAuthorEndpointUrl = `${constants.apiBaseUrl}/authors/{0}`
 
 describe("GetAuthor endpoint", () => {
 	it("should not return author of user with access token for session that does not exist", async () => {
 		try {
 			await axios({
 				method: 'get',
-				url: getAuthorEndpointUrl.replace('{0}', "mine"),
+				url: retrieveAuthorEndpointUrl.replace('{0}', "mine"),
 				headers: {
 					Authorization: "asdasdasdasdasd"
 				}
@@ -30,7 +30,7 @@ describe("GetAuthor endpoint", () => {
 		try {
 			await axios({
 				method: 'get',
-				url: getAuthorEndpointUrl.replace('{0}', "mine"),
+				url: retrieveAuthorEndpointUrl.replace('{0}', "mine"),
 				headers: {
 					Authorization: constants.testUserTestAppAccessToken
 				}
@@ -49,7 +49,7 @@ describe("GetAuthor endpoint", () => {
 		try {
 			await axios({
 				method: 'get',
-				url: getAuthorEndpointUrl.replace('{0}', "mine"),
+				url: retrieveAuthorEndpointUrl.replace('{0}', "mine"),
 				headers: {
 					Authorization: constants.davUser.accessToken
 				}
@@ -68,7 +68,7 @@ describe("GetAuthor endpoint", () => {
 		try {
 			await axios({
 				method: 'get',
-				url: getAuthorEndpointUrl.replace('{0}', "mine"),
+				url: retrieveAuthorEndpointUrl.replace('{0}', "mine"),
 				headers: {
 					Authorization: constants.testUser.accessToken
 				}
@@ -87,7 +87,7 @@ describe("GetAuthor endpoint", () => {
 		try {
 			await axios({
 				method: 'get',
-				url: getAuthorEndpointUrl.replace('{0}', "asdasdasd")
+				url: retrieveAuthorEndpointUrl.replace('{0}', "asdasdasd")
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 404)
@@ -103,7 +103,7 @@ describe("GetAuthor endpoint", () => {
 		try {
 			await axios({
 				method: 'get',
-				url: getAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].bios[0].uuid)
+				url: retrieveAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].bios[0].uuid)
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 403)
@@ -138,7 +138,7 @@ describe("GetAuthor endpoint", () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getAuthorEndpointUrl.replace('{0}', "mine"),
+				url: retrieveAuthorEndpointUrl.replace('{0}', "mine"),
 				headers: {
 					Authorization: constants.authorUser.accessToken
 				},
@@ -180,7 +180,7 @@ describe("GetAuthor endpoint", () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getAuthorEndpointUrl.replace('{0}', "mine"),
+				url: retrieveAuthorEndpointUrl.replace('{0}', "mine"),
 				headers: {
 					Authorization: constants.authorUser.accessToken
 				},
@@ -230,7 +230,7 @@ async function testGetAuthor(author) {
 	try {
 		response = await axios({
 			method: 'get',
-			url: getAuthorEndpointUrl.replace('{0}', author.uuid),
+			url: retrieveAuthorEndpointUrl.replace('{0}', author.uuid),
 			params: {
 				fields: "*"
 			}
@@ -267,7 +267,7 @@ async function testGetAuthorWithLanguage(author, language) {
 	try {
 		response = await axios({
 			method: 'get',
-			url: getAuthorEndpointUrl.replace('{0}', author.uuid),
+			url: retrieveAuthorEndpointUrl.replace('{0}', author.uuid),
 			params: {
 				fields: "*",
 				languages: language
