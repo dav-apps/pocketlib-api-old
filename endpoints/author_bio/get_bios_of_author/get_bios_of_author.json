@@ -1,7 +1,7 @@
 {
 	"type": "endpoint",
-	"path": "author/:uuid/bios",
+	"path": "authors/:uuid/bios",
 	"method": "GET",
 	"source": "./get_bios_of_author.dx",
-	"caching": true
+	"caching": false
 }
