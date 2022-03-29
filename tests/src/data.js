@@ -2,14 +2,19 @@ import constants from './constants.js'
 
 var tableObjects = []
 
-//#region Authors, AuthorBios & AuthorProfileImages
+//#region Authors, AuthorBios, AuthorProfileImageItems, AuthorProfileImages
 addAuthorToTableObjects(constants.authorUser.author, constants.authorUser.id)
 
 for (let authorBio of constants.authorUser.author.bios) {
 	addAuthorBioToTableObjects(authorBio, constants.authorUser.id)
 }
 
-addAuthorProfileImageToTableObjects(constants.authorUser.author.profileImage, constants.authorUser.id)
+let profileImageItem = constants.authorUser.author.profileImageItem
+addAuthorProfileImageItemToTableObjects(profileImageItem, constants.authorUser.id)
+
+if (profileImageItem.profileImage) {
+	addAuthorProfileImageToTableObjects(profileImageItem.profileImage, constants.authorUser.id)
+}
 
 for (let author of constants.davUser.authors) {
 	addAuthorToTableObjects(author, constants.davUser.id)
@@ -18,8 +23,13 @@ for (let author of constants.davUser.authors) {
 		addAuthorBioToTableObjects(authorBio, constants.davUser.id)
 	}
 
-	if (author.profileImage) {
-		addAuthorProfileImageToTableObjects(author.profileImage, constants.davUser.id)
+	if (author.profileImageItem) {
+		let profileImageItem = author.profileImageItem
+		addAuthorProfileImageItemToTableObjects(profileImageItem, constants.davUser.id)
+
+		if (profileImageItem.profileImage) {
+			addAuthorProfileImageToTableObjects(profileImageItem.profileImage, constants.davUser.id)
+		}
 	}
 }
 //#endregion
@@ -167,8 +177,7 @@ function addAuthorToTableObjects(author, userId) {
 			bios: bios.join(','),
 			collections: collections.join(','),
 			series: series.join(','),
-			profile_image: author.profileImage?.uuid ?? "",
-			profile_image_blurhash: author.profileImageBlurhash ?? ""
+			profile_image_item: author.profileImageItem?.uuid ?? ""
 		}
 	})
 }
@@ -182,6 +191,19 @@ function addAuthorBioToTableObjects(authorBio, userId) {
 		properties: {
 			bio: authorBio.bio,
 			language: authorBio.language
+		}
+	})
+}
+
+function addAuthorProfileImageItemToTableObjects(authorProfileImageItem, userId) {
+	tableObjects.push({
+		uuid: authorProfileImageItem.uuid,
+		userId,
+		tableId: constants.authorProfileImageItemTableId,
+		file: false,
+		properties: {
+			blurhash: authorProfileImageItem.blurhash ?? "",
+			profile_image: authorProfileImageItem.profileImage ?? ""
 		}
 	})
 }

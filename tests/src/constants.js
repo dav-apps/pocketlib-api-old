@@ -7,6 +7,7 @@ let constants = {
 	bookFileTableId: 11,
 	authorTableId: 14,
 	authorBioTableId: 15,
+	authorProfileImageItemTableId: 32,
 	authorProfileImageTableId: 16,
 	storeBookCollectionTableId: 17,
 	storeBookCollectionNameTableId: 18,
@@ -419,12 +420,15 @@ let constants = {
 					]
 				}
 			],
-			profileImage: {
-				uuid: "14e5ad81-3105-4cbc-85c8-4ffeec1c3812",
-				ext: "png",
-				type: "image/png"
-			},
-			profileImageBlurhash: "LUGR@iNG01oM%MoMIVWU03t7tQR%"
+			profileImageItem: {
+				uuid: "0c7cfccb-bbea-4e55-a14f-d6187a82c8ba",
+				blurhash: "LUGR@iNG01oM%MoMIVWU03t7tQR%",
+				profileImage: {
+					uuid: "14e5ad81-3105-4cbc-85c8-4ffeec1c3812",
+					ext: "png",
+					type: "image/png"
+				}
+			}
 		}
 	},
 	davUser: {
@@ -629,12 +633,15 @@ let constants = {
 					}
 				],
 				series: [],
-				profileImage: {
-					uuid: "df45f27f-8ecb-41b0-864f-bb76669279f5",
-					ext: "jpg",
-					type: "image/jpeg"
-				},
-				profileImageBlurhash: "LUI;@boe^*j[-oWBt6of~WRjjss:"
+				profileImageItem: {
+					uuid: "34253e30-bbfe-42e3-9f9c-b0511f359802",
+					blurhash: "LUI;@boe^*j[-oWBt6of~WRjjss:",
+					profileImage: {
+						uuid: "df45f27f-8ecb-41b0-864f-bb76669279f5",
+						ext: "jpg",
+						type: "image/jpeg"
+					}
+				}
 			},
 			{
 				uuid: "1dd980fd-ae20-4566-b842-a25e241bfb46",

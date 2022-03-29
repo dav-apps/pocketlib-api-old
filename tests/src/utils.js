@@ -9,6 +9,7 @@ import {
 export async function resetDatabase() {
 	await resetAuthors()
 	await resetAuthorBios()
+	await resetAuthorProfileImageItems()
 	await resetAuthorProfileImages()
 	await resetStoreBookCollections()
 	await resetStoreBookCollectionNames()
@@ -29,7 +30,7 @@ export async function resetAuthors() {
 	// Delete Authors
 	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.authorTableId)
 
-	// Reset the Authors of users with authors
+	// Reset Authors
 	await resetAuthorUserAuthor()
 	await resetDavUserAuthors()
 }
@@ -38,16 +39,25 @@ export async function resetAuthorBios() {
 	// Delete AuthorBios
 	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.authorBioTableId)
 
-	// Reset the AuthorBios of users with authors
+	// Reset AuthorBios
 	await resetAuthorUserAuthorBios()
 	await resetDavUserAuthorBios()
+}
+
+export async function resetAuthorProfileImageItems() {
+	// Delete AuthorProfileImageItems
+	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.authorProfileImageItemTableId)
+
+	// Reset AuthorProfileImageItems
+	await resetAuthorUserAuthorProfileImageItems()
+	await resetDavUserAuthorProfileImageItems()
 }
 
 export async function resetAuthorProfileImages() {
 	// Delete AuthorProfileImages
 	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.authorProfileImageTableId)
 
-	// Reset the AuthorProfileImages of users with authors
+	// Reset AuthorProfileImages
 	await resetAuthorUserAuthorProfileImages()
 	await resetDavUserAuthorProfileImages()
 }
@@ -56,7 +66,7 @@ export async function resetStoreBookCollections() {
 	// Delete StoreBookCollections
 	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.storeBookCollectionTableId)
 
-	// Reset the StoreBookCollections of the author users
+	// Reset StoreBookCollections
 	await resetAuthorUserStoreBookCollections()
 	await resetDavUserStoreBookCollections()
 }
@@ -65,7 +75,7 @@ export async function resetStoreBookCollectionNames() {
 	// Delete StoreBookCollectionNames
 	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.storeBookCollectionNameTableId)
 
-	// Reset the StoreBookCollectionNames of the author users
+	// Reset StoreBookCollectionNames
 	await resetAuthorUserStoreBookCollectionNames()
 	await resetDavUserStoreBookCollectionNames()
 }
@@ -249,7 +259,7 @@ async function resetDavUserAuthors() {
 	})
 
 	if (!isSuccessStatusCode(response.status)) {
-		console.log("Error in getting the author table")
+		console.log("Error in getting the Author table")
 		console.log(response.errors)
 	}
 
@@ -279,7 +289,7 @@ async function resetAuthorUserAuthorBios() {
 		})
 
 		if (response.status != 200) {
-			console.log("Error in resetting an author bio")
+			console.log("Error in resetting AuthorBio")
 			console.log(response.errors)
 		}
 	}
@@ -293,7 +303,7 @@ async function resetAuthorUserAuthorBios() {
 	})
 
 	if (!isSuccessStatusCode(response.status)) {
-		console.log("Error in getting the author bio table")
+		console.log("Error in getting the AuthorBio table")
 		console.log(response.errors)
 	}
 
@@ -324,7 +334,7 @@ async function resetDavUserAuthorBios() {
 			})
 
 			if (!isSuccessStatusCode(response.status)) {
-				console.log("Error in resetting an author bio")
+				console.log("Error in resetting AuthorBio")
 				console.log(response.errors)
 			}
 		}
@@ -339,7 +349,7 @@ async function resetDavUserAuthorBios() {
 	})
 
 	if (!isSuccessStatusCode(response.status)) {
-		console.log("Error in getting the author bio table")
+		console.log("Error in getting the AuthorBio table")
 		console.log(response.errors)
 	}
 
@@ -352,10 +362,65 @@ async function resetDavUserAuthorBios() {
 	}
 }
 
+async function resetAuthorUserAuthorProfileImageItems() {
+	// Get the profile image item table
+	let profileImageItems = []
+	let testDatabaseProfileImageItemUuid = constants.authorUser.author.profileImageItem.uuid
+
+	let response = await TablesController.GetTable({
+		accessToken: constants.authorUser.accessToken,
+		id: constants.authorProfileImageItemTableId
+	})
+
+	if (!isSuccessStatusCode(response.status)) {
+		console.log("Error in getting the AuthorProfileImageItem table")
+		console.log(response.errors)
+	}
+
+	// Delete each profile image item that is not part of the test database
+	for (let profileImageItem of profileImageItems) {
+		if (profileImageItem.uuid != testDatabaseProfileImageItemUuid) {
+			// Delete the profile image item
+			await deleteTableObject(constants.authorUser.accessToken, profileImageItem.uuid)
+		}
+	}
+}
+
+async function resetDavUserAuthorProfileImageItems() {
+	// Get the profile image item table
+	let profileImageItems = []
+	let testDatabaseProfileImageItems = []
+
+	let response = await TablesController.GetTable({
+		accessToken: constants.davUser.accessToken,
+		id: constants.authorProfileImageItemTableId
+	})
+
+	if (!isSuccessStatusCode(response.status)) {
+		console.log("Error in getting the AuthorProfileImageItem table")
+		console.log(response.errors)
+	} else {
+		profileImageItems = response.data.tableObjects
+	}
+
+	// Get all profile image items of the test database
+	for (let author of constants.davUser.authors) {
+		if (author.profileImageItem) testDatabaseProfileImageItems.push(author.profileImageItem)
+	}
+
+	// Delete each profile image item that is not part of the test database
+	for (let profileImageItem of profileImageItems) {
+		if (testDatabaseProfileImageItems.includes(profileImageItem.uuid)) continue
+
+		// Delete the profile image item
+		await deleteTableObject(constants.davUser.accessToken, profileImageItem.uuid)
+	}
+}
+
 async function resetAuthorUserAuthorProfileImages() {
 	// Get the profile image table
 	let profileImages = []
-	let testDatabaseProfileImageUuid = constants.authorUser.author.profileImage.uuid
+	let testDatabaseProfileImageUuid = constants.authorUser.author.profileImageItem.uuid
 
 	let response = await TablesController.GetTable({
 		accessToken: constants.authorUser.accessToken,
@@ -363,8 +428,10 @@ async function resetAuthorUserAuthorProfileImages() {
 	})
 
 	if (!isSuccessStatusCode(response.status)) {
-		console.log("Error in getting the author profile image table")
+		console.log("Error in getting the AuthorProfileImage table")
 		console.log(response.errors)
+	} else {
+		profileImages = response.data.tableObjects
 	}
 
 	// Delete each profile image that is not part of the test database
@@ -382,12 +449,12 @@ async function resetAuthorUserAuthorProfileImages() {
 			accessToken: constants.authorUser.accessToken,
 			uuid: testDatabaseProfileImageUuid,
 			properties: {
-				ext: constants.authorUser.author.profileImage.ext
+				ext: constants.authorUser.author.profileImageItem.profileImage.ext
 			}
 		})
 
 		if (!isSuccessStatusCode(response.status)) {
-			console.log("Error in creating profile image")
+			console.log("Error in creating AuthorProfileImage")
 			console.log(response.errors)
 		}
 
@@ -396,11 +463,11 @@ async function resetAuthorUserAuthorProfileImages() {
 			accessToken: constants.authorUser.accessToken,
 			uuid: testDatabaseProfileImageUuid,
 			data: "Hello World",
-			type: constants.authorUser.author.profileImage.type
+			type: constants.authorUser.author.profileImageItem.profileImage.type
 		})
 
 		if (!isSuccessStatusCode(response.status)) {
-			console.log("Error in creating profile image")
+			console.log("Error in uploading AuthorProfileImage")
 			console.log(response.errors)
 		}
 	}
@@ -417,7 +484,7 @@ async function resetDavUserAuthorProfileImages() {
 	})
 
 	if (!isSuccessStatusCode(response.status)) {
-		console.log("Error in getting the author profile image table")
+		console.log("Error in getting the AuthorProfileImage table")
 		console.log(response.errors)
 	} else {
 		profileImages = response.data.tableObjects
@@ -425,7 +492,7 @@ async function resetDavUserAuthorProfileImages() {
 
 	// Get all profile images of the test database
 	for (let author of constants.davUser.authors) {
-		if (author.profileImage) testDatabaseProfileImages.push(author.profileImage)
+		if (author.profileImageItem?.profileImage) testDatabaseProfileImages.push(author.profileImageItem.profileImage)
 	}
 
 	// Delete each profile image that is not part of the test database
@@ -453,7 +520,7 @@ async function resetDavUserAuthorProfileImages() {
 		})
 
 		if (!isSuccessStatusCode(response.status)) {
-			console.log(`Error in creating profile image: ${profileImage.uuid}`)
+			console.log(`Error in creating AuthorProfileImage`)
 			console.log(response.errors)
 		} else {
 			// Upload the file
@@ -465,7 +532,7 @@ async function resetDavUserAuthorProfileImages() {
 			})
 
 			if (!isSuccessStatusCode(response.status)) {
-				console.log(`Error in creating profile image: ${profileImage.uuid}`)
+				console.log(`Error in uploading AuthorProfileImage`)
 				console.log(response.errors)
 			}
 		}
@@ -496,7 +563,7 @@ async function resetAuthorUserStoreBookCollections() {
 		})
 
 		if (!isSuccessStatusCode(response.status)) {
-			console.log("Error in resetting a store book collection")
+			console.log("Error in resetting StoreBookCollection")
 			console.log(response.errors)
 		}
 	}
@@ -510,7 +577,7 @@ async function resetAuthorUserStoreBookCollections() {
 	})
 
 	if (!isSuccessStatusCode(response.status)) {
-		console.log("Error in getting the store book collection table")
+		console.log("Error in getting the StoreBookCollection table")
 		console.log(response.errors)
 	}
 
@@ -548,7 +615,7 @@ async function resetDavUserStoreBookCollections() {
 			})
 
 			if (!isSuccessStatusCode(response.status)) {
-				console.log(`Error in resetting a store book collection of the author ${author.firstName} ${author.lastName}`)
+				console.log(`Error in resetting StoreBookCollection`)
 				console.log(response.errors)
 			}
 		}
@@ -563,7 +630,7 @@ async function resetDavUserStoreBookCollections() {
 	})
 
 	if (!isSuccessStatusCode(response.status)) {
-		console.log("Error in getting the store book collection table")
+		console.log("Error in getting the StoreBookCollection table")
 		console.log(response.errors)
 	} else {
 		collections = response.data.tableObjects
@@ -596,7 +663,7 @@ async function resetAuthorUserStoreBookCollectionNames() {
 			})
 
 			if (!isSuccessStatusCode(response.status)) {
-				console.log("Error in resetting a store book collection name")
+				console.log("Error in resetting StoreBookCollectionName")
 				console.log(response.errors)
 			}
 		}
@@ -611,7 +678,7 @@ async function resetAuthorUserStoreBookCollectionNames() {
 	})
 
 	if (!isSuccessStatusCode(response.status)) {
-		console.log("Error in getting the store book collection name table")
+		console.log("Error in getting the StoreBookCollectionName table")
 		console.log(response.errors)
 	} else {
 		collectionNames = response.data.tableObjects
@@ -645,7 +712,7 @@ async function resetDavUserStoreBookCollectionNames() {
 				})
 
 				if (!isSuccessStatusCode(response.status)) {
-					console.log("Error in resetting a store book collection name")
+					console.log("Error in resetting StoreBookCollectionName")
 					console.log(response.errors)
 				}
 			}
@@ -661,7 +728,7 @@ async function resetDavUserStoreBookCollectionNames() {
 	})
 
 	if (!isSuccessStatusCode(response.status)) {
-		console.log("Error in getting the store book collection name table")
+		console.log("Error in getting the StoreBookCollectionName table")
 		console.log(response.errors)
 	} else {
 		collectionNames = response.data.tableObjects
@@ -697,7 +764,7 @@ async function resetAuthorUserStoreBookSeries() {
 		})
 
 		if (!isSuccessStatusCode(response.status)) {
-			console.log("Error in resetting a store book series")
+			console.log("Error in resetting StoreBookSeries")
 			console.log(response.errors)
 		}
 	}
@@ -711,7 +778,7 @@ async function resetAuthorUserStoreBookSeries() {
 	})
 
 	if (!isSuccessStatusCode(response.status)) {
-		console.log("Error in getting the store book series table")
+		console.log("Error in getting the StoreBookSeries table")
 		console.log(response.errors)
 	}
 
@@ -746,7 +813,7 @@ async function resetDavUserStoreBookSeries() {
 			})
 
 			if (!isSuccessStatusCode(response.status)) {
-				console.log(`Error in resetting a store book series of the author ${author.firstName} ${author.lastName}`)
+				console.log(`Error in resetting StoreBookSeries`)
 				console.log(response.errors)
 			}
 		}
@@ -761,7 +828,7 @@ async function resetDavUserStoreBookSeries() {
 	})
 
 	if (!isSuccessStatusCode(response.status)) {
-		console.log("Error in getting the store book series table")
+		console.log("Error in getting the StoreBookSeries table")
 		console.log(response.errors)
 	} else {
 		series = response.data.tableObjects
@@ -794,7 +861,7 @@ async function resetAuthorUserStoreBookSeriesNames() {
 			})
 
 			if (!isSuccessStatusCode(response.status)) {
-				console.log("Error in resetting a store book series name")
+				console.log("Error in resetting StoreBookSeriesName")
 				console.log(response.errors)
 			}
 		}
@@ -809,7 +876,7 @@ async function resetAuthorUserStoreBookSeriesNames() {
 	})
 
 	if (!isSuccessStatusCode(response.status)) {
-		console.log("Error in getting the store book series name table")
+		console.log("Error in getting the StoreBookSeriesName table")
 		console.log(response.errors)
 	} else {
 		seriesNames = response.data.tableObjects
@@ -843,7 +910,7 @@ async function resetDavUserStoreBookSeriesNames() {
 				})
 
 				if (!isSuccessStatusCode(response.status)) {
-					console.log("Error in resetting a store book series name")
+					console.log("Error in resetting StoreBookSeriesName")
 					console.log(response.errors)
 				}
 			}
@@ -859,7 +926,7 @@ async function resetDavUserStoreBookSeriesNames() {
 	})
 
 	if (!isSuccessStatusCode(response.status)) {
-		console.log("Error in getting the store book series name table")
+		console.log("Error in getting the StoreBookSeriesName table")
 		console.log(response.errors)
 	} else {
 		seriesNames = response.data.tableObjects
@@ -899,7 +966,7 @@ async function resetAuthorUserStoreBooks() {
 			})
 
 			if (!isSuccessStatusCode(response.status)) {
-				console.log("Error in resetting a store book")
+				console.log("Error in resetting StoreBook")
 				console.log(response.errors)
 			}
 		}
@@ -914,7 +981,7 @@ async function resetAuthorUserStoreBooks() {
 	})
 
 	if (!isSuccessStatusCode(response.status)) {
-		console.log("Error in getting the store book table")
+		console.log("Error in getting the StoreBook table")
 		console.log(response.errors)
 	} else {
 		storeBooks = response.data.tableObjects
@@ -955,7 +1022,7 @@ async function resetDavUserStoreBooks() {
 				})
 
 				if (!isSuccessStatusCode(response.status)) {
-					console.log("Error in resetting a store book")
+					console.log("Error in resetting StoreBook")
 					console.log(response.errors)
 				}
 			}
@@ -971,7 +1038,7 @@ async function resetDavUserStoreBooks() {
 	})
 
 	if (!isSuccessStatusCode(response.status)) {
-		console.log("Error in getting the store book table")
+		console.log("Error in getting the StoreBook table")
 		console.log(response.errors)
 	} else {
 		storeBooks = response.data.tableObjects
@@ -1010,7 +1077,7 @@ async function resetAuthorUserStoreBookReleases() {
 				})
 
 				if (!isSuccessStatusCode(response.status)) {
-					console.log("Error in resetting a store book release")
+					console.log("Error in resetting StoreBookRelease")
 					console.log(response.errors)
 				}
 			}
@@ -1026,7 +1093,7 @@ async function resetAuthorUserStoreBookReleases() {
 	})
 
 	if (!isSuccessStatusCode(response.status)) {
-		console.log("Error in getting the store book release table")
+		console.log("Error in getting the StoreBookRelease table")
 		console.log(response.errors)
 	} else {
 		storeBookReleases = response.data.tableObjects
@@ -1066,7 +1133,7 @@ async function resetDavUserStoreBookReleases() {
 					})
 
 					if (!isSuccessStatusCode(response.status)) {
-						console.log("Error in resetting a store book release")
+						console.log("Error in resetting StoreBookRelease")
 						console.log(response.errors)
 					}
 				}
@@ -1083,7 +1150,7 @@ async function resetDavUserStoreBookReleases() {
 	})
 
 	if (!isSuccessStatusCode(response.status)) {
-		console.log("Error in getting the store book release table")
+		console.log("Error in getting the StoreBookRelease table")
 		console.log(response.errors)
 	} else {
 		storeBookReleases = response.data.tableObjects
@@ -1217,7 +1284,7 @@ async function resetAuthorUserStoreBookCovers() {
 	})
 
 	if (!isSuccessStatusCode(response.status)) {
-		console.log("Error in getting the store book cover table")
+		console.log("Error in getting the StoreBookCover table")
 		console.log(response.errors)
 	} else {
 		covers = response.data.tableObjects
@@ -1258,7 +1325,7 @@ async function resetAuthorUserStoreBookCovers() {
 		})
 
 		if (!isSuccessStatusCode(response.status)) {
-			console.log("Error in creating cover")
+			console.log("Error in creating StoreBookCover")
 			console.log(response.errors)
 		} else {
 			// Upload the file
@@ -1270,7 +1337,7 @@ async function resetAuthorUserStoreBookCovers() {
 			})
 
 			if (!isSuccessStatusCode(response.status)) {
-				console.log("Error in uploading cover")
+				console.log("Error in uploading StoreBookCover")
 				console.log(response)
 			}
 		}
@@ -1288,7 +1355,7 @@ async function resetDavUserStoreBookCovers() {
 	})
 
 	if (!isSuccessStatusCode(response.status)) {
-		console.log("Error in getting the store book cover table")
+		console.log("Error in getting the StoreBookCover table")
 		console.log(response.errors)
 	} else {
 		covers = response.data.tableObjects
@@ -1330,7 +1397,7 @@ async function resetDavUserStoreBookCovers() {
 		})
 
 		if (!isSuccessStatusCode(response.status)) {
-			console.log("Error in creating cover")
+			console.log("Error in creating StoreBookCover")
 			console.log(response.errors)
 		} else {
 			response = await TableObjectsController.SetTableObjectFile({
@@ -1341,7 +1408,7 @@ async function resetDavUserStoreBookCovers() {
 			})
 
 			if (!isSuccessStatusCode(response.status)) {
-				console.log("Error in uploading cover")
+				console.log("Error in uploading StoreBookCover")
 				console.log(response)
 			}
 		}
@@ -1465,7 +1532,7 @@ async function resetAuthorUserStoreBookFiles() {
 	})
 
 	if (!isSuccessStatusCode(response.status)) {
-		console.log("Error in getting the store book file table")
+		console.log("Error in getting the StoreBookFile table")
 		console.log(response.errors)
 	} else {
 		files = response.data.tableObjects
@@ -1506,7 +1573,7 @@ async function resetAuthorUserStoreBookFiles() {
 		})
 
 		if (!isSuccessStatusCode(response.status)) {
-			console.log("Error in creating file")
+			console.log("Error in creating StoreBookFile")
 			console.log(response.errors)
 		} else {
 			// Upload the file
@@ -1518,7 +1585,7 @@ async function resetAuthorUserStoreBookFiles() {
 			})
 
 			if (!isSuccessStatusCode(response.status)) {
-				console.log("Error in uploading file")
+				console.log("Error in uploading StoreBookFile")
 				console.log(response.errors)
 			}
 		}
@@ -1536,7 +1603,7 @@ async function resetDavUserStoreBookFiles() {
 	})
 
 	if (!isSuccessStatusCode(response.status)) {
-		console.log("Error in getting the store book file table")
+		console.log("Error in getting the StoreBookFile table")
 		console.log(response.errors)
 	} else {
 		files = response.data.tableObjects
@@ -1579,7 +1646,7 @@ async function resetDavUserStoreBookFiles() {
 		})
 
 		if (!isSuccessStatusCode(response.status)) {
-			console.log("Error in creating file")
+			console.log("Error in creating StoreBookFile")
 			console.log(response.errors)
 		} else {
 			// Upload the file
@@ -1591,7 +1658,7 @@ async function resetDavUserStoreBookFiles() {
 			})
 
 			if (!isSuccessStatusCode(response.status)) {
-				console.log("Error in uploading file")
+				console.log("Error in uploading StoreBookFile")
 				console.log(response.errors)
 			}
 		}
@@ -1609,7 +1676,7 @@ async function resetKlausUserBooks() {
 	})
 
 	if (!isSuccessStatusCode(response.status)) {
-		console.log("Error in getting the book table")
+		console.log("Error in getting the Book table")
 		console.log(response.errors)
 	} else {
 		books = response.data.tableObjects
@@ -1668,7 +1735,7 @@ async function resetTestUserBooks() {
 	})
 
 	if (!isSuccessStatusCode(response.status)) {
-		console.log("Error in getting book table")
+		console.log("Error in getting the Book table")
 		console.log(response.errors)
 	} else {
 		books = response.data.tableObjects
@@ -1785,7 +1852,7 @@ async function resetDavUserCategories() {
 		})
 
 		if (!isSuccessStatusCode(response.status)) {
-			console.log("Error in creating category")
+			console.log("Error in creating Category")
 			console.log(response.errors)
 		}
 	}
@@ -1855,7 +1922,7 @@ async function resetDavUserCategoryNames() {
 		})
 
 		if (!isSuccessStatusCode(response.status)) {
-			console.log("Error in creating category name")
+			console.log("Error in creating CategoryName")
 			console.log(response.errors)
 		}
 	}
@@ -1890,7 +1957,7 @@ async function deleteTableObject(accessToken, uuid) {
 	})
 
 	if (!isSuccessStatusCode(response.status)) {
-		console.log("Error in deleting a TableObject")
+		console.log("Error in deleting TableObject")
 		console.log(response.errors)
 	}
 }
