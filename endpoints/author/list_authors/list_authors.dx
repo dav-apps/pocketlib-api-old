@@ -1,0 +1,114 @@
+(# Get the params)
+(var fields_str (get_param "fields"))
+(var languages (get_param "languages"))
+(var limit (to_int (get_param "limit")))
+(var mine ((get_param "mine") == "true"))
+(var latest ((get_param "latest") == "true"))
+
+(if (is_nil fields_str) (
+	(var fields (list "type" "items.uuid"))
+) elseif (fields_str == "*") (
+	(var fields (list "type" "items.uuid" "items.first_name" "items.last_name" "items.bio" "items.website_url" "items.facebook_username" "items.instagram_username" "items.twitter_username" "items.profile_image"))
+) else (
+	(# Process the fields string)
+	(var fields (func process_fields (fields_str)))
+))
+
+(var language_list (func process_languages (languages)))
+
+(if mine (
+	(# Get the access token)
+	(var access_token (get_header "Authorization"))
+	(func render_validation_errors ((list
+		(func validate_auth_header_presence (access_token))
+	)))
+
+	(# Get the session)
+	(var session (func get_session (access_token)))
+
+	(# Check if the user is an admin)
+	(var admins (get_env "ADMINS"))
+	(if (!(admins.contains session.user_id)) (
+		(# User is not an admin)
+		(func render_validation_errors ((list (hash (error (get_error 3014)) (status 400)))))
+	))
+
+	(# Get the authors of the user)
+	(var author_uuids (func get_author_table_object_uuids (session.user_id)))
+) elseif latest (
+	(# Get the latest authors)
+	(var author_uuids (func get_latest_author_table_object_uuids ()))
+	(var author_uuids author_uuids.reverse)
+) else (
+	(var author_uuids (list))
+))
+
+(var authors (list))
+
+(for author_uuid in author_uuids (
+	(# Get the author table object)
+	(var author (func get_table_object (author_uuid (get_env "AUTHOR_TABLE_ID"))))
+	(if (is_nil author) (continue))
+
+	(# Don't add authors to latest_authors without profile image)
+	(if (latest and (is_nil author.properties.profile_image_item)) (continue))
+	(var profile_image_item nil)
+
+	(if (!(is_nil author.properties.profile_image_item)) (
+		(# Get the profile image item)
+		(var profile_image_item (func get_table_object (author.properties.profile_image_item (get_env "AUTHOR_PROFILE_IMAGE_ITEM_TABLE_ID"))))
+		(if (latest and (is_nil profile_image_item)) (continue))
+	))
+
+	(# Add the author to the list)
+	(var author_hash (hash))
+
+	(if (fields.contains "items.uuid") (var author_hash.uuid author.uuid))
+	(if (fields.contains "items.first_name") (var author_hash.first_name author.properties.first_name))
+	(if (fields.contains "items.last_name") (var author_hash.last_name author.properties.last_name))
+	(if (
+		(fields.contains "items.bio")
+		or (fields.contains "items.bio.value")
+		or (fields.contains "items.bio.language")
+	) (
+		(var author_hash.bio (
+			(func find_author_bio_by_languages (
+				author.properties.bios
+				language_list
+				((fields.contains "items.bio") or (fields.contains "items.bio.value"))
+				((fields.contains "items.bio") or (fields.contains "items.bio.language"))
+			))
+		))
+	))
+	(if (fields.contains "items.website_url") (var author_hash.website_url author.properties.website_url))
+	(if (fields.contains "items.facebook_username") (var author_hash.facebook_username author.properties.facebook_username))
+	(if (fields.contains "items.instagram_username") (var author_hash.instagram_username author.properties.instagram_username))
+	(if (fields.contains "items.twitter_username") (var author_hash.twitter_username author.properties.twitter_username))
+	(if (
+		(fields.contains "items.profile_image")
+		or (fields.contains "items.profile_image.blurhash")
+	) (
+		(if (is_nil profile_image_item) (
+			(var author_hash.profile_image nil)
+		) else (
+			(var profile_image_hash (hash))
+
+			(if ((fields.contains "items.profile_image") or (fields.contains "items.profile_image.blurhash")) (var profile_image_hash.blurhash profile_image_item.properties.blurhash))
+
+			(var author_hash.profile_image profile_image_hash)
+		))
+	))
+
+	(authors.push author_hash)
+
+	(# Check if the limit is reached)
+	(if ((limit > 0) and (authors.length >= limit)) (break))
+))
+
+(# Render the result)
+(var result (hash))
+
+(if (fields.contains "type") (var result.type "author"))
+(var result.items authors)
+
+(render_json result 200)
