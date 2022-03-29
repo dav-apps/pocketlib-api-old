@@ -1,6 +1,16 @@
 (# Get the params)
 (var uuid (get_param "uuid"))
 (var language (get_param "language"))
+(var fields_str (get_param "fields"))
+
+(if (is_nil fields_str) (
+	(var fields (list "uuid"))
+) elseif (fields_str == "*") (
+	(var fields (list "uuid" "bio" "language"))
+) else (
+	(# Process the fields string)
+	(var fields (func process_fields (fields_str)))
+))
 
 (var json (parse_json (get_body)))
 
@@ -24,21 +34,39 @@
 (var admins (get_env "ADMINS"))
 (var is_admin (admins.contains session.user_id))
 
-(if (! is_admin) (
-	(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
-))
+(if (uuid == "mine") (
+	(if is_admin (
+		(# User is an admin)
+		(func render_validation_errors ((list (hash (error (get_error 3013)) (status 400)))))
+	))
 
-(# Get the author)
-(var author (func get_table_object (uuid (get_env "AUTHOR_TABLE_ID"))))
+	(# Get the author of the user)
+	(var author_objects (func get_author_table_objects (session.user_id)))
 
-(if (is_nil author) (
-	(func render_validation_errors ((list (hash (error (get_error 3503)) (status 404)))))
-))
+	(if (author_objects.length == 0) (
+		(# User is not an author)
+		(func render_validation_errors ((list (hash (error (get_error 3000)) (status 400)))))
+	))
 
-(# Check if the author belongs to the user)
-(if (session.user_id != author.user_id) (
-	(# Action not allowed)
-	(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
+	(var author author_objects#0)
+) else (
+	(if (! is_admin) (
+		(# Action not allowed)
+		(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
+	))
+
+	(# Get the author)
+	(var author (func get_table_object (uuid (get_env "AUTHOR_TABLE_ID"))))
+
+	(if (is_nil author) (
+		(func render_validation_errors ((list (hash (error (get_error 3503)) (status 404)))))
+	))
+
+	(# Check if the author belongs to the user)
+	(if (session.user_id != author.user_id) (
+		(# Action not allowed)
+		(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
+	))
 ))
 
 (# Validate missing fields)
@@ -85,7 +113,10 @@
 ))
 
 (# Render the result)
-(render_json (hash
-	(bio bio_obj.properties.bio)
-	(language bio_obj.properties.language)
-))
+(var result (hash))
+
+(if (fields.contains "uuid") (var result.uuid bio_obj.uuid))
+(if (fields.contains "bio") (var result.bio bio_obj.properties.bio))
+(if (fields.contains "language") (var result.language bio_obj.properties.language))
+
+(render_json result 200)
