@@ -1,5 +1,18 @@
 (# Get the params)
 (var uuid (get_param "uuid"))
+(var fields_str (get_param "fields"))
+(var languages (get_param "languages"))
+
+(if (is_nil fields_str) (
+	(var fields (list "uuid"))
+) elseif (fields_str == "*") (
+	(var fields (list "uuid" "first_name" "last_name" "bio" "website_url" "facebook_username" "instagram_username" "twitter_username" "profile_image"))
+) else (
+	(# Process the fields string)
+	(var fields (func process_fields (fields_str)))
+))
+
+(var language_list (func process_languages (languages)))
 
 (# Get the access token)
 (var access_token (get_header "Authorization"))
@@ -28,21 +41,36 @@
 (var admins (get_env "ADMINS"))
 (var is_admin (admins.contains session.user_id))
 
-(if (! is_admin) (
-	(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
-))
+(if (uuid == "mine") (
+	(if is_admin (
+		(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
+	))
 
-(# Get the author)
-(var author (func get_table_object (uuid (get_env "AUTHOR_TABLE_ID"))))
+	(# Get the author of the user)
+	(var authors (func get_author_table_objects (session.user_id)))
 
-(if (is_nil author) (
-	(func render_validation_errors ((list (hash (error (get_error 3503)) (status 404)))))
-))
+	(if (authors.length == 0) (
+		(func render_validation_errors ((list (hash (error (get_error 3000)) (status 400)))))
+	))
 
-(# Check if the author belongs to the user)
-(if (session.user_id != author.user_id) (
-	(# Action not allowed)
-	(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
+	(var author authors#0)
+) else (
+	(if (! is_admin) (
+		(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
+	))
+
+	(# Get the author)
+	(var author (func get_table_object (uuid (get_env "AUTHOR_TABLE_ID"))))
+
+	(if (is_nil author) (
+		(func render_validation_errors ((list (hash (error (get_error 3503)) (status 404)))))
+	))
+
+	(# Check if the author belongs to the user)
+	(if (session.user_id != author.user_id) (
+		(# Action not allowed)
+		(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
+	))
 ))
 
 (# Validate the property types)
@@ -92,14 +120,51 @@
 (if (!(is_nil instagram_username)) (var author.properties.instagram_username (if (instagram_username.length == 0) nil else instagram_username)))
 (if (!(is_nil twitter_username)) (var author.properties.twitter_username (if (twitter_username.length == 0) nil else twitter_username)))
 
+(if (
+	(fields.contains "profile_image")
+	or (fields.contains "profile_image.blurhash")
+) (
+	(# Get the profile image item)
+	(var profile_image_item (func get_table_object (author.properties.profile_image_item (get_env "AUTHOR_PROFILE_IMAGE_ITEM_TABLE_ID"))))
+))
+
 (# Render the result)
-(render_json (hash
-	(uuid author.uuid)
-	(first_name author.properties.first_name)
-	(last_name author.properties.last_name)
-	(website_url author.properties.website_url)
-	(facebook_username author.properties.facebook_username)
-	(instagram_username author.properties.instagram_username)
-	(twitter_username author.properties.twitter_username)
-	(profile_image_blurhash author.properties.profile_image_blurhash)
-) 200)
+(var result (hash))
+
+(if (fields.contains "uuid") (var result.uuid author.uuid))
+(if (fields.contains "first_name") (var result.first_name author.properties.first_name))
+(if (fields.contains "last_name") (var result.last_name author.properties.last_name))
+(if (
+	(fields.contains "bio")
+	or (fields.contains "bio.value")
+	or (fields.contains "bio.language")
+) (
+	(var result.bio (
+		(func find_author_bio_by_languages (
+			author.properties.bios
+			language_list
+			((fields.contains "bio") or (fields.contains "bio.value"))
+			((fields.contains "bio") or (fields.contains "bio.language"))
+		))
+	))
+))
+(if (fields.contains "website_url") (var result.website_url author.properties.website_url))
+(if (fields.contains "facebook_username") (var result.facebook_username author.properties.facebook_username))
+(if (fields.contains "instagram_username") (var result.instagram_username author.properties.instagram_username))
+(if (fields.contains "twitter_username") (var result.twitter_username author.properties.twitter_username))
+(if (
+	(fields.contains "profile_image")
+	or (fields.contains "profile_image.blurhash")
+) (
+	(if (is_nil profile_image_item) (
+		(var result.profile_image nil)
+	) else (
+		(var profile_image_hash (hash))
+
+		(if ((fields.contains "profile_image") or (fields.contains "profile_image.blurhash")) (var profile_image_hash.blurhash profile_image_item.properties.blurhash))
+
+		(var result.profile_image profile_image_hash)
+	))
+))
+
+(render_json result 200)
