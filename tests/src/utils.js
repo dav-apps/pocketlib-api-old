@@ -199,8 +199,7 @@ async function resetAuthorUserAuthor() {
 			bios: bios.join(','),
 			collections: collections.join(','),
 			series: series.join(','),
-			profile_image: constants.authorUser.author.profileImage?.uuid ?? "",
-			profile_image_blurhash: constants.authorUser.author.profileImageBlurhash ?? ""
+			profile_image_item: constants.authorUser.author.profileImageItem?.uuid ?? "",
 		}
 	})
 
@@ -239,8 +238,7 @@ async function resetDavUserAuthors() {
 				bios: bios.join(','),
 				collections: collections.join(','),
 				series: series.join(','),
-				profile_image: author.profileImage?.uuid ?? "",
-				profile_image_blurhash: author.profileImageBlurhash ?? ""
+				profile_image_item: author.profileImageItem?.uuid ?? "",
 			}
 		})
 
@@ -261,6 +259,8 @@ async function resetDavUserAuthors() {
 	if (!isSuccessStatusCode(response.status)) {
 		console.log("Error in getting the Author table")
 		console.log(response.errors)
+	} else {
+		authors = response.data.tableObjects
 	}
 
 	// Delete each author that is not part of the test database
@@ -351,6 +351,8 @@ async function resetDavUserAuthorBios() {
 	if (!isSuccessStatusCode(response.status)) {
 		console.log("Error in getting the AuthorBio table")
 		console.log(response.errors)
+	} else {
+		authorBios = response.data.tableObjects
 	}
 
 	// Delete each author bio that is not part of the test database
@@ -579,6 +581,8 @@ async function resetAuthorUserStoreBookCollections() {
 	if (!isSuccessStatusCode(response.status)) {
 		console.log("Error in getting the StoreBookCollection table")
 		console.log(response.errors)
+	} else {
+		collections = response.data.tableObjects
 	}
 
 	// Delete each collection that is not part of the test database
@@ -780,6 +784,8 @@ async function resetAuthorUserStoreBookSeries() {
 	if (!isSuccessStatusCode(response.status)) {
 		console.log("Error in getting the StoreBookSeries table")
 		console.log(response.errors)
+	} else {
+		series = response.data.tableObjects
 	}
 
 	// Delete each series that is not part of the test database

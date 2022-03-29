@@ -6,7 +6,7 @@ import * as ErrorCodes from '../errorCodes.js'
 
 const retrieveAuthorEndpointUrl = `${constants.apiBaseUrl}/authors/{0}`
 
-describe("GetAuthor endpoint", () => {
+describe("RetrieveAuthor endpoint", () => {
 	it("should not return author of user with access token for session that does not exist", async () => {
 		try {
 			await axios({
