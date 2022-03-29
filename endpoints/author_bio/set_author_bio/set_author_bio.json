@@ -1,0 +1,6 @@
+{
+	"type": "endpoint",
+	"path": "authors/:uuid/bios/:language",
+	"method": "PUT",
+	"source": "./set_author_bio.dx"
+}

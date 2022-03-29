@@ -6,7 +6,7 @@ import constants from '../constants.js'
 import * as utils from '../utils.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const setBioOfAuthorEndpointUrl = `${constants.apiBaseUrl}/author/{0}/bio/{1}`
+const setAuthorBioEndpointUrl = `${constants.apiBaseUrl}/authors/{0}/bios/{1}`
 var resetAuthorsAndAuthorBios = false
 
 afterEach(async () => {
@@ -22,7 +22,7 @@ describe("SetBioOfAuthor endpoint", () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setBioOfAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid).replace('{1}', "en"),
+				url: setAuthorBioEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid).replace('{1}', "en"),
 				headers: {
 					'Content-Type': 'application/json'
 				}
@@ -41,7 +41,7 @@ describe("SetBioOfAuthor endpoint", () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setBioOfAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid).replace('{1}', "en"),
+				url: setAuthorBioEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid).replace('{1}', "en"),
 				headers: {
 					Authorization: "a",
 					'Content-Type': 'application/json'
@@ -61,7 +61,7 @@ describe("SetBioOfAuthor endpoint", () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setBioOfAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid).replace('{1}', "en"),
+				url: setAuthorBioEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid).replace('{1}', "en"),
 				headers: {
 					Authorization: constants.davUser.accessToken,
 					'Content-Type': 'application/xml'
@@ -81,7 +81,7 @@ describe("SetBioOfAuthor endpoint", () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setBioOfAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid).replace('{1}', "en"),
+				url: setAuthorBioEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid).replace('{1}', "en"),
 				headers: {
 					Authorization: constants.testUserTestAppAccessToken,
 					'Content-Type': 'application/json'
@@ -101,7 +101,7 @@ describe("SetBioOfAuthor endpoint", () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setBioOfAuthorEndpointUrl.replace('{0}', constants.authorUser.author.uuid).replace('{1}', "en"),
+				url: setAuthorBioEndpointUrl.replace('{0}', constants.authorUser.author.uuid).replace('{1}', "en"),
 				headers: {
 					Authorization: constants.davUser.accessToken,
 					'Content-Type': 'application/json'
@@ -121,7 +121,7 @@ describe("SetBioOfAuthor endpoint", () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setBioOfAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid).replace('{1}', "en"),
+				url: setAuthorBioEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid).replace('{1}', "en"),
 				headers: {
 					Authorization: constants.testUser.accessToken,
 					'Content-Type': 'application/json'
@@ -141,7 +141,7 @@ describe("SetBioOfAuthor endpoint", () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setBioOfAuthorEndpointUrl.replace('{0}', "mine").replace('{1}', "en"),
+				url: setAuthorBioEndpointUrl.replace('{0}', "mine").replace('{1}', "en"),
 				headers: {
 					Authorization: constants.testUser.accessToken,
 					'Content-Type': 'application/json'
@@ -161,7 +161,7 @@ describe("SetBioOfAuthor endpoint", () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setBioOfAuthorEndpointUrl.replace('{0}', "mine").replace('{1}', "en"),
+				url: setAuthorBioEndpointUrl.replace('{0}', "mine").replace('{1}', "en"),
 				headers: {
 					Authorization: constants.davUser.accessToken,
 					'Content-Type': 'application/json'
@@ -181,7 +181,7 @@ describe("SetBioOfAuthor endpoint", () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setBioOfAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid).replace('{1}', "en"),
+				url: setAuthorBioEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid).replace('{1}', "en"),
 				headers: {
 					Authorization: constants.davUser.accessToken,
 					'Content-Type': 'application/json'
@@ -201,7 +201,7 @@ describe("SetBioOfAuthor endpoint", () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setBioOfAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid).replace('{1}', "en"),
+				url: setAuthorBioEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid).replace('{1}', "en"),
 				headers: {
 					Authorization: constants.davUser.accessToken,
 					'Content-Type': 'application/json'
@@ -224,7 +224,7 @@ describe("SetBioOfAuthor endpoint", () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setBioOfAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid).replace('{1}', "en"),
+				url: setAuthorBioEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid).replace('{1}', "en"),
 				headers: {
 					Authorization: constants.davUser.accessToken,
 					'Content-Type': 'application/json'
@@ -247,7 +247,7 @@ describe("SetBioOfAuthor endpoint", () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setBioOfAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid).replace('{1}', "en"),
+				url: setAuthorBioEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid).replace('{1}', "en"),
 				headers: {
 					Authorization: constants.davUser.accessToken,
 					'Content-Type': 'application/json'
@@ -270,7 +270,7 @@ describe("SetBioOfAuthor endpoint", () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setBioOfAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid).replace('{1}', "bl"),
+				url: setAuthorBioEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid).replace('{1}', "bl"),
 				headers: {
 					Authorization: constants.davUser.accessToken,
 					'Content-Type': 'application/json'
@@ -299,7 +299,7 @@ describe("SetBioOfAuthor endpoint", () => {
 		try {
 			response = await axios({
 				method: 'put',
-				url: setBioOfAuthorEndpointUrl.replace('{0}', author.uuid).replace('{1}', language),
+				url: setAuthorBioEndpointUrl.replace('{0}', author.uuid).replace('{1}', language),
 				headers: {
 					Authorization: constants.davUser.accessToken,
 					'Content-Type': 'application/json'
@@ -367,7 +367,7 @@ describe("SetBioOfAuthor endpoint", () => {
 		try {
 			response = await axios({
 				method: 'put',
-				url: setBioOfAuthorEndpointUrl.replace('{0}', author.uuid).replace('{1}', language),
+				url: setAuthorBioEndpointUrl.replace('{0}', author.uuid).replace('{1}', language),
 				headers: {
 					Authorization: constants.davUser.accessToken,
 					'Content-Type': 'application/json'
@@ -429,7 +429,7 @@ describe("SetBioOfAuthor endpoint", () => {
 		try {
 			response = await axios({
 				method: 'put',
-				url: setBioOfAuthorEndpointUrl.replace('{0}', "mine").replace('{1}', language),
+				url: setAuthorBioEndpointUrl.replace('{0}', "mine").replace('{1}', language),
 				headers: {
 					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
@@ -496,7 +496,7 @@ describe("SetBioOfAuthor endpoint", () => {
 		try {
 			response = await axios({
 				method: 'put',
-				url: setBioOfAuthorEndpointUrl.replace('{0}', "mine").replace('{1}', language),
+				url: setAuthorBioEndpointUrl.replace('{0}', "mine").replace('{1}', language),
 				headers: {
 					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
