@@ -159,7 +159,7 @@ describe("GetAuthor endpoint", () => {
 		assert.equal(response.data.facebook_username, author.facebookUsername)
 		assert.equal(response.data.instagram_username, author.instagramUsername)
 		assert.equal(response.data.twitter_username, author.twitterUsername)
-		assert.equal(response.data.profile_image?.blurhash, author.profileImageBlurhash)
+		assert.equal(response.data.profile_image?.blurhash, author.profileImageItem.blurhash)
 
 		if (author.bios.length == 0) {
 			assert.isNull(response.data.bios)
@@ -202,7 +202,7 @@ describe("GetAuthor endpoint", () => {
 		assert.equal(response.data.facebook_username, author.facebookUsername)
 		assert.equal(response.data.instagram_username, author.instagramUsername)
 		assert.equal(response.data.twitter_username, author.twitterUsername)
-		assert.equal(response.data.profile_image?.blurhash, author.profileImageBlurhash)
+		assert.equal(response.data.profile_image?.blurhash, author.profileImageItem.blurhash)
 
 		if (author.bios.length == 0) {
 			assert.isNull(response.data.bio)
@@ -211,9 +211,9 @@ describe("GetAuthor endpoint", () => {
 
 			if (authorBio == null) {
 				assert.equal(response.data.bio.language, "en")
-		
+
 				authorBio = author.bios.find(b => b.language == "en")
-		
+
 				assert.isNotNull(authorBio)
 				assert.equal(response.data.bio.value, authorBio.bio)
 			} else {
@@ -248,7 +248,7 @@ async function testGetAuthor(author) {
 	assert.equal(response.data.facebook_username, author.facebookUsername)
 	assert.equal(response.data.instagram_username, author.instagramUsername)
 	assert.equal(response.data.twitter_username, author.twitterUsername)
-	assert.equal(response.data.profile_image?.blurhash, author.profileImageBlurhash)
+	assert.equal(response.data.profile_image?.blurhash, author.profileImageItem?.blurhash)
 
 	if (author.bios.length == 0) {
 		assert.isNull(response.data.bios)
@@ -286,7 +286,7 @@ async function testGetAuthorWithLanguage(author, language) {
 	assert.equal(response.data.facebook_username, author.facebookUsername)
 	assert.equal(response.data.instagram_username, author.instagramUsername)
 	assert.equal(response.data.twitter_username, author.twitterUsername)
-	assert.equal(response.data.profile_image?.blurhash, author.profileImageBlurhash)
+	assert.equal(response.data.profile_image?.blurhash, author.profileImageItem?.blurhash)
 
 	if (author.bios.length == 0) {
 		assert.isNull(response.data.bio)
@@ -295,9 +295,9 @@ async function testGetAuthorWithLanguage(author, language) {
 
 		if (authorBio == null) {
 			assert.equal(response.data.bio.language, "en")
-	
+
 			authorBio = author.bios.find(b => b.language == "en")
-	
+
 			assert.isNotNull(authorBio)
 			assert.equal(response.data.bio.value, authorBio.bio)
 		} else {

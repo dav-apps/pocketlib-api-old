@@ -49,6 +49,14 @@
 	))
 ))
 
+(if (
+	(fields.contains "profile_image")
+	or (fields.contains "profile_image.blurhash")
+) (
+	(# Get the profile image item)
+	(var profile_image_item (func get_table_object (author.properties.profile_image_item (get_env "AUTHOR_PROFILE_IMAGE_ITEM_TABLE_ID"))))
+))
+
 (# Render the result)
 (var result (hash))
 
@@ -77,11 +85,15 @@
 	(fields.contains "profile_image")
 	or (fields.contains "profile_image.blurhash")
 ) (
-	(var profile_image_hash (hash))
+	(if (is_nil profile_image_item) (
+		(var result.profile_image nil)
+	) else (
+		(var profile_image_hash (hash))
 
-	(if ((fields.contains "profile_image") or (fields.contains "profile_image.blurhash")) (var profile_image_hash.blurhash author.properties.profile_image_blurhash))
+		(if ((fields.contains "profile_image") or (fields.contains "profile_image.blurhash")) (var profile_image_hash.blurhash profile_image_item.properties.blurhash))
 
-	(var result.profile_image profile_image_hash)
+		(var result.profile_image profile_image_hash)
+	))
 ))
 
 (render_json result 200)
