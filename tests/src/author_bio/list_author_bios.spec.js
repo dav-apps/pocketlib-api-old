@@ -4,14 +4,14 @@ import axios from 'axios'
 import constants from '../constants.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const getBiosOfAuthorEndpointUrl = `${constants.apiBaseUrl}/authors/{0}/bios`
+const listAuthorBiosEndpointUrl = `${constants.apiBaseUrl}/authors/{0}/bios`
 
-describe("GetBiosOfAuthor endpoint", () => {
+describe("ListAuthorBios endpoint", () => {
 	it("should not return bios of author of user with access token for session that does not exist", async () => {
 		try {
 			await axios({
 				method: 'get',
-				url: getBiosOfAuthorEndpointUrl.replace('{0}', "mine"),
+				url: listAuthorBiosEndpointUrl.replace('{0}', "mine"),
 				headers: {
 					Authorization: "asdasdasdasdasd"
 				}
@@ -30,7 +30,7 @@ describe("GetBiosOfAuthor endpoint", () => {
 		try {
 			await axios({
 				method: 'get',
-				url: getBiosOfAuthorEndpointUrl.replace('{0}', "mine"),
+				url: listAuthorBiosEndpointUrl.replace('{0}', "mine"),
 				headers: {
 					Authorization: constants.testUserTestAppAccessToken
 				}
@@ -49,7 +49,7 @@ describe("GetBiosOfAuthor endpoint", () => {
 		try {
 			await axios({
 				method: 'get',
-				url: getBiosOfAuthorEndpointUrl.replace('{0}', "mine"),
+				url: listAuthorBiosEndpointUrl.replace('{0}', "mine"),
 				headers: {
 					Authorization: constants.davUser.accessToken
 				}
@@ -68,7 +68,7 @@ describe("GetBiosOfAuthor endpoint", () => {
 		try {
 			await axios({
 				method: 'get',
-				url: getBiosOfAuthorEndpointUrl.replace('{0}', "mine"),
+				url: listAuthorBiosEndpointUrl.replace('{0}', "mine"),
 				headers: {
 					Authorization: constants.testUser.accessToken
 				}
@@ -87,7 +87,7 @@ describe("GetBiosOfAuthor endpoint", () => {
 		try {
 			await axios({
 				method: 'get',
-				url: getBiosOfAuthorEndpointUrl.replace('{0}', "asdasasassad")
+				url: listAuthorBiosEndpointUrl.replace('{0}', "asdasasassad")
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 404)
@@ -106,7 +106,7 @@ describe("GetBiosOfAuthor endpoint", () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getBiosOfAuthorEndpointUrl.replace('{0}', author.uuid),
+				url: listAuthorBiosEndpointUrl.replace('{0}', author.uuid),
 				params: {
 					fields: "*"
 				}
@@ -136,7 +136,7 @@ describe("GetBiosOfAuthor endpoint", () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getBiosOfAuthorEndpointUrl.replace('{0}', "mine"),
+				url: listAuthorBiosEndpointUrl.replace('{0}', "mine"),
 				headers: {
 					Authorization: constants.authorUser.accessToken
 				},
