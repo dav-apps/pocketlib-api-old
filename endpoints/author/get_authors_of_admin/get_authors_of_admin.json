@@ -1,6 +1,0 @@
-{
-	"type": "endpoint",
-	"path": "authors",
-	"method": "GET",
-	"source": "./get_authors_of_admin.dx"
-}
