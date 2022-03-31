@@ -161,6 +161,7 @@
 	) else (
 		(var profile_image_hash (hash))
 
+		(if ((fields.contains "profile_image") or (fields.contains "profile_image.url")) (var profile_image_hash.url (TableObject.get_cdn_url profile_image_item.properties.profile_image)))
 		(if ((fields.contains "profile_image") or (fields.contains "profile_image.blurhash")) (var profile_image_hash.blurhash profile_image_item.properties.blurhash))
 
 		(var result.profile_image profile_image_hash)
