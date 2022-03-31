@@ -1,10 +1,14 @@
-import constants from './constants.js'
+import path from 'path'
+import url from 'url'
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
+import fs from 'fs'
 import {
 	TablesController,
 	TableObjectsController,
 	CollectionsController,
 	isSuccessStatusCode
 } from 'dav-js'
+import constants from './constants.js'
 
 export async function resetDatabase() {
 	await resetAuthors()
@@ -422,7 +426,8 @@ async function resetDavUserAuthorProfileImageItems() {
 async function resetAuthorUserAuthorProfileImages() {
 	// Get the profile image table
 	let profileImages = []
-	let testDatabaseProfileImageUuid = constants.authorUser.author.profileImageItem.uuid
+	let testDatabaseProfileImageItem = constants.authorUser.author.profileImageItem
+	let testDatabaseProfileImageUuid = testDatabaseProfileImageItem.profileImage.uuid
 
 	let response = await TablesController.GetTable({
 		accessToken: constants.authorUser.accessToken,
@@ -444,33 +449,51 @@ async function resetAuthorUserAuthorProfileImages() {
 		}
 	}
 
-	// Create the profile image of the test database if it does not exist
-	if (profileImages.includes(testDatabaseProfileImageUuid)) {
-		// Set the ext
-		let response = await TableObjectsController.UpdateTableObject({
+	// Update the profile image of the test database if it has changed
+	if (profileImages.find(pi => pi.uuid == testDatabaseProfileImageUuid)) {
+		// Check if the etag of the file has changed
+		let response = await TableObjectsController.GetTableObject({
 			accessToken: constants.authorUser.accessToken,
-			uuid: testDatabaseProfileImageUuid,
-			properties: {
-				ext: constants.authorUser.author.profileImageItem.profileImage.ext
-			}
+			uuid: testDatabaseProfileImageUuid
 		})
 
 		if (!isSuccessStatusCode(response.status)) {
-			console.log("Error in creating AuthorProfileImage")
+			console.log("Error in getting AuthorProfileImage")
 			console.log(response.errors)
+			return
 		}
 
-		// Overwrite the file
-		response = await TableObjectsController.SetTableObjectFile({
-			accessToken: constants.authorUser.accessToken,
-			uuid: testDatabaseProfileImageUuid,
-			data: "Hello World",
-			type: constants.authorUser.author.profileImageItem.profileImage.type
-		})
+		if (response.data.tableObject.GetPropertyValue("etag") != testDatabaseProfileImageItem.profileImage.etag) {
+			// Set the ext
+			response = await TableObjectsController.UpdateTableObject({
+				accessToken: constants.authorUser.accessToken,
+				uuid: testDatabaseProfileImageUuid,
+				properties: {
+					ext: constants.authorUser.author.profileImageItem.profileImage.ext
+				}
+			})
 
-		if (!isSuccessStatusCode(response.status)) {
-			console.log("Error in uploading AuthorProfileImage")
-			console.log(response.errors)
+			if (!isSuccessStatusCode(response.status)) {
+				console.log("Error in updating AuthorProfileImage")
+				console.log(response.errors)
+				return
+			}
+
+			// Overwrite the file
+			let filePath = path.join(__dirname, testDatabaseProfileImageItem.profileImage.file)
+			let fileData = fs.readFileSync(filePath)
+
+			response = await TableObjectsController.SetTableObjectFile({
+				accessToken: constants.authorUser.accessToken,
+				uuid: testDatabaseProfileImageUuid,
+				data: fileData,
+				type: constants.authorUser.author.profileImageItem.profileImage.type
+			})
+
+			if (!isSuccessStatusCode(response.status)) {
+				console.log("Error in uploading AuthorProfileImage")
+				console.log(response.errors)
+			}
 		}
 	}
 }
@@ -501,40 +524,55 @@ async function resetDavUserAuthorProfileImages() {
 	for (let profileImage of profileImages) {
 		let i = testDatabaseProfileImages.findIndex(img => img.uuid == profileImage.uuid)
 
-		if (i != -1) {
-			testDatabaseProfileImages.splice(i, 1)
-		} else {
+		if (i == -1) {
 			// Delete the profile image
 			await deleteTableObject(constants.davUser.accessToken, profileImage.uuid)
 		}
 	}
 
-	// Create each missing profile image of the test database
+	// Update each profile image of the test database if it has changed
 	for (let profileImage of testDatabaseProfileImages) {
-		// Create the table object
-		response = await TableObjectsController.CreateTableObject({
+		// Check if the etag of the file has changed
+		let response = await TableObjectsController.GetTableObject({
 			accessToken: constants.davUser.accessToken,
-			uuid: profileImage.uuid,
-			tableId: constants.authorProfileImageTableId,
-			properties: {
-				ext: profileImage.ext
-			}
+			uuid: profileImage.uuid
 		})
 
 		if (!isSuccessStatusCode(response.status)) {
-			console.log(`Error in creating AuthorProfileImage`)
+			console.log("Error in getting AuthorProfileImage")
 			console.log(response.errors)
-		} else {
-			// Upload the file
+			continue
+		}
+
+		if (response.data.tableObject.GetPropertyValue("etag") != profileImage.etag) {
+			// Set the ext
+			response = await TableObjectsController.UpdateTableObject({
+				accessToken: constants.davUser.accessToken,
+				uuid: profileImage.uuid,
+				properties: {
+					ext: profileImage.ext
+				}
+			})
+
+			if (!isSuccessStatusCode(response.status)) {
+				console.log("Error in updating AuthorProfileImage")
+				console.log(response.errors)
+				continue
+			}
+
+			// Overwrite the file
+			let filePath = path.join(__dirname, profileImage.file)
+			let fileData = fs.readFileSync(filePath)
+
 			response = await TableObjectsController.SetTableObjectFile({
 				accessToken: constants.davUser.accessToken,
 				uuid: profileImage.uuid,
-				data: "Hello World",
+				data: fileData,
 				type: profileImage.type
 			})
 
 			if (!isSuccessStatusCode(response.status)) {
-				console.log(`Error in uploading AuthorProfileImage`)
+				console.log("Error in uploading AuthorProfileImage")
 				console.log(response.errors)
 			}
 		}
@@ -1309,42 +1347,56 @@ async function resetAuthorUserStoreBookCovers() {
 	for (let cover of covers) {
 		let i = testDatabaseCovers.findIndex(c => c.uuid == cover.uuid)
 
-		if (i != -1) {
-			testDatabaseCovers.splice(i, 1)
-		} else {
+		if (i == -1) {
 			// Delete the cover
 			await deleteTableObject(constants.authorUser.accessToken, cover.uuid)
 		}
 	}
 
-	// Create each missing cover of the test database
+	// Update each cover of the test database if it has changed
 	for (let cover of testDatabaseCovers) {
-		// Create the table object
-		let response = await TableObjectsController.CreateTableObject({
+		// Check if the etag of the file has changed
+		let response = await TableObjectsController.GetTableObject({
 			accessToken: constants.authorUser.accessToken,
-			uuid: cover.uuid,
-			tableId: constants.storeBookCoverTableId,
-			file: true,
-			properties: {
-				ext: cover.ext
-			}
+			uuid: cover.uuid
 		})
 
 		if (!isSuccessStatusCode(response.status)) {
-			console.log("Error in creating StoreBookCover")
+			console.log("Error in getting StoreBookCover")
 			console.log(response.errors)
-		} else {
-			// Upload the file
+			continue
+		}
+
+		if (response.data.tableObject.GetPropertyValue("etag") != cover.etag) {
+			// Set the ext
+			response = await TableObjectsController.UpdateTableObject({
+				accessToken: constants.authorUser.accessToken,
+				uuid: cover.uuid,
+				properties: {
+					ext: cover.ext
+				}
+			})
+
+			if (!isSuccessStatusCode(response.status)) {
+				console.log("Error in updating StoreBookCover")
+				console.log(response.errors)
+				continue
+			}
+
+			// Overwrite the file
+			let filePath = path.join(__dirname, cover.file)
+			let fileData = fs.readFileSync(filePath)
+
 			response = await TableObjectsController.SetTableObjectFile({
 				accessToken: constants.authorUser.accessToken,
 				uuid: cover.uuid,
-				data: "Hello World",
+				data: fileData,
 				type: cover.type
 			})
 
 			if (!isSuccessStatusCode(response.status)) {
 				console.log("Error in uploading StoreBookCover")
-				console.log(response)
+				console.log(response.errors)
 			}
 		}
 	}
@@ -1382,40 +1434,56 @@ async function resetDavUserStoreBookCovers() {
 	for (let cover of covers) {
 		let i = testDatabaseCovers.findIndex(c => c.uuid == cover.uuid)
 
-		if (i != -1) {
-			testDatabaseCovers.splice(i, 1)
-		} else {
+		if (i == -1) {
 			// Delete the cover
 			await deleteTableObject(constants.davUser.accessToken, cover.uuid)
 		}
 	}
 
-	// Create each missing cover of the test database
+	// Update each cover of the test database if it has changed
 	for (let cover of testDatabaseCovers) {
-		let response = await TableObjectsController.CreateTableObject({
+		// Check if the etag of the file has changed
+		let response = await TableObjectsController.GetTableObject({
 			accessToken: constants.davUser.accessToken,
-			uuid: cover.uuid,
-			tableId: constants.storeBookCoverTableId,
-			file: true,
-			properties: {
-				ext: cover.ext
-			}
+			uuid: cover.uuid
 		})
 
 		if (!isSuccessStatusCode(response.status)) {
-			console.log("Error in creating StoreBookCover")
+			console.log("Error in getting StoreBookCover")
 			console.log(response.errors)
-		} else {
+			continue
+		}
+
+		if (response.data.tableObject.GetPropertyValue("etag") != cover.etag) {
+			// Set the ext
+			response = await TableObjectsController.UpdateTableObject({
+				accessToken: constants.davUser.accessToken,
+				uuid: cover.uuid,
+				properties: {
+					ext: cover.ext
+				}
+			})
+
+			if (!isSuccessStatusCode(response.status)) {
+				console.log("Error in updating StoreBookCover")
+				console.log(response.errors)
+				continue
+			}
+
+			// Overwrite the file
+			let filePath = path.join(__dirname, cover.file)
+			let fileData = fs.readFileSync(filePath)
+
 			response = await TableObjectsController.SetTableObjectFile({
 				accessToken: constants.davUser.accessToken,
 				uuid: cover.uuid,
-				data: "Hello World",
+				data: fileData,
 				type: cover.type
 			})
 
 			if (!isSuccessStatusCode(response.status)) {
 				console.log("Error in uploading StoreBookCover")
-				console.log(response)
+				console.log(response.errors)
 			}
 		}
 	}
@@ -1553,40 +1621,54 @@ async function resetAuthorUserStoreBookFiles() {
 		}
 	}
 
-	// Delete each cover that is not part of the test database
+	// Delete each file that is not part of the test database
 	for (let file of files) {
 		let i = testDatabaseFiles.findIndex(f => f.uuid == file.uuid)
 
-		if (i != -1) {
-			testDatabaseFiles.splice(i, 1)
-		} else {
+		if (i == -1) {
 			// Delete the file
 			await deleteTableObject(constants.authorUser.accessToken, file.uuid)
 		}
 	}
 
-	// Create each missing file of the test database
+	// Update each file of the test database if it has changed
 	for (let file of testDatabaseFiles) {
-		// Create the table object
-		let response = await TableObjectsController.CreateTableObject({
+		// Check if the etag of the file has changed
+		let response = await TableObjectsController.GetTableObject({
 			accessToken: constants.authorUser.accessToken,
-			uuid: file.uuid,
-			tableId: constants.storeBookFileTableId,
-			file: true,
-			properties: {
-				ext: file.ext
-			}
+			uuid: file.uuid
 		})
 
 		if (!isSuccessStatusCode(response.status)) {
-			console.log("Error in creating StoreBookFile")
+			console.log("Error in getting StoreBookFile")
 			console.log(response.errors)
-		} else {
-			// Upload the file
+			continue
+		}
+
+		if (response.data.tableObject.GetPropertyValue("etag") != file.etag) {
+			// Set the ext
+			response = await TableObjectsController.UpdateTableObject({
+				accessToken: constants.authorUser.accessToken,
+				uuid: file.uuid,
+				properties: {
+					ext: file.ext
+				}
+			})
+
+			if (!isSuccessStatusCode(response.status)) {
+				console.log("Error in updating StoreBookFile")
+				console.log(response.errors)
+				continue
+			}
+
+			// Overwrite the file
+			let filePath = path.join(__dirname, file.file)
+			let fileData = fs.readFileSync(filePath)
+
 			response = await TableObjectsController.SetTableObjectFile({
 				accessToken: constants.authorUser.accessToken,
 				uuid: file.uuid,
-				data: "Hello World",
+				data: fileData,
 				type: file.type
 			})
 
@@ -1630,36 +1712,50 @@ async function resetDavUserStoreBookFiles() {
 	for (let file of files) {
 		let i = testDatabaseFiles.findIndex(f => f.uuid == file.uuid)
 
-		if (i != -1) {
-			testDatabaseFiles.splice(i, 1)
-		} else {
+		if (i == -1) {
 			// Delete the file
 			await deleteTableObject(constants.davUser.accessToken, file.uuid)
 		}
 	}
 
-	// Create each missing file of the test database
+	// Update each file of the test database if it has changed
 	for (let file of testDatabaseFiles) {
-		// Create the table object
-		let response = await TableObjectsController.CreateTableObject({
+		// Check if the etag of the file has changed
+		let response = await TableObjectsController.GetTableObject({
 			accessToken: constants.davUser.accessToken,
-			uuid: file.uuid,
-			tableId: constants.storeBookFileTableId,
-			file: true,
-			properties: {
-				ext: file.ext
-			}
+			uuid: file.uuid
 		})
 
 		if (!isSuccessStatusCode(response.status)) {
-			console.log("Error in creating StoreBookFile")
+			console.log("Error in getting StoreBookFile")
 			console.log(response.errors)
-		} else {
-			// Upload the file
+			continue
+		}
+
+		if (response.data.tableObject.GetPropertyValue("etag") != file.etag) {
+			// Set the ext
+			response = await TableObjectsController.UpdateTableObject({
+				accessToken: constants.davUser.accessToken,
+				uuid: file.uuid,
+				properties: {
+					ext: file.ext
+				}
+			})
+
+			if (!isSuccessStatusCode(response.status)) {
+				console.log("Error in updating StoreBookFile")
+				console.log(response.errors)
+				continue
+			}
+
+			// Overwrite the file
+			let filePath = path.join(__dirname, file.file)
+			let fileData = fs.readFileSync(filePath)
+
 			response = await TableObjectsController.SetTableObjectFile({
 				accessToken: constants.davUser.accessToken,
 				uuid: file.uuid,
-				data: "Hello World",
+				data: fileData,
 				type: file.type
 			})
 
