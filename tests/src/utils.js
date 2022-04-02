@@ -448,7 +448,7 @@ async function resetDavUserAuthorProfileImageItems() {
 
 	// Delete each profile image item that is not part of the test database
 	for (let profileImageItem of profileImageItems) {
-		if (testDatabaseProfileImageItems.includes(profileImageItem.uuid)) continue
+		if (testDatabaseProfileImageItems.find(pi => pi.uuid == profileImageItem.uuid)) continue
 
 		// Delete the profile image item
 		await deleteTableObject(constants.davUser.accessToken, profileImageItem.uuid)
@@ -1250,7 +1250,7 @@ async function resetAuthorUserStoreBookCoverItems() {
 				let coverItem = release.coverItem
 				if (coverItem == null) continue
 
-				testDatabaseStoreBookCoverItems.push(coverItem.uuid)
+				testDatabaseStoreBookCoverItems.push(coverItem)
 
 				// Reset the cover item
 				let response = await TableObjectsController.UpdateTableObject({
@@ -1305,7 +1305,7 @@ async function resetAuthorUserStoreBookCoverItems() {
 
 	// Delete each cover item that is not part of the test database
 	for (let coverItem of coverItems) {
-		if (testDatabaseStoreBookCoverItems.includes(coverItem.uuid)) continue
+		if (testDatabaseStoreBookCoverItems.find(ci => ci.uuid == coverItem.uuid)) continue
 
 		// Delete the cover item
 		await deleteTableObject(constants.authorUser.accessToken, coverItem.uuid)
@@ -1322,7 +1322,7 @@ async function resetDavUserStoreBookCoverItems() {
 					let coverItem = release.coverItem
 					if (coverItem == null) continue
 
-					testDatabaseStoreBookCoverItems.push(coverItem.uuid)
+					testDatabaseStoreBookCoverItems.push(coverItem)
 
 					// Reset the cover item
 					let response = await TableObjectsController.UpdateTableObject({
@@ -1378,7 +1378,7 @@ async function resetDavUserStoreBookCoverItems() {
 
 	// Delete each cover item that is not part of the test database
 	for (let coverItem of coverItems) {
-		if (testDatabaseStoreBookCoverItems.includes(coverItem.uuid)) continue
+		if (testDatabaseStoreBookCoverItems.find(ci => ci.uuid == coverItem.uuid)) continue
 
 		// Delete the cover item
 		await deleteTableObject(constants.davUser.accessToken, coverItem.uuid)
@@ -1566,7 +1566,7 @@ async function resetAuthorUserStoreBookFileItems() {
 				let fileItem = release.fileItem
 				if (fileItem == null) continue
 
-				testDatabaseStoreBookFileItems.push(fileItem.uuid)
+				testDatabaseStoreBookFileItems.push(fileItem)
 
 				// Reset the file item
 				let response = await TableObjectsController.UpdateTableObject({
@@ -1619,7 +1619,7 @@ async function resetAuthorUserStoreBookFileItems() {
 
 	// Delete each file item that is not part of the test database
 	for (let fileItem of fileItems) {
-		if (testDatabaseStoreBookFileItems.includes(fileItem.uuid)) continue
+		if (testDatabaseStoreBookFileItems.find(fi => fi.uuid == fileItem.uuid)) continue
 
 		// Delete the file item
 		await deleteTableObject(constants.authorUser.accessToken, fileItem.uuid)
@@ -1690,7 +1690,7 @@ async function resetDavUserStoreBookFileItems() {
 
 	// Delete each file item that is not part of the test database
 	for (let fileItem of fileItems) {
-		if (testDatabaseStoreBookFileItems.includes(fileItem.uuid)) continue
+		if (testDatabaseStoreBookFileItems.find(fi => fi.uuid == fileItem.uuid)) continue
 
 		// Delete the file item
 		await deleteTableObject(constants.davUser.accessToken, fileItem.uuid)
