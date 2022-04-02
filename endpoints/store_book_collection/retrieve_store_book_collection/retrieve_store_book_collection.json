@@ -2,6 +2,6 @@
 	"type": "endpoint",
 	"path": "store_book_collections/:uuid",
 	"method": "GET",
-	"source": "./get_store_book_collection.dx",
+	"source": "./retrieve_store_book_collection.dx",
 	"caching": true
 }

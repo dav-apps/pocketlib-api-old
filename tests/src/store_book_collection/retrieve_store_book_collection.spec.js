@@ -4,14 +4,14 @@ import axios from 'axios'
 import constants from '../constants.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const getStoreBookCollectionEndpointUrl = `${constants.apiBaseUrl}/store_book_collections/{0}`
+const retrieveStoreBookCollectionEndpointUrl = `${constants.apiBaseUrl}/store_book_collections/{0}`
 
-describe("GetStoreBookCollection endpoint", () => {
+describe("RetrieveStoreBookCollection endpoint", () => {
 	it("should not return store book collection if the store book collection does not exist", async () => {
 		try {
 			await axios({
 				method: 'get',
-				url: getStoreBookCollectionEndpointUrl.replace('{0}', "asdasdasd"),
+				url: retrieveStoreBookCollectionEndpointUrl.replace('{0}', "asdasdasd"),
 				headers: {
 					Authorization: constants.authorUser.accessToken
 				}
@@ -34,7 +34,7 @@ describe("GetStoreBookCollection endpoint", () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getStoreBookCollectionEndpointUrl.replace('{0}', collection.uuid),
+				url: retrieveStoreBookCollectionEndpointUrl.replace('{0}', collection.uuid),
 				params: {
 					fields: "*"
 				}
@@ -67,7 +67,7 @@ describe("GetStoreBookCollection endpoint", () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getStoreBookCollectionEndpointUrl.replace('{0}', collection.uuid),
+				url: retrieveStoreBookCollectionEndpointUrl.replace('{0}', collection.uuid),
 				params: {
 					fields: "*",
 					languages: language
