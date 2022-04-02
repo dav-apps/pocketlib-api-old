@@ -6,7 +6,7 @@ import constants from '../constants.js'
 import * as utils from '../utils.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const createStoreBookCollectionEndpointUrl = `${constants.apiBaseUrl}/store/book/collection`
+const createStoreBookCollectionEndpointUrl = `${constants.apiBaseUrl}/store_book_collections`
 var resetStoreBookCollectionsAndAuthors = false
 
 afterEach(async () => {
@@ -428,6 +428,9 @@ describe("CreateStoreBookCollection endpoint", () => {
 					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
 				},
+				params: {
+					fields: "*"
+				},
 				data: {
 					name,
 					language
@@ -438,10 +441,10 @@ describe("CreateStoreBookCollection endpoint", () => {
 		}
 
 		assert.equal(response.status, 201)
+		assert.equal(Object.keys(response.data).length, 2)
 		assert.isNotNull(response.data.uuid)
-		assert.equal(response.data.names.length, 1)
-		assert.equal(response.data.names[0].name, name)
-		assert.equal(response.data.names[0].language, language)
+		assert.equal(response.data.name.value, name)
+		assert.equal(response.data.name.language, language)
 
 		// Check if the data was correctly saved on the server
 		// Get the store book collection
@@ -496,6 +499,9 @@ describe("CreateStoreBookCollection endpoint", () => {
 					Authorization: constants.davUser.accessToken,
 					'Content-Type': 'application/json'
 				},
+				params: {
+					fields: "*"
+				},
 				data: {
 					author: author.uuid,
 					name,
@@ -507,10 +513,9 @@ describe("CreateStoreBookCollection endpoint", () => {
 		}
 
 		assert.equal(response.status, 201)
-		assert.isNotNull(response.data.uuid)
-		assert.equal(response.data.names.length, 1)
-		assert.equal(response.data.names[0].name, name)
-		assert.equal(response.data.names[0].language, language)
+		assert.equal(Object.keys(response.data).length, 2)
+		assert.equal(response.data.name.value, name)
+		assert.equal(response.data.name.language, language)
 
 		// Check if the data was correctly saved on the server
 		// Get the store book collection

@@ -1,3 +1,15 @@
+(# Get the params)
+(var fields_str (get_param "fields"))
+
+(if (is_nil fields_str) (
+	(var fields (list "uuid"))
+) elseif (fields_str == "*") (
+	(var fields (list "uuid" "name"))
+) else (
+	(# Process the fields string)
+	(var fields (func process_fields (fields_str)))
+))
+
 (var json (parse_json (get_body)))
 
 (var author json.author)
@@ -88,7 +100,14 @@
 (func add_collection_to_author (author_obj collection.uuid))
 
 (# Render the result)
-(render_json (hash
-	(uuid collection.uuid)
-	(names (list (hash (name name) (language language))))
-) 201)
+(var result (hash))
+
+(if (fields.contains "uuid") (var result.uuid collection.uuid))
+(if (fields.contains "name") (
+	(var result.name (hash
+		(value name)
+		(language language)
+	))
+))
+
+(render_json result 201)
