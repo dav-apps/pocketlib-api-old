@@ -1,40 +1,72 @@
 (# Get the params)
 (var uuid (get_param "uuid"))
+(var fields_str (get_param "fields"))
 
-(# Get the author)
-(var author (func get_table_object (uuid (get_env "AUTHOR_TABLE_ID"))))
-
-(if (is_nil author) (
-	(func render_validation_errors ((list (hash (error (get_error 3503)) (status 404)))))
+(if (is_nil fields_str) (
+	(var fields (list "uuid"))
+) elseif (fields_str == "*") (
+	(var fields (list "uuid" "url" "blurhash"))
+) else (
+	(# Process the fields string)
+	(var fields (func process_fields (fields_str)))
 ))
 
-(# Define function for rendering no profile image error)
-(def render_no_profile_image () (
+(if (uuid == "mine") (
+	(# Get the access token)
+	(var access_token (get_header "Authorization"))
+	(func render_validation_errors ((list
+		(func validate_auth_header_presence (access_token))
+	)))
+
+	(# Get the session)
+	(var session (func get_session (access_token)))
+
+	(# Check if the user is an admin)
+	(var admins (get_env "ADMINS"))
+	(if (admins.contains session.user_id) (
+		(# User is an admin)
+		(func render_validation_errors ((list (hash (error (get_error 3013)) (status 400)))))
+	))
+
+	(# Get the author of the user)
+	(var author_objects (func get_author_table_objects (session.user_id)))
+	(if (author_objects.length == 0) (
+		(# User is not an author)
+		(func render_validation_errors ((list (hash (error (get_error 3000)) (status 400)))))
+	))
+
+	(var author author_objects#0)
+) else (
+	(# Get the author)
+	(var author (func get_table_object (uuid (get_env "AUTHOR_TABLE_ID"))))
+
+	(if (is_nil author) (
+		(# Author does not exist)
+		(func render_validation_errors ((list (hash (error (get_error 3503)) (status 404)))))
+	))
+))
+
+(# Get the profile image item of the author)
+(var profile_image_item (func get_table_object (author.properties.profile_image_item (get_env "AUTHOR_PROFILE_IMAGE_ITEM_TABLE_ID"))))
+
+(if (is_nil profile_image_item) (
+	(# ProfileImageItem does not exist)
+	(func render_validation_errors ((list (hash (error (get_error 3519)) (status 404)))))
+))
+
+(# Get the profile image)
+(var profile_image (func get_table_object (profile_image_item.properties.profile_image (get_env "AUTHOR_PROFILE_IMAGE_TABLE_ID"))))
+
+(if (is_nil profile_image) (
+	(# AuthorProfileImage does not exist)
 	(func render_validation_errors ((list (hash (error (get_error 3505)) (status 404)))))
 ))
 
-(# Get the profile image table object of the author)
-(var profile_image_uuid author.properties.profile_image)
+(# Render the result)
+(var result (hash))
 
-(if (is_nil profile_image_uuid) (
-	(# Profile image does not exist)
-	(func render_no_profile_image ())
-))
+(if (fields.contains "uuid") (var result.uuid profile_image_item.uuid))
+(if (fields.contains "url") (var result.url (TableObject.get_cdn_url profile_image.uuid)))
+(if (fields.contains "blurhash") (var result.blurhash profile_image_item.properties.blurhash))
 
-(# Get the profile image table object)
-(var profile_image (func get_table_object (profile_image_uuid (get_env "AUTHOR_PROFILE_IMAGE_TABLE_ID"))))
-
-(if (is_nil profile_image) (
-	(func render_no_profile_image ())
-))
-
-(# Get the profile image file)
-(var profile_image_file (func get_table_object_file (profile_image_uuid)))
-
-(# Return the content of the file)
-(render_file
-	profile_image_file
-	profile_image.properties.type
-	(author.properties.first_name + " " + author.properties.last_name + "." + (if (is_nil profile_image.properties.ext) "" else profile_image.properties.ext))
-	200
-)
+(render_json result 200)

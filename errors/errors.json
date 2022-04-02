@@ -117,6 +117,7 @@
 		{"code": 3515, "message": "Resource does not exist: StoreBookSeriesName"},
 		{"code": 3516, "message": "Resource does not exist: StoreBookRelease"},
 		{"code": 3517, "message": "Resource does not exist: StoreBookCoverItem"},
-		{"code": 3518, "message": "Resource does not exist: StoreBookFileItem"}
+		{"code": 3518, "message": "Resource does not exist: StoreBookFileItem"},
+		{"code": 3519, "message": "Resource does not exist: AuthorProfileImageItem"}
 	]
 }
