@@ -103,11 +103,17 @@
 (var result (hash))
 
 (if (fields.contains "uuid") (var result.uuid collection.uuid))
-(if (fields.contains "name") (
-	(var result.name (hash
-		(value name)
-		(language language)
-	))
+(if (
+	(fields.contains "name")
+	or (fields.contains "name.value")
+	or (fields.contains "name.language")
+) (
+	(var name_hash (hash))
+
+	(if ((fields.contains "name") or (fields.contains "name.value")) (var name_hash.value name))
+	(if ((fields.contains "name") or (fields.contains "name.language")) (var name_hash.language language))
+
+	(var result.name name_hash)
 ))
 
 (render_json result 201)
