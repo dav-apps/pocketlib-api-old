@@ -2,5 +2,5 @@
 	"type": "endpoint",
 	"path": "authors/:uuid/profile_image",
 	"method": "GET",
-	"source": "./get_profile_image_of_author.dx"
+	"source": "./retrieve_author_profile_image.dx"
 }

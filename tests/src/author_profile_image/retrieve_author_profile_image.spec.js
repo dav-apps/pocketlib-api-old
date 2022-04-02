@@ -5,14 +5,14 @@ import constants from '../constants.js'
 import * as utils from '../utils.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const getProfileImageOfAuthorEndpoint = `${constants.apiBaseUrl}/authors/{0}/profile_image`
+const retrieveAuthorProfileImageEndpoint = `${constants.apiBaseUrl}/authors/{0}/profile_image`
 
 describe("GetProfileImageOfAuthor endpoint", () => {
 	it("should not return profile image of author without access token", async () => {
 		try {
 			await axios({
 				method: 'get',
-				url: getProfileImageOfAuthorEndpoint.replace('{0}', "mine")
+				url: retrieveAuthorProfileImageEndpoint.replace('{0}', "mine")
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 401)
@@ -28,7 +28,7 @@ describe("GetProfileImageOfAuthor endpoint", () => {
 		try {
 			await axios({
 				method: 'get',
-				url: getProfileImageOfAuthorEndpoint.replace('{0}', "mine"),
+				url: retrieveAuthorProfileImageEndpoint.replace('{0}', "mine"),
 				headers: {
 					Authorization: "asdasdasdads"
 				}
@@ -47,7 +47,7 @@ describe("GetProfileImageOfAuthor endpoint", () => {
 		try {
 			await axios({
 				method: 'get',
-				url: getProfileImageOfAuthorEndpoint.replace('{0}', "mine"),
+				url: retrieveAuthorProfileImageEndpoint.replace('{0}', "mine"),
 				headers: {
 					Authorization: constants.testUserTestAppAccessToken
 				}
@@ -66,7 +66,7 @@ describe("GetProfileImageOfAuthor endpoint", () => {
 		try {
 			await axios({
 				method: 'get',
-				url: getProfileImageOfAuthorEndpoint.replace('{0}', "mine"),
+				url: retrieveAuthorProfileImageEndpoint.replace('{0}', "mine"),
 				headers: {
 					Authorization: constants.testUser.accessToken
 				}
@@ -85,7 +85,7 @@ describe("GetProfileImageOfAuthor endpoint", () => {
 		try {
 			await axios({
 				method: 'get',
-				url: getProfileImageOfAuthorEndpoint.replace('{0}', "mine"),
+				url: retrieveAuthorProfileImageEndpoint.replace('{0}', "mine"),
 				headers: {
 					Authorization: constants.davUser.accessToken
 				}
@@ -104,7 +104,7 @@ describe("GetProfileImageOfAuthor endpoint", () => {
 		try {
 			await axios({
 				method: 'get',
-				url: getProfileImageOfAuthorEndpoint.replace('{0}', constants.davUser.authors[1].uuid),
+				url: retrieveAuthorProfileImageEndpoint.replace('{0}', constants.davUser.authors[1].uuid),
 				headers: {
 					Authorization: constants.authorUser.accessToken
 				}
@@ -123,7 +123,7 @@ describe("GetProfileImageOfAuthor endpoint", () => {
 		try {
 			await axios({
 				method: 'get',
-				url: getProfileImageOfAuthorEndpoint.replace('{0}', "adasdasdasdasad"),
+				url: retrieveAuthorProfileImageEndpoint.replace('{0}', "adasdasdasdasad"),
 				headers: {
 					Authorization: constants.davUser.accessToken
 				}
@@ -143,7 +143,7 @@ describe("GetProfileImageOfAuthor endpoint", () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getProfileImageOfAuthorEndpoint.replace('{0}', author.uuid),
+				url: retrieveAuthorProfileImageEndpoint.replace('{0}', author.uuid),
 				params: {
 					fields: "*"
 				}
@@ -166,7 +166,7 @@ describe("GetProfileImageOfAuthor endpoint", () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getProfileImageOfAuthorEndpoint.replace('{0}', "mine"),
+				url: retrieveAuthorProfileImageEndpoint.replace('{0}', "mine"),
 				headers: {
 					Authorization: constants.authorUser.accessToken
 				},
