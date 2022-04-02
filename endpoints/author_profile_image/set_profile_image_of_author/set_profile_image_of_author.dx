@@ -1,5 +1,15 @@
 (# Get the params)
 (var uuid (get_param "uuid"))
+(var fields_str (get_param "fields"))
+
+(if (is_nil fields_str) (
+	(var fields (list "uuid"))
+) elseif (fields_str == "*") (
+	(var fields (list "uuid" "url" "blurhash"))
+) else (
+	(# Process the fields string)
+	(var fields (func process_fields (fields_str)))
+))
 
 (var data (get_body))
 
@@ -22,60 +32,89 @@
 (var admins (get_env "ADMINS"))
 (var is_admin (admins.contains session.user_id))
 
-(if (! is_admin) (
-	(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
-))
+(if (uuid == "mine") (
+	(if is_admin (
+		(# User is an admin)
+		(func render_validation_errors ((list (hash (error (get_error 3013)) (status 400)))))
+	))
 
-(# Get the author)
-(var author (func get_table_object (uuid (get_env "AUTHOR_TABLE_ID"))))
+	(# Get the author of the user)
+	(var author_objects (func get_author_table_objects (session.user_id)))
 
-(if (is_nil author) (
-	(func render_validation_errors ((list (hash (error (get_error 3503)) (status 404)))))
-))
+	(if (author_objects.length == 0) (
+		(# User is not an author)
+		(func render_validation_errors ((list (hash (error (get_error 3000)) (status 400)))))
+	))
 
-(# Check if the author belongs to the user)
-(if (session.user_id != author.user_id) (
-	(# Action not allowed)
-	(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
-))
-
-(# Define functions for creating and updating the profile image table object)
-(def create_profile_image (author session content_type data) (
-	(# Create the profile image table object)
-	(var profile_image (func create_author_profile_image_table_object (session.user_id content_type data)))
-
-	(# Update the author with the uuid of the profile image table object)
-	(var author.properties.profile_image profile_image.uuid)
-
-	(# Update the author with the blurhash)
-	(var author.properties.profile_image_blurhash (Blurhash.encode data))
-))
-
-(def update_profile_image (author profile_image content_type data) (
-	(# Update the profile image table object of the author)
-	(func update_author_profile_image_table_object (profile_image.uuid content_type data))
-
-	(# Update the author with the blurhash)
-	(var author.properties.profile_image_blurhash (Blurhash.encode data))
-))
-
-(# Get the profile image table object of the author)
-(var profile_image_uuid author.properties.profile_image)
-
-(if (is_nil profile_image_uuid) (
-	(# Create the profile image)
-	(func create_profile_image (author session content_type data))
+	(var author author_objects#0)
 ) else (
-	(# Try to get the profile image table object)
-	(var profile_image (func get_table_object (profile_image_uuid (get_env "AUTHOR_PROFILE_IMAGE_TABLE_ID"))))
+	(if (! is_admin) (
+		(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
+	))
 
-	(if (is_nil profile_image) (
-		(# Create the profile image)
-		(func create_profile_image (author session content_type data))
-	) else (
-		(# Update the profile image)
-		(func update_profile_image (author profile_image content_type data))
+	(# Get the author)
+	(var author (func get_table_object (uuid (get_env "AUTHOR_TABLE_ID"))))
+
+	(if (is_nil author) (
+		(func render_validation_errors ((list (hash (error (get_error 3503)) (status 404)))))
+	))
+
+	(# Check if the author belongs to the user)
+	(if (session.user_id != author.user_id) (
+		(# Action not allowed)
+		(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
 	))
 ))
 
-(render_json nil 204)
+(# Define functions for creating and updating the profile image table object)
+(def update_profile_image_item_properties (profile_image_item data) (
+	(# Update the profile image item with the blurhash)
+	(var profile_image_item.properties.blurhash (Blurhash.encode data))
+))
+
+(def create_profile_image (author session content_type data) (
+	(# Create the profile image table object)
+	(var profile_image (func create_author_profile_image_table_object (author.user_id content_type data)))
+
+	(# Create the profile image item table object)
+	(var profile_image_item (func create_table_object (
+		author.user_id
+		(get_env "AUTHOR_PROFILE_IMAGE_ITEM_TABLE_ID")
+		(hash
+			(profile_image profile_image.uuid)
+		)
+	)))
+
+	(# Set the properties of the profile image item)
+	(func update_profile_image_item_properties (profile_image_item data))
+
+	(return profile_image_item)
+))
+
+(def update_profile_image (profile_image_item content_type data) (
+	(# Update the file of the profile image table object)
+	(func update_author_profile_image_table_object (profile_image_item.properties.profile_image content_type data))
+
+	(func update_profile_image_item_properties (profile_image_item data))
+))
+
+(# Get the profile image item of the author)
+(var profile_image_item (func get_table_object (author.properties.profile_image_item (get_env "AUTHOR_PROFILE_IMAGE_ITEM_TABLE_ID"))))
+
+(if (is_nil profile_image_item) (
+	(# Create the profile image and profile image item)
+	(var profile_image_item (func create_profile_image (author session content_type data)))
+	(var author.properties.profile_image_item profile_image_item.uuid)
+) else (
+	(# Update the profile image)
+	(func update_profile_image (profile_image_item content_type data))
+))
+
+(# Render the result)
+(var result (hash))
+
+(if (fields.contains "uuid") (var result.uuid profile_image_item.uuid))
+(if (fields.contains "url") (var result.url (TableObject.get_cdn_url profile_image_item.properties.profile_image)))
+(if (fields.contains "blurhash") (var result.blurhash profile_image_item.properties.blurhash))
+
+(render_json result 200)

@@ -78,7 +78,7 @@
 
 (def create_file (store_book_release session content_type data) (
 	(# Create the file table object)
-	(var file (func create_store_book_file_table_object (session.user_id content_type data)))
+	(var file (func create_store_book_file_table_object (store_book_release.user_id content_type data)))
 
 	(# Create the file item table object)
 	(var file_item (func create_table_object (

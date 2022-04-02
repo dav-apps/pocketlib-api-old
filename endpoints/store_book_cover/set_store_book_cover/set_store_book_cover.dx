@@ -65,7 +65,7 @@
 
 (# Define functions for creating and updating the cover table object)
 (def update_cover_item_properties (cover_item data) (
-	(# Update the store book with the blurhash)
+	(# Update the cover item with the blurhash)
 	(var cover_item.properties.blurhash (Blurhash.encode data))
 
 	(# Get the width and height of the cover)
@@ -90,7 +90,7 @@
 
 (def create_cover (store_book_release session content_type data) (
 	(# Create the cover table object)
-	(var cover (func create_store_book_cover_table_object (session.user_id content_type data)))
+	(var cover (func create_store_book_cover_table_object (store_book_release.user_id content_type data)))
 
 	(# Create the cover item table object)
 	(var cover_item (func create_table_object (
