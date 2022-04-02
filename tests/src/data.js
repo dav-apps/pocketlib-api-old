@@ -203,7 +203,7 @@ function addAuthorProfileImageItemToTableObjects(authorProfileImageItem, userId)
 		file: false,
 		properties: {
 			blurhash: authorProfileImageItem.blurhash ?? "",
-			profile_image: authorProfileImageItem.profileImage ?? ""
+			profile_image: authorProfileImageItem.profileImage?.uuid ?? ""
 		}
 	})
 }
@@ -342,7 +342,7 @@ function addStoreBookCoverItemToTableObjects(storeBookCoverItem, userId) {
 		properties: {
 			aspect_ratio: storeBookCoverItem.aspectRatio ?? "",
 			blurhash: storeBookCoverItem.blurhash ?? "",
-			cover: storeBookCoverItem.cover ?? ""
+			cover: storeBookCoverItem.cover?.uuid ?? ""
 		}
 	})
 }
@@ -368,7 +368,7 @@ function addStoreBookFileItemToTableObjects(storeBookFileItem, userId) {
 		file: false,
 		properties: {
 			file_name: storeBookFileItem.fileName ?? "",
-			file: storeBookFileItem.file ?? ""
+			file: storeBookFileItem.file?.uuid ?? ""
 		}
 	})
 }

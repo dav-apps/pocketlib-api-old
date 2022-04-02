@@ -371,7 +371,7 @@ async function resetDavUserAuthorBios() {
 async function resetAuthorUserAuthorProfileImageItems() {
 	// Get the profile image item table
 	let profileImageItems = []
-	let testDatabaseProfileImageItemUuid = constants.authorUser.author.profileImageItem.uuid
+	let testDatabaseProfileImageItem = constants.authorUser.author.profileImageItem
 
 	let response = await TablesController.GetTable({
 		accessToken: constants.authorUser.accessToken,
@@ -383,9 +383,24 @@ async function resetAuthorUserAuthorProfileImageItems() {
 		console.log(response.errors)
 	}
 
+	// Reset the profile image item
+	response = await TableObjectsController.UpdateTableObject({
+		accessToken: constants.authorUser.accessToken,
+		uuid: testDatabaseProfileImageItem.uuid,
+		properties: {
+			blurhash: testDatabaseProfileImageItem.blurhash,
+			profile_image: testDatabaseProfileImageItem.profileImage?.uuid ?? ""
+		}
+	})
+
+	if (!isSuccessStatusCode(response.status)) {
+		console.log("Error in resetting AuthorProfileImageItem")
+		console.log(response.errors)
+	}
+
 	// Delete each profile image item that is not part of the test database
 	for (let profileImageItem of profileImageItems) {
-		if (profileImageItem.uuid != testDatabaseProfileImageItemUuid) {
+		if (profileImageItem.uuid != testDatabaseProfileImageItem.uuid) {
 			// Delete the profile image item
 			await deleteTableObject(constants.authorUser.accessToken, profileImageItem.uuid)
 		}
@@ -412,6 +427,23 @@ async function resetDavUserAuthorProfileImageItems() {
 	// Get all profile image items of the test database
 	for (let author of constants.davUser.authors) {
 		if (author.profileImageItem) testDatabaseProfileImageItems.push(author.profileImageItem)
+	}
+
+	// Reset each profile image item
+	for (let profileImageItem of testDatabaseProfileImageItems) {
+		let response = await TableObjectsController.UpdateTableObject({
+			accessToken: constants.davUser.accessToken,
+			uuid: profileImageItem.uuid,
+			properties: {
+				blurhash: profileImageItem.blurhash,
+				profile_image: profileImageItem.profileImage?.uuid ?? ""
+			}
+		})
+
+		if (!isSuccessStatusCode(response.status)) {
+			console.log("Error in resetting AuthorProfileImageItem")
+			console.log(response.errors)
+		}
 	}
 
 	// Delete each profile image item that is not part of the test database
@@ -1253,6 +1285,24 @@ async function resetAuthorUserStoreBookCoverItems() {
 		coverItems = response.data.tableObjects
 	}
 
+	// Reset each store book cover item
+	for (let coverItem of testDatabaseStoreBookCoverItems) {
+		let response = await TableObjectsController.UpdateTableObject({
+			accessToken: constants.authorUser.accessToken,
+			uuid: coverItem.uuid,
+			properties: {
+				aspect_ratio: coverItem.aspectRatio,
+				blurhash: coverItem.blurhash,
+				cover: coverItem.cover?.uuid ?? ""
+			}
+		})
+
+		if (!isSuccessStatusCode(response.status)) {
+			console.log("Error in resetting StoreBookCoverItem")
+			console.log(response.errors)
+		}
+	}
+
 	// Delete each cover item that is not part of the test database
 	for (let coverItem of coverItems) {
 		if (testDatabaseStoreBookCoverItems.includes(coverItem.uuid)) continue
@@ -1306,6 +1356,24 @@ async function resetDavUserStoreBookCoverItems() {
 		console.log(response.errors)
 	} else {
 		coverItems = response.data.tableObjects
+	}
+
+	// Reset each store book cover item
+	for (let coverItem of testDatabaseStoreBookCoverItems) {
+		let response = await TableObjectsController.UpdateTableObject({
+			accessToken: constants.davUser.accessToken,
+			uuid: coverItem.uuid,
+			properties: {
+				aspect_ratio: coverItem.aspectRatio,
+				blurhash: coverItem.blurhash,
+				cover: coverItem.cover?.uuid ?? ""
+			}
+		})
+
+		if (!isSuccessStatusCode(response.status)) {
+			console.log("Error in resetting StoreBookCoverItem")
+			console.log(response.errors)
+		}
 	}
 
 	// Delete each cover item that is not part of the test database
@@ -1532,6 +1600,23 @@ async function resetAuthorUserStoreBookFileItems() {
 		fileItems = response.data.tableObjects
 	}
 
+	// Reset each store book file item
+	for (let fileItem of testDatabaseStoreBookFileItems) {
+		let response = await TableObjectsController.UpdateTableObject({
+			accessToken: constants.authorUser.accessToken,
+			uuid: fileItem.uuid,
+			properties: {
+				file_name: fileItem.fileName,
+				file: fileItem.file?.uuid ?? ""
+			}
+		})
+
+		if (!isSuccessStatusCode(response.status)) {
+			console.log("Error in resetting StoreBookFileItem")
+			console.log(response.errors)
+		}
+	}
+
 	// Delete each file item that is not part of the test database
 	for (let fileItem of fileItems) {
 		if (testDatabaseStoreBookFileItems.includes(fileItem.uuid)) continue
@@ -1584,6 +1669,23 @@ async function resetDavUserStoreBookFileItems() {
 		console.log(response.errors)
 	} else {
 		fileItems = response.data.tableObjects
+	}
+
+	// Reset each store book file item
+	for (let fileItem of testDatabaseStoreBookFileItems) {
+		let response = await TableObjectsController.UpdateTableObject({
+			accessToken: constants.davUser.accessToken,
+			uuid: fileItem.uuid,
+			properties: {
+				file_name: fileItem.fileName,
+				file: fileItem.file?.uuid ?? ""
+			}
+		})
+
+		if (!isSuccessStatusCode(response.status)) {
+			console.log("Error in resetting StoreBookFileItem")
+			console.log(response.errors)
+		}
 	}
 
 	// Delete each file item that is not part of the test database

@@ -128,3 +128,4 @@ export const StoreBookSeriesNameDoesNotExist = 3515
 export const StoreBookReleaseDoesNotExist = 3516
 export const StoreBookCoverItemDoesNotExist = 3517
 export const StoreBookFileItemDoesNotExist = 3518
+export const AuthorProfileImageItemDoesNotExist = 3519
