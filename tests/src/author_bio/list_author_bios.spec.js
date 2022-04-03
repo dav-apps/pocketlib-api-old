@@ -117,7 +117,7 @@ describe("ListAuthorBios endpoint", () => {
 
 		assert.equal(response.status, 200)
 		assert.equal(Object.keys(response.data).length, 2)
-		assert.equal(Object.keys(response.data.items).length, author.bios.length)
+		assert.equal(response.data.items.length, author.bios.length)
 
 		for (let bio of author.bios) {
 			let responseBio = response.data.items.find(b => b.uuid == bio.uuid)
@@ -150,7 +150,7 @@ describe("ListAuthorBios endpoint", () => {
 
 		assert.equal(response.status, 200)
 		assert.equal(Object.keys(response.data).length, 2)
-		assert.equal(Object.keys(response.data.items).length, author.bios.length)
+		assert.equal(response.data.items.length, author.bios.length)
 
 		for (let bio of author.bios) {
 			let responseBio = response.data.items.find(b => b.uuid == bio.uuid)

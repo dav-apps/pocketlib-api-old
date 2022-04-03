@@ -53,8 +53,8 @@
 	(# Get each bio)
 	(var bio_uuids (author.properties.bios.split ","))
 
-	(for uuid in bio_uuids (
-		(var bio (func get_table_object (uuid (get_env "AUTHOR_BIO_TABLE_ID"))))
+	(for bio_uuid in bio_uuids (
+		(var bio (func get_table_object (bio_uuid (get_env "AUTHOR_BIO_TABLE_ID"))))
 		(if (is_nil bio) (continue))
 
 		(# Add the bio to the list)
@@ -64,7 +64,7 @@
 		(if (fields.contains "items.bio") (var bio_hash.bio bio.properties.bio))
 		(if (fields.contains "items.language") (var bio_hash.language bio.properties.language))
 
-		(bios.push (bio_hash))
+		(bios.push bio_hash)
 	))
 ))
 
