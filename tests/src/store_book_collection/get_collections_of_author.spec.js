@@ -4,14 +4,17 @@ import axios from 'axios'
 import constants from '../constants.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const getCollectionsOfAuthorEndpointUrl = `${constants.apiBaseUrl}/author/{0}/collections`
+const getCollectionsOfAuthorEndpointUrl = `${constants.apiBaseUrl}/store_book_collections`
 
 describe("GetCollectionsOfAuthor endpoint", () => {
 	it("should not return collections of author that does not exist", async () => {
 		try {
 			await axios({
 				method: 'get',
-				url: getCollectionsOfAuthorEndpointUrl.replace('{0}', "asasdasddsd")
+				url: getCollectionsOfAuthorEndpointUrl,
+				params: {
+					author: "asdasdsda"
+				}
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 404)
@@ -45,9 +48,10 @@ describe("GetCollectionsOfAuthor endpoint", () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getCollectionsOfAuthorEndpointUrl.replace('{0}', author.uuid),
+				url: getCollectionsOfAuthorEndpointUrl,
 				params: {
-					fields: "*"
+					fields: "*",
+					author: author.uuid
 				}
 			})
 		} catch (error) {
@@ -55,11 +59,12 @@ describe("GetCollectionsOfAuthor endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(response.data.collections.length, author.collections.length)
-		
+		assert.equal(Object.keys(response.data).length, 2)
+		assert.equal(response.data.items.length, author.collections.length)
+
 		for (let collection of author.collections) {
-			let responseCollection = response.data.collections.find(c => c.uuid == collection.uuid)
-			
+			let responseCollection = response.data.items.find(c => c.uuid == collection.uuid)
+
 			assert.isNotNull(responseCollection)
 			assert.equal(responseCollection.uuid, collection.uuid)
 
@@ -77,10 +82,11 @@ describe("GetCollectionsOfAuthor endpoint", () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getCollectionsOfAuthorEndpointUrl.replace('{0}', author.uuid),
+				url: getCollectionsOfAuthorEndpointUrl,
 				params: {
 					fields: "*",
-					languages: language
+					languages: language,
+					author: author.uuid
 				}
 			})
 		} catch (error) {
@@ -88,11 +94,12 @@ describe("GetCollectionsOfAuthor endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(response.data.collections.length, author.collections.length)
-		
+		assert.equal(Object.keys(response.data).length, 2)
+		assert.equal(response.data.items.length, author.collections.length)
+
 		for (let collection of author.collections) {
-			let responseCollection = response.data.collections.find(c => c.uuid == collection.uuid)
-			
+			let responseCollection = response.data.items.find(c => c.uuid == collection.uuid)
+
 			assert.isNotNull(responseCollection)
 			assert.equal(responseCollection.uuid, collection.uuid)
 

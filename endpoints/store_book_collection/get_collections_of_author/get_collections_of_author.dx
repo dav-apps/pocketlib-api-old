@@ -1,12 +1,12 @@
 (# Get the params)
-(var uuid (get_param "uuid"))
 (var fields_str (get_param "fields"))
 (var languages (get_param "languages"))
+(var author_uuid (get_param "author"))
 
 (if (is_nil fields_str) (
-	(var fields (list "collections.uuid"))
+	(var fields (list "type" "items.uuid"))
 ) elseif (fields_str == "*") (
-	(var fields (list "collections.uuid" "collections.name"))
+	(var fields (list "type" "items.uuid" "items.name"))
 ) else (
 	(# Process the fields string)
 	(var fields (func process_fields (fields_str)))
@@ -14,8 +14,13 @@
 
 (var language_list (func process_languages (languages)))
 
+(# Validate missing fields)
+(func render_validation_errors ((list
+	(func validate_author_presence (author_uuid))
+)))
+
 (# Get the author)
-(var author (func get_table_object (uuid (get_env "AUTHOR_TABLE_ID"))))
+(var author (func get_table_object (author_uuid (get_env "AUTHOR_TABLE_ID"))))
 
 (if (is_nil author) (
 	(# Author does not exist)
@@ -34,19 +39,19 @@
 	(# Add the collection to the list)
 	(var collection_hash (hash))
 
-	(if (fields.contains "collections.uuid") (var collection_hash.uuid collection.uuid))
+	(if (fields.contains "items.uuid") (var collection_hash.uuid collection.uuid))
 
 	(if (
-		(fields.contains "collections.name")
-		or (fields.contains "collections.name.value")
-		or (fields.contains "collections.name.language")
+		(fields.contains "items.name")
+		or (fields.contains "items.name.value")
+		or (fields.contains "items.name.language")
 	) (
 		(var collection_hash.name (
 			(func find_collection_name_by_languages (
 				collection.properties.names
 				language_list
-				((fields.contains "collections.name") or (fields.contains "collections.name.value"))
-				((fields.contains "collections.name") or (fields.contains "collections.name.language"))
+				((fields.contains "items.name") or (fields.contains "items.name.value"))
+				((fields.contains "items.name") or (fields.contains "items.name.language"))
 			))
 		))
 	))
@@ -55,6 +60,9 @@
 ))
 
 (# Render the result)
-(render_json (hash
-	(collections collections)
-) 200)
+(var result (hash))
+
+(if (fields.contains "type") (var result.type "store_book_collection"))
+(var result.items collections)
+
+(render_json result 200)
