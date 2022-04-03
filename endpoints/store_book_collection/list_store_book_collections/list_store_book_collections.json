@@ -2,5 +2,5 @@
 	"type": "endpoint",
 	"path": "store_book_collections",
 	"method": "GET",
-	"source": "./get_collections_of_author.dx"
+	"source": "./list_store_book_collections.dx"
 }

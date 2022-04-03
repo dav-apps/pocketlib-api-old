@@ -4,14 +4,14 @@ import axios from 'axios'
 import constants from '../constants.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const getCollectionsOfAuthorEndpointUrl = `${constants.apiBaseUrl}/store_book_collections`
+const listStoreBookCollectionsEndpointUrl = `${constants.apiBaseUrl}/store_book_collections`
 
 describe("GetCollectionsOfAuthor endpoint", () => {
 	it("should not return collections of author that does not exist", async () => {
 		try {
 			await axios({
 				method: 'get',
-				url: getCollectionsOfAuthorEndpointUrl,
+				url: listStoreBookCollectionsEndpointUrl,
 				params: {
 					author: "asdasdsda"
 				}
@@ -48,7 +48,7 @@ describe("GetCollectionsOfAuthor endpoint", () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getCollectionsOfAuthorEndpointUrl,
+				url: listStoreBookCollectionsEndpointUrl,
 				params: {
 					fields: "*",
 					author: author.uuid
@@ -82,7 +82,7 @@ describe("GetCollectionsOfAuthor endpoint", () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getCollectionsOfAuthorEndpointUrl,
+				url: listStoreBookCollectionsEndpointUrl,
 				params: {
 					fields: "*",
 					languages: language,
