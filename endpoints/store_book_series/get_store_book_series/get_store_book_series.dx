@@ -1,20 +1,18 @@
 (# Get the params)
 (var uuid (get_param "uuid"))
 (var fields_str (get_param "fields"))
-(var language (get_param "language"))
+(var languages (get_param "languages"))
 
 (if (is_nil fields_str) (
 	(var fields (list "uuid"))
 ) elseif (fields_str == "*") (
-	(var fields (list "uuid" "name" "language"))
+	(var fields (list "uuid" "name"))
 ) else (
 	(# Process the fields string)
 	(var fields (func process_fields (fields_str)))
 ))
 
-(if (is_nil language) (
-	(var language "en")
-))
+(var language_list (func process_languages (languages)))
 
 (# Get the store book series)
 (var series (func get_table_object (uuid (get_env "STORE_BOOK_SERIES_TABLE_ID"))))
@@ -24,32 +22,23 @@
 	(func render_validation_errors ((list (hash (error (get_error 3514)) (status 404)))))
 ))
 
-(# Get the names of the series)
-(var names (func get_series_names_by_string (series.properties.names false)))
-
-(if (names.length == 0) (
-	(# StoreBookSeriesName does not exist)
-	(func render_validation_errors ((list (hash (error (get_error 3515)) (status 412)))))
-))
-
-(var name nil)
-
-(for n in names (
-	(if (n.language == language) (
-		(var name n)
-		(break)
-	))
-))
-
-(if (is_nil name) (
-	(var name names#0)
-))
-
 (# Render the result)
 (var result (hash))
 
 (if (fields.contains "uuid") (var result.uuid series.uuid))
-(if (fields.contains "name") (var result.name name.name))
-(if (fields.contains "language") (var result.language name.language))
+(if (
+	(fields.contains "name")
+	or (fields.contains "name.value")
+	or (fields.contains "name.language")
+) (
+	(var result.name (
+		(func find_series_name_by_languages (
+			series.properties.names
+			language_list
+			((fields.contains "name") or (fields.contains "name.value"))
+			((fields.contains "name") or (fields.contains "name.language"))
+		))
+	))
+))
 
 (render_json result 200)

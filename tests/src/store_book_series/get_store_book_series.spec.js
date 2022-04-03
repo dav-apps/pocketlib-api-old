@@ -4,7 +4,7 @@ import axios from 'axios'
 import constants from '../constants.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const getStoreBookSeriesEndpointUrl = `${constants.apiBaseUrl}/store/book/series/{0}`
+const getStoreBookSeriesEndpointUrl = `${constants.apiBaseUrl}/store_book_series/{0}`
 
 describe("GetStoreBookSeries endpoint", () => {
 	it("should not return store book series that does not exist", async () => {
@@ -41,13 +41,23 @@ describe("GetStoreBookSeries endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
+		assert.equal(Object.keys(response.data).length, 2)
 		assert.equal(response.data.uuid, series.uuid)
-		assert.equal(response.data.name, series.names[0].name)
-		assert.equal(response.data.language, series.names[0].language)
+		
+		if (series.names.length == 0) {
+			assert.isNull(response.data.name)
+		} else {
+			let seriesName = series.names.find(n => n.language == "en")
+
+			assert.isNotNull(seriesName)
+			assert.equal(response.data.name.language, "en")
+			assert.equal(response.data.name.value, seriesName.name)
+		}
 	})
 
-	it("should return store book series with language for which the series has no name for", async () => {
+	it("should return store book series with specified language", async () => {
 		let series = constants.authorUser.author.series[0]
+		let language = "de"
 		let response
 
 		try {
@@ -56,7 +66,7 @@ describe("GetStoreBookSeries endpoint", () => {
 				url: getStoreBookSeriesEndpointUrl.replace('{0}', series.uuid),
 				params: {
 					fields: "*",
-					language: "dk"
+					languages: language
 				}
 			})
 		} catch (error) {
@@ -64,8 +74,25 @@ describe("GetStoreBookSeries endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
+		assert.equal(Object.keys(response.data).length, 2)
 		assert.equal(response.data.uuid, series.uuid)
-		assert.equal(response.data.name, series.names[0].name)
-		assert.equal(response.data.language, series.names[0].language)
+		
+		if (series.names.length == 0) {
+			assert.isNull(response.data.name)
+		} else {
+			let seriesName = series.names.find(n => n.language == language)
+
+			if (seriesName == null) {
+				assert.equal(response.data.name.language, "en")
+
+				seriesName = series.names.find(n => n.language == "en")
+
+				assert.isNotNull(seriesName)
+				assert.equal(response.data.name.value, seriesName.name)
+			} else {
+				assert.equal(response.data.name.language, language)
+				assert.equal(response.data.name.value, seriesName.name)
+			}
+		}
 	})
 })
