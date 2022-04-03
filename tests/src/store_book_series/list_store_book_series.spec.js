@@ -4,14 +4,14 @@ import axios from 'axios'
 import constants from '../constants.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const getLatestStoreBookSeriesEndpointUrl = `${constants.apiBaseUrl}/store_book_series`
+const listStoreBookSeriesEndpointUrl = `${constants.apiBaseUrl}/store_book_series`
 
 describe("GetLatestStoreBookSeries endpoint", () => {
 	it("should not return latest store book series with not supported languages", async () => {
 		try {
 			await axios({
 				method: 'get',
-				url: getLatestStoreBookSeriesEndpointUrl,
+				url: listStoreBookSeriesEndpointUrl,
 				params: {
 					languages: "test,bla"
 				}
@@ -32,7 +32,7 @@ describe("GetLatestStoreBookSeries endpoint", () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getLatestStoreBookSeriesEndpointUrl,
+				url: listStoreBookSeriesEndpointUrl,
 				params: {
 					fields: "*",
 					latest: true
@@ -76,7 +76,7 @@ describe("GetLatestStoreBookSeries endpoint", () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getLatestStoreBookSeriesEndpointUrl,
+				url: listStoreBookSeriesEndpointUrl,
 				params: {
 					fields: "*",
 					author: author.uuid
@@ -115,7 +115,7 @@ describe("GetLatestStoreBookSeries endpoint", () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getLatestStoreBookSeriesEndpointUrl,
+				url: listStoreBookSeriesEndpointUrl,
 				params: {
 					fields: "*",
 					languages: language,
