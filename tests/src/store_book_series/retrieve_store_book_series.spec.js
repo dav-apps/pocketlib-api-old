@@ -4,14 +4,14 @@ import axios from 'axios'
 import constants from '../constants.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const getStoreBookSeriesEndpointUrl = `${constants.apiBaseUrl}/store_book_series/{0}`
+const retrieveStoreBookSeriesEndpointUrl = `${constants.apiBaseUrl}/store_book_series/{0}`
 
 describe("GetStoreBookSeries endpoint", () => {
 	it("should not return store book series that does not exist", async () => {
 		try {
 			await axios({
 				method: 'get',
-				url: getStoreBookSeriesEndpointUrl.replace('{0}', "dfjsdjfsodjsfdo")
+				url: retrieveStoreBookSeriesEndpointUrl.replace('{0}', "dfjsdjfsodjsfdo")
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 404)
@@ -30,7 +30,7 @@ describe("GetStoreBookSeries endpoint", () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getStoreBookSeriesEndpointUrl.replace('{0}', series.uuid),
+				url: retrieveStoreBookSeriesEndpointUrl.replace('{0}', series.uuid),
 				params: {
 					fields: "*",
 					language: "en"
@@ -63,7 +63,7 @@ describe("GetStoreBookSeries endpoint", () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getStoreBookSeriesEndpointUrl.replace('{0}', series.uuid),
+				url: retrieveStoreBookSeriesEndpointUrl.replace('{0}', series.uuid),
 				params: {
 					fields: "*",
 					languages: language
