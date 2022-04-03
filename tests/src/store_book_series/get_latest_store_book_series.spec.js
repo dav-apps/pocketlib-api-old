@@ -4,7 +4,7 @@ import axios from 'axios'
 import constants from '../constants.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const getLatestStoreBookSeriesEndpointUrl = `${constants.apiBaseUrl}/store/book/series/latest`
+const getLatestStoreBookSeriesEndpointUrl = `${constants.apiBaseUrl}/store_book_series`
 
 describe("GetLatestStoreBookSeries endpoint", () => {
 	it("should not return latest store book series with not supported languages", async () => {
@@ -28,7 +28,6 @@ describe("GetLatestStoreBookSeries endpoint", () => {
 
 	it("should return latest store book series", async () => {
 		let response
-		let languages = ["de", "en"]
 
 		try {
 			response = await axios({
@@ -36,7 +35,7 @@ describe("GetLatestStoreBookSeries endpoint", () => {
 				url: getLatestStoreBookSeriesEndpointUrl,
 				params: {
 					fields: "*",
-					languages: languages.join(',')
+					latest: true
 				}
 			})
 		} catch (error) {
@@ -44,85 +43,142 @@ describe("GetLatestStoreBookSeries endpoint", () => {
 		}
 
 		// Find all valid store book series
-		let series = []
-		for (let s of getValidStoreBookSeries(constants.authorUser.author, languages)) {
-			series.push(s)
-		}
+		let seriesList = getValidStoreBookSeries(constants.authorUser.author, "en")
 
 		for (let author of constants.davUser.authors) {
-			for (let s of getValidStoreBookSeries(author, languages)) {
-				series.push(s)
+			for (let s of getValidStoreBookSeries(author, "en")) {
+				seriesList.push(s)
 			}
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(response.data.series.length, series.length)
+		assert.equal(Object.keys(response.data).length, 2)
+		assert.equal(response.data.items.length, seriesList.length)
 
-		for (let responseSeries of response.data.series) {
-			let s = series.find(s => s.series.uuid == responseSeries.uuid)
-			if (s == null) assert.fail()
+		for (let series of seriesList) {
+			let responseSeries = response.data.items.find(s => s.uuid == series.uuid)
 
-			assert.equal(responseSeries.uuid, s.series.uuid)
+			assert.isNotNull(responseSeries)
+			assert.equal(responseSeries.uuid, series.uuid)
 
-			let name = s.series.names.find(n => n.language == responseSeries.language)
-			assert.isNotNull(name)
-			assert.equal(responseSeries.name, name.name)
-			assert.equal(responseSeries.books.length, s.books.length)
+			let seriesName = series.names.find(n => n.language == "en")
 
-			for (let responseBook of responseSeries.books) {
-				let storeBook = s.books.find(b => b.uuid == responseBook.uuid)
-				assert.isNotNull(storeBook)
-				
-				let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
-				assert.isNotNull(storeBookRelease)
+			assert.isNotNull(seriesName)
+			assert.equal(responseSeries.name.language, "en")
+			assert.equal(responseSeries.name.value, seriesName.name)
+		}
+	})
 
-				assert.equal(responseBook.uuid, storeBook.uuid)
-				assert.equal(responseBook.title, storeBookRelease.title)
-				assert.equal(responseBook.description, storeBookRelease.description)
-				assert.equal(responseBook.language, storeBook.language)
-				assert.equal(responseBook.price, storeBook.price ?? 0)
-				assert.equal(responseBook.isbn, storeBook.isbn)
-				assert.equal(responseBook.cover_aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
-				assert.equal(responseBook.cover_blurhash, storeBookRelease.coverItem?.blurhash)
+	it("should return store book series of author", async () => {
+		let author = constants.authorUser.author
+		let response
+
+		try {
+			response = await axios({
+				method: 'get',
+				url: getLatestStoreBookSeriesEndpointUrl,
+				params: {
+					fields: "*",
+					author: author.uuid
+				}
+			})
+		} catch (error) {
+			assert.fail()
+		}
+
+		// Find all valid store book series
+		let seriesList = author.series
+
+		assert.equal(response.status, 200)
+		assert.equal(Object.keys(response.data).length, 2)
+		assert.equal(response.data.items.length, seriesList.length)
+
+		for (let series of seriesList) {
+			let responseSeries = response.data.items.find(s => s.uuid == series.uuid)
+
+			assert.isNotNull(responseSeries)
+			assert.equal(responseSeries.uuid, series.uuid)
+
+			let seriesName = series.names.find(n => n.language == "en")
+
+			assert.isNotNull(seriesName)
+			assert.equal(responseSeries.name.language, "en")
+			assert.equal(responseSeries.name.value, seriesName.name)
+		}
+	})
+
+	it("should return store book series of author with specified language", async () => {
+		let author = constants.authorUser.author
+		let language = "de"
+		let response
+
+		try {
+			response = await axios({
+				method: 'get',
+				url: getLatestStoreBookSeriesEndpointUrl,
+				params: {
+					fields: "*",
+					languages: language,
+					author: author.uuid
+				}
+			})
+		} catch (error) {
+			assert.fail()
+		}
+
+		// Find all valid store book series
+		let seriesList = author.series
+
+		assert.equal(response.status, 200)
+		assert.equal(Object.keys(response.data).length, 2)
+		assert.equal(response.data.items.length, seriesList.length)
+
+		for (let series of seriesList) {
+			let responseSeries = response.data.items.find(s => s.uuid == series.uuid)
+
+			assert.isNotNull(responseSeries)
+			assert.equal(responseSeries.uuid, series.uuid)
+
+			let seriesName = series.names.find(n => n.language == language)
+
+			if (seriesName == null) {
+				assert.equal(responseSeries.name.language, "en")
+
+				seriesName = series.names.find(s => s.language == "en")
+
+				assert.isNotNull(seriesName)
+				assert.equal(responseSeries.name.value, seriesName.name)
+			} else {
+				assert.equal(responseSeries.name.language, language)
+				assert.equal(responseSeries.name.value, seriesName.name)
 			}
 		}
 	})
 
 	function getValidStoreBookSeries(author, languages) {
 		let series = []
-		
-		for (let s of author.series) {
-			let seriesLanguages = []
-			for (let name of s.names) {
-				if (languages.includes(name.language)) {
-					seriesLanguages.push(name.language)
-				}
-			}
 
-			let languageBooks = {}
-			for (let lang of seriesLanguages) {
-				languageBooks[lang] = []
-			}
+		for (let s of author.series) {
+			let storeBookCount = 0
 
 			for (let collectionUuid of s.collections) {
 				let collection = author.collections.find(c => c.uuid == collectionUuid)
 				if (collection == null) continue
 
-				for (let book of collection.books) {
-					if (book.status == "published" && seriesLanguages.includes(book.language)) {
-						languageBooks[book.language].push(book)
-					}
+				for (let storeBook of collection.books) {
+					if (storeBook.status != "published") continue
+					if (!languages.includes(storeBook.language)) continue
+
+					let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+					if (storeBookRelease.status != "published") continue
+
+					storeBookCount++
+					break
 				}
 			}
 
-			for (let key of Object.keys(languageBooks)) {
-				if (languageBooks[key].length == s.collections.length) {
-					series.push({
-						series: s,
-						books: languageBooks[key]
-					})
-					break
-				}
+			if (storeBookCount == s.collections.length) {
+				series.push(s)
 			}
 		}
 
