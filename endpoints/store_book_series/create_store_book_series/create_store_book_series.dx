@@ -1,3 +1,15 @@
+(# Get the params)
+(var fields_str (get_param "fields"))
+
+(if (is_nil fields_str) (
+	(var fields (list "uuid"))
+) elseif (fields_str == "*") (
+	(var fields (list "uuid" "name"))
+) else (
+	(# Process the fields string)
+	(var fields (func process_fields (fields_str)))
+))
+
 (var json (parse_json (get_body)))
 
 (var author json.author)
@@ -109,9 +121,20 @@
 (func add_store_book_series_to_latest_series_collection (series))
 
 (# Render the result)
-(render_json (hash
-	(uuid series.uuid)
-	(author series.properties.author)
-	(names (list (hash (name name) (language language))))
-	(collections collections)
-) 201)
+(var result (hash))
+
+(if (fields.contains "uuid") (var result.uuid series.uuid))
+(if (
+	(fields.contains "name")
+	or (fields.contains "name.value")
+	or (fields.contains "name.language")
+) (
+	(var name_hash (hash))
+
+	(if ((fields.contains "name") or (fields.contains "name.value")) (var name_hash.value name))
+	(if ((fields.contains "name") or (fields.contains "name.language")) (var name_hash.language language))
+
+	(var result.name name_hash)
+))
+
+(render_json result 201)

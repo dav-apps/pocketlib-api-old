@@ -6,7 +6,7 @@ import constants from '../constants.js'
 import * as utils from '../utils.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const createStoreBookSeriesEndpointUrl = `${constants.apiBaseUrl}/store/book/series`
+const createStoreBookSeriesEndpointUrl = `${constants.apiBaseUrl}/store_book_series`
 var resetStoreBookSeriesAndAuthors = false
 
 afterEach(async () => {
@@ -514,6 +514,9 @@ describe("CreateStoreBookSeries endpoint", () => {
 					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
 				},
+				params: {
+					fields: "*"
+				},
 				data: {
 					name,
 					language
@@ -524,11 +527,10 @@ describe("CreateStoreBookSeries endpoint", () => {
 		}
 
 		assert.equal(response.status, 201)
+		assert.equal(Object.keys(response.data).length, 2)
 		assert.isNotNull(response.data.uuid)
-		assert.equal(response.data.names.length, 1)
-		assert.equal(response.data.names[0].name, name)
-		assert.equal(response.data.names[0].language, language)
-		assert.equal(response.data.collections.length, 0)
+		assert.equal(response.data.name.value, name)
+		assert.equal(response.data.name.language, language)
 
 		// Check if the data was correctly saved on the server
 		// Get the store book series
@@ -586,6 +588,9 @@ describe("CreateStoreBookSeries endpoint", () => {
 					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
 				},
+				params: {
+					fields: "*"
+				},
 				data: {
 					name,
 					language,
@@ -597,13 +602,10 @@ describe("CreateStoreBookSeries endpoint", () => {
 		}
 
 		assert.equal(response.status, 201)
+		assert.equal(Object.keys(response.data).length, 2)
 		assert.isNotNull(response.data.uuid)
-		assert.equal(response.data.names.length, 1)
-		assert.equal(response.data.names[0].name, name)
-		assert.equal(response.data.names[0].language, language)
-		assert.equal(response.data.collections.length, collections.length)
-		assert.equal(response.data.collections[0], collections[0])
-		assert.equal(response.data.collections[1], collections[1])
+		assert.equal(response.data.name.value, name)
+		assert.equal(response.data.name.language, language)
 
 		// Check if the data was correctly saved on the server
 		// Get the store book series
@@ -659,6 +661,9 @@ describe("CreateStoreBookSeries endpoint", () => {
 					Authorization: constants.davUser.accessToken,
 					'Content-Type': 'application/json'
 				},
+				params: {
+					fields: "*"
+				},
 				data: {
 					author,
 					name,
@@ -670,12 +675,10 @@ describe("CreateStoreBookSeries endpoint", () => {
 		}
 
 		assert.equal(response.status, 201)
+		assert.equal(Object.keys(response.data).length, 2)
 		assert.isNotNull(response.data.uuid)
-		assert.equal(response.data.author, author)
-		assert.equal(response.data.names.length, 1)
-		assert.equal(response.data.names[0].name, name)
-		assert.equal(response.data.names[0].language, language)
-		assert.equal(response.data.collections.length, 0)
+		assert.equal(response.data.name.value, name)
+		assert.equal(response.data.name.language, language)
 
 		// Check if the data was correctly saved on the server
 		// Get the store book series
@@ -734,6 +737,9 @@ describe("CreateStoreBookSeries endpoint", () => {
 					Authorization: constants.davUser.accessToken,
 					'Content-Type': 'application/json'
 				},
+				params: {
+					fields: "*"
+				},
 				data: {
 					author,
 					name,
@@ -746,14 +752,10 @@ describe("CreateStoreBookSeries endpoint", () => {
 		}
 
 		assert.equal(response.status, 201)
+		assert.equal(Object.keys(response.data).length, 2)
 		assert.isNotNull(response.data.uuid)
-		assert.equal(response.data.author, author)
-		assert.equal(response.data.names.length, 1)
-		assert.equal(response.data.names[0].name, name)
-		assert.equal(response.data.names[0].language, language)
-		assert.equal(response.data.collections.length, collections.length)
-		assert.equal(response.data.collections[0], collections[0])
-		assert.equal(response.data.collections[1], collections[1])
+		assert.equal(response.data.name.value, name)
+		assert.equal(response.data.name.language, language)
 
 		// Check if the data was correctly saved on the server
 		// Get the store book series
