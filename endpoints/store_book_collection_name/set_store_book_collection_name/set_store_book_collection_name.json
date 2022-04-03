@@ -1,6 +1,6 @@
 {
 	"type": "endpoint",
-	"path": "store/book/collection/:uuid/name/:language",
+	"path": "store_book_collections/:uuid/names/:language",
 	"method": "PUT",
 	"source": "./set_store_book_collection_name.dx"
 }
