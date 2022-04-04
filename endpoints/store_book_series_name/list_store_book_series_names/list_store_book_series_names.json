@@ -1,0 +1,6 @@
+{
+	"type": "endpoint",
+	"path": "store_book_series/:uuid/names",
+	"method": "GET",
+	"source": "./list_store_book_series_names.dx"
+}

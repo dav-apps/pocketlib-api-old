@@ -1,0 +1,50 @@
+(# Get the params)
+(var uuid (get_param "uuid"))
+(var fields_str (get_param "fields"))
+
+(if (is_nil fields_str) (
+	(var fields (list "type" "items.uuid"))
+) elseif (fields_str == "*") (
+	(var fields (list "type" "items.uuid" "items.name" "items.language"))
+) else (
+	(# Process the fields string)
+	(var fields (func process_fields (fields_str)))
+))
+
+(# Get the store book series)
+(var series (func get_table_object (uuid (get_env "STORE_BOOK_SERIES_TABLE_ID"))))
+
+(if (is_nil series) (
+	(# StoreBookSeries does not exist)
+	(func render_validation_errors ((list (hash (error (get_error 3514)) (status 404)))))
+))
+
+(# Get the names of the series)
+(var names (list))
+
+(if (!(is_nil series.properties.names)) (
+	(# Get each name)
+	(var name_uuids (series.properties.names.split ","))
+
+	(for name_uuid in name_uuids (
+		(var name (func get_table_object (name_uuid (get_env "STORE_BOOK_SERIES_NAME_TABLE_ID"))))
+		(if (is_nil name) (continue))
+
+		(# Add the name to the list)
+		(var name_hash (hash))
+
+		(if (fields.contains "items.uuid") (var name_hash.uuid name.uuid))
+		(if (fields.contains "items.name") (var name_hash.name name.properties.name))
+		(if (fields.contains "items.language") (var name_hash.language name.properties.language))
+
+		(names.push name_hash)
+	))
+))
+
+(# Render the result)
+(var result (hash))
+
+(if (fields.contains "type") (var result.type "store_book_series_name"))
+(var result.items names)
+
+(render_json result 200)
