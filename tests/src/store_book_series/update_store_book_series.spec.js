@@ -6,7 +6,7 @@ import constants from '../constants.js'
 import * as utils from '../utils.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const updateStoreBookSeriesEndpointUrl = `${constants.apiBaseUrl}/store/book/series/{0}`
+const updateStoreBookSeriesEndpointUrl = `${constants.apiBaseUrl}/store_book_series/{0}`
 var resetStoreBookSeries = false
 
 afterEach(async () => {
@@ -207,6 +207,9 @@ describe("UpdateStoreBookSeries endpoint", async () => {
 					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
 				},
+				params: {
+					fields: "*"
+				},
 				data: {
 					collections
 				}
@@ -216,18 +219,87 @@ describe("UpdateStoreBookSeries endpoint", async () => {
 		}
 
 		assert.equal(response.status, 200)
+		assert.equal(Object.keys(response.data).length, 2)
 		assert.equal(response.data.uuid, series.uuid)
-		assert.equal(response.data.author, author.uuid)
-		assert.equal(response.data.names.length, series.names.length)
-		assert.equal(response.data.collections.length, collections.length)
-		assert.equal(response.data.collections[0], collections[0])
-		assert.equal(response.data.collections[1], collections[1])
+		
+		if (series.names.length == 0) {
+			assert.isNull(response.data.name)
+		} else {
+			let seriesName = series.names.find(n => n.language == "en")
 
-		let i = 0
-		for (let seriesName of series.names) {
-			assert.equal(response.data.names[i].name, seriesName.name)
-			assert.equal(response.data.names[i].language, seriesName.language)
-			i++
+			assert.isNotNull(seriesName)
+			assert.equal(response.data.name.language, "en")
+			assert.equal(response.data.name.value, seriesName.name)
+		}
+
+		// Check if the store book series was updated on the server
+		let objResponse = await TableObjectsController.GetTableObject({
+			accessToken: constants.authorUser.accessToken,
+			uuid: series.uuid
+		})
+
+		assert.equal(objResponse.status, 200)
+		assert.equal(objResponse.data.tableObject.Uuid, series.uuid)
+		assert.equal(objResponse.data.tableObject.GetPropertyValue("author"), author.uuid)
+
+		let nameUuids = []
+		for (let name of series.names) nameUuids.push(name.uuid)
+		assert.equal(objResponse.data.tableObject.GetPropertyValue("names"), nameUuids.join(','))
+
+		assert.equal(objResponse.data.tableObject.GetPropertyValue("collections"), collections.join(','))
+	})
+
+	it("should update store book series with specified language", async () => {
+		resetStoreBookSeries = true
+		let response
+		let language = "de"
+		let author = constants.authorUser.author
+		let series = author.series[0]
+		let collections = [
+			constants.authorUser.author.collections[1].uuid,
+			constants.authorUser.author.collections[2].uuid
+		]
+
+		try {
+			response = await axios({
+				method: 'put',
+				url: updateStoreBookSeriesEndpointUrl.replace('{0}', series.uuid),
+				headers: {
+					Authorization: constants.authorUser.accessToken,
+					'Content-Type': 'application/json'
+				},
+				params: {
+					fields: "*",
+					languages: language
+				},
+				data: {
+					collections
+				}
+			})
+		} catch (error) {
+			assert.fail()
+		}
+
+		assert.equal(response.status, 200)
+		assert.equal(Object.keys(response.data).length, 2)
+		assert.equal(response.data.uuid, series.uuid)
+
+		if (series.names.length == 0) {
+			assert.isNull(response.data.name)
+		} else {
+			let seriesName = series.names.find(n => n.language == language)
+
+			if (seriesName == null) {
+				assert.equal(response.data.name.language, "en")
+
+				seriesName = series.names.find(n => n.language == "en")
+
+				assert.isNotNull(seriesName)
+				assert.equal(response.data.name.value, seriesName.name)
+			} else {
+				assert.equal(response.data.name.language, language)
+				assert.equal(response.data.name.value, seriesName.name)
+			}
 		}
 
 		// Check if the store book series was updated on the server
@@ -265,6 +337,9 @@ describe("UpdateStoreBookSeries endpoint", async () => {
 					Authorization: constants.davUser.accessToken,
 					'Content-Type': 'application/json'
 				},
+				params: {
+					fields: "*"
+				},
 				data: {
 					collections
 				}
@@ -274,18 +349,86 @@ describe("UpdateStoreBookSeries endpoint", async () => {
 		}
 
 		assert.equal(response.status, 200)
+		assert.equal(Object.keys(response.data).length, 2)
 		assert.equal(response.data.uuid, series.uuid)
-		assert.equal(response.data.author, author.uuid)
-		assert.equal(response.data.names.length, series.names.length)
-		assert.equal(response.data.collections.length, collections.length)
-		assert.equal(response.data.collections[0], collections[0])
-		assert.equal(response.data.collections[1], collections[1])
 
-		let i = 0
-		for (let seriesName of series.names) {
-			assert.equal(response.data.names[i].name, seriesName.name)
-			assert.equal(response.data.names[i].language, seriesName.language)
-			i++
+		if (series.names.length == 0) {
+			assert.isNull(response.data.name)
+		} else {
+			let seriesName = series.names.find(n => n.language == "en")
+
+			assert.isNotNull(seriesName)
+			assert.equal(response.data.name.language, "en")
+			assert.equal(response.data.name.value, seriesName.name)
+		}
+
+		// Check if the store book series was updated on the server
+		let objResponse = await TableObjectsController.GetTableObject({
+			accessToken: constants.davUser.accessToken,
+			uuid: series.uuid
+		})
+
+		assert.equal(objResponse.status, 200)
+		assert.equal(objResponse.data.tableObject.Uuid, series.uuid)
+		assert.equal(objResponse.data.tableObject.GetPropertyValue("author"), author.uuid)
+
+		let nameUuids = []
+		for (let name of series.names) nameUuids.push(name.uuid)
+		assert.equal(objResponse.data.tableObject.GetPropertyValue("names"), nameUuids.join(','))
+
+		assert.equal(objResponse.data.tableObject.GetPropertyValue("collections"), collections.join(','))
+	})
+
+	it("should update store book series as admin with specified language", async () => {
+		resetStoreBookSeries = true
+		let response
+		let language = "de"
+		let author = constants.davUser.authors[2]
+		let series = author.series[0]
+		let collections = [
+			author.collections[1].uuid,
+			author.collections[0].uuid
+		]
+
+		try {
+			response = await axios({
+				method: 'put',
+				url: updateStoreBookSeriesEndpointUrl.replace('{0}', series.uuid),
+				headers: {
+					Authorization: constants.davUser.accessToken,
+					'Content-Type': 'application/json'
+				},
+				params: {
+					fields: "*"
+				},
+				data: {
+					collections
+				}
+			})
+		} catch (error) {
+			assert.fail()
+		}
+
+		assert.equal(response.status, 200)
+		assert.equal(Object.keys(response.data).length, 2)
+		assert.equal(response.data.uuid, series.uuid)
+
+		if (series.names.length == 0) {
+			assert.isNull(response.data.name)
+		} else {
+			let seriesName = series.names.find(n => n.language == language)
+
+			if (seriesName == null) {
+				assert.equal(response.data.name.language, "en")
+
+				seriesName = series.names.find(n => n.language == "en")
+
+				assert.isNotNull(seriesName)
+				assert.equal(response.data.name.value, seriesName.name)
+			} else {
+				assert.equal(response.data.name.language, language)
+				assert.equal(response.data.name.value, seriesName.name)
+			}
 		}
 
 		// Check if the store book series was updated on the server

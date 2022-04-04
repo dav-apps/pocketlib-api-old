@@ -1,5 +1,18 @@
 (# Get the params)
 (var uuid (get_param "uuid"))
+(var fields_str (get_param "fields"))
+(var languages (get_param "languages"))
+
+(if (is_nil fields_str) (
+	(var fields (list "uuid"))
+) elseif (fields_str == "*") (
+	(var fields (list "uuid" "name"))
+) else (
+	(# Process the fields string)
+	(var fields (func process_fields (fields_str)))
+))
+
+(var language_list (func process_languages (languages)))
 
 (var json (parse_json (get_body)))
 
@@ -65,13 +78,23 @@
 (# Update the series)
 (if (!(is_nil collections)) (var series.properties.collections (collections.join ",")))
 
-(# Get the names of the series)
-(var names (func get_series_names_by_string (series.properties.names false)))
-
 (# Render the result)
-(render_json (hash
-	(uuid series.uuid)
-	(author series.properties.author)
-	(names names)
-	(collections collections)
-) 200)
+(var result (hash))
+
+(if (fields.contains "uuid") (var result.uuid series.uuid))
+(if (
+	(fields.contains "name")
+	or (fields.contains "name.value")
+	or (fields.contains "name.language")
+) (
+	(var result.name (
+		(func find_series_name_by_languages (
+			series.properties.names
+			language_list
+			((fields.contains "name") or (fields.contains "name.value"))
+			((fields.contains "name") or (fields.contains "name.language"))
+		))
+	))
+))
+
+(render_json result 200)
