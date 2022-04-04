@@ -6,7 +6,7 @@ import constants from '../constants.js'
 import * as utils from '../utils.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const createStoreBookEndpointUrl = `${constants.apiBaseUrl}/store/book`
+const createStoreBookEndpointUrl = `${constants.apiBaseUrl}/store_books`
 var resetStoreBooksAndCollections = false
 var resetAuthors = false
 
@@ -665,6 +665,9 @@ describe("CreateStoreBook endpoint", () => {
 					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
 				},
+				params: {
+					fields: "*"
+				},
 				data: {
 					collection: collection.uuid,
 					title,
@@ -676,7 +679,17 @@ describe("CreateStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 201)
+		assert.equal(Object.keys(response.data).length, 10)
 		assert.isNotNull(response.data.uuid)
+		assert.equal(response.data.title, title)
+		assert.isNull(response.data.description)
+		assert.equal(response.data.language, language)
+		assert.equal(response.data.price, 0)
+		assert.isNull(response.data.isbn)
+		assert.equal(response.data.status, "unpublished")
+		assert.isNull(response.data.cover)
+		assert.isNull(response.data.file)
+		assert.equal(response.data.categories.length, 0)
 
 		// Check if the data was correctly saved in the database
 		// Get the collection
@@ -739,6 +752,9 @@ describe("CreateStoreBook endpoint", () => {
 					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
 				},
+				params: {
+					fields: "*"
+				},
 				data: {
 					collection: collection.uuid,
 					title,
@@ -754,7 +770,21 @@ describe("CreateStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 201)
+		assert.equal(Object.keys(response.data).length, 10)
 		assert.isNotNull(response.data.uuid)
+		assert.equal(response.data.title, title)
+		assert.equal(response.data.description, description)
+		assert.equal(response.data.language, language)
+		assert.equal(response.data.price, price)
+		assert.equal(response.data.isbn, isbn)
+		assert.equal(response.data.status, "unpublished")
+		assert.isNull(response.data.cover)
+		assert.isNull(response.data.file)
+		assert.equal(response.data.categories.length, categories.length)
+
+		for (let categoryKey of categories) {
+			assert.isTrue(response.data.categories.includes(categoryKey))
+		}
 
 		// Check if the data was correctly saved in the database
 		// Get the collection
@@ -782,8 +812,6 @@ describe("CreateStoreBook endpoint", () => {
 		assert.equal(storeBookObjResponse.data.tableObject.GetPropertyValue("collection"), collection.uuid)
 		assert.isNotNull(storeBookObjResponse.data.tableObject.GetPropertyValue("releases"))
 		assert.equal(storeBookObjResponse.data.tableObject.GetPropertyValue("language"), language)
-		assert.equal(storeBookObjResponse.data.tableObject.GetPropertyValue("price"), price.toString())
-		assert.equal(storeBookObjResponse.data.tableObject.GetPropertyValue("isbn"), isbn)
 
 		// Get the store book release
 		let storeBookReleaseUuid = storeBookObjResponse.data.tableObject.GetPropertyValue("releases")
@@ -797,6 +825,8 @@ describe("CreateStoreBook endpoint", () => {
 		assert.equal(storeBookReleaseObjResponse.data.tableObject.Uuid, storeBookReleaseUuid)
 		assert.equal(storeBookReleaseObjResponse.data.tableObject.GetPropertyValue("title"), title)
 		assert.equal(storeBookReleaseObjResponse.data.tableObject.GetPropertyValue("description"), description)
+		assert.equal(storeBookReleaseObjResponse.data.tableObject.GetPropertyValue("price"), price.toString())
+		assert.equal(storeBookReleaseObjResponse.data.tableObject.GetPropertyValue("isbn"), isbn)
 		assert.equal(storeBookReleaseObjResponse.data.tableObject.GetPropertyValue("categories"), categoryUuids.join(','))
 	})
 
@@ -819,6 +849,9 @@ describe("CreateStoreBook endpoint", () => {
 					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
 				},
+				params: {
+					fields: "*"
+				},
 				data: {
 					collection: collection.uuid,
 					title,
@@ -833,7 +866,17 @@ describe("CreateStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 201)
+		assert.equal(Object.keys(response.data).length, 10)
 		assert.isNotNull(response.data.uuid)
+		assert.equal(response.data.title, title)
+		assert.equal(response.data.description, description)
+		assert.equal(response.data.language, language)
+		assert.equal(response.data.price, price)
+		assert.equal(response.data.isbn, isbn)
+		assert.equal(response.data.status, "unpublished")
+		assert.isNull(response.data.cover)
+		assert.isNull(response.data.file)
+		assert.equal(response.data.categories.length, 0)
 
 		// Check if the data was correctly saved in the database
 		// Get the collection
@@ -876,8 +919,6 @@ describe("CreateStoreBook endpoint", () => {
 		assert.equal(storeBookObjResponse.data.tableObject.GetPropertyValue("collection"), collection.uuid)
 		assert.isNotNull(storeBookObjResponse.data.tableObject.GetPropertyValue("releases"))
 		assert.equal(storeBookObjResponse.data.tableObject.GetPropertyValue("language"), language)
-		assert.equal(storeBookObjResponse.data.tableObject.GetPropertyValue("price"), price.toString())
-		assert.equal(storeBookObjResponse.data.tableObject.GetPropertyValue("isbn"), isbn)
 
 		// Get the store book release
 		let storeBookReleaseUuid = storeBookObjResponse.data.tableObject.GetPropertyValue("releases")
@@ -891,6 +932,8 @@ describe("CreateStoreBook endpoint", () => {
 		assert.equal(storeBookReleaseObjResponse.data.tableObject.Uuid, storeBookReleaseUuid)
 		assert.equal(storeBookReleaseObjResponse.data.tableObject.GetPropertyValue("title"), title)
 		assert.equal(storeBookReleaseObjResponse.data.tableObject.GetPropertyValue("description"), description)
+		assert.equal(storeBookReleaseObjResponse.data.tableObject.GetPropertyValue("price"), price.toString())
+		assert.equal(storeBookReleaseObjResponse.data.tableObject.GetPropertyValue("isbn"), isbn)
 	})
 
 	it("should create store book and collection as admin", async () => {
@@ -915,6 +958,9 @@ describe("CreateStoreBook endpoint", () => {
 					Authorization: constants.davUser.accessToken,
 					'Content-Type': 'application/json'
 				},
+				params: {
+					fields: "*"
+				},
 				data: {
 					author: author.uuid,
 					title,
@@ -930,7 +976,21 @@ describe("CreateStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 201)
+		assert.equal(Object.keys(response.data).length, 10)
 		assert.isNotNull(response.data.uuid)
+		assert.equal(response.data.title, title)
+		assert.equal(response.data.description, description)
+		assert.equal(response.data.language, language)
+		assert.equal(response.data.price, price)
+		assert.equal(response.data.isbn, isbn)
+		assert.equal(response.data.status, "unpublished")
+		assert.isNull(response.data.cover)
+		assert.isNull(response.data.file)
+		assert.equal(response.data.categories.length, categories.length)
+
+		for (let categoryKey of categories) {
+			assert.isTrue(response.data.categories.includes(categoryKey))
+		}
 
 		// Check if the data was correctly saved in the database
 		// Get the author
@@ -952,8 +1012,6 @@ describe("CreateStoreBook endpoint", () => {
 		assert.isNotNull(storeBookObjResponse.data.tableObject.GetPropertyValue("collection"))
 		assert.isNotNull(storeBookObjResponse.data.tableObject.GetPropertyValue("releases"))
 		assert.equal(storeBookObjResponse.data.tableObject.GetPropertyValue("language"), language)
-		assert.equal(storeBookObjResponse.data.tableObject.GetPropertyValue("price"), price.toString())
-		assert.equal(storeBookObjResponse.data.tableObject.GetPropertyValue("isbn"), isbn)
 
 		// Get the store book release
 		let storeBookReleaseUuid = storeBookObjResponse.data.tableObject.GetPropertyValue("releases")
@@ -967,6 +1025,8 @@ describe("CreateStoreBook endpoint", () => {
 		assert.equal(storeBookReleaseObjResponse.data.tableObject.Uuid, storeBookReleaseUuid)
 		assert.equal(storeBookReleaseObjResponse.data.tableObject.GetPropertyValue("title"), title)
 		assert.equal(storeBookReleaseObjResponse.data.tableObject.GetPropertyValue("description"), description)
+		assert.equal(storeBookReleaseObjResponse.data.tableObject.GetPropertyValue("price"), price.toString())
+		assert.equal(storeBookReleaseObjResponse.data.tableObject.GetPropertyValue("isbn"), isbn)
 		assert.equal(storeBookReleaseObjResponse.data.tableObject.GetPropertyValue("categories"), categoryUuids.join(','))
 
 		// Get the collection
@@ -1023,6 +1083,9 @@ describe("CreateStoreBook endpoint", () => {
 					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
 				},
+				params: {
+					fields: "*"
+				},
 				data: {
 					title,
 					description,
@@ -1035,7 +1098,17 @@ describe("CreateStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 201)
+		assert.equal(Object.keys(response.data).length, 10)
 		assert.isNotNull(response.data.uuid)
+		assert.equal(response.data.title, title)
+		assert.equal(response.data.description, description)
+		assert.equal(response.data.language, language)
+		assert.equal(response.data.price, price)
+		assert.isNull(response.data.isbn)
+		assert.equal(response.data.status, "unpublished")
+		assert.isNull(response.data.cover)
+		assert.isNull(response.data.file)
+		assert.equal(response.data.categories.length, 0)
 
 		// Check if the data was correctly saved in the database
 		// Get the author
@@ -1057,7 +1130,6 @@ describe("CreateStoreBook endpoint", () => {
 		assert.isNotNull(storeBookObjResponse.data.tableObject.GetPropertyValue("collection"))
 		assert.isNotNull(storeBookObjResponse.data.tableObject.GetPropertyValue("releases"))
 		assert.equal(storeBookObjResponse.data.tableObject.GetPropertyValue("language"), language)
-		assert.equal(storeBookObjResponse.data.tableObject.GetPropertyValue("price"), price.toString())
 
 		// Get the store book release
 		let storeBookReleaseUuid = storeBookObjResponse.data.tableObject.GetPropertyValue("releases")
@@ -1071,6 +1143,7 @@ describe("CreateStoreBook endpoint", () => {
 		assert.equal(storeBookReleaseObjResponse.data.tableObject.Uuid, storeBookReleaseUuid)
 		assert.equal(storeBookReleaseObjResponse.data.tableObject.GetPropertyValue("title"), title)
 		assert.equal(storeBookReleaseObjResponse.data.tableObject.GetPropertyValue("description"), description)
+		assert.equal(storeBookReleaseObjResponse.data.tableObject.GetPropertyValue("price"), price.toString())
 
 		// Get the collection
 		let collectionUuid = storeBookObjResponse.data.tableObject.GetPropertyValue("collection")

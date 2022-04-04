@@ -1,6 +1,6 @@
 {
 	"type": "endpoint",
-	"path": "store/book",
+	"path": "store_books",
 	"method": "POST",
 	"source": "./create_store_book.dx"
 }

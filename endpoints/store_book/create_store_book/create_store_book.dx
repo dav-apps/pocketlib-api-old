@@ -1,3 +1,15 @@
+(# Get the params)
+(var fields_str (get_param "fields"))
+
+(if (is_nil fields_str) (
+	(var fields (list "uuid"))
+) elseif (fields_str == "*") (
+	(var fields (list "uuid" "title" "description" "language" "price" "isbn" "status" "cover" "file" "in_library" "purchased" "categories"))
+) else (
+	(# Process the fields string)
+	(var fields (func process_fields (fields_str)))
+))
+
 (var json (parse_json (get_body)))
 
 (var author json.author)
@@ -142,6 +154,14 @@
 	(var store_book_release_properties.description description)
 ))
 
+(if (!(is_nil price)) (
+	(var store_book_release_properties.price price)
+))
+
+(if (!(is_nil isbn)) (
+	(var store_book_release_properties.isbn isbn)
+))
+
 (var category_keys (list))
 (if (!(is_nil categories)) (
 	(# Get the uuids of the categories)
@@ -174,14 +194,6 @@
 	(language language)
 ))
 
-(if (!(is_nil price)) (
-	(var store_book_properties.price price)
-))
-
-(if (!(is_nil isbn)) (
-	(var store_book_properties.isbn isbn)
-))
-
 (var store_book (func create_table_object (session.user_id (get_env "STORE_BOOK_TABLE_ID") store_book_properties)))
 
 (# Set the price of the table object)
@@ -191,6 +203,21 @@
 (func add_book_to_collection (collection_obj store_book.uuid))
 
 (# Render the result)
-(render_json (hash 
-	(uuid store_book.uuid)
-) 201)
+(var result (hash))
+
+(if (fields.contains "uuid") (var result.uuid store_book.uuid))
+(if (fields.contains "title") (var result.title store_book_release.properties.title))
+(if (fields.contains "description") (var result.description store_book_release.properties.description))
+(if (fields.contains "language") (var result.language store_book.properties.language))
+(if (fields.contains "price") (var result.price (to_int store_book_release.properties.price)))
+(if (fields.contains "isbn") (var result.isbn store_book_release.properties.isbn))
+(if (fields.contains "status") (var result.status "unpublished"))
+(if (fields.contains "cover") (var result.cover nil))
+(if (fields.contains "file") (var result.file nil))
+
+(if (fields.contains "categories") (
+	(var categories (func get_category_keys_by_string (store_book_release.properties.categories)))
+	(var result.categories categories)
+))
+
+(render_json result 201)
