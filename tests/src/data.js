@@ -287,6 +287,7 @@ function addStoreBookSeriesNameToTableObject(storeBookSeriesName, userId) {
 function addStoreBookToTableObjects(storeBook, userId, collectionUuid) {
 	let releases = []
 	storeBook.releases.forEach(release => releases.push(release.uuid))
+	let lastRelease = storeBook.releases[storeBook.releases.length - 1]
 
 	let tableObject = {
 		uuid: storeBook.uuid,
@@ -296,16 +297,14 @@ function addStoreBookToTableObjects(storeBook, userId, collectionUuid) {
 		properties: {
 			collection: collectionUuid,
 			language: storeBook.language,
-			price: storeBook.price ? storeBook.price.toString() : "",
-			isbn: storeBook.isbn ? storeBook.isbn : "",
 			status: storeBook.status ? storeBook.status : "",
 			releases: releases.join(',')
 		}
 	}
 
-	if (storeBook.price != null) {
+	if (lastRelease.price != null) {
 		tableObject.price = {
-			price: storeBook.price,
+			price: lastRelease.price,
 			currency: "eur"
 		}
 	}
@@ -323,6 +322,8 @@ function addStoreBookReleaseToTableObjects(storeBookRelease, userId, storeBookUu
 			store_book: storeBookUuid,
 			title: storeBookRelease.title,
 			description: storeBookRelease.description,
+			price: storeBookRelease.price ? storeBookRelease.price.toString() : "",
+			isbn: storeBookRelease.isbn ? storeBookRelease.isbn : "",
 			status: storeBookRelease.status ?? "",
 			cover_item: storeBookRelease.coverItem?.uuid ?? "",
 			file_item: storeBookRelease.fileItem?.uuid ?? "",

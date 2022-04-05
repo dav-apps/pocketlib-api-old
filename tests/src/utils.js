@@ -1034,8 +1034,6 @@ async function resetAuthorUserStoreBooks() {
 				properties: {
 					collection: collection.uuid,
 					language: book.language,
-					price: book.price?.toString() ?? "",
-					isbn: book.isbn ?? "",
 					status: book.status ?? "",
 					releases: releases.join(',')
 				}
@@ -1090,8 +1088,6 @@ async function resetDavUserStoreBooks() {
 					properties: {
 						collection: collection.uuid,
 						language: book.language,
-						price: book.price?.toString() ?? "",
-						isbn: book.isbn ?? "",
 						status: book.status ?? "",
 						releases: releases.join(',')
 					}
@@ -1145,6 +1141,8 @@ async function resetAuthorUserStoreBookReleases() {
 						store_book: book.uuid,
 						title: release.title,
 						description: release.description,
+						price: release.price?.toString() ?? "",
+						isbn: release.isbn ?? "",
 						status: release.status ?? "",
 						cover_item: release.coverItem?.uuid,
 						file_item: release.fileItem?.uuid,
@@ -1201,6 +1199,8 @@ async function resetDavUserStoreBookReleases() {
 							store_book: book.uuid,
 							title: release.title,
 							description: release.description,
+							price: release.price?.toString() ?? "",
+							isbn: release.isbn ?? "",
 							status: release.status ?? "",
 							cover_item: release.coverItem?.uuid,
 							file_item: release.fileItem?.uuid,
