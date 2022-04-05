@@ -5,6 +5,7 @@
 (var page (to_int (get_param "page")))
 (var latest ((get_param "latest") == "true"))
 (var author_uuid (get_param "author"))
+(var collection_uuid (get_param "collection"))
 
 (if (is_nil fields_str) (
 	(var fields (list "type" "pages" "items.uuid"))
@@ -25,8 +26,13 @@
 	(var page 1)
 ))
 
+(# Get the access token)
+(var access_token (get_header "Authorization"))
+
 (var calculate_pages ((fields.contains "pages") or (page > 1)))
 (var public true)
+(var file_details false)
+(var user_details false)
 
 (if latest (
 	(var store_book_uuids (func get_latest_store_book_table_object_uuids ()))
@@ -52,6 +58,48 @@
 			(store_book_uuids.push uuid)
 		))
 	))
+) elseif (!(is_nil collection_uuid)) (
+	(if (!(is_nil access_token)) (
+		(# func render_validation_errors ((list
+			(func validate_auth_header_presence (access_token))
+		)))
+
+		(# Get the session)
+		(var session (func get_session (access_token)))
+
+		(# Check if the user is an admin)
+		(var admins (get_env "ADMINS"))
+		(var is_admin (admins.contains session.user_id))
+	))
+
+	(# Get the store book collection)
+	(var collection (func get_table_object (collection_uuid (get_env "STORE_BOOK_COLLECTION_TABLE_ID"))))
+
+	(if (is_nil collection) (
+		(# Collection does not exist)
+		(func render_validation_errors ((list (hash (error (get_error 3506)) (status 404)))))
+	))
+
+	(# Get the author)
+	(var author (func get_table_object (collection.properties.author (get_env "AUTHOR_TABLE_ID"))))
+
+	(if (is_nil author) (
+		(# Author does not exist)
+		(func render_validation_errors ((list (hash (error (get_error 3503)) (status 404)))))
+	))
+
+	(# Check if the user can access not published books)
+	(var can_access (is_admin or ((! (is_nil session)) and (author.user_id == session.user_id))))
+	(var public (! can_access))
+	(var file_details (is_admin or ((! (is_nil session)) and (author.user_id == session.user_id))))
+	(var user_details (!(is_nil session)))
+	(var store_book_uuids (list))
+
+	(if (!(is_nil collection.properties.books)) (
+		(for store_book_uuid in (collection.properties.books.split ",") (
+			(store_book_uuids.push store_book_uuid)
+		))
+	))
 ) else (
 	(var store_book_uuids (list))
 ))
@@ -68,7 +116,7 @@
 	(if (public and (status != "published")) (continue))
 
 	(# Check the language)
-	(if (!(language_list.contains store_book.properties.language)) (continue))
+	(if (public and (!(language_list.contains store_book.properties.language))) (continue))
 
 	(# Get the store book release)
 	(var store_book_release (func get_last_release_of_store_book (store_book public)))
@@ -85,14 +133,6 @@
 		(# Get the cover item)
 		(var cover_item (func get_table_object (store_book_release.properties.cover_item (get_env "STORE_BOOK_COVER_ITEM_TABLE_ID"))))
 		(if (public and (is_nil cover_item)) (continue))
-	))
-
-	(if (
-		(fields.contains "file")
-		or (fields.contains "file.file_name")
-	) (
-		(# Get the file item)
-		(var file_item (func get_table_object (store_book_release.properties.file_item (get_env "STORE_BOOK_FILE_ITEM_TABLE_ID"))))
 	))
 
 	(if (fields.contains "categories") (
@@ -130,9 +170,33 @@
 		))
 	))
 
-	(# TODO: file)
-	(# TODO: in_library)
-	(# TODO: purchased)
+	(if (
+		((fields.contains "items.file") or (fields.contains "items.file.file_name"))
+		and file_details
+	) (
+		(# Get the file item)
+		(var file_item (func get_table_object (store_book_release.properties.file_item (get_env "STORE_BOOK_FILE_ITEM_TABLE_ID"))))
+
+		(if (is_nil file_item) (
+			(var book_hash.file nil)
+		) else (
+			(var book_hash.file (hash (file_name file_item.properties.file_name)))
+		))
+	))
+
+	(if (
+		(fields.contains "items.in_library")
+		and user_details
+	) (
+		(var book_hash.in_library (func is_store_book_in_user_library (session.user_id store_book.uuid)))
+	))
+	
+	(if (
+		(fields.contains "items.purchased")
+		and user_details
+	) (
+		(var book_hash.purchased (func has_user_purchased_table_object (session.user_id store_book.id)))
+	))
 
 	(if (fields.contains "items.categories") (var book_hash.categories (func get_category_keys_by_string (store_book_release.properties.categories))))
 
