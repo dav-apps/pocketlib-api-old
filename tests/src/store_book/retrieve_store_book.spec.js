@@ -4,14 +4,14 @@ import axios from 'axios'
 import constants from '../constants.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const getStoreBookEndpointUrl = `${constants.apiBaseUrl}/store_books/{0}`
+const retrieveStoreBookEndpointUrl = `${constants.apiBaseUrl}/store_books/{0}`
 
 describe("GetStoreBook endpoint", () => {
 	it("should not return store book with access token for session that does not exist", async () => {
 		try {
 			await axios({
 				method: 'get',
-				url: getStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
+				url: retrieveStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
 					Authorization: "asdasdasdasd.asdasdasd"
 				}
@@ -30,7 +30,7 @@ describe("GetStoreBook endpoint", () => {
 		try {
 			await axios({
 				method: 'get',
-				url: getStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
+				url: retrieveStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
 					Authorization: constants.testUserTestAppAccessToken
 				}
@@ -49,7 +49,7 @@ describe("GetStoreBook endpoint", () => {
 		try {
 			await axios({
 				method: 'get',
-				url: getStoreBookEndpointUrl.replace('{0}', "blablabla"),
+				url: retrieveStoreBookEndpointUrl.replace('{0}', "blablabla"),
 				headers: {
 					Authorization: constants.authorUser.accessToken
 				}
@@ -74,7 +74,7 @@ describe("GetStoreBook endpoint", () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
+				url: retrieveStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
 					Authorization: constants.authorUser.accessToken
 				},
@@ -124,7 +124,7 @@ describe("GetStoreBook endpoint", () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
+				url: retrieveStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
 					Authorization: constants.davUser.accessToken
 				},
@@ -171,7 +171,7 @@ describe("GetStoreBook endpoint", () => {
 		try {
 			await axios({
 				method: 'get',
-				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
+				url: retrieveStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
 					Authorization: constants.testUser.accessToken
 				}
@@ -193,7 +193,7 @@ describe("GetStoreBook endpoint", () => {
 		try {
 			await axios({
 				method: 'get',
-				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid)
+				url: retrieveStoreBookEndpointUrl.replace('{0}', storeBook.uuid)
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 403)
@@ -215,7 +215,7 @@ describe("GetStoreBook endpoint", () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
+				url: retrieveStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
 					Authorization: constants.authorUser.accessToken
 				},
@@ -265,7 +265,7 @@ describe("GetStoreBook endpoint", () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
+				url: retrieveStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
 					Authorization: constants.davUser.accessToken
 				},
@@ -312,7 +312,7 @@ describe("GetStoreBook endpoint", () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
+				url: retrieveStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
 					Authorization: constants.testUser.accessToken
 				}
@@ -334,7 +334,7 @@ describe("GetStoreBook endpoint", () => {
 		try {
 			await axios({
 				method: 'get',
-				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid)
+				url: retrieveStoreBookEndpointUrl.replace('{0}', storeBook.uuid)
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 403)
@@ -356,7 +356,7 @@ describe("GetStoreBook endpoint", () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
+				url: retrieveStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
 					Authorization: constants.authorUser.accessToken
 				},
@@ -406,7 +406,7 @@ describe("GetStoreBook endpoint", () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
+				url: retrieveStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
 					Authorization: constants.davUser.accessToken
 				},
@@ -456,7 +456,7 @@ describe("GetStoreBook endpoint", () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
+				url: retrieveStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
 					Authorization: constants.testUser.accessToken
 				},
@@ -506,7 +506,7 @@ describe("GetStoreBook endpoint", () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
+				url: retrieveStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				params: {
 					fields: "*"
 				}
@@ -554,7 +554,7 @@ describe("GetStoreBook endpoint", () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
+				url: retrieveStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
 					Authorization: constants.authorUser.accessToken
 				},
@@ -604,7 +604,7 @@ describe("GetStoreBook endpoint", () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
+				url: retrieveStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
 					Authorization: constants.davUser.accessToken
 				},
@@ -651,7 +651,7 @@ describe("GetStoreBook endpoint", () => {
 		try {
 			await axios({
 				method: 'get',
-				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
+				url: retrieveStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
 					Authorization: constants.testUser.accessToken
 				}
@@ -673,7 +673,7 @@ describe("GetStoreBook endpoint", () => {
 		try {
 			await axios({
 				method: 'get',
-				url: getStoreBookEndpointUrl.replace('{0}', storeBook.uuid)
+				url: retrieveStoreBookEndpointUrl.replace('{0}', storeBook.uuid)
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 403)
