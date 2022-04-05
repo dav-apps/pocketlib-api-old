@@ -4,6 +4,7 @@
 (var limit (to_int (get_param "limit")))
 (var page (to_int (get_param "page")))
 (var latest ((get_param "latest") == "true"))
+(var author_uuid (get_param "author"))
 
 (if (is_nil fields_str) (
 	(var fields (list "type" "pages" "items.uuid"))
@@ -25,10 +26,32 @@
 ))
 
 (var calculate_pages ((fields.contains "pages") or (page > 1)))
+(var public true)
 
 (if latest (
 	(var store_book_uuids (func get_latest_store_book_table_object_uuids ()))
 	(var store_book_uuids store_book_uuids.reverse)
+) elseif (!(is_nil author_uuid)) (
+	(# Get the author)
+	(var author (func get_table_object (author_uuid (get_env "AUTHOR_TABLE_ID"))))
+
+	(if (is_nil author) (
+		(# Author does not exist)
+		(func render_validation_errors ((list (hash (error (get_error 3503)) (status 404)))))
+	))
+
+	(# Get the collections of the author)
+	(var collection_table_objects (TableObject.find_by_property author.user_id (get_env "STORE_BOOK_COLLECTION_TABLE_ID") "author" author.uuid))
+
+	(var store_book_uuids (list))
+
+	(for store_book_collection in collection_table_objects (
+		(if (is_nil store_book_collection.properties.books) (continue))
+
+		(for uuid in (store_book_collection.properties.books.split ",") (
+			(store_book_uuids.push uuid)
+		))
+	))
 ) else (
 	(var store_book_uuids (list))
 ))
@@ -42,26 +65,26 @@
 
 	(# Get the status)
 	(var status (if (is_nil store_book.properties.status) "unpublished" else store_book.properties.status))
-	(if (latest and (status != "published")) (continue))
+	(if (public and (status != "published")) (continue))
 
 	(# Check the language)
 	(if (!(language_list.contains store_book.properties.language)) (continue))
 
 	(# Get the store book release)
-	(var store_book_release (func get_last_release_of_store_book (store_book latest)))
+	(var store_book_release (func get_last_release_of_store_book (store_book public)))
 	(if (is_nil store_book_release) (continue))
-	(if (latest and (store_book_release.properties.status != "published")) (continue))
+	(if (public and (store_book_release.properties.status != "published")) (continue))
 
 	(if (
 		(fields.contains "items.cover")
 		or (fields.contains "items.cover.url")
 		or (fields.contains "items.cover.aspect_ratio")
 		or (fields.contains "items.cover.blurhash")
-		or latest
+		or public
 	) (
 		(# Get the cover item)
 		(var cover_item (func get_table_object (store_book_release.properties.cover_item (get_env "STORE_BOOK_COVER_ITEM_TABLE_ID"))))
-		(if (latest and (is_nil cover_item)) (continue))
+		(if (public and (is_nil cover_item)) (continue))
 	))
 
 	(if (
