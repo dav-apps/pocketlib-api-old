@@ -1,6 +1,6 @@
 {
 	"type": "endpoint",
-	"path": "store/books/latest",
+	"path": "store_books",
 	"method": "GET",
 	"source": "./get_latest_store_books.dx",
 	"caching": true

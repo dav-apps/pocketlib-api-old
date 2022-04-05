@@ -93,8 +93,8 @@
 (if (fields.contains "title") (var result.title store_book_release.properties.title))
 (if (fields.contains "description") (var result.description (if (is_nil store_book_release.properties.description) "" else store_book_release.properties.description)))
 (if (fields.contains "language") (var result.language store_book.properties.language))
-(if (fields.contains "price") (var result.price (to_int store_book.properties.price)))
-(if (fields.contains "isbn") (var result.isbn store_book.properties.isbn))
+(if (fields.contains "price") (var result.price (to_int store_book_release.properties.price)))
+(if (fields.contains "isbn") (var result.isbn store_book_release.properties.isbn))
 (if (fields.contains "status") (var result.status status))
 
 (if (
@@ -134,7 +134,7 @@
 	))
 ))
 
-(# User specific fields only if the user is authenticated)
+(# Return user specific fields only if the user is authenticated)
 (if ((fields.contains "in_library") and (!(is_nil session))) (
 	(var result.in_library (func is_store_book_in_user_library (session.user_id store_book.uuid)))
 ))
