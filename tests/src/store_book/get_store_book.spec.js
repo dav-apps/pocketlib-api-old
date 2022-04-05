@@ -4,7 +4,7 @@ import axios from 'axios'
 import constants from '../constants.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const getStoreBookEndpointUrl = `${constants.apiBaseUrl}/store/book/{0}`
+const getStoreBookEndpointUrl = `${constants.apiBaseUrl}/store_books/{0}`
 
 describe("GetStoreBook endpoint", () => {
 	it("should not return store book with access token for session that does not exist", async () => {
@@ -87,19 +87,18 @@ describe("GetStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
+		assert.equal(Object.keys(response.data).length, 12)
 		assert.equal(response.data.uuid, storeBook.uuid)
-		assert.equal(response.data.collection, collection.uuid)
 		assert.equal(response.data.title, storeBookRelease.title)
 		assert.equal(response.data.description, storeBookRelease.description)
 		assert.equal(response.data.language, storeBook.language)
-		assert.equal(response.data.price, storeBook.price ?? 0)
-		assert.equal(response.data.isbn, storeBook.isbn)
-		assert.equal(response.data.status, "unpublished")
-		assert.equal(response.data.cover, storeBookRelease.coverItem != null)
-		assert.equal(response.data.cover_aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
-		assert.equal(response.data.cover_blurhash, storeBookRelease.coverItem?.blurhash)
-		assert.equal(response.data.file, storeBookRelease.fileItem != null)
-		assert.equal(response.data.file_name, storeBookRelease.fileItem?.fileName)
+		assert.equal(response.data.price, storeBookRelease.price ?? 0)
+		assert.equal(response.data.isbn, storeBookRelease.isbn)
+		assert.equal(response.data.status, storeBook.status ?? "unpublished")
+		if (response.data.cover) assert.isNotNull(response.data.cover.url)
+		assert.equal(response.data.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
+		assert.equal(response.data.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
+		assert.equal(response.data.file?.file_name, storeBookRelease.fileItem?.fileName)
 
 		if (storeBookRelease.categories) {
 			assert.equal(response.data.categories.length, storeBookRelease.categories.length)
@@ -113,17 +112,6 @@ describe("GetStoreBook endpoint", () => {
 
 		assert.isFalse(response.data.in_library)
 		assert.isFalse(response.data.purchased)
-
-		let series = []
-
-		for (let s of author.series) {
-			if (s.collections.includes(collection.uuid)) {
-				series.push(s)
-				assert.isTrue(response.data.series.includes(s.uuid))
-			}
-		}
-
-		assert.equal(response.data.series.length, series.length)
 	})
 
 	it("should return unpublished store book if the user is an admin", async () => {
@@ -149,19 +137,18 @@ describe("GetStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
+		assert.equal(Object.keys(response.data).length, 12)
 		assert.equal(response.data.uuid, storeBook.uuid)
-		assert.equal(response.data.collection, collection.uuid)
 		assert.equal(response.data.title, storeBookRelease.title)
 		assert.equal(response.data.description, storeBookRelease.description)
 		assert.equal(response.data.language, storeBook.language)
-		assert.equal(response.data.price, storeBook.price ?? 0)
-		assert.equal(response.data.isbn, storeBook.isbn)
+		assert.equal(response.data.price, storeBookRelease.price ?? 0)
+		assert.equal(response.data.isbn, storeBookRelease.isbn)
 		assert.equal(response.data.status, "unpublished")
-		assert.equal(response.data.cover, storeBookRelease.coverItem != null)
-		assert.equal(response.data.cover_aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
-		assert.equal(response.data.cover_blurhash, storeBookRelease.coverItem?.blurhash)
-		assert.equal(response.data.file, storeBookRelease.fileItem != null)
-		assert.equal(response.data.file_name, storeBookRelease.fileItem?.fileName)
+		if (response.data.cover) assert.isNotNull(response.data.cover.url)
+		assert.equal(response.data.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
+		assert.equal(response.data.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
+		assert.equal(response.data.file?.file_name, storeBookRelease.fileItem?.fileName)
 
 		if (storeBookRelease.categories) {
 			assert.equal(response.data.categories.length, storeBookRelease.categories.length)
@@ -175,17 +162,6 @@ describe("GetStoreBook endpoint", () => {
 
 		assert.isFalse(response.data.in_library)
 		assert.isFalse(response.data.purchased)
-
-		let series = []
-
-		for (let s of author.series) {
-			if (s.collections.includes(collection.uuid)) {
-				series.push(s)
-				assert.isTrue(response.data.series.includes(s.uuid))
-			}
-		}
-
-		assert.equal(response.data.series.length, series.length)
 	})
 
 	it("should not return unpublished store book if the user is not the author", async () => {
@@ -252,19 +228,18 @@ describe("GetStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
+		assert.equal(Object.keys(response.data).length, 12)
 		assert.equal(response.data.uuid, storeBook.uuid)
-		assert.equal(response.data.collection, collection.uuid)
 		assert.equal(response.data.title, storeBookRelease.title)
 		assert.equal(response.data.description, storeBookRelease.description)
 		assert.equal(response.data.language, storeBook.language)
-		assert.equal(response.data.price, storeBook.price ?? 0)
-		assert.equal(response.data.isbn, storeBook.isbn)
+		assert.equal(response.data.price, storeBookRelease.price ?? 0)
+		assert.equal(response.data.isbn, storeBookRelease.isbn)
 		assert.equal(response.data.status, "review")
-		assert.equal(response.data.cover, storeBookRelease.coverItem != null)
-		assert.equal(response.data.cover_aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
-		assert.equal(response.data.cover_blurhash, storeBookRelease.coverItem?.blurhash)
-		assert.equal(response.data.file, storeBookRelease.fileItem != null)
-		assert.equal(response.data.file_name, storeBookRelease.fileItem?.fileName)
+		if (response.data.cover) assert.isNotNull(response.data.cover.url)
+		assert.equal(response.data.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
+		assert.equal(response.data.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
+		assert.equal(response.data.file?.file_name, storeBookRelease.fileItem?.fileName)
 
 		if (storeBookRelease.categories) {
 			assert.equal(response.data.categories.length, storeBookRelease.categories.length)
@@ -278,17 +253,6 @@ describe("GetStoreBook endpoint", () => {
 
 		assert.isFalse(response.data.in_library)
 		assert.isFalse(response.data.purchased)
-
-		let series = []
-
-		for (let s of author.series) {
-			if (s.collections.includes(collection.uuid)) {
-				series.push(s)
-				assert.isTrue(response.data.series.includes(s.uuid))
-			}
-		}
-
-		assert.equal(response.data.series.length, series.length)
 	})
 
 	it("should return store book in review if the user is an admin", async () => {
@@ -314,19 +278,18 @@ describe("GetStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
+		assert.equal(Object.keys(response.data).length, 12)
 		assert.equal(response.data.uuid, storeBook.uuid)
-		assert.equal(response.data.collection, collection.uuid)
 		assert.equal(response.data.title, storeBookRelease.title)
 		assert.equal(response.data.description, storeBookRelease.description)
 		assert.equal(response.data.language, storeBook.language)
-		assert.equal(response.data.price, storeBook.price ?? 0)
-		assert.equal(response.data.isbn, storeBook.isbn)
+		assert.equal(response.data.price, storeBookRelease.price ?? 0)
+		assert.equal(response.data.isbn, storeBookRelease.isbn)
 		assert.equal(response.data.status, "review")
-		assert.equal(response.data.cover, storeBookRelease.coverItem != null)
-		assert.equal(response.data.cover_aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
-		assert.equal(response.data.cover_blurhash, storeBookRelease.coverItem?.blurhash)
-		assert.equal(response.data.file, storeBookRelease.fileItem != null)
-		assert.equal(response.data.file_name, storeBookRelease.fileItem?.fileName)
+		if (response.data.cover) assert.isNotNull(response.data.cover.url)
+		assert.equal(response.data.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
+		assert.equal(response.data.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
+		assert.equal(response.data.file?.file_name, storeBookRelease.fileItem?.fileName)
 
 		if (storeBookRelease.categories) {
 			assert.equal(response.data.categories.length, storeBookRelease.categories.length)
@@ -340,17 +303,6 @@ describe("GetStoreBook endpoint", () => {
 
 		assert.isFalse(response.data.in_library)
 		assert.isFalse(response.data.purchased)
-
-		let series = []
-
-		for (let s of author.series) {
-			if (s.collections.includes(collection.uuid)) {
-				series.push(s)
-				assert.isTrue(response.data.series.includes(s.uuid))
-			}
-		}
-
-		assert.equal(response.data.series.length, series.length)
 	})
 
 	it("should not return store book in review if the user is not the author", async () => {
@@ -417,19 +369,18 @@ describe("GetStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
+		assert.equal(Object.keys(response.data).length, 12)
 		assert.equal(response.data.uuid, storeBook.uuid)
-		assert.equal(response.data.collection, collection.uuid)
 		assert.equal(response.data.title, storeBookRelease.title)
 		assert.equal(response.data.description, storeBookRelease.description)
 		assert.equal(response.data.language, storeBook.language)
-		assert.equal(response.data.price, storeBook.price ?? 0)
-		assert.equal(response.data.isbn, storeBook.isbn)
+		assert.equal(response.data.price, storeBookRelease.price ?? 0)
+		assert.equal(response.data.isbn, storeBookRelease.isbn)
 		assert.equal(response.data.status, "published")
-		assert.equal(response.data.cover, storeBookRelease.coverItem != null)
-		assert.equal(response.data.cover_aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
-		assert.equal(response.data.cover_blurhash, storeBookRelease.coverItem?.blurhash)
-		assert.equal(response.data.file, storeBookRelease.fileItem != null)
-		assert.equal(response.data.file_name, storeBookRelease.fileItem?.fileName)
+		if (response.data.cover) assert.isNotNull(response.data.cover.url)
+		assert.equal(response.data.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
+		assert.equal(response.data.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
+		assert.equal(response.data.file?.file_name, storeBookRelease.fileItem?.fileName)
 
 		if (storeBookRelease.categories) {
 			assert.equal(response.data.categories.length, storeBookRelease.categories.length)
@@ -443,17 +394,6 @@ describe("GetStoreBook endpoint", () => {
 
 		assert.isFalse(response.data.in_library)
 		assert.isFalse(response.data.purchased)
-
-		let series = []
-
-		for (let s of author.series) {
-			if (s.collections.includes(collection.uuid)) {
-				series.push(s)
-				assert.isTrue(response.data.series.includes(s.uuid))
-			}
-		}
-
-		assert.equal(response.data.series.length, series.length)
 	})
 
 	it("should return published store book if the user is an admin", async () => {
@@ -479,19 +419,18 @@ describe("GetStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
+		assert.equal(Object.keys(response.data).length, 12)
 		assert.equal(response.data.uuid, storeBook.uuid)
-		assert.equal(response.data.collection, collection.uuid)
 		assert.equal(response.data.title, storeBookRelease.title)
 		assert.equal(response.data.description, storeBookRelease.description)
 		assert.equal(response.data.language, storeBook.language)
-		assert.equal(response.data.price, storeBook.price ?? 0)
-		assert.equal(response.data.isbn, storeBook.isbn)
+		assert.equal(response.data.price, storeBookRelease.price ?? 0)
+		assert.equal(response.data.isbn, storeBookRelease.isbn)
 		assert.equal(response.data.status, "published")
-		assert.equal(response.data.cover, storeBookRelease.coverItem != null)
-		assert.equal(response.data.cover_aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
-		assert.equal(response.data.cover_blurhash, storeBookRelease.coverItem?.blurhash)
-		assert.equal(response.data.file, storeBookRelease.fileItem != null)
-		assert.equal(response.data.file_name, storeBookRelease.fileItem?.fileName)
+		if (response.data.cover) assert.isNotNull(response.data.cover.url)
+		assert.equal(response.data.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
+		assert.equal(response.data.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
+		assert.equal(response.data.file?.file_name, storeBookRelease.fileItem?.fileName)
 
 		if (storeBookRelease.categories) {
 			assert.equal(response.data.categories.length, storeBookRelease.categories.length)
@@ -505,17 +444,6 @@ describe("GetStoreBook endpoint", () => {
 
 		assert.isFalse(response.data.in_library)
 		assert.isFalse(response.data.purchased)
-
-		let series = []
-
-		for (let s of author.series) {
-			if (s.collections.includes(collection.uuid)) {
-				series.push(s)
-				assert.isTrue(response.data.series.includes(s.uuid))
-			}
-		}
-
-		assert.equal(response.data.series.length, series.length)
 	})
 
 	it("should return published store book if the user is not the author", async () => {
@@ -541,19 +469,18 @@ describe("GetStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
+		assert.equal(Object.keys(response.data).length, 11)
 		assert.equal(response.data.uuid, storeBook.uuid)
-		assert.equal(response.data.collection, collection.uuid)
 		assert.equal(response.data.title, storeBookRelease.title)
 		assert.equal(response.data.description, storeBookRelease.description)
 		assert.equal(response.data.language, storeBook.language)
-		assert.equal(response.data.price, storeBook.price ?? 0)
-		assert.equal(response.data.isbn, storeBook.isbn)
+		assert.equal(response.data.price, storeBookRelease.price ?? 0)
+		assert.equal(response.data.isbn, storeBookRelease.isbn)
 		assert.equal(response.data.status, "published")
-		assert.equal(response.data.cover, storeBookRelease.coverItem != null)
-		assert.equal(response.data.cover_aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
-		assert.equal(response.data.cover_blurhash, storeBookRelease.coverItem?.blurhash)
-		assert.equal(response.data.file, storeBookRelease.fileItem != null)
-		assert.equal(response.data.file_name, storeBookRelease.fileItem?.fileName)
+		if (response.data.cover) assert.isNotNull(response.data.cover.url)
+		assert.equal(response.data.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
+		assert.equal(response.data.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
+		assert.isUndefined(response.data.file)
 
 		if (storeBookRelease.categories) {
 			assert.equal(response.data.categories.length, storeBookRelease.categories.length)
@@ -567,17 +494,6 @@ describe("GetStoreBook endpoint", () => {
 
 		assert.isFalse(response.data.in_library)
 		assert.isFalse(response.data.purchased)
-
-		let series = []
-
-		for (let s of author.series) {
-			if (s.collections.includes(collection.uuid)) {
-				series.push(s)
-				assert.isTrue(response.data.series.includes(s.uuid))
-			}
-		}
-
-		assert.equal(response.data.series.length, series.length)
 	})
 
 	it("should return published store book without access token", async () => {
@@ -596,23 +512,23 @@ describe("GetStoreBook endpoint", () => {
 				}
 			})
 		} catch (error) {
+			console.log(error.response.data)
 			assert.fail()
 		}
 
 		assert.equal(response.status, 200)
+		assert.equal(Object.keys(response.data).length, 9)
 		assert.equal(response.data.uuid, storeBook.uuid)
-		assert.equal(response.data.collection, collection.uuid)
 		assert.equal(response.data.title, storeBookRelease.title)
 		assert.equal(response.data.description, storeBookRelease.description)
 		assert.equal(response.data.language, storeBook.language)
-		assert.equal(response.data.price, storeBook.price ?? 0)
-		assert.equal(response.data.isbn, storeBook.isbn)
+		assert.equal(response.data.price, storeBookRelease.price ?? 0)
+		assert.equal(response.data.isbn, storeBookRelease.isbn)
 		assert.equal(response.data.status, "published")
-		assert.equal(response.data.cover, storeBookRelease.coverItem != null)
-		assert.equal(response.data.cover_aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
-		assert.equal(response.data.cover_blurhash, storeBookRelease.coverItem?.blurhash)
-		assert.equal(response.data.file, storeBookRelease.fileItem != null)
-		assert.equal(response.data.file_name, storeBookRelease.fileItem?.fileName)
+		if (response.data.cover) assert.isNotNull(response.data.cover.url)
+		assert.equal(response.data.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
+		assert.equal(response.data.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
+		assert.isUndefined(response.data.file)
 
 		if (storeBookRelease.categories) {
 			assert.equal(response.data.categories.length, storeBookRelease.categories.length)
@@ -624,19 +540,8 @@ describe("GetStoreBook endpoint", () => {
 			assert.equal(response.data.categories.length, 0)
 		}
 
-		assert.isFalse(response.data.in_library)
-		assert.isFalse(response.data.purchased)
-
-		let series = []
-
-		for (let s of author.series) {
-			if (s.collections.includes(collection.uuid)) {
-				series.push(s)
-				assert.isTrue(response.data.series.includes(s.uuid))
-			}
-		}
-
-		assert.equal(response.data.series.length, series.length)
+		assert.isUndefined(response.data.in_library)
+		assert.isUndefined(response.data.purchased)
 	})
 
 	it("should return hidden store book if the user is the author", async () => {
@@ -662,19 +567,18 @@ describe("GetStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
+		assert.equal(Object.keys(response.data).length, 12)
 		assert.equal(response.data.uuid, storeBook.uuid)
-		assert.equal(response.data.collection, collection.uuid)
 		assert.equal(response.data.title, storeBookRelease.title)
 		assert.equal(response.data.description, storeBookRelease.description)
 		assert.equal(response.data.language, storeBook.language)
-		assert.equal(response.data.price, storeBook.price ?? 0)
-		assert.equal(response.data.isbn, storeBook.isbn)
+		assert.equal(response.data.price, storeBookRelease.price ?? 0)
+		assert.equal(response.data.isbn, storeBookRelease.isbn)
 		assert.equal(response.data.status, "hidden")
-		assert.equal(response.data.cover, storeBookRelease.coverItem != null)
-		assert.equal(response.data.cover_aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
-		assert.equal(response.data.cover_blurhash, storeBookRelease.coverItem?.blurhash)
-		assert.equal(response.data.file, storeBookRelease.fileItem != null)
-		assert.equal(response.data.file_name, storeBookRelease.fileItem?.fileName)
+		if (response.data.cover) assert.isNotNull(response.data.cover.url)
+		assert.equal(response.data.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
+		assert.equal(response.data.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
+		assert.equal(response.data.file?.file_name, storeBookRelease.fileItem?.fileName)
 
 		if (storeBookRelease.categories) {
 			assert.equal(response.data.categories.length, storeBookRelease.categories.length)
@@ -688,17 +592,6 @@ describe("GetStoreBook endpoint", () => {
 
 		assert.isFalse(response.data.in_library)
 		assert.isFalse(response.data.purchased)
-
-		let series = []
-
-		for (let s of author.series) {
-			if (s.collections.includes(collection.uuid)) {
-				series.push(s)
-				assert.isTrue(response.data.series.includes(s.uuid))
-			}
-		}
-
-		assert.equal(response.data.series.length, series.length)
 	})
 
 	it("should return hidden store book if the user is an admin", async () => {
@@ -724,19 +617,18 @@ describe("GetStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
+		assert.equal(Object.keys(response.data).length, 12)
 		assert.equal(response.data.uuid, storeBook.uuid)
-		assert.equal(response.data.collection, collection.uuid)
 		assert.equal(response.data.title, storeBookRelease.title)
 		assert.equal(response.data.description, storeBookRelease.description)
 		assert.equal(response.data.language, storeBook.language)
-		assert.equal(response.data.price, storeBook.price ?? 0)
-		assert.equal(response.data.isbn, storeBook.isbn)
+		assert.equal(response.data.price, storeBookRelease.price ?? 0)
+		assert.equal(response.data.isbn, storeBookRelease.isbn)
 		assert.equal(response.data.status, "hidden")
-		assert.equal(response.data.cover, storeBookRelease.coverItem != null)
-		assert.equal(response.data.cover_aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
-		assert.equal(response.data.cover_blurhash, storeBookRelease.coverItem?.blurhash)
-		assert.equal(response.data.file, storeBookRelease.fileItem != null)
-		assert.equal(response.data.file_name, storeBookRelease.fileItem?.fileName)
+		if (response.data.cover) assert.isNotNull(response.data.cover.url)
+		assert.equal(response.data.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
+		assert.equal(response.data.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
+		assert.equal(response.data.file?.file_name, storeBookRelease.fileItem?.fileName)
 
 		if (storeBookRelease.categories) {
 			assert.equal(response.data.categories.length, storeBookRelease.categories.length)
@@ -750,17 +642,6 @@ describe("GetStoreBook endpoint", () => {
 
 		assert.isFalse(response.data.in_library)
 		assert.isFalse(response.data.purchased)
-
-		let series = []
-
-		for (let s of author.series) {
-			if (s.collections.includes(collection.uuid)) {
-				series.push(s)
-				assert.isTrue(response.data.series.includes(s.uuid))
-			}
-		}
-
-		assert.equal(response.data.series.length, series.length)
 	})
 
 	it("should not return hidden store book if the user is not the author", async () => {

@@ -5,7 +5,7 @@
 (if (is_nil fields_str) (
 	(var fields (list "uuid"))
 ) elseif (fields_str == "*") (
-	(var fields (list "uuid" "collection" "title" "description" "language" "price" "isbn" "status" "cover" "cover_aspect_ratio" "cover_blurhash" "file" "file_name" "categories" "in_library" "purchased" "series"))
+	(var fields (list "uuid" "title" "description" "language" "price" "isbn" "status" "cover" "file" "in_library" "purchased" "categories"))
 ) else (
 	(# Process the fields string)
 	(var fields (func process_fields (fields_str)))
@@ -45,8 +45,9 @@
 
 (if (
 	(fields.contains "cover")
-	or (fields.contains "cover_aspect_ratio")
-	or (fields.contains "cover_blurhash")
+	or (fields.contains "cover.url")
+	or (fields.contains "cover.aspect_ratio")
+	or (fields.contains "cover.blurhash")
 ) (
 	(# Get the cover item)
 	(var cover_item (func get_table_object (store_book_release.properties.cover_item (get_env "STORE_BOOK_COVER_ITEM_TABLE_ID"))))
@@ -54,7 +55,7 @@
 
 (if (
 	(fields.contains "file")
-	or (fields.contains "file_name")
+	or (fields.contains "file.file_name")
 ) (
 	(# Get the file item)
 	(var file_item (func get_table_object (store_book_release.properties.file_item (get_env "STORE_BOOK_FILE_ITEM_TABLE_ID"))))
@@ -89,21 +90,59 @@
 (var result (hash))
 
 (if (fields.contains "uuid") (var result.uuid store_book.uuid))
-(if (fields.contains "collection") (var result.collection store_book.properties.collection))
 (if (fields.contains "title") (var result.title store_book_release.properties.title))
 (if (fields.contains "description") (var result.description (if (is_nil store_book_release.properties.description) "" else store_book_release.properties.description)))
 (if (fields.contains "language") (var result.language store_book.properties.language))
 (if (fields.contains "price") (var result.price (to_int store_book.properties.price)))
 (if (fields.contains "isbn") (var result.isbn store_book.properties.isbn))
 (if (fields.contains "status") (var result.status status))
-(if (fields.contains "cover") (var result.cover (!(is_nil cover_item))))
-(if (fields.contains "cover_aspect_ratio") (var result.cover_aspect_ratio (if (is_nil cover_item) nil else cover_item.properties.aspect_ratio)))
-(if (fields.contains "cover_blurhash") (var result.cover_blurhash (if (is_nil cover_item) nil else cover_item.properties.blurhash)))
-(if (fields.contains "file") (var result.file (!(is_nil file_item))))
-(if (fields.contains "file_name") (var result.file_name (if (is_nil file_item) nil else file_item.properties.file_name)))
-(if (fields.contains "categories") (var result.categories categories))
-(if (fields.contains "in_library") (var result.in_library (if (is_nil session) false else (func is_store_book_in_user_library (session.user_id store_book.uuid)))))
-(if (fields.contains "purchased") (var result.purchased (if (is_nil session) false else (func has_user_purchased_table_object (session.user_id store_book.id)))))
-(if (fields.contains "series") (var result.series (func get_series_of_store_book (store_book))))
+
+(if (
+	(fields.contains "cover")
+	or (fields.contains "cover.url")
+	or (fields.contains "cover.aspect_ratio")
+	or (fields.contains "cover.blurhash")
+) (
+	(if (is_nil cover_item) (
+		(var result.cover nil)
+	) else (
+		(var cover_hash (hash))
+
+		(if ((fields.contains "cover") or (fields.contains "cover.url")) (var cover_hash.url (TableObject.get_cdn_url cover_item.properties.cover)))
+		(if ((fields.contains "cover") or (fields.contains "cover.aspect_ratio")) (var cover_hash.aspect_ratio cover_item.properties.aspect_ratio))
+		(if ((fields.contains "cover") or (fields.contains "cover.blurhash")) (var cover_hash.blurhash cover_item.properties.blurhash))
+
+		(var result.cover cover_hash)
+	))
+))
+
+(# Only admins and the author can access file info)
+(if (
+	((fields.contains "file") or (fields.contains "file.file_name"))
+	and (
+		(
+			(!(is_nil session))
+			and (session.user_id == store_book.user_id)
+		)
+		or is_admin
+	)
+) (
+	(if (is_nil file_item) (
+		(var result.file nil)
+	) else (
+		(var result.file (hash (file_name file_item.properties.file_name)))
+	))
+))
+
+(# User specific fields only if the user is authenticated)
+(if ((fields.contains "in_library") and (!(is_nil session))) (
+	(var result.in_library (func is_store_book_in_user_library (session.user_id store_book.uuid)))
+))
+
+(if ((fields.contains "purchased") and (!(is_nil session))) (
+	(var result.purchased (func has_user_purchased_table_object (session.user_id store_book.id)))
+))
+
+(if (fields.contains "categories") (var result.categories (func get_category_keys_by_string (store_book_release.properties.categories))))
 
 (render_json result 200)
