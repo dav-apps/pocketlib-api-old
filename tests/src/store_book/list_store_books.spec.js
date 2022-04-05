@@ -4,14 +4,14 @@ import axios from 'axios'
 import constants from '../constants.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const getLatestStoreBooksEndpointUrl = `${constants.apiBaseUrl}/store_books`
+const listStoreBooksEndpointUrl = `${constants.apiBaseUrl}/store_books`
 
 describe("GetLatestStoreBooks endpoint", async () => {
 	it("should not return latest store books with not supported language", async () => {
 		try {
 			await axios({
 				method: 'get',
-				url: getLatestStoreBooksEndpointUrl,
+				url: listStoreBooksEndpointUrl,
 				params: {
 					languages: "asdasd"
 				}
@@ -32,7 +32,7 @@ describe("GetLatestStoreBooks endpoint", async () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getLatestStoreBooksEndpointUrl,
+				url: listStoreBooksEndpointUrl,
 				params: {
 					fields: "*",
 					latest: true
@@ -121,7 +121,7 @@ describe("GetLatestStoreBooks endpoint", async () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getLatestStoreBooksEndpointUrl,
+				url: listStoreBooksEndpointUrl,
 				params: {
 					fields: "*",
 					limit,
@@ -215,7 +215,7 @@ describe("GetLatestStoreBooks endpoint", async () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getLatestStoreBooksEndpointUrl,
+				url: listStoreBooksEndpointUrl,
 				params: {
 					fields: "*",
 					languages: language,
@@ -305,7 +305,7 @@ describe("GetLatestStoreBooks endpoint", async () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getLatestStoreBooksEndpointUrl,
+				url: listStoreBooksEndpointUrl,
 				params: {
 					fields: "*",
 					languages: languages.join(','),
@@ -396,7 +396,7 @@ describe("GetLatestStoreBooks endpoint", async () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getLatestStoreBooksEndpointUrl,
+				url: listStoreBooksEndpointUrl,
 				params: {
 					fields: "*",
 					languages: languages.join(','),
@@ -487,7 +487,7 @@ describe("GetLatestStoreBooks endpoint", async () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getLatestStoreBooksEndpointUrl,
+				url: listStoreBooksEndpointUrl,
 				params: {
 					fields: "*",
 					languages: languages.join(','),

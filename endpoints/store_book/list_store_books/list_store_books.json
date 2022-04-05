@@ -2,6 +2,6 @@
 	"type": "endpoint",
 	"path": "store_books",
 	"method": "GET",
-	"source": "./get_latest_store_books.dx",
+	"source": "./list_store_books.dx",
 	"caching": true
 }
