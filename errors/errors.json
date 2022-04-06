@@ -96,8 +96,6 @@
 		{"code": 3302, "message": "Can't publish StoreBook: file missing"},
 
 		{"code": 3400, "message": "Can't update language of published StoreBook"},
-		{"code": 3401, "message": "Can't update price of published StoreBook"},
-		{"code": 3402, "message": "Can't update isbn of published StoreBook"},
 
 		{"code": 3500, "message": "Resource does not exist: User"},
 		{"code": 3501, "message": "Resource does not exist: Session"},

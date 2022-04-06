@@ -105,8 +105,6 @@ export const CannotPublishStoreBookWithoutFile = 3302
 
 // Errors for updating StoreBook
 export const CannotUpdateLanguageOfPublishedStoreBook = 3400
-export const CannotUpdatePriceOfPublishedStoreBook = 3401
-export const CannotUpdateIsbnOfPublishedStoreBook = 3402
 
 // Errors for not existing resources
 export const UserDoesNotExist = 3500

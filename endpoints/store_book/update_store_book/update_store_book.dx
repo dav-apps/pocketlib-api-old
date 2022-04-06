@@ -1,5 +1,15 @@
 (# Get the params)
 (var uuid (get_param "uuid"))
+(var fields_str (get_param "fields"))
+
+(if (is_nil fields_str) (
+	(var fields (list "uuid"))
+) elseif (fields_str == "*") (
+	(var fields (list "uuid" "title" "description" "language" "price" "isbn" "status" "cover" "file" "categories"))
+) else (
+	(# Process the fields string)
+	(var fields (func process_fields (fields_str)))
+))
 
 (var json (parse_json (get_body)))
 
@@ -111,18 +121,10 @@
 	)))
 ))
 
-(# Don't update language, price or isbn if the StoreBook is already published)
+(# Don't update language if the StoreBook is already published)
 (if ((store_book.properties.status == "published") or (store_book.properties.status == "hidden")) (
 	(if (!(is_nil language)) (
 		(func render_validation_errors ((list (hash (error (get_error 3400)) (status 422)))))
-	))
-
-	(if (!(is_nil price)) (
-		(func render_validation_errors ((list (hash (error (get_error 3401)) (status 422)))))
-	))
-
-	(if (!(is_nil isbn)) (
-		(func render_validation_errors ((list (hash (error (get_error 3402)) (status 422)))))
 	))
 ))
 
@@ -136,6 +138,8 @@
 			(store_book store_book.uuid)
 			(title store_book_release.properties.title)
 			(description store_book_release.properties.description)
+			(price store_book_release.properties.price)
+			(isbn store_book_release.properties.isbn)
 			(cover_item store_book_release.properties.cover_item)
 			(file_item store_book_release.properties.file_item)
 			(categories store_book_release.properties.categories)
@@ -153,12 +157,12 @@
 (if (!(is_nil description)) (var store_book_release.properties.description description))
 (if (!(is_nil language)) (var store_book.properties.language language))
 (if (!(is_nil price)) (
-	(var store_book.properties.price price)
+	(var store_book_release.properties.price price)
 
 	(# Set the price of the table object)
 	(func set_table_object_price (store_book.uuid price "eur"))
 ))
-(if (!(is_nil isbn)) (var store_book.properties.isbn (if (isbn.length == 0) nil else isbn)))
+(if (!(is_nil isbn)) (var store_book_release.properties.isbn (if (isbn.length == 0) nil else isbn)))
 
 (def check_properties_for_publishing (store_book_release) (
 	(var errors (list))
@@ -262,13 +266,51 @@
 (var status (if (is_nil store_book.properties.status) "unpublished" else store_book.properties.status))
 
 (# Return the store book)
-(render_json (hash 
-	(uuid store_book.uuid)
-	(title store_book_release.properties.title)
-	(description (if (is_nil store_book_release.properties.description) "" else store_book_release.properties.description))
-	(language store_book.properties.language)
-	(price (to_int store_book.properties.price))
-	(isbn store_book.properties.isbn)
-	(status status)
-	(categories category_keys)
-) 200)
+(var result (hash))
+
+(if (fields.contains "uuid") (var result.uuid store_book.uuid))
+(if (fields.contains "title") (var result.title store_book_release.properties.title))
+(if (fields.contains "description") (var result.description (if (is_nil store_book_release.properties.description) "" else store_book_release.properties.description)))
+(if (fields.contains "language") (var result.language store_book.properties.language))
+(if (fields.contains "price") (var result.price (to_int store_book_release.properties.price)))
+(if (fields.contains "isbn") (var result.isbn store_book_release.properties.isbn))
+(if (fields.contains "status") (var result.status status))
+(if (
+	(fields.contains "cover")
+	or (fields.contains "cover.url")
+	or (fields.contains "cover.aspect_ratio")
+	or (fields.contains "cover.blurhash")
+) (
+	(# Get the cover item)
+	(var cover_item (func get_table_object (store_book_release.properties.cover_item (get_env "STORE_BOOK_COVER_ITEM_TABLE_ID"))))
+
+	(if (is_nil cover_item) (
+		(var result.cover nil)
+	) else (
+		(var cover_hash (hash))
+
+		(if ((fields.contains "cover") or (fields.contains "cover.url")) (var cover_hash.url (TableObject.get_cdn_url cover_item.properties.cover)))
+		(if ((fields.contains "cover") or (fields.contains "cover.aspect_ratio")) (var cover_hash.aspect_ratio cover_item.properties.aspect_ratio))
+		(if ((fields.contains "cover") or (fields.contains "cover.blurhash")) (var cover_hash.blurhash cover_item.properties.blurhash))
+
+		(var result.cover cover_hash)
+	))
+))
+
+(if (
+	(fields.contains "file")
+	or (fields.contains "file.file_name")
+) (
+	(# Get the file item)
+	(var file_item (func get_table_object (store_book_release.properties.file_item (get_env "STORE_BOOK_FILE_ITEM_TABLE_ID"))))
+
+	(if (is_nil file_item) (
+		(var result.file nil)
+	) else (
+		(var result.file (hash (file_name file_item.properties.file_name)))
+	))
+))
+
+(if (fields.contains "categories") (var result.categories category_keys))
+
+(render_json result 200)

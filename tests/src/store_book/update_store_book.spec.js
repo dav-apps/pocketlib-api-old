@@ -6,7 +6,7 @@ import constants from '../constants.js'
 import * as utils from '../utils.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const updateStoreBookEndpointUrl = `${constants.apiBaseUrl}/store/book/{0}`
+const updateStoreBookEndpointUrl = `${constants.apiBaseUrl}/store_books/{0}`
 var resetStoreBooks = false
 var resetStoreBookReleases = false
 
@@ -426,18 +426,18 @@ describe("UpdateStoreBook endpoint", () => {
 		await testShouldUpdatePriceOfStoreBook(storeBook, constants.authorUser.accessToken)
 	})
 
-	it("should not update price of published store book", async () => {
+	it("should update price of published store book", async () => {
 		let collection = constants.authorUser.author.collections[1]
 		let storeBook = collection.books[1]
 
-		await testShouldNotUpdatePriceOfStoreBook(storeBook, constants.authorUser.accessToken)
+		await testShouldUpdatePriceOfStoreBook(storeBook, constants.authorUser.accessToken)
 	})
 
-	it("should not update price of hidden store book", async () => {
+	it("should update price of hidden store book", async () => {
 		let collection = constants.authorUser.author.collections[0]
 		let storeBook = collection.books[1]
 
-		await testShouldNotUpdatePriceOfStoreBook(storeBook, constants.authorUser.accessToken)
+		await testShouldUpdatePriceOfStoreBook(storeBook, constants.authorUser.accessToken)
 	})
 
 	it("should update isbn of unpublished store book", async () => {
@@ -454,18 +454,18 @@ describe("UpdateStoreBook endpoint", () => {
 		await testShouldUpdateIsbnOfStoreBook(storeBook, constants.authorUser.accessToken)
 	})
 
-	it("should not update isbn of published store book", async () => {
+	it("should update isbn of published store book", async () => {
 		let collection = constants.authorUser.author.collections[1]
 		let storeBook = collection.books[1]
 
-		await testShouldNotUpdateIsbnOfStoreBook(storeBook, constants.authorUser.accessToken)
+		await testShouldUpdateIsbnOfStoreBook(storeBook, constants.authorUser.accessToken)
 	})
 
-	it("should not update isbn of hidden store book", async () => {
+	it("should update isbn of hidden store book", async () => {
 		let collection = constants.authorUser.author.collections[0]
 		let storeBook = collection.books[1]
 
-		await testShouldNotUpdateIsbnOfStoreBook(storeBook, constants.authorUser.accessToken)
+		await testShouldUpdateIsbnOfStoreBook(storeBook, constants.authorUser.accessToken)
 	})
 
 	it("should update categories of unpublished store book", async () => {
@@ -594,18 +594,18 @@ describe("UpdateStoreBook endpoint", () => {
 		await testShouldUpdatePriceOfStoreBook(storeBook, constants.davUser.accessToken)
 	})
 
-	it("should not update price of published store book of admin", async () => {
+	it("should update price of published store book of admin", async () => {
 		let collection = constants.davUser.authors[0].collections[0]
 		let storeBook = collection.books[0]
 
-		await testShouldNotUpdatePriceOfStoreBook(storeBook, constants.davUser.accessToken)
+		await testShouldUpdatePriceOfStoreBook(storeBook, constants.davUser.accessToken)
 	})
 
-	it("should not update price of hidden store book of admin", async () => {
+	it("should update price of hidden store book of admin", async () => {
 		let collection = constants.davUser.authors[0].collections[1]
 		let storeBook = collection.books[0]
 
-		await testShouldNotUpdatePriceOfStoreBook(storeBook, constants.davUser.accessToken)
+		await testShouldUpdatePriceOfStoreBook(storeBook, constants.davUser.accessToken)
 	})
 
 	it("should update isbn of unpublished store book of admin", async () => {
@@ -622,18 +622,18 @@ describe("UpdateStoreBook endpoint", () => {
 		await testShouldUpdateIsbnOfStoreBook(storeBook, constants.davUser.accessToken)
 	})
 
-	it("should not update isbn of published store book of admin", async () => {
+	it("should update isbn of published store book of admin", async () => {
 		let collection = constants.davUser.authors[0].collections[0]
 		let storeBook = collection.books[0]
 
-		await testShouldNotUpdateIsbnOfStoreBook(storeBook, constants.davUser.accessToken)
+		await testShouldUpdateIsbnOfStoreBook(storeBook, constants.davUser.accessToken)
 	})
 
-	it("should not update isbn of hidden store book of admin", async () => {
+	it("should update isbn of hidden store book of admin", async () => {
 		let collection = constants.davUser.authors[0].collections[1]
 		let storeBook = collection.books[0]
 
-		await testShouldNotUpdateIsbnOfStoreBook(storeBook, constants.davUser.accessToken)
+		await testShouldUpdateIsbnOfStoreBook(storeBook, constants.davUser.accessToken)
 	})
 
 	it("should update categories of unpublished store book of admin", async () => {
@@ -762,18 +762,18 @@ describe("UpdateStoreBook endpoint", () => {
 		await testShouldUpdatePriceOfStoreBook(storeBook, constants.davUser.accessToken, constants.authorUser.accessToken)
 	})
 
-	it("should not update price of published store book of author as admin", async () => {
+	it("should update price of published store book of author as admin", async () => {
 		let collection = constants.authorUser.author.collections[1]
 		let storeBook = collection.books[1]
 
-		await testShouldNotUpdatePriceOfStoreBook(storeBook, constants.davUser.accessToken)
+		await testShouldUpdatePriceOfStoreBook(storeBook, constants.davUser.accessToken, constants.authorUser.accessToken)
 	})
 
-	it("should not update price of hidden store book of author as admin", async () => {
+	it("should update price of hidden store book of author as admin", async () => {
 		let collection = constants.authorUser.author.collections[0]
 		let storeBook = collection.books[1]
 
-		await testShouldNotUpdatePriceOfStoreBook(storeBook, constants.davUser.accessToken)
+		await testShouldUpdatePriceOfStoreBook(storeBook, constants.davUser.accessToken, constants.authorUser.accessToken)
 	})
 
 	it("should update isbn of unpublished store book of author as admin", async () => {
@@ -790,18 +790,18 @@ describe("UpdateStoreBook endpoint", () => {
 		await testShouldUpdateIsbnOfStoreBook(storeBook, constants.davUser.accessToken, constants.authorUser.accessToken)
 	})
 
-	it("should not update isbn of published store book of author as admin", async () => {
+	it("should update isbn of published store book of author as admin", async () => {
 		let collection = constants.authorUser.author.collections[1]
 		let storeBook = collection.books[1]
 
-		await testShouldNotUpdateIsbnOfStoreBook(storeBook, constants.davUser.accessToken)
+		await testShouldUpdateIsbnOfStoreBook(storeBook, constants.davUser.accessToken, constants.authorUser.accessToken)
 	})
 
-	it("should not update isbn of hidden store book of author as admin", async () => {
+	it("should update isbn of hidden store book of author as admin", async () => {
 		let collection = constants.authorUser.author.collections[0]
 		let storeBook = collection.books[1]
 
-		await testShouldNotUpdateIsbnOfStoreBook(storeBook, constants.davUser.accessToken)
+		await testShouldUpdateIsbnOfStoreBook(storeBook, constants.davUser.accessToken, constants.authorUser.accessToken)
 	})
 
 	it("should update status of unpublished store book of author as admin", async () => {
@@ -1048,6 +1048,9 @@ describe("UpdateStoreBook endpoint", () => {
 					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
 				},
+				params: {
+					fields: "*"
+				},
 				data: {
 					status: "review"
 				}
@@ -1057,13 +1060,18 @@ describe("UpdateStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
+		assert.equal(Object.keys(response.data).length, 10)
 		assert.equal(response.data.uuid, storeBook.uuid)
 		assert.equal(response.data.title, storeBookRelease.title)
 		assert.equal(response.data.description, storeBookRelease.description)
 		assert.equal(response.data.language, storeBook.language)
-		assert.equal(response.data.price, storeBook.price ?? 0)
-		assert.equal(response.data.isbn, storeBook.isbn)
+		assert.equal(response.data.price, storeBookRelease.price ?? 0)
+		assert.equal(response.data.isbn, storeBookRelease.isbn)
 		assert.equal(response.data.status, "review")
+		if (response.data.cover) assert.isNotNull(response.data.cover.url)
+		assert.equal(response.data.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
+		assert.equal(response.data.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
+		assert.equal(response.data.file?.file_name, storeBookRelease.fileItem?.fileName)
 
 		if (storeBookRelease.categories) {
 			assert.equal(response.data.categories.length, storeBookRelease.categories.length)
@@ -1104,6 +1112,9 @@ describe("UpdateStoreBook endpoint", () => {
 					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
 				},
+				params: {
+					fields: "*"
+				},
 				data: {
 					status: "published"
 				}
@@ -1113,13 +1124,18 @@ describe("UpdateStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
+		assert.equal(Object.keys(response.data).length, 10)
 		assert.equal(response.data.uuid, storeBook.uuid)
 		assert.equal(response.data.title, storeBookRelease.title)
 		assert.equal(response.data.description, storeBookRelease.description)
 		assert.equal(response.data.language, storeBook.language)
-		assert.equal(response.data.price, storeBook.price ?? 0)
-		assert.equal(response.data.isbn, storeBook.isbn)
+		assert.equal(response.data.price, storeBookRelease.price ?? 0)
+		assert.equal(response.data.isbn, storeBookRelease.isbn)
 		assert.equal(response.data.status, "published")
+		if (response.data.cover) assert.isNotNull(response.data.cover.url)
+		assert.equal(response.data.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
+		assert.equal(response.data.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
+		assert.equal(response.data.file?.file_name, storeBookRelease.fileItem?.fileName)
 
 		if (storeBookRelease.categories) {
 			assert.equal(response.data.categories.length, storeBookRelease.categories.length)
@@ -1158,6 +1174,9 @@ describe("UpdateStoreBook endpoint", () => {
 					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
 				},
+				params: {
+					fields: "*"
+				},
 				data: {
 					status: "hidden"
 				}
@@ -1167,13 +1186,18 @@ describe("UpdateStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
+		assert.equal(Object.keys(response.data).length, 10)
 		assert.equal(response.data.uuid, storeBook.uuid)
 		assert.equal(response.data.title, storeBookRelease.title)
 		assert.equal(response.data.description, storeBookRelease.description)
 		assert.equal(response.data.language, storeBook.language)
-		assert.equal(response.data.price, storeBook.price ?? 0)
-		assert.equal(response.data.isbn, storeBook.isbn)
+		assert.equal(response.data.price, storeBookRelease.price ?? 0)
+		assert.equal(response.data.isbn, storeBookRelease.isbn)
 		assert.equal(response.data.status, "hidden")
+		if (response.data.cover) assert.isNotNull(response.data.cover.url)
+		assert.equal(response.data.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
+		assert.equal(response.data.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
+		assert.equal(response.data.file?.file_name, storeBookRelease.fileItem?.fileName)
 
 		if (storeBookRelease.categories) {
 			assert.equal(response.data.categories.length, storeBookRelease.categories.length)
@@ -1384,6 +1408,9 @@ describe("UpdateStoreBook endpoint", () => {
 					Authorization: constants.davUser.accessToken,
 					'Content-Type': 'application/json'
 				},
+				params: {
+					fields: "*"
+				},
 				data: {
 					status: "review"
 				}
@@ -1393,13 +1420,18 @@ describe("UpdateStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
+		assert.equal(Object.keys(response.data).length, 10)
 		assert.equal(response.data.uuid, storeBook.uuid)
 		assert.equal(response.data.title, storeBookRelease.title)
 		assert.equal(response.data.description, storeBookRelease.description)
 		assert.equal(response.data.language, storeBook.language)
-		assert.equal(response.data.price, storeBook.price ?? 0)
-		assert.equal(response.data.isbn, storeBook.isbn)
+		assert.equal(response.data.price, storeBookRelease.price ?? 0)
+		assert.equal(response.data.isbn, storeBookRelease.isbn)
 		assert.equal(response.data.status, "review")
+		if (response.data.cover) assert.isNotNull(response.data.cover.url)
+		assert.equal(response.data.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
+		assert.equal(response.data.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
+		assert.equal(response.data.file?.file_name, storeBookRelease.fileItem?.fileName)
 
 		if (storeBookRelease.categories) {
 			assert.equal(response.data.categories.length, storeBookRelease.categories.length)
@@ -1440,6 +1472,9 @@ describe("UpdateStoreBook endpoint", () => {
 					Authorization: constants.davUser.accessToken,
 					'Content-Type': 'application/json'
 				},
+				params: {
+					fields: "*"
+				},
 				data: {
 					status: "published"
 				}
@@ -1449,13 +1484,18 @@ describe("UpdateStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
+		assert.equal(Object.keys(response.data).length, 10)
 		assert.equal(response.data.uuid, storeBook.uuid)
 		assert.equal(response.data.title, storeBookRelease.title)
 		assert.equal(response.data.description, storeBookRelease.description)
 		assert.equal(response.data.language, storeBook.language)
-		assert.equal(response.data.price, storeBook.price ?? 0)
-		assert.equal(response.data.isbn, storeBook.isbn)
+		assert.equal(response.data.price, storeBookRelease.price ?? 0)
+		assert.equal(response.data.isbn, storeBookRelease.isbn)
 		assert.equal(response.data.status, "published")
+		if (response.data.cover) assert.isNotNull(response.data.cover.url)
+		assert.equal(response.data.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
+		assert.equal(response.data.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
+		assert.equal(response.data.file?.file_name, storeBookRelease.fileItem?.fileName)
 
 		if (storeBookRelease.categories) {
 			assert.equal(response.data.categories.length, storeBookRelease.categories.length)
@@ -1494,6 +1534,9 @@ describe("UpdateStoreBook endpoint", () => {
 					Authorization: constants.davUser.accessToken,
 					'Content-Type': 'application/json'
 				},
+				params: {
+					fields: "*"
+				},
 				data: {
 					status: "hidden"
 				}
@@ -1503,13 +1546,18 @@ describe("UpdateStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
+		assert.equal(Object.keys(response.data).length, 10)
 		assert.equal(response.data.uuid, storeBook.uuid)
 		assert.equal(response.data.title, storeBookRelease.title)
 		assert.equal(response.data.description, storeBookRelease.description)
 		assert.equal(response.data.language, storeBook.language)
-		assert.equal(response.data.price, storeBook.price ?? 0)
-		assert.equal(response.data.isbn, storeBook.isbn)
+		assert.equal(response.data.price, storeBookRelease.price ?? 0)
+		assert.equal(response.data.isbn, storeBookRelease.isbn)
 		assert.equal(response.data.status, "hidden")
+		if (response.data.cover) assert.isNotNull(response.data.cover.url)
+		assert.equal(response.data.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
+		assert.equal(response.data.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
+		assert.equal(response.data.file?.file_name, storeBookRelease.fileItem?.fileName)
 
 		if (storeBookRelease.categories) {
 			assert.equal(response.data.categories.length, storeBookRelease.categories.length)
@@ -1548,6 +1596,9 @@ async function testShouldUpdateTitleOfStoreBook(storeBook, accessToken, ownerAcc
 				Authorization: accessToken,
 				'Content-Type': 'application/json'
 			},
+			params: {
+				fields: "*"
+			},
 			data: {
 				title
 			}
@@ -1557,13 +1608,18 @@ async function testShouldUpdateTitleOfStoreBook(storeBook, accessToken, ownerAcc
 	}
 
 	assert.equal(response.status, 200)
+	assert.equal(Object.keys(response.data).length, 10)
 	assert.equal(response.data.uuid, storeBook.uuid)
 	assert.equal(response.data.title, title)
 	assert.equal(response.data.description, storeBookRelease.description)
 	assert.equal(response.data.language, storeBook.language)
-	assert.equal(response.data.price, storeBook.price ?? 0)
-	assert.equal(response.data.isbn, storeBook.isbn)
+	assert.equal(response.data.price, storeBookRelease.price ?? 0)
+	assert.equal(response.data.isbn, storeBookRelease.isbn)
 	assert.equal(response.data.status, storeBook.status ?? "unpublished")
+	if (response.data.cover) assert.isNotNull(response.data.cover.url)
+	assert.equal(response.data.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
+	assert.equal(response.data.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
+	assert.equal(response.data.file?.file_name, storeBookRelease.fileItem?.fileName)
 
 	if (storeBookRelease.categories) {
 		assert.equal(response.data.categories.length, storeBookRelease.categories.length)
@@ -1613,6 +1669,9 @@ async function testShouldUpdateDescriptionOfStoreBook(storeBook, accessToken, ow
 				Authorization: accessToken,
 				'Content-Type': 'application/json'
 			},
+			params: {
+				fields: "*"
+			},
 			data: {
 				description
 			}
@@ -1622,13 +1681,18 @@ async function testShouldUpdateDescriptionOfStoreBook(storeBook, accessToken, ow
 	}
 
 	assert.equal(response.status, 200)
+	assert.equal(Object.keys(response.data).length, 10)
 	assert.equal(response.data.uuid, storeBook.uuid)
 	assert.equal(response.data.title, storeBookRelease.title)
 	assert.equal(response.data.description, description)
 	assert.equal(response.data.language, storeBook.language)
-	assert.equal(response.data.price, storeBook.price ?? 0)
-	assert.equal(response.data.isbn, storeBook.isbn)
+	assert.equal(response.data.price, storeBookRelease.price ?? 0)
+	assert.equal(response.data.isbn, storeBookRelease.isbn)
 	assert.equal(response.data.status, storeBook.status ?? "unpublished")
+	if (response.data.cover) assert.isNotNull(response.data.cover.url)
+	assert.equal(response.data.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
+	assert.equal(response.data.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
+	assert.equal(response.data.file?.file_name, storeBookRelease.fileItem?.fileName)
 
 	if (storeBookRelease.categories) {
 		assert.equal(response.data.categories.length, storeBookRelease.categories.length)
@@ -1678,6 +1742,9 @@ async function testShouldUpdateLanguageOfStoreBook(storeBook, accessToken, owner
 				Authorization: accessToken,
 				'Content-Type': 'application/json'
 			},
+			params: {
+				fields: "*"
+			},
 			data: {
 				language
 			}
@@ -1687,13 +1754,18 @@ async function testShouldUpdateLanguageOfStoreBook(storeBook, accessToken, owner
 	}
 
 	assert.equal(response.status, 200)
+	assert.equal(Object.keys(response.data).length, 10)
 	assert.equal(response.data.uuid, storeBook.uuid)
 	assert.equal(response.data.title, storeBookRelease.title)
 	assert.equal(response.data.description, storeBookRelease.description)
 	assert.equal(response.data.language, language)
-	assert.equal(response.data.price, storeBook.price ?? 0)
-	assert.equal(response.data.isbn, storeBook.isbn)
+	assert.equal(response.data.price, storeBookRelease.price ?? 0)
+	assert.equal(response.data.isbn, storeBookRelease.isbn)
 	assert.equal(response.data.status, storeBook.status ?? "unpublished")
+	if (response.data.cover) assert.isNotNull(response.data.cover.url)
+	assert.equal(response.data.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
+	assert.equal(response.data.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
+	assert.equal(response.data.file?.file_name, storeBookRelease.fileItem?.fileName)
 
 	if (storeBookRelease.categories) {
 		assert.equal(response.data.categories.length, storeBookRelease.categories.length)
@@ -1756,6 +1828,9 @@ async function testShouldUpdatePriceOfStoreBook(storeBook, accessToken, ownerAcc
 				Authorization: accessToken,
 				'Content-Type': 'application/json'
 			},
+			params: {
+				fields: "*"
+			},
 			data: {
 				price
 			}
@@ -1765,13 +1840,18 @@ async function testShouldUpdatePriceOfStoreBook(storeBook, accessToken, ownerAcc
 	}
 
 	assert.equal(response.status, 200)
+	assert.equal(Object.keys(response.data).length, 10)
 	assert.equal(response.data.uuid, storeBook.uuid)
 	assert.equal(response.data.title, storeBookRelease.title)
 	assert.equal(response.data.description, storeBookRelease.description)
 	assert.equal(response.data.language, storeBook.language)
 	assert.equal(response.data.price, price)
-	assert.equal(response.data.isbn, storeBook.isbn)
+	assert.equal(response.data.isbn, storeBookRelease.isbn)
 	assert.equal(response.data.status, storeBook.status ?? "unpublished")
+	if (response.data.cover) assert.isNotNull(response.data.cover.url)
+	assert.equal(response.data.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
+	assert.equal(response.data.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
+	assert.equal(response.data.file?.file_name, storeBookRelease.fileItem?.fileName)
 
 	if (storeBookRelease.categories) {
 		assert.equal(response.data.categories.length, storeBookRelease.categories.length)
@@ -1791,32 +1871,19 @@ async function testShouldUpdatePriceOfStoreBook(storeBook, accessToken, ownerAcc
 
 	assert.equal(storeBookObjResponse.status, 200)
 	assert.equal(storeBookObjResponse.data.tableObject.Uuid, storeBook.uuid)
-	assert.equal(storeBookObjResponse.data.tableObject.GetPropertyValue("price"), price)
-}
 
-async function testShouldNotUpdatePriceOfStoreBook(storeBook, accessToken) {
-	let price = 354
+	// Get the store book release table object
+	let releaseUuid = storeBookObjResponse.data.tableObject.GetPropertyValue("releases").split(',').pop()
 
-	try {
-		await axios({
-			method: 'put',
-			url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
-			headers: {
-				Authorization: accessToken,
-				'Content-Type': 'application/json'
-			},
-			data: {
-				price
-			}
-		})
-	} catch (error) {
-		assert.equal(error.response.status, 422)
-		assert.equal(error.response.data.errors.length, 1)
-		assert.equal(error.response.data.errors[0].code, ErrorCodes.CannotUpdatePriceOfPublishedStoreBook)
-		return
-	}
+	let releaseObjResponse = await TableObjectsController.GetTableObject({
+		accessToken: ownerAccessToken ?? accessToken,
+		uuid: releaseUuid
+	})
 
-	assert.fail()
+	assert.equal(releaseObjResponse.status, 200)
+	assert.equal(releaseObjResponse.data.tableObject.Uuid, releaseUuid)
+	assert.equal(releaseObjResponse.data.tableObject.GetPropertyValue("price"), price)
+	assert.equal(releaseObjResponse.data.tableObject.GetPropertyValue("status") ?? "unpublished", "unpublished")
 }
 
 async function testShouldUpdateIsbnOfStoreBook(storeBook, accessToken, ownerAccessToken) {
@@ -1834,6 +1901,9 @@ async function testShouldUpdateIsbnOfStoreBook(storeBook, accessToken, ownerAcce
 				Authorization: accessToken,
 				'Content-Type': 'application/json'
 			},
+			params: {
+				fields: "*"
+			},
 			data: {
 				isbn
 			}
@@ -1843,13 +1913,18 @@ async function testShouldUpdateIsbnOfStoreBook(storeBook, accessToken, ownerAcce
 	}
 
 	assert.equal(response.status, 200)
+	assert.equal(Object.keys(response.data).length, 10)
 	assert.equal(response.data.uuid, storeBook.uuid)
 	assert.equal(response.data.title, storeBookRelease.title)
 	assert.equal(response.data.description, storeBookRelease.description)
 	assert.equal(response.data.language, storeBook.language)
-	assert.equal(response.data.price, storeBook.price ?? 0)
+	assert.equal(response.data.price, storeBookRelease.price ?? 0)
 	assert.equal(response.data.isbn, isbn)
 	assert.equal(response.data.status, storeBook.status ?? "unpublished")
+	if (response.data.cover) assert.isNotNull(response.data.cover.url)
+	assert.equal(response.data.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
+	assert.equal(response.data.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
+	assert.equal(response.data.file?.file_name, storeBookRelease.fileItem?.fileName)
 
 	if (storeBookRelease.categories) {
 		assert.equal(response.data.categories.length, storeBookRelease.categories.length)
@@ -1869,7 +1944,19 @@ async function testShouldUpdateIsbnOfStoreBook(storeBook, accessToken, ownerAcce
 
 	assert.equal(storeBookObjResponse.status, 200)
 	assert.equal(storeBookObjResponse.data.tableObject.Uuid, storeBook.uuid)
-	assert.equal(storeBookObjResponse.data.tableObject.GetPropertyValue("isbn"), isbn)
+
+	// Get the store book release table object
+	let releaseUuid = storeBookObjResponse.data.tableObject.GetPropertyValue("releases").split(',').pop()
+	
+	let releaseObjResponse = await TableObjectsController.GetTableObject({
+		accessToken: ownerAccessToken ?? accessToken,
+		uuid: releaseUuid
+	})
+	
+	assert.equal(releaseObjResponse.status, 200)
+	assert.equal(releaseObjResponse.data.tableObject.Uuid, releaseUuid)
+	assert.equal(releaseObjResponse.data.tableObject.GetPropertyValue("isbn"), isbn)
+	assert.equal(releaseObjResponse.data.tableObject.GetPropertyValue("status") ?? "unpublished", "unpublished")
 
 	// Remove isbn with empty string
 	try {
@@ -1880,6 +1967,9 @@ async function testShouldUpdateIsbnOfStoreBook(storeBook, accessToken, ownerAcce
 				Authorization: accessToken,
 				'Content-Type': 'application/json'
 			},
+			params: {
+				fields: "*"
+			},
 			data: {
 				isbn: ""
 			}
@@ -1889,11 +1979,12 @@ async function testShouldUpdateIsbnOfStoreBook(storeBook, accessToken, ownerAcce
 	}
 
 	assert.equal(response.status, 200)
+	assert.equal(Object.keys(response.data).length, 10)
 	assert.equal(response.data.uuid, storeBook.uuid)
 	assert.equal(response.data.title, storeBookRelease.title)
 	assert.equal(response.data.description, storeBookRelease.description)
 	assert.equal(response.data.language, storeBook.language)
-	assert.equal(response.data.price, storeBook.price ?? 0)
+	assert.equal(response.data.price, storeBookRelease.price ?? 0)
 	assert.isNull(response.data.isbn)
 	assert.equal(response.data.status, storeBook.status ?? "unpublished")
 
@@ -1907,40 +1998,15 @@ async function testShouldUpdateIsbnOfStoreBook(storeBook, accessToken, ownerAcce
 		assert.equal(response.data.categories.length, 0)
 	}
 
-	// Get the store book table object
-	storeBookObjResponse = await TableObjectsController.GetTableObject({
+	// Get the store book release table object
+	releaseObjResponse = await TableObjectsController.GetTableObject({
 		accessToken: ownerAccessToken ?? accessToken,
-		uuid: storeBook.uuid
+		uuid: releaseUuid
 	})
 
-	assert.equal(storeBookObjResponse.status, 200)
-	assert.equal(storeBookObjResponse.data.tableObject.Uuid, storeBook.uuid)
-	assert.isNull(storeBookObjResponse.data.tableObject.GetPropertyValue("isbn"))
-}
-
-async function testShouldNotUpdateIsbnOfStoreBook(storeBook, accessToken) {
-	let isbn = "3210987654321"
-
-	try {
-		await axios({
-			method: 'put',
-			url: updateStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
-			headers: {
-				Authorization: accessToken,
-				'Content-Type': 'application/json'
-			},
-			data: {
-				isbn
-			}
-		})
-	} catch (error) {
-		assert.equal(error.response.status, 422)
-		assert.equal(error.response.data.errors.length, 1)
-		assert.equal(error.response.data.errors[0].code, ErrorCodes.CannotUpdateIsbnOfPublishedStoreBook)
-		return
-	}
-
-	assert.fail()
+	assert.equal(releaseObjResponse.status, 200)
+	assert.equal(releaseObjResponse.data.tableObject.Uuid, releaseUuid)
+	assert.isNull(releaseObjResponse.data.tableObject.GetPropertyValue("isbn"))
 }
 
 async function testShouldUpdateStatusOfStoreBook(storeBook, accessToken, ownerAccessToken) {
@@ -1958,6 +2024,9 @@ async function testShouldUpdateStatusOfStoreBook(storeBook, accessToken, ownerAc
 				Authorization: accessToken,
 				'Content-Type': 'application/json'
 			},
+			params: {
+				fields: "*"
+			},
 			data: {
 				status
 			}
@@ -1967,13 +2036,18 @@ async function testShouldUpdateStatusOfStoreBook(storeBook, accessToken, ownerAc
 	}
 
 	assert.equal(response.status, 200)
+	assert.equal(Object.keys(response.data).length, 10)
 	assert.equal(response.data.uuid, storeBook.uuid)
 	assert.equal(response.data.title, storeBookRelease.title)
 	assert.equal(response.data.description, storeBookRelease.description)
 	assert.equal(response.data.language, storeBook.language)
-	assert.equal(response.data.price, storeBook.price ?? 0)
-	assert.equal(response.data.isbn, storeBook.isbn)
+	assert.equal(response.data.price, storeBookRelease.price ?? 0)
+	assert.equal(response.data.isbn, storeBookRelease.isbn)
 	assert.equal(response.data.status, status)
+	if (response.data.cover) assert.isNotNull(response.data.cover.url)
+	assert.equal(response.data.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
+	assert.equal(response.data.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
+	assert.equal(response.data.file?.file_name, storeBookRelease.fileItem?.fileName)
 
 	if (storeBookRelease.categories) {
 		assert.equal(response.data.categories.length, storeBookRelease.categories.length)
@@ -2012,6 +2086,9 @@ async function testShouldUpdateCategoriesOfStoreBook(storeBook, accessToken, own
 				Authorization: accessToken,
 				'Content-Type': 'application/json'
 			},
+			params: {
+				fields: "*"
+			},
 			data: {
 				categories
 			}
@@ -2021,13 +2098,18 @@ async function testShouldUpdateCategoriesOfStoreBook(storeBook, accessToken, own
 	}
 
 	assert.equal(response.status, 200)
+	assert.equal(Object.keys(response.data).length, 10)
 	assert.equal(response.data.uuid, storeBook.uuid)
 	assert.equal(response.data.title, storeBookRelease.title)
 	assert.equal(response.data.description, storeBookRelease.description)
 	assert.equal(response.data.language, storeBook.language)
-	assert.equal(response.data.price, storeBook.price ?? 0)
-	assert.equal(response.data.isbn, storeBook.isbn)
+	assert.equal(response.data.price, storeBookRelease.price ?? 0)
+	assert.equal(response.data.isbn, storeBookRelease.isbn)
 	assert.equal(response.data.status, storeBook.status ?? "unpublished")
+	if (response.data.cover) assert.isNotNull(response.data.cover.url)
+	assert.equal(response.data.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
+	assert.equal(response.data.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
+	assert.equal(response.data.file?.file_name, storeBookRelease.fileItem?.fileName)
 	assert.equal(response.data.categories.length, categories.length)
 
 	let i = 0
