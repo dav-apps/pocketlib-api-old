@@ -32,23 +32,22 @@
 (# Get the access token)
 (var access_token (get_header "Authorization"))
 
+(if (!(is_nil access_token)) (
+	(# Get the session)
+	(var session (func get_session (access_token)))
+))
+
 (var calculate_pages ((fields.contains "pages") or (page > 1)))
 (var public true)
 (var file_details false)
-(var user_details false)
 
 (if latest (
 	(var store_book_uuids (func get_latest_store_book_table_object_uuids ()))
 	(var store_book_uuids store_book_uuids.reverse)
 ) elseif review (
-	(# Get the access token)
-	(var access_token (get_header "Authorization"))
 	(func render_validation_errors ((list
 		(func validate_auth_header_presence (access_token))
 	)))
-
-	(# Get the session)
-	(var session (func get_session (access_token)))
 
 	(# Check if the user is an admin)
 	(var admins (get_env "ADMINS"))
@@ -63,7 +62,6 @@
 
 	(var public false)
 	(var file_details true)
-	(var user_details true)
 	(var store_book_uuids (list))
 
 	(for store_book in store_books (
@@ -96,9 +94,6 @@
 			(func validate_auth_header_presence (access_token))
 		)))
 
-		(# Get the session)
-		(var session (func get_session (access_token)))
-
 		(# Check if the user is an admin)
 		(var admins (get_env "ADMINS"))
 		(var is_admin (admins.contains session.user_id))
@@ -124,7 +119,6 @@
 	(var can_access (is_admin or ((! (is_nil session)) and (author.user_id == session.user_id))))
 	(var public (! can_access))
 	(var file_details (is_admin or ((! (is_nil session)) and (author.user_id == session.user_id))))
-	(var user_details (!(is_nil session)))
 	(var store_book_uuids (list))
 
 	(if (!(is_nil collection.properties.books)) (
@@ -323,14 +317,14 @@
 
 	(if (
 		(fields.contains "items.in_library")
-		and user_details
+		and (!(is_nil session))
 	) (
 		(var book_hash.in_library (func is_store_book_in_user_library (session.user_id store_book.uuid)))
 	))
-	
+
 	(if (
 		(fields.contains "items.purchased")
-		and user_details
+		and (!(is_nil session))
 	) (
 		(var book_hash.purchased (func has_user_purchased_table_object (session.user_id store_book.id)))
 	))
