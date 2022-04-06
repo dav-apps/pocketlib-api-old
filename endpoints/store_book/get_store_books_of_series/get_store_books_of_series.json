@@ -1,7 +1,0 @@
-{
-	"type": "endpoint",
-	"path": "store/book/series/:uuid/books",
-	"method": "GET",
-	"source": "./get_store_books_of_series.dx",
-	"caching": true
-}
