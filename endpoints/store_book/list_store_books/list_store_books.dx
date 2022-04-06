@@ -7,6 +7,7 @@
 (var author_uuid (get_param "author"))
 (var collection_uuid (get_param "collection"))
 (var series_uuid (get_param "series"))
+(var category_keys (get_param "categories"))
 
 (if (is_nil fields_str) (
 	(var fields (list "type" "pages" "items.uuid"))
@@ -181,6 +182,30 @@
 
 	(for store_book in series_languages[selected_lang] (
 		(store_book_uuids.push store_book.uuid)
+	))
+) elseif (!(is_nil category_keys)) (
+	(var admins (get_env "ADMINS"))
+
+	(for key in (category_keys.split ",") (
+		(var categories (TableObject.find_by_property admins#0 (get_env "CATEGORY_TABLE_ID") "key" key))
+
+		(if (categories.length == 0) (
+			(# Category does not exist)
+			(func render_validation_errors ((list (hash (error (get_error 3511)) (status 404)))))
+		))
+
+		(var category categories#0)
+		(var store_book_uuids (list))
+
+		(# Find StoreBookReleases with the category)
+		(var store_book_releases (TableObject.find_by_property "*" (get_env "STORE_BOOK_RELEASE_TABLE_ID") "categories" category.uuid false))
+
+		(for store_book_release in store_book_releases (
+			(# Check if the store book is already in the list)
+			(if (!(store_book_uuids.contains store_book_release.properties.store_book)) (
+				(store_book_uuids.push store_book_release.properties.store_book)
+			))
+		))
 	))
 ) else (
 	(var store_book_uuids (list))
