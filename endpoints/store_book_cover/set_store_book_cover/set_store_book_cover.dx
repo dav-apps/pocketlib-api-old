@@ -1,5 +1,15 @@
 (# Get the params)
 (var uuid (get_param "uuid"))
+(var fields_str (get_param "fields"))
+
+(if (is_nil fields_str) (
+	(var fields (list "uuid"))
+) elseif (fields_str == "*") (
+	(var fields (list "uuid" "url" "aspect_ratio" "blurhash"))
+) else (
+	(# Process the fields string)
+	(var fields (func process_fields (fields_str)))
+))
 
 (var data (get_body))
 
@@ -123,6 +133,8 @@
 			(store_book store_book.uuid)
 			(title latest_release.properties.title)
 			(description latest_release.properties.description)
+			(price latest_release.properties.price)
+			(isbn latest_release.properties.isbn)
 			(file_item latest_release.properties.file_item)
 			(categories latest_release.properties.categories)
 		)
@@ -170,4 +182,12 @@
 	))
 ))
 
-(render_json (hash) 204)
+(# Render the result)
+(var result (hash))
+
+(if (fields.contains "uuid") (var result.uuid cover_item.uuid))
+(if (fields.contains "url") (var result.url (TableObject.get_cdn_url cover_item.properties.cover)))
+(if (fields.contains "aspect_ratio") (var result.aspect_ratio cover_item.properties.aspect_ratio))
+(if (fields.contains "blurhash") (var result.blurhash cover_item.properties.blurhash))
+
+(render_json result 200)
