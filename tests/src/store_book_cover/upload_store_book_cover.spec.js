@@ -10,7 +10,7 @@ import constants from '../constants.js'
 import * as utils from '../utils.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const setStoreBookCoverEndpointUrl = `${constants.apiBaseUrl}/store_books/{0}/cover`
+const uploadStoreBookCoverEndpointUrl = `${constants.apiBaseUrl}/store_books/{0}/cover`
 var resetStoreBooks = false
 var resetStoreBookReleases = false
 var resetStoreBookCoverItems = false
@@ -38,12 +38,12 @@ afterEach(async () => {
 	}
 })
 
-describe("SetStoreBookCover endpoint", () => {
+describe("UploadStoreBookCover endpoint", () => {
 	it("should not set store book cover without access token", async () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setStoreBookCoverEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid)
+				url: uploadStoreBookCoverEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid)
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 401)
@@ -59,7 +59,7 @@ describe("SetStoreBookCover endpoint", () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setStoreBookCoverEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
+				url: uploadStoreBookCoverEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
 					Authorization: "blablabla",
 					'Content-Type': 'image/png'
@@ -79,7 +79,7 @@ describe("SetStoreBookCover endpoint", () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setStoreBookCoverEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
+				url: uploadStoreBookCoverEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
 					Authorization: constants.testUserTestAppAccessToken,
 					'Content-Type': 'image/jpeg'
@@ -99,7 +99,7 @@ describe("SetStoreBookCover endpoint", () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setStoreBookCoverEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
+				url: uploadStoreBookCoverEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
 					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
@@ -119,7 +119,7 @@ describe("SetStoreBookCover endpoint", () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setStoreBookCoverEndpointUrl.replace('{0}', "blablabla"),
+				url: uploadStoreBookCoverEndpointUrl.replace('{0}', "blablabla"),
 				headers: {
 					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'image/png'
@@ -139,7 +139,7 @@ describe("SetStoreBookCover endpoint", () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setStoreBookCoverEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
+				url: uploadStoreBookCoverEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
 					Authorization: constants.davUser.accessToken,
 					'Content-Type': 'image/jpeg'
@@ -221,7 +221,7 @@ describe("SetStoreBookCover endpoint", () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setStoreBookCoverEndpointUrl.replace('{0}', storeBook.uuid),
+				url: uploadStoreBookCoverEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
 					Authorization: accessToken,
 					'Content-Type': fileType
@@ -316,7 +316,7 @@ describe("SetStoreBookCover endpoint", () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setStoreBookCoverEndpointUrl.replace('{0}', storeBook.uuid),
+				url: uploadStoreBookCoverEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
 					Authorization: accessToken,
 					'Content-Type': fileType
