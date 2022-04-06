@@ -4,6 +4,7 @@
 (var limit (to_int (get_param "limit")))
 (var page (to_int (get_param "page")))
 (var latest ((get_param "latest") == "true"))
+(var review ((get_param "review") == "true"))
 (var author_uuid (get_param "author"))
 (var collection_uuid (get_param "collection"))
 (var series_uuid (get_param "series"))
@@ -39,6 +40,35 @@
 (if latest (
 	(var store_book_uuids (func get_latest_store_book_table_object_uuids ()))
 	(var store_book_uuids store_book_uuids.reverse)
+) elseif review (
+	(# Get the access token)
+	(var access_token (get_header "Authorization"))
+	(func render_validation_errors ((list
+		(func validate_auth_header_presence (access_token))
+	)))
+
+	(# Get the session)
+	(var session (func get_session (access_token)))
+
+	(# Check if the user is an admin)
+	(var admins (get_env "ADMINS"))
+	(var is_admin (admins.contains session.user_id))
+	(if (! is_admin) (
+		(# Action not allowed)
+		(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
+	))
+
+	(# Get all store books in review)
+	(var store_books (TableObject.find_by_property "*" (get_env "STORE_BOOK_TABLE_ID") "status" "review"))
+
+	(var public false)
+	(var file_details true)
+	(var user_details true)
+	(var store_book_uuids (list))
+
+	(for store_book in store_books (
+		(store_book_uuids.push store_book.uuid)
+	))
 ) elseif (!(is_nil author_uuid)) (
 	(# Get the author)
 	(var author (func get_table_object (author_uuid (get_env "AUTHOR_TABLE_ID"))))

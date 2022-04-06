@@ -1753,6 +1753,167 @@ describe("ListStoreBooks endpoint", async () => {
 		}
 	})
 
+	it("should not return store books in review without access token", async () => {
+		try {
+			await axios({
+				method: 'get',
+				url: listStoreBooksEndpointUrl,
+				params: {
+					review: true
+				}
+			})
+		} catch (error) {
+			assert.equal(error.response.status, 401)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.AuthorizationHeaderMissing)
+			return
+		}
+
+		assert.fail()
+	})
+
+	it("should not return store books in review with access token for session that does not exist", async () => {
+		try {
+			await axios({
+				method: 'get',
+				url: listStoreBooksEndpointUrl,
+				headers: {
+					Authorization: "asdasdasd"
+				},
+				params: {
+					review: true
+				}
+			})
+		} catch (error) {
+			assert.equal(error.response.status, 404)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.SessionDoesNotExist)
+			return
+		}
+
+		assert.fail()
+	})
+
+	it("should not return store books in review with access token for another app", async () => {
+		try {
+			await axios({
+				method: 'get',
+				url: listStoreBooksEndpointUrl,
+				headers: {
+					Authorization: constants.testUserTestAppAccessToken
+				},
+				params: {
+					review: true
+				}
+			})
+		} catch (error) {
+			assert.equal(error.response.status, 403)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
+			return
+		}
+
+		assert.fail()
+	})
+
+	it("should not return store books in review if the user is not an admin", async () => {
+		try {
+			await axios({
+				method: 'get',
+				url: listStoreBooksEndpointUrl,
+				headers: {
+					Authorization: constants.authorUser.accessToken
+				},
+				params: {
+					review: true
+				}
+			})
+		} catch (error) {
+			assert.equal(error.response.status, 403)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
+			return
+		}
+
+		assert.fail()
+	})
+
+	it("should return store books in review", async () => {
+		let response
+
+		try {
+			response = await axios({
+				method: 'get',
+				url: listStoreBooksEndpointUrl,
+				headers: {
+					Authorization: constants.davUser.accessToken
+				},
+				params: {
+					fields: "*",
+					review: true
+				}
+			})
+		} catch (error) {
+			assert.fail()
+		}
+
+		// Find all store books in review
+		let storeBooks = []
+		for (let collection of constants.authorUser.author.collections) {
+			for (let storeBook of collection.books) {
+				if (storeBook.status == "review") {
+					storeBooks.push(storeBook)
+				}
+			}
+		}
+
+		for (let author of constants.davUser.authors) {
+			for (let collection of author.collections) {
+				for (let storeBook of collection.books) {
+					if (storeBook.status == "review") {
+						storeBooks.push(storeBook)
+					}
+				}
+			}
+		}
+
+		assert.equal(response.status, 200)
+		assert.equal(Object.keys(response.data).length, 3)
+		assert.equal(response.data.items.length, storeBooks.length)
+
+		for (let storeBook of storeBooks) {
+			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+			let responseStoreBook = response.data.items.find(s => s.uuid == storeBook.uuid)
+			
+			assert.isNotNull(responseStoreBook)
+			assert.equal(Object.keys(responseStoreBook).length, 12)
+			assert.equal(responseStoreBook.uuid, storeBook.uuid)
+			assert.equal(responseStoreBook.title, storeBookRelease.title)
+			assert.equal(responseStoreBook.description, storeBookRelease.description)
+			assert.equal(responseStoreBook.language, storeBook.language)
+			assert.equal(responseStoreBook.price, storeBookRelease.price ?? 0)
+			assert.equal(responseStoreBook.isbn, storeBookRelease.isbn)
+			assert.equal(responseStoreBook.status, storeBook.status ?? "unpublished")
+			if (responseStoreBook.cover) assert.isNotNull(responseStoreBook.cover.url)
+			assert.equal(responseStoreBook.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
+			assert.equal(responseStoreBook.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
+			assert.equal(responseStoreBook.file?.file_name, storeBookRelease.fileItem?.fileName)
+
+			if (storeBookRelease.categories) {
+				assert.equal(responseStoreBook.categories.length, storeBookRelease.categories.length)
+
+				for (let key of responseStoreBook.categories) {
+					assert.isNotNull(constants.categories.find(c => c.key == key))
+				}
+			} else {
+				assert.equal(responseStoreBook.categories.length, 0)
+			}
+
+			assert.equal(responseStoreBook.in_library, userHasStoreBookInLibrary(constants.davUser, storeBook.uuid))
+			assert.equal(responseStoreBook.purchased, userHasPurchasedBook(constants.davUser, storeBook.uuid))
+		}
+	})
+
 	async function testGetStoreBooksOfAuthor(author, languages) {
 		let response
 
