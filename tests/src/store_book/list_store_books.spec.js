@@ -739,6 +739,144 @@ describe("ListStoreBooks endpoint", async () => {
 		await testGetPublishedStoreBooksOfCollection(null, collection)
 	})
 
+	it("should not return store books of series with not supported languages", async () => {
+		try {
+			await axios({
+				method: 'get',
+				url: listStoreBooksEndpointUrl,
+				params: {
+					languages: "bla,test",
+					series: constants.authorUser.author.series[0].uuid
+				}
+			})
+		} catch (error) {
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.LanguageNotSupported)
+			return
+		}
+
+		assert.fail()
+	})
+
+	it("should not return store books of series that does not exist", async () => {
+		try {
+			await axios({
+				method: 'get',
+				url: listStoreBooksEndpointUrl,
+				params: {
+					series: "dfjsdjfsodjsfdo"
+				}
+			})
+		} catch (error) {
+			assert.equal(error.response.status, 404)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.StoreBookSeriesDoesNotExist)
+			return
+		}
+
+		assert.fail()
+	})
+
+	it("should not return store books of series that has no books for the given languages", async () => {
+		try {
+			await axios({
+				method: 'get',
+				url: listStoreBooksEndpointUrl,
+				params: {
+					languages: "de",
+					series: constants.davUser.authors[2].series[0].uuid
+				}
+			})
+		} catch (error) {
+			assert.equal(error.response.status, 412)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.StoreBookSeriesIsIncomplete)
+			return
+		}
+
+		assert.fail()
+	})
+
+	it("should not return store book series if it has not published books for each collection in one of the given languages", async () => {
+		try {
+			await axios({
+				method: 'get',
+				url: listStoreBooksEndpointUrl,
+				params: {
+					languages: "en,de",
+					series: constants.authorUser.author.series[0].uuid
+				}
+			})
+		} catch (error) {
+			assert.equal(error.response.status, 412)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.StoreBookSeriesIsIncomplete)
+			return
+		}
+
+		assert.fail()
+	})
+
+	it("should return store books of series", async () => {
+		let response
+		let series = constants.davUser.authors[2].series[0]
+		let storeBooks = [
+			constants.davUser.authors[2].collections[0].books[0],
+			constants.davUser.authors[2].collections[1].books[0],
+		]
+
+		try {
+			response = await axios({
+				method: 'get',
+				url: listStoreBooksEndpointUrl,
+				params: {
+					fields: "*",
+					languages: "en",
+					series: series.uuid
+				}
+			})
+		} catch (error) {
+			assert.fail()
+		}
+
+		assert.equal(response.status, 200)
+		assert.equal(Object.keys(response.data).length, 3)
+		assert.equal(response.data.items.length, storeBooks.length)
+
+		for (let storeBook of storeBooks) {
+			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+			let responseStoreBook = response.data.items.find(s => s.uuid == storeBook.uuid)
+
+			assert.isNotNull(responseStoreBook)
+			assert.equal(Object.keys(responseStoreBook).length, 9)
+			assert.equal(responseStoreBook.uuid, storeBook.uuid)
+			assert.equal(responseStoreBook.title, storeBookRelease.title)
+			assert.equal(responseStoreBook.description, storeBookRelease.description)
+			assert.equal(responseStoreBook.language, storeBook.language)
+			assert.equal(responseStoreBook.price, storeBookRelease.price ?? 0)
+			assert.equal(responseStoreBook.isbn, storeBookRelease.isbn)
+			assert.equal(responseStoreBook.status, "published")
+			assert.isNotNull(responseStoreBook.cover.url)
+			assert.equal(responseStoreBook.cover.aspect_ratio, storeBookRelease.coverItem.aspectRatio)
+			assert.equal(responseStoreBook.cover.blurhash, storeBookRelease.coverItem.blurhash)
+			assert.isUndefined(responseStoreBook.file)
+
+			if (storeBookRelease.categories) {
+				assert.equal(responseStoreBook.categories.length, storeBookRelease.categories.length)
+
+				for (let key of responseStoreBook.categories) {
+					assert.isNotNull(constants.categories.find(c => c.key == key))
+				}
+			} else {
+				assert.equal(responseStoreBook.categories.length, 0)
+			}
+
+			assert.isUndefined(responseStoreBook.in_library)
+			assert.isUndefined(responseStoreBook.purchased)
+		}
+	})
+
 	async function testGetStoreBooksOfAuthor(author, languages) {
 		let response
 
@@ -926,7 +1064,7 @@ describe("ListStoreBooks endpoint", async () => {
 			assert.equal(responseStoreBook.price, storeBookRelease.price ?? 0)
 			assert.equal(responseStoreBook.isbn, storeBookRelease.isbn)
 			assert.equal(responseStoreBook.status, "published")
-			if (responseStoreBook.cover) assert.isNotNull(responseStoreBook.cover.url)
+			assert.isNotNull(responseStoreBook.cover.url)
 			assert.equal(responseStoreBook.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
 			assert.equal(responseStoreBook.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
 			assert.isUndefined(responseStoreBook.file)
