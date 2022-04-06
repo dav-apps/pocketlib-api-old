@@ -4,14 +4,14 @@ import axios from 'axios'
 import constants from '../constants.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const getStoreBookCoverEndpointUrl = `${constants.apiBaseUrl}/store_books/{0}/cover`
+const retrieveStoreBookCoverEndpointUrl = `${constants.apiBaseUrl}/store_books/{0}/cover`
 
-describe("GetStoreBookCover endpoint", () => {
+describe("RetrieveStoreBookCover endpoint", () => {
 	it("should not return store book cover if the store book has no cover", async () => {
 		try {
 			await axios({
 				method: 'get',
-				url: getStoreBookCoverEndpointUrl.replace('{0}', constants.davUser.authors[0].collections[0].books[1].uuid),
+				url: retrieveStoreBookCoverEndpointUrl.replace('{0}', constants.davUser.authors[0].collections[0].books[1].uuid),
 				headers: {
 					Authorization: constants.davUser.accessToken
 				}
@@ -30,7 +30,7 @@ describe("GetStoreBookCover endpoint", () => {
 		try {
 			await axios({
 				method: 'get',
-				url: getStoreBookCoverEndpointUrl.replace('{0}', "asdasdasdsad"),
+				url: retrieveStoreBookCoverEndpointUrl.replace('{0}', "asdasdasdsad"),
 				headers: {
 					Authorization: constants.authorUser.accessToken
 				}
@@ -74,7 +74,7 @@ async function testShouldReturnCover(storeBook) {
 	try {
 		response = await axios({
 			method: 'get',
-			url: getStoreBookCoverEndpointUrl.replace('{0}', storeBook.uuid),
+			url: retrieveStoreBookCoverEndpointUrl.replace('{0}', storeBook.uuid),
 			params: {
 				fields: "*"
 			}
