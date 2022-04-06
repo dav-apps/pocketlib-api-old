@@ -2,7 +2,6 @@ import chai from 'chai'
 const assert = chai.assert
 import axios from 'axios'
 import constants from '../constants.js'
-import * as utils from '../utils.js'
 import * as ErrorCodes from '../errorCodes.js'
 
 const retrieveAuthorProfileImageEndpoint = `${constants.apiBaseUrl}/authors/{0}/profile_image`

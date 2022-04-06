@@ -1,5 +1,15 @@
 (# Get the params)
 (var uuid (get_param "uuid"))
+(var fields_str (get_param "fields"))
+
+(if (is_nil fields_str) (
+	(var fields (list "uuid"))
+) elseif (fields_str == "*") (
+	(var fields (list "uuid" "url" "aspect_ratio" "blurhash"))
+) else (
+	(# Process the fields string)
+	(var fields (func process_fields (fields_str)))
+))
 
 (# Get the store book)
 (var store_book (func get_table_object (uuid (get_env "STORE_BOOK_TABLE_ID"))))
@@ -17,31 +27,28 @@
 	(func render_validation_errors ((list (hash (error (get_error 3516)) (status 404)))))
 ))
 
-(# Define function for rendering no cover error)
-(def render_no_cover () (
-	(func render_validation_errors ((list (hash (error (get_error 3509)) (status 404)))))
-))
-
-(# Check if the store book has a cover)
-(if (is_nil store_book_release.properties.cover_item) (
-	(func render_no_cover ())
-))
-
 (# Get the cover item)
 (var cover_item (func get_table_object (store_book_release.properties.cover_item (get_env "STORE_BOOK_COVER_ITEM_TABLE_ID"))))
 
 (if (is_nil cover_item) (
-	(func render_no_cover ())
+	(# StoreBookCoverItem does not exist)
+	(func render_validation_errors ((list (hash (error (get_error 3517)) (status 404)))))
 ))
 
 (# Get the cover)
 (var cover (func get_table_object (cover_item.properties.cover (get_env "STORE_BOOK_COVER_TABLE_ID"))))
 
 (if (is_nil cover) (
-	(func render_no_cover ())
+	(# StoreBookCover does not exist)
+	(func render_validation_errors ((list (hash (error (get_error 3509)) (status 404)))))
 ))
 
-(var cover_file (func get_table_object_file (cover.uuid)))
+(# Render the result)
+(var result (hash))
 
-(# Return the content of the file)
-(render_file cover_file cover.properties.type (store_book_release.properties.title + "." + cover.properties.ext) 200)
+(if (fields.contains "uuid") (var result.uuid cover_item.uuid))
+(if (fields.contains "url") (var result.url (TableObject.get_cdn_url cover.uuid)))
+(if (fields.contains "aspect_ratio") (var result.aspect_ratio cover_item.properties.aspect_ratio))
+(if (fields.contains "blurhash") (var result.blurhash cover_item.properties.blurhash))
+
+(render_json result 200)

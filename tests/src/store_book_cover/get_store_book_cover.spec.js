@@ -4,7 +4,7 @@ import axios from 'axios'
 import constants from '../constants.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const getStoreBookCoverEndpointUrl = `${constants.apiBaseUrl}/store/book/{0}/cover`
+const getStoreBookCoverEndpointUrl = `${constants.apiBaseUrl}/store_books/{0}/cover`
 
 describe("GetStoreBookCover endpoint", () => {
 	it("should not return store book cover if the store book has no cover", async () => {
@@ -19,7 +19,7 @@ describe("GetStoreBookCover endpoint", () => {
 		} catch (error) {
 			assert.equal(error.response.status, 404)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.StoreBookCoverDoesNotExist)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.StoreBookCoverItemDoesNotExist)
 			return
 		}
 
@@ -74,13 +74,19 @@ async function testShouldReturnCover(storeBook) {
 	try {
 		response = await axios({
 			method: 'get',
-			url: getStoreBookCoverEndpointUrl.replace('{0}', storeBook.uuid)
+			url: getStoreBookCoverEndpointUrl.replace('{0}', storeBook.uuid),
+			params: {
+				fields: "*"
+			}
 		})
 	} catch (error) {
 		assert.fail()
 	}
 
 	assert.equal(response.status, 200)
-	assert.equal(response.headers['content-type'], coverItem.cover.type)
-	assert.isTrue(response.data.length > 0)
+	assert.equal(Object.keys(response.data).length, 4)
+	assert.equal(response.data.uuid, coverItem.uuid)
+	assert.isNotNull(response.data.url)
+	assert.equal(response.data.aspect_ratio, coverItem.aspectRatio)
+	assert.equal(response.data.blurhash, coverItem.blurhash)
 }
