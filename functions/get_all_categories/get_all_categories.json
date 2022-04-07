@@ -1,6 +1,0 @@
-{
-	"type": "function",
-	"name": "get_all_categories",
-	"params": [],
-	"source": "./get_all_categories.dx"
-}

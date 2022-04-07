@@ -1,6 +1,6 @@
 {
 	"type": "endpoint",
-	"path": "store/categories",
+	"path": "categories",
 	"method": "GET",
 	"source": "./get_categories.dx",
 	"caching": true

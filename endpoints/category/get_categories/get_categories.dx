@@ -1,7 +1,51 @@
+(# Get the params)
+(var fields_str (get_param "fields"))
+(var languages (get_param "languages"))
+
+(if (is_nil fields_str) (
+	(var fields (list "type" "items.uuid"))
+) elseif (fields_str == "*") (
+	(var fields (list "type" "items.uuid" "items.key" "items.name"))
+) else (
+	(# Process the fields string)
+	(var fields (func process_fields (fields_str)))
+))
+
+(var language_list (func process_languages (languages)))
+
 (# Get all categories)
-(var categories (func get_all_categories ()))
+(var category_objects (func get_category_table_objects ()))
+(var categories (list))
+
+(for category in category_objects (
+	(var category_hash (hash))
+
+	(if (fields.contains "items.uuid") (var category_hash.uuid category.uuid))
+	(if (fields.contains "items.key") (var category_hash.key category.properties.key))
+
+	(if (
+		(fields.contains "items.name")
+		or (fields.contains "items.name.value")
+		or (fields.contains "items.name.language")
+	) (
+		(# Get the appropriate name of the category)
+		(var category_hash.name (
+			(func find_category_name_by_languages (
+				category.properties.names
+				language_list
+				((fields.contains "items.name") or (fields.contains "items.name.value"))
+				((fields.contains "items.name") or (fields.contains "items.name.language"))
+			))
+		))
+	))
+
+	(categories.push category_hash)
+))
 
 (# Render the result)
-(render_json (hash
-	(categories categories)
-))
+(var result (hash))
+
+(if (fields.contains "type") (var result.type "category"))
+(var result.items categories)
+
+(render_json result 200)
