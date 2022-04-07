@@ -6,7 +6,7 @@ import constants from '../constants.js'
 import * as utils from '../utils.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const createBookEndpointUrl = `${constants.apiBaseUrl}/book`
+const createBookEndpointUrl = `${constants.apiBaseUrl}/books`
 var resetBooks = false
 
 afterEach(async () => {
@@ -329,6 +329,9 @@ describe("CreateBook endpoint", () => {
 					Authorization: accessToken,
 					'Content-Type': 'application/json'
 				},
+				params: {
+					fields: "*"
+				},
 				data: {
 					store_book: storeBook.uuid
 				}
@@ -338,6 +341,7 @@ describe("CreateBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 201)
+		assert.equal(Object.keys(response.data).length, 3)
 		assert.isNotNull(response.data.uuid)
 		assert.equal(response.data.store_book, storeBook.uuid)
 		assert.isNotNull(response.data.file)

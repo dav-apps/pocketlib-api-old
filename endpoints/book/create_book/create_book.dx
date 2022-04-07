@@ -1,3 +1,15 @@
+(# Get the params)
+(var fields_str (get_param "fields"))
+
+(if (is_nil fields_str) (
+	(var fields (list "uuid"))
+) elseif (fields_str == "*") (
+	(var fields (list "uuid" "store_book" "file"))
+) else (
+	(# Process the fields string)
+	(var fields (func process_fields (fields_str)))
+))
+
 (var json (parse_json (get_body)))
 
 (var store_book_uuid json.store_book)
@@ -58,13 +70,13 @@
 		(var status (if (is_nil store_book.properties.status) "unpublished" else store_book.properties.status))
 
 		(# Check if the user can access the store book)
-		(if (status != "published") (
+		(if ((store_book.properties.status != "published") or (store_book_release.properties.status != "published")) (
 			(# Action not allowed)
 			(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
 		))
 
 		(# Check if the store book is free)
-		(if ((is_nil store_book.properties.price) or (store_book.properties.price == "0")) (
+		(if ((is_nil store_book_release.properties.price) or (store_book_release.properties.price == "0")) (
 			(# Can't add free StoreBook to library without Purchase)
 			(func render_validation_errors ((list (hash (error (get_error 3004)) (status 422)))))
 		))
@@ -109,12 +121,11 @@
 (# Create a TableObjectUserAccess for the file)
 (func create_table_object_user_access (book.properties.file session.user_id (get_env "BOOK_FILE_TABLE_ID")))
 
-(# Render the result as epub book)
-(render_json
-	(hash
-		(uuid book.uuid)
-		(store_book book.properties.store_book)
-		(file book.properties.file)
-	)
-	201
-)
+(# Render the result)
+(var result (hash))
+
+(if (fields.contains "uuid") (var result.uuid book.uuid))
+(if (fields.contains "store_book") (var result.store_book book.properties.store_book))
+(if (fields.contains "file") (var result.file book.properties.file))
+
+(render_json result 201)
