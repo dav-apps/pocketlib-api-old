@@ -2,5 +2,5 @@
 	"type": "endpoint",
 	"path": "store_books/:uuid/file",
 	"method": "PUT",
-	"source": "./set_store_book_file.dx"
+	"source": "./upload_store_book_file.dx"
 }

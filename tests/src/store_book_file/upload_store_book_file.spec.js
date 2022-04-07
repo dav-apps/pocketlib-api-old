@@ -10,7 +10,7 @@ import constants from '../constants.js'
 import * as utils from '../utils.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const setStoreBookFileEndpointUrl = `${constants.apiBaseUrl}/store_books/{0}/file`
+const uploadStoreBookFileEndpointUrl = `${constants.apiBaseUrl}/store_books/{0}/file`
 var resetStoreBooks = false
 var resetStoreBookReleases = false
 var resetStoreBookFileItems = false
@@ -38,12 +38,12 @@ afterEach(async () => {
 	}
 })
 
-describe("SetStoreBookFile endpoint", () => {
+describe("UploadStoreBookFile endpoint", () => {
 	it("should not set store book file without access token", async () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid)
+				url: uploadStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid)
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 401)
@@ -59,7 +59,7 @@ describe("SetStoreBookFile endpoint", () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
+				url: uploadStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
 					Authorization: "blablabla",
 					'Content-Type': 'application/pdf'
@@ -79,7 +79,7 @@ describe("SetStoreBookFile endpoint", () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
+				url: uploadStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
 					Authorization: constants.testUserTestAppAccessToken,
 					'Content-Type': 'application/epub+zip'
@@ -99,7 +99,7 @@ describe("SetStoreBookFile endpoint", () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
+				url: uploadStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
 					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
@@ -119,7 +119,7 @@ describe("SetStoreBookFile endpoint", () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setStoreBookFileEndpointUrl.replace('{0}', "blablabla"),
+				url: uploadStoreBookFileEndpointUrl.replace('{0}', "blablabla"),
 				headers: {
 					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/pdf'
@@ -139,7 +139,7 @@ describe("SetStoreBookFile endpoint", () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
+				url: uploadStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
 					Authorization: constants.davUser.accessToken,
 					'Content-Type': 'application/epub+zip'
@@ -222,7 +222,7 @@ describe("SetStoreBookFile endpoint", () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setStoreBookFileEndpointUrl.replace('{0}', storeBook.uuid),
+				url: uploadStoreBookFileEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
 					Authorization: accessToken,
 					'Content-Type': fileType,
@@ -318,7 +318,7 @@ describe("SetStoreBookFile endpoint", () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setStoreBookFileEndpointUrl.replace('{0}', storeBook.uuid),
+				url: uploadStoreBookFileEndpointUrl.replace('{0}', storeBook.uuid),
 				headers: {
 					Authorization: accessToken,
 					'Content-Type': fileType,
