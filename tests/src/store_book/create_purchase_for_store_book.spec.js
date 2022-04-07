@@ -5,7 +5,7 @@ import { PurchasesController } from 'dav-js'
 import constants from '../constants.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const createPurchaseForStoreBookEndpointUrl = `${constants.apiBaseUrl}/store/book/{0}/purchase`
+const createPurchaseForStoreBookEndpointUrl = `${constants.apiBaseUrl}/purchases`
 var purchasesToRemove = []
 
 afterEach(async () => {
@@ -22,7 +22,7 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 		try {
 			await axios({
 				method: 'post',
-				url: createPurchaseForStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
+				url: createPurchaseForStoreBookEndpointUrl,
 				headers: {
 					'Content-Type': 'application/json'
 				}
@@ -41,13 +41,14 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 		try {
 			await axios({
 				method: 'post',
-				url: createPurchaseForStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
+				url: createPurchaseForStoreBookEndpointUrl,
 				headers: {
 					Authorization: "asdasdasd.asdasd",
 					'Content-Type': 'application/json'
 				},
 				data: {
-					"currency": "eur"
+					store_book: constants.authorUser.author.collections[0].books[0].uuid,
+					currency: "eur"
 				}
 			})
 		} catch (error) {
@@ -64,7 +65,7 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 		try {
 			await axios({
 				method: 'post',
-				url: createPurchaseForStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
+				url: createPurchaseForStoreBookEndpointUrl,
 				headers: {
 					Authorization: constants.authorUser.accessToken
 				}
@@ -83,7 +84,7 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 		try {
 			await axios({
 				method: 'post',
-				url: createPurchaseForStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
+				url: createPurchaseForStoreBookEndpointUrl,
 				headers: {
 					Authorization: constants.testUserTestAppAccessToken,
 					'Content-Type': 'application/json'
@@ -103,7 +104,7 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 		try {
 			await axios({
 				method: 'post',
-				url: createPurchaseForStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
+				url: createPurchaseForStoreBookEndpointUrl,
 				headers: {
 					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
@@ -111,8 +112,9 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 400)
-			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.CurrencyMissing)
+			assert.equal(error.response.data.errors.length, 2)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.StoreBookMissing)
+			assert.equal(error.response.data.errors[1].code, ErrorCodes.CurrencyMissing)
 			return
 		}
 
@@ -129,13 +131,15 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 					'Content-Type': 'application/json'
 				},
 				data: {
+					store_book: 234,
 					currency: true
 				}
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 400)
-			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.CurrencyWrongType)
+			assert.equal(error.response.data.errors.length, 2)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.StoreBookWrongType)
+			assert.equal(error.response.data.errors[1].code, ErrorCodes.CurrencyWrongType)
 			return
 		}
 
@@ -146,12 +150,13 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 		try {
 			await axios({
 				method: 'post',
-				url: createPurchaseForStoreBookEndpointUrl.replace('{0}', "shodhosdhosdf"),
+				url: createPurchaseForStoreBookEndpointUrl,
 				headers: {
 					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
 				},
 				data: {
+					store_book: "asdasasdsd",
 					currency: "eur"
 				}
 			})
@@ -169,12 +174,13 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 		try {
 			await axios({
 				method: 'post',
-				url: createPurchaseForStoreBookEndpointUrl.replace('{0}', constants.davUser.authors[0].collections[0].books[0].uuid),
+				url: createPurchaseForStoreBookEndpointUrl,
 				headers: {
 					Authorization: constants.testUser.accessToken,
 					'Content-Type': 'application/json'
 				},
 				data: {
+					store_book: constants.davUser.authors[0].collections[0].books[0].uuid,
 					currency: "eur"
 				}
 			})
@@ -192,12 +198,13 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 		try {
 			await axios({
 				method: 'post',
-				url: createPurchaseForStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
+				url: createPurchaseForStoreBookEndpointUrl,
 				headers: {
 					Authorization: constants.testUser.accessToken,
 					'Content-Type': 'application/json'
 				},
 				data: {
+					store_book: constants.authorUser.author.collections[0].books[0].uuid,
 					currency: "eur"
 				}
 			})
@@ -215,12 +222,13 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 		try {
 			await axios({
 				method: 'post',
-				url: createPurchaseForStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[2].books[1].uuid),
+				url: createPurchaseForStoreBookEndpointUrl,
 				headers: {
 					Authorization: constants.testUser.accessToken,
 					'Content-Type': 'application/json'
 				},
 				data: {
+					store_book: constants.authorUser.author.collections[2].books[1].uuid,
 					currency: "eur"
 				}
 			})
@@ -238,12 +246,13 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 		try {
 			await axios({
 				method: 'post',
-				url: createPurchaseForStoreBookEndpointUrl.replace('{0}', constants.davUser.authors[0].collections[0].books[0].uuid),
+				url: createPurchaseForStoreBookEndpointUrl,
 				headers: {
 					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
 				},
 				data: {
+					store_book: constants.davUser.authors[0].collections[0].books[0].uuid,
 					currency: "eur"
 				}
 			})
@@ -260,17 +269,22 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 	it("should create purchase for store book", async () => {
 		let author = constants.authorUser.author
 		let storeBook = author.collections[1].books[1]
+		let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
 		let response
 
 		try {
 			response = await axios({
 				method: 'post',
-				url: createPurchaseForStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
+				url: createPurchaseForStoreBookEndpointUrl,
 				headers: {
 					Authorization: constants.klausUser.accessToken,
 					'Content-Type': 'application/json'
 				},
+				params: {
+					fields: "*"
+				},
 				data: {
+					store_book: storeBook.uuid,
 					currency: "eur"
 				}
 			})
@@ -279,6 +293,7 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 201)
+		assert.equal(Object.keys(response.data).length, 11)
 		assert.equal(response.data.user_id, constants.klausUser.id)
 		assert.isNotNull(response.data.uuid)
 		assert.isNotNull(response.data.payment_intent)
@@ -286,7 +301,7 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 		assert.equal(response.data.provider_image, `${constants.apiBaseUrl}/author/${author.uuid}/profile_image`)
 		assert.equal(response.data.product_name, storeBook.releases[0].title)
 		assert.equal(response.data.product_image, `${constants.apiBaseUrl}/store/book/${storeBook.uuid}/cover`)
-		assert.equal(response.data.price, storeBook.price)
+		assert.equal(response.data.price, storeBookRelease.price)
 		assert.equal(response.data.currency, "eur")
 		assert.isFalse(response.data.completed)
 
@@ -322,12 +337,16 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 		try {
 			response = await axios({
 				method: 'post',
-				url: createPurchaseForStoreBookEndpointUrl.replace('{0}', storeBook.uuid),
+				url: createPurchaseForStoreBookEndpointUrl,
 				headers: {
 					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
 				},
+				params: {
+					fields: "*"
+				},
 				data: {
+					store_book: storeBook.uuid,
 					currency: "eur"
 				}
 			})
@@ -336,6 +355,7 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 201)
+		assert.equal(Object.keys(response.data).length, 11)
 		assert.equal(response.data.user_id, constants.authorUser.id)
 		assert.isNotNull(response.data.uuid)
 		assert.isNull(response.data.payment_intent_id)

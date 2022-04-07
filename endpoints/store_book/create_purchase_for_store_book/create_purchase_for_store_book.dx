@@ -1,8 +1,18 @@
 (# Get the params)
-(var uuid (get_param "uuid"))
+(var fields_str (get_param "fields"))
+
+(if (is_nil fields_str) (
+	(var fields (list "id"))
+) elseif (fields_str == "*") (
+	(var fields (list "id" "user_id" "uuid" "payment_intent_id" "provider_name" "provider_image" "product_name" "product_image" "price" "currency" "completed"))
+) else (
+	(# Process the fields string)
+	(var fields (func process_fields (fields_str)))
+))
 
 (var json (parse_json (get_body)))
 
+(var store_book_uuid json.store_book)
 (var currency json.currency)
 
 (# Get the access token)
@@ -21,16 +31,18 @@
 
 (# Validate missing fields)
 (func render_validation_errors ((list
+	(func validate_store_book_presence (store_book_uuid))
 	(func validate_currency_presence (currency))
 )))
 
 (# Validate the property types)
 (func render_validation_errors ((list
+	(func validate_store_book_type (store_book_uuid))
 	(func validate_currency_type (currency))
 )))
 
 (# Get the store book)
-(var store_book (func get_table_object (uuid (get_env "STORE_BOOK_TABLE_ID"))))
+(var store_book (func get_table_object (store_book_uuid (get_env "STORE_BOOK_TABLE_ID"))))
 
 (if (is_nil store_book) (
 	(# StoreBook does not exist)
@@ -124,16 +136,18 @@
 )))
 
 (# Render the result)
-(render_json (hash
-	(id purchase.id)
-	(user_id purchase.user_id)
-	(uuid purchase.uuid)
-	(payment_intent_id purchase.payment_intent_id)
-	(provider_name purchase.provider_name)
-	(provider_image purchase.provider_image)
-	(product_name purchase.product_name)
-	(product_image purchase.product_image)
-	(price purchase.price)
-	(currency purchase.currency)
-	(completed purchase.completed)
-) 201)
+(var result (hash))
+
+(if (fields.contains "id") (var result.id purchase.id))
+(if (fields.contains "user_id") (var result.user_id purchase.user_id))
+(if (fields.contains "uuid") (var result.uuid purchase.uuid))
+(if (fields.contains "payment_intent_id") (var result.payment_intent_id purchase.payment_intent_id))
+(if (fields.contains "provider_name") (var result.provider_name purchase.provider_name))
+(if (fields.contains "provider_image") (var result.provider_image purchase.provider_image))
+(if (fields.contains "product_name") (var result.product_name purchase.product_name))
+(if (fields.contains "product_image") (var result.product_image purchase.product_image))
+(if (fields.contains "price") (var result.price purchase.price))
+(if (fields.contains "currency") (var result.currency purchase.currency))
+(if (fields.contains "completed") (var result.completed purchase.completed))
+
+(render_json result 201)
