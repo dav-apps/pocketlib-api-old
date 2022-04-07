@@ -2,5 +2,5 @@
 	"type": "endpoint",
 	"path": "store_books/:uuid/file",
 	"method": "GET",
-	"source": "./get_store_book_file.dx"
+	"source": "./retrieve_store_book_file.dx"
 }

@@ -4,14 +4,14 @@ import axios from 'axios'
 import constants from '../constants.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const getStoreBookFileEndpointUrl = `${constants.apiBaseUrl}/store_books/{0}/file`
+const retrieveStoreBookFileEndpointUrl = `${constants.apiBaseUrl}/store_books/{0}/file`
 
-describe("GetStoreBookFile endpoint", () => {
+describe("RetrieveStoreBookFile endpoint", () => {
 	it("should not return store book file without access token", async () => {
 		try {
 			await axios({
 				method: 'get',
-				url: getStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[1].uuid)
+				url: retrieveStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[1].uuid)
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 401)
@@ -27,7 +27,7 @@ describe("GetStoreBookFile endpoint", () => {
 		try {
 			await axios({
 				method: 'get',
-				url: getStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[1].uuid),
+				url: retrieveStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[1].uuid),
 				headers: {
 					Authorization: "bkaasdasdfdasd"
 				}
@@ -46,7 +46,7 @@ describe("GetStoreBookFile endpoint", () => {
 		try {
 			await axios({
 				method: 'get',
-				url: getStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[1].uuid),
+				url: retrieveStoreBookFileEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[1].uuid),
 				headers: {
 					Authorization: constants.testUserTestAppAccessToken
 				}
@@ -65,7 +65,7 @@ describe("GetStoreBookFile endpoint", () => {
 		try {
 			await axios({
 				method: 'get',
-				url: getStoreBookFileEndpointUrl.replace('{0}', constants.davUser.authors[0].collections[0].books[2].uuid),
+				url: retrieveStoreBookFileEndpointUrl.replace('{0}', constants.davUser.authors[0].collections[0].books[2].uuid),
 				headers: {
 					Authorization: constants.davUser.accessToken
 				}
@@ -84,7 +84,7 @@ describe("GetStoreBookFile endpoint", () => {
 		try {
 			await axios({
 				method: 'get',
-				url: getStoreBookFileEndpointUrl.replace('{0}', "asdasdasdsda"),
+				url: retrieveStoreBookFileEndpointUrl.replace('{0}', "asdasdasdsda"),
 				headers: {
 					Authorization: constants.authorUser.accessToken
 				}
@@ -226,7 +226,7 @@ async function testShouldReturnFile(accessToken, storeBook) {
 	try {
 		response = await axios({
 			method: 'get',
-			url: getStoreBookFileEndpointUrl.replace('{0}', storeBook.uuid),
+			url: retrieveStoreBookFileEndpointUrl.replace('{0}', storeBook.uuid),
 			headers: {
 				Authorization: accessToken
 			},
@@ -248,7 +248,7 @@ async function testShouldNotReturnFile(accessToken, storeBook) {
 	try {
 		await axios({
 			method: 'get',
-			url: getStoreBookFileEndpointUrl.replace('{0}', storeBook.uuid),
+			url: retrieveStoreBookFileEndpointUrl.replace('{0}', storeBook.uuid),
 			headers: {
 				Authorization: accessToken
 			}
