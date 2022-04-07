@@ -3,16 +3,16 @@ const assert = chai.assert
 import axios from 'axios'
 import constants from '../constants.js'
 
-const getCategoriesEndpointUrl = `${constants.apiBaseUrl}/categories`
+const listCategoriesEndpointUrl = `${constants.apiBaseUrl}/categories`
 
-describe("GetCategories endpoint", () => {
+describe("ListCategories endpoint", () => {
 	it("should return categories", async () => {
 		let response
 
 		try {
 			response = await axios({
 				method: 'get',
-				url: getCategoriesEndpointUrl,
+				url: listCategoriesEndpointUrl,
 				params: {
 					fields: "*"
 				}
@@ -47,7 +47,7 @@ describe("GetCategories endpoint", () => {
 		try {
 			response = await axios({
 				method: 'get',
-				url: getCategoriesEndpointUrl,
+				url: listCategoriesEndpointUrl,
 				params: {
 					fields: "*",
 					languages: language
