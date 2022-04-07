@@ -1,6 +1,16 @@
 (# Get the params)
 (var uuid (get_param "uuid"))
 (var language (get_param "language"))
+(var fields_str (get_param "fields"))
+
+(if (is_nil fields_str) (
+	(var fields (list "uuid"))
+) elseif (fields_str == "*") (
+	(var fields (list "uuid" "name" "language"))
+) else (
+	(# Process the fields string)
+	(var fields (func process_fields (fields_str)))
+))
 
 (var json (parse_json (get_body)))
 
@@ -80,7 +90,10 @@
 ))
 
 (# Render the result)
-(render_json (hash
-	(name name_obj.properties.name)
-	(language name_obj.properties.language)
-))
+(var result (hash))
+
+(if (fields.contains "uuid") (var result.uuid name_obj.uuid))
+(if (fields.contains "name") (var result.name name_obj.properties.name))
+(if (fields.contains "language") (var result.language name_obj.properties.language))
+
+(render_json result 200)

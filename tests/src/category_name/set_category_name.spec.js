@@ -6,7 +6,7 @@ import constants from '../constants.js'
 import * as utils from '../utils.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const setCategoryNameEndpointUrl = `${constants.apiBaseUrl}/store/category/{0}/name/{1}`
+const setCategoryNameEndpointUrl = `${constants.apiBaseUrl}/categories/{0}/names/{1}`
 var resetCategoriesAndCategoryNames = false
 
 afterEach(async () => {
@@ -247,6 +247,9 @@ describe("SetCategoryName endpoint", () => {
 					Authorization: accessToken,
 					'Content-Type': 'application/json'
 				},
+				params: {
+					fields: "*"
+				},
 				data: {
 					name
 				}
@@ -256,6 +259,8 @@ describe("SetCategoryName endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
+		assert.equal(Object.keys(response.data).length, 3)
+		assert.isNotNull(response.data.uuid)
 		assert.equal(response.data.name, name)
 		assert.equal(response.data.language, language)
 
@@ -312,6 +317,9 @@ describe("SetCategoryName endpoint", () => {
 					Authorization: accessToken,
 					'Content-Type': 'application/json'
 				},
+				params: {
+					fields: "*"
+				},
 				data: {
 					name
 				}
@@ -321,6 +329,8 @@ describe("SetCategoryName endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
+		assert.equal(Object.keys(response.data).length, 3)
+		assert.equal(response.data.uuid, categoryNameUuid)
 		assert.equal(response.data.name, name)
 		assert.equal(response.data.language, language)
 
