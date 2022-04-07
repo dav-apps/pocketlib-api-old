@@ -4,7 +4,7 @@ import axios from 'axios'
 import constants from '../constants.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const getStoreBookFileEndpointUrl = `${constants.apiBaseUrl}/store/book/{0}/file`
+const getStoreBookFileEndpointUrl = `${constants.apiBaseUrl}/store_books/{0}/file`
 
 describe("GetStoreBookFile endpoint", () => {
 	it("should not return store book file without access token", async () => {
@@ -220,6 +220,7 @@ describe("GetStoreBookFile endpoint", () => {
 })
 
 async function testShouldReturnFile(accessToken, storeBook) {
+	let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
 	let response
 
 	try {
@@ -228,6 +229,9 @@ async function testShouldReturnFile(accessToken, storeBook) {
 			url: getStoreBookFileEndpointUrl.replace('{0}', storeBook.uuid),
 			headers: {
 				Authorization: accessToken
+			},
+			params: {
+				fields: "*"
 			}
 		})
 	} catch (error) {
@@ -235,8 +239,9 @@ async function testShouldReturnFile(accessToken, storeBook) {
 	}
 
 	assert.equal(response.status, 200)
-	assert.equal(response.headers['content-type'], storeBook.releases[storeBook.releases.length - 1].fileItem.file.type)
-	assert.isTrue(response.data.length > 0)
+	assert.equal(Object.keys(response.data).length, 2)
+	assert.equal(response.data.uuid, storeBookRelease.fileItem.uuid)
+	assert.equal(response.data.file_name, storeBookRelease.fileItem.fileName)
 }
 
 async function testShouldNotReturnFile(accessToken, storeBook) {

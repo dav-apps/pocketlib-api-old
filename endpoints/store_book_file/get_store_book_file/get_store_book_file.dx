@@ -1,5 +1,15 @@
 (# Get the params)
 (var uuid (get_param "uuid"))
+(var fields_str (get_param "fields"))
+
+(if (is_nil fields_str) (
+	(var fields (list "uuid"))
+) elseif (fields_str == "*") (
+	(var fields (list "uuid" "file_name"))
+) else (
+	(# Process the fields string)
+	(var fields (func process_fields (fields_str)))
+))
 
 (# Get the access token)
 (var access_token (get_header "Authorization"))
@@ -55,22 +65,25 @@
 ))
 
 (# Get the file item)
-(var file_item_obj (func get_table_object (store_book_release.properties.file_item (get_env "STORE_BOOK_FILE_ITEM_TABLE_ID"))))
+(var file_item (func get_table_object (store_book_release.properties.file_item (get_env "STORE_BOOK_FILE_ITEM_TABLE_ID"))))
 
-(if (is_nil file_item_obj) (
+(if (is_nil file_item) (
 	(# StoreBookFileItem does not exist)
 	(func render_validation_errors ((list (hash (error (get_error 3518)) (status 404)))))
 ))
 
 (# Get the file)
-(var file_obj (func get_table_object (file_item_obj.properties.file (get_env "STORE_BOOK_FILE_TABLE_ID"))))
+(var file_obj (func get_table_object (file_item.properties.file (get_env "STORE_BOOK_FILE_TABLE_ID"))))
 
 (if (is_nil file_obj) (
 	(# StoreBookFile does not exist)
 	(func render_validation_errors ((list (hash (error (get_error 3510)) (status 404)))))
 ))
 
-(var file (func get_table_object_file (file_obj.uuid)))
+(# Render the result)
+(var result (hash))
 
-(# Return the content of the file)
-(render_file file file_obj.properties.type (store_book_release.properties.title + "." + file_obj.properties.ext) 200)
+(if (fields.contains "uuid") (var result.uuid file_item.uuid))
+(if (fields.contains "file_name") (var result.file_name file_item.properties.file_name))
+
+(render_json result 200)
