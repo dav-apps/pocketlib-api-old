@@ -10,7 +10,7 @@ import constants from '../constants.js'
 import * as utils from '../utils.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const setStoreBookFileEndpointUrl = `${constants.apiBaseUrl}/store/book/{0}/file`
+const setStoreBookFileEndpointUrl = `${constants.apiBaseUrl}/store_books/{0}/file`
 var resetStoreBooks = false
 var resetStoreBookReleases = false
 var resetStoreBookFileItems = false

@@ -1636,7 +1636,7 @@ async function resetDavUserStoreBookFileItems() {
 					let fileItem = release.fileItem
 					if (fileItem == null) continue
 	
-					testDatabaseStoreBookFileItems.push(fileItem.uuid)
+					testDatabaseStoreBookFileItems.push(fileItem)
 	
 					// Reset the file item
 					let response = await TableObjectsController.UpdateTableObject({

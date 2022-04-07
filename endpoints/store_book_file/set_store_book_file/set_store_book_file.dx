@@ -1,5 +1,15 @@
 (# Get the params)
 (var uuid (get_param "uuid"))
+(var fields_str (get_param "fields"))
+
+(if (is_nil fields_str) (
+	(var fields (list "uuid"))
+) elseif (fields_str == "*") (
+	(var fields (list "uuid" "file_name"))
+) else (
+	(# Process the fields string)
+	(var fields (func process_fields (fields_str)))
+))
 
 (var data (get_body))
 
@@ -111,6 +121,8 @@
 			(store_book store_book.uuid)
 			(title latest_release.properties.title)
 			(description latest_release.properties.description)
+			(price latest_release.properties.price)
+			(isbn latest_release.properties.isbn)
 			(cover_item latest_release.properties.cover_item)
 			(categories latest_release.properties.categories)
 		)
@@ -158,4 +170,10 @@
 	))
 ))
 
-(render_json (hash) 204)
+(# Render the result)
+(var result (hash))
+
+(if (fields.contains "uuid") (var result.uuid file_item.uuid))
+(if (fields.contains "file_name") (var result.file_name file_item.properties.file_name))
+
+(render_json result 200)

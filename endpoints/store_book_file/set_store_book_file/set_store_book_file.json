@@ -1,6 +1,6 @@
 {
 	"type": "endpoint",
-	"path": "store/book/:uuid/file",
+	"path": "store_books/:uuid/file",
 	"method": "PUT",
 	"source": "./set_store_book_file.dx"
 }
