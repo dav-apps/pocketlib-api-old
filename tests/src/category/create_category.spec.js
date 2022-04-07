@@ -6,7 +6,7 @@ import constants from '../constants.js'
 import * as utils from '../utils.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const createCategoryEndpointUrl = `${constants.apiBaseUrl}/store/category`
+const createCategoryEndpointUrl = `${constants.apiBaseUrl}/categories`
 var resetCategories = false
 
 afterEach(async () => {
@@ -130,8 +130,10 @@ describe("CreateCategory endpoint", () => {
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 400)
-			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors.length, 3)
 			assert.equal(error.response.data.errors[0].code, ErrorCodes.KeyMissing)
+			assert.equal(error.response.data.errors[1].code, ErrorCodes.NameMissing)
+			assert.equal(error.response.data.errors[2].code, ErrorCodes.LanguageMissing)
 			return
 		}
 
@@ -148,13 +150,17 @@ describe("CreateCategory endpoint", () => {
 					'Content-Type': 'application/json'
 				},
 				data: {
-					key: 12
+					key: 12,
+					name: 12.3,
+					language: true
 				}
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 400)
-			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors.length, 3)
 			assert.equal(error.response.data.errors[0].code, ErrorCodes.KeyWrongType)
+			assert.equal(error.response.data.errors[1].code, ErrorCodes.NameWrongType)
+			assert.equal(error.response.data.errors[2].code, ErrorCodes.LanguageWrongType)
 			return
 		}
 
@@ -171,13 +177,16 @@ describe("CreateCategory endpoint", () => {
 					'Content-Type': 'application/json'
 				},
 				data: {
-					key: "a"
+					key: "a",
+					name: "a",
+					language: "en"
 				}
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 400)
-			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors.length, 2)
 			assert.equal(error.response.data.errors[0].code, ErrorCodes.KeyTooShort)
+			assert.equal(error.response.data.errors[1].code, ErrorCodes.NameTooShort)
 			return
 		}
 
@@ -194,13 +203,16 @@ describe("CreateCategory endpoint", () => {
 					'Content-Type': 'application/json'
 				},
 				data: {
-					key: "a".repeat(200)
+					key: "a".repeat(200),
+					name: "a".repeat(200),
+					language: "de"
 				}
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 400)
-			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors.length, 2)
 			assert.equal(error.response.data.errors[0].code, ErrorCodes.KeyTooLong)
+			assert.equal(error.response.data.errors[1].code, ErrorCodes.NameTooLong)
 			return
 		}
 
@@ -217,7 +229,9 @@ describe("CreateCategory endpoint", () => {
 					'Content-Type': 'application/json'
 				},
 				data: {
-					key: "hello world"
+					key: "hello world",
+					name: "test",
+					language: "en"
 				}
 			})
 		} catch (error) {
@@ -240,7 +254,9 @@ describe("CreateCategory endpoint", () => {
 					'Content-Type': 'application/json'
 				},
 				data: {
-					key: constants.categories[0].key
+					key: constants.categories[0].key,
+					name: "test",
+					language: "en"
 				}
 			})
 		} catch (error) {
@@ -253,10 +269,37 @@ describe("CreateCategory endpoint", () => {
 		assert.fail()
 	})
 
+	it("should not create category with not supported language", async () => {
+		try {
+			await axios({
+				method: 'post',
+				url: createCategoryEndpointUrl,
+				headers: {
+					Authorization: constants.davUser.accessToken,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					key: "test",
+					name: "bla",
+					language: "asdasd"
+				}
+			})
+		} catch (error) {
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.LanguageNotSupported)
+			return
+		}
+
+		assert.fail()
+	})
+
 	it("should create category", async () => {
 		resetCategories = true
 		let response
 		let key = "test"
+		let name = "TestCategory"
+		let language = "de"
 
 		// Create the category
 		try {
@@ -267,8 +310,13 @@ describe("CreateCategory endpoint", () => {
 					Authorization: constants.davUser.accessToken,
 					'Content-Type': 'application/json'
 				},
+				params: {
+					fields: "*"
+				},
 				data: {
-					key
+					key,
+					name,
+					language
 				}
 			})
 		} catch (error) {
@@ -276,18 +324,32 @@ describe("CreateCategory endpoint", () => {
 		}
 
 		assert.equal(response.status, 201)
+		assert.equal(Object.keys(response.data).length, 3)
 		assert.isNotNull(response.data.uuid)
 		assert.equal(response.data.key, key)
+		assert.equal(response.data.name.value, name)
+		assert.equal(response.data.name.language, language)
 
 		// Check if the data was correctly saved on the server
-		// Get the Category table object
-		let categoryObjResponse = await TableObjectsController.GetTableObject({
+		// Get the category table object
+		let categoryResponse = await TableObjectsController.GetTableObject({
 			accessToken: constants.davUser.accessToken,
 			uuid: response.data.uuid
 		})
 
-		assert.equal(categoryObjResponse.status, 200)
-		assert.equal(categoryObjResponse.data.tableObject.GetPropertyValue("key"), key)
-		assert.isNull(categoryObjResponse.data.tableObject.GetPropertyValue("names"))
+		assert.equal(categoryResponse.status, 200)
+		assert.equal(categoryResponse.data.tableObject.GetPropertyValue("key"), key)
+		assert.isNotNull(categoryResponse.data.tableObject.GetPropertyValue("names"))
+
+		// Get the category name
+		let categoryNameResponse = await TableObjectsController.GetTableObject({
+			accessToken: constants.davUser.accessToken,
+			uuid: categoryResponse.data.tableObject.GetPropertyValue("names")
+		})
+
+		assert.equal(categoryNameResponse.status, 200)
+		assert.equal(categoryNameResponse.data.tableObject.Uuid, categoryResponse.data.tableObject.GetPropertyValue("names"))
+		assert.equal(categoryNameResponse.data.tableObject.GetPropertyValue("name"), name)
+		assert.equal(categoryNameResponse.data.tableObject.GetPropertyValue("language"), language)
 	})
 })

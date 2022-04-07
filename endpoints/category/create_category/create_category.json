@@ -1,6 +1,6 @@
 {
 	"type": "endpoint",
-	"path": "store/category",
+	"path": "categories",
 	"method": "POST",
 	"source": "./create_category.dx"
 }

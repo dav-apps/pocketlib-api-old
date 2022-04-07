@@ -1,6 +1,20 @@
+(# Get the params)
+(var fields_str (get_param "fields"))
+
+(if (is_nil fields_str) (
+	(var fields (list "uuid"))
+) elseif (fields_str == "*") (
+	(var fields (list "uuid" "key" "name"))
+) else (
+	(# Process the fields string)
+	(var fields (func process_fields (fields_str)))
+))
+
 (var json (parse_json (get_body)))
 
 (var key json.key)
+(var name json.name)
+(var language json.language)
 
 (# Get the access token)
 (var access_token (get_header "Authorization"))
@@ -27,21 +41,31 @@
 (# Validate missing fields)
 (func render_validation_errors ((list
 	(func validate_key_presence (key))
+	(func validate_name_presence (name))
+	(func validate_language_presence (language))
 )))
 
 (# Validate property types)
 (func render_validation_errors ((list
 	(func validate_key_type (key))
+	(func validate_name_type (name))
+	(func validate_language_type (language))
 )))
 
 (# Validate too short and too long fields)
 (func render_validation_errors ((list
 	(func validate_key_length (key))
+	(func validate_name_length (name))
 )))
 
 (# Validate the key)
 (func render_validation_errors ((list
 	(func validate_key_validity (key))
+)))
+
+(# Validate the language)
+(func render_validation_errors ((list
+	(func validate_language_supported (language))
 )))
 
 (var key key.downcase)
@@ -54,11 +78,43 @@
 	(func render_validation_errors ((list (hash (error (get_error 3200)) (status 422)))))
 ))
 
+(# Create the category name)
+(var category_name (func create_table_object (
+	session.user_id
+	(get_env "CATEGORY_NAME_TABLE_ID")
+	(hash
+		(name name)
+		(language language)
+	)
+)))
+
 (# Create the category)
-(var category (func create_table_object (admins#0 (get_env "CATEGORY_TABLE_ID") (hash (key key)))))
+(var category (func create_table_object (
+	admins#0
+	(get_env "CATEGORY_TABLE_ID")
+	(hash
+		(key key)
+		(names category_name.uuid)
+	)
+)))
 
 (# Render the result)
-(render_json (hash
-	(uuid category.uuid)
-	(key category.properties.key)
-) 201)
+(var result (hash))
+
+(if (fields.contains "uuid") (var result.uuid category.uuid))
+(if (fields.contains "key") (var result.key category.properties.key))
+
+(if (
+	(fields.contains "name")
+	or (fields.contains "name.value")
+	or (fields.contains "name.language")
+) (
+	(var name_hash (hash))
+
+	(if ((fields.contains "name") or (fields.contains "name.value")) (var name_hash.value name))
+	(if ((fields.contains "name") or (fields.contains "name.language")) (var name_hash.language language))
+
+	(var result.name name_hash)
+))
+
+(render_json result 201)
