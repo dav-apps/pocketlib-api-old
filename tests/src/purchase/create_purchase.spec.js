@@ -5,7 +5,7 @@ import { PurchasesController } from 'dav-js'
 import constants from '../constants.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const createPurchaseForStoreBookEndpointUrl = `${constants.apiBaseUrl}/purchases`
+const createPurchaseEndpointUrl = `${constants.apiBaseUrl}/purchases`
 var purchasesToRemove = []
 
 afterEach(async () => {
@@ -22,7 +22,7 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 		try {
 			await axios({
 				method: 'post',
-				url: createPurchaseForStoreBookEndpointUrl,
+				url: createPurchaseEndpointUrl,
 				headers: {
 					'Content-Type': 'application/json'
 				}
@@ -41,7 +41,7 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 		try {
 			await axios({
 				method: 'post',
-				url: createPurchaseForStoreBookEndpointUrl,
+				url: createPurchaseEndpointUrl,
 				headers: {
 					Authorization: "asdasdasd.asdasd",
 					'Content-Type': 'application/json'
@@ -65,7 +65,7 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 		try {
 			await axios({
 				method: 'post',
-				url: createPurchaseForStoreBookEndpointUrl,
+				url: createPurchaseEndpointUrl,
 				headers: {
 					Authorization: constants.authorUser.accessToken
 				}
@@ -84,7 +84,7 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 		try {
 			await axios({
 				method: 'post',
-				url: createPurchaseForStoreBookEndpointUrl,
+				url: createPurchaseEndpointUrl,
 				headers: {
 					Authorization: constants.testUserTestAppAccessToken,
 					'Content-Type': 'application/json'
@@ -104,7 +104,7 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 		try {
 			await axios({
 				method: 'post',
-				url: createPurchaseForStoreBookEndpointUrl,
+				url: createPurchaseEndpointUrl,
 				headers: {
 					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
@@ -125,7 +125,7 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 		try {
 			await axios({
 				method: 'post',
-				url: createPurchaseForStoreBookEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
+				url: createPurchaseEndpointUrl.replace('{0}', constants.authorUser.author.collections[0].books[0].uuid),
 				headers: {
 					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
@@ -150,7 +150,7 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 		try {
 			await axios({
 				method: 'post',
-				url: createPurchaseForStoreBookEndpointUrl,
+				url: createPurchaseEndpointUrl,
 				headers: {
 					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
@@ -174,7 +174,7 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 		try {
 			await axios({
 				method: 'post',
-				url: createPurchaseForStoreBookEndpointUrl,
+				url: createPurchaseEndpointUrl,
 				headers: {
 					Authorization: constants.testUser.accessToken,
 					'Content-Type': 'application/json'
@@ -198,7 +198,7 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 		try {
 			await axios({
 				method: 'post',
-				url: createPurchaseForStoreBookEndpointUrl,
+				url: createPurchaseEndpointUrl,
 				headers: {
 					Authorization: constants.testUser.accessToken,
 					'Content-Type': 'application/json'
@@ -222,7 +222,7 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 		try {
 			await axios({
 				method: 'post',
-				url: createPurchaseForStoreBookEndpointUrl,
+				url: createPurchaseEndpointUrl,
 				headers: {
 					Authorization: constants.testUser.accessToken,
 					'Content-Type': 'application/json'
@@ -246,7 +246,7 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 		try {
 			await axios({
 				method: 'post',
-				url: createPurchaseForStoreBookEndpointUrl,
+				url: createPurchaseEndpointUrl,
 				headers: {
 					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
@@ -275,7 +275,7 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 		try {
 			response = await axios({
 				method: 'post',
-				url: createPurchaseForStoreBookEndpointUrl,
+				url: createPurchaseEndpointUrl,
 				headers: {
 					Authorization: constants.klausUser.accessToken,
 					'Content-Type': 'application/json'
@@ -337,7 +337,7 @@ describe("CreatePurchaseForStoreBook endpoint", () => {
 		try {
 			response = await axios({
 				method: 'post',
-				url: createPurchaseForStoreBookEndpointUrl,
+				url: createPurchaseEndpointUrl,
 				headers: {
 					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'

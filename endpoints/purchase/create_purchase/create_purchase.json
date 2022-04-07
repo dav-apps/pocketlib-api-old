@@ -2,5 +2,5 @@
 	"type": "endpoint",
 	"path": "purchases",
 	"method": "POST",
-	"source": "./create_purchase_for_store_book.dx"
+	"source": "./create_purchase.dx"
 }
