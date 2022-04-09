@@ -43,11 +43,21 @@ describe("GetLatestStoreBookSeries endpoint", () => {
 		}
 
 		// Find all valid store book series
-		let seriesList = getValidStoreBookSeries(constants.authorUser.author, "en")
+		let seriesList = []
+		
+		for (let series of getValidStoreBookSeries(constants.authorUser.author, "en")) {
+			seriesList.push({
+				author: authorUser.author.uuid,
+				series
+			})
+		}
 
 		for (let author of constants.davUser.authors) {
-			for (let s of getValidStoreBookSeries(author, "en")) {
-				seriesList.push(s)
+			for (let series of getValidStoreBookSeries(author, "en")) {
+				seriesList.push({
+					author: author.uuid,
+					series
+				})
 			}
 		}
 
@@ -55,11 +65,14 @@ describe("GetLatestStoreBookSeries endpoint", () => {
 		assert.equal(Object.keys(response.data).length, 2)
 		assert.equal(response.data.items.length, seriesList.length)
 
-		for (let series of seriesList) {
+		for (let seriesItem of seriesList) {
+			let series = seriesItem.series
 			let responseSeries = response.data.items.find(s => s.uuid == series.uuid)
 
 			assert.isNotNull(responseSeries)
+			assert.equal(Object.keys(responseSeries).length, 3)
 			assert.equal(responseSeries.uuid, series.uuid)
+			assert.equal(responseSeries.author, seriesItem.author)
 
 			let seriesName = series.names.find(n => n.language == "en")
 
@@ -97,7 +110,9 @@ describe("GetLatestStoreBookSeries endpoint", () => {
 			let responseSeries = response.data.items.find(s => s.uuid == series.uuid)
 
 			assert.isNotNull(responseSeries)
+			assert.equal(Object.keys(responseSeries).length, 3)
 			assert.equal(responseSeries.uuid, series.uuid)
+			assert.equal(responseSeries.author, author.uuid)
 
 			let seriesName = series.names.find(n => n.language == "en")
 
@@ -137,7 +152,9 @@ describe("GetLatestStoreBookSeries endpoint", () => {
 			let responseSeries = response.data.items.find(s => s.uuid == series.uuid)
 
 			assert.isNotNull(responseSeries)
+			assert.equal(Object.keys(responseSeries).length, 3)
 			assert.equal(responseSeries.uuid, series.uuid)
+			assert.equal(responseSeries.author, author.uuid)
 
 			let seriesName = series.names.find(n => n.language == language)
 

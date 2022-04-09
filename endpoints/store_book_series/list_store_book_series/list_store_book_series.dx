@@ -8,7 +8,7 @@
 (if (is_nil fields_str) (
 	(var fields (list "type" "items.uuid"))
 ) elseif (fields_str == "*") (
-	(var fields (list "type" "items.uuid" "items.name"))
+	(var fields (list "type" "items.uuid" "items.author" "items.name"))
 ) else (
 	(# Process the fields string)
 	(var fields (func process_fields (fields_str)))
@@ -101,6 +101,7 @@
 	(var series_hash (hash))
 
 	(if (fields.contains "items.uuid") (var series_hash.uuid series.uuid))
+	(if (fields.contains "items.author") (var series_hash.author series.properties.author))
 
 	(if (
 		(fields.contains "items.name")

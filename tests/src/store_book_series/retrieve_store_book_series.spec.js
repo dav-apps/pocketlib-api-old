@@ -24,7 +24,8 @@ describe("GetStoreBookSeries endpoint", () => {
 	})
 
 	it("should return store book series", async () => {
-		let series = constants.davUser.authors[2].series[0]
+		let author = constants.davUser.authors[2]
+		let series = author.series[0]
 		let response
 
 		try {
@@ -41,9 +42,10 @@ describe("GetStoreBookSeries endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 2)
+		assert.equal(Object.keys(response.data).length, 3)
 		assert.equal(response.data.uuid, series.uuid)
-		
+		assert.equal(response.data.author, author.uuid)
+
 		if (series.names.length == 0) {
 			assert.isNull(response.data.name)
 		} else {
@@ -56,7 +58,8 @@ describe("GetStoreBookSeries endpoint", () => {
 	})
 
 	it("should return store book series with specified language", async () => {
-		let series = constants.authorUser.author.series[0]
+		let author = constants.authorUser.author
+		let series = author.series[0]
 		let language = "de"
 		let response
 
@@ -74,8 +77,9 @@ describe("GetStoreBookSeries endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 2)
+		assert.equal(Object.keys(response.data).length, 3)
 		assert.equal(response.data.uuid, series.uuid)
+		assert.equal(response.data.author, author.uuid)
 		
 		if (series.names.length == 0) {
 			assert.isNull(response.data.name)

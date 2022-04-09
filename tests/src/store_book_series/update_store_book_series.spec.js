@@ -219,8 +219,9 @@ describe("UpdateStoreBookSeries endpoint", async () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 2)
+		assert.equal(Object.keys(response.data).length, 3)
 		assert.equal(response.data.uuid, series.uuid)
+		assert.equal(response.data.author, author.uuid)
 		
 		if (series.names.length == 0) {
 			assert.isNull(response.data.name)
@@ -281,8 +282,9 @@ describe("UpdateStoreBookSeries endpoint", async () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 2)
+		assert.equal(Object.keys(response.data).length, 3)
 		assert.equal(response.data.uuid, series.uuid)
+		assert.equal(response.data.author, author.uuid)
 
 		if (series.names.length == 0) {
 			assert.isNull(response.data.name)
@@ -349,8 +351,9 @@ describe("UpdateStoreBookSeries endpoint", async () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 2)
+		assert.equal(Object.keys(response.data).length, 3)
 		assert.equal(response.data.uuid, series.uuid)
+		assert.equal(response.data.author, author.uuid)
 
 		if (series.names.length == 0) {
 			assert.isNull(response.data.name)
@@ -410,8 +413,9 @@ describe("UpdateStoreBookSeries endpoint", async () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 2)
+		assert.equal(Object.keys(response.data).length, 3)
 		assert.equal(response.data.uuid, series.uuid)
+		assert.equal(response.data.author, author.uuid)
 
 		if (series.names.length == 0) {
 			assert.isNull(response.data.name)

@@ -527,8 +527,9 @@ describe("CreateStoreBookSeries endpoint", () => {
 		}
 
 		assert.equal(response.status, 201)
-		assert.equal(Object.keys(response.data).length, 2)
+		assert.equal(Object.keys(response.data).length, 3)
 		assert.isNotNull(response.data.uuid)
+		assert.equal(response.data.author, constants.authorUser.author.uuid)
 		assert.equal(response.data.name.value, name)
 		assert.equal(response.data.name.language, language)
 
@@ -602,8 +603,9 @@ describe("CreateStoreBookSeries endpoint", () => {
 		}
 
 		assert.equal(response.status, 201)
-		assert.equal(Object.keys(response.data).length, 2)
+		assert.equal(Object.keys(response.data).length, 3)
 		assert.isNotNull(response.data.uuid)
+		assert.equal(response.data.author, constants.authorUser.author.uuid)
 		assert.equal(response.data.name.value, name)
 		assert.equal(response.data.name.language, language)
 
@@ -675,8 +677,9 @@ describe("CreateStoreBookSeries endpoint", () => {
 		}
 
 		assert.equal(response.status, 201)
-		assert.equal(Object.keys(response.data).length, 2)
+		assert.equal(Object.keys(response.data).length, 3)
 		assert.isNotNull(response.data.uuid)
+		assert.equal(response.data.author, author)
 		assert.equal(response.data.name.value, name)
 		assert.equal(response.data.name.language, language)
 
@@ -752,7 +755,8 @@ describe("CreateStoreBookSeries endpoint", () => {
 		}
 
 		assert.equal(response.status, 201)
-		assert.equal(Object.keys(response.data).length, 2)
+		assert.equal(Object.keys(response.data).length, 3)
+		assert.equal(response.data.author, author)
 		assert.isNotNull(response.data.uuid)
 		assert.equal(response.data.name.value, name)
 		assert.equal(response.data.name.language, language)
