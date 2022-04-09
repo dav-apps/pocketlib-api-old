@@ -66,7 +66,9 @@ describe("GetCollectionsOfAuthor endpoint", () => {
 			let responseCollection = response.data.items.find(c => c.uuid == collection.uuid)
 
 			assert.isNotNull(responseCollection)
+			assert.equal(Object.keys(responseCollection).length, 3)
 			assert.equal(responseCollection.uuid, collection.uuid)
+			assert.equal(responseCollection.author, author.uuid)
 
 			let collectionName = collection.names.find(n => n.language == "en")
 
@@ -101,7 +103,9 @@ describe("GetCollectionsOfAuthor endpoint", () => {
 			let responseCollection = response.data.items.find(c => c.uuid == collection.uuid)
 
 			assert.isNotNull(responseCollection)
+			assert.equal(Object.keys(responseCollection).length, 3)
 			assert.equal(responseCollection.uuid, collection.uuid)
+			assert.equal(responseCollection.author, author.uuid)
 
 			let collectionName = collection.names.find(n => n.language == language)
 

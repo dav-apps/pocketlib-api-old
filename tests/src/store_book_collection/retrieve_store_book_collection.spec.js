@@ -44,8 +44,9 @@ describe("RetrieveStoreBookCollection endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 2)
+		assert.equal(Object.keys(response.data).length, 3)
 		assert.equal(response.data.uuid, collection.uuid)
+		assert.equal(response.data.author, author.uuid)
 
 		if (collection.names.length == 0) {
 			assert.isNull(response.data.name)
@@ -78,8 +79,9 @@ describe("RetrieveStoreBookCollection endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 2)
+		assert.equal(Object.keys(response.data).length, 3)
 		assert.equal(response.data.uuid, collection.uuid)
+		assert.equal(response.data.author, author.uuid)
 
 		if (collection.names.length == 0) {
 			assert.isNull(response.data.name)
