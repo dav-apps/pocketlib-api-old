@@ -87,8 +87,9 @@ describe("GetStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 12)
+		assert.equal(Object.keys(response.data).length, 13)
 		assert.equal(response.data.uuid, storeBook.uuid)
+		assert.equal(response.data.collection, collection.uuid)
 		assert.equal(response.data.title, storeBookRelease.title)
 		assert.equal(response.data.description, storeBookRelease.description)
 		assert.equal(response.data.language, storeBook.language)
@@ -137,8 +138,9 @@ describe("GetStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 12)
+		assert.equal(Object.keys(response.data).length, 13)
 		assert.equal(response.data.uuid, storeBook.uuid)
+		assert.equal(response.data.collection, collection.uuid)
 		assert.equal(response.data.title, storeBookRelease.title)
 		assert.equal(response.data.description, storeBookRelease.description)
 		assert.equal(response.data.language, storeBook.language)
@@ -228,8 +230,9 @@ describe("GetStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 12)
+		assert.equal(Object.keys(response.data).length, 13)
 		assert.equal(response.data.uuid, storeBook.uuid)
+		assert.equal(response.data.collection, collection.uuid)
 		assert.equal(response.data.title, storeBookRelease.title)
 		assert.equal(response.data.description, storeBookRelease.description)
 		assert.equal(response.data.language, storeBook.language)
@@ -278,8 +281,9 @@ describe("GetStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 12)
+		assert.equal(Object.keys(response.data).length, 13)
 		assert.equal(response.data.uuid, storeBook.uuid)
+		assert.equal(response.data.collection, collection.uuid)
 		assert.equal(response.data.title, storeBookRelease.title)
 		assert.equal(response.data.description, storeBookRelease.description)
 		assert.equal(response.data.language, storeBook.language)
@@ -369,8 +373,9 @@ describe("GetStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 12)
+		assert.equal(Object.keys(response.data).length, 13)
 		assert.equal(response.data.uuid, storeBook.uuid)
+		assert.equal(response.data.collection, collection.uuid)
 		assert.equal(response.data.title, storeBookRelease.title)
 		assert.equal(response.data.description, storeBookRelease.description)
 		assert.equal(response.data.language, storeBook.language)
@@ -419,8 +424,9 @@ describe("GetStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 12)
+		assert.equal(Object.keys(response.data).length, 13)
 		assert.equal(response.data.uuid, storeBook.uuid)
+		assert.equal(response.data.collection, collection.uuid)
 		assert.equal(response.data.title, storeBookRelease.title)
 		assert.equal(response.data.description, storeBookRelease.description)
 		assert.equal(response.data.language, storeBook.language)
@@ -469,8 +475,9 @@ describe("GetStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 11)
+		assert.equal(Object.keys(response.data).length, 12)
 		assert.equal(response.data.uuid, storeBook.uuid)
+		assert.equal(response.data.collection, collection.uuid)
 		assert.equal(response.data.title, storeBookRelease.title)
 		assert.equal(response.data.description, storeBookRelease.description)
 		assert.equal(response.data.language, storeBook.language)
@@ -517,8 +524,9 @@ describe("GetStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 9)
+		assert.equal(Object.keys(response.data).length, 10)
 		assert.equal(response.data.uuid, storeBook.uuid)
+		assert.equal(response.data.collection, collection.uuid)
 		assert.equal(response.data.title, storeBookRelease.title)
 		assert.equal(response.data.description, storeBookRelease.description)
 		assert.equal(response.data.language, storeBook.language)
@@ -567,8 +575,9 @@ describe("GetStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 12)
+		assert.equal(Object.keys(response.data).length, 13)
 		assert.equal(response.data.uuid, storeBook.uuid)
+		assert.equal(response.data.collection, collection.uuid)
 		assert.equal(response.data.title, storeBookRelease.title)
 		assert.equal(response.data.description, storeBookRelease.description)
 		assert.equal(response.data.language, storeBook.language)
@@ -617,8 +626,9 @@ describe("GetStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 12)
+		assert.equal(Object.keys(response.data).length, 13)
 		assert.equal(response.data.uuid, storeBook.uuid)
+		assert.equal(response.data.collection, collection.uuid)
 		assert.equal(response.data.title, storeBookRelease.title)
 		assert.equal(response.data.description, storeBookRelease.description)
 		assert.equal(response.data.language, storeBook.language)

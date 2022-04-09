@@ -4,7 +4,7 @@
 (if (is_nil fields_str) (
 	(var fields (list "uuid"))
 ) elseif (fields_str == "*") (
-	(var fields (list "uuid" "title" "description" "language" "price" "isbn" "status" "cover" "file" "in_library" "purchased" "categories"))
+	(var fields (list "uuid" "collection" "title" "description" "language" "price" "isbn" "status" "cover" "file" "in_library" "purchased" "categories"))
 ) else (
 	(# Process the fields string)
 	(var fields (func process_fields (fields_str)))
@@ -206,6 +206,7 @@
 (var result (hash))
 
 (if (fields.contains "uuid") (var result.uuid store_book.uuid))
+(if (fields.contains "collection") (var result.collection store_book.properties.collection))
 (if (fields.contains "title") (var result.title store_book_release.properties.title))
 (if (fields.contains "description") (var result.description store_book_release.properties.description))
 (if (fields.contains "language") (var result.language store_book.properties.language))

@@ -44,6 +44,7 @@ describe("ListStoreBooks endpoint", async () => {
 
 		// Find all published store books with language = en
 		let storeBooks = []
+
 		for (let collection of constants.authorUser.author.collections) {
 			for (let storeBook of collection.books) {
 				let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
@@ -53,7 +54,10 @@ describe("ListStoreBooks endpoint", async () => {
 					&& storeBook.status == "published"
 					&& storeBookRelease.coverItem
 				) {
-					storeBooks.push(storeBook)
+					storeBooks.push({
+						collection: collection.uuid,
+						storeBook
+					})
 				}
 			}
 		}
@@ -68,7 +72,10 @@ describe("ListStoreBooks endpoint", async () => {
 						&& storeBook.status == "published"
 						&& storeBookRelease.coverItem
 					) {
-						storeBooks.push(storeBook)
+						storeBooks.push({
+							collection: collection.uuid,
+							storeBook
+						})
 					}
 				}
 			}
@@ -80,13 +87,15 @@ describe("ListStoreBooks endpoint", async () => {
 		assert.equal(Object.keys(response.data).length, 3)
 		assert.equal(response.data.items.length, storeBooks.length)
 
-		for (let storeBook of storeBooks) {
+		for (let storeBookItem of storeBooks) {
+			let storeBook = storeBookItem.storeBook
 			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
 			let responseStoreBook = response.data.items.find(s => s.uuid == storeBook.uuid)
-			
+
 			assert.isNotNull(responseStoreBook)
-			assert.equal(Object.keys(responseStoreBook).length, 9)
+			assert.equal(Object.keys(responseStoreBook).length, 10)
 			assert.equal(responseStoreBook.uuid, storeBook.uuid)
+			assert.equal(responseStoreBook.collection, storeBookItem.collection)
 			assert.equal(responseStoreBook.title, storeBookRelease.title)
 			assert.equal(responseStoreBook.description, storeBookRelease.description)
 			assert.equal(responseStoreBook.language, storeBook.language)
@@ -134,6 +143,7 @@ describe("ListStoreBooks endpoint", async () => {
 
 		// Find all published store books with language = en
 		let storeBooks = []
+
 		for (let collection of constants.authorUser.author.collections) {
 			for (let storeBook of collection.books) {
 				let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
@@ -143,7 +153,10 @@ describe("ListStoreBooks endpoint", async () => {
 					&& storeBook.status == "published"
 					&& storeBookRelease.coverItem
 				) {
-					storeBooks.push(storeBook)
+					storeBooks.push({
+						collection: collection.uuid,
+						storeBook
+					})
 				}
 			}
 		}
@@ -158,7 +171,10 @@ describe("ListStoreBooks endpoint", async () => {
 						&& storeBook.status == "published"
 						&& storeBookRelease.coverItem
 					) {
-						storeBooks.push(storeBook)
+						storeBooks.push({
+							collection: collection.uuid,
+							storeBook
+						})
 					}
 				}
 			}
@@ -173,14 +189,16 @@ describe("ListStoreBooks endpoint", async () => {
 		assert.equal(response.data.pages, pages)
 
 		for (let responseStoreBook of response.data.items) {
-			let storeBook = storeBooks.find(s => s.uuid == responseStoreBook.uuid)
-			assert.isNotNull(storeBook)
+			let storeBookItem = storeBooks.find(s => s.storeBook.uuid == responseStoreBook.uuid)
+			assert.isNotNull(storeBookItem)
+			let storeBook = storeBookItem.storeBook
 
 			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
 			assert.isNotNull(storeBookRelease)
 
-			assert.equal(Object.keys(responseStoreBook).length, 9)
+			assert.equal(Object.keys(responseStoreBook).length, 10)
 			assert.equal(responseStoreBook.uuid, storeBook.uuid)
+			assert.equal(responseStoreBook.collection, storeBookItem.collection)
 			assert.equal(responseStoreBook.title, storeBookRelease.title)
 			assert.equal(responseStoreBook.description, storeBookRelease.description)
 			assert.equal(responseStoreBook.language, storeBook.language)
@@ -228,6 +246,7 @@ describe("ListStoreBooks endpoint", async () => {
 
 		// Find all published store books with the language
 		let storeBooks = []
+
 		for (let collection of constants.authorUser.author.collections) {
 			for (let storeBook of collection.books) {
 				let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
@@ -237,7 +256,10 @@ describe("ListStoreBooks endpoint", async () => {
 					&& storeBook.status == "published"
 					&& storeBookRelease.coverItem
 				) {
-					storeBooks.push(storeBook)
+					storeBooks.push({
+						collection: collection.uuid,
+						storeBook
+					})
 				}
 			}
 		}
@@ -252,7 +274,10 @@ describe("ListStoreBooks endpoint", async () => {
 						&& storeBook.status == "published"
 						&& storeBookRelease.coverItem
 					) {
-						storeBooks.push(storeBook)
+						storeBooks.push({
+							collection: collection.uuid,
+							storeBook
+						})
 					}
 				}
 			}
@@ -264,13 +289,15 @@ describe("ListStoreBooks endpoint", async () => {
 		assert.equal(Object.keys(response.data).length, 3)
 		assert.equal(response.data.items.length, storeBooks.length)
 
-		for (let storeBook of storeBooks) {
+		for (let storeBookItem of storeBooks) {
+			let storeBook = storeBookItem.storeBook
 			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
 			let responseStoreBook = response.data.items.find(s => s.uuid == storeBook.uuid)
 			
 			assert.isNotNull(responseStoreBook)
-			assert.equal(Object.keys(responseStoreBook).length, 9)
+			assert.equal(Object.keys(responseStoreBook).length, 10)
 			assert.equal(responseStoreBook.uuid, storeBook.uuid)
+			assert.equal(responseStoreBook.collection, storeBookItem.collection)
 			assert.equal(responseStoreBook.title, storeBookRelease.title)
 			assert.equal(responseStoreBook.description, storeBookRelease.description)
 			assert.equal(responseStoreBook.language, storeBook.language)
@@ -318,6 +345,7 @@ describe("ListStoreBooks endpoint", async () => {
 
 		// Find all published store books with the languages
 		let storeBooks = []
+
 		for (let collection of constants.authorUser.author.collections) {
 			for (let storeBook of collection.books) {
 				let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
@@ -327,7 +355,10 @@ describe("ListStoreBooks endpoint", async () => {
 					&& storeBook.status == "published"
 					&& storeBookRelease.coverItem
 				) {
-					storeBooks.push(storeBook)
+					storeBooks.push({
+						collection: collection.uuid,
+						storeBook
+					})
 				}
 			}
 		}
@@ -342,7 +373,10 @@ describe("ListStoreBooks endpoint", async () => {
 						&& storeBook.status == "published"
 						&& storeBookRelease.coverItem
 					) {
-						storeBooks.push(storeBook)
+						storeBooks.push({
+							collection: collection.uuid,
+							storeBook
+						})
 					}
 				}
 			}
@@ -354,13 +388,15 @@ describe("ListStoreBooks endpoint", async () => {
 		assert.equal(Object.keys(response.data).length, 3)
 		assert.equal(response.data.items.length, storeBooks.length)
 
-		for (let storeBook of storeBooks) {
+		for (let storeBookItem of storeBooks) {
+			let storeBook = storeBookItem.storeBook
 			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
 			let responseStoreBook = response.data.items.find(s => s.uuid == storeBook.uuid)
 			
 			assert.isNotNull(responseStoreBook)
-			assert.equal(Object.keys(responseStoreBook).length, 9)
+			assert.equal(Object.keys(responseStoreBook).length, 10)
 			assert.equal(responseStoreBook.uuid, storeBook.uuid)
+			assert.equal(responseStoreBook.collection, storeBookItem.collection)
 			assert.equal(responseStoreBook.title, storeBookRelease.title)
 			assert.equal(responseStoreBook.description, storeBookRelease.description)
 			assert.equal(responseStoreBook.language, storeBook.language)
@@ -419,7 +455,10 @@ describe("ListStoreBooks endpoint", async () => {
 					&& storeBook.status == "published"
 					&& storeBookRelease.coverItem
 				) {
-					storeBooks.push(storeBook)
+					storeBooks.push({
+						collection: collection.uuid,
+						storeBook
+					})
 				}
 			}
 		}
@@ -434,7 +473,10 @@ describe("ListStoreBooks endpoint", async () => {
 						&& storeBook.status == "published"
 						&& storeBookRelease.coverItem
 					) {
-						storeBooks.push(storeBook)
+						storeBooks.push({
+							collection: collection.uuid,
+							storeBook
+						})
 					}
 				}
 			}
@@ -449,14 +491,16 @@ describe("ListStoreBooks endpoint", async () => {
 		assert.equal(response.data.pages, pages)
 
 		for (let responseStoreBook of response.data.items) {
-			let storeBook = storeBooks.find(s => s.uuid == responseStoreBook.uuid)
-			assert.isNotNull(storeBook)
+			let storeBookItem = storeBooks.find(s => s.storeBook.uuid == responseStoreBook.uuid)
+			assert.isNotNull(storeBookItem)
+			let storeBook = storeBookItem.storeBook
 
 			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
 			assert.isNotNull(storeBookRelease)
 
-			assert.equal(Object.keys(responseStoreBook).length, 9)
+			assert.equal(Object.keys(responseStoreBook).length, 10)
 			assert.equal(responseStoreBook.uuid, storeBook.uuid)
+			assert.equal(responseStoreBook.collection, storeBookItem.collection)
 			assert.equal(responseStoreBook.title, storeBookRelease.title)
 			assert.equal(responseStoreBook.description, storeBookRelease.description)
 			assert.equal(responseStoreBook.language, storeBook.language)
@@ -506,14 +550,16 @@ describe("ListStoreBooks endpoint", async () => {
 		assert.equal(response.data.pages, pages)
 		
 		for (let responseStoreBook of response.data.items) {
-			let storeBook = storeBooks.find(s => s.uuid == responseStoreBook.uuid)
-			assert.isNotNull(storeBook)
+			let storeBookItem = storeBooks.find(s => s.storeBook.uuid == responseStoreBook.uuid)
+			assert.isNotNull(storeBookItem)
+			let storeBook = storeBookItem.storeBook
 
 			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
 			assert.isNotNull(storeBookRelease)
 
-			assert.equal(Object.keys(responseStoreBook).length, 9)
+			assert.equal(Object.keys(responseStoreBook).length, 10)
 			assert.equal(responseStoreBook.uuid, storeBook.uuid)
+			assert.equal(responseStoreBook.collection, storeBookItem.collection)
 			assert.equal(responseStoreBook.title, storeBookRelease.title)
 			assert.equal(responseStoreBook.description, storeBookRelease.description)
 			assert.equal(responseStoreBook.language, storeBook.language)
@@ -571,7 +617,10 @@ describe("ListStoreBooks endpoint", async () => {
 					&& storeBook.status == "published"
 					&& storeBookRelease.coverItem
 				) {
-					storeBooks.push(storeBook)
+					storeBooks.push({
+						collection: collection.uuid,
+						storeBook
+					})
 				}
 			}
 		}
@@ -586,7 +635,10 @@ describe("ListStoreBooks endpoint", async () => {
 						&& storeBook.status == "published"
 						&& storeBookRelease.coverItem
 					) {
-						storeBooks.push(storeBook)
+						storeBooks.push({
+							collection: collection.uuid,
+							storeBook
+						})
 					}
 				}
 			}
@@ -598,13 +650,15 @@ describe("ListStoreBooks endpoint", async () => {
 		assert.equal(Object.keys(response.data).length, 3)
 		assert.equal(response.data.items.length, storeBooks.length)
 
-		for (let storeBook of storeBooks) {
+		for (let storeBookItem of storeBooks) {
+			let storeBook = storeBookItem.storeBook
 			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
 			let responseStoreBook = response.data.items.find(s => s.uuid == storeBook.uuid)
 			
 			assert.isNotNull(responseStoreBook)
-			assert.equal(Object.keys(responseStoreBook).length, 11)
+			assert.equal(Object.keys(responseStoreBook).length, 12)
 			assert.equal(responseStoreBook.uuid, storeBook.uuid)
+			assert.equal(responseStoreBook.collection, storeBookItem.collection)
 			assert.equal(responseStoreBook.title, storeBookRelease.title)
 			assert.equal(responseStoreBook.description, storeBookRelease.description)
 			assert.equal(responseStoreBook.language, storeBook.language)
@@ -913,8 +967,14 @@ describe("ListStoreBooks endpoint", async () => {
 		let response
 		let series = constants.davUser.authors[2].series[0]
 		let storeBooks = [
-			constants.davUser.authors[2].collections[0].books[0],
-			constants.davUser.authors[2].collections[1].books[0],
+			{
+				collection: constants.davUser.authors[2].collections[0].uuid,
+				storeBook: constants.davUser.authors[2].collections[0].books[0]
+			},
+			{
+				collection: constants.davUser.authors[2].collections[1].uuid,
+				storeBook: constants.davUser.authors[2].collections[1].books[0]
+			}
 		]
 
 		try {
@@ -935,13 +995,15 @@ describe("ListStoreBooks endpoint", async () => {
 		assert.equal(Object.keys(response.data).length, 3)
 		assert.equal(response.data.items.length, storeBooks.length)
 
-		for (let storeBook of storeBooks) {
+		for (let storeBookItem of storeBooks) {
+			let storeBook = storeBookItem.storeBook
 			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
 			let responseStoreBook = response.data.items.find(s => s.uuid == storeBook.uuid)
 
 			assert.isNotNull(responseStoreBook)
-			assert.equal(Object.keys(responseStoreBook).length, 9)
+			assert.equal(Object.keys(responseStoreBook).length, 10)
 			assert.equal(responseStoreBook.uuid, storeBook.uuid)
+			assert.equal(responseStoreBook.collection, storeBookItem.collection)
 			assert.equal(responseStoreBook.title, storeBookRelease.title)
 			assert.equal(responseStoreBook.description, storeBookRelease.description)
 			assert.equal(responseStoreBook.language, storeBook.language)
@@ -1026,6 +1088,7 @@ describe("ListStoreBooks endpoint", async () => {
 
 		// Find all store books with the category and language = en
 		let storeBooks = []
+
 		for (let collection of constants.authorUser.author.collections) {
 			for (let storeBook of collection.books) {
 				let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
@@ -1036,7 +1099,12 @@ describe("ListStoreBooks endpoint", async () => {
 					&& storeBookRelease.categories
 					&& storeBookRelease.categories.includes(category.uuid)
 					&& storeBookRelease.coverItem
-				) storeBooks.push(storeBook)
+				) {
+					storeBooks.push({
+						collection: collection.uuid,
+						storeBook
+					})
+				}
 			}
 		}
 
@@ -1051,7 +1119,12 @@ describe("ListStoreBooks endpoint", async () => {
 						&& storeBookRelease.categories
 						&& storeBookRelease.categories.includes(category.uuid)
 						&& storeBookRelease.coverItem
-					) storeBooks.push(storeBook)
+					) {
+						storeBooks.push({
+							collection: collection.uuid,
+							storeBook
+						})
+					}
 				}
 			}
 		}
@@ -1060,13 +1133,15 @@ describe("ListStoreBooks endpoint", async () => {
 		assert.equal(Object.keys(response.data).length, 3)
 		assert.equal(response.data.items.length, storeBooks.length)
 
-		for (let storeBook of storeBooks) {
+		for (let storeBookItem of storeBooks) {
+			let storeBook = storeBookItem.storeBook
 			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
 			let responseStoreBook = response.data.items.find(s => s.uuid == storeBook.uuid)
 			
 			assert.isNotNull(responseStoreBook)
-			assert.equal(Object.keys(responseStoreBook).length, 9)
+			assert.equal(Object.keys(responseStoreBook).length, 10)
 			assert.equal(responseStoreBook.uuid, storeBook.uuid)
+			assert.equal(responseStoreBook.collection, storeBookItem.collection)
 			assert.equal(responseStoreBook.title, storeBookRelease.title)
 			assert.equal(responseStoreBook.description, storeBookRelease.description)
 			assert.equal(responseStoreBook.language, storeBook.language)
@@ -1114,6 +1189,7 @@ describe("ListStoreBooks endpoint", async () => {
 
 		// Find all store books with the category and the language
 		let storeBooks = []
+
 		for (let collection of constants.authorUser.author.collections) {
 			for (let storeBook of collection.books) {
 				let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
@@ -1124,7 +1200,12 @@ describe("ListStoreBooks endpoint", async () => {
 					&& storeBookRelease.categories
 					&& storeBookRelease.categories.includes(category.uuid)
 					&& storeBookRelease.coverItem
-				) storeBooks.push(storeBook)
+				) {
+					storeBooks.push({
+						collection: collection.uuid,
+						storeBook
+					})
+				}
 			}
 		}
 
@@ -1139,7 +1220,12 @@ describe("ListStoreBooks endpoint", async () => {
 						&& storeBookRelease.categories
 						&& storeBookRelease.categories.includes(category.uuid)
 						&& storeBookRelease.coverItem
-					) storeBooks.push(storeBook)
+					) {
+						storeBooks.push({
+							collection: collection.uuid,
+							storeBook
+						})
+					}
 				}
 			}
 		}
@@ -1148,13 +1234,15 @@ describe("ListStoreBooks endpoint", async () => {
 		assert.equal(Object.keys(response.data).length, 3)
 		assert.equal(response.data.items.length, storeBooks.length)
 
-		for (let storeBook of storeBooks) {
+		for (let storeBookItem of storeBooks) {
+			let storeBook = storeBookItem.storeBook
 			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
 			let responseStoreBook = response.data.items.find(s => s.uuid == storeBook.uuid)
-			
+
 			assert.isNotNull(responseStoreBook)
-			assert.equal(Object.keys(responseStoreBook).length, 9)
+			assert.equal(Object.keys(responseStoreBook).length, 10)
 			assert.equal(responseStoreBook.uuid, storeBook.uuid)
+			assert.equal(responseStoreBook.collection, storeBookItem.collection)
 			assert.equal(responseStoreBook.title, storeBookRelease.title)
 			assert.equal(responseStoreBook.description, storeBookRelease.description)
 			assert.equal(responseStoreBook.language, storeBook.language)
@@ -1202,6 +1290,7 @@ describe("ListStoreBooks endpoint", async () => {
 
 		// Find all store books with the category and the languages
 		let storeBooks = []
+
 		for (let collection of constants.authorUser.author.collections) {
 			for (let storeBook of collection.books) {
 				let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
@@ -1212,7 +1301,12 @@ describe("ListStoreBooks endpoint", async () => {
 					&& storeBookRelease.categories
 					&& storeBookRelease.categories.includes(category.uuid)
 					&& storeBookRelease.coverItem
-				) storeBooks.push(storeBook)
+				) {
+					storeBooks.push({
+						collection: collection.uuid,
+						storeBook
+					})
+				}
 			}
 		}
 
@@ -1227,7 +1321,12 @@ describe("ListStoreBooks endpoint", async () => {
 						&& storeBookRelease.categories
 						&& storeBookRelease.categories.includes(category.uuid)
 						&& storeBookRelease.coverItem
-					) storeBooks.push(storeBook)
+					) {
+						storeBooks.push({
+							collection: collection.uuid,
+							storeBook
+						})
+					}
 				}
 			}
 		}
@@ -1236,13 +1335,15 @@ describe("ListStoreBooks endpoint", async () => {
 		assert.equal(Object.keys(response.data).length, 3)
 		assert.equal(response.data.items.length, storeBooks.length)
 
-		for (let storeBook of storeBooks) {
+		for (let storeBookItem of storeBooks) {
+			let storeBook = storeBookItem.storeBook
 			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
 			let responseStoreBook = response.data.items.find(s => s.uuid == storeBook.uuid)
 
 			assert.isNotNull(responseStoreBook)
-			assert.equal(Object.keys(responseStoreBook).length, 9)
+			assert.equal(Object.keys(responseStoreBook).length, 10)
 			assert.equal(responseStoreBook.uuid, storeBook.uuid)
+			assert.equal(responseStoreBook.collection, storeBookItem.collection)
 			assert.equal(responseStoreBook.title, storeBookRelease.title)
 			assert.equal(responseStoreBook.description, storeBookRelease.description)
 			assert.equal(responseStoreBook.language, storeBook.language)
@@ -1302,7 +1403,12 @@ describe("ListStoreBooks endpoint", async () => {
 					&& storeBookRelease.categories
 					&& storeBookRelease.categories.includes(category.uuid)
 					&& storeBookRelease.coverItem
-				) storeBooks.push(storeBook)
+				) {
+					storeBooks.push({
+						collection: collection.uuid,
+						storeBook
+					})
+				}
 			}
 		}
 
@@ -1317,7 +1423,12 @@ describe("ListStoreBooks endpoint", async () => {
 						&& storeBookRelease.categories
 						&& storeBookRelease.categories.includes(category.uuid)
 						&& storeBookRelease.coverItem
-					) storeBooks.push(storeBook)
+					) {
+						storeBooks.push({
+							collection: collection.uuid,
+							storeBook
+						})
+					}
 				}
 			}
 		}
@@ -1330,14 +1441,16 @@ describe("ListStoreBooks endpoint", async () => {
 		assert.equal(response.data.pages, pages)
 
 		for (let responseStoreBook of response.data.items) {
-			let storeBook = storeBooks.find(s => s.uuid == responseStoreBook.uuid)
-			assert.isNotNull(storeBook)
+			let storeBookItem = storeBooks.find(s => s.storeBook.uuid == responseStoreBook.uuid)
+			assert.isNotNull(storeBookItem)
+			let storeBook = storeBookItem.storeBook
 
 			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
 			assert.isNotNull(storeBookRelease)
 
-			assert.equal(Object.keys(responseStoreBook).length, 9)
+			assert.equal(Object.keys(responseStoreBook).length, 10)
 			assert.equal(responseStoreBook.uuid, storeBook.uuid)
+			assert.equal(responseStoreBook.collection, storeBookItem.collection)
 			assert.equal(responseStoreBook.title, storeBookRelease.title)
 			assert.equal(responseStoreBook.description, storeBookRelease.description)
 			assert.equal(responseStoreBook.language, storeBook.language)
@@ -1386,14 +1499,16 @@ describe("ListStoreBooks endpoint", async () => {
 		assert.equal(response.data.pages, pages)
 
 		for (let responseStoreBook of response.data.items) {
-			let storeBook = storeBooks.find(s => s.uuid == responseStoreBook.uuid)
-			assert.isNotNull(storeBook)
+			let storeBookItem = storeBooks.find(s => s.storeBook.uuid == responseStoreBook.uuid)
+			assert.isNotNull(storeBookItem)
+			let storeBook = storeBookItem.storeBook
 
 			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
 			assert.isNotNull(storeBookRelease)
 
-			assert.equal(Object.keys(responseStoreBook).length, 9)
+			assert.equal(Object.keys(responseStoreBook).length, 10)
 			assert.equal(responseStoreBook.uuid, storeBook.uuid)
+			assert.equal(responseStoreBook.collection, storeBookItem.collection)
 			assert.equal(responseStoreBook.title, storeBookRelease.title)
 			assert.equal(responseStoreBook.description, storeBookRelease.description)
 			assert.equal(responseStoreBook.language, storeBook.language)
@@ -1451,7 +1566,12 @@ describe("ListStoreBooks endpoint", async () => {
 					&& storeBookRelease.categories.includes(firstCategory.uuid)
 					&& storeBookRelease.categories.includes(secondCategory.uuid)
 					&& storeBookRelease.coverItem
-				) storeBooks.push(storeBook)
+				) {
+					storeBooks.push({
+						collection: collection.uuid,
+						storeBook
+					})
+				}
 			}
 		}
 
@@ -1467,7 +1587,12 @@ describe("ListStoreBooks endpoint", async () => {
 						&& storeBookRelease.categories.includes(firstCategory.uuid)
 						&& storeBookRelease.categories.includes(secondCategory.uuid)
 						&& storeBookRelease.coverItem
-					) storeBooks.push(storeBook)
+					) {
+						storeBooks.push({
+							collection: collection.uuid,
+							storeBook
+						})
+					}
 				}
 			}
 		}
@@ -1476,13 +1601,15 @@ describe("ListStoreBooks endpoint", async () => {
 		assert.equal(Object.keys(response.data).length, 3)
 		assert.equal(response.data.items.length, storeBooks.length)
 
-		for (let storeBook of storeBooks) {
+		for (let storeBookItem of storeBooks) {
+			let storeBook = storeBookItem.storeBook
 			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
 			let responseStoreBook = response.data.items.find(s => s.uuid == storeBook.uuid)
-			
+
 			assert.isNotNull(responseStoreBook)
-			assert.equal(Object.keys(responseStoreBook).length, 9)
+			assert.equal(Object.keys(responseStoreBook).length, 10)
 			assert.equal(responseStoreBook.uuid, storeBook.uuid)
+			assert.equal(responseStoreBook.collection, storeBookItem.collection)
 			assert.equal(responseStoreBook.title, storeBookRelease.title)
 			assert.equal(responseStoreBook.description, storeBookRelease.description)
 			assert.equal(responseStoreBook.language, storeBook.language)
@@ -1542,7 +1669,12 @@ describe("ListStoreBooks endpoint", async () => {
 					&& storeBookRelease.categories.includes(firstCategory.uuid)
 					&& storeBookRelease.categories.includes(secondCategory.uuid)
 					&& storeBookRelease.coverItem
-				) storeBooks.push(storeBook)
+				) {
+					storeBooks.push({
+						collection: collection.uuid,
+						storeBook
+					})
+				}
 			}
 		}
 
@@ -1558,7 +1690,12 @@ describe("ListStoreBooks endpoint", async () => {
 						&& storeBookRelease.categories.includes(firstCategory.uuid)
 						&& storeBookRelease.categories.includes(secondCategory.uuid)
 						&& storeBookRelease.coverItem
-					) storeBooks.push(storeBook)
+					) {
+						storeBooks.push({
+							collection: collection.uuid,
+							storeBook
+						})
+					}
 				}
 			}
 		}
@@ -1567,13 +1704,15 @@ describe("ListStoreBooks endpoint", async () => {
 		assert.equal(Object.keys(response.data).length, 3)
 		assert.equal(response.data.items.length, storeBooks.length)
 
-		for (let storeBook of storeBooks) {
+		for (let storeBookItem of storeBooks) {
+			let storeBook = storeBookItem.storeBook
 			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
 			let responseStoreBook = response.data.items.find(s => s.uuid == storeBook.uuid)
-			
+
 			assert.isNotNull(responseStoreBook)
-			assert.equal(Object.keys(responseStoreBook).length, 9)
+			assert.equal(Object.keys(responseStoreBook).length, 10)
 			assert.equal(responseStoreBook.uuid, storeBook.uuid)
+			assert.equal(responseStoreBook.collection, storeBookItem.collection)
 			assert.equal(responseStoreBook.title, storeBookRelease.title)
 			assert.equal(responseStoreBook.description, storeBookRelease.description)
 			assert.equal(responseStoreBook.language, storeBook.language)
@@ -1633,7 +1772,12 @@ describe("ListStoreBooks endpoint", async () => {
 					&& storeBookRelease.categories.includes(firstCategory.uuid)
 					&& storeBookRelease.categories.includes(secondCategory.uuid)
 					&& storeBookRelease.coverItem
-				) storeBooks.push(storeBook)
+				) {
+					storeBooks.push({
+						collection: collection.uuid,
+						storeBook
+					})
+				}
 			}
 		}
 
@@ -1649,7 +1793,12 @@ describe("ListStoreBooks endpoint", async () => {
 						&& storeBookRelease.categories.includes(firstCategory.uuid)
 						&& storeBookRelease.categories.includes(secondCategory.uuid)
 						&& storeBookRelease.coverItem
-					) storeBooks.push(storeBook)
+					) {
+						storeBooks.push({
+							collection: collection.uuid,
+							storeBook
+						})
+					}
 				}
 			}
 		}
@@ -1658,13 +1807,15 @@ describe("ListStoreBooks endpoint", async () => {
 		assert.equal(Object.keys(response.data).length, 3)
 		assert.equal(response.data.items.length, storeBooks.length)
 
-		for (let storeBook of storeBooks) {
+		for (let storeBookItem of storeBooks) {
+			let storeBook = storeBookItem.storeBook
 			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
 			let responseStoreBook = response.data.items.find(s => s.uuid == storeBook.uuid)
 			
 			assert.isNotNull(responseStoreBook)
-			assert.equal(Object.keys(responseStoreBook).length, 9)
+			assert.equal(Object.keys(responseStoreBook).length, 10)
 			assert.equal(responseStoreBook.uuid, storeBook.uuid)
+			assert.equal(responseStoreBook.collection, storeBookItem.collection)
 			assert.equal(responseStoreBook.title, storeBookRelease.title)
 			assert.equal(responseStoreBook.description, storeBookRelease.description)
 			assert.equal(responseStoreBook.language, storeBook.language)
@@ -1726,7 +1877,12 @@ describe("ListStoreBooks endpoint", async () => {
 					&& storeBookRelease.categories.includes(firstCategory.uuid)
 					&& storeBookRelease.categories.includes(secondCategory.uuid)
 					&& storeBookRelease.coverItem
-				) storeBooks.push(storeBook)
+				) {
+					storeBooks.push({
+						collection: collection.uuid,
+						storeBook
+					})
+				}
 			}
 		}
 
@@ -1742,7 +1898,12 @@ describe("ListStoreBooks endpoint", async () => {
 						&& storeBookRelease.categories.includes(firstCategory.uuid)
 						&& storeBookRelease.categories.includes(secondCategory.uuid)
 						&& storeBookRelease.coverItem
-					) storeBooks.push(storeBook)
+					) {
+						storeBooks.push({
+							collection: collection.uuid,
+							storeBook
+						})
+					}
 				}
 			}
 		}
@@ -1755,14 +1916,16 @@ describe("ListStoreBooks endpoint", async () => {
 		assert.equal(response.data.pages, pages)
 
 		for (let responseStoreBook of response.data.items) {
-			let storeBook = storeBooks.find(s => s.uuid == responseStoreBook.uuid)
-			assert.isNotNull(storeBook)
+			let storeBookItem = storeBooks.find(s => s.storeBook.uuid == responseStoreBook.uuid)
+			assert.isNotNull(storeBookItem)
+			let storeBook = storeBookItem.storeBook
 
 			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
 			assert.isNotNull(storeBookRelease)
 
-			assert.equal(Object.keys(responseStoreBook).length, 9)
+			assert.equal(Object.keys(responseStoreBook).length, 10)
 			assert.equal(responseStoreBook.uuid, storeBook.uuid)
+			assert.equal(responseStoreBook.collection, storeBookItem.collection)
 			assert.equal(responseStoreBook.title, storeBookRelease.title)
 			assert.equal(responseStoreBook.description, storeBookRelease.description)
 			assert.equal(responseStoreBook.language, storeBook.language)
@@ -1810,14 +1973,16 @@ describe("ListStoreBooks endpoint", async () => {
 		assert.equal(response.data.pages, pages)
 
 		for (let responseStoreBook of response.data.items) {
-			let storeBook = storeBooks.find(s => s.uuid == responseStoreBook.uuid)
-			assert.isNotNull(storeBook)
+			let storeBookItem = storeBooks.find(s => s.storeBook.uuid == responseStoreBook.uuid)
+			assert.isNotNull(storeBookItem)
+			let storeBook = storeBookItem.storeBook
 
 			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
 			assert.isNotNull(storeBookRelease)
 
-			assert.equal(Object.keys(responseStoreBook).length, 9)
+			assert.equal(Object.keys(responseStoreBook).length, 10)
 			assert.equal(responseStoreBook.uuid, storeBook.uuid)
+			assert.equal(responseStoreBook.collection, storeBookItem.collection)
 			assert.equal(responseStoreBook.title, storeBookRelease.title)
 			assert.equal(responseStoreBook.description, storeBookRelease.description)
 			assert.equal(responseStoreBook.language, storeBook.language)
@@ -1950,10 +2115,14 @@ describe("ListStoreBooks endpoint", async () => {
 
 		// Find all store books in review
 		let storeBooks = []
+
 		for (let collection of constants.authorUser.author.collections) {
 			for (let storeBook of collection.books) {
 				if (storeBook.status == "review") {
-					storeBooks.push(storeBook)
+					storeBooks.push({
+						collection: collection.uuid,
+						storeBook
+					})
 				}
 			}
 		}
@@ -1962,7 +2131,10 @@ describe("ListStoreBooks endpoint", async () => {
 			for (let collection of author.collections) {
 				for (let storeBook of collection.books) {
 					if (storeBook.status == "review") {
-						storeBooks.push(storeBook)
+						storeBooks.push({
+							collection: collection.uuid,
+							storeBook
+						})
 					}
 				}
 			}
@@ -1972,13 +2144,15 @@ describe("ListStoreBooks endpoint", async () => {
 		assert.equal(Object.keys(response.data).length, 3)
 		assert.equal(response.data.items.length, storeBooks.length)
 
-		for (let storeBook of storeBooks) {
+		for (let storeBookItem of storeBooks) {
+			let storeBook = storeBookItem.storeBook
 			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
 			let responseStoreBook = response.data.items.find(s => s.uuid == storeBook.uuid)
-			
+
 			assert.isNotNull(responseStoreBook)
-			assert.equal(Object.keys(responseStoreBook).length, 12)
+			assert.equal(Object.keys(responseStoreBook).length, 13)
 			assert.equal(responseStoreBook.uuid, storeBook.uuid)
+			assert.equal(responseStoreBook.collection, storeBookItem.collection)
 			assert.equal(responseStoreBook.title, storeBookRelease.title)
 			assert.equal(responseStoreBook.description, storeBookRelease.description)
 			assert.equal(responseStoreBook.language, storeBook.language)
@@ -2033,6 +2207,7 @@ describe("ListStoreBooks endpoint", async () => {
 
 		// Find the store books
 		let storeBooks = []
+
 		for (let collection of author.collections) {
 			for (let storeBook of collection.books) {
 				if (
@@ -2040,7 +2215,10 @@ describe("ListStoreBooks endpoint", async () => {
 					&& languages.includes(storeBook.language)
 					&& storeBook.releases.length > 0
 				) {
-					storeBooks.push(storeBook)
+					storeBooks.push({
+						collection: collection.uuid,
+						storeBook
+					})
 				}
 			}
 		}
@@ -2049,13 +2227,15 @@ describe("ListStoreBooks endpoint", async () => {
 		assert.equal(Object.keys(response.data).length, 3)
 		assert.equal(response.data.items.length, storeBooks.length)
 
-		for (let storeBook of storeBooks) {
+		for (let storeBookItem of storeBooks) {
+			let storeBook = storeBookItem.storeBook
 			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
 			let responseStoreBook = response.data.items.find(s => s.uuid == storeBook.uuid)
 			
 			assert.isNotNull(responseStoreBook)
-			assert.equal(Object.keys(responseStoreBook).length, 9)
+			assert.equal(Object.keys(responseStoreBook).length, 10)
 			assert.equal(responseStoreBook.uuid, storeBook.uuid)
+			assert.equal(responseStoreBook.collection, storeBookItem.collection)
 			assert.equal(responseStoreBook.title, storeBookRelease.title)
 			assert.equal(responseStoreBook.description, storeBookRelease.description)
 			assert.equal(responseStoreBook.language, storeBook.language)
@@ -2115,8 +2295,9 @@ describe("ListStoreBooks endpoint", async () => {
 			let responseStoreBook = response.data.items.find(s => s.uuid == storeBook.uuid)
 			
 			assert.isNotNull(responseStoreBook)
-			assert.equal(Object.keys(responseStoreBook).length, 12)
+			assert.equal(Object.keys(responseStoreBook).length, 13)
 			assert.equal(responseStoreBook.uuid, storeBook.uuid)
+			assert.equal(responseStoreBook.collection, collection.uuid)
 			assert.equal(responseStoreBook.title, storeBookRelease.title)
 			assert.equal(responseStoreBook.description, storeBookRelease.description)
 			assert.equal(responseStoreBook.language, storeBook.language)
@@ -2182,10 +2363,11 @@ describe("ListStoreBooks endpoint", async () => {
 		for (let storeBook of storeBooks) {
 			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
 			let responseStoreBook = response.data.items.find(s => s.uuid == storeBook.uuid)
-			
+
 			assert.isNotNull(responseStoreBook)
-			assert.equal(Object.keys(responseStoreBook).length, user == null ? 9 : 11)
+			assert.equal(Object.keys(responseStoreBook).length, user == null ? 10 : 12)
 			assert.equal(responseStoreBook.uuid, storeBook.uuid)
+			assert.equal(responseStoreBook.collection, collection.uuid)
 			assert.equal(responseStoreBook.title, storeBookRelease.title)
 			assert.equal(responseStoreBook.description, storeBookRelease.description)
 			assert.equal(responseStoreBook.language, storeBook.language)

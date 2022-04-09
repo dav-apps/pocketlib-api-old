@@ -679,8 +679,9 @@ describe("CreateStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 201)
-		assert.equal(Object.keys(response.data).length, 10)
+		assert.equal(Object.keys(response.data).length, 11)
 		assert.isNotNull(response.data.uuid)
+		assert.equal(response.data.collection, collection.uuid)
 		assert.equal(response.data.title, title)
 		assert.isNull(response.data.description)
 		assert.equal(response.data.language, language)
@@ -770,8 +771,9 @@ describe("CreateStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 201)
-		assert.equal(Object.keys(response.data).length, 10)
+		assert.equal(Object.keys(response.data).length, 11)
 		assert.isNotNull(response.data.uuid)
+		assert.equal(response.data.collection, collection.uuid)
 		assert.equal(response.data.title, title)
 		assert.equal(response.data.description, description)
 		assert.equal(response.data.language, language)
@@ -866,8 +868,9 @@ describe("CreateStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 201)
-		assert.equal(Object.keys(response.data).length, 10)
+		assert.equal(Object.keys(response.data).length, 11)
 		assert.isNotNull(response.data.uuid)
+		assert.equal(response.data.collection, collection.uuid)
 		assert.equal(response.data.title, title)
 		assert.equal(response.data.description, description)
 		assert.equal(response.data.language, language)
@@ -976,8 +979,9 @@ describe("CreateStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 201)
-		assert.equal(Object.keys(response.data).length, 10)
+		assert.equal(Object.keys(response.data).length, 11)
 		assert.isNotNull(response.data.uuid)
+		assert.isNotNull(response.data.collection)
 		assert.equal(response.data.title, title)
 		assert.equal(response.data.description, description)
 		assert.equal(response.data.language, language)
@@ -1098,8 +1102,9 @@ describe("CreateStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 201)
-		assert.equal(Object.keys(response.data).length, 10)
+		assert.equal(Object.keys(response.data).length, 11)
 		assert.isNotNull(response.data.uuid)
+		assert.isNotNull(response.data.collection)
 		assert.equal(response.data.title, title)
 		assert.equal(response.data.description, description)
 		assert.equal(response.data.language, language)

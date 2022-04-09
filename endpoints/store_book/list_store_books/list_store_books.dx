@@ -13,7 +13,7 @@
 (if (is_nil fields_str) (
 	(var fields (list "type" "pages" "items.uuid"))
 ) elseif (fields_str == "*") (
-	(var fields (list "type" "pages" "items.uuid" "items.title" "items.description" "items.language" "items.price" "items.isbn" "items.status" "items.cover" "items.file" "items.in_library" "items.purchased" "items.categories"))
+	(var fields (list "type" "pages" "items.uuid" "items.collection" "items.title" "items.description" "items.language" "items.price" "items.isbn" "items.status" "items.cover" "items.file" "items.in_library" "items.purchased" "items.categories"))
 ) else (
 	(# Process the fields string)
 	(var fields (func process_fields (fields_str)))
@@ -275,6 +275,7 @@
 	(var book_hash (hash))
 
 	(if (fields.contains "items.uuid") (var book_hash.uuid store_book.uuid))
+	(if (fields.contains "items.collection") (var book_hash.collection store_book.properties.collection))
 	(if (fields.contains "items.title") (var book_hash.title store_book_release.properties.title))
 	(if (fields.contains "items.description") (var book_hash.description store_book_release.properties.description))
 	(if (fields.contains "items.language") (var book_hash.language store_book.properties.language))

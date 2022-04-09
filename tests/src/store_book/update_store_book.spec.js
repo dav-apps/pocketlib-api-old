@@ -332,70 +332,70 @@ describe("UpdateStoreBook endpoint", () => {
 		let collection = constants.authorUser.author.collections[1]
 		let storeBook = collection.books[0]
 
-		await testShouldUpdateTitleOfStoreBook(storeBook, constants.authorUser.accessToken)
+		await testShouldUpdateTitleOfStoreBook(storeBook, collection, constants.authorUser.accessToken)
 	})
 
 	it("should update title of store book in review", async () => {
 		let collection = constants.authorUser.author.collections[0]
 		let storeBook = collection.books[0]
 
-		await testShouldUpdateTitleOfStoreBook(storeBook, constants.authorUser.accessToken)
+		await testShouldUpdateTitleOfStoreBook(storeBook, collection, constants.authorUser.accessToken)
 	})
 
 	it("should update title of published store book", async () => {
 		let collection = constants.authorUser.author.collections[1]
 		let storeBook = collection.books[1]
 
-		await testShouldUpdateTitleOfStoreBook(storeBook, constants.authorUser.accessToken)
+		await testShouldUpdateTitleOfStoreBook(storeBook, collection, constants.authorUser.accessToken)
 	})
 
 	it("should update title of hidden store book", async () => {
 		let collection = constants.authorUser.author.collections[0]
 		let storeBook = collection.books[1]
 
-		await testShouldUpdateTitleOfStoreBook(storeBook, constants.authorUser.accessToken)
+		await testShouldUpdateTitleOfStoreBook(storeBook, collection, constants.authorUser.accessToken)
 	})
 
 	it("should update description of unpublished store book", async () => {
 		let collection = constants.authorUser.author.collections[1]
 		let storeBook = collection.books[0]
 
-		await testShouldUpdateDescriptionOfStoreBook(storeBook, constants.authorUser.accessToken)
+		await testShouldUpdateDescriptionOfStoreBook(storeBook, collection, constants.authorUser.accessToken)
 	})
 
 	it("should update description of store book in review", async () => {
 		let collection = constants.authorUser.author.collections[0]
 		let storeBook = collection.books[0]
 
-		await testShouldUpdateDescriptionOfStoreBook(storeBook, constants.authorUser.accessToken)
+		await testShouldUpdateDescriptionOfStoreBook(storeBook, collection, constants.authorUser.accessToken)
 	})
 
 	it("should update description of published store book", async () => {
 		let collection = constants.authorUser.author.collections[1]
 		let storeBook = collection.books[1]
 
-		await testShouldUpdateDescriptionOfStoreBook(storeBook, constants.authorUser.accessToken)
+		await testShouldUpdateDescriptionOfStoreBook(storeBook, collection, constants.authorUser.accessToken)
 	})
 
 	it("should update description of hidden store book", async () => {
 		let collection = constants.authorUser.author.collections[0]
 		let storeBook = collection.books[1]
 
-		await testShouldUpdateDescriptionOfStoreBook(storeBook, constants.authorUser.accessToken)
+		await testShouldUpdateDescriptionOfStoreBook(storeBook, collection, constants.authorUser.accessToken)
 	})
 
 	it("should update language of unpublished store book", async () => {
 		let collection = constants.authorUser.author.collections[1]
 		let storeBook = collection.books[0]
 
-		await testShouldUpdateLanguageOfStoreBook(storeBook, constants.authorUser.accessToken)
+		await testShouldUpdateLanguageOfStoreBook(storeBook, collection, constants.authorUser.accessToken)
 	})
 
 	it("should update language of store book in review", async () => {
 		let collection = constants.authorUser.author.collections[0]
 		let storeBook = collection.books[0]
 
-		await testShouldUpdateLanguageOfStoreBook(storeBook, constants.authorUser.accessToken)
+		await testShouldUpdateLanguageOfStoreBook(storeBook, collection, constants.authorUser.accessToken)
 	})
 
 	it("should not update language of published store book", async () => {
@@ -416,154 +416,154 @@ describe("UpdateStoreBook endpoint", () => {
 		let collection = constants.authorUser.author.collections[1]
 		let storeBook = collection.books[0]
 
-		await testShouldUpdatePriceOfStoreBook(storeBook, constants.authorUser.accessToken)
+		await testShouldUpdatePriceOfStoreBook(storeBook, collection, constants.authorUser.accessToken)
 	})
 
 	it("should update price of store book in review", async () => {
 		let collection = constants.authorUser.author.collections[0]
 		let storeBook = collection.books[0]
 
-		await testShouldUpdatePriceOfStoreBook(storeBook, constants.authorUser.accessToken)
+		await testShouldUpdatePriceOfStoreBook(storeBook, collection, constants.authorUser.accessToken)
 	})
 
 	it("should update price of published store book", async () => {
 		let collection = constants.authorUser.author.collections[1]
 		let storeBook = collection.books[1]
 
-		await testShouldUpdatePriceOfStoreBook(storeBook, constants.authorUser.accessToken)
+		await testShouldUpdatePriceOfStoreBook(storeBook, collection, constants.authorUser.accessToken)
 	})
 
 	it("should update price of hidden store book", async () => {
 		let collection = constants.authorUser.author.collections[0]
 		let storeBook = collection.books[1]
 
-		await testShouldUpdatePriceOfStoreBook(storeBook, constants.authorUser.accessToken)
+		await testShouldUpdatePriceOfStoreBook(storeBook, collection, constants.authorUser.accessToken)
 	})
 
 	it("should update isbn of unpublished store book", async () => {
 		let collection = constants.authorUser.author.collections[1]
 		let storeBook = collection.books[0]
 
-		await testShouldUpdateIsbnOfStoreBook(storeBook, constants.authorUser.accessToken)
+		await testShouldUpdateIsbnOfStoreBook(storeBook, collection, constants.authorUser.accessToken)
 	})
 
 	it("should update isbn of store book in review", async () => {
 		let collection = constants.authorUser.author.collections[0]
 		let storeBook = collection.books[0]
 
-		await testShouldUpdateIsbnOfStoreBook(storeBook, constants.authorUser.accessToken)
+		await testShouldUpdateIsbnOfStoreBook(storeBook, collection, constants.authorUser.accessToken)
 	})
 
 	it("should update isbn of published store book", async () => {
 		let collection = constants.authorUser.author.collections[1]
 		let storeBook = collection.books[1]
 
-		await testShouldUpdateIsbnOfStoreBook(storeBook, constants.authorUser.accessToken)
+		await testShouldUpdateIsbnOfStoreBook(storeBook, collection, constants.authorUser.accessToken)
 	})
 
 	it("should update isbn of hidden store book", async () => {
 		let collection = constants.authorUser.author.collections[0]
 		let storeBook = collection.books[1]
 
-		await testShouldUpdateIsbnOfStoreBook(storeBook, constants.authorUser.accessToken)
+		await testShouldUpdateIsbnOfStoreBook(storeBook, collection, constants.authorUser.accessToken)
 	})
 
 	it("should update categories of unpublished store book", async () => {
 		let collection = constants.authorUser.author.collections[1]
 		let storeBook = collection.books[0]
 
-		await testShouldUpdateCategoriesOfStoreBook(storeBook, constants.authorUser.accessToken)
+		await testShouldUpdateCategoriesOfStoreBook(storeBook, collection, constants.authorUser.accessToken)
 	})
 
 	it("should update categories of store book in review", async () => {
 		let collection = constants.authorUser.author.collections[0]
 		let storeBook = collection.books[0]
 
-		await testShouldUpdateCategoriesOfStoreBook(storeBook, constants.authorUser.accessToken)
+		await testShouldUpdateCategoriesOfStoreBook(storeBook, collection, constants.authorUser.accessToken)
 	})
 
 	it("should update categories of published store book", async () => {
 		let collection = constants.authorUser.author.collections[1]
 		let storeBook = collection.books[1]
 
-		await testShouldUpdateCategoriesOfStoreBook(storeBook, constants.authorUser.accessToken)
+		await testShouldUpdateCategoriesOfStoreBook(storeBook, collection, constants.authorUser.accessToken)
 	})
 
 	it("should update categories of hidden store book", async () => {
 		let collection = constants.authorUser.author.collections[0]
 		let storeBook = collection.books[1]
 
-		await testShouldUpdateCategoriesOfStoreBook(storeBook, constants.authorUser.accessToken)
+		await testShouldUpdateCategoriesOfStoreBook(storeBook, collection, constants.authorUser.accessToken)
 	})
 
 	it("should update title of unpublished store book of admin", async () => {
 		let collection = constants.davUser.authors[0].collections[1]
 		let storeBook = collection.books[1]
 
-		await testShouldUpdateTitleOfStoreBook(storeBook, constants.davUser.accessToken)
+		await testShouldUpdateTitleOfStoreBook(storeBook, collection, constants.davUser.accessToken)
 	})
 
 	it("should update title of store book in review of admin", async () => {
 		let collection = constants.davUser.authors[0].collections[0]
 		let storeBook = collection.books[1]
 
-		await testShouldUpdateTitleOfStoreBook(storeBook, constants.davUser.accessToken)
+		await testShouldUpdateTitleOfStoreBook(storeBook, collection, constants.davUser.accessToken)
 	})
 
 	it("should update title of published store book of admin", async () => {
 		let collection = constants.davUser.authors[0].collections[0]
 		let storeBook = collection.books[0]
 
-		await testShouldUpdateTitleOfStoreBook(storeBook, constants.davUser.accessToken)
+		await testShouldUpdateTitleOfStoreBook(storeBook, collection, constants.davUser.accessToken)
 	})
 
 	it("should update title of hidden store book of admin", async () => {
 		let collection = constants.davUser.authors[0].collections[1]
 		let storeBook = collection.books[1]
 
-		await testShouldUpdateTitleOfStoreBook(storeBook, constants.davUser.accessToken)
+		await testShouldUpdateTitleOfStoreBook(storeBook, collection, constants.davUser.accessToken)
 	})
 
 	it("should update description of unpublished store book of admin", async () => {
 		let collection = constants.davUser.authors[0].collections[1]
 		let storeBook = collection.books[1]
 
-		await testShouldUpdateDescriptionOfStoreBook(storeBook, constants.davUser.accessToken)
+		await testShouldUpdateDescriptionOfStoreBook(storeBook, collection, constants.davUser.accessToken)
 	})
 
 	it("should update description of store book in review of admin", async () => {
 		let collection = constants.davUser.authors[0].collections[0]
 		let storeBook = collection.books[1]
 
-		await testShouldUpdateDescriptionOfStoreBook(storeBook, constants.davUser.accessToken)
+		await testShouldUpdateDescriptionOfStoreBook(storeBook, collection, constants.davUser.accessToken)
 	})
 
 	it("should update description of published store book of admin", async () => {
 		let collection = constants.davUser.authors[0].collections[0]
 		let storeBook = collection.books[0]
 
-		await testShouldUpdateDescriptionOfStoreBook(storeBook, constants.davUser.accessToken)
+		await testShouldUpdateDescriptionOfStoreBook(storeBook, collection, constants.davUser.accessToken)
 	})
 
 	it("should update description of hidden store book of admin", async () => {
 		let collection = constants.davUser.authors[0].collections[1]
 		let storeBook = collection.books[1]
 
-		await testShouldUpdateDescriptionOfStoreBook(storeBook, constants.davUser.accessToken)
+		await testShouldUpdateDescriptionOfStoreBook(storeBook, collection, constants.davUser.accessToken)
 	})
 
 	it("should update language of unpublished store book of admin", async () => {
 		let collection = constants.davUser.authors[0].collections[1]
 		let storeBook = collection.books[1]
 
-		await testShouldUpdateLanguageOfStoreBook(storeBook, constants.davUser.accessToken)
+		await testShouldUpdateLanguageOfStoreBook(storeBook, collection, constants.davUser.accessToken)
 	})
 
 	it("should update language of store book in review of admin", async () => {
 		let collection = constants.davUser.authors[0].collections[0]
 		let storeBook = collection.books[1]
 
-		await testShouldUpdateLanguageOfStoreBook(storeBook, constants.davUser.accessToken)
+		await testShouldUpdateLanguageOfStoreBook(storeBook, collection, constants.davUser.accessToken)
 	})
 
 	it("should not update language of published store book of admin", async () => {
@@ -584,154 +584,154 @@ describe("UpdateStoreBook endpoint", () => {
 		let collection = constants.davUser.authors[0].collections[1]
 		let storeBook = collection.books[1]
 
-		await testShouldUpdatePriceOfStoreBook(storeBook, constants.davUser.accessToken)
+		await testShouldUpdatePriceOfStoreBook(storeBook, collection, constants.davUser.accessToken)
 	})
 
 	it("should update price of store book in review of admin", async () => {
 		let collection = constants.davUser.authors[0].collections[0]
 		let storeBook = collection.books[1]
 
-		await testShouldUpdatePriceOfStoreBook(storeBook, constants.davUser.accessToken)
+		await testShouldUpdatePriceOfStoreBook(storeBook, collection, constants.davUser.accessToken)
 	})
 
 	it("should update price of published store book of admin", async () => {
 		let collection = constants.davUser.authors[0].collections[0]
 		let storeBook = collection.books[0]
 
-		await testShouldUpdatePriceOfStoreBook(storeBook, constants.davUser.accessToken)
+		await testShouldUpdatePriceOfStoreBook(storeBook, collection, constants.davUser.accessToken)
 	})
 
 	it("should update price of hidden store book of admin", async () => {
 		let collection = constants.davUser.authors[0].collections[1]
 		let storeBook = collection.books[0]
 
-		await testShouldUpdatePriceOfStoreBook(storeBook, constants.davUser.accessToken)
+		await testShouldUpdatePriceOfStoreBook(storeBook, collection, constants.davUser.accessToken)
 	})
 
 	it("should update isbn of unpublished store book of admin", async () => {
 		let collection = constants.davUser.authors[0].collections[1]
 		let storeBook = collection.books[1]
 
-		await testShouldUpdateIsbnOfStoreBook(storeBook, constants.davUser.accessToken)
+		await testShouldUpdateIsbnOfStoreBook(storeBook, collection, constants.davUser.accessToken)
 	})
 
 	it("should update isbn of store book in review of admin", async () => {
 		let collection = constants.davUser.authors[0].collections[0]
 		let storeBook = collection.books[1]
 
-		await testShouldUpdateIsbnOfStoreBook(storeBook, constants.davUser.accessToken)
+		await testShouldUpdateIsbnOfStoreBook(storeBook, collection, constants.davUser.accessToken)
 	})
 
 	it("should update isbn of published store book of admin", async () => {
 		let collection = constants.davUser.authors[0].collections[0]
 		let storeBook = collection.books[0]
 
-		await testShouldUpdateIsbnOfStoreBook(storeBook, constants.davUser.accessToken)
+		await testShouldUpdateIsbnOfStoreBook(storeBook, collection, constants.davUser.accessToken)
 	})
 
 	it("should update isbn of hidden store book of admin", async () => {
 		let collection = constants.davUser.authors[0].collections[1]
 		let storeBook = collection.books[0]
 
-		await testShouldUpdateIsbnOfStoreBook(storeBook, constants.davUser.accessToken)
+		await testShouldUpdateIsbnOfStoreBook(storeBook, collection, constants.davUser.accessToken)
 	})
 
 	it("should update categories of unpublished store book of admin", async () => {
 		let collection = constants.davUser.authors[0].collections[1]
 		let storeBook = collection.books[1]
 
-		await testShouldUpdateCategoriesOfStoreBook(storeBook, constants.davUser.accessToken)
+		await testShouldUpdateCategoriesOfStoreBook(storeBook, collection, constants.davUser.accessToken)
 	})
 
 	it("should update categories of store book in review of admin", async () => {
 		let collection = constants.davUser.authors[0].collections[0]
 		let storeBook = collection.books[1]
 
-		await testShouldUpdateCategoriesOfStoreBook(storeBook, constants.davUser.accessToken)
+		await testShouldUpdateCategoriesOfStoreBook(storeBook, collection, constants.davUser.accessToken)
 	})
 
 	it("should update categories of published store book of admin", async () => {
 		let collection = constants.davUser.authors[0].collections[0]
 		let storeBook = collection.books[0]
 
-		await testShouldUpdateCategoriesOfStoreBook(storeBook, constants.davUser.accessToken)
+		await testShouldUpdateCategoriesOfStoreBook(storeBook, collection, constants.davUser.accessToken)
 	})
 
 	it("should update categories of hidden store book of admin", async () => {
 		let collection = constants.davUser.authors[0].collections[1]
 		let storeBook = collection.books[0]
 
-		await testShouldUpdateCategoriesOfStoreBook(storeBook, constants.davUser.accessToken)
+		await testShouldUpdateCategoriesOfStoreBook(storeBook, collection, constants.davUser.accessToken)
 	})
 
 	it("should update title of unpublished store book of author as admin", async () => {
 		let collection = constants.authorUser.author.collections[1]
 		let storeBook = collection.books[0]
 
-		await testShouldUpdateTitleOfStoreBook(storeBook, constants.davUser.accessToken, constants.authorUser.accessToken)
+		await testShouldUpdateTitleOfStoreBook(storeBook, collection, constants.davUser.accessToken, constants.authorUser.accessToken)
 	})
 
 	it("should update title of store book in review of author as admin", async () => {
 		let collection = constants.authorUser.author.collections[0]
 		let storeBook = collection.books[0]
 
-		await testShouldUpdateTitleOfStoreBook(storeBook, constants.davUser.accessToken, constants.authorUser.accessToken)
+		await testShouldUpdateTitleOfStoreBook(storeBook, collection, constants.davUser.accessToken, constants.authorUser.accessToken)
 	})
 
 	it("should update title of published store book of author as admin", async () => {
 		let collection = constants.authorUser.author.collections[1]
 		let storeBook = collection.books[1]
 
-		await testShouldUpdateTitleOfStoreBook(storeBook, constants.davUser.accessToken, constants.authorUser.accessToken)
+		await testShouldUpdateTitleOfStoreBook(storeBook, collection, constants.davUser.accessToken, constants.authorUser.accessToken)
 	})
 
 	it("should update title of hidden store book of author as admin", async () => {
 		let collection = constants.authorUser.author.collections[0]
 		let storeBook = collection.books[1]
 
-		await testShouldUpdateTitleOfStoreBook(storeBook, constants.davUser.accessToken, constants.authorUser.accessToken)
+		await testShouldUpdateTitleOfStoreBook(storeBook, collection, constants.davUser.accessToken, constants.authorUser.accessToken)
 	})
 
 	it("should update description of unpublished store book of author as admin", async () => {
 		let collection = constants.authorUser.author.collections[1]
 		let storeBook = collection.books[0]
 
-		await testShouldUpdateDescriptionOfStoreBook(storeBook, constants.davUser.accessToken, constants.authorUser.accessToken)
+		await testShouldUpdateDescriptionOfStoreBook(storeBook, collection, constants.davUser.accessToken, constants.authorUser.accessToken)
 	})
 
 	it("should update description of store book in review of author as admin", async () => {
 		let collection = constants.authorUser.author.collections[0]
 		let storeBook = collection.books[0]
 
-		await testShouldUpdateDescriptionOfStoreBook(storeBook, constants.davUser.accessToken, constants.authorUser.accessToken)
+		await testShouldUpdateDescriptionOfStoreBook(storeBook, collection, constants.davUser.accessToken, constants.authorUser.accessToken)
 	})
 
 	it("should update description of published store book of author as admin", async () => {
 		let collection = constants.authorUser.author.collections[1]
 		let storeBook = collection.books[1]
 
-		await testShouldUpdateDescriptionOfStoreBook(storeBook, constants.davUser.accessToken, constants.authorUser.accessToken)
+		await testShouldUpdateDescriptionOfStoreBook(storeBook, collection, constants.davUser.accessToken, constants.authorUser.accessToken)
 	})
 
 	it("should update description of hidden store book of author as admin", async () => {
 		let collection = constants.authorUser.author.collections[0]
 		let storeBook = collection.books[1]
 
-		await testShouldUpdateDescriptionOfStoreBook(storeBook, constants.davUser.accessToken, constants.authorUser.accessToken)
+		await testShouldUpdateDescriptionOfStoreBook(storeBook, collection, constants.davUser.accessToken, constants.authorUser.accessToken)
 	})
 
 	it("should update language of unpublished store book of author as admin", async () => {
 		let collection = constants.authorUser.author.collections[1]
 		let storeBook = collection.books[0]
 
-		await testShouldUpdateLanguageOfStoreBook(storeBook, constants.davUser.accessToken, constants.authorUser.accessToken)
+		await testShouldUpdateLanguageOfStoreBook(storeBook, collection, constants.davUser.accessToken, constants.authorUser.accessToken)
 	})
 
 	it("should update language of store book in review of author as admin", async () => {
 		let collection = constants.authorUser.author.collections[0]
 		let storeBook = collection.books[0]
 
-		await testShouldUpdateLanguageOfStoreBook(storeBook, constants.davUser.accessToken, constants.authorUser.accessToken)
+		await testShouldUpdateLanguageOfStoreBook(storeBook, collection, constants.davUser.accessToken, constants.authorUser.accessToken)
 	})
 
 	it("should not update language of published store book of author as admin", async () => {
@@ -752,112 +752,112 @@ describe("UpdateStoreBook endpoint", () => {
 		let collection = constants.authorUser.author.collections[1]
 		let storeBook = collection.books[0]
 
-		await testShouldUpdatePriceOfStoreBook(storeBook, constants.davUser.accessToken, constants.authorUser.accessToken)
+		await testShouldUpdatePriceOfStoreBook(storeBook, collection, constants.davUser.accessToken, constants.authorUser.accessToken)
 	})
 
 	it("should update price of store book in review of author as admin", async () => {
 		let collection = constants.authorUser.author.collections[0]
 		let storeBook = collection.books[0]
 
-		await testShouldUpdatePriceOfStoreBook(storeBook, constants.davUser.accessToken, constants.authorUser.accessToken)
+		await testShouldUpdatePriceOfStoreBook(storeBook, collection, constants.davUser.accessToken, constants.authorUser.accessToken)
 	})
 
 	it("should update price of published store book of author as admin", async () => {
 		let collection = constants.authorUser.author.collections[1]
 		let storeBook = collection.books[1]
 
-		await testShouldUpdatePriceOfStoreBook(storeBook, constants.davUser.accessToken, constants.authorUser.accessToken)
+		await testShouldUpdatePriceOfStoreBook(storeBook, collection, constants.davUser.accessToken, constants.authorUser.accessToken)
 	})
 
 	it("should update price of hidden store book of author as admin", async () => {
 		let collection = constants.authorUser.author.collections[0]
 		let storeBook = collection.books[1]
 
-		await testShouldUpdatePriceOfStoreBook(storeBook, constants.davUser.accessToken, constants.authorUser.accessToken)
+		await testShouldUpdatePriceOfStoreBook(storeBook, collection, constants.davUser.accessToken, constants.authorUser.accessToken)
 	})
 
 	it("should update isbn of unpublished store book of author as admin", async () => {
 		let collection = constants.authorUser.author.collections[1]
 		let storeBook = collection.books[0]
 
-		await testShouldUpdateIsbnOfStoreBook(storeBook, constants.davUser.accessToken, constants.authorUser.accessToken)
+		await testShouldUpdateIsbnOfStoreBook(storeBook, collection, constants.davUser.accessToken, constants.authorUser.accessToken)
 	})
 
 	it("should update isbn of store book in review of author as admin", async () => {
 		let collection = constants.authorUser.author.collections[0]
 		let storeBook = collection.books[0]
 
-		await testShouldUpdateIsbnOfStoreBook(storeBook, constants.davUser.accessToken, constants.authorUser.accessToken)
+		await testShouldUpdateIsbnOfStoreBook(storeBook, collection, constants.davUser.accessToken, constants.authorUser.accessToken)
 	})
 
 	it("should update isbn of published store book of author as admin", async () => {
 		let collection = constants.authorUser.author.collections[1]
 		let storeBook = collection.books[1]
 
-		await testShouldUpdateIsbnOfStoreBook(storeBook, constants.davUser.accessToken, constants.authorUser.accessToken)
+		await testShouldUpdateIsbnOfStoreBook(storeBook, collection, constants.davUser.accessToken, constants.authorUser.accessToken)
 	})
 
 	it("should update isbn of hidden store book of author as admin", async () => {
 		let collection = constants.authorUser.author.collections[0]
 		let storeBook = collection.books[1]
 
-		await testShouldUpdateIsbnOfStoreBook(storeBook, constants.davUser.accessToken, constants.authorUser.accessToken)
+		await testShouldUpdateIsbnOfStoreBook(storeBook, collection, constants.davUser.accessToken, constants.authorUser.accessToken)
 	})
 
 	it("should update status of unpublished store book of author as admin", async () => {
 		let collection = constants.authorUser.author.collections[1]
 		let storeBook = collection.books[0]
 
-		await testShouldUpdateStatusOfStoreBook(storeBook, constants.davUser.accessToken, constants.authorUser.accessToken)
+		await testShouldUpdateStatusOfStoreBook(storeBook, collection, constants.davUser.accessToken, constants.authorUser.accessToken)
 	})
 
 	it("should update status of store book in review of author as admin", async () => {
 		let collection = constants.authorUser.author.collections[0]
 		let storeBook = collection.books[0]
 
-		await testShouldUpdateStatusOfStoreBook(storeBook, constants.davUser.accessToken, constants.authorUser.accessToken)
+		await testShouldUpdateStatusOfStoreBook(storeBook, collection, constants.davUser.accessToken, constants.authorUser.accessToken)
 	})
 
 	it("should update status of published store book of author as admin", async () => {
 		let collection = constants.authorUser.author.collections[1]
 		let storeBook = collection.books[1]
 
-		await testShouldUpdateStatusOfStoreBook(storeBook, constants.davUser.accessToken, constants.authorUser.accessToken)
+		await testShouldUpdateStatusOfStoreBook(storeBook, collection, constants.davUser.accessToken, constants.authorUser.accessToken)
 	})
 
 	it("should update status of hidden store book of author as admin", async () => {
 		let collection = constants.authorUser.author.collections[0]
 		let storeBook = collection.books[1]
 
-		await testShouldUpdateStatusOfStoreBook(storeBook, constants.davUser.accessToken, constants.authorUser.accessToken)
+		await testShouldUpdateStatusOfStoreBook(storeBook, collection, constants.davUser.accessToken, constants.authorUser.accessToken)
 	})
 
 	it("should update categories of unpublished store book of author as admin", async () => {
 		let collection = constants.authorUser.author.collections[1]
 		let storeBook = collection.books[0]
 
-		await testShouldUpdateCategoriesOfStoreBook(storeBook, constants.davUser.accessToken, constants.authorUser.accessToken)
+		await testShouldUpdateCategoriesOfStoreBook(storeBook, collection, constants.davUser.accessToken, constants.authorUser.accessToken)
 	})
 
 	it("should update categories of store book in review of author as admin", async () => {
 		let collection = constants.authorUser.author.collections[0]
 		let storeBook = collection.books[0]
 
-		await testShouldUpdateCategoriesOfStoreBook(storeBook, constants.davUser.accessToken, constants.authorUser.accessToken)
+		await testShouldUpdateCategoriesOfStoreBook(storeBook, collection, constants.davUser.accessToken, constants.authorUser.accessToken)
 	})
 
 	it("should update categories of published store book of author as admin", async () => {
 		let collection = constants.authorUser.author.collections[1]
 		let storeBook = collection.books[1]
 
-		await testShouldUpdateCategoriesOfStoreBook(storeBook, constants.davUser.accessToken, constants.authorUser.accessToken)
+		await testShouldUpdateCategoriesOfStoreBook(storeBook, collection, constants.davUser.accessToken, constants.authorUser.accessToken)
 	})
 
 	it("should update categories of hidden store book of author as admin", async () => {
 		let collection = constants.authorUser.author.collections[0]
 		let storeBook = collection.books[1]
 
-		await testShouldUpdateCategoriesOfStoreBook(storeBook, constants.davUser.accessToken, constants.authorUser.accessToken)
+		await testShouldUpdateCategoriesOfStoreBook(storeBook, collection, constants.davUser.accessToken, constants.authorUser.accessToken)
 	})
 
 	it("should not publish store book without description", async () => {
@@ -1060,8 +1060,9 @@ describe("UpdateStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 10)
+		assert.equal(Object.keys(response.data).length, 11)
 		assert.equal(response.data.uuid, storeBook.uuid)
+		assert.equal(response.data.collection, collection.uuid)
 		assert.equal(response.data.title, storeBookRelease.title)
 		assert.equal(response.data.description, storeBookRelease.description)
 		assert.equal(response.data.language, storeBook.language)
@@ -1124,8 +1125,9 @@ describe("UpdateStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 10)
+		assert.equal(Object.keys(response.data).length, 11)
 		assert.equal(response.data.uuid, storeBook.uuid)
+		assert.equal(response.data.collection, collection.uuid)
 		assert.equal(response.data.title, storeBookRelease.title)
 		assert.equal(response.data.description, storeBookRelease.description)
 		assert.equal(response.data.language, storeBook.language)
@@ -1186,8 +1188,9 @@ describe("UpdateStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 10)
+		assert.equal(Object.keys(response.data).length, 11)
 		assert.equal(response.data.uuid, storeBook.uuid)
+		assert.equal(response.data.collection, collection.uuid)
 		assert.equal(response.data.title, storeBookRelease.title)
 		assert.equal(response.data.description, storeBookRelease.description)
 		assert.equal(response.data.language, storeBook.language)
@@ -1420,8 +1423,9 @@ describe("UpdateStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 10)
+		assert.equal(Object.keys(response.data).length, 11)
 		assert.equal(response.data.uuid, storeBook.uuid)
+		assert.equal(response.data.collection, collection.uuid)
 		assert.equal(response.data.title, storeBookRelease.title)
 		assert.equal(response.data.description, storeBookRelease.description)
 		assert.equal(response.data.language, storeBook.language)
@@ -1484,8 +1488,9 @@ describe("UpdateStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 10)
+		assert.equal(Object.keys(response.data).length, 11)
 		assert.equal(response.data.uuid, storeBook.uuid)
+		assert.equal(response.data.collection, collection.uuid)
 		assert.equal(response.data.title, storeBookRelease.title)
 		assert.equal(response.data.description, storeBookRelease.description)
 		assert.equal(response.data.language, storeBook.language)
@@ -1546,8 +1551,9 @@ describe("UpdateStoreBook endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 10)
+		assert.equal(Object.keys(response.data).length, 11)
 		assert.equal(response.data.uuid, storeBook.uuid)
+		assert.equal(response.data.collection, collection.uuid)
 		assert.equal(response.data.title, storeBookRelease.title)
 		assert.equal(response.data.description, storeBookRelease.description)
 		assert.equal(response.data.language, storeBook.language)
@@ -1581,7 +1587,7 @@ describe("UpdateStoreBook endpoint", () => {
 	})
 })
 
-async function testShouldUpdateTitleOfStoreBook(storeBook, accessToken, ownerAccessToken) {
+async function testShouldUpdateTitleOfStoreBook(storeBook, collection, accessToken, ownerAccessToken) {
 	resetStoreBooks = true
 	resetStoreBookReleases = true
 	let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
@@ -1608,8 +1614,9 @@ async function testShouldUpdateTitleOfStoreBook(storeBook, accessToken, ownerAcc
 	}
 
 	assert.equal(response.status, 200)
-	assert.equal(Object.keys(response.data).length, 10)
+	assert.equal(Object.keys(response.data).length, 11)
 	assert.equal(response.data.uuid, storeBook.uuid)
+	assert.equal(response.data.collection, collection.uuid)
 	assert.equal(response.data.title, title)
 	assert.equal(response.data.description, storeBookRelease.description)
 	assert.equal(response.data.language, storeBook.language)
@@ -1654,7 +1661,7 @@ async function testShouldUpdateTitleOfStoreBook(storeBook, accessToken, ownerAcc
 	assert.equal(releaseObjResponse.data.tableObject.GetPropertyValue("status") ?? "unpublished", "unpublished")
 }
 
-async function testShouldUpdateDescriptionOfStoreBook(storeBook, accessToken, ownerAccessToken) {
+async function testShouldUpdateDescriptionOfStoreBook(storeBook, collection, accessToken, ownerAccessToken) {
 	resetStoreBooks = true
 	resetStoreBookReleases = true
 	let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
@@ -1681,8 +1688,9 @@ async function testShouldUpdateDescriptionOfStoreBook(storeBook, accessToken, ow
 	}
 
 	assert.equal(response.status, 200)
-	assert.equal(Object.keys(response.data).length, 10)
+	assert.equal(Object.keys(response.data).length, 11)
 	assert.equal(response.data.uuid, storeBook.uuid)
+	assert.equal(response.data.collection, collection.uuid)
 	assert.equal(response.data.title, storeBookRelease.title)
 	assert.equal(response.data.description, description)
 	assert.equal(response.data.language, storeBook.language)
@@ -1727,7 +1735,7 @@ async function testShouldUpdateDescriptionOfStoreBook(storeBook, accessToken, ow
 	assert.equal(releaseObjResponse.data.tableObject.GetPropertyValue("status") ?? "unpublished", "unpublished")
 }
 
-async function testShouldUpdateLanguageOfStoreBook(storeBook, accessToken, ownerAccessToken) {
+async function testShouldUpdateLanguageOfStoreBook(storeBook, collection, accessToken, ownerAccessToken) {
 	resetStoreBooks = true
 	resetStoreBookReleases = true
 	let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
@@ -1754,8 +1762,9 @@ async function testShouldUpdateLanguageOfStoreBook(storeBook, accessToken, owner
 	}
 
 	assert.equal(response.status, 200)
-	assert.equal(Object.keys(response.data).length, 10)
+	assert.equal(Object.keys(response.data).length, 11)
 	assert.equal(response.data.uuid, storeBook.uuid)
+	assert.equal(response.data.collection, collection.uuid)
 	assert.equal(response.data.title, storeBookRelease.title)
 	assert.equal(response.data.description, storeBookRelease.description)
 	assert.equal(response.data.language, language)
@@ -1813,7 +1822,7 @@ async function testShouldNotUpdateLanguageOfStoreBook(storeBook, accessToken) {
 	assert.fail()
 }
 
-async function testShouldUpdatePriceOfStoreBook(storeBook, accessToken, ownerAccessToken) {
+async function testShouldUpdatePriceOfStoreBook(storeBook, collection, accessToken, ownerAccessToken) {
 	resetStoreBooks = true
 	resetStoreBookReleases = true
 	let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
@@ -1840,8 +1849,9 @@ async function testShouldUpdatePriceOfStoreBook(storeBook, accessToken, ownerAcc
 	}
 
 	assert.equal(response.status, 200)
-	assert.equal(Object.keys(response.data).length, 10)
+	assert.equal(Object.keys(response.data).length, 11)
 	assert.equal(response.data.uuid, storeBook.uuid)
+	assert.equal(response.data.collection, collection.uuid)
 	assert.equal(response.data.title, storeBookRelease.title)
 	assert.equal(response.data.description, storeBookRelease.description)
 	assert.equal(response.data.language, storeBook.language)
@@ -1886,7 +1896,7 @@ async function testShouldUpdatePriceOfStoreBook(storeBook, accessToken, ownerAcc
 	assert.equal(releaseObjResponse.data.tableObject.GetPropertyValue("status") ?? "unpublished", "unpublished")
 }
 
-async function testShouldUpdateIsbnOfStoreBook(storeBook, accessToken, ownerAccessToken) {
+async function testShouldUpdateIsbnOfStoreBook(storeBook, collection, accessToken, ownerAccessToken) {
 	resetStoreBooks = true
 	resetStoreBookReleases = true
 	let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
@@ -1913,8 +1923,9 @@ async function testShouldUpdateIsbnOfStoreBook(storeBook, accessToken, ownerAcce
 	}
 
 	assert.equal(response.status, 200)
-	assert.equal(Object.keys(response.data).length, 10)
+	assert.equal(Object.keys(response.data).length, 11)
 	assert.equal(response.data.uuid, storeBook.uuid)
+	assert.equal(response.data.collection, collection.uuid)
 	assert.equal(response.data.title, storeBookRelease.title)
 	assert.equal(response.data.description, storeBookRelease.description)
 	assert.equal(response.data.language, storeBook.language)
@@ -1979,8 +1990,9 @@ async function testShouldUpdateIsbnOfStoreBook(storeBook, accessToken, ownerAcce
 	}
 
 	assert.equal(response.status, 200)
-	assert.equal(Object.keys(response.data).length, 10)
+	assert.equal(Object.keys(response.data).length, 11)
 	assert.equal(response.data.uuid, storeBook.uuid)
+	assert.equal(response.data.collection, collection.uuid)
 	assert.equal(response.data.title, storeBookRelease.title)
 	assert.equal(response.data.description, storeBookRelease.description)
 	assert.equal(response.data.language, storeBook.language)
@@ -2009,7 +2021,7 @@ async function testShouldUpdateIsbnOfStoreBook(storeBook, accessToken, ownerAcce
 	assert.isNull(releaseObjResponse.data.tableObject.GetPropertyValue("isbn"))
 }
 
-async function testShouldUpdateStatusOfStoreBook(storeBook, accessToken, ownerAccessToken) {
+async function testShouldUpdateStatusOfStoreBook(storeBook, collection, accessToken, ownerAccessToken) {
 	resetStoreBooks = true
 	resetStoreBookReleases = true
 	let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
@@ -2036,8 +2048,9 @@ async function testShouldUpdateStatusOfStoreBook(storeBook, accessToken, ownerAc
 	}
 
 	assert.equal(response.status, 200)
-	assert.equal(Object.keys(response.data).length, 10)
+	assert.equal(Object.keys(response.data).length, 11)
 	assert.equal(response.data.uuid, storeBook.uuid)
+	assert.equal(response.data.collection, collection.uuid)
 	assert.equal(response.data.title, storeBookRelease.title)
 	assert.equal(response.data.description, storeBookRelease.description)
 	assert.equal(response.data.language, storeBook.language)
@@ -2070,7 +2083,7 @@ async function testShouldUpdateStatusOfStoreBook(storeBook, accessToken, ownerAc
 	assert.equal(storeBookObjResponse.data.tableObject.GetPropertyValue("status"), status)
 }
 
-async function testShouldUpdateCategoriesOfStoreBook(storeBook, accessToken, ownerAccessToken) {
+async function testShouldUpdateCategoriesOfStoreBook(storeBook, collection, accessToken, ownerAccessToken) {
 	resetStoreBooks = true
 	resetStoreBookReleases = true
 	let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
@@ -2098,8 +2111,9 @@ async function testShouldUpdateCategoriesOfStoreBook(storeBook, accessToken, own
 	}
 
 	assert.equal(response.status, 200)
-	assert.equal(Object.keys(response.data).length, 10)
+	assert.equal(Object.keys(response.data).length, 11)
 	assert.equal(response.data.uuid, storeBook.uuid)
+	assert.equal(response.data.collection, collection.uuid)
 	assert.equal(response.data.title, storeBookRelease.title)
 	assert.equal(response.data.description, storeBookRelease.description)
 	assert.equal(response.data.language, storeBook.language)
