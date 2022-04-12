@@ -172,6 +172,53 @@ describe("GetLatestStoreBookSeries endpoint", () => {
 		}
 	})
 
+	it("should return store book series of store book", async () => {
+		let collection = constants.authorUser.author.collections[0]
+		let storeBook = collection.books[1]
+		let response
+
+		try {
+			response = await axios({
+				method: 'get',
+				url: listStoreBookSeriesEndpointUrl,
+				params: {
+					fields: "*",
+					store_book: storeBook.uuid
+				}
+			})
+		} catch (error) {
+			assert.fail()
+		}
+
+		// Find all series of the collection
+		let seriesList = []
+
+		for (let series of constants.authorUser.author.series) {
+			if (series.collections.includes(collection.uuid)) {
+				seriesList.push(series)
+			}
+		}
+
+		assert.equal(response.status, 200)
+		assert.equal(Object.keys(response.data).length, 2)
+		assert.equal(response.data.items.length, seriesList.length)
+
+		for (let series of seriesList) {
+			let responseSeries = response.data.items.find(s => s.uuid == series.uuid)
+
+			assert.isNotNull(responseSeries)
+			assert.equal(Object.keys(responseSeries).length, 3)
+			assert.equal(responseSeries.uuid, series.uuid)
+			assert.equal(responseSeries.author, constants.authorUser.author.uuid)
+
+			let seriesName = series.names.find(n => n.language == "en")
+
+			assert.isNotNull(seriesName)
+			assert.equal(responseSeries.name.language, "en")
+			assert.equal(responseSeries.name.value, seriesName.name)
+		}
+	})
+
 	function getValidStoreBookSeries(author, languages) {
 		let series = []
 

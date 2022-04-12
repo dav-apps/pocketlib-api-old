@@ -4,6 +4,7 @@
 (var limit (to_int (get_param "limit")))
 (var latest ((get_param "latest") == "true"))
 (var author_uuid (get_param "author"))
+(var store_book_uuid (get_param "store_book"))
 
 (if (is_nil fields_str) (
 	(var fields (list "type" "items.uuid"))
@@ -33,6 +34,37 @@
 		(var series_uuids (list))
 	) else (
 		(var series_uuids (author.properties.series.split ","))
+	))
+) elseif (!(is_nil store_book_uuid)) (
+	(# Get the store book)
+	(var store_book (func get_table_object (store_book_uuid (get_env "STORE_BOOK_TABLE_ID"))))
+
+	(if (is_nil store_book) (
+		(# StoreBook does not exist)
+		(func render_validation_errors ((list (hash (error (get_error 3508)) (status 404)))))
+	))
+
+	(# Get the collection of the store book)
+	(var collection (func get_table_object (store_book.properties.collection (get_env "STORE_BOOK_COLLECTION_TABLE_ID"))))
+
+	(if (is_nil collection) (
+		(# StoreBookCollection does not exist)
+		(func render_validation_errors ((list (hash (error (get_error 3506)) (status 404)))))
+	))
+
+	(# Get all series where the collection uuid is in the collections property)
+	(var series_list (TableObject.find_by_property
+		store_book.user_id
+		(get_env "STORE_BOOK_SERIES_TABLE_ID")
+		"collections"
+		collection.uuid
+		false
+	))
+
+	(var series_uuids (list))
+
+	(for series in series_list (
+		(series_uuids.push series.uuid)
 	))
 ) else (
 	(var series_uuids (list))
