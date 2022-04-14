@@ -51,6 +51,7 @@
 
 (if (
 	(fields.contains "profile_image")
+	or (fields.contains "profile_image.url")
 	or (fields.contains "profile_image.blurhash")
 ) (
 	(# Get the profile image item)
@@ -83,6 +84,7 @@
 (if (fields.contains "twitter_username") (var result.twitter_username author.properties.twitter_username))
 (if (
 	(fields.contains "profile_image")
+	or (fields.contains "profile_image.url")
 	or (fields.contains "profile_image.blurhash")
 ) (
 	(if (is_nil profile_image_item) (
