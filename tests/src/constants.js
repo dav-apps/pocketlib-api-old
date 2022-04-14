@@ -501,7 +501,7 @@ let constants = {
 										status: "published",
 										coverItem: {
 											uuid: "bac664ad-f5f4-464d-bf0f-bbf4b126e880",
-											aspectRatio: "1:1.44105",
+											aspectRatio: "1:1.5",
 											blurhash: "LML.f7~C-pbvI9J,%2oz^Q9ttRxu",
 											cover: {
 												uuid: "63960709-1aa5-40dd-a7a3-8fa79aaa1f5d",
@@ -734,7 +734,7 @@ let constants = {
 										status: "published",
 										coverItem: {
 											uuid: "87c20601-bf63-423e-afa7-008a97e397d5",
-											aspectRatio: "1:3",
+											aspectRatio: "1:1.5",
 											blurhash: "LbR.uzbH.RsoHXa|x]n%xua|V@jt",
 											cover: {
 												uuid: "fb230b01-ee89-4209-83f5-7680e116ed14",
@@ -786,7 +786,7 @@ let constants = {
 										status: "published",
 										coverItem: {
 											uuid: "3a68a4a9-d6a0-4a32-b13c-32c753cb0038",
-											aspectRatio: "1:0.8",
+											aspectRatio: "1:1.5",
 											blurhash: "LbR.uzbH.RsoHXa|x]n%xua|V@jt",
 											cover: {
 												uuid: "fb6d4537-3a71-40b7-9f58-bbbbce7bc62e",
