@@ -106,22 +106,14 @@ for (let author of constants.davUser.authors) {
 }
 //#endregion
 
-//#region StoreBookSeries & StoreBookSeriesNames
+//#region StoreBookSeries
 for (let series of constants.authorUser.author.series) {
 	addStoreBookSeriesToTableObjects(series, constants.authorUser.id, constants.authorUser.author.uuid)
-
-	for (let seriesName of series.names) {
-		addStoreBookSeriesNameToTableObject(seriesName, constants.authorUser.id)
-	}
 }
 
 for (let author of constants.davUser.authors) {
 	for (let series of author.series) {
 		addStoreBookSeriesToTableObjects(series, constants.davUser.id, author.uuid)
-
-		for (let seriesName of series.names) {
-			addStoreBookSeriesNameToTableObject(seriesName, constants.davUser.id)
-		}
 	}
 }
 //#endregion
@@ -255,9 +247,6 @@ function addStoreBookCollectionNameToTableObjects(storeBookCollectionName, userI
 }
 
 function addStoreBookSeriesToTableObjects(storeBookSeries, userId, authorUuid) {
-	let names = []
-	storeBookSeries.names.forEach(name => names.push(name.uuid))
-
 	tableObjects.push({
 		uuid: storeBookSeries.uuid,
 		userId,
@@ -265,21 +254,9 @@ function addStoreBookSeriesToTableObjects(storeBookSeries, userId, authorUuid) {
 		file: false,
 		properties: {
 			author: authorUuid,
-			names: names.join(','),
-			collections: storeBookSeries.collections.join(',')
-		}
-	})
-}
-
-function addStoreBookSeriesNameToTableObject(storeBookSeriesName, userId) {
-	tableObjects.push({
-		uuid: storeBookSeriesName.uuid,
-		userId,
-		tableId: constants.storeBookSeriesNameTableId,
-		file: false,
-		properties: {
-			name: storeBookSeriesName.name,
-			language: storeBookSeriesName.language
+			name: storeBookSeries.name,
+			language: storeBookSeries.language,
+			store_books: storeBookSeries.storeBooks.join(',')
 		}
 	})
 }
