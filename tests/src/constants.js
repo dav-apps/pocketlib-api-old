@@ -12,7 +12,6 @@ let constants = {
 	storeBookCollectionTableId: 17,
 	storeBookCollectionNameTableId: 18,
 	storeBookSeriesTableId: 26,
-	storeBookSeriesNameTableId: 27,
 	storeBookTableId: 19,
 	storeBookReleaseTableId: 29,
 	storeBookCoverItemTableId: 30,
@@ -426,25 +425,25 @@ let constants = {
 			],
 			series: [
 				{
-					uuid: "e9adbea1-18e2-4a46-b1f2-c0d2940567fd",
-					names: [
-						{
-							uuid: "70f54826-4398-47de-91bf-6702f37def6c",
-							name: "A Series of Unfortunate Events",
-							language: "en"
-						},
-						{
-							uuid: "91d46ad4-6500-4906-8932-78713fd3fd66",
-							name: "Eine Reihe betrüblicher Ereignisse",
-							language: "de"
-						}
-					],
-					collections: [
-						"2cfe3d1a-2853-4e5c-9261-1942a9c5ddd9",
-						"285a5fca-8db2-4f73-8b12-5d41cdac82ed",
-						"7bb97f7e-cd7d-4fa8-a734-ef4732d33fcd",
-						"0734712e-86dd-474f-bf99-e9b77faf9c71",
-						"b1156808-e81c-4cf9-b2ce-502baa23e548"
+					uuid: "0bb3410d-eded-4713-8dff-5295bf7dc5ae",
+					name: "A Series of Unfortunate Events",
+					language: "en",
+					storeBooks: [
+						"f1ea042a-46da-4a4b-911e-733d1f84b335",
+						"5242102c-b107-4e82-8eb8-bebe2a990436",
+						"45c14ab4-8789-41c4-b0f6-11be0a86a94c",
+						"d0ca384f-9d8e-4a56-b2e1-c76a0a5cac4b",
+						"d59bdd46-428d-412d-964b-0c57b41df478"
+					]
+				},
+				{
+					uuid: "3029ea0f-a6c7-4c0e-be5f-ce6d77ac2296",
+					name: "Eine Reihe betrüblicher Ereignisse",
+					language: "de",
+					storeBooks: [
+						"4df158a0-2157-4370-abac-dd3c25ca9ed3",
+						"617833c8-4d0a-4d78-acd0-306a90e346ba",
+						"2fd1beed-da6f-46c8-8631-a7931dda2ef2"
 					]
 				}
 			],
@@ -818,17 +817,12 @@ let constants = {
 				],
 				series: [
 					{
-						uuid: "d6fc6518-ce3d-444d-8f35-901bfdd75d88",
-						names: [
-							{
-								uuid: "77a84a39-0e3a-4186-89f1-b1fc4f329e08",
-								name: "Robinson Crusoe",
-								language: "en"
-							}
-						],
-						collections: [
-							"98fbd4b0-6a97-4792-8b77-789b355b4dd7",
-							"8ea0b976-fe67-472d-ae2f-88869b7df625"
+						uuid: "6f9793de-33e0-4a10-ac4a-fb2b18f28a48",
+						name: "Robinson Crusoe",
+						language: "en",
+						storeBooks: [
+							"fc5e9938-1fbf-420e-9d11-7143dd7d42f1",
+							"36561f01-0523-4dbe-9bf3-2fb8a208e8f6"
 						]
 					}
 				]
