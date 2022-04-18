@@ -66,7 +66,7 @@
 (var result (hash))
 
 (if (fields.contains "uuid") (var result.uuid profile_image_item.uuid))
-(if (fields.contains "url") (var result.url (TableObject.get_cdn_url profile_image.uuid)))
+(if (fields.contains "url") (var result.url (TableObject.get_cdn_url profile_image.uuid (hash (etag profile_image.properties.etag)))))
 (if (fields.contains "blurhash") (var result.blurhash profile_image_item.properties.blurhash))
 
 (render_json result 200)

@@ -56,6 +56,9 @@
 ) (
 	(# Get the profile image item)
 	(var profile_image_item (func get_table_object (author.properties.profile_image_item (get_env "AUTHOR_PROFILE_IMAGE_ITEM_TABLE_ID"))))
+
+	(# Get the profile image)
+	(var profile_image (func get_table_object (profile_image_item.properties.profile_image (get_env "AUTHOR_PROFILE_IMAGE_TABLE_ID"))))
 ))
 
 (# Render the result)
@@ -87,12 +90,12 @@
 	or (fields.contains "profile_image.url")
 	or (fields.contains "profile_image.blurhash")
 ) (
-	(if (is_nil profile_image_item) (
+	(if ((is_nil profile_image) or (is_nil profile_image_item)) (
 		(var result.profile_image nil)
 	) else (
 		(var profile_image_hash (hash))
 
-		(if ((fields.contains "profile_image") or (fields.contains "profile_image.url")) (var profile_image_hash.url (TableObject.get_cdn_url profile_image_item.properties.profile_image)))
+		(if ((fields.contains "profile_image") or (fields.contains "profile_image.url")) (var profile_image_hash.url (TableObject.get_cdn_url profile_image_item.properties.profile_image (hash (etag profile_image.properties.etag)))))
 		(if ((fields.contains "profile_image") or (fields.contains "profile_image.blurhash")) (var profile_image_hash.blurhash profile_image_item.properties.blurhash))
 
 		(var result.profile_image profile_image_hash)

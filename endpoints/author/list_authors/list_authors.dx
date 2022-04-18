@@ -58,6 +58,10 @@
 		(# Get the profile image item)
 		(var profile_image_item (func get_table_object (author.properties.profile_image_item (get_env "AUTHOR_PROFILE_IMAGE_ITEM_TABLE_ID"))))
 		(if (latest and (is_nil profile_image_item)) (continue))
+
+		(# Get the profile image)
+		(var profile_image (func get_table_object (profile_image_item.properties.profile_image (get_env "AUTHOR_PROFILE_IMAGE_TABLE_ID"))))
+		(if (latest and (is_nil profile_image)) (continue))
 	))
 
 	(# Add the author to the list)
@@ -86,14 +90,15 @@
 	(if (fields.contains "items.twitter_username") (var author_hash.twitter_username author.properties.twitter_username))
 	(if (
 		(fields.contains "items.profile_image")
+		or (fields.contains "items.profile_image.url")
 		or (fields.contains "items.profile_image.blurhash")
 	) (
-		(if (is_nil profile_image_item) (
+		(if ((is_nil profile_image) or (is_nil profile_image_item)) (
 			(var author_hash.profile_image nil)
 		) else (
 			(var profile_image_hash (hash))
 
-			(if ((fields.contains "items.profile_image") or (fields.contains "items.profile_image.url")) (var profile_image_hash.url (TableObject.get_cdn_url profile_image_item.properties.profile_image)))
+			(if ((fields.contains "items.profile_image") or (fields.contains "items.profile_image.url")) (var profile_image_hash.url (TableObject.get_cdn_url profile_image.uuid (hash (etag profile_image.properties.etag)))))
 			(if ((fields.contains "items.profile_image") or (fields.contains "items.profile_image.blurhash")) (var profile_image_hash.blurhash profile_image_item.properties.blurhash))
 
 			(var author_hash.profile_image profile_image_hash)

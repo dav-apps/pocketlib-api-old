@@ -2,6 +2,5 @@
 	"type": "endpoint",
 	"path": "authors/:uuid/bios",
 	"method": "GET",
-	"source": "./list_author_bios.dx",
-	"caching": false
+	"source": "./list_author_bios.dx"
 }
