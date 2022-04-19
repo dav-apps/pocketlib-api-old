@@ -1,6 +1,0 @@
-{
-	"type": "function",
-	"name": "get_series_names_as_hash",
-	"params": ["names_string"],
-	"source": "./get_series_names_as_hash.dx"
-}
