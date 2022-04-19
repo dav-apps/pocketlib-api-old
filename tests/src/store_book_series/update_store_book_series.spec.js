@@ -16,7 +16,7 @@ afterEach(async () => {
 	}
 })
 
-describe("UpdateStoreBookSeries endpoint", async () => {
+describe("UpdateStoreBookSeries endpoint", () => {
 	it("should not update store book series without access token", async () => {
 		try {
 			await axios({
@@ -100,9 +100,6 @@ describe("UpdateStoreBookSeries endpoint", async () => {
 				headers: {
 					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'application/json'
-				},
-				data: {
-					collections: []
 				}
 			})
 		} catch (error) {
@@ -125,13 +122,61 @@ describe("UpdateStoreBookSeries endpoint", async () => {
 					'Content-Type': 'application/json'
 				},
 				data: {
-					collections: "sdsdfsdfsdf"
+					name: 123,
+					store_books: "sdsdfsdfsdf"
+				}
+			})
+		} catch (error) {
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 2)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.NameWrongType)
+			assert.equal(error.response.data.errors[1].code, ErrorCodes.StoreBooksWrongType)
+			return
+		}
+
+		assert.fail()
+	})
+
+	it("should not update store book series with too short properties", async () => {
+		try {
+			await axios({
+				method: 'put',
+				url: updateStoreBookSeriesEndpointUrl.replace('{0}', constants.authorUser.author.series[0].uuid),
+				headers: {
+					Authorization: constants.authorUser.accessToken,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					name: "a"
 				}
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 400)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.CollectionsWrongType)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.NameTooShort)
+			return
+		}
+
+		assert.fail()
+	})
+
+	it("should not update store book series with too long properties", async () => {
+		try {
+			await axios({
+				method: 'put',
+				url: updateStoreBookSeriesEndpointUrl.replace('{0}', constants.authorUser.author.series[0].uuid),
+				headers: {
+					Authorization: constants.authorUser.accessToken,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					name: "a".repeat(200)
+				}
+			})
+		} catch (error) {
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.NameTooLong)
 			return
 		}
 
@@ -148,7 +193,8 @@ describe("UpdateStoreBookSeries endpoint", async () => {
 					'Content-Type': 'application/json'
 				},
 				data: {
-					collections: [
+					name: true,
+					store_books: [
 						1234,
 						"dfsdsfdsdf"
 					]
@@ -156,15 +202,16 @@ describe("UpdateStoreBookSeries endpoint", async () => {
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 400)
-			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.CollectionsWrongType)
+			assert.equal(error.response.data.errors.length, 2)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.NameWrongType)
+			assert.equal(error.response.data.errors[1].code, ErrorCodes.StoreBooksWrongType)
 			return
 		}
 
 		assert.fail()
 	})
 
-	it("should not update store book series with collections that do not belong to the author", async () => {
+	it("should not update store book series as admin with too short properties", async () => {
 		try {
 			await axios({
 				method: 'put',
@@ -174,8 +221,54 @@ describe("UpdateStoreBookSeries endpoint", async () => {
 					'Content-Type': 'application/json'
 				},
 				data: {
-					collections: [
-						constants.authorUser.author.collections[0].uuid
+					name: "a"
+				}
+			})
+		} catch (error) {
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.NameTooShort)
+			return
+		}
+
+		assert.fail()
+	})
+
+	it("should not update store book series as admin with too long properties", async () => {
+		try {
+			await axios({
+				method: 'put',
+				url: updateStoreBookSeriesEndpointUrl.replace('{0}', constants.davUser.authors[2].series[0].uuid),
+				headers: {
+					Authorization: constants.davUser.accessToken,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					name: "a".repeat(200)
+				}
+			})
+		} catch (error) {
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.NameTooLong)
+			return
+		}
+
+		assert.fail()
+	})
+
+	it("should not update store book series with store books that do not belong to the author", async () => {
+		try {
+			await axios({
+				method: 'put',
+				url: updateStoreBookSeriesEndpointUrl.replace('{0}', constants.davUser.authors[2].series[0].uuid),
+				headers: {
+					Authorization: constants.davUser.accessToken,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					store_books: [
+						constants.authorUser.author.collections[0].books[0].uuid
 					]
 				}
 			})
@@ -189,14 +282,40 @@ describe("UpdateStoreBookSeries endpoint", async () => {
 		assert.fail()
 	})
 
+	it("should not update store book series with store books with different language", async () => {
+		try {
+			await axios({
+				method: 'put',
+				url: updateStoreBookSeriesEndpointUrl.replace('{0}', constants.authorUser.author.series[0].uuid),
+				headers: {
+					Authorization: constants.authorUser.accessToken,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					store_books: [
+						constants.authorUser.author.collections[0].books[1].uuid
+					]
+				}
+			})
+		} catch (error) {
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.LanguageOfStoreBookDoesNotMatchLanguageOfStoreBookSeries)
+			return
+		}
+
+		assert.fail()
+	})
+
 	it("should update store book series", async () => {
 		resetStoreBookSeries = true
 		let response
 		let author = constants.authorUser.author
 		let series = author.series[0]
-		let collections = [
-			constants.authorUser.author.collections[1].uuid,
-			constants.authorUser.author.collections[2].uuid
+		let name = "Updated name"
+		let storeBooks = [
+			constants.authorUser.author.collections[1].books[0].uuid,
+			constants.authorUser.author.collections[2].books[0].uuid
 		]
 
 		try {
@@ -211,7 +330,8 @@ describe("UpdateStoreBookSeries endpoint", async () => {
 					fields: "*"
 				},
 				data: {
-					collections
+					name,
+					store_books: storeBooks
 				}
 			})
 		} catch (error) {
@@ -219,19 +339,11 @@ describe("UpdateStoreBookSeries endpoint", async () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 3)
+		assert.equal(Object.keys(response.data).length, 4)
 		assert.equal(response.data.uuid, series.uuid)
 		assert.equal(response.data.author, author.uuid)
-		
-		if (series.names.length == 0) {
-			assert.isNull(response.data.name)
-		} else {
-			let seriesName = series.names.find(n => n.language == "en")
-
-			assert.isNotNull(seriesName)
-			assert.equal(response.data.name.language, "en")
-			assert.equal(response.data.name.value, seriesName.name)
-		}
+		assert.equal(response.data.name, name)
+		assert.equal(response.data.language, series.language)
 
 		// Check if the store book series was updated on the server
 		let objResponse = await TableObjectsController.GetTableObject({
@@ -242,83 +354,8 @@ describe("UpdateStoreBookSeries endpoint", async () => {
 		assert.equal(objResponse.status, 200)
 		assert.equal(objResponse.data.tableObject.Uuid, series.uuid)
 		assert.equal(objResponse.data.tableObject.GetPropertyValue("author"), author.uuid)
-
-		let nameUuids = []
-		for (let name of series.names) nameUuids.push(name.uuid)
-		assert.equal(objResponse.data.tableObject.GetPropertyValue("names"), nameUuids.join(','))
-
-		assert.equal(objResponse.data.tableObject.GetPropertyValue("collections"), collections.join(','))
-	})
-
-	it("should update store book series with specified language", async () => {
-		resetStoreBookSeries = true
-		let response
-		let language = "de"
-		let author = constants.authorUser.author
-		let series = author.series[0]
-		let collections = [
-			constants.authorUser.author.collections[1].uuid,
-			constants.authorUser.author.collections[2].uuid
-		]
-
-		try {
-			response = await axios({
-				method: 'put',
-				url: updateStoreBookSeriesEndpointUrl.replace('{0}', series.uuid),
-				headers: {
-					Authorization: constants.authorUser.accessToken,
-					'Content-Type': 'application/json'
-				},
-				params: {
-					fields: "*",
-					languages: language
-				},
-				data: {
-					collections
-				}
-			})
-		} catch (error) {
-			assert.fail()
-		}
-
-		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 3)
-		assert.equal(response.data.uuid, series.uuid)
-		assert.equal(response.data.author, author.uuid)
-
-		if (series.names.length == 0) {
-			assert.isNull(response.data.name)
-		} else {
-			let seriesName = series.names.find(n => n.language == language)
-
-			if (seriesName == null) {
-				assert.equal(response.data.name.language, "en")
-
-				seriesName = series.names.find(n => n.language == "en")
-
-				assert.isNotNull(seriesName)
-				assert.equal(response.data.name.value, seriesName.name)
-			} else {
-				assert.equal(response.data.name.language, language)
-				assert.equal(response.data.name.value, seriesName.name)
-			}
-		}
-
-		// Check if the store book series was updated on the server
-		let objResponse = await TableObjectsController.GetTableObject({
-			accessToken: constants.authorUser.accessToken,
-			uuid: series.uuid
-		})
-
-		assert.equal(objResponse.status, 200)
-		assert.equal(objResponse.data.tableObject.Uuid, series.uuid)
-		assert.equal(objResponse.data.tableObject.GetPropertyValue("author"), author.uuid)
-
-		let nameUuids = []
-		for (let name of series.names) nameUuids.push(name.uuid)
-		assert.equal(objResponse.data.tableObject.GetPropertyValue("names"), nameUuids.join(','))
-
-		assert.equal(objResponse.data.tableObject.GetPropertyValue("collections"), collections.join(','))
+		assert.equal(objResponse.data.tableObject.GetPropertyValue("name"), name)
+		assert.equal(objResponse.data.tableObject.GetPropertyValue("store_books"), storeBooks.join(','))
 	})
 
 	it("should update store book series as admin", async () => {
@@ -326,9 +363,10 @@ describe("UpdateStoreBookSeries endpoint", async () => {
 		let response
 		let author = constants.davUser.authors[2]
 		let series = author.series[0]
-		let collections = [
-			author.collections[1].uuid,
-			author.collections[0].uuid
+		let name = "Updated name"
+		let storeBooks = [
+			author.collections[1].books[0].uuid,
+			author.collections[0].books[0].uuid
 		]
 
 		try {
@@ -343,7 +381,8 @@ describe("UpdateStoreBookSeries endpoint", async () => {
 					fields: "*"
 				},
 				data: {
-					collections
+					name,
+					store_books: storeBooks
 				}
 			})
 		} catch (error) {
@@ -351,19 +390,11 @@ describe("UpdateStoreBookSeries endpoint", async () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 3)
+		assert.equal(Object.keys(response.data).length, 4)
 		assert.equal(response.data.uuid, series.uuid)
 		assert.equal(response.data.author, author.uuid)
-
-		if (series.names.length == 0) {
-			assert.isNull(response.data.name)
-		} else {
-			let seriesName = series.names.find(n => n.language == "en")
-
-			assert.isNotNull(seriesName)
-			assert.equal(response.data.name.language, "en")
-			assert.equal(response.data.name.value, seriesName.name)
-		}
+		assert.equal(response.data.name, name)
+		assert.equal(response.data.language, series.language)
 
 		// Check if the store book series was updated on the server
 		let objResponse = await TableObjectsController.GetTableObject({
@@ -374,81 +405,7 @@ describe("UpdateStoreBookSeries endpoint", async () => {
 		assert.equal(objResponse.status, 200)
 		assert.equal(objResponse.data.tableObject.Uuid, series.uuid)
 		assert.equal(objResponse.data.tableObject.GetPropertyValue("author"), author.uuid)
-
-		let nameUuids = []
-		for (let name of series.names) nameUuids.push(name.uuid)
-		assert.equal(objResponse.data.tableObject.GetPropertyValue("names"), nameUuids.join(','))
-
-		assert.equal(objResponse.data.tableObject.GetPropertyValue("collections"), collections.join(','))
-	})
-
-	it("should update store book series as admin with specified language", async () => {
-		resetStoreBookSeries = true
-		let response
-		let language = "de"
-		let author = constants.davUser.authors[2]
-		let series = author.series[0]
-		let collections = [
-			author.collections[1].uuid,
-			author.collections[0].uuid
-		]
-
-		try {
-			response = await axios({
-				method: 'put',
-				url: updateStoreBookSeriesEndpointUrl.replace('{0}', series.uuid),
-				headers: {
-					Authorization: constants.davUser.accessToken,
-					'Content-Type': 'application/json'
-				},
-				params: {
-					fields: "*"
-				},
-				data: {
-					collections
-				}
-			})
-		} catch (error) {
-			assert.fail()
-		}
-
-		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 3)
-		assert.equal(response.data.uuid, series.uuid)
-		assert.equal(response.data.author, author.uuid)
-
-		if (series.names.length == 0) {
-			assert.isNull(response.data.name)
-		} else {
-			let seriesName = series.names.find(n => n.language == language)
-
-			if (seriesName == null) {
-				assert.equal(response.data.name.language, "en")
-
-				seriesName = series.names.find(n => n.language == "en")
-
-				assert.isNotNull(seriesName)
-				assert.equal(response.data.name.value, seriesName.name)
-			} else {
-				assert.equal(response.data.name.language, language)
-				assert.equal(response.data.name.value, seriesName.name)
-			}
-		}
-
-		// Check if the store book series was updated on the server
-		let objResponse = await TableObjectsController.GetTableObject({
-			accessToken: constants.davUser.accessToken,
-			uuid: series.uuid
-		})
-
-		assert.equal(objResponse.status, 200)
-		assert.equal(objResponse.data.tableObject.Uuid, series.uuid)
-		assert.equal(objResponse.data.tableObject.GetPropertyValue("author"), author.uuid)
-
-		let nameUuids = []
-		for (let name of series.names) nameUuids.push(name.uuid)
-		assert.equal(objResponse.data.tableObject.GetPropertyValue("names"), nameUuids.join(','))
-
-		assert.equal(objResponse.data.tableObject.GetPropertyValue("collections"), collections.join(','))
+		assert.equal(objResponse.data.tableObject.GetPropertyValue("name"), name)
+		assert.equal(objResponse.data.tableObject.GetPropertyValue("store_books"), storeBooks.join(','))
 	})
 })

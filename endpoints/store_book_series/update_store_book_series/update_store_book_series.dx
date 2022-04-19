@@ -1,22 +1,20 @@
 (# Get the params)
 (var uuid (get_param "uuid"))
 (var fields_str (get_param "fields"))
-(var languages (get_param "languages"))
 
 (if (is_nil fields_str) (
 	(var fields (list "uuid"))
 ) elseif (fields_str == "*") (
-	(var fields (list "uuid" "author" "name"))
+	(var fields (list "uuid" "author" "name" "language"))
 ) else (
 	(# Process the fields string)
 	(var fields (func process_fields (fields_str)))
 ))
 
-(var language_list (func process_languages (languages)))
-
 (var json (parse_json (get_body)))
 
-(var collections json.collections)
+(var name json.name)
+(var store_books json.store_books)
 
 (# Get the access token)
 (var access_token (get_header "Authorization"))
@@ -59,44 +57,44 @@
 
 (# Validate property types)
 (func render_validation_errors ((list
-	(if (!(is_nil collections)) (func validate_collections_type (collections)))
+	(if (!(is_nil name)) (func validate_name_type (name)))
+	(if (!(is_nil store_books)) (func validate_store_books_type (store_books)))
 )))
 
-(if (!(is_nil collections)) (
-	(# Validate the collections)
-	(for uuid in collections (
-		(# Get the collection)
-		(var collection_obj (func get_table_object (uuid (get_env "STORE_BOOK_COLLECTION_TABLE_ID") session.user_id)))
+(# Validate too short and too long fields)
+(func render_validation_errors ((list
+	(if (!(is_nil name)) (func validate_name_length (name)))
+)))
 
-		(if (is_nil collection_obj) (
-			(# Collection does not exist)
-			(func render_validation_errors ((list (hash (error (get_error 3506)) (status 404)))))
+(if (!(is_nil store_books)) (
+	(# Validate the store books)
+	(for uuid in store_books (
+		(# Get the store book)
+		(var store_book (func get_table_object (uuid (get_env "STORE_BOOK_TABLE_ID") session.user_id)))
+
+		(if (is_nil store_book) (
+			(# StoreBook does not exist)
+			(func render_validation_errors ((list (hash (error (get_error 3508)) (status 404)))))
+		))
+
+		(# Check if the store book has the same language as the series)
+		(if (store_book.properties.language != series.properties.language) (
+			(# Language of StoreBook does not match language of StoreBookSeries)
+			(func render_validation_errors ((list (hash (error (get_error 3015)) (status 400)))))
 		))
 	))
 ))
 
 (# Update the series)
-(if (!(is_nil collections)) (var series.properties.collections (collections.join ",")))
+(if (!(is_nil name)) (var series.properties.name name))
+(if (!(is_nil store_books)) (var series.properties.store_books (store_books.join ",")))
 
 (# Render the result)
 (var result (hash))
 
 (if (fields.contains "uuid") (var result.uuid series.uuid))
 (if (fields.contains "author") (var result.author series.properties.author))
-
-(if (
-	(fields.contains "name")
-	or (fields.contains "name.value")
-	or (fields.contains "name.language")
-) (
-	(var result.name (
-		(func find_series_name_by_languages (
-			series.properties.names
-			language_list
-			((fields.contains "name") or (fields.contains "name.value"))
-			((fields.contains "name") or (fields.contains "name.language"))
-		))
-	))
-))
+(if (fields.contains "name") (var result.name series.properties.name))
+(if (fields.contains "language") (var result.language series.properties.language))
 
 (render_json result 200)
