@@ -44,7 +44,7 @@
 		{"code": 2218, "message": "Field has wrong type: key"},
 		{"code": 2219, "message": "Field has wrong type: store_book"},
 		{"code": 2220, "message": "Field has wrong type: currency"},
-		{"code": 2221, "message": "Field has wrong type: collections"},
+		{"code": 2222, "message": "Field has wrong type: store_books"},
 
 		{"code": 2300, "message": "Field too short: first_name"},
 		{"code": 2301, "message": "Field too short: last_name"},
@@ -85,6 +85,7 @@
 		{"code": 3012, "message": "StoreBookSeries is incomplete"},
 		{"code": 3013, "message": "The user is an admin"},
 		{"code": 3014, "message": "The user is not an admin"},
+		{"code": 3015, "message": "Language of StoreBook does not match language of StoreBookSeries"},
 
 		{"code": 3100, "message": "Can't use old access token"},
 		{"code": 3101, "message": "Access token must be renewed"},

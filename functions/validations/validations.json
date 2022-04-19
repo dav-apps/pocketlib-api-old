@@ -185,9 +185,9 @@
 			"source": "./currency/validate_currency_type.dx"
 		},
 		{
-			"name": "validate_collections_type",
-			"params": ["collections"],
-			"source": "./collections/validate_collections_type.dx"
+			"name": "validate_store_books_type",
+			"params": ["store_books"],
+			"source": "./store_books/validate_store_books_type.dx"
 		},
 
 		{

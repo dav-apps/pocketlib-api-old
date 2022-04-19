@@ -1,0 +1,16 @@
+(# params: store_books: Array<string>)
+(var contains_wrong_type false)
+
+(if (store_books.class == "Array") (
+	(# Check if store_books is an Array with strings)
+	(for entry in store_books (
+		(if (entry.class != "String") (
+			(var contains_wrong_type true)
+			(break)
+		))
+	))
+))
+
+(if ((store_books.class != "Array") or contains_wrong_type) (
+	(hash (error (get_error 2222)) (status 400))
+))

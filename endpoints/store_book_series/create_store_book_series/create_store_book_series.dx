@@ -4,7 +4,7 @@
 (if (is_nil fields_str) (
 	(var fields (list "uuid"))
 ) elseif (fields_str == "*") (
-	(var fields (list "uuid" "author" "name"))
+	(var fields (list "uuid" "author" "name" "language"))
 ) else (
 	(# Process the fields string)
 	(var fields (func process_fields (fields_str)))
@@ -15,7 +15,7 @@
 (var author json.author)
 (var name json.name)
 (var language json.language)
-(var collections json.collections)
+(var store_books json.store_books)
 
 (# Get the access token)
 (var access_token (get_header "Authorization"))
@@ -47,7 +47,7 @@
 	(if is_admin (func validate_author_type (author)))
 	(func validate_name_type (name))
 	(func validate_language_type (language))
-	(if (!(is_nil collections)) (func validate_collections_type (collections)))
+	(if (!(is_nil store_books)) (func validate_store_books_type (store_books)))
 )))
 
 (# Validate too short and too long fields)
@@ -78,30 +78,26 @@
 	(var author_obj authors#0)
 ))
 
-(if (is_nil collections) (
-	(var collections (list))
+(if (is_nil store_books) (
+	(var store_books (list))
 ) else (
-	(# Validate the collections)
-	(for uuid in collections (
-		(# Get the collection)
-		(var collection_obj (func get_table_object (uuid (get_env "STORE_BOOK_COLLECTION_TABLE_ID") session.user_id)))
+	(# Validate the store_books)
+	(for uuid in store_books (
+		(# Get the store book)
+		(var store_book (func get_table_object (uuid (get_env "STORE_BOOK_TABLE_ID") session.user_id)))
 
-		(if (is_nil collection_obj) (
-			(# Collection does not exist)
-			(func render_validation_errors ((list (hash (error (get_error 3506)) (status 404)))))
+		(if (is_nil store_book) (
+			(# StoreBook does not exist)
+			(func render_validation_errors ((list (hash (error (get_error 3508)) (status 404)))))
+		))
+
+		(# Check if the store book has the same language as the series)
+		(if (store_book.properties.language != language) (
+			(# Language of StoreBook does not match language of StoreBookSeries)
+			(func render_validation_errors ((list (hash (error (get_error 3015)) (status 400)))))
 		))
 	))
 ))
-
-(# Create the series name)
-(var series_name (func create_table_object (
-	session.user_id
-	(get_env "STORE_BOOK_SERIES_NAME_TABLE_ID")
-	(hash
-		(name name)
-		(language language)
-	)
-)))
 
 (# Create the series)
 (var series (func create_table_object (
@@ -109,8 +105,9 @@
 	(get_env "STORE_BOOK_SERIES_TABLE_ID")
 	(hash
 		(author author_obj.uuid)
-		(names series_name.uuid)
-		(collections (collections.join ","))
+		(name name)
+		(language language)
+		(store_books (store_books.join ","))
 	)
 )))
 
@@ -125,18 +122,7 @@
 
 (if (fields.contains "uuid") (var result.uuid series.uuid))
 (if (fields.contains "author") (var result.author series.properties.author))
-
-(if (
-	(fields.contains "name")
-	or (fields.contains "name.value")
-	or (fields.contains "name.language")
-) (
-	(var name_hash (hash))
-
-	(if ((fields.contains "name") or (fields.contains "name.value")) (var name_hash.value name))
-	(if ((fields.contains "name") or (fields.contains "name.language")) (var name_hash.language language))
-
-	(var result.name name_hash)
-))
+(if (fields.contains "name") (var result.name series.properties.name))
+(if (fields.contains "language") (var result.language series.properties.language))
 
 (render_json result 201)
