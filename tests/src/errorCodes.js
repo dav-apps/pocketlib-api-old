@@ -45,7 +45,7 @@ export const CategoriesWrongType = 2216
 export const KeyWrongType = 2218
 export const StoreBookWrongType = 2219
 export const CurrencyWrongType = 2220
-export const CollectionsWrongType = 2221
+export const StoreBooksWrongType = 2222
 
 // Too short fields
 export const FirstNameTooShort = 2300
@@ -90,6 +90,7 @@ export const TooManyCategoriesForStoreBook = 3011
 export const StoreBookSeriesIsIncomplete = 3012
 export const UserIsAdmin = 3013
 export const UserIsNotAdmin = 3014
+export const LanguageOfStoreBookDoesNotMatchLanguageOfStoreBookSeries = 3015
 
 // Access token errors
 export const CannotUseOldAccessToken = 3100

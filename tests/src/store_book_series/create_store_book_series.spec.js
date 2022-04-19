@@ -154,7 +154,7 @@ describe("CreateStoreBookSeries endpoint", () => {
 				data: {
 					name: true,
 					language: 1234,
-					collections: [
+					store_books: [
 						true,
 						false,
 						123
@@ -166,7 +166,7 @@ describe("CreateStoreBookSeries endpoint", () => {
 			assert.equal(error.response.data.errors.length, 3)
 			assert.equal(error.response.data.errors[0].code, ErrorCodes.NameWrongType)
 			assert.equal(error.response.data.errors[1].code, ErrorCodes.LanguageWrongType)
-			assert.equal(error.response.data.errors[2].code, ErrorCodes.CollectionsWrongType)
+			assert.equal(error.response.data.errors[2].code, ErrorCodes.StoreBooksWrongType)
 			return
 		}
 
@@ -307,7 +307,7 @@ describe("CreateStoreBookSeries endpoint", () => {
 					author: 20,
 					name: true,
 					language: 12.4,
-					collections: 12356
+					store_books: 12356
 				}
 			})
 		} catch (error) {
@@ -316,7 +316,7 @@ describe("CreateStoreBookSeries endpoint", () => {
 			assert.equal(error.response.data.errors[0].code, ErrorCodes.AuthorWrongType)
 			assert.equal(error.response.data.errors[1].code, ErrorCodes.NameWrongType)
 			assert.equal(error.response.data.errors[2].code, ErrorCodes.LanguageWrongType)
-			assert.equal(error.response.data.errors[3].code, ErrorCodes.CollectionsWrongType)
+			assert.equal(error.response.data.errors[3].code, ErrorCodes.StoreBooksWrongType)
 			return
 		}
 
@@ -472,7 +472,7 @@ describe("CreateStoreBookSeries endpoint", () => {
 		assert.fail()
 	})
 
-	it("should not create store book series with collections that do not belong to the author", async () => {
+	it("should not create store book series with store books that do not belong to the author", async () => {
 		try {
 			await axios({
 				method: 'post',
@@ -484,8 +484,8 @@ describe("CreateStoreBookSeries endpoint", () => {
 				data: {
 					name: "TestSeries",
 					language: "en",
-					collections: [
-						constants.davUser.authors[0].collections[0].uuid
+					store_books: [
+						constants.davUser.authors[0].collections[0].books[0].uuid
 					]
 				}
 			})
@@ -493,6 +493,33 @@ describe("CreateStoreBookSeries endpoint", () => {
 			assert.equal(error.response.status, 403)
 			assert.equal(error.response.data.errors.length, 1)
 			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
+			return
+		}
+
+		assert.fail()
+	})
+
+	it("should not create store book series with store books with different language", async () => {
+		try {
+			await axios({
+				method: 'post',
+				url: createStoreBookSeriesEndpointUrl,
+				headers: {
+					Authorization: constants.authorUser.accessToken,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					name: "TestSeries",
+					language: "de",
+					store_books: [
+						constants.authorUser.author.collections[0].books[0].uuid
+					]
+				}
+			})
+		} catch (error) {
+			assert.equal(error.response.status, 400)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.LanguageOfStoreBookDoesNotMatchLanguageOfStoreBookSeries)
 			return
 		}
 
@@ -527,11 +554,11 @@ describe("CreateStoreBookSeries endpoint", () => {
 		}
 
 		assert.equal(response.status, 201)
-		assert.equal(Object.keys(response.data).length, 3)
+		assert.equal(Object.keys(response.data).length, 4)
 		assert.isNotNull(response.data.uuid)
 		assert.equal(response.data.author, constants.authorUser.author.uuid)
-		assert.equal(response.data.name.value, name)
-		assert.equal(response.data.name.language, language)
+		assert.equal(response.data.name, name)
+		assert.equal(response.data.language, language)
 
 		// Check if the data was correctly saved on the server
 		// Get the store book series
@@ -542,18 +569,8 @@ describe("CreateStoreBookSeries endpoint", () => {
 
 		assert.equal(seriesResponse.status, 200)
 		assert.equal(seriesResponse.data.tableObject.GetPropertyValue("author"), constants.authorUser.author.uuid)
-		assert.isNotNull(seriesResponse.data.tableObject.GetPropertyValue("names"))
-
-		// Get the store book series name
-		let seriesNameResponse = await TableObjectsController.GetTableObject({
-			accessToken: constants.authorUser.accessToken,
-			uuid: seriesResponse.data.tableObject.GetPropertyValue("names")
-		})
-
-		assert.equal(seriesNameResponse.status, 200)
-		assert.equal(seriesNameResponse.data.tableObject.Uuid, seriesResponse.data.tableObject.GetPropertyValue("names"))
-		assert.equal(seriesNameResponse.data.tableObject.GetPropertyValue("name"), name)
-		assert.equal(seriesNameResponse.data.tableObject.GetPropertyValue("language"), language)
+		assert.equal(seriesResponse.data.tableObject.GetPropertyValue("name"), name)
+		assert.equal(seriesResponse.data.tableObject.GetPropertyValue("language"), language)
 
 		// Get the author
 		let authorResponse = await TableObjectsController.GetTableObject({
@@ -575,9 +592,9 @@ describe("CreateStoreBookSeries endpoint", () => {
 		let response
 		let name = "TestSeries"
 		let language = "de"
-		let collections = [
-			constants.authorUser.author.collections[0].uuid,
-			constants.authorUser.author.collections[1].uuid
+		let storeBooks = [
+			constants.authorUser.author.collections[0].books[1].uuid,
+			constants.authorUser.author.collections[1].books[1].uuid
 		]
 
 		// Create the store book series
@@ -595,7 +612,7 @@ describe("CreateStoreBookSeries endpoint", () => {
 				data: {
 					name,
 					language,
-					collections
+					store_books: storeBooks
 				}
 			})
 		} catch (error) {
@@ -603,11 +620,11 @@ describe("CreateStoreBookSeries endpoint", () => {
 		}
 
 		assert.equal(response.status, 201)
-		assert.equal(Object.keys(response.data).length, 3)
+		assert.equal(Object.keys(response.data).length, 4)
 		assert.isNotNull(response.data.uuid)
 		assert.equal(response.data.author, constants.authorUser.author.uuid)
-		assert.equal(response.data.name.value, name)
-		assert.equal(response.data.name.language, language)
+		assert.equal(response.data.name, name)
+		assert.equal(response.data.language, language)
 
 		// Check if the data was correctly saved on the server
 		// Get the store book series
@@ -618,19 +635,9 @@ describe("CreateStoreBookSeries endpoint", () => {
 
 		assert.equal(seriesResponse.status, 200)
 		assert.equal(seriesResponse.data.tableObject.GetPropertyValue("author"), constants.authorUser.author.uuid)
-		assert.isNotNull(seriesResponse.data.tableObject.GetPropertyValue("names"))
-		assert.equal(seriesResponse.data.tableObject.GetPropertyValue("collections"), collections.join(','))
-
-		// Get the store book series name
-		let seriesNameResponse = await TableObjectsController.GetTableObject({
-			accessToken: constants.authorUser.accessToken,
-			uuid: seriesResponse.data.tableObject.GetPropertyValue("names")
-		})
-
-		assert.equal(seriesNameResponse.status, 200)
-		assert.equal(seriesNameResponse.data.tableObject.Uuid, seriesResponse.data.tableObject.GetPropertyValue("names"))
-		assert.equal(seriesNameResponse.data.tableObject.GetPropertyValue("name"), name)
-		assert.equal(seriesNameResponse.data.tableObject.GetPropertyValue("language"), language)
+		assert.equal(seriesResponse.data.tableObject.GetPropertyValue("name"), name)
+		assert.equal(seriesResponse.data.tableObject.GetPropertyValue("language"), language)
+		assert.equal(seriesResponse.data.tableObject.GetPropertyValue("store_books"), storeBooks.join(','))
 
 		// Get the author
 		let authorResponse = await TableObjectsController.GetTableObject({
@@ -677,11 +684,11 @@ describe("CreateStoreBookSeries endpoint", () => {
 		}
 
 		assert.equal(response.status, 201)
-		assert.equal(Object.keys(response.data).length, 3)
+		assert.equal(Object.keys(response.data).length, 4)
 		assert.isNotNull(response.data.uuid)
 		assert.equal(response.data.author, author)
-		assert.equal(response.data.name.value, name)
-		assert.equal(response.data.name.language, language)
+		assert.equal(response.data.name, name)
+		assert.equal(response.data.language, language)
 
 		// Check if the data was correctly saved on the server
 		// Get the store book series
@@ -692,18 +699,8 @@ describe("CreateStoreBookSeries endpoint", () => {
 
 		assert.equal(seriesResponse.status, 200)
 		assert.equal(seriesResponse.data.tableObject.GetPropertyValue("author"), author)
-		assert.isNotNull(seriesResponse.data.tableObject.GetPropertyValue("names"))
-
-		// Get the store book series name
-		let seriesNameResponse = await TableObjectsController.GetTableObject({
-			accessToken: constants.davUser.accessToken,
-			uuid: seriesResponse.data.tableObject.GetPropertyValue("names")
-		})
-
-		assert.equal(seriesNameResponse.status, 200)
-		assert.equal(seriesNameResponse.data.tableObject.Uuid, seriesResponse.data.tableObject.GetPropertyValue("names"))
-		assert.equal(seriesNameResponse.data.tableObject.GetPropertyValue("name"), name)
-		assert.equal(seriesNameResponse.data.tableObject.GetPropertyValue("language"), language)
+		assert.equal(seriesResponse.data.tableObject.GetPropertyValue("name"), name)
+		assert.equal(seriesResponse.data.tableObject.GetPropertyValue("language"), language)
 
 		// Get the author
 		let authorResponse = await TableObjectsController.GetTableObject({
@@ -726,9 +723,9 @@ describe("CreateStoreBookSeries endpoint", () => {
 		let author = constants.davUser.authors[0].uuid
 		let name = "TestSeries"
 		let language = "en"
-		let collections = [
-			constants.davUser.authors[0].collections[0].uuid,
-			constants.davUser.authors[0].collections[1].uuid
+		let storeBooks = [
+			constants.davUser.authors[0].collections[0].books[0].uuid,
+			constants.davUser.authors[0].collections[1].books[0].uuid
 		]
 
 		// Create the store book series
@@ -747,7 +744,7 @@ describe("CreateStoreBookSeries endpoint", () => {
 					author,
 					name,
 					language,
-					collections
+					store_books: storeBooks
 				}
 			})
 		} catch (error) {
@@ -755,11 +752,11 @@ describe("CreateStoreBookSeries endpoint", () => {
 		}
 
 		assert.equal(response.status, 201)
-		assert.equal(Object.keys(response.data).length, 3)
+		assert.equal(Object.keys(response.data).length, 4)
 		assert.equal(response.data.author, author)
 		assert.isNotNull(response.data.uuid)
-		assert.equal(response.data.name.value, name)
-		assert.equal(response.data.name.language, language)
+		assert.equal(response.data.name, name)
+		assert.equal(response.data.language, language)
 
 		// Check if the data was correctly saved on the server
 		// Get the store book series
@@ -770,19 +767,9 @@ describe("CreateStoreBookSeries endpoint", () => {
 
 		assert.equal(seriesResponse.status, 200)
 		assert.equal(seriesResponse.data.tableObject.GetPropertyValue("author"), author)
-		assert.isNotNull(seriesResponse.data.tableObject.GetPropertyValue("names"))
-		assert.equal(seriesResponse.data.tableObject.GetPropertyValue("collections"), collections.join(','))
-
-		// Get the store book series name
-		let seriesNameResponse = await TableObjectsController.GetTableObject({
-			accessToken: constants.davUser.accessToken,
-			uuid: seriesResponse.data.tableObject.GetPropertyValue("names")
-		})
-
-		assert.equal(seriesNameResponse.status, 200)
-		assert.equal(seriesNameResponse.data.tableObject.Uuid, seriesResponse.data.tableObject.GetPropertyValue("names"))
-		assert.equal(seriesNameResponse.data.tableObject.GetPropertyValue("name"), name)
-		assert.equal(seriesNameResponse.data.tableObject.GetPropertyValue("language"), language)
+		assert.equal(seriesResponse.data.tableObject.GetPropertyValue("name"), name)
+		assert.equal(seriesResponse.data.tableObject.GetPropertyValue("language"), language)
+		assert.equal(seriesResponse.data.tableObject.GetPropertyValue("store_books"), storeBooks.join(','))
 
 		// Get the author
 		let authorResponse = await TableObjectsController.GetTableObject({

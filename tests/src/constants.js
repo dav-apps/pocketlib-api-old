@@ -950,8 +950,9 @@ constants.collections = [
 		name: "latest_series",
 		tableId: constants.storeBookSeriesTableId,
 		tableObjects: [
-			"e9adbea1-18e2-4a46-b1f2-c0d2940567fd",
-			"d6fc6518-ce3d-444d-8f35-901bfdd75d88"
+			"0bb3410d-eded-4713-8dff-5295bf7dc5ae",
+			"3029ea0f-a6c7-4c0e-be5f-ce6d77ac2296",
+			"6f9793de-33e0-4a10-ac4a-fb2b18f28a48"
 		]
 	}
 ]
