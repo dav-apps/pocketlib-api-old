@@ -116,9 +116,9 @@
 	))
 
 	(# Check if the user can access not published books)
-	(var can_access (is_admin or ((! (is_nil session)) and (author.user_id == session.user_id))))
+	(var can_access (is_admin or ((!(is_nil session)) and (author.user_id == session.user_id))))
 	(var public (! can_access))
-	(var file_details (is_admin or ((! (is_nil session)) and (author.user_id == session.user_id))))
+	(var file_details can_access)
 	(var store_book_uuids (list))
 
 	(if (!(is_nil collection.properties.books)) (
@@ -135,77 +135,45 @@
 		(func render_validation_errors ((list (hash (error (get_error 3514)) (status 404)))))
 	))
 
-	(# Get the collections of the series)
-	(var collection_uuids_string series.properties.collections)
+	(# Check if the user can access not published books)
+	(var can_access (is_admin or ((!(is_nil session)) and (series.user_id == session.user_id))))
+	(var public (! can_access))
+	(var file_details can_access)
 
-	(if (is_nil collection_uuids_string) (
-		(func render_validation_errors ((list (hash (error (get_error 3012)) (status 412)))))
-	))
+	(if (!(is_nil series.properties.store_books)) (
+		(var store_book_uuids (series.properties.store_books.split ","))
 
-	(var collection_uuids (collection_uuids_string.split ","))
+		(if (! can_access) (
+			(var published_store_books_count 0)
 
-	(# Get the names of the series)
-	(var names (func get_series_names_by_string_as_hash (series.properties.names)))
+			(# Check if each store book of the series is published)
+			(for store_book_uuid in store_book_uuids (
+				(# Get the store book)
+				(var store_book (func get_table_object (store_book_uuid (get_env "STORE_BOOK_TABLE_ID"))))
+				(if (is_nil store_book) (break))
 
-	(# Check each given language if the series has a name for it)
-	(var series_languages (hash))
+				(# Check the status)
+				(if (store_book.properties.status != "published") (break))
 
-	(for lang in language_list (
-		(if (!(is_nil names[lang])) (
-			(var series_languages[lang] (list))
+				(# Get the store book release)
+				(var store_book_release (func get_last_release_of_store_book (store_book true)))
+				(if (is_nil store_book_release) (break))
+				(if (store_book_release.properties.status != "published") (break))
+
+				(# Get the cover item)
+				(var cover_item (func get_table_object (store_book_release.properties.cover_item (get_env "STORE_BOOK_COVER_ITEM_TABLE_ID"))))
+				(if (is_nil cover_item) (break))
+
+				(var published_store_books_count (published_store_books_count + 1))
+			))
+
+			(if (published_store_books_count < store_book_uuids.length) (
+				(# StoreBookSeries is incomplete)
+				(func render_validation_errors ((list (hash (error (get_error 3012)) (status 412)))))
+			))
 		))
-	))
-
-	(# Try to get the store book of each collection for each language)
-	(for collection_uuid in collection_uuids (
-		(# Get the store book collection)
-		(var collection (func get_table_object (collection_uuid (get_env "STORE_BOOK_COLLECTION_TABLE_ID"))))
-		(if (is_nil collection) (continue))
-		(if (is_nil collection.properties.books) (continue))
-
-		(for store_book_uuid in (collection.properties.books.split ",") (
-			(# Get the store book)
-			(var store_book (func get_table_object (store_book_uuid (get_env "STORE_BOOK_TABLE_ID"))))
-			(if (is_nil store_book) (continue))
-
-			(# Check the status)
-			(if (store_book.properties.status != "published") (continue))
-
-			(# Check the language)
-			(if (!(language_list.contains store_book.properties.language)) (continue))
-
-			(# Get the store book release)
-			(var store_book_release (func get_last_release_of_store_book (store_book public)))
-			(if (is_nil store_book_release) (continue))
-			(if (store_book_release.properties.status != "published") (continue))
-
-			(# Get the cover item)
-			(var cover_item (func get_table_object (store_book_release.properties.cover_item (get_env "STORE_BOOK_COVER_ITEM_TABLE_ID"))))
-			(if (is_nil cover_item) (continue))
-
-			(# Add the store book to the list of store books for the language)
-			(series_languages[store_book.properties.language].push store_book)
-		))
-	))
-
-	(var selected_lang nil)
-
-	(# Try to find a language for which there are all store books available)
-	(for lang in series_languages.keys (
-		(if (series_languages[lang].length == collection_uuids.length) (
-			(var selected_lang lang)
-			(break)
-		))
-	))
-
-	(if (is_nil selected_lang) (
-		(func render_validation_errors ((list (hash (error (get_error 3012)) (status 412)))))
-	))
-
-	(var store_book_uuids (list))
-
-	(for store_book in series_languages[selected_lang] (
-		(store_book_uuids.push store_book.uuid)
+	) else (
+		(var store_book_uuids (list))
 	))
 ) elseif (!(is_nil category_keys)) (
 	(var admins (get_env "ADMINS"))

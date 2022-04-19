@@ -923,33 +923,12 @@ describe("ListStoreBooks endpoint", async () => {
 		assert.fail()
 	})
 
-	it("should not return store books of series that has no books for the given languages", async () => {
+	it("should not return store books of series whose store books are not all published", async () => {
 		try {
 			await axios({
 				method: 'get',
 				url: listStoreBooksEndpointUrl,
 				params: {
-					languages: "de",
-					series: constants.davUser.authors[2].series[0].uuid
-				}
-			})
-		} catch (error) {
-			assert.equal(error.response.status, 412)
-			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.StoreBookSeriesIsIncomplete)
-			return
-		}
-
-		assert.fail()
-	})
-
-	it("should not return store book series if it has not published books for each collection in one of the given languages", async () => {
-		try {
-			await axios({
-				method: 'get',
-				url: listStoreBooksEndpointUrl,
-				params: {
-					languages: "en,de",
 					series: constants.authorUser.author.series[0].uuid
 				}
 			})
@@ -983,7 +962,6 @@ describe("ListStoreBooks endpoint", async () => {
 				url: listStoreBooksEndpointUrl,
 				params: {
 					fields: "*",
-					languages: "en",
 					series: series.uuid
 				}
 			})
@@ -1027,6 +1005,75 @@ describe("ListStoreBooks endpoint", async () => {
 
 			assert.isUndefined(responseStoreBook.in_library)
 			assert.isUndefined(responseStoreBook.purchased)
+		}
+	})
+
+	it("should return store books of series with author as user", async () => {
+		let response
+		let series = constants.davUser.authors[2].series[0]
+		let storeBooks = [
+			{
+				collection: constants.davUser.authors[2].collections[0].uuid,
+				storeBook: constants.davUser.authors[2].collections[0].books[0]
+			},
+			{
+				collection: constants.davUser.authors[2].collections[1].uuid,
+				storeBook: constants.davUser.authors[2].collections[1].books[0]
+			}
+		]
+
+		try {
+			response = await axios({
+				method: 'get',
+				url: listStoreBooksEndpointUrl,
+				headers: {
+					Authorization: constants.davUser.accessToken
+				},
+				params: {
+					fields: "*",
+					series: series.uuid
+				}
+			})
+		} catch (error) {
+			assert.fail()
+		}
+
+		assert.equal(response.status, 200)
+		assert.equal(Object.keys(response.data).length, 3)
+		assert.equal(response.data.items.length, storeBooks.length)
+
+		for (let storeBookItem of storeBooks) {
+			let storeBook = storeBookItem.storeBook
+			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+			let responseStoreBook = response.data.items.find(s => s.uuid == storeBook.uuid)
+
+			assert.isNotNull(responseStoreBook)
+			assert.equal(Object.keys(responseStoreBook).length, 13)
+			assert.equal(responseStoreBook.uuid, storeBook.uuid)
+			assert.equal(responseStoreBook.collection, storeBookItem.collection)
+			assert.equal(responseStoreBook.title, storeBookRelease.title)
+			assert.equal(responseStoreBook.description, storeBookRelease.description)
+			assert.equal(responseStoreBook.language, storeBook.language)
+			assert.equal(responseStoreBook.price, storeBookRelease.price ?? 0)
+			assert.equal(responseStoreBook.isbn, storeBookRelease.isbn)
+			assert.equal(responseStoreBook.status, storeBook.status ?? "unpublished")
+			if (responseStoreBook.cover) assert.isNotNull(responseStoreBook.cover.url)
+			assert.equal(responseStoreBook.cover.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
+			assert.equal(responseStoreBook.cover.blurhash, storeBookRelease.coverItem?.blurhash)
+			assert.equal(responseStoreBook.file?.file_name, storeBookRelease.fileItem?.fileName)
+
+			if (storeBookRelease.categories) {
+				assert.equal(responseStoreBook.categories.length, storeBookRelease.categories.length)
+
+				for (let key of responseStoreBook.categories) {
+					assert.isNotNull(constants.categories.find(c => c.key == key))
+				}
+			} else {
+				assert.equal(responseStoreBook.categories.length, 0)
+			}
+
+			assert.equal(responseStoreBook.in_library, userHasStoreBookInLibrary(constants.davUser, storeBook.uuid))
+			assert.equal(responseStoreBook.purchased, userHasPurchasedBook(constants.davUser, storeBook.uuid))
 		}
 	})
 
