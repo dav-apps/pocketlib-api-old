@@ -9,7 +9,7 @@
 (if (is_nil fields_str) (
 	(var fields (list "type" "items.uuid"))
 ) elseif (fields_str == "*") (
-	(var fields (list "type" "items.uuid" "items.author" "items.name"))
+	(var fields (list "type" "items.uuid" "items.author" "items.name" "items.language"))
 ) else (
 	(# Process the fields string)
 	(var fields (func process_fields (fields_str)))
@@ -44,20 +44,12 @@
 		(func render_validation_errors ((list (hash (error (get_error 3508)) (status 404)))))
 	))
 
-	(# Get the collection of the store book)
-	(var collection (func get_table_object (store_book.properties.collection (get_env "STORE_BOOK_COLLECTION_TABLE_ID"))))
-
-	(if (is_nil collection) (
-		(# StoreBookCollection does not exist)
-		(func render_validation_errors ((list (hash (error (get_error 3506)) (status 404)))))
-	))
-
-	(# Get all series where the collection uuid is in the collections property)
+	(# Get all series where the store book uuid is in the store_books property)
 	(var series_list (TableObject.find_by_property
 		store_book.user_id
 		(get_env "STORE_BOOK_SERIES_TABLE_ID")
-		"collections"
-		collection.uuid
+		"store_books"
+		store_book.uuid
 		false
 	))
 
@@ -78,55 +70,26 @@
 	(if (is_nil series) (continue))
 
 	(if latest (
-		(# Check if the series has a name for one of the given languages)
-		(var names (func get_series_names_by_string_as_hash (series.properties.names)))
+		(# Check if the series is in one of the given languages)
+		(if (!(language_list.contains series.properties.language)) (continue))
+	))
 
-		(var has_lang false)
+	(if latest (
+		(# Check if all store books of the series are published)
+		(var store_books_string series.properties.store_books)
+		(if (is_nil store_books_string) (continue))
 
-		(for lang in language_list (
-			(if (!(is_nil names[lang])) (
-				(var has_lang true)
-				(break)
-			))
+		(var store_book_uuids (store_books_string.split ","))
+		(var published_books 0)
+
+		(for store_book_uuid in store_book_uuids (
+			(var store_book (func get_table_object (store_book_uuid (get_env "STORE_BOOK_TABLE_ID"))))
+			(if (is_nil store_book) (break))
+
+			(if (store_book.properties.status == "published") (var published_books (published_books + 1)))
 		))
 
-		(if (! has_lang) (continue))
-
-		(# Get the store book collections)
-		(if (is_nil series.properties.collections) (continue))
-
-		(var collection_uuids (series.properties.collections.split ","))
-		(var store_book_count 0)
-
-		(for collection_uuid in collection_uuids (
-			(var collection (func get_table_object (collection_uuid (get_env "STORE_BOOK_COLLECTION_TABLE_ID"))))
-			(if (is_nil collection) (continue))
-
-			(# Get the store books of the collection)
-			(if (is_nil collection.properties.books) (continue))
-
-			(for store_book_uuid in (collection.properties.books.split ",") (
-				(var store_book (func get_table_object (store_book_uuid (get_env "STORE_BOOK_TABLE_ID"))))
-				(if (is_nil store_book) (continue))
-				(if (store_book.properties.status != "published") (continue))
-
-				(# Check if the store book is in a preferred language)
-				(if (!(language_list.contains store_book.properties.language)) (continue))
-
-				(var store_book_release (func get_last_release_of_store_book (store_book true)))
-				(if ((is_nil store_book_release) or (store_book_release.properties.status != "published")) (continue))
-
-				(# Get the cover item)
-				(var cover_item (func get_table_object (store_book_release.properties.cover_item (get_env "STORE_BOOK_COVER_ITEM_TABLE_ID"))))
-				(if (is_nil cover_item) (continue))
-
-				(var store_book_count (store_book_count + 1))
-				(break)
-			))
-		))
-
-		(# The series should have at least one store book for each collection in one of the given languages)
-		(if (store_book_count < collection_uuids.length) (continue))
+		(if (published_books < store_book_uuids.length) (continue))
 	))
 
 	(# Add the series to the list)
@@ -134,21 +97,8 @@
 
 	(if (fields.contains "items.uuid") (var series_hash.uuid series.uuid))
 	(if (fields.contains "items.author") (var series_hash.author series.properties.author))
-
-	(if (
-		(fields.contains "items.name")
-		or (fields.contains "items.name.value")
-		or (fields.contains "items.name.language")
-	) (
-		(var series_hash.name (
-			(func find_series_name_by_languages (
-				series.properties.names
-				language_list
-				((fields.contains "items.name") or (fields.contains "items.name.value"))
-				((fields.contains "items.name") or (fields.contains "items.name.language"))
-			))
-		))
-	))
+	(if (fields.contains "items.name") (var series_hash.name series.properties.name))
+	(if (fields.contains "items.language") (var series_hash.language series.properties.language))
 
 	(series_list.push series_hash)
 

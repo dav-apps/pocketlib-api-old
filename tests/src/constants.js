@@ -429,7 +429,7 @@ let constants = {
 					name: "A Series of Unfortunate Events",
 					language: "en",
 					storeBooks: [
-						"f1ea042a-46da-4a4b-911e-733d1f84b335",
+						"1cf6fc5f-8fa5-4972-895d-8b1d6552d41c",
 						"5242102c-b107-4e82-8eb8-bebe2a990436",
 						"45c14ab4-8789-41c4-b0f6-11be0a86a94c",
 						"d0ca384f-9d8e-4a56-b2e1-c76a0a5cac4b",
