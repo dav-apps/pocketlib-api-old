@@ -42,61 +42,10 @@ describe("GetStoreBookSeries endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 3)
+		assert.equal(Object.keys(response.data).length, 4)
 		assert.equal(response.data.uuid, series.uuid)
 		assert.equal(response.data.author, author.uuid)
-
-		if (series.names.length == 0) {
-			assert.isNull(response.data.name)
-		} else {
-			let seriesName = series.names.find(n => n.language == "en")
-
-			assert.isNotNull(seriesName)
-			assert.equal(response.data.name.language, "en")
-			assert.equal(response.data.name.value, seriesName.name)
-		}
-	})
-
-	it("should return store book series with specified language", async () => {
-		let author = constants.authorUser.author
-		let series = author.series[0]
-		let language = "de"
-		let response
-
-		try {
-			response = await axios({
-				method: 'get',
-				url: retrieveStoreBookSeriesEndpointUrl.replace('{0}', series.uuid),
-				params: {
-					fields: "*",
-					languages: language
-				}
-			})
-		} catch (error) {
-			assert.fail()
-		}
-
-		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 3)
-		assert.equal(response.data.uuid, series.uuid)
-		assert.equal(response.data.author, author.uuid)
-		
-		if (series.names.length == 0) {
-			assert.isNull(response.data.name)
-		} else {
-			let seriesName = series.names.find(n => n.language == language)
-
-			if (seriesName == null) {
-				assert.equal(response.data.name.language, "en")
-
-				seriesName = series.names.find(n => n.language == "en")
-
-				assert.isNotNull(seriesName)
-				assert.equal(response.data.name.value, seriesName.name)
-			} else {
-				assert.equal(response.data.name.language, language)
-				assert.equal(response.data.name.value, seriesName.name)
-			}
-		}
+		assert.equal(response.data.name, series.name)
+		assert.equal(response.data.language, series.language)
 	})
 })

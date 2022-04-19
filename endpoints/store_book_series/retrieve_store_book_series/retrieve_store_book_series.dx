@@ -1,18 +1,15 @@
 (# Get the params)
 (var uuid (get_param "uuid"))
 (var fields_str (get_param "fields"))
-(var languages (get_param "languages"))
 
 (if (is_nil fields_str) (
 	(var fields (list "uuid"))
 ) elseif (fields_str == "*") (
-	(var fields (list "uuid" "author" "name"))
+	(var fields (list "uuid" "author" "name" "language"))
 ) else (
 	(# Process the fields string)
 	(var fields (func process_fields (fields_str)))
 ))
-
-(var language_list (func process_languages (languages)))
 
 (# Get the store book series)
 (var series (func get_table_object (uuid (get_env "STORE_BOOK_SERIES_TABLE_ID"))))
@@ -27,20 +24,7 @@
 
 (if (fields.contains "uuid") (var result.uuid series.uuid))
 (if (fields.contains "author") (var result.author series.properties.author))
-
-(if (
-	(fields.contains "name")
-	or (fields.contains "name.value")
-	or (fields.contains "name.language")
-) (
-	(var result.name (
-		(func find_series_name_by_languages (
-			series.properties.names
-			language_list
-			((fields.contains "name") or (fields.contains "name.value"))
-			((fields.contains "name") or (fields.contains "name.language"))
-		))
-	))
-))
+(if (fields.contains "name") (var result.name series.properties.name))
+(if (fields.contains "language") (var result.language series.properties.language))
 
 (render_json result 200)
