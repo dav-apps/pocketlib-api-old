@@ -22,10 +22,6 @@ describe("GetCollectionsOfAuthor endpoint", () => {
 		await testGetCollectionsOfAuthorWithLanguage(constants.davUser.authors[0], "de")
 	})
 
-	it("should return collections of series", async () => {
-		await testGetCollectionsOfSeries(constants.authorUser.author, constants.authorUser.author.series[0])
-	})
-
 	async function testGetCollectionsOfAuthor(author) {
 		let response
 
@@ -104,51 +100,6 @@ describe("GetCollectionsOfAuthor endpoint", () => {
 				assert.equal(responseCollection.name.language, language)
 				assert.equal(responseCollection.name.value, collectionName.name)
 			}
-		}
-	}
-
-	async function testGetCollectionsOfSeries(author, series) {
-		let response
-
-		try {
-			response = await axios({
-				method: 'get',
-				url: listStoreBookCollectionsEndpointUrl,
-				params: {
-					fields: "*",
-					series: series.uuid
-				}
-			})
-		} catch (error) {
-			assert.fail()
-		}
-
-		let collections = []
-
-		for (let collectionUuid of series.collections) {
-			let collection = author.collections.find(c => c.uuid == collectionUuid)
-			assert.isNotNull(collection)
-
-			collections.push(collection)
-		}
-
-		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 2)
-		assert.equal(response.data.items.length, collections.length)
-
-		for (let collection of collections) {
-			let responseCollection = response.data.items.find(c => c.uuid == collection.uuid)
-
-			assert.isNotNull(responseCollection)
-			assert.equal(Object.keys(responseCollection).length, 3)
-			assert.equal(responseCollection.uuid, collection.uuid)
-			assert.equal(responseCollection.author, author.uuid)
-
-			let collectionName = collection.names.find(n => n.language == "en")
-
-			assert.isNotNull(collectionName)
-			assert.equal(responseCollection.name.language, "en")
-			assert.equal(responseCollection.name.value, collectionName.name)
 		}
 	}
 })

@@ -2,7 +2,6 @@
 (var fields_str (get_param "fields"))
 (var languages (get_param "languages"))
 (var author_uuid (get_param "author"))
-(var series_uuid (get_param "series"))
 
 (if (is_nil fields_str) (
 	(var fields (list "type" "items.uuid"))
@@ -28,20 +27,6 @@
 		(var collection_uuids (list))
 	) else (
 		(var collection_uuids (author.properties.collections.split ","))
-	))
-) elseif (!(is_nil series_uuid)) (
-	(# Get the series)
-	(var series (func get_table_object (series_uuid (get_env "STORE_BOOK_SERIES_TABLE_ID"))))
-
-	(if (is_nil series) (
-		(# StoreBookSeries does not exist)
-		(func render_validation_errors ((list (hash (error (get_error 3514)) (status 404)))))
-	))
-
-	(if (is_nil series.properties.collections) (
-		(var collection_uuids (list))
-	) else (
-		(var collection_uuids (series.properties.collections.split ","))
 	))
 ) else (
 	(var collection_uuids (list))
