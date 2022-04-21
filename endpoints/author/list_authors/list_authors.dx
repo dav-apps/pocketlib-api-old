@@ -59,9 +59,11 @@
 		(var profile_image_item (func get_table_object (author.properties.profile_image_item (get_env "AUTHOR_PROFILE_IMAGE_ITEM_TABLE_ID"))))
 		(if (latest and (is_nil profile_image_item)) (continue))
 
-		(# Get the profile image)
-		(var profile_image (func get_table_object (profile_image_item.properties.profile_image (get_env "AUTHOR_PROFILE_IMAGE_TABLE_ID"))))
-		(if (latest and (is_nil profile_image)) (continue))
+		(if (!(is_nil profile_image_item)) (
+			(# Get the profile image)
+			(var profile_image (func get_table_object (profile_image_item.properties.profile_image (get_env "AUTHOR_PROFILE_IMAGE_TABLE_ID"))))
+			(if (latest and (is_nil profile_image)) (continue))
+		))
 	))
 
 	(# Add the author to the list)
