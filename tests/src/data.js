@@ -284,6 +284,14 @@ function addStoreBookToTableObjects(storeBook, userId, collectionUuid) {
 			price: lastRelease.price,
 			currency: "eur"
 		}
+	} else if (
+		storeBook.status == "published"
+		&& lastRelease.status == "published"
+	) {
+		tableObject.price = {
+			price: 0,
+			currency: "eur"
+		}
 	}
 
 	tableObjects.push(tableObject)

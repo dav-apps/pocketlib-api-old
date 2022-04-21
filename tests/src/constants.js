@@ -95,7 +95,7 @@ let constants = {
 											file: "./files/The Adventures of Sherlock Holmes.epub",
 											etag: "9c3e53972a82f86f22f2327e4d225e36",
 											ext: "epub",
-											type: "application/zip+epub"
+											type: "application/epub+zip"
 										}
 									},
 									categories: [
@@ -136,7 +136,7 @@ let constants = {
 											file: "./files/The Hound of the Baskervilles.epub",
 											etag: "8da9acb232e35440bce1040dfe38cfce",
 											ext: "epub",
-											type: "application/zip+epub"
+											type: "application/epub+zip"
 										}
 									},
 									categories: [
@@ -194,7 +194,7 @@ let constants = {
 											file: "./files/The Memoirs of Sherlock Holmes.epub",
 											etag: "a97d439bfa7d13b9218588d74d4a4632",
 											ext: "epub",
-											type: "application/zip+epub"
+											type: "application/epub+zip"
 										}
 									},
 									categories: [
@@ -236,7 +236,7 @@ let constants = {
 											file: "./files/The Return of Sherlock Holmes.epub",
 											etag: "c1fdcc4e9e8b1a9ac944d800726c8352",
 											ext: "epub",
-											type: "application/zip+epub"
+											type: "application/epub+zip"
 										}
 									},
 									categories: [
@@ -302,7 +302,7 @@ let constants = {
 											file: "./files/The Sign of the Four.epub",
 											etag: "2e5221e064112a49df3c496362f7648d",
 											ext: "epub",
-											type: "application/zip+etag"
+											type: "application/epub+zip"
 										}
 									},
 									categories: [
@@ -356,7 +356,7 @@ let constants = {
 											file: "./files/The Valley of Fear.epub",
 											etag: "cae2fb34685cd449e6873060707ac4ff",
 											ext: "epub",
-											type: "application/zip+epub"
+											type: "application/epub+zip"
 										}
 									},
 									categories: [
@@ -410,7 +410,7 @@ let constants = {
 											file: "./files/A Study in Scarlet.epub",
 											etag: "1deab14f07d6bd786b8444423ba59976",
 											ext: "epub",
-											type: "application/zip+epub"
+											type: "application/epub+zip"
 										}
 									},
 									categories: [
@@ -518,7 +518,7 @@ let constants = {
 												file: "./files/The House of Arden.epub",
 												etag: "044301fb28b6ebe5885a30efe1397a59",
 												ext: "epub",
-												type: "application/zip+epub"
+												type: "application/epub+zip"
 											}
 										},
 										categories: [
@@ -542,10 +542,10 @@ let constants = {
 											fileName: "1984.epub",
 											file: {
 												uuid: "050f7a0d-59a9-498a-9caa-8b418227e72b",
-												file: "./files/The Story of the Amulet.jpg",
+												file: "./files/The Story of the Amulet.epub",
 												etag: "4113a6b7d82fe6b5a5dbb0e9e3eb06ac",
 												ext: "epub",
-												type: "application/zip+epub"
+												type: "application/epub+zip"
 											}
 										},
 										categories: [
@@ -608,7 +608,7 @@ let constants = {
 												file: "./files/A Christmas Carol.epub",
 												etag: "05641646f72e66cf3c1d2f916a067524",
 												ext: "epub",
-												type: "application/zip+epub"
+												type: "application/epub+zip"
 											}
 										}
 									}
@@ -631,7 +631,7 @@ let constants = {
 												file: "./files/A Tale of Two Cities.epub",
 												etag: "cc812afe547dfb8b0665daeb82626a00",
 												ext: "epub",
-												type: "application/zip+epub"
+												type: "application/epub+zip"
 											}
 										}
 									}
@@ -668,7 +668,7 @@ let constants = {
 												file: "./files/Hard Times.epub",
 												etag: "a490f28fe1d8ffa87e38e32fe9ba5e63",
 												ext: "epub",
-												type: "application/zip+epub"
+												type: "application/epub+zip"
 											}
 										}
 									}
@@ -751,7 +751,7 @@ let constants = {
 												file: "./files/The Life and Adventures of Robinson Crusoe.epub",
 												etag: "b84d13eb0c54c40aa65ec72c696ab211",
 												ext: "epub",
-												type: "application/zip+epub"
+												type: "application/epub+zip"
 											}
 										},
 										categories: [
@@ -803,7 +803,7 @@ let constants = {
 												file: "./files/The Further Adventures of Robinson Crusoe.epub",
 												etag: "cc5595953f506c2ccc22a0c67d43b422",
 												ext: "epub",
-												type: "application/zip+epub"
+												type: "application/epub+zip"
 											}
 										},
 										categories: [
