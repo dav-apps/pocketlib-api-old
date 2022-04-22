@@ -47,7 +47,7 @@
 (var result (hash))
 
 (if (fields.contains "uuid") (var result.uuid cover_item.uuid))
-(if (fields.contains "url") (var result.url (TableObject.get_cdn_url cover_item.properties.cover)))
+(if (fields.contains "url") (var result.url (TableObject.get_cdn_url cover.uuid (hash (etag cover.properties.etag)))))
 (if (fields.contains "aspect_ratio") (var result.aspect_ratio cover_item.properties.aspect_ratio))
 (if (fields.contains "blurhash") (var result.blurhash cover_item.properties.blurhash))
 

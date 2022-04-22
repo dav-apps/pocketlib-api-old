@@ -232,6 +232,12 @@
 		(# Get the cover item)
 		(var cover_item (func get_table_object (store_book_release.properties.cover_item (get_env "STORE_BOOK_COVER_ITEM_TABLE_ID"))))
 		(if (public and (is_nil cover_item)) (continue))
+
+		(if (!(is_nil cover_item)) (
+			(# Get the cover)
+			(var cover (func get_table_object (cover_item.properties.cover (get_env "STORE_BOOK_COVER_TABLE_ID"))))
+			(if (public and (is_nil cover)) (continue))
+		))
 	))
 
 	(if (fields.contains "categories") (
@@ -257,12 +263,12 @@
 		or (fields.contains "items.cover.aspect_ratio")
 		or (fields.contains "items.cover.blurhash")
 	) (
-		(if (is_nil cover_item) (
+		(if ((is_nil cover_item) or (is_nil cover)) (
 			(var book_hash.cover nil)
 		) else (
 			(var cover_hash (hash))
 
-			(if ((fields.contains "items.cover") or (fields.contains "items.cover.url")) (var cover_hash.url (TableObject.get_cdn_url cover_item.properties.cover)))
+			(if ((fields.contains "items.cover") or (fields.contains "items.cover.url")) (var cover_hash.url (TableObject.get_cdn_url cover_item.properties.cover (hash (etag cover.properties.etag)))))
 			(if ((fields.contains "items.cover") or (fields.contains "items.cover.aspect_ratio")) (var cover_hash.aspect_ratio cover_item.properties.aspect_ratio))
 			(if ((fields.contains "items.cover") or (fields.contains "items.cover.blurhash")) (var cover_hash.blurhash cover_item.properties.blurhash))
 

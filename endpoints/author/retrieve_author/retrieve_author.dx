@@ -92,7 +92,7 @@
 	or (fields.contains "profile_image.url")
 	or (fields.contains "profile_image.blurhash")
 ) (
-	(if ((is_nil profile_image) or (is_nil profile_image_item)) (
+	(if ((is_nil profile_image_item) or (is_nil profile_image)) (
 		(var result.profile_image nil)
 	) else (
 		(var profile_image_hash (hash))

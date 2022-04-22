@@ -182,11 +182,19 @@
 	))
 ))
 
+(# Get the cover)
+(var cover (func get_table_object (cover_item.properties.cover (get_env "STORE_BOOK_COVER_TABLE_ID"))))
+
+(if (is_nil cover) (
+	(# StoreBookCover does not exist)
+	(func render_validation_errors ((list (hash (error (get_error 3509)) (status 404)))))
+))
+
 (# Render the result)
 (var result (hash))
 
 (if (fields.contains "uuid") (var result.uuid cover_item.uuid))
-(if (fields.contains "url") (var result.url (TableObject.get_cdn_url cover_item.properties.cover)))
+(if (fields.contains "url") (var result.url (TableObject.get_cdn_url cover (hash (etag cover.properties.etag)))))
 (if (fields.contains "aspect_ratio") (var result.aspect_ratio cover_item.properties.aspect_ratio))
 (if (fields.contains "blurhash") (var result.blurhash cover_item.properties.blurhash))
 
