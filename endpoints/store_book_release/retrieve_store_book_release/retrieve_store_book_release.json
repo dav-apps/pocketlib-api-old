@@ -1,0 +1,6 @@
+{
+	"type": "endpoint",
+	"path": "store_book_releases/:uuid",
+	"method": "GET",
+	"source": "./retrieve_store_book_release.dx"
+}
