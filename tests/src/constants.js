@@ -71,6 +71,7 @@ let constants = {
 							releases: [
 								{
 									uuid: "f1ea042a-46da-4a4b-911e-733d1f84b335",
+									releaseName: "Initial release",
 									title: "A Series of Unfortunate Events - Book the First",
 									description: "Dear Reader, I'm sorry to say that the book you are holding in your hands is extremely unpleasant. It tells an unhappy tale about three very unlucky children.",
 									price: 1399,
@@ -112,6 +113,7 @@ let constants = {
 							releases: [
 								{
 									uuid: "fd80ef43-ecd9-4002-afc4-77f4762b49cc",
+									releaseName: "Initial release",
 									title: "Eine Reihe betrüblicher Ereignisse - Der schreckliche Anfang",
 									description: "Lieber Leser, es tut mir sehr Leid, aber das Buch, das du gerade in Händen hältst, ist außerordentlich unerfreulich. Es erzählt die traurige Geschichte von drei sehr bedauernswerten Kindern.",
 									isbn: "3442545790",
@@ -170,6 +172,7 @@ let constants = {
 							releases: [
 								{
 									uuid: "7f5a550a-34dc-41ea-b71a-a36c625e8c05",
+									releaseName: "Initial release",
 									title: "A Series of Unfortunate Events - Book the Second",
 									description: "Dear Reader, if you have picked up this book with the hope of finding a simple and cheery tale, I'm afraid you have picked up the wrong book altogether.",
 									isbn: "9780064407670",
@@ -211,6 +214,7 @@ let constants = {
 							releases: [
 								{
 									uuid: "ffa4d644-4d2a-4a17-8d52-d2e26181d35c",
+									releaseName: "Initial release",
 									title: "Eine Reihe betrüblicher Ereignisse - Das Haus der Schlangen",
 									description: "Lieber Leser, wenn du dieses Buch zur Hand genommen hast in der Hoffnung, darin Zerstreuung und Vergnügen zu finden, dann liegst du leider völlig falsch.",
 									price: 2000,
@@ -278,6 +282,7 @@ let constants = {
 							releases: [
 								{
 									uuid: "c46d5cd6-4555-4012-aa0d-56d4d0f53fcc",
+									releaseName: "Initial release",
 									title: "Eine Reihe betrüblicher Ereignisse - Der Seufzersee",
 									description: "Lieber Leser, wenn du noch nie etwas von den Baudelaire-Kindern gehört hast, dann solltest du, bevor du auch nur eine einzige Zeile liest, Folgendes wissen: Violet, Klaus und Sunny sind nett, charmant und klug, aber ihr Leben - leider, leider - strotzt nur so vor Elend und Unheil.",
 									isbn: "3442545811",
@@ -331,6 +336,7 @@ let constants = {
 							releases: [
 								{
 									uuid: "81d40349-0d9c-4167-b87b-94432090c1de",
+									releaseName: "Initial release",
 									title: "A Series of Unfortunate Events - Book the Fourth",
 									description: "Dear Reader, I hope, for your sake, that you have not chosen to read this book because you are in the mood for a pleasant experience. If this is the case, I advise you to put this book down instantaneously, because of all the books describing the unhappy lives of the Baudelaire orphans, THE MISERABLE MILL might be the unhappiest yet.",
 									price: 3500,
@@ -385,6 +391,7 @@ let constants = {
 							releases: [
 								{
 									uuid: "4238eb86-9da3-4343-a8f0-94ea5c71130e",
+									releaseName: "Initial release",
 									title: "A Series of Unfortunate Events - Book the Fifth",
 									description: "Dear Reader, if you are looking for a story about cheerful youngsters spending a jolly time at boarding school, look elsewhere. Violet, Klaus and Sunny Baudelaire are intelligent and resourceful children, and you might expect that they would do very well at school. Don't. For the Baudelaires, school turns out to be another miserable episode in their unlucky lives.",
 									price: 0,
@@ -494,6 +501,7 @@ let constants = {
 								releases: [
 									{
 										uuid: "2e5bc1b6-747f-478b-8d6b-e94ca5c5757a",
+										releaseName: "Initial release",
 										title: "1984",
 										description: "Orwell's novel about the destruction of man by a perfect state machinery has long since become a metaphor for totalitarian conditions that no longer seems in need of explanation.",
 										price: 1000,
@@ -534,6 +542,7 @@ let constants = {
 								releases: [
 									{
 										uuid: "43708a0f-d06b-4733-850a-4bd22e5f4ac4",
+										releaseName: "Initial release",
 										title: "1984",
 										description: "Orwells Roman über die Zerstörung des Menschen durch eine perfekte Staatsmaschinerie ist längst zu einer scheinbar nicht mehr erklärungsbedürftigen Metapher für totalitäre Verhältnisse geworden.",
 										isbn: "9783548234106",
@@ -585,6 +594,7 @@ let constants = {
 								releases: [
 									{
 										uuid: "0d4307c4-5568-48b5-a266-02df2f80de6f",
+										releaseName: "Initial release",
 										title: "Animal Farm",
 										description: "Animal Farm is an allegorical novella by George Orwell, first published in England on 17 August 1945. The book tells the story of a group of farm animals who rebel against their human farmer, hoping to create a society where the animals can be equal, free, and happy.",
 										status: "published",
@@ -620,6 +630,7 @@ let constants = {
 								releases: [
 									{
 										uuid: "d425b3b5-3fad-45bb-808d-50fe797a3de0",
+										releaseName: "Initial release",
 										title: "Farm der Tiere",
 										description: "Farm der Tiere ist eine allegorische Novelle von George Orwell, die erstmals am 17. August 1945 in England veröffentlicht wurde. Das Buch erzählt die Geschichte einer Gruppe von Nutztieren, die sich gegen ihren menschlichen Bauern auflehnen, in der Hoffnung, eine Gesellschaft zu schaffen, in der die Tiere gleichberechtigt, frei und glücklich sein können.",
 										isbn: "3257201184",
@@ -644,6 +655,7 @@ let constants = {
 								releases: [
 									{
 										uuid: "d978c438-0711-439e-b12d-6549a5842851",
+										releaseName: "Initial release",
 										title: "La Ferme des animaux",
 										description: "La Ferme des animaux est un roman allégorique de George Orwell, publié pour la première fois en Angleterre le 17 août 1945. Le livre raconte l'histoire d'un groupe d'animaux de ferme qui se rebellent contre leur éleveur humain dans l'espoir de créer une société dans laquelle les animaux peuvent être égaux, libres et heureux.",
 										price: 0,
@@ -727,6 +739,7 @@ let constants = {
 								releases: [
 									{
 										uuid: "1c9dfe5e-1de0-47fc-bb42-afd258e8d414",
+										releaseName: "Initial release",
 										title: "The Life and Adventures of Robinson Crusoe",
 										description: "Robinson Crusoe is one of the most popular books ever written in the English language, published in innumerable editions and translated into almost every language of the world, not to mention the many versions created in film, television and even radio.",
 										price: 1200,
@@ -779,6 +792,7 @@ let constants = {
 								releases: [
 									{
 										uuid: "335f6812-f897-4fbe-a385-17b4425f1394",
+										releaseName: "Initial release",
 										title: "The Further Adventures of Robinson Crusoe",
 										description: "After his return from an uninhabited island, Robinson Crusoe marries and starts a family. Despite his comfortable life in England, he has an intense desire to go back to sea.",
 										price: 1200,

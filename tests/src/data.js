@@ -305,6 +305,8 @@ function addStoreBookReleaseToTableObjects(storeBookRelease, userId, storeBookUu
 		file: false,
 		properties: {
 			store_book: storeBookUuid,
+			release_name: storeBookRelease.releaseName ?? "",
+			release_notes: storeBookRelease.releaseNotes ?? "",
 			title: storeBookRelease.title,
 			description: storeBookRelease.description,
 			price: storeBookRelease.price ? storeBookRelease.price.toString() : "",

@@ -1027,6 +1027,8 @@ async function resetAuthorUserStoreBookReleases() {
 					uuid: release.uuid,
 					properties: {
 						store_book: book.uuid,
+						release_name: release.releaseName,
+						release_notes: release.releaseNotes,
 						title: release.title,
 						description: release.description,
 						price: release.price?.toString() ?? "",
@@ -1085,6 +1087,8 @@ async function resetDavUserStoreBookReleases() {
 						uuid: release.uuid,
 						properties: {
 							store_book: book.uuid,
+							release_name: release.releaseName,
+							release_notes: release.releaseNotes,
 							title: release.title,
 							description: release.description,
 							price: release.price?.toString() ?? "",
