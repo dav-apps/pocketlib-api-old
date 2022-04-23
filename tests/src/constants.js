@@ -91,6 +91,21 @@ let constants = {
 							status: "hidden",
 							releases: [
 								{
+									uuid: "bb3b1d3e-4e8a-4945-af7a-9a8cb1d30926",
+									releaseName: "Description update",
+									releaseNotes: "Add more description",
+									title: "Eine Reihe betrüblicher Ereignisse - Der schreckliche Anfang",
+									description: "Lieber Leser, es tut mir sehr Leid, aber das Buch, das du gerade in Händen hältst, ist außerordentlich unerfreulich. Es erzählt die traurige Geschichte von drei sehr bedauernswerten Kindern. Die drei sind klug, charmant und einfallsreich, aber das nützt ihnen gar nichts. Im Gegenteil: Gleich zu Beginn dieses Buches erhalten die Kinder eine schreckliche Nachricht, und auch alles, was ihnen danach passiert, strotzt nur so vor Unheil, Elend und Verzweiflung.",
+									isbn: "3442545790",
+									status: "published",
+									coverItem: "22699239-8326-4508-9b9b-07178a228bba",
+									fileItem: "e3737248-690a-4084-a5b6-5f9b56eb1f58",
+									categories: [
+										"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
+										"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
+									]
+								},
+								{
 									uuid: "fd80ef43-ecd9-4002-afc4-77f4762b49cc",
 									releaseName: "Initial release",
 									title: "Eine Reihe betrüblicher Ereignisse - Der schreckliche Anfang",
@@ -517,6 +532,19 @@ let constants = {
 								language: "en",
 								status: "published",
 								releases: [
+									{
+										uuid: "182e4691-d9b6-4d9d-854f-b097dc348035",
+										releaseName: "Price update",
+										releaseNotes: "Increase the price to 19,84 €",
+										title: "1984",
+										description: "Orwell's novel about the destruction of man by a perfect state machinery has long since become a metaphor for totalitarian conditions that no longer seems in need of explanation.",
+										price: 1984,
+										coverItem: "bac664ad-f5f4-464d-bf0f-bbf4b126e880",
+										fileItem: "b7d0dd22-4f65-4f96-83d7-bdcc3d682e7d",
+										categories: [
+											"27c78f90-934e-41e3-8738-b20f6d76f0a9"		// Dystopia
+										]
+									},
 									{
 										uuid: "2e5bc1b6-747f-478b-8d6b-e94ca5c5757a",
 										releaseName: "Initial release",
