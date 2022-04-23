@@ -34,7 +34,7 @@ for (let author of constants.davUser.authors) {
 }
 //#endregion
 
-//#region StoreBookCollections, StoreBooks, StoreBookReleases, StoreBookCoverItems, StoreBookCovers, StoreBookFileItems & StoreBookFiles
+//#region StoreBookCollections, StoreBooks, StoreBookReleases
 for (let collection of constants.authorUser.author.collections) {
 	addStoreBookCollectionToTableObjects(collection, constants.authorUser.id, constants.authorUser.author.uuid)
 
@@ -47,24 +47,6 @@ for (let collection of constants.authorUser.author.collections) {
 
 		for (let storeBookRelease of storeBook.releases) {
 			addStoreBookReleaseToTableObjects(storeBookRelease, constants.authorUser.id, storeBook.uuid)
-
-			if (storeBookRelease.coverItem) {
-				let coverItem = storeBookRelease.coverItem
-				addStoreBookCoverItemToTableObjects(coverItem, constants.authorUser.id)
-
-				if (coverItem.cover) {
-					addStoreBookCoverToTableObjects(coverItem.cover, constants.authorUser.id)
-				}
-			}
-
-			if (storeBookRelease.fileItem) {
-				let fileItem = storeBookRelease.fileItem
-				addStoreBookFileItemToTableObjects(fileItem, constants.authorUser.id)
-
-				if (fileItem.file) {
-					addStoreBookFileToTableObjects(fileItem.file, constants.authorUser.id)
-				}
-			}
 		}
 	}
 }
@@ -82,25 +64,47 @@ for (let author of constants.davUser.authors) {
 
 			for (let storeBookRelease of storeBook.releases) {
 				addStoreBookReleaseToTableObjects(storeBookRelease, constants.davUser.id, storeBook.uuid)
-
-				if (storeBookRelease.coverItem) {
-					let coverItem = storeBookRelease.coverItem
-					addStoreBookCoverItemToTableObjects(coverItem, constants.davUser.id)
-
-					if (coverItem.cover) {
-						addStoreBookCoverToTableObjects(coverItem.cover, constants.davUser.id)
-					}
-				}
-
-				if (storeBookRelease.fileItem) {
-					let fileItem = storeBookRelease.fileItem
-					addStoreBookFileItemToTableObjects(fileItem, constants.davUser.id)
-
-					if (fileItem.file) {
-						addStoreBookFileToTableObjects(fileItem.file, constants.davUser.id)
-					}
-				}
 			}
+		}
+	}
+}
+//#endregion
+
+//#region StoreBookCoverItems, StoreBookCovers
+for (let coverItem of constants.authorUser.author.coverItems) {
+	addStoreBookCoverItemToTableObjects(coverItem, constants.authorUser.id)
+
+	if (coverItem.cover) {
+		addStoreBookCoverToTableObjects(coverItem.cover, constants.authorUser.id)
+	}
+}
+
+for (let author of constants.davUser.authors) {
+	for (let coverItem of author.coverItems) {
+		addStoreBookCoverItemToTableObjects(coverItem, constants.davUser.id)
+
+		if (coverItem.cover) {
+			addStoreBookCoverToTableObjects(coverItem.cover, constants.davUser.id)
+		}
+	}
+}
+//#endregion
+
+//#region StoreBookFileItems, StoreBookFiles
+for (let fileItem of constants.authorUser.author.fileItems) {
+	addStoreBookFileItemToTableObjects(fileItem, constants.authorUser.id)
+
+	if (fileItem.file) {
+		addStoreBookFileToTableObjects(fileItem.file, constants.authorUser.id)
+	}
+}
+
+for (let author of constants.davUser.authors) {
+	for (let fileItem of author.fileItems) {
+		addStoreBookFileItemToTableObjects(fileItem, constants.davUser.id)
+
+		if (fileItem.file) {
+			addStoreBookFileToTableObjects(fileItem.file, constants.davUser.id)
 		}
 	}
 }
@@ -274,7 +278,7 @@ function addStoreBookToTableObjects(storeBook, userId, collectionUuid) {
 		properties: {
 			collection: collectionUuid,
 			language: storeBook.language,
-			status: storeBook.status ? storeBook.status : "",
+			status: storeBook.status ?? "",
 			releases: releases.join(',')
 		}
 	}
@@ -307,14 +311,14 @@ function addStoreBookReleaseToTableObjects(storeBookRelease, userId, storeBookUu
 			store_book: storeBookUuid,
 			release_name: storeBookRelease.releaseName ?? "",
 			release_notes: storeBookRelease.releaseNotes ?? "",
-			title: storeBookRelease.title,
-			description: storeBookRelease.description,
-			price: storeBookRelease.price ? storeBookRelease.price.toString() : "",
-			isbn: storeBookRelease.isbn ? storeBookRelease.isbn : "",
+			title: storeBookRelease.title ?? "",
+			description: storeBookRelease.description ?? "",
+			price: storeBookRelease.price?.toString() ?? "",
+			isbn: storeBookRelease.isbn ?? "",
 			status: storeBookRelease.status ?? "",
-			cover_item: storeBookRelease.coverItem?.uuid ?? "",
-			file_item: storeBookRelease.fileItem?.uuid ?? "",
-			categories: storeBookRelease.categories ? storeBookRelease.categories.join(',') : ""
+			cover_item: storeBookRelease.coverItem ?? "",
+			file_item: storeBookRelease.fileItem ?? "",
+			categories: storeBookRelease.categories?.join(',') ?? ""
 		}
 	}
 

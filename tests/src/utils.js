@@ -1029,13 +1029,13 @@ async function resetAuthorUserStoreBookReleases() {
 						store_book: book.uuid,
 						release_name: release.releaseName,
 						release_notes: release.releaseNotes,
-						title: release.title,
-						description: release.description,
+						title: release.title ?? "",
+						description: release.description ?? "",
 						price: release.price?.toString() ?? "",
 						isbn: release.isbn ?? "",
 						status: release.status ?? "",
-						cover_item: release.coverItem?.uuid,
-						file_item: release.fileItem?.uuid,
+						cover_item: release.coverItem ?? "",
+						file_item: release.fileItem ?? "",
 						categories: release.categories?.join(',') ?? ""
 					}
 				})
@@ -1089,13 +1089,13 @@ async function resetDavUserStoreBookReleases() {
 							store_book: book.uuid,
 							release_name: release.releaseName,
 							release_notes: release.releaseNotes,
-							title: release.title,
-							description: release.description,
+							title: release.title ?? "",
+							description: release.description ?? "",
 							price: release.price?.toString() ?? "",
 							isbn: release.isbn ?? "",
 							status: release.status ?? "",
-							cover_item: release.coverItem?.uuid,
-							file_item: release.fileItem?.uuid,
+							cover_item: release.coverItem ?? "",
+							file_item: release.fileItem ?? "",
 							categories: release.categories?.join(',') ?? ""
 						}
 					})
@@ -1136,29 +1136,22 @@ async function resetDavUserStoreBookReleases() {
 async function resetAuthorUserStoreBookCoverItems() {
 	let testDatabaseStoreBookCoverItems = []
 
-	for (let collection of constants.authorUser.author.collections) {
-		for (let book of collection.books) {
-			for (let release of book.releases) {
-				let coverItem = release.coverItem
-				if (coverItem == null) continue
+	for (let coverItem of constants.authorUser.author.coverItems) {
+		testDatabaseStoreBookCoverItems.push(coverItem)
 
-				testDatabaseStoreBookCoverItems.push(coverItem)
-
-				// Reset the cover item
-				let response = await TableObjectsController.UpdateTableObject({
-					accessToken: constants.authorUser.accessToken,
-					uuid: coverItem.uuid,
-					properties: {
-						aspect_ratio: coverItem.aspectRatio,
-						blurhash: coverItem.blurhash,
-						cover: coverItem.cover.uuid
-					}
-				})
-
-				if (!isSuccessStatusCode(response.status)) {
-					console.log("Error in resetting StoreBookCoverItem")
-				}
+		// Reset the cover item
+		let response = await TableObjectsController.UpdateTableObject({
+			accessToken: constants.authorUser.accessToken,
+			uuid: coverItem.uuid,
+			properties: {
+				aspect_ratio: coverItem.aspectRatio,
+				blurhash: coverItem.blurhash,
+				cover: coverItem.cover.uuid
 			}
+		})
+
+		if (!isSuccessStatusCode(response.status)) {
+			console.log("Error in resetting StoreBookCoverItem")
 		}
 	}
 
@@ -1208,29 +1201,22 @@ async function resetDavUserStoreBookCoverItems() {
 	let testDatabaseStoreBookCoverItems = []
 
 	for (let author of constants.davUser.authors) {
-		for (let collection of author.collections) {
-			for (let book of collection.books) {
-				for (let release of book.releases) {
-					let coverItem = release.coverItem
-					if (coverItem == null) continue
+		for (let coverItem of author.coverItems) {
+			testDatabaseStoreBookCoverItems.push(coverItem)
 
-					testDatabaseStoreBookCoverItems.push(coverItem)
-
-					// Reset the cover item
-					let response = await TableObjectsController.UpdateTableObject({
-						accessToken: constants.davUser.accessToken,
-						uuid: coverItem.uuid,
-						properties: {
-							aspect_ratio: coverItem.aspectRatio,
-							blurhash: coverItem.blurhash,
-							cover: coverItem.cover.uuid
-						}
-					})
-
-					if (!isSuccessStatusCode(response.status)) {
-						console.log("Error in resetting StoreBookCoverItem")
-					}
+			// Reset the cover item
+			let response = await TableObjectsController.UpdateTableObject({
+				accessToken: constants.davUser.accessToken,
+				uuid: coverItem.uuid,
+				properties: {
+					aspect_ratio: coverItem.aspectRatio,
+					blurhash: coverItem.blurhash,
+					cover: coverItem.cover.uuid
 				}
+			})
+
+			if (!isSuccessStatusCode(response.status)) {
+				console.log("Error in resetting StoreBookCoverItem")
 			}
 		}
 	}
@@ -1295,12 +1281,8 @@ async function resetAuthorUserStoreBookCovers() {
 	}
 
 	// Get all covers of the test database
-	for (let collection of constants.authorUser.author.collections) {
-		for (let book of collection.books) {
-			for (let release of book.releases) {
-				if (release.coverItem?.cover) testDatabaseCovers.push(release.coverItem.cover)
-			}
-		}
+	for (let coverItem of constants.authorUser.author.coverItems) {
+		if (coverItem.cover != null) testDatabaseCovers.push(coverItem.cover)
 	}
 
 	// Delete each cover that is not part of the test database
@@ -1381,12 +1363,8 @@ async function resetDavUserStoreBookCovers() {
 
 	// Get all covers of the test database
 	for (let author of constants.davUser.authors) {
-		for (let collection of author.collections) {
-			for (let book of collection.books) {
-				for (let release of book.releases) {
-					if (release.coverItem?.cover)  testDatabaseCovers.push(release.coverItem.cover)
-				}
-			}
+		for (let coverItem of author.coverItems) {
+			if (coverItem.cover != null) testDatabaseCovers.push(coverItem.cover)
 		}
 	}
 
@@ -1452,28 +1430,21 @@ async function resetDavUserStoreBookCovers() {
 async function resetAuthorUserStoreBookFileItems() {
 	let testDatabaseStoreBookFileItems = []
 
-	for (let collection of constants.authorUser.author.collections) {
-		for (let book of collection.books) {
-			for (let release of book.releases) {
-				let fileItem = release.fileItem
-				if (fileItem == null) continue
+	for (let fileItem of constants.authorUser.author.fileItems) {
+		testDatabaseStoreBookFileItems.push(fileItem)
 
-				testDatabaseStoreBookFileItems.push(fileItem)
-
-				// Reset the file item
-				let response = await TableObjectsController.UpdateTableObject({
-					accessToken: constants.authorUser.accessToken,
-					uuid: fileItem.uuid,
-					properties: {
-						file_name: fileItem.fileName,
-						file: fileItem.file.uuid
-					}
-				})
-
-				if (!isSuccessStatusCode(response.status)) {
-					console.log("Error in resetting StoreBookFileItem")
-				}
+		// Reset the file item
+		let response = await TableObjectsController.UpdateTableObject({
+			accessToken: constants.authorUser.accessToken,
+			uuid: fileItem.uuid,
+			properties: {
+				file_name: fileItem.fileName,
+				file: fileItem.file.uuid
 			}
+		})
+
+		if (!isSuccessStatusCode(response.status)) {
+			console.log("Error in resetting StoreBookFileItem")
 		}
 	}
 
@@ -1522,28 +1493,21 @@ async function resetDavUserStoreBookFileItems() {
 	let testDatabaseStoreBookFileItems = []
 
 	for (let author of constants.davUser.authors) {
-		for (let collection of author.collections) {
-			for (let book of collection.books) {
-				for (let release of book.releases) {
-					let fileItem = release.fileItem
-					if (fileItem == null) continue
-	
-					testDatabaseStoreBookFileItems.push(fileItem)
-	
-					// Reset the file item
-					let response = await TableObjectsController.UpdateTableObject({
-						accessToken: constants.davUser.accessToken,
-						uuid: fileItem.uuid,
-						properties: {
-							file_name: fileItem.fileName,
-							file: fileItem.file.uuid
-						}
-					})
-	
-					if (!isSuccessStatusCode(response.status)) {
-						console.log("Error in resetting StoreBookFileItem")
-					}
+		for (let fileItem of author.fileItems) {
+			testDatabaseStoreBookFileItems.push(fileItem)
+
+			// Reset the file item
+			let response = await TableObjectsController.UpdateTableObject({
+				accessToken: constants.davUser.accessToken,
+				uuid: fileItem.uuid,
+				properties: {
+					file_name: fileItem.fileName,
+					file: fileItem.file.uuid
 				}
+			})
+
+			if (!isSuccessStatusCode(response.status)) {
+				console.log("Error in resetting StoreBookFileItem")
 			}
 		}
 	}
@@ -1607,12 +1571,8 @@ async function resetAuthorUserStoreBookFiles() {
 	}
 
 	// Get all files of the test database
-	for (let collection of constants.authorUser.author.collections) {
-		for (let book of collection.books) {
-			for (let release of book.releases) {
-				if (release.fileItem?.file) testDatabaseFiles.push(release.fileItem.file)
-			}
-		}
+	for (let fileItem of constants.authorUser.author.fileItems) {
+		if (fileItem.file != null) testDatabaseFiles.push(fileItem.file)
 	}
 
 	// Delete each file that is not part of the test database
@@ -1693,12 +1653,8 @@ async function resetDavUserStoreBookFiles() {
 
 	// Get all files of the test database
 	for (let author of constants.davUser.authors) {
-		for (let collection of author.collections) {
-			for (let book of collection.books) {
-				for (let release of book.releases) {
-					if (release.fileItem?.file) testDatabaseFiles.push(release.fileItem.file)
-				}
-			}
+		for (let fileItem of author.fileItems) {
+			if (fileItem.file != null) testDatabaseFiles.push(fileItem.file)
 		}
 	}
 
