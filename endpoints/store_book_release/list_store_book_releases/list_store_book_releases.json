@@ -1,0 +1,6 @@
+{
+	"type": "endpoint",
+	"path": "store_book_releases",
+	"method": "GET",
+	"source": "./list_store_book_releases.dx"
+}

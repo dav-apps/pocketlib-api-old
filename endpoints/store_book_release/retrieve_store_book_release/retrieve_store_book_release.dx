@@ -24,9 +24,6 @@
 (var admins (get_env "ADMINS"))
 (var is_admin (admins.contains session.user_id))
 
-(# Get the user)
-(var user (func get_user (session.user_id)))
-
 (# Get the store book release)
 (var store_book_release (func get_table_object (uuid (get_env "STORE_BOOK_RELEASE_TABLE_ID"))))
 
@@ -100,7 +97,7 @@
 	) else (
 		(var cover_hash (hash))
 
-		(if ((fields.contains "cover") or (fields.contains "cover.url")) (var cover_hash.url (TableObject.get_cdn_url cover_item.properties.cover (hash (etag cover.properties.etag)))))
+		(if ((fields.contains "cover") or (fields.contains "cover.url")) (var cover_hash.url (TableObject.get_cdn_url cover.uuid (hash (etag cover.properties.etag)))))
 		(if ((fields.contains "cover") or (fields.contains "cover.aspect_ratio")) (var cover_hash.aspect_ratio cover_item.properties.aspect_ratio))
 		(if ((fields.contains "cover") or (fields.contains "cover.blurhash")) (var cover_hash.blurhash cover_item.properties.blurhash))
 

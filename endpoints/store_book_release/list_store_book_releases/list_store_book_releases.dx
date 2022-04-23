@@ -1,0 +1,116 @@
+(# Get the params)
+(var fields_str (get_param "fields"))
+(var store_book (get_param "store_book"))
+
+(if (is_nil fields_str) (
+	(var fields (list "type" "items.uuid"))
+) elseif (fields_str == "*") (
+	(var fields (list "type" "items.uuid" "items.store_book" "items.release_name" "items.release_notes" "items.title" "items.description" "items.isbn" "items.price" "items.status" "items.cover" "items.file" "items.categories"))
+) else (
+	(# Process the fields string)
+	(var fields (func process_fields (fields_str)))
+))
+
+(# Get the access token)
+(var access_token (get_header "Authorization"))
+(func render_validation_errors ((list
+	(func validate_auth_header_presence (access_token))
+)))
+
+(# Get the session)
+(var session (func get_session (access_token)))
+
+(# Check if the user is an admin)
+(var admins (get_env "ADMINS"))
+(var is_admin (admins.contains session.user_id))
+
+(# Get the store book)
+(var store_book (func get_table_object (store_book (get_env "STORE_BOOK_TABLE_ID"))))
+
+(if (is_nil store_book) (
+	(# StoreBook does not exist)
+	(func render_validation_errors ((list (hash (error (get_error 3508)) (status 404)))))
+))
+
+(# Check if the user is the author of the store book)
+(var is_author (session.user_id == store_book.user_id))
+
+(if ((! is_author) and (! is_admin)) (
+	(# Action not allowed)
+	(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
+))
+
+(var releases (list))
+
+(if (!(is_nil store_book.properties.releases)) (
+	(for uuid in (store_book.properties.releases.split ",") (
+		(var release (func get_table_object (uuid (get_env "STORE_BOOK_RELEASE_TABLE_ID"))))
+		(if (is_nil release) (continue))
+
+		(# Add the release to the list)
+		(var release_hash (hash))
+
+		(if (fields.contains "items.uuid") (var release_hash.uuid release.uuid))
+		(if (fields.contains "items.store_book") (var release_hash.store_book store_book.uuid))
+		(if (fields.contains "items.release_name") (var release_hash.release_name release.properties.release_name))
+		(if (fields.contains "items.release_notes") (var release_hash.release_notes release.properties.release_notes))
+		(if (fields.contains "items.title") (var release_hash.title release.properties.title))
+		(if (fields.contains "items.description") (var release_hash.description release.properties.description))
+		(if (fields.contains "items.price") (var release_hash.price (to_int release.properties.price)))
+		(if (fields.contains "items.isbn") (var release_hash.isbn release.properties.isbn))
+		(if (fields.contains "items.status") (var release_hash.status release.properties.status))
+
+		(if (
+			(fields.contains "items.cover")
+			or (fields.contains "items.cover.url")
+			or (fields.contains "items.cover.aspect_ratio")
+			or (fields.contains "items.cover.blurhash")
+		) (
+			(# Get the cover item)
+			(var cover_item (func get_table_object (release.properties.cover_item (get_env "STORE_BOOK_COVER_ITEM_TABLE_ID"))))
+
+			(if (!(is_nil cover_item)) (
+				(# Get the cover)
+				(var cover (func get_table_object (cover_item.properties.cover (get_env "STORE_BOOK_COVER_TABLE_ID"))))
+			))
+
+			(if ((is_nil cover_item) or (is_nil cover)) (
+				(var release_hash.cover nil)
+			) else (
+				(var cover_hash (hash))
+
+				(if ((fields.contains "items.cover") or (fields.contains "items.cover.url")) (var cover_hash.url (TableObject.get_cdn_url cover.uuid (hash (etag cover.properties.etag)))))
+				(if ((fields.contains "items.cover") or (fields.contains "items.cover.aspect_ratio")) (var cover_hash.aspect_ratio cover_item.properties.aspect_ratio))
+				(if ((fields.contains "items.cover") or (fields.contains "items.cover.blurhash")) (var cover_hash.blurhash cover_item.properties.blurhash))
+
+				(var release_hash.cover cover_hash)
+			))
+		))
+
+		(if (
+			(fields.contains "items.file")
+			or (fields.contains "items.file.file_name")
+		) (
+			(# Get the file item)
+			(var file_item (func get_table_object (release.properties.file_item (get_env "STORE_BOOK_FILE_ITEM_TABLE_ID"))))
+
+			(if (is_nil file_item) (
+				(var release_hash.file nil)
+			) else (
+				(var release_hash.file (hash (file_name file_item.properties.file_name)))
+			))
+		))
+
+		(if (fields.contains "items.categories") (var release_hash.categories (func get_category_keys_by_string (release.properties.categories))))
+
+		(releases.push release_hash)
+	))
+))
+
+(# Render the result)
+(var result (hash))
+
+(if (fields.contains "type") (var result.type "store_book_release"))
+(var result.items releases)
+
+(render_json result 200)
