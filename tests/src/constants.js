@@ -91,11 +91,10 @@ let constants = {
 							status: "hidden",
 							releases: [
 								{
-									uuid: "bb3b1d3e-4e8a-4945-af7a-9a8cb1d30926",
-									releaseName: "Description update",
-									releaseNotes: "Add more description",
+									uuid: "fd80ef43-ecd9-4002-afc4-77f4762b49cc",
+									releaseName: "Initial release",
 									title: "Eine Reihe betrüblicher Ereignisse - Der schreckliche Anfang",
-									description: "Lieber Leser, es tut mir sehr Leid, aber das Buch, das du gerade in Händen hältst, ist außerordentlich unerfreulich. Es erzählt die traurige Geschichte von drei sehr bedauernswerten Kindern. Die drei sind klug, charmant und einfallsreich, aber das nützt ihnen gar nichts. Im Gegenteil: Gleich zu Beginn dieses Buches erhalten die Kinder eine schreckliche Nachricht, und auch alles, was ihnen danach passiert, strotzt nur so vor Unheil, Elend und Verzweiflung.",
+									description: "Lieber Leser, es tut mir sehr Leid, aber das Buch, das du gerade in Händen hältst, ist außerordentlich unerfreulich. Es erzählt die traurige Geschichte von drei sehr bedauernswerten Kindern.",
 									isbn: "3442545790",
 									status: "published",
 									coverItem: "22699239-8326-4508-9b9b-07178a228bba",
@@ -106,10 +105,11 @@ let constants = {
 									]
 								},
 								{
-									uuid: "fd80ef43-ecd9-4002-afc4-77f4762b49cc",
-									releaseName: "Initial release",
+									uuid: "bb3b1d3e-4e8a-4945-af7a-9a8cb1d30926",
+									releaseName: "Description update",
+									releaseNotes: "Add more description",
 									title: "Eine Reihe betrüblicher Ereignisse - Der schreckliche Anfang",
-									description: "Lieber Leser, es tut mir sehr Leid, aber das Buch, das du gerade in Händen hältst, ist außerordentlich unerfreulich. Es erzählt die traurige Geschichte von drei sehr bedauernswerten Kindern.",
+									description: "Lieber Leser, es tut mir sehr Leid, aber das Buch, das du gerade in Händen hältst, ist außerordentlich unerfreulich. Es erzählt die traurige Geschichte von drei sehr bedauernswerten Kindern. Die drei sind klug, charmant und einfallsreich, aber das nützt ihnen gar nichts. Im Gegenteil: Gleich zu Beginn dieses Buches erhalten die Kinder eine schreckliche Nachricht, und auch alles, was ihnen danach passiert, strotzt nur so vor Unheil, Elend und Verzweiflung.",
 									isbn: "3442545790",
 									status: "published",
 									coverItem: "22699239-8326-4508-9b9b-07178a228bba",
@@ -533,12 +533,12 @@ let constants = {
 								status: "published",
 								releases: [
 									{
-										uuid: "182e4691-d9b6-4d9d-854f-b097dc348035",
-										releaseName: "Price update",
-										releaseNotes: "Increase the price to 19,84 €",
+										uuid: "2e5bc1b6-747f-478b-8d6b-e94ca5c5757a",
+										releaseName: "Initial release",
 										title: "1984",
 										description: "Orwell's novel about the destruction of man by a perfect state machinery has long since become a metaphor for totalitarian conditions that no longer seems in need of explanation.",
-										price: 1984,
+										price: 1000,
+										status: "published",
 										coverItem: "bac664ad-f5f4-464d-bf0f-bbf4b126e880",
 										fileItem: "b7d0dd22-4f65-4f96-83d7-bdcc3d682e7d",
 										categories: [
@@ -546,12 +546,12 @@ let constants = {
 										]
 									},
 									{
-										uuid: "2e5bc1b6-747f-478b-8d6b-e94ca5c5757a",
-										releaseName: "Initial release",
+										uuid: "182e4691-d9b6-4d9d-854f-b097dc348035",
+										releaseName: "Price update",
+										releaseNotes: "Increase the price to 19,84 €",
 										title: "1984",
 										description: "Orwell's novel about the destruction of man by a perfect state machinery has long since become a metaphor for totalitarian conditions that no longer seems in need of explanation.",
-										price: 1000,
-										status: "published",
+										price: 1984,
 										coverItem: "bac664ad-f5f4-464d-bf0f-bbf4b126e880",
 										fileItem: "b7d0dd22-4f65-4f96-83d7-bdcc3d682e7d",
 										categories: [
@@ -809,6 +809,21 @@ let constants = {
 										categories: [
 											"76dd74fa-0fb3-4d80-8c0a-6d6a803383a7"		// Adventure
 										]
+									},
+									{
+										uuid: "db5e6175-6dd0-4a6f-9142-fa1b3778a3a8",
+										releaseName: "Update chategories",
+										releaseNotes: "Add fiction category",
+										title: "The Life and Adventures of Robinson Crusoe",
+										description: "Robinson Crusoe is one of the most popular books ever written in the English language, published in innumerable editions and translated into almost every language of the world, not to mention the many versions created in film, television and even radio.",
+										price: 1200,
+										status: "published",
+										coverItem: "87c20601-bf63-423e-afa7-008a97e397d5",
+										fileItem: "ac91cf62-3013-43b2-ae4b-1829c6aa0c1c",
+										categories: [
+											"8c98e8cb-33a5-460e-8c33-3fa335e11c81",	// Fiction
+											"76dd74fa-0fb3-4d80-8c0a-6d6a803383a7"		// Adventure
+										]
 									}
 								]
 							}
@@ -936,6 +951,22 @@ let constants = {
 		]
 	},
 	categories: [
+		{
+			uuid: "8c98e8cb-33a5-460e-8c33-3fa335e11c81",
+			key: "fiction",
+			names: [
+				{
+					uuid: "bd426ce4-4176-4e5f-8acd-6ed8bdb5d14a",
+					name: "Fiction",
+					language: "en"
+				},
+				{
+					uuid: "71f2f75a-77a3-4578-be08-d867a3bbd5a1",
+					name: "Fiktion",
+					language: "de"
+				}
+			]
+		},
 		{
 			uuid: "0d29f1a8-e181-448c-81d1-5000b167cb16",
 			key: "childrens",

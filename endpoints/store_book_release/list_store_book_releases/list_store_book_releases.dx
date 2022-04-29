@@ -43,7 +43,10 @@
 (var releases (list))
 
 (if (!(is_nil store_book.properties.releases)) (
-	(for uuid in (store_book.properties.releases.split ",") (
+	(var release_uuids (store_book.properties.releases.split ","))
+	(var release_uuids release_uuids.reverse)
+
+	(for uuid in release_uuids (
 		(var release (func get_table_object (uuid (get_env "STORE_BOOK_RELEASE_TABLE_ID"))))
 		(if (is_nil release) (continue))
 
