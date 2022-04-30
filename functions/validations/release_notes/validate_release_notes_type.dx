@@ -1,0 +1,4 @@
+(# params: release_notes: string)
+(if (release_notes.class != "String") (
+	(hash (error (get_error 2224)) (status 400))
+))

@@ -78,6 +78,11 @@
 			"params": ["currency"],
 			"source": "./currency/validate_currency_presence.dx"
 		},
+		{
+			"name": "validate_release_name_presence",
+			"params": ["release_name"],
+			"source": "./release_name/validate_release_name_presence.dx"
+		},
 
 		{
 			"name": "validate_first_name_type",
@@ -189,6 +194,16 @@
 			"params": ["store_books"],
 			"source": "./store_books/validate_store_books_type.dx"
 		},
+		{
+			"name": "validate_release_name_type",
+			"params": ["release_name"],
+			"source": "./release_name/validate_release_name_type.dx"
+		},
+		{
+			"name": "validate_release_notes_type",
+			"params": ["release_notes"],
+			"source": "./release_notes/validate_release_notes_type.dx"
+		},
 
 		{
 			"name": "validate_first_name_length",
@@ -224,6 +239,16 @@
 			"name": "validate_key_length",
 			"params": ["key"],
 			"source": "./key/validate_key_length.dx"
+		},
+		{
+			"name": "validate_release_name_length",
+			"params": ["release_name"],
+			"source": "./release_name/validate_release_name_length.dx"
+		},
+		{
+			"name": "validate_release_notes_length",
+			"params": ["release_notes"],
+			"source": "./release_notes/validate_release_notes_length.dx"
 		},
 
 		{

@@ -22,6 +22,7 @@
 		{"code": 2108, "message": "Missing field: key"},
 		{"code": 2109, "message": "Missing field: store_book"},
 		{"code": 2110, "message": "Missing field: currency"},
+		{"code": 2111, "message": "Missing field: release_name"},
 
 		{"code": 2200, "message": "Field has wrong type: first_name"},
 		{"code": 2201, "message": "Field has wrong type: last_name"},
@@ -45,6 +46,8 @@
 		{"code": 2219, "message": "Field has wrong type: store_book"},
 		{"code": 2220, "message": "Field has wrong type: currency"},
 		{"code": 2222, "message": "Field has wrong type: store_books"},
+		{"code": 2223, "message": "Field has wrong type: release_name"},
+		{"code": 2224, "message": "Field has wrong type: release_notes"},
 
 		{"code": 2300, "message": "Field too short: first_name"},
 		{"code": 2301, "message": "Field too short: last_name"},
@@ -53,6 +56,8 @@
 		{"code": 2304, "message": "Field too short: title"},
 		{"code": 2305, "message": "Field too short: description"},
 		{"code": 2306, "message": "Field too short: key"},
+		{"code": 2307, "message": "Field too short: release_name"},
+		{"code": 2308, "message": "Field too short: release_notes"},
 
 		{"code": 2400, "message": "Field too long: first_name"},
 		{"code": 2401, "message": "Field too long: last_name"},
@@ -61,6 +66,8 @@
 		{"code": 2404, "message": "Field too long: title"},
 		{"code": 2405, "message": "Field too long: description"},
 		{"code": 2406, "message": "Field too long: key"},
+		{"code": 2407, "message": "Field too long: release_name"},
+		{"code": 2408, "message": "Field too long: release_notes"},
 
 		{"code": 2500, "message": "Field invalid: website_url"},
 		{"code": 2501, "message": "Field invalid: facebook_username"},
@@ -86,6 +93,7 @@
 		{"code": 3013, "message": "The user is an admin"},
 		{"code": 3014, "message": "The user is not an admin"},
 		{"code": 3015, "message": "Language of StoreBook does not match language of StoreBookSeries"},
+		{"code": 3016, "message": "StoreBookRelease is already published"},
 
 		{"code": 3100, "message": "Can't use old access token"},
 		{"code": 3101, "message": "Access token must be renewed"},
