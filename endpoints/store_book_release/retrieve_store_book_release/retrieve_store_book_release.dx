@@ -5,7 +5,7 @@
 (if (is_nil fields_str) (
 	(var fields (list "uuid"))
 ) elseif (fields_str == "*") (
-	(var fields (list "uuid" "store_book" "release_name" "release_notes" "title" "description" "isbn" "price" "status" "cover" "file" "categories"))
+	(var fields (list "uuid" "store_book" "release_name" "release_notes" "published_at" "title" "description" "isbn" "price" "status" "cover" "file" "categories"))
 ) else (
 	(# Process the fields string)
 	(var fields (func process_fields (fields_str)))
@@ -40,16 +40,6 @@
 	(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
 ))
 
-(if (fields.contains "store_book") (
-	(# Get the store book)
-	(var store_book (func get_table_object (store_book_release.properties.store_book (get_env "STORE_BOOK_TABLE_ID"))))
-
-	(if (is_nil store_book) (
-		(# StoreBook does not exist)
-		(func render_validation_errors ((list (hash (error (get_error 3508)) (status 404)))))
-	))
-))
-
 (if (
 	(fields.contains "cover")
 	or (fields.contains "cover.url")
@@ -77,9 +67,10 @@
 (var result (hash))
 
 (if (fields.contains "uuid") (var result.uuid store_book_release.uuid))
-(if (fields.contains "store_book") (var result.store_book store_book.uuid))
+(if (fields.contains "store_book") (var result.store_book store_book_release.properties.store_book))
 (if (fields.contains "release_name") (var result.release_name store_book_release.properties.release_name))
 (if (fields.contains "release_notes") (var result.release_notes store_book_release.properties.release_notes))
+(if (fields.contains "published_at") (var result.published_at (if (is_nil store_book_release.properties.published_at) nil else (to_int store_book_release.properties.published_at))))
 (if (fields.contains "title") (var result.title store_book_release.properties.title))
 (if (fields.contains "description") (var result.description store_book_release.properties.description))
 (if (fields.contains "price") (var result.price (to_int store_book_release.properties.price)))

@@ -5,7 +5,7 @@
 (if (is_nil fields_str) (
 	(var fields (list "type" "items.uuid"))
 ) elseif (fields_str == "*") (
-	(var fields (list "type" "items.uuid" "items.store_book" "items.release_name" "items.release_notes" "items.title" "items.description" "items.isbn" "items.price" "items.status" "items.cover" "items.file" "items.categories"))
+	(var fields (list "type" "items.uuid" "items.store_book" "items.release_name" "items.release_notes" "items.published_at" "items.title" "items.description" "items.isbn" "items.price" "items.status" "items.cover" "items.file" "items.categories"))
 ) else (
 	(# Process the fields string)
 	(var fields (func process_fields (fields_str)))
@@ -57,6 +57,7 @@
 		(if (fields.contains "items.store_book") (var release_hash.store_book store_book.uuid))
 		(if (fields.contains "items.release_name") (var release_hash.release_name release.properties.release_name))
 		(if (fields.contains "items.release_notes") (var release_hash.release_notes release.properties.release_notes))
+		(if (fields.contains "items.published_at") (var release_hash.published_at (if (is_nil release.properties.published_at) nil else (to_int release.properties.published_at))))
 		(if (fields.contains "items.title") (var release_hash.title release.properties.title))
 		(if (fields.contains "items.description") (var release_hash.description release.properties.description))
 		(if (fields.contains "items.price") (var release_hash.price (to_int release.properties.price)))
