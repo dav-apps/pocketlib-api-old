@@ -120,11 +120,12 @@ describe("ListStoreBookReleases endpoint", () => {
 			}
 
 			assert.isNotNull(release)
-			assert.equal(Object.keys(responseRelease).length, 12)
+			assert.equal(Object.keys(responseRelease).length, 13)
 			assert.equal(responseRelease.uuid, release.uuid)
 			assert.equal(responseRelease.store_book, storeBook.uuid)
 			assert.equal(responseRelease.release_name, release.releaseName)
 			assert.equal(responseRelease.release_notes, release.releaseNotes)
+			assert.equal(responseRelease.published_at, release.publishedAt)
 			assert.equal(responseRelease.title, release.title)
 			assert.equal(responseRelease.description, release.description)
 			assert.equal(responseRelease.price, release.price ?? 0)
@@ -183,11 +184,12 @@ describe("ListStoreBookReleases endpoint", () => {
 			}
 
 			assert.isNotNull(release)
-			assert.equal(Object.keys(responseRelease).length, 12)
+			assert.equal(Object.keys(responseRelease).length, 13)
 			assert.equal(responseRelease.uuid, release.uuid)
 			assert.equal(responseRelease.store_book, storeBook.uuid)
 			assert.equal(responseRelease.release_name, release.releaseName)
 			assert.equal(responseRelease.release_notes, release.releaseNotes)
+			assert.equal(responseRelease.published_at, release.publishedAt)
 			assert.equal(responseRelease.title, release.title)
 			assert.equal(responseRelease.description, release.description)
 			assert.equal(responseRelease.price, release.price ?? 0)

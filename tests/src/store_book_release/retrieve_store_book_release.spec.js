@@ -83,6 +83,8 @@ describe("RetrieveStoreBookRelease endpoint", () => {
 	it("should return store book release", async () => {
 		let storeBook = constants.authorUser.author.collections[0].books[0]
 		let release = storeBook.releases[0]
+		let coverItem = constants.authorUser.author.coverItems.find(c => c.uuid == release.coverItem)
+		let fileItem = constants.authorUser.author.fileItems.find(f => f.uuid == release.fileItem)
 		let response
 
 		try {
@@ -101,20 +103,21 @@ describe("RetrieveStoreBookRelease endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 12)
+		assert.equal(Object.keys(response.data).length, 13)
 		assert.equal(response.data.uuid, release.uuid)
 		assert.equal(response.data.store_book, storeBook.uuid)
 		assert.equal(response.data.release_name, release.releaseName)
 		assert.equal(response.data.release_notes, release.releaseNotes)
+		assert.equal(response.data.published_at, release.publishedAt)
 		assert.equal(response.data.title, release.title)
 		assert.equal(response.data.description, release.description)
 		assert.equal(response.data.price, release.price ?? 0)
 		assert.equal(response.data.isbn, release.isbn)
 		assert.equal(response.data.status, release.status)
 		if (response.data.cover) assert.isNotNull(response.data.cover.url)
-		assert.equal(response.data.cover?.aspect_ratio, release.coverItem?.aspectRatio)
-		assert.equal(response.data.cover?.blurhash, release.coverItem?.blurhash)
-		assert.equal(response.data.file?.file_name, release.fileItem?.fileName)
+		assert.equal(response.data.cover?.aspect_ratio, coverItem?.aspectRatio)
+		assert.equal(response.data.cover?.blurhash, coverItem?.blurhash)
+		assert.equal(response.data.file?.file_name, fileItem?.fileName)
 
 		if (release.categories) {
 			assert.equal(response.data.categories.length, release.categories.length)
@@ -130,6 +133,8 @@ describe("RetrieveStoreBookRelease endpoint", () => {
 	it("should return store book release of admin", async () => {
 		let storeBook = constants.davUser.authors[2].collections[0].books[0]
 		let release = storeBook.releases[0]
+		let coverItem = constants.davUser.authors[2].coverItems.find(c => c.uuid == release.coverItem)
+		let fileItem = constants.davUser.authors[2].fileItems.find(f => f.uuid == release.fileItem)
 		let response
 
 		try {
@@ -148,20 +153,21 @@ describe("RetrieveStoreBookRelease endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 12)
+		assert.equal(Object.keys(response.data).length, 13)
 		assert.equal(response.data.uuid, release.uuid)
 		assert.equal(response.data.store_book, storeBook.uuid)
 		assert.equal(response.data.release_name, release.releaseName)
 		assert.equal(response.data.release_notes, release.releaseNotes)
+		assert.equal(response.data.published_at, release.publishedAt)
 		assert.equal(response.data.title, release.title)
 		assert.equal(response.data.description, release.description)
 		assert.equal(response.data.price, release.price ?? 0)
 		assert.equal(response.data.isbn, release.isbn)
 		assert.equal(response.data.status, release.status)
 		if (response.data.cover) assert.isNotNull(response.data.cover.url)
-		assert.equal(response.data.cover?.aspect_ratio, release.coverItem?.aspectRatio)
-		assert.equal(response.data.cover?.blurhash, release.coverItem?.blurhash)
-		assert.equal(response.data.file?.file_name, release.fileItem?.fileName)
+		assert.equal(response.data.cover?.aspect_ratio, coverItem?.aspectRatio)
+		assert.equal(response.data.cover?.blurhash, coverItem?.blurhash)
+		assert.equal(response.data.file?.file_name, fileItem?.fileName)
 
 		if (release.categories) {
 			assert.equal(response.data.categories.length, release.categories.length)
