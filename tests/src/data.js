@@ -347,6 +347,7 @@ function addStoreBookCoverToTableObjects(storeBookCover, userId) {
 		tableId: constants.storeBookCoverTableId,
 		file: true,
 		properties: {
+			etag: storeBookCover.etag,
 			ext: storeBookCover.ext,
 			type: storeBookCover.type
 		}
@@ -373,6 +374,7 @@ function addStoreBookFileToTableObjects(storeBookFile, userId) {
 		tableId: constants.storeBookFileTableId,
 		file: true,
 		properties: {
+			etag: storeBookFile.etag,
 			ext: storeBookFile.ext,
 			type: storeBookFile.type
 		}

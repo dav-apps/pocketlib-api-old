@@ -109,6 +109,7 @@ let constants = {
 									uuid: "bb3b1d3e-4e8a-4945-af7a-9a8cb1d30926",
 									releaseName: "Description update",
 									releaseNotes: "Add more description",
+									publishedAt: 1650149462,
 									title: "Eine Reihe betrüblicher Ereignisse - Der schreckliche Anfang",
 									description: "Lieber Leser, es tut mir sehr Leid, aber das Buch, das du gerade in Händen hältst, ist außerordentlich unerfreulich. Es erzählt die traurige Geschichte von drei sehr bedauernswerten Kindern. Die drei sind klug, charmant und einfallsreich, aber das nützt ihnen gar nichts. Im Gegenteil: Gleich zu Beginn dieses Buches erhalten die Kinder eine schreckliche Nachricht, und auch alles, was ihnen danach passiert, strotzt nur so vor Unheil, Elend und Verzweiflung.",
 									isbn: "3442545790",
@@ -256,6 +257,19 @@ let constants = {
 									price: 3500,
 									isbn: "9780064407694",
 									status: "published",
+									coverItem: "78182c23-faa0-4950-9011-e0a0d724fa4a",
+									fileItem: "47027837-ac77-4d30-8117-04e638e7d176",
+									categories: [
+										"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
+										"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
+									]
+								},
+								{
+									uuid: "27092d24-764d-44b1-967a-68f0a5f51254",
+									title: "A Series of Unfortunate Events - Book the Fourth",
+									description: "Dear Reader, I hope, for your sake, that you have not chosen to read this book because you are in the mood for a pleasant experience. If this is the case, I advise you to put this book down instantaneously, because of all the books describing the unhappy lives of the Baudelaire orphans, THE MISERABLE MILL might be the unhappiest yet. Violet, Klaus, and Sunny Baudelaire are sent to Paltryville to work in a lumbermill, and they find disaster and misfortune lurking behind every log.",
+									price: 3500,
+									isbn: "9780064407694",
 									coverItem: "78182c23-faa0-4950-9011-e0a0d724fa4a",
 									fileItem: "47027837-ac77-4d30-8117-04e638e7d176",
 									categories: [
@@ -553,8 +567,6 @@ let constants = {
 									},
 									{
 										uuid: "182e4691-d9b6-4d9d-854f-b097dc348035",
-										releaseName: "Price update",
-										releaseNotes: "Increase the price to 19,84 €",
 										title: "1984",
 										description: "Orwell's novel about the destruction of man by a perfect state machinery has long since become a metaphor for totalitarian conditions that no longer seems in need of explanation.",
 										price: 1984,

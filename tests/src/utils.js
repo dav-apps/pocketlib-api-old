@@ -1027,12 +1027,12 @@ async function resetAuthorUserStoreBookReleases() {
 					uuid: release.uuid,
 					properties: {
 						store_book: book.uuid,
-						release_name: release.releaseName,
-						release_notes: release.releaseNotes,
+						release_name: release.releaseName ?? "",
+						release_notes: release.releaseNotes ?? "",
 						published_at: release.publishedAt ?? "",
 						title: release.title ?? "",
 						description: release.description ?? "",
-						price: release.price?.toString() ?? "",
+						price: release.price ?? "",
 						isbn: release.isbn ?? "",
 						status: release.status ?? "",
 						cover_item: release.coverItem ?? "",
@@ -1088,12 +1088,12 @@ async function resetDavUserStoreBookReleases() {
 						uuid: release.uuid,
 						properties: {
 							store_book: book.uuid,
-							release_name: release.releaseName,
-							release_notes: release.releaseNotes,
+							release_name: release.releaseName ?? "",
+							release_notes: release.releaseNotes ?? "",
 							published_at: release.publishedAt ?? "",
 							title: release.title ?? "",
 							description: release.description ?? "",
-							price: release.price?.toString() ?? "",
+							price: release.price ?? "",
 							isbn: release.isbn ?? "",
 							status: release.status ?? "",
 							cover_item: release.coverItem ?? "",
@@ -1317,7 +1317,7 @@ async function resetAuthorUserStoreBookCovers() {
 				accessToken: constants.authorUser.accessToken,
 				uuid: cover.uuid,
 				properties: {
-					ext: cover.ext
+					ext: cover.ext,
 				}
 			})
 
