@@ -43,7 +43,6 @@
 ))
 
 (var releases (store_book.properties.releases.split ","))
-(var releases releases.reverse)
 (var latest_release (func get_table_object ((releases.pop) (get_env "STORE_BOOK_RELEASE_TABLE_ID"))))
 
 (if (is_nil latest_release) (
