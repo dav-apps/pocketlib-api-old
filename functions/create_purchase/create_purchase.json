@@ -1,6 +1,0 @@
-{
-	"type": "function",
-	"name": "create_purchase",
-	"params": ["user_id", "provider_name", "provider_image", "product_name", "product_image", "price", "currency", "table_objects"],
-	"source": "./create_purchase.dx"
-}

@@ -74,11 +74,6 @@
 			"source": "./store_book/validate_store_book_presence.dx"
 		},
 		{
-			"name": "validate_currency_presence",
-			"params": ["currency"],
-			"source": "./currency/validate_currency_presence.dx"
-		},
-		{
 			"name": "validate_release_name_presence",
 			"params": ["release_name"],
 			"source": "./release_name/validate_release_name_presence.dx"
@@ -183,11 +178,6 @@
 			"name": "validate_store_book_type",
 			"params": ["store_book"],
 			"source": "./store_book/validate_store_book_type.dx"
-		},
-		{
-			"name": "validate_currency_type",
-			"params": ["currency"],
-			"source": "./currency/validate_currency_type.dx"
 		},
 		{
 			"name": "validate_store_books_type",

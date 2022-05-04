@@ -1,7 +1,0 @@
-(# params: user_id: int)
-(catch (
-	(User.is_provider user_id)
-) (
-	(# User does not exist)
-	(func render_validation_errors ((list (hash (error (get_error 3500)) (status 404)))))
-))

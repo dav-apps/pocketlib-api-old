@@ -1,4 +1,0 @@
-(# params: currency: string)
-(if (is_nil currency) (
-	(hash (error (get_error 2110)) (status 400))
-))

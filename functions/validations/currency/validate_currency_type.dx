@@ -1,4 +1,0 @@
-(# params: currency: string)
-(if (currency.class != "String") (
-	(hash (error (get_error 2220)) (status 400))
-))

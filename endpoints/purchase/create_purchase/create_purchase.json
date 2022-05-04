@@ -1,6 +1,0 @@
-{
-	"type": "endpoint",
-	"path": "purchases",
-	"method": "POST",
-	"source": "./create_purchase.dx"
-}

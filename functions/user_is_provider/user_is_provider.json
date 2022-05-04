@@ -1,6 +1,0 @@
-{
-	"type": "function",
-	"name": "user_is_provider",
-	"params": ["user_id"],
-	"source": "./user_is_provider.dx"
-}
