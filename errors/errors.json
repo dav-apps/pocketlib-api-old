@@ -17,7 +17,6 @@
 		{"code": 2103, "message": "Missing field: bio"},
 		{"code": 2104, "message": "Missing field: language"},
 		{"code": 2105, "message": "Missing field: author"},
-		{"code": 2106, "message": "Missing field: collection"},
 		{"code": 2107, "message": "Missing field: title"},
 		{"code": 2108, "message": "Missing field: key"},
 		{"code": 2109, "message": "Missing field: store_book"},

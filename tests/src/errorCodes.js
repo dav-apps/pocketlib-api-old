@@ -18,7 +18,6 @@ export const NameMissing = 2102
 export const BioMissing = 2103
 export const LanguageMissing = 2104
 export const AuthorMissing = 2105
-export const CollectionMissing = 2106
 export const TitleMissing = 2107
 export const KeyMissing = 2108
 export const StoreBookMissing = 2109

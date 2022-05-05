@@ -1,7 +1,0 @@
-(# params: uuid: string)
-(catch (
-	(TableObject.get_file uuid)
-) (
-	(# Access not allowed)
-	(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
-))

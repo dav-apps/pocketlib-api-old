@@ -130,7 +130,7 @@
 	))
 
 	(# Check if the collection already has a name for the given language)
-	(var names (func get_collection_names_by_string_as_hash (collection_obj.properties.names)))
+	(var names (func get_collection_names_as_hash (collection_obj.properties.names)))
 
 	(if (is_nil names[language]) (
 		(# Create the name for the language)

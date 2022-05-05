@@ -1,6 +1,0 @@
-{
-	"type": "function",
-	"name": "add_name_to_series",
-	"params": ["series", "uuid"],
-	"source": "./add_name_to_series.dx"
-}

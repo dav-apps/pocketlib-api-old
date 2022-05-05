@@ -1,6 +1,0 @@
-{
-	"type": "function",
-	"name": "get_table_object_file",
-	"params": ["uuid"],
-	"source": "./get_table_object_file.dx"
-}

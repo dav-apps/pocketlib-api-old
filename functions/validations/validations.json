@@ -54,11 +54,6 @@
 			"source": "./author/validate_author_presence.dx"
 		},
 		{
-			"name": "validate_collection_presence",
-			"params": ["collection"],
-			"source": "./collection/validate_collection_presence.dx"
-		},
-		{
 			"name": "validate_title_presence",
 			"params": ["title"],
 			"source": "./title/validate_title_presence.dx"

@@ -1,6 +1,0 @@
-{
-	"type": "function",
-	"name": "get_collection_names_by_string_as_hash",
-	"params": ["collection_names_string"],
-	"source": "./get_collection_names_by_string_as_hash.dx"
-}

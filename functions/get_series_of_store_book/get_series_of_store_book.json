@@ -1,6 +1,0 @@
-{
-	"type": "function",
-	"name": "get_series_of_store_book",
-	"params": ["store_book"],
-	"source": "./get_series_of_store_book.dx"
-}

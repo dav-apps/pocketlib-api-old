@@ -1,6 +1,0 @@
-{
-	"type": "function",
-	"name": "get_series_by_string",
-	"params": ["series_string"],
-	"source": "./get_series_by_string.dx"
-}
