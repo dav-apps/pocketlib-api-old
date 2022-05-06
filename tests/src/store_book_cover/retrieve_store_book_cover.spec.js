@@ -1,6 +1,7 @@
 import chai from 'chai'
 const assert = chai.assert
 import axios from 'axios'
+import { findCoverItem } from '../utils.js'
 import constants from '../constants.js'
 import * as ErrorCodes from '../errorCodes.js'
 
@@ -69,7 +70,7 @@ describe("RetrieveStoreBookCover endpoint", () => {
 async function testShouldReturnCover(storeBook) {
 	let response
 	let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
-	let coverItem = storeBookRelease.coverItem
+	let coverItem = findCoverItem(storeBookRelease.coverItem)
 
 	try {
 		response = await axios({

@@ -8,6 +8,7 @@ import fs from 'fs'
 import { TableObjectsController } from 'dav-js'
 import constants from '../constants.js'
 import * as utils from '../utils.js'
+import { findCoverItem } from '../utils.js'
 import * as ErrorCodes from '../errorCodes.js'
 
 const uploadStoreBookCoverEndpointUrl = `${constants.apiBaseUrl}/store_books/{0}/cover`
@@ -182,7 +183,7 @@ describe("UploadStoreBookCover endpoint", () => {
 		resetStoreBookReleases = true
 		resetStoreBookCoverItems = true
 		resetStoreBookCovers = true
-		await testCreateNewRelease(constants.davUser.authors[0].collections[0].books[0], constants.davUser.accessToken)
+		await testCreateNewRelease(constants.davUser.authors[0].collections[1].books[2], constants.davUser.accessToken)
 	})
 
 	it("should set store book cover for hidden store book of admin by creating new release", async () => {
@@ -354,7 +355,7 @@ describe("UploadStoreBookCover endpoint", () => {
 		assert.isNotNull(coverItemUuid)
 
 		if (storeBook.releases[0].coverItem) {
-			assert.equal(coverItemUuid, storeBook.releases[0].coverItem.uuid)
+			assert.equal(coverItemUuid, storeBook.releases[0].coverItem)
 		}
 
 		// Get the cover item
@@ -371,7 +372,9 @@ describe("UploadStoreBookCover endpoint", () => {
 		let coverUuid = coverItemResponse.data.tableObject.GetPropertyValue("cover")
 
 		if (storeBook.releases[0].coverItem) {
-			assert.equal(storeBook.releases[0].coverItem.cover.uuid, coverUuid)
+			let coverItem = findCoverItem(storeBook.releases[0].coverItem)
+			assert.isNotNull(coverItem)
+			assert.equal(coverItem.cover.uuid, coverUuid)
 		}
 
 		// Get the cover
