@@ -1,6 +1,7 @@
 import chai from 'chai'
 const assert = chai.assert
 import axios from 'axios'
+import { findCoverItem, findFileItem, findLastPublishedRelease } from '../utils.js'
 import constants from '../constants.js'
 import * as ErrorCodes from '../errorCodes.js'
 
@@ -2518,47 +2519,5 @@ describe("ListStoreBooks endpoint", async () => {
 
 	function userHasPurchasedBook(user, storeBookUuid) {
 		return constants.purchases.find(p => p.userId == user.id && p.tableObjects.includes(storeBookUuid)) != null
-	}
-
-	function findCoverItem(uuid) {
-		let coverItem = constants.authorUser.author.coverItems.find(ci => ci.uuid == uuid)
-		if (coverItem) return coverItem
-
-		for (let author of constants.davUser.authors) {
-			coverItem = author.coverItems.find(ci => ci.uuid == uuid)
-			if (coverItem) return coverItem
-		}
-
-		return null
-	}
-
-	function findFileItem(uuid) {
-		let fileItem = constants.authorUser.author.fileItems.find(fi => fi.uuid == uuid)
-		if (fileItem) return fileItem
-
-		for (let author of constants.davUser.authors) {
-			fileItem = author.fileItems.find(fi => fi.uuid == uuid)
-			if (fileItem) return fileItem
-		}
-
-		return null
-	}
-
-	function findLastPublishedRelease(releases) {
-		let releasesCopy = []
-
-		for (let release of releases) {
-			releasesCopy.push(release)
-		}
-
-		while (releasesCopy.length > 0) {
-			let release = releasesCopy.pop()
-
-			if (release.status == "published") {
-				return release
-			}
-		}
-
-		return null
 	}
 })

@@ -2036,3 +2036,45 @@ async function resetCollection(name, tableId) {
 		console.log(response.errors)
 	}
 }
+
+export function findCoverItem(uuid) {
+	let coverItem = constants.authorUser.author.coverItems.find(ci => ci.uuid == uuid)
+	if (coverItem) return coverItem
+
+	for (let author of constants.davUser.authors) {
+		coverItem = author.coverItems.find(ci => ci.uuid == uuid)
+		if (coverItem) return coverItem
+	}
+
+	return null
+}
+
+export function findFileItem(uuid) {
+	let fileItem = constants.authorUser.author.fileItems.find(fi => fi.uuid == uuid)
+	if (fileItem) return fileItem
+
+	for (let author of constants.davUser.authors) {
+		fileItem = author.fileItems.find(fi => fi.uuid == uuid)
+		if (fileItem) return fileItem
+	}
+
+	return null
+}
+
+export function findLastPublishedRelease(releases) {
+	let releasesCopy = []
+
+	for (let release of releases) {
+		releasesCopy.push(release)
+	}
+
+	while (releasesCopy.length > 0) {
+		let release = releasesCopy.pop()
+
+		if (release.status == "published") {
+			return release
+		}
+	}
+
+	return null
+}
