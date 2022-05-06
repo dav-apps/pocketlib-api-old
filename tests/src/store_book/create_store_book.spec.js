@@ -333,9 +333,8 @@ describe("CreateStoreBook endpoint", () => {
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 400)
-			assert.equal(error.response.data.errors.length, 2)
+			assert.equal(error.response.data.errors.length, 1)
 			assert.equal(error.response.data.errors[0].code, ErrorCodes.TitleTooShort)
-			assert.equal(error.response.data.errors[1].code, ErrorCodes.DescriptionTooShort)
 			return
 		}
 

@@ -220,29 +220,6 @@ describe("SetBioOfAuthor endpoint", () => {
 		assert.fail()
 	})
 
-	it("should not set bio with too short properties", async () => {
-		try {
-			await axios({
-				method: 'put',
-				url: setAuthorBioEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid).replace('{1}', "en"),
-				headers: {
-					Authorization: constants.davUser.accessToken,
-					'Content-Type': 'application/json'
-				},
-				data: {
-					bio: "a"
-				}
-			})
-		} catch (error) {
-			assert.equal(error.response.status, 400)
-			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.BioTooShort)
-			return
-		}
-
-		assert.fail()
-	})
-
 	it("should not set bio with too long properties", async () => {
 		try {
 			await axios({
