@@ -8,6 +8,7 @@ import fs from 'fs'
 import { TableObjectsController } from 'dav-js'
 import constants from '../constants.js'
 import * as utils from '../utils.js'
+import { findFileItem } from '../utils.js'
 import * as ErrorCodes from '../errorCodes.js'
 
 const uploadStoreBookFileEndpointUrl = `${constants.apiBaseUrl}/store_books/{0}/file`
@@ -182,7 +183,7 @@ describe("UploadStoreBookFile endpoint", () => {
 		resetStoreBookReleases = true
 		resetStoreBookFileItems = true
 		resetStoreBookFiles = true
-		await testCreateNewRelease(constants.davUser.authors[0].collections[0].books[0], constants.davUser.accessToken)
+		await testCreateNewRelease(constants.davUser.authors[0].collections[1].books[2], constants.davUser.accessToken)
 	})
 
 	it("should set store book file for hidden store book of admin by creating new release", async () => {
@@ -357,7 +358,7 @@ describe("UploadStoreBookFile endpoint", () => {
 		assert.isNotNull(fileItemUuid)
 
 		if (storeBook.releases[0].fileItem) {
-			assert.equal(fileItemUuid, storeBook.releases[0].fileItem.uuid)
+			assert.equal(fileItemUuid, storeBook.releases[0].fileItem)
 		}
 
 		// Get the file item
@@ -373,7 +374,9 @@ describe("UploadStoreBookFile endpoint", () => {
 		let fileUuid = fileItemResponse.data.tableObject.GetPropertyValue("file")
 
 		if (storeBook.releases[0].fileItem) {
-			assert.equal(storeBook.releases[0].fileItem.file.uuid, fileUuid)
+			let fileItem = findFileItem(storeBook.releases[0].fileItem)
+			assert.isNotNull(fileItem)
+			assert.equal(fileItem.file.uuid, fileUuid)
 		}
 
 		// Get the file

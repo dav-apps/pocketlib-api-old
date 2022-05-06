@@ -1,6 +1,7 @@
 import chai from 'chai'
 const assert = chai.assert
 import axios from 'axios'
+import { findFileItem } from '../utils.js'
 import constants from '../constants.js'
 import * as ErrorCodes from '../errorCodes.js'
 
@@ -221,6 +222,7 @@ describe("RetrieveStoreBookFile endpoint", () => {
 
 async function testShouldReturnFile(accessToken, storeBook) {
 	let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+	let fileItem = findFileItem(storeBookRelease.fileItem)
 	let response
 
 	try {
@@ -240,8 +242,8 @@ async function testShouldReturnFile(accessToken, storeBook) {
 
 	assert.equal(response.status, 200)
 	assert.equal(Object.keys(response.data).length, 2)
-	assert.equal(response.data.uuid, storeBookRelease.fileItem.uuid)
-	assert.equal(response.data.file_name, storeBookRelease.fileItem.fileName)
+	assert.equal(response.data.uuid, fileItem.uuid)
+	assert.equal(response.data.file_name, fileItem.fileName)
 }
 
 async function testShouldNotReturnFile(accessToken, storeBook) {
