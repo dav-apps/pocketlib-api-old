@@ -47,11 +47,12 @@ describe("ListStoreBooks endpoint", async () => {
 
 		for (let collection of constants.authorUser.author.collections) {
 			for (let storeBook of collection.books) {
-				let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+				let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 
 				if (
 					storeBook.language == "en"
 					&& storeBook.status == "published"
+					&& storeBookRelease != null
 					&& storeBookRelease.coverItem
 				) {
 					storeBooks.push({
@@ -65,11 +66,12 @@ describe("ListStoreBooks endpoint", async () => {
 		for (let author of constants.davUser.authors) {
 			for (let collection of author.collections) {
 				for (let storeBook of collection.books) {
-					let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+					let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 
 					if (
 						storeBook.language == "en"
 						&& storeBook.status == "published"
+						&& storeBookRelease != null
 						&& storeBookRelease.coverItem
 					) {
 						storeBooks.push({
@@ -89,8 +91,9 @@ describe("ListStoreBooks endpoint", async () => {
 
 		for (let storeBookItem of storeBooks) {
 			let storeBook = storeBookItem.storeBook
-			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+			let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 			let responseStoreBook = response.data.items.find(s => s.uuid == storeBook.uuid)
+			let coverItem = findCoverItem(storeBookRelease.coverItem)
 
 			assert.isNotNull(responseStoreBook)
 			assert.equal(Object.keys(responseStoreBook).length, 10)
@@ -104,8 +107,8 @@ describe("ListStoreBooks endpoint", async () => {
 			assert.equal(responseStoreBook.status, "published")
 			assert.isNotNull(responseStoreBook.cover)
 			assert.isNotNull(responseStoreBook.cover.url)
-			assert.equal(responseStoreBook.cover.aspect_ratio, storeBookRelease.coverItem.aspectRatio)
-			assert.equal(responseStoreBook.cover.blurhash, storeBookRelease.coverItem.blurhash)
+			assert.equal(responseStoreBook.cover.aspect_ratio, coverItem.aspectRatio)
+			assert.equal(responseStoreBook.cover.blurhash, coverItem.blurhash)
 			assert.isUndefined(responseStoreBook.file)
 
 			if (storeBookRelease.categories) {
@@ -146,11 +149,12 @@ describe("ListStoreBooks endpoint", async () => {
 
 		for (let collection of constants.authorUser.author.collections) {
 			for (let storeBook of collection.books) {
-				let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+				let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 
 				if (
 					storeBook.language == "en"
 					&& storeBook.status == "published"
+					&& storeBookRelease != null
 					&& storeBookRelease.coverItem
 				) {
 					storeBooks.push({
@@ -164,11 +168,12 @@ describe("ListStoreBooks endpoint", async () => {
 		for (let author of constants.davUser.authors) {
 			for (let collection of author.collections) {
 				for (let storeBook of collection.books) {
-					let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+					let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 
 					if (
 						storeBook.language == "en"
 						&& storeBook.status == "published"
+						&& storeBookRelease != null
 						&& storeBookRelease.coverItem
 					) {
 						storeBooks.push({
@@ -193,8 +198,10 @@ describe("ListStoreBooks endpoint", async () => {
 			assert.isNotNull(storeBookItem)
 			let storeBook = storeBookItem.storeBook
 
-			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+			let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 			assert.isNotNull(storeBookRelease)
+
+			let coverItem = findCoverItem(storeBookRelease.coverItem)
 
 			assert.equal(Object.keys(responseStoreBook).length, 10)
 			assert.equal(responseStoreBook.uuid, storeBook.uuid)
@@ -207,8 +214,8 @@ describe("ListStoreBooks endpoint", async () => {
 			assert.equal(responseStoreBook.status, "published")
 			assert.isNotNull(responseStoreBook.cover)
 			assert.isNotNull(responseStoreBook.cover.url)
-			assert.equal(responseStoreBook.cover.aspect_ratio, storeBookRelease.coverItem.aspectRatio)
-			assert.equal(responseStoreBook.cover.blurhash, storeBookRelease.coverItem.blurhash)
+			assert.equal(responseStoreBook.cover.aspect_ratio, coverItem.aspectRatio)
+			assert.equal(responseStoreBook.cover.blurhash, coverItem.blurhash)
 			assert.isUndefined(responseStoreBook.file)
 
 			if (storeBookRelease.categories) {
@@ -249,11 +256,12 @@ describe("ListStoreBooks endpoint", async () => {
 
 		for (let collection of constants.authorUser.author.collections) {
 			for (let storeBook of collection.books) {
-				let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+				let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 
 				if (
 					storeBook.language == language
 					&& storeBook.status == "published"
+					&& storeBookRelease != null
 					&& storeBookRelease.coverItem
 				) {
 					storeBooks.push({
@@ -267,11 +275,12 @@ describe("ListStoreBooks endpoint", async () => {
 		for (let author of constants.davUser.authors) {
 			for (let collection of author.collections) {
 				for (let storeBook of collection.books) {
-					let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+					let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 
 					if (
 						storeBook.language == language
 						&& storeBook.status == "published"
+						&& storeBookRelease != null
 						&& storeBookRelease.coverItem
 					) {
 						storeBooks.push({
@@ -291,8 +300,9 @@ describe("ListStoreBooks endpoint", async () => {
 
 		for (let storeBookItem of storeBooks) {
 			let storeBook = storeBookItem.storeBook
-			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+			let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 			let responseStoreBook = response.data.items.find(s => s.uuid == storeBook.uuid)
+			let coverItem = findCoverItem(storeBookRelease.coverItem)
 			
 			assert.isNotNull(responseStoreBook)
 			assert.equal(Object.keys(responseStoreBook).length, 10)
@@ -306,8 +316,8 @@ describe("ListStoreBooks endpoint", async () => {
 			assert.equal(responseStoreBook.status, "published")
 			assert.isNotNull(responseStoreBook.cover)
 			assert.isNotNull(responseStoreBook.cover.url)
-			assert.equal(responseStoreBook.cover.aspect_ratio, storeBookRelease.coverItem.aspectRatio)
-			assert.equal(responseStoreBook.cover.blurhash, storeBookRelease.coverItem.blurhash)
+			assert.equal(responseStoreBook.cover.aspect_ratio, coverItem.aspectRatio)
+			assert.equal(responseStoreBook.cover.blurhash, coverItem.blurhash)
 			assert.isUndefined(responseStoreBook.file)
 
 			if (storeBookRelease.categories) {
@@ -348,11 +358,12 @@ describe("ListStoreBooks endpoint", async () => {
 
 		for (let collection of constants.authorUser.author.collections) {
 			for (let storeBook of collection.books) {
-				let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+				let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 
 				if (
 					languages.includes(storeBook.language)
 					&& storeBook.status == "published"
+					&& storeBookRelease != null
 					&& storeBookRelease.coverItem
 				) {
 					storeBooks.push({
@@ -366,11 +377,12 @@ describe("ListStoreBooks endpoint", async () => {
 		for (let author of constants.davUser.authors) {
 			for (let collection of author.collections) {
 				for (let storeBook of collection.books) {
-					let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+					let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 
 					if (
 						languages.includes(storeBook.language)
 						&& storeBook.status == "published"
+						&& storeBookRelease != null
 						&& storeBookRelease.coverItem
 					) {
 						storeBooks.push({
@@ -390,9 +402,10 @@ describe("ListStoreBooks endpoint", async () => {
 
 		for (let storeBookItem of storeBooks) {
 			let storeBook = storeBookItem.storeBook
-			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+			let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 			let responseStoreBook = response.data.items.find(s => s.uuid == storeBook.uuid)
-			
+			let coverItem = findCoverItem(storeBookRelease.coverItem)
+
 			assert.isNotNull(responseStoreBook)
 			assert.equal(Object.keys(responseStoreBook).length, 10)
 			assert.equal(responseStoreBook.uuid, storeBook.uuid)
@@ -405,8 +418,8 @@ describe("ListStoreBooks endpoint", async () => {
 			assert.equal(responseStoreBook.status, "published")
 			assert.isNotNull(responseStoreBook.cover)
 			assert.isNotNull(responseStoreBook.cover.url)
-			assert.equal(responseStoreBook.cover.aspect_ratio, storeBookRelease.coverItem.aspectRatio)
-			assert.equal(responseStoreBook.cover.blurhash, storeBookRelease.coverItem.blurhash)
+			assert.equal(responseStoreBook.cover.aspect_ratio, coverItem.aspectRatio)
+			assert.equal(responseStoreBook.cover.blurhash, coverItem.blurhash)
 			assert.isUndefined(responseStoreBook.file)
 
 			if (storeBookRelease.categories) {
@@ -448,11 +461,12 @@ describe("ListStoreBooks endpoint", async () => {
 		let storeBooks = []
 		for (let collection of constants.authorUser.author.collections) {
 			for (let storeBook of collection.books) {
-				let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+				let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 
 				if (
 					languages.includes(storeBook.language)
 					&& storeBook.status == "published"
+					&& storeBookRelease != null
 					&& storeBookRelease.coverItem
 				) {
 					storeBooks.push({
@@ -466,11 +480,12 @@ describe("ListStoreBooks endpoint", async () => {
 		for (let author of constants.davUser.authors) {
 			for (let collection of author.collections) {
 				for (let storeBook of collection.books) {
-					let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+					let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 
 					if (
 						languages.includes(storeBook.language)
 						&& storeBook.status == "published"
+						&& storeBookRelease != null
 						&& storeBookRelease.coverItem
 					) {
 						storeBooks.push({
@@ -495,8 +510,10 @@ describe("ListStoreBooks endpoint", async () => {
 			assert.isNotNull(storeBookItem)
 			let storeBook = storeBookItem.storeBook
 
-			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+			let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 			assert.isNotNull(storeBookRelease)
+
+			let coverItem = findCoverItem(storeBookRelease.coverItem)
 
 			assert.equal(Object.keys(responseStoreBook).length, 10)
 			assert.equal(responseStoreBook.uuid, storeBook.uuid)
@@ -509,8 +526,8 @@ describe("ListStoreBooks endpoint", async () => {
 			assert.equal(responseStoreBook.status, "published")
 			assert.isNotNull(responseStoreBook.cover)
 			assert.isNotNull(responseStoreBook.cover.url)
-			assert.equal(responseStoreBook.cover.aspect_ratio, storeBookRelease.coverItem.aspectRatio)
-			assert.equal(responseStoreBook.cover.blurhash, storeBookRelease.coverItem.blurhash)
+			assert.equal(responseStoreBook.cover.aspect_ratio, coverItem.aspectRatio)
+			assert.equal(responseStoreBook.cover.blurhash, coverItem.blurhash)
 			assert.isUndefined(responseStoreBook.file)
 
 			if (storeBookRelease.categories) {
@@ -554,8 +571,10 @@ describe("ListStoreBooks endpoint", async () => {
 			assert.isNotNull(storeBookItem)
 			let storeBook = storeBookItem.storeBook
 
-			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+			let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 			assert.isNotNull(storeBookRelease)
+
+			let coverItem = findCoverItem(storeBookRelease.coverItem)
 
 			assert.equal(Object.keys(responseStoreBook).length, 10)
 			assert.equal(responseStoreBook.uuid, storeBook.uuid)
@@ -568,8 +587,8 @@ describe("ListStoreBooks endpoint", async () => {
 			assert.equal(responseStoreBook.status, "published")
 			assert.isNotNull(responseStoreBook.cover)
 			assert.isNotNull(responseStoreBook.cover.url)
-			assert.equal(responseStoreBook.cover.aspect_ratio, storeBookRelease.coverItem.aspectRatio)
-			assert.equal(responseStoreBook.cover.blurhash, storeBookRelease.coverItem.blurhash)
+			assert.equal(responseStoreBook.cover.aspect_ratio, coverItem.aspectRatio)
+			assert.equal(responseStoreBook.cover.blurhash, coverItem.blurhash)
 			assert.isUndefined(responseStoreBook.file)
 
 			if (storeBookRelease.categories) {
@@ -610,11 +629,12 @@ describe("ListStoreBooks endpoint", async () => {
 		let storeBooks = []
 		for (let collection of constants.authorUser.author.collections) {
 			for (let storeBook of collection.books) {
-				let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+				let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 
 				if (
 					storeBook.language == "en"
 					&& storeBook.status == "published"
+					&& storeBookRelease != null
 					&& storeBookRelease.coverItem
 				) {
 					storeBooks.push({
@@ -628,11 +648,12 @@ describe("ListStoreBooks endpoint", async () => {
 		for (let author of constants.davUser.authors) {
 			for (let collection of author.collections) {
 				for (let storeBook of collection.books) {
-					let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+					let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 
 					if (
 						storeBook.language == "en"
 						&& storeBook.status == "published"
+						&& storeBookRelease != null
 						&& storeBookRelease.coverItem
 					) {
 						storeBooks.push({
@@ -652,9 +673,10 @@ describe("ListStoreBooks endpoint", async () => {
 
 		for (let storeBookItem of storeBooks) {
 			let storeBook = storeBookItem.storeBook
-			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+			let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 			let responseStoreBook = response.data.items.find(s => s.uuid == storeBook.uuid)
-			
+			let coverItem = findCoverItem(storeBookRelease.coverItem)
+
 			assert.isNotNull(responseStoreBook)
 			assert.equal(Object.keys(responseStoreBook).length, 12)
 			assert.equal(responseStoreBook.uuid, storeBook.uuid)
@@ -667,8 +689,8 @@ describe("ListStoreBooks endpoint", async () => {
 			assert.equal(responseStoreBook.status, "published")
 			assert.isNotNull(responseStoreBook.cover)
 			assert.isNotNull(responseStoreBook.cover.url)
-			assert.equal(responseStoreBook.cover.aspect_ratio, storeBookRelease.coverItem.aspectRatio)
-			assert.equal(responseStoreBook.cover.blurhash, storeBookRelease.coverItem.blurhash)
+			assert.equal(responseStoreBook.cover.aspect_ratio, coverItem.aspectRatio)
+			assert.equal(responseStoreBook.cover.blurhash, coverItem.blurhash)
 			assert.isUndefined(responseStoreBook.file)
 
 			if (storeBookRelease.categories) {
@@ -975,8 +997,9 @@ describe("ListStoreBooks endpoint", async () => {
 
 		for (let storeBookItem of storeBooks) {
 			let storeBook = storeBookItem.storeBook
-			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+			let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 			let responseStoreBook = response.data.items.find(s => s.uuid == storeBook.uuid)
+			let coverItem = findCoverItem(storeBookRelease.coverItem)
 
 			assert.isNotNull(responseStoreBook)
 			assert.equal(Object.keys(responseStoreBook).length, 10)
@@ -989,8 +1012,8 @@ describe("ListStoreBooks endpoint", async () => {
 			assert.equal(responseStoreBook.isbn, storeBookRelease.isbn)
 			assert.equal(responseStoreBook.status, "published")
 			assert.isNotNull(responseStoreBook.cover.url)
-			assert.equal(responseStoreBook.cover.aspect_ratio, storeBookRelease.coverItem.aspectRatio)
-			assert.equal(responseStoreBook.cover.blurhash, storeBookRelease.coverItem.blurhash)
+			assert.equal(responseStoreBook.cover.aspect_ratio, coverItem.aspectRatio)
+			assert.equal(responseStoreBook.cover.blurhash, coverItem.blurhash)
 			assert.isUndefined(responseStoreBook.file)
 
 			if (storeBookRelease.categories) {
@@ -1044,8 +1067,10 @@ describe("ListStoreBooks endpoint", async () => {
 
 		for (let storeBookItem of storeBooks) {
 			let storeBook = storeBookItem.storeBook
-			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+			let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 			let responseStoreBook = response.data.items.find(s => s.uuid == storeBook.uuid)
+			let coverItem = findCoverItem(storeBookRelease.coverItem)
+			let fileItem = findFileItem(storeBookRelease.fileItem)
 
 			assert.isNotNull(responseStoreBook)
 			assert.equal(Object.keys(responseStoreBook).length, 13)
@@ -1058,9 +1083,9 @@ describe("ListStoreBooks endpoint", async () => {
 			assert.equal(responseStoreBook.isbn, storeBookRelease.isbn)
 			assert.equal(responseStoreBook.status, storeBook.status ?? "unpublished")
 			if (responseStoreBook.cover) assert.isNotNull(responseStoreBook.cover.url)
-			assert.equal(responseStoreBook.cover.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
-			assert.equal(responseStoreBook.cover.blurhash, storeBookRelease.coverItem?.blurhash)
-			assert.equal(responseStoreBook.file?.file_name, storeBookRelease.fileItem?.fileName)
+			assert.equal(responseStoreBook.cover.aspect_ratio, coverItem?.aspectRatio)
+			assert.equal(responseStoreBook.cover.blurhash, coverItem?.blurhash)
+			assert.equal(responseStoreBook.file?.file_name, fileItem?.fileName)
 
 			if (storeBookRelease.categories) {
 				assert.equal(responseStoreBook.categories.length, storeBookRelease.categories.length)
@@ -1138,11 +1163,12 @@ describe("ListStoreBooks endpoint", async () => {
 
 		for (let collection of constants.authorUser.author.collections) {
 			for (let storeBook of collection.books) {
-				let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+				let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 
 				if (
 					storeBook.language == "en"
 					&& storeBook.status == "published"
+					&& storeBookRelease != null
 					&& storeBookRelease.categories
 					&& storeBookRelease.categories.includes(category.uuid)
 					&& storeBookRelease.coverItem
@@ -1158,11 +1184,12 @@ describe("ListStoreBooks endpoint", async () => {
 		for (let author of constants.davUser.authors) {
 			for (let collection of author.collections) {
 				for (let storeBook of collection.books) {
-					let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+					let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 
 					if (
 						storeBook.language == "en"
 						&& storeBook.status == "published"
+						&& storeBookRelease != null
 						&& storeBookRelease.categories
 						&& storeBookRelease.categories.includes(category.uuid)
 						&& storeBookRelease.coverItem
@@ -1182,8 +1209,9 @@ describe("ListStoreBooks endpoint", async () => {
 
 		for (let storeBookItem of storeBooks) {
 			let storeBook = storeBookItem.storeBook
-			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+			let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 			let responseStoreBook = response.data.items.find(s => s.uuid == storeBook.uuid)
+			let coverItem = findCoverItem(storeBookRelease.coverItem)
 			
 			assert.isNotNull(responseStoreBook)
 			assert.equal(Object.keys(responseStoreBook).length, 10)
@@ -1196,8 +1224,8 @@ describe("ListStoreBooks endpoint", async () => {
 			assert.equal(responseStoreBook.isbn, storeBookRelease.isbn)
 			assert.equal(responseStoreBook.status, "published")
 			assert.isNotNull(responseStoreBook.cover.url)
-			assert.equal(responseStoreBook.cover.aspect_ratio, storeBookRelease.coverItem.aspectRatio)
-			assert.equal(responseStoreBook.cover.blurhash, storeBookRelease.coverItem.blurhash)
+			assert.equal(responseStoreBook.cover.aspect_ratio, coverItem.aspectRatio)
+			assert.equal(responseStoreBook.cover.blurhash, coverItem.blurhash)
 			assert.isUndefined(responseStoreBook.file)
 
 			if (storeBookRelease.categories) {
@@ -1239,11 +1267,12 @@ describe("ListStoreBooks endpoint", async () => {
 
 		for (let collection of constants.authorUser.author.collections) {
 			for (let storeBook of collection.books) {
-				let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+				let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 
 				if (
 					storeBook.language == language
 					&& storeBook.status == "published"
+					&& storeBookRelease != null
 					&& storeBookRelease.categories
 					&& storeBookRelease.categories.includes(category.uuid)
 					&& storeBookRelease.coverItem
@@ -1259,11 +1288,12 @@ describe("ListStoreBooks endpoint", async () => {
 		for (let author of constants.davUser.authors) {
 			for (let collection of author.collections) {
 				for (let storeBook of collection.books) {
-					let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+					let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 
 					if (
 						storeBook.language == language
 						&& storeBook.status == "published"
+						&& storeBookRelease != null
 						&& storeBookRelease.categories
 						&& storeBookRelease.categories.includes(category.uuid)
 						&& storeBookRelease.coverItem
@@ -1283,8 +1313,9 @@ describe("ListStoreBooks endpoint", async () => {
 
 		for (let storeBookItem of storeBooks) {
 			let storeBook = storeBookItem.storeBook
-			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+			let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 			let responseStoreBook = response.data.items.find(s => s.uuid == storeBook.uuid)
+			let coverItem = findCoverItem(storeBookRelease.coverItem)
 
 			assert.isNotNull(responseStoreBook)
 			assert.equal(Object.keys(responseStoreBook).length, 10)
@@ -1297,8 +1328,8 @@ describe("ListStoreBooks endpoint", async () => {
 			assert.equal(responseStoreBook.isbn, storeBookRelease.isbn)
 			assert.equal(responseStoreBook.status, "published")
 			assert.isNotNull(responseStoreBook.cover.url)
-			assert.equal(responseStoreBook.cover.aspect_ratio, storeBookRelease.coverItem.aspectRatio)
-			assert.equal(responseStoreBook.cover.blurhash, storeBookRelease.coverItem.blurhash)
+			assert.equal(responseStoreBook.cover.aspect_ratio, coverItem.aspectRatio)
+			assert.equal(responseStoreBook.cover.blurhash, coverItem.blurhash)
 			assert.isUndefined(responseStoreBook.file)
 
 			if (storeBookRelease.categories) {
@@ -1340,11 +1371,12 @@ describe("ListStoreBooks endpoint", async () => {
 
 		for (let collection of constants.authorUser.author.collections) {
 			for (let storeBook of collection.books) {
-				let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+				let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 
 				if (
 					languages.includes(storeBook.language)
 					&& storeBook.status == "published"
+					&& storeBookRelease != null
 					&& storeBookRelease.categories
 					&& storeBookRelease.categories.includes(category.uuid)
 					&& storeBookRelease.coverItem
@@ -1360,11 +1392,12 @@ describe("ListStoreBooks endpoint", async () => {
 		for (let author of constants.davUser.authors) {
 			for (let collection of author.collections) {
 				for (let storeBook of collection.books) {
-					let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+					let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 
 					if (
 						languages.includes(storeBook.language)
 						&& storeBook.status == "published"
+						&& storeBookRelease != null
 						&& storeBookRelease.categories
 						&& storeBookRelease.categories.includes(category.uuid)
 						&& storeBookRelease.coverItem
@@ -1384,8 +1417,9 @@ describe("ListStoreBooks endpoint", async () => {
 
 		for (let storeBookItem of storeBooks) {
 			let storeBook = storeBookItem.storeBook
-			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+			let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 			let responseStoreBook = response.data.items.find(s => s.uuid == storeBook.uuid)
+			let coverItem = findCoverItem(storeBookRelease.coverItem)
 
 			assert.isNotNull(responseStoreBook)
 			assert.equal(Object.keys(responseStoreBook).length, 10)
@@ -1398,8 +1432,8 @@ describe("ListStoreBooks endpoint", async () => {
 			assert.equal(responseStoreBook.isbn, storeBookRelease.isbn)
 			assert.equal(responseStoreBook.status, "published")
 			assert.isNotNull(responseStoreBook.cover.url)
-			assert.equal(responseStoreBook.cover.aspect_ratio, storeBookRelease.coverItem.aspectRatio)
-			assert.equal(responseStoreBook.cover.blurhash, storeBookRelease.coverItem.blurhash)
+			assert.equal(responseStoreBook.cover.aspect_ratio, coverItem.aspectRatio)
+			assert.equal(responseStoreBook.cover.blurhash, coverItem.blurhash)
 			assert.isUndefined(responseStoreBook.file)
 
 			if (storeBookRelease.categories) {
@@ -1419,7 +1453,7 @@ describe("ListStoreBooks endpoint", async () => {
 
 	it("should return store books by category with limit and page", async () => {
 		let response
-		let category = constants.categories[0]
+		let category = constants.categories[1]
 		let languages = ["de", "en"]
 		let limit = 2
 
@@ -1440,13 +1474,15 @@ describe("ListStoreBooks endpoint", async () => {
 
 		// Find all store books with the category and the languages
 		let storeBooks = []
+
 		for (let collection of constants.authorUser.author.collections) {
 			for (let storeBook of collection.books) {
-				let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+				let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 
 				if (
 					languages.includes(storeBook.language)
 					&& storeBook.status == "published"
+					&& storeBookRelease != null
 					&& storeBookRelease.categories
 					&& storeBookRelease.categories.includes(category.uuid)
 					&& storeBookRelease.coverItem
@@ -1462,11 +1498,12 @@ describe("ListStoreBooks endpoint", async () => {
 		for (let author of constants.davUser.authors) {
 			for (let collection of author.collections) {
 				for (let storeBook of collection.books) {
-					let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+					let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 
 					if (
 						languages.includes(storeBook.language)
 						&& storeBook.status == "published"
+						&& storeBookRelease != null
 						&& storeBookRelease.categories
 						&& storeBookRelease.categories.includes(category.uuid)
 						&& storeBookRelease.coverItem
@@ -1492,8 +1529,10 @@ describe("ListStoreBooks endpoint", async () => {
 			assert.isNotNull(storeBookItem)
 			let storeBook = storeBookItem.storeBook
 
-			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+			let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 			assert.isNotNull(storeBookRelease)
+
+			let coverItem = findCoverItem(storeBookRelease.coverItem)
 
 			assert.equal(Object.keys(responseStoreBook).length, 10)
 			assert.equal(responseStoreBook.uuid, storeBook.uuid)
@@ -1505,8 +1544,8 @@ describe("ListStoreBooks endpoint", async () => {
 			assert.equal(responseStoreBook.isbn, storeBookRelease.isbn)
 			assert.equal(responseStoreBook.status, "published")
 			assert.isNotNull(responseStoreBook.cover.url)
-			assert.equal(responseStoreBook.cover.aspect_ratio, storeBookRelease.coverItem.aspectRatio)
-			assert.equal(responseStoreBook.cover.blurhash, storeBookRelease.coverItem.blurhash)
+			assert.equal(responseStoreBook.cover.aspect_ratio, coverItem.aspectRatio)
+			assert.equal(responseStoreBook.cover.blurhash, coverItem.blurhash)
 			assert.isUndefined(responseStoreBook.file)
 
 			if (storeBookRelease.categories) {
@@ -1550,8 +1589,10 @@ describe("ListStoreBooks endpoint", async () => {
 			assert.isNotNull(storeBookItem)
 			let storeBook = storeBookItem.storeBook
 
-			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+			let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 			assert.isNotNull(storeBookRelease)
+
+			let coverItem = findCoverItem(storeBookRelease.coverItem)
 
 			assert.equal(Object.keys(responseStoreBook).length, 10)
 			assert.equal(responseStoreBook.uuid, storeBook.uuid)
@@ -1563,8 +1604,8 @@ describe("ListStoreBooks endpoint", async () => {
 			assert.equal(responseStoreBook.isbn, storeBookRelease.isbn)
 			assert.equal(responseStoreBook.status, "published")
 			assert.isNotNull(responseStoreBook.cover.url)
-			assert.equal(responseStoreBook.cover.aspect_ratio, storeBookRelease.coverItem.aspectRatio)
-			assert.equal(responseStoreBook.cover.blurhash, storeBookRelease.coverItem.blurhash)
+			assert.equal(responseStoreBook.cover.aspect_ratio, coverItem.aspectRatio)
+			assert.equal(responseStoreBook.cover.blurhash, coverItem.blurhash)
 			assert.isUndefined(responseStoreBook.file)
 
 			if (storeBookRelease.categories) {
@@ -1584,8 +1625,8 @@ describe("ListStoreBooks endpoint", async () => {
 
 	it("should return store books by mutliple categories", async () => {
 		let response
-		let firstCategory = constants.categories[0]
-		let secondCategory = constants.categories[1]
+		let firstCategory = constants.categories[1]
+		let secondCategory = constants.categories[2]
 
 		try {
 			response = await axios({
@@ -1602,13 +1643,15 @@ describe("ListStoreBooks endpoint", async () => {
 
 		// Find all store books with the categories and language = en
 		let storeBooks = []
+
 		for (let collection of constants.authorUser.author.collections) {
 			for (let storeBook of collection.books) {
-				let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+				let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 
 				if (
 					storeBook.language == "en"
 					&& storeBook.status == "published"
+					&& storeBookRelease != null
 					&& storeBookRelease.categories
 					&& storeBookRelease.categories.includes(firstCategory.uuid)
 					&& storeBookRelease.categories.includes(secondCategory.uuid)
@@ -1625,11 +1668,12 @@ describe("ListStoreBooks endpoint", async () => {
 		for (let author of constants.davUser.authors) {
 			for (let collection of author.collections) {
 				for (let storeBook of collection.books) {
-					let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+					let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 
 					if (
 						storeBook.language == "en"
 						&& storeBook.status == "published"
+						&& storeBookRelease != null
 						&& storeBookRelease.categories
 						&& storeBookRelease.categories.includes(firstCategory.uuid)
 						&& storeBookRelease.categories.includes(secondCategory.uuid)
@@ -1650,8 +1694,9 @@ describe("ListStoreBooks endpoint", async () => {
 
 		for (let storeBookItem of storeBooks) {
 			let storeBook = storeBookItem.storeBook
-			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+			let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 			let responseStoreBook = response.data.items.find(s => s.uuid == storeBook.uuid)
+			let coverItem = findCoverItem(storeBookRelease.coverItem)
 
 			assert.isNotNull(responseStoreBook)
 			assert.equal(Object.keys(responseStoreBook).length, 10)
@@ -1664,8 +1709,8 @@ describe("ListStoreBooks endpoint", async () => {
 			assert.equal(responseStoreBook.isbn, storeBookRelease.isbn)
 			assert.equal(responseStoreBook.status, "published")
 			assert.isNotNull(responseStoreBook.cover.url)
-			assert.equal(responseStoreBook.cover.aspect_ratio, storeBookRelease.coverItem.aspectRatio)
-			assert.equal(responseStoreBook.cover.blurhash, storeBookRelease.coverItem.blurhash)
+			assert.equal(responseStoreBook.cover.aspect_ratio, coverItem.aspectRatio)
+			assert.equal(responseStoreBook.cover.blurhash, coverItem.blurhash)
 			assert.isUndefined(responseStoreBook.file)
 
 			if (storeBookRelease.categories) {
@@ -1685,8 +1730,8 @@ describe("ListStoreBooks endpoint", async () => {
 
 	it("should return store books by multiple categories with single specified language", async () => {
 		let response
-		let firstCategory = constants.categories[0]
-		let secondCategory = constants.categories[1]
+		let firstCategory = constants.categories[1]
+		let secondCategory = constants.categories[2]
 		let language = "de"
 
 		try {
@@ -1705,13 +1750,15 @@ describe("ListStoreBooks endpoint", async () => {
 
 		// Find all store books with the category and the language
 		let storeBooks = []
+
 		for (let collection of constants.authorUser.author.collections) {
 			for (let storeBook of collection.books) {
-				let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+				let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 
 				if (
 					storeBook.language == language
 					&& storeBook.status == "published"
+					&& storeBookRelease != null
 					&& storeBookRelease.categories
 					&& storeBookRelease.categories.includes(firstCategory.uuid)
 					&& storeBookRelease.categories.includes(secondCategory.uuid)
@@ -1728,11 +1775,12 @@ describe("ListStoreBooks endpoint", async () => {
 		for (let author of constants.davUser.authors) {
 			for (let collection of author.collections) {
 				for (let storeBook of collection.books) {
-					let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+					let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 
 					if (
 						storeBook.language == language
 						&& storeBook.status == "published"
+						&& storeBookRelease != null
 						&& storeBookRelease.categories
 						&& storeBookRelease.categories.includes(firstCategory.uuid)
 						&& storeBookRelease.categories.includes(secondCategory.uuid)
@@ -1753,8 +1801,9 @@ describe("ListStoreBooks endpoint", async () => {
 
 		for (let storeBookItem of storeBooks) {
 			let storeBook = storeBookItem.storeBook
-			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+			let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 			let responseStoreBook = response.data.items.find(s => s.uuid == storeBook.uuid)
+			let coverItem = findCoverItem(storeBookRelease.coverItem)
 
 			assert.isNotNull(responseStoreBook)
 			assert.equal(Object.keys(responseStoreBook).length, 10)
@@ -1767,8 +1816,8 @@ describe("ListStoreBooks endpoint", async () => {
 			assert.equal(responseStoreBook.isbn, storeBookRelease.isbn)
 			assert.equal(responseStoreBook.status, "published")
 			assert.isNotNull(responseStoreBook.cover.url)
-			assert.equal(responseStoreBook.cover.aspect_ratio, storeBookRelease.coverItem.aspectRatio)
-			assert.equal(responseStoreBook.cover.blurhash, storeBookRelease.coverItem.blurhash)
+			assert.equal(responseStoreBook.cover.aspect_ratio, coverItem.aspectRatio)
+			assert.equal(responseStoreBook.cover.blurhash, coverItem.blurhash)
 			assert.isUndefined(responseStoreBook.file)
 
 			if (storeBookRelease.categories) {
@@ -1788,8 +1837,8 @@ describe("ListStoreBooks endpoint", async () => {
 
 	it("should return store books by multiple categories with multiple specified languages", async () => {
 		let response
-		let firstCategory = constants.categories[0]
-		let secondCategory = constants.categories[1]
+		let firstCategory = constants.categories[1]
+		let secondCategory = constants.categories[2]
 		let languages = ["de", "en"]
 
 		try {
@@ -1808,13 +1857,15 @@ describe("ListStoreBooks endpoint", async () => {
 
 		// Find all store books with the category and the languages
 		let storeBooks = []
+
 		for (let collection of constants.authorUser.author.collections) {
 			for (let storeBook of collection.books) {
-				let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+				let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 
 				if (
 					languages.includes(storeBook.language)
 					&& storeBook.status == "published"
+					&& storeBookRelease != null
 					&& storeBookRelease.categories
 					&& storeBookRelease.categories.includes(firstCategory.uuid)
 					&& storeBookRelease.categories.includes(secondCategory.uuid)
@@ -1831,11 +1882,12 @@ describe("ListStoreBooks endpoint", async () => {
 		for (let author of constants.davUser.authors) {
 			for (let collection of author.collections) {
 				for (let storeBook of collection.books) {
-					let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+					let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 
 					if (
 						languages.includes(storeBook.language)
 						&& storeBook.status == "published"
+						&& storeBookRelease != null
 						&& storeBookRelease.categories
 						&& storeBookRelease.categories.includes(firstCategory.uuid)
 						&& storeBookRelease.categories.includes(secondCategory.uuid)
@@ -1856,8 +1908,9 @@ describe("ListStoreBooks endpoint", async () => {
 
 		for (let storeBookItem of storeBooks) {
 			let storeBook = storeBookItem.storeBook
-			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+			let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 			let responseStoreBook = response.data.items.find(s => s.uuid == storeBook.uuid)
+			let coverItem = findCoverItem(storeBookRelease.coverItem)
 			
 			assert.isNotNull(responseStoreBook)
 			assert.equal(Object.keys(responseStoreBook).length, 10)
@@ -1870,8 +1923,8 @@ describe("ListStoreBooks endpoint", async () => {
 			assert.equal(responseStoreBook.isbn, storeBookRelease.isbn)
 			assert.equal(responseStoreBook.status, "published")
 			assert.isNotNull(responseStoreBook.cover.url)
-			assert.equal(responseStoreBook.cover.aspect_ratio, storeBookRelease.coverItem.aspectRatio)
-			assert.equal(responseStoreBook.cover.blurhash, storeBookRelease.coverItem.blurhash)
+			assert.equal(responseStoreBook.cover.aspect_ratio, coverItem.aspectRatio)
+			assert.equal(responseStoreBook.cover.blurhash, coverItem.blurhash)
 			assert.isUndefined(responseStoreBook.file)
 
 			if (storeBookRelease.categories) {
@@ -1891,8 +1944,8 @@ describe("ListStoreBooks endpoint", async () => {
 
 	it("should return store books by multiple categories with limit and page", async () => {
 		let response
-		let firstCategory = constants.categories[0]
-		let secondCategory = constants.categories[1]
+		let firstCategory = constants.categories[1]
+		let secondCategory = constants.categories[2]
 		let languages = ["de", "en"]
 		let limit = 2
 
@@ -1913,13 +1966,15 @@ describe("ListStoreBooks endpoint", async () => {
 
 		// Find all store books with the category and the languages
 		let storeBooks = []
+
 		for (let collection of constants.authorUser.author.collections) {
 			for (let storeBook of collection.books) {
-				let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+				let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 
 				if (
 					languages.includes(storeBook.language)
 					&& storeBook.status == "published"
+					&& storeBookRelease != null
 					&& storeBookRelease.categories
 					&& storeBookRelease.categories.includes(firstCategory.uuid)
 					&& storeBookRelease.categories.includes(secondCategory.uuid)
@@ -1936,11 +1991,12 @@ describe("ListStoreBooks endpoint", async () => {
 		for (let author of constants.davUser.authors) {
 			for (let collection of author.collections) {
 				for (let storeBook of collection.books) {
-					let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+					let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 
 					if (
 						languages.includes(storeBook.language)
 						&& storeBook.status == "published"
+						&& storeBookRelease != null
 						&& storeBookRelease.categories
 						&& storeBookRelease.categories.includes(firstCategory.uuid)
 						&& storeBookRelease.categories.includes(secondCategory.uuid)
@@ -1967,8 +2023,10 @@ describe("ListStoreBooks endpoint", async () => {
 			assert.isNotNull(storeBookItem)
 			let storeBook = storeBookItem.storeBook
 
-			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+			let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 			assert.isNotNull(storeBookRelease)
+
+			let coverItem = findCoverItem(storeBookRelease.coverItem)
 
 			assert.equal(Object.keys(responseStoreBook).length, 10)
 			assert.equal(responseStoreBook.uuid, storeBook.uuid)
@@ -1980,8 +2038,8 @@ describe("ListStoreBooks endpoint", async () => {
 			assert.equal(responseStoreBook.isbn, storeBookRelease.isbn)
 			assert.equal(responseStoreBook.status, "published")
 			assert.isNotNull(responseStoreBook.cover.url)
-			assert.equal(responseStoreBook.cover.aspect_ratio, storeBookRelease.coverItem.aspectRatio)
-			assert.equal(responseStoreBook.cover.blurhash, storeBookRelease.coverItem.blurhash)
+			assert.equal(responseStoreBook.cover.aspect_ratio, coverItem.aspectRatio)
+			assert.equal(responseStoreBook.cover.blurhash, coverItem.blurhash)
 			assert.isUndefined(responseStoreBook.file)
 
 			if (storeBookRelease.categories) {
@@ -2024,8 +2082,10 @@ describe("ListStoreBooks endpoint", async () => {
 			assert.isNotNull(storeBookItem)
 			let storeBook = storeBookItem.storeBook
 
-			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+			let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 			assert.isNotNull(storeBookRelease)
+
+			let coverItem = findCoverItem(storeBookRelease.coverItem)
 
 			assert.equal(Object.keys(responseStoreBook).length, 10)
 			assert.equal(responseStoreBook.uuid, storeBook.uuid)
@@ -2037,8 +2097,8 @@ describe("ListStoreBooks endpoint", async () => {
 			assert.equal(responseStoreBook.isbn, storeBookRelease.isbn)
 			assert.equal(responseStoreBook.status, "published")
 			assert.isNotNull(responseStoreBook.cover.url)
-			assert.equal(responseStoreBook.cover.aspect_ratio, storeBookRelease.coverItem.aspectRatio)
-			assert.equal(responseStoreBook.cover.blurhash, storeBookRelease.coverItem.blurhash)
+			assert.equal(responseStoreBook.cover.aspect_ratio, coverItem.aspectRatio)
+			assert.equal(responseStoreBook.cover.blurhash, coverItem.blurhash)
 			assert.isUndefined(responseStoreBook.file)
 
 			if (storeBookRelease.categories) {
@@ -2195,6 +2255,8 @@ describe("ListStoreBooks endpoint", async () => {
 			let storeBook = storeBookItem.storeBook
 			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
 			let responseStoreBook = response.data.items.find(s => s.uuid == storeBook.uuid)
+			let coverItem = findCoverItem(storeBookRelease.coverItem)
+			let fileItem = findFileItem(storeBookRelease.fileItem)
 
 			assert.isNotNull(responseStoreBook)
 			assert.equal(Object.keys(responseStoreBook).length, 13)
@@ -2207,9 +2269,9 @@ describe("ListStoreBooks endpoint", async () => {
 			assert.equal(responseStoreBook.isbn, storeBookRelease.isbn)
 			assert.equal(responseStoreBook.status, storeBook.status ?? "unpublished")
 			if (responseStoreBook.cover) assert.isNotNull(responseStoreBook.cover.url)
-			assert.equal(responseStoreBook.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
-			assert.equal(responseStoreBook.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
-			assert.equal(responseStoreBook.file?.file_name, storeBookRelease.fileItem?.fileName)
+			assert.equal(responseStoreBook.cover?.aspect_ratio, coverItem?.aspectRatio)
+			assert.equal(responseStoreBook.cover?.blurhash, coverItem?.blurhash)
+			assert.equal(responseStoreBook.file?.file_name, fileItem?.fileName)
 
 			if (storeBookRelease.categories) {
 				assert.equal(responseStoreBook.categories.length, storeBookRelease.categories.length)
@@ -2276,9 +2338,10 @@ describe("ListStoreBooks endpoint", async () => {
 
 		for (let storeBookItem of storeBooks) {
 			let storeBook = storeBookItem.storeBook
-			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+			let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 			let responseStoreBook = response.data.items.find(s => s.uuid == storeBook.uuid)
-			
+			let coverItem = findCoverItem(storeBookRelease.coverItem)
+
 			assert.isNotNull(responseStoreBook)
 			assert.equal(Object.keys(responseStoreBook).length, 10)
 			assert.equal(responseStoreBook.uuid, storeBook.uuid)
@@ -2290,8 +2353,8 @@ describe("ListStoreBooks endpoint", async () => {
 			assert.equal(responseStoreBook.isbn, storeBookRelease.isbn)
 			assert.equal(responseStoreBook.status, "published")
 			assert.isNotNull(responseStoreBook.cover.url)
-			assert.equal(responseStoreBook.cover.aspect_ratio, storeBookRelease.coverItem.aspectRatio)
-			assert.equal(responseStoreBook.cover.blurhash, storeBookRelease.coverItem.blurhash)
+			assert.equal(responseStoreBook.cover.aspect_ratio, coverItem.aspectRatio)
+			assert.equal(responseStoreBook.cover.blurhash, coverItem.blurhash)
 			assert.isUndefined(responseStoreBook.file)
 
 			if (storeBookRelease.categories) {
@@ -2340,6 +2403,8 @@ describe("ListStoreBooks endpoint", async () => {
 		for (let storeBook of collection.books) {
 			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
 			let responseStoreBook = response.data.items.find(s => s.uuid == storeBook.uuid)
+			let coverItem = findCoverItem(storeBookRelease.coverItem)
+			let fileItem = findFileItem(storeBookRelease.fileItem)
 			
 			assert.isNotNull(responseStoreBook)
 			assert.equal(Object.keys(responseStoreBook).length, 13)
@@ -2352,9 +2417,9 @@ describe("ListStoreBooks endpoint", async () => {
 			assert.equal(responseStoreBook.isbn, storeBookRelease.isbn)
 			assert.equal(responseStoreBook.status, storeBook.status ?? "unpublished")
 			if (responseStoreBook.cover) assert.isNotNull(responseStoreBook.cover.url)
-			assert.equal(responseStoreBook.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
-			assert.equal(responseStoreBook.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
-			assert.equal(responseStoreBook.file?.file_name, storeBookRelease.fileItem?.fileName)
+			assert.equal(responseStoreBook.cover?.aspect_ratio, coverItem?.aspectRatio)
+			assert.equal(responseStoreBook.cover?.blurhash, coverItem?.blurhash)
+			assert.equal(responseStoreBook.file?.file_name, fileItem?.fileName)
 
 			if (storeBookRelease.categories) {
 				assert.equal(responseStoreBook.categories.length, storeBookRelease.categories.length)
@@ -2408,8 +2473,9 @@ describe("ListStoreBooks endpoint", async () => {
 		assert.equal(response.data.items.length, storeBooks.length)
 
 		for (let storeBook of storeBooks) {
-			let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+			let storeBookRelease = findLastPublishedRelease(storeBook.releases)
 			let responseStoreBook = response.data.items.find(s => s.uuid == storeBook.uuid)
+			let coverItem = findCoverItem(storeBookRelease.coverItem)
 
 			assert.isNotNull(responseStoreBook)
 			assert.equal(Object.keys(responseStoreBook).length, user == null ? 10 : 12)
@@ -2422,8 +2488,8 @@ describe("ListStoreBooks endpoint", async () => {
 			assert.equal(responseStoreBook.isbn, storeBookRelease.isbn)
 			assert.equal(responseStoreBook.status, "published")
 			assert.isNotNull(responseStoreBook.cover.url)
-			assert.equal(responseStoreBook.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
-			assert.equal(responseStoreBook.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
+			assert.equal(responseStoreBook.cover?.aspect_ratio, coverItem?.aspectRatio)
+			assert.equal(responseStoreBook.cover?.blurhash, coverItem?.blurhash)
 			assert.isUndefined(responseStoreBook.file)
 
 			if (storeBookRelease.categories) {
@@ -2452,5 +2518,47 @@ describe("ListStoreBooks endpoint", async () => {
 
 	function userHasPurchasedBook(user, storeBookUuid) {
 		return constants.purchases.find(p => p.userId == user.id && p.tableObjects.includes(storeBookUuid)) != null
+	}
+
+	function findCoverItem(uuid) {
+		let coverItem = constants.authorUser.author.coverItems.find(ci => ci.uuid == uuid)
+		if (coverItem) return coverItem
+
+		for (let author of constants.davUser.authors) {
+			coverItem = author.coverItems.find(ci => ci.uuid == uuid)
+			if (coverItem) return coverItem
+		}
+
+		return null
+	}
+
+	function findFileItem(uuid) {
+		let fileItem = constants.authorUser.author.fileItems.find(fi => fi.uuid == uuid)
+		if (fileItem) return fileItem
+
+		for (let author of constants.davUser.authors) {
+			fileItem = author.fileItems.find(fi => fi.uuid == uuid)
+			if (fileItem) return fileItem
+		}
+
+		return null
+	}
+
+	function findLastPublishedRelease(releases) {
+		let releasesCopy = []
+
+		for (let release of releases) {
+			releasesCopy.push(release)
+		}
+
+		while (releasesCopy.length > 0) {
+			let release = releasesCopy.pop()
+
+			if (release.status == "published") {
+				return release
+			}
+		}
+
+		return null
 	}
 })
