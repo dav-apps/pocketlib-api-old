@@ -4,6 +4,7 @@ import axios from 'axios'
 import { TableObjectsController } from 'dav-js'
 import constants from '../constants.js'
 import * as utils from '../utils.js'
+import { findCoverItem, findFileItem } from '../utils.js'
 import * as ErrorCodes from '../errorCodes.js'
 
 const updateStoreBookEndpointUrl = `${constants.apiBaseUrl}/store_books/{0}`
@@ -179,9 +180,8 @@ describe("UpdateStoreBook endpoint", () => {
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 400)
-			assert.equal(error.response.data.errors.length, 2)
+			assert.equal(error.response.data.errors.length, 1)
 			assert.equal(error.response.data.errors[0].code, ErrorCodes.TitleTooShort)
-			assert.equal(error.response.data.errors[1].code, ErrorCodes.DescriptionTooShort)
 			return
 		}
 
@@ -1025,6 +1025,8 @@ describe("UpdateStoreBook endpoint", () => {
 		let collection = constants.authorUser.author.collections[0]
 		let storeBook = collection.books[0]
 		let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+		let coverItem = findCoverItem(storeBookRelease.coverItem)
+		let fileItem = findFileItem(storeBookRelease.fileItem)
 
 		// Set the store book to unpublished
 		let updateResponse = await TableObjectsController.UpdateTableObject({
@@ -1070,9 +1072,9 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal(response.data.isbn, storeBookRelease.isbn)
 		assert.equal(response.data.status, "review")
 		if (response.data.cover) assert.isNotNull(response.data.cover.url)
-		assert.equal(response.data.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
-		assert.equal(response.data.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
-		assert.equal(response.data.file?.file_name, storeBookRelease.fileItem?.fileName)
+		assert.equal(response.data.cover?.aspect_ratio, coverItem?.aspectRatio)
+		assert.equal(response.data.cover?.blurhash, coverItem?.blurhash)
+		assert.equal(response.data.file?.file_name, fileItem?.fileName)
 
 		if (storeBookRelease.categories) {
 			assert.equal(response.data.categories.length, storeBookRelease.categories.length)
@@ -1101,6 +1103,8 @@ describe("UpdateStoreBook endpoint", () => {
 		let collection = constants.authorUser.author.collections[0]
 		let storeBook = collection.books[1]
 		let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+		let coverItem = findCoverItem(storeBookRelease.coverItem)
+		let fileItem = findFileItem(storeBookRelease.fileItem)
 
 		// Try to publish the store book
 		let response
@@ -1135,9 +1139,9 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal(response.data.isbn, storeBookRelease.isbn)
 		assert.equal(response.data.status, "published")
 		if (response.data.cover) assert.isNotNull(response.data.cover.url)
-		assert.equal(response.data.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
-		assert.equal(response.data.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
-		assert.equal(response.data.file?.file_name, storeBookRelease.fileItem?.fileName)
+		assert.equal(response.data.cover?.aspect_ratio, coverItem?.aspectRatio)
+		assert.equal(response.data.cover?.blurhash, coverItem?.blurhash)
+		assert.equal(response.data.file?.file_name, fileItem?.fileName)
 
 		if (storeBookRelease.categories) {
 			assert.equal(response.data.categories.length, storeBookRelease.categories.length)
@@ -1166,6 +1170,8 @@ describe("UpdateStoreBook endpoint", () => {
 		let collection = constants.authorUser.author.collections[1]
 		let storeBook = collection.books[1]
 		let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+		let coverItem = findCoverItem(storeBookRelease.coverItem)
+		let fileItem = findFileItem(storeBookRelease.fileItem)
 		let response
 
 		try {
@@ -1198,9 +1204,9 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal(response.data.isbn, storeBookRelease.isbn)
 		assert.equal(response.data.status, "hidden")
 		if (response.data.cover) assert.isNotNull(response.data.cover.url)
-		assert.equal(response.data.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
-		assert.equal(response.data.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
-		assert.equal(response.data.file?.file_name, storeBookRelease.fileItem?.fileName)
+		assert.equal(response.data.cover?.aspect_ratio, coverItem?.aspectRatio)
+		assert.equal(response.data.cover?.blurhash, coverItem?.blurhash)
+		assert.equal(response.data.file?.file_name, fileItem?.fileName)
 
 		if (storeBookRelease.categories) {
 			assert.equal(response.data.categories.length, storeBookRelease.categories.length)
@@ -1388,6 +1394,8 @@ describe("UpdateStoreBook endpoint", () => {
 		let collection = constants.davUser.authors[0].collections[0]
 		let storeBook = collection.books[0]
 		let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+		let coverItem = findCoverItem(storeBookRelease.coverItem)
+		let fileItem = findFileItem(storeBookRelease.fileItem)
 
 		// Set the status of the store book to unpublished
 		let updateResponse = await TableObjectsController.UpdateTableObject({
@@ -1433,9 +1441,9 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal(response.data.isbn, storeBookRelease.isbn)
 		assert.equal(response.data.status, "review")
 		if (response.data.cover) assert.isNotNull(response.data.cover.url)
-		assert.equal(response.data.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
-		assert.equal(response.data.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
-		assert.equal(response.data.file?.file_name, storeBookRelease.fileItem?.fileName)
+		assert.equal(response.data.cover?.aspect_ratio, coverItem?.aspectRatio)
+		assert.equal(response.data.cover?.blurhash, coverItem?.blurhash)
+		assert.equal(response.data.file?.file_name, fileItem?.fileName)
 
 		if (storeBookRelease.categories) {
 			assert.equal(response.data.categories.length, storeBookRelease.categories.length)
@@ -1464,6 +1472,8 @@ describe("UpdateStoreBook endpoint", () => {
 		let collection = constants.davUser.authors[0].collections[1]
 		let storeBook = collection.books[0]
 		let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+		let coverItem = findCoverItem(storeBookRelease.coverItem)
+		let fileItem = findFileItem(storeBookRelease.fileItem)
 
 		// Try to publish the store book
 		let response
@@ -1498,9 +1508,9 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal(response.data.isbn, storeBookRelease.isbn)
 		assert.equal(response.data.status, "published")
 		if (response.data.cover) assert.isNotNull(response.data.cover.url)
-		assert.equal(response.data.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
-		assert.equal(response.data.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
-		assert.equal(response.data.file?.file_name, storeBookRelease.fileItem?.fileName)
+		assert.equal(response.data.cover?.aspect_ratio, coverItem?.aspectRatio)
+		assert.equal(response.data.cover?.blurhash, coverItem?.blurhash)
+		assert.equal(response.data.file?.file_name, fileItem?.fileName)
 
 		if (storeBookRelease.categories) {
 			assert.equal(response.data.categories.length, storeBookRelease.categories.length)
@@ -1529,6 +1539,8 @@ describe("UpdateStoreBook endpoint", () => {
 		let collection = constants.davUser.authors[0].collections[0]
 		let storeBook = collection.books[0]
 		let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+		let coverItem = findCoverItem(storeBookRelease.coverItem)
+		let fileItem = findFileItem(storeBookRelease.fileItem)
 		let response
 
 		try {
@@ -1561,9 +1573,9 @@ describe("UpdateStoreBook endpoint", () => {
 		assert.equal(response.data.isbn, storeBookRelease.isbn)
 		assert.equal(response.data.status, "hidden")
 		if (response.data.cover) assert.isNotNull(response.data.cover.url)
-		assert.equal(response.data.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
-		assert.equal(response.data.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
-		assert.equal(response.data.file?.file_name, storeBookRelease.fileItem?.fileName)
+		assert.equal(response.data.cover?.aspect_ratio, coverItem?.aspectRatio)
+		assert.equal(response.data.cover?.blurhash, coverItem?.blurhash)
+		assert.equal(response.data.file?.file_name, fileItem?.fileName)
 
 		if (storeBookRelease.categories) {
 			assert.equal(response.data.categories.length, storeBookRelease.categories.length)
@@ -1591,6 +1603,8 @@ async function testShouldUpdateTitleOfStoreBook(storeBook, collection, accessTok
 	resetStoreBooks = true
 	resetStoreBookReleases = true
 	let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+	let coverItem = findCoverItem(storeBookRelease.coverItem)
+	let fileItem = findFileItem(storeBookRelease.fileItem)
 	let title = "Updated title"
 	let response
 
@@ -1624,9 +1638,9 @@ async function testShouldUpdateTitleOfStoreBook(storeBook, collection, accessTok
 	assert.equal(response.data.isbn, storeBookRelease.isbn)
 	assert.equal(response.data.status, storeBook.status ?? "unpublished")
 	if (response.data.cover) assert.isNotNull(response.data.cover.url)
-	assert.equal(response.data.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
-	assert.equal(response.data.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
-	assert.equal(response.data.file?.file_name, storeBookRelease.fileItem?.fileName)
+	assert.equal(response.data.cover?.aspect_ratio, coverItem?.aspectRatio)
+	assert.equal(response.data.cover?.blurhash, coverItem?.blurhash)
+	assert.equal(response.data.file?.file_name, fileItem?.fileName)
 
 	if (storeBookRelease.categories) {
 		assert.equal(response.data.categories.length, storeBookRelease.categories.length)
@@ -1665,6 +1679,8 @@ async function testShouldUpdateDescriptionOfStoreBook(storeBook, collection, acc
 	resetStoreBooks = true
 	resetStoreBookReleases = true
 	let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+	let coverItem = findCoverItem(storeBookRelease.coverItem)
+	let fileItem = findFileItem(storeBookRelease.fileItem)
 	let description = "Updated description"
 	let response
 
@@ -1698,9 +1714,9 @@ async function testShouldUpdateDescriptionOfStoreBook(storeBook, collection, acc
 	assert.equal(response.data.isbn, storeBookRelease.isbn)
 	assert.equal(response.data.status, storeBook.status ?? "unpublished")
 	if (response.data.cover) assert.isNotNull(response.data.cover.url)
-	assert.equal(response.data.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
-	assert.equal(response.data.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
-	assert.equal(response.data.file?.file_name, storeBookRelease.fileItem?.fileName)
+	assert.equal(response.data.cover?.aspect_ratio, coverItem?.aspectRatio)
+	assert.equal(response.data.cover?.blurhash, coverItem?.blurhash)
+	assert.equal(response.data.file?.file_name, fileItem?.fileName)
 
 	if (storeBookRelease.categories) {
 		assert.equal(response.data.categories.length, storeBookRelease.categories.length)
@@ -1739,6 +1755,8 @@ async function testShouldUpdateLanguageOfStoreBook(storeBook, collection, access
 	resetStoreBooks = true
 	resetStoreBookReleases = true
 	let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+	let coverItem = findCoverItem(storeBookRelease.coverItem)
+	let fileItem = findFileItem(storeBookRelease.fileItem)
 	let language = "fr"
 	let response
 
@@ -1772,9 +1790,9 @@ async function testShouldUpdateLanguageOfStoreBook(storeBook, collection, access
 	assert.equal(response.data.isbn, storeBookRelease.isbn)
 	assert.equal(response.data.status, storeBook.status ?? "unpublished")
 	if (response.data.cover) assert.isNotNull(response.data.cover.url)
-	assert.equal(response.data.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
-	assert.equal(response.data.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
-	assert.equal(response.data.file?.file_name, storeBookRelease.fileItem?.fileName)
+	assert.equal(response.data.cover?.aspect_ratio, coverItem?.aspectRatio)
+	assert.equal(response.data.cover?.blurhash, coverItem?.blurhash)
+	assert.equal(response.data.file?.file_name, fileItem?.fileName)
 
 	if (storeBookRelease.categories) {
 		assert.equal(response.data.categories.length, storeBookRelease.categories.length)
@@ -1826,6 +1844,8 @@ async function testShouldUpdatePriceOfStoreBook(storeBook, collection, accessTok
 	resetStoreBooks = true
 	resetStoreBookReleases = true
 	let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+	let coverItem = findCoverItem(storeBookRelease.coverItem)
+	let fileItem = findFileItem(storeBookRelease.fileItem)
 	let price = 23
 	let response
 
@@ -1859,9 +1879,9 @@ async function testShouldUpdatePriceOfStoreBook(storeBook, collection, accessTok
 	assert.equal(response.data.isbn, storeBookRelease.isbn)
 	assert.equal(response.data.status, storeBook.status ?? "unpublished")
 	if (response.data.cover) assert.isNotNull(response.data.cover.url)
-	assert.equal(response.data.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
-	assert.equal(response.data.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
-	assert.equal(response.data.file?.file_name, storeBookRelease.fileItem?.fileName)
+	assert.equal(response.data.cover?.aspect_ratio, coverItem?.aspectRatio)
+	assert.equal(response.data.cover?.blurhash, coverItem?.blurhash)
+	assert.equal(response.data.file?.file_name, fileItem?.fileName)
 
 	if (storeBookRelease.categories) {
 		assert.equal(response.data.categories.length, storeBookRelease.categories.length)
@@ -1900,6 +1920,8 @@ async function testShouldUpdateIsbnOfStoreBook(storeBook, collection, accessToke
 	resetStoreBooks = true
 	resetStoreBookReleases = true
 	let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+	let coverItem = findCoverItem(storeBookRelease.coverItem)
+	let fileItem = findFileItem(storeBookRelease.fileItem)
 	let isbn = "1234567890123"
 	let response
 
@@ -1933,9 +1955,9 @@ async function testShouldUpdateIsbnOfStoreBook(storeBook, collection, accessToke
 	assert.equal(response.data.isbn, isbn)
 	assert.equal(response.data.status, storeBook.status ?? "unpublished")
 	if (response.data.cover) assert.isNotNull(response.data.cover.url)
-	assert.equal(response.data.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
-	assert.equal(response.data.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
-	assert.equal(response.data.file?.file_name, storeBookRelease.fileItem?.fileName)
+	assert.equal(response.data.cover?.aspect_ratio, coverItem?.aspectRatio)
+	assert.equal(response.data.cover?.blurhash, coverItem?.blurhash)
+	assert.equal(response.data.file?.file_name, fileItem?.fileName)
 
 	if (storeBookRelease.categories) {
 		assert.equal(response.data.categories.length, storeBookRelease.categories.length)
@@ -2025,6 +2047,8 @@ async function testShouldUpdateStatusOfStoreBook(storeBook, collection, accessTo
 	resetStoreBooks = true
 	resetStoreBookReleases = true
 	let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+	let coverItem = findCoverItem(storeBookRelease.coverItem)
+	let fileItem = findFileItem(storeBookRelease.fileItem)
 	let status = storeBook.status == "published" ? "hidden" : "published"
 	let response
 
@@ -2058,9 +2082,9 @@ async function testShouldUpdateStatusOfStoreBook(storeBook, collection, accessTo
 	assert.equal(response.data.isbn, storeBookRelease.isbn)
 	assert.equal(response.data.status, status)
 	if (response.data.cover) assert.isNotNull(response.data.cover.url)
-	assert.equal(response.data.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
-	assert.equal(response.data.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
-	assert.equal(response.data.file?.file_name, storeBookRelease.fileItem?.fileName)
+	assert.equal(response.data.cover?.aspect_ratio, coverItem?.aspectRatio)
+	assert.equal(response.data.cover?.blurhash, coverItem?.blurhash)
+	assert.equal(response.data.file?.file_name, fileItem?.fileName)
 
 	if (storeBookRelease.categories) {
 		assert.equal(response.data.categories.length, storeBookRelease.categories.length)
@@ -2087,6 +2111,8 @@ async function testShouldUpdateCategoriesOfStoreBook(storeBook, collection, acce
 	resetStoreBooks = true
 	resetStoreBookReleases = true
 	let storeBookRelease = storeBook.releases[storeBook.releases.length - 1]
+	let coverItem = findCoverItem(storeBookRelease.coverItem)
+	let fileItem = findFileItem(storeBookRelease.fileItem)
 	let categories = [constants.categories[0].key, constants.categories[2].key]
 	let categoryUuids = [constants.categories[0].uuid, constants.categories[2].uuid]
 	let response
@@ -2121,9 +2147,9 @@ async function testShouldUpdateCategoriesOfStoreBook(storeBook, collection, acce
 	assert.equal(response.data.isbn, storeBookRelease.isbn)
 	assert.equal(response.data.status, storeBook.status ?? "unpublished")
 	if (response.data.cover) assert.isNotNull(response.data.cover.url)
-	assert.equal(response.data.cover?.aspect_ratio, storeBookRelease.coverItem?.aspectRatio)
-	assert.equal(response.data.cover?.blurhash, storeBookRelease.coverItem?.blurhash)
-	assert.equal(response.data.file?.file_name, storeBookRelease.fileItem?.fileName)
+	assert.equal(response.data.cover?.aspect_ratio, coverItem?.aspectRatio)
+	assert.equal(response.data.cover?.blurhash, coverItem?.blurhash)
+	assert.equal(response.data.file?.file_name, fileItem?.fileName)
 	assert.equal(response.data.categories.length, categories.length)
 
 	let i = 0
