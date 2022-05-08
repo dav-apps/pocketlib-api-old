@@ -1,0 +1,6 @@
+{
+	"type": "endpoint",
+	"path": "publishers/:uuid",
+	"method": "GET",
+	"source": "./retrieve_publisher.dx"
+}

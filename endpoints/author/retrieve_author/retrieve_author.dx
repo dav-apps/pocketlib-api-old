@@ -33,6 +33,7 @@
 
 	(# Get the author of the user)
 	(var author_objects (func get_author_table_objects (session.user_id)))
+
 	(if (author_objects.length == 0) (
 		(# User is not an author)
 		(func render_validation_errors ((list (hash (error (get_error 3000)) (status 400)))))
@@ -97,7 +98,7 @@
 	) else (
 		(var profile_image_hash (hash))
 
-		(if ((fields.contains "profile_image") or (fields.contains "profile_image.url")) (var profile_image_hash.url (TableObject.get_cdn_url profile_image_item.properties.profile_image (hash (etag profile_image.properties.etag)))))
+		(if ((fields.contains "profile_image") or (fields.contains "profile_image.url")) (var profile_image_hash.url (TableObject.get_cdn_url profile_image.uuid (hash (etag profile_image.properties.etag)))))
 		(if ((fields.contains "profile_image") or (fields.contains "profile_image.blurhash")) (var profile_image_hash.blurhash profile_image_item.properties.blurhash))
 
 		(var result.profile_image profile_image_hash)

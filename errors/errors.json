@@ -90,6 +90,7 @@
 		{"code": 3015, "message": "Language of StoreBook does not match language of StoreBookSeries"},
 		{"code": 3016, "message": "StoreBookRelease is already published"},
 		{"code": 3017, "message": "The user is already a publisher"},
+		{"code": 3018, "message": "The user is not a publisher"},
 
 		{"code": 3100, "message": "Can't use old access token"},
 		{"code": 3101, "message": "Access token must be renewed"},
@@ -119,6 +120,9 @@
 		{"code": 3516, "message": "Resource does not exist: StoreBookRelease"},
 		{"code": 3517, "message": "Resource does not exist: StoreBookCoverItem"},
 		{"code": 3518, "message": "Resource does not exist: StoreBookFileItem"},
-		{"code": 3519, "message": "Resource does not exist: AuthorProfileImageItem"}
+		{"code": 3519, "message": "Resource does not exist: AuthorProfileImageItem"},
+		{"code": 3520, "message": "Resource does not exist: Publisher"},
+		{"code": 3521, "message": "Resource does not exist: PublisherProfileImageItem"},
+		{"code": 3522, "message": "Resource does not exist: PublisherProfileImage"}
 	]
 }
