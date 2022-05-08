@@ -89,6 +89,7 @@
 		{"code": 3014, "message": "The user is not an admin"},
 		{"code": 3015, "message": "Language of StoreBook does not match language of StoreBookSeries"},
 		{"code": 3016, "message": "StoreBookRelease is already published"},
+		{"code": 3017, "message": "The user is already a publisher"},
 
 		{"code": 3100, "message": "Can't use old access token"},
 		{"code": 3101, "message": "Access token must be renewed"},
