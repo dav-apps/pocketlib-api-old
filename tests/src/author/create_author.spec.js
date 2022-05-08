@@ -16,7 +16,7 @@ afterEach(async () => {
 	}
 })
 
-describe("CreateAuthor endpoint", async () => {
+describe("CreateAuthor endpoint", () => {
 	it("should not create author without access token", async () => {
 		try {
 			await axios({

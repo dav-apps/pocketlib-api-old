@@ -94,6 +94,7 @@ export const UserIsAdmin = 3013
 export const UserIsNotAdmin = 3014
 export const LanguageOfStoreBookDoesNotMatchLanguageOfStoreBookSeries = 3015
 export const StoreBookReleaseAlreadyPublished = 3016
+export const UserIsAlreadyPublisher = 3017
 
 // Access token errors
 export const CannotUseOldAccessToken = 3100
