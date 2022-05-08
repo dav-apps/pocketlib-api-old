@@ -2,6 +2,23 @@ import constants from './constants.js'
 
 var tableObjects = []
 
+//#region Publishers, PublisherProfileImageItems, PublisherProfileImages
+addPublisherToTableObjects(constants.authorUser.publisher, constants.authorUser.id)
+
+for (let publisher of constants.davUser.publishers) {
+	addPublisherToTableObjects(publisher, constants.davUser.id)
+
+	if (publisher.profileImageItem) {
+		let profileImageItem = publisher.profileImageItem
+		addPublisherProfileImageItemToTableObjects(profileImageItem, constants.davUser.id)
+
+		if (profileImageItem.profileImage) {
+			addPublisherProfileImageToTableObjects(profileImageItem.profileImage, constants.davUser.id)
+		}
+	}
+}
+//#endregion
+
 //#region Authors, AuthorBios, AuthorProfileImageItems, AuthorProfileImages
 addAuthorToTableObjects(constants.authorUser.author, constants.authorUser.id)
 
@@ -29,6 +46,25 @@ for (let author of constants.davUser.authors) {
 
 		if (profileImageItem.profileImage) {
 			addAuthorProfileImageToTableObjects(profileImageItem.profileImage, constants.davUser.id)
+		}
+	}
+}
+
+for (let publisher of constants.davUser.publishers) {
+	for (let author of publisher.authors) {
+		addAuthorToTableObjects(author, constants.davUser.id)
+
+		for (let authorBio of author.bios) {
+			addAuthorBioToTableObjects(authorBio, constants.davUser.id)
+		}
+
+		if (author.profileImageItem) {
+			let profileImageItem = author.profileImageItem
+			addAuthorProfileImageItemToTableObjects(profileImageItem, constants.davUser.id)
+
+			if (profileImageItem.profileImage) {
+				addAuthorProfileImageToTableObjects(profileImageItem.profileImage, constants.davUser.id)
+			}
 		}
 	}
 }
@@ -146,6 +182,54 @@ export default {
 	tableObjects,
 	collections: constants.collections,
 	purchases: constants.purchases
+}
+
+function addPublisherToTableObjects(publisher, userId) {
+	let authors = []
+	publisher.authors.forEach(author => authors.push(author.uuid))
+
+	tableObjects.push({
+		uuid: publisher.uuid,
+		userId,
+		tableId: constants.publisherTableId,
+		file: false,
+		properties: {
+			name: publisher.name,
+			description: publisher.description,
+			website_url: publisher.websiteUrl ?? "",
+			facebook_username: publisher.facebookUsername ?? "",
+			instagram_username: publisher.instagramUsername ?? "",
+			twitter_username: publisher.twitterUsername ?? "",
+			authors: authors.join(','),
+			profile_image_item: publisher.profileImageItem?.uuid ?? ""
+		}
+	})
+}
+
+function addPublisherProfileImageItemToTableObjects(publisherProfileImageItem, userId) {
+	tableObjects.push({
+		uuid: publisherProfileImageItem.uuid,
+		userId,
+		tableId: constants.publisherProfileImageItemTableId,
+		file: false,
+		properties: {
+			blurhash: publisherProfileImageItem.blurhash ?? "",
+			profile_image: publisherProfileImageItem.profileImage?.uuid ?? ""
+		}
+	})
+}
+
+function addPublisherProfileImageToTableObjects(publisherProfileImage, userId) {
+	tableObjects.push({
+		uuid: publisherProfileImage.uuid,
+		userId,
+		tableId: constants.publisherProfileImageTableId,
+		file: true,
+		properties: {
+			ext: publisherProfileImage.ext,
+			type: publisherProfileImage.type
+		}
+	})
 }
 
 function addAuthorToTableObjects(author, userId) {

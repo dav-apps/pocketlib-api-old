@@ -11,6 +11,7 @@ import {
 import constants from './constants.js'
 
 export async function resetDatabase() {
+	resetPublishers()
 	await resetAuthors()
 	await resetAuthorBios()
 	await resetAuthorProfileImageItems()
@@ -27,6 +28,14 @@ export async function resetDatabase() {
 	await resetBooks()
 	await resetCategories()
 	await resetCategoryNames()
+}
+
+export async function resetPublishers() {
+	// Delete Publishers
+	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.publisherTableId)
+
+	// Reset Publishers
+	await resetDavUserPublishers()
 }
 
 export async function resetAuthors() {
@@ -167,6 +176,61 @@ export async function resetCategories() {
 export async function resetCategoryNames() {
 	// Delete CategoryNames
 	await resetDavUserCategoryNames()
+}
+
+async function resetDavUserPublishers() {
+	let testDatabasePublishers = []
+
+	// Reset the publishers of dav user
+	for (let publisher of constants.davUser.publishers) {
+		testDatabasePublishers.push(publisher.uuid)
+
+		let authors = []
+		publisher.authors.forEach(author => authors.push(author.uuid))
+
+		let response = await TableObjectsController.UpdateTableObject({
+			accessToken: constants.davUser.accessToken,
+			uuid: publisher.uuid,
+			properties: {
+				name: publisher.name,
+				description: publisher.description,
+				website_url: publisher.websiteUrl ?? "",
+				facebook_username: publisher.facebookUsername ?? "",
+				instagram_username: publisher.instagramUsername ?? "",
+				twitter_username: publisher.twitterUsername ?? "",
+				authors: authors.join(','),
+				profile_image_item: publisher.profileImageItem?.uuid ?? ""
+			}
+		})
+
+		if (!isSuccessStatusCode(response.status)) {
+			console.log(`Error in resetting the publisher ${publisher.name} of dav user`)
+			console.log(response.errors)
+		}
+	}
+
+	// Get the Publisher table
+	let publishers = []
+
+	let response = await TablesController.GetTable({
+		accessToken: constants.davUser.accessToken,
+		id: constants.publisherTableId
+	})
+
+	if (!isSuccessStatusCode(response.status)) {
+		console.log("Error in getting the Publisher table")
+		console.log(response.errors)
+	} else {
+		publishers = response.data.tableObjects
+	}
+
+	// Delete each publisher that is not part of the test database
+	for (let publisher of publishers) {
+		if (testDatabasePublishers.includes(publisher.uuid)) continue
+
+		// Delete the publisher
+		await deleteTableObject(constants.davUser.accessToken, publisher.uuid)
+	}
 }
 
 async function resetAuthorUserAuthor() {

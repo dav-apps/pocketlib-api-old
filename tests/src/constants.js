@@ -5,6 +5,9 @@ let constants = {
 	pocketlibAppId: 4,
 	bookTableId: 10,
 	bookFileTableId: 11,
+	publisherTableId: 33,
+	publisherProfileImageItemTableId: 34,
+	publisherProfileImageTableId: 35,
 	authorTableId: 14,
 	authorBioTableId: 15,
 	authorProfileImageItemTableId: 32,
@@ -31,6 +34,12 @@ let constants = {
 		// User id: 3, Dev id: 1, App id: 4 (PocketLib)
 		id: 3,
 		accessToken: "ckktuub8p00018iw3hy7b5i0m",
+		publisher: {
+			uuid: "30484542-f3e2-4888-8078-15aca76f6995",
+			name: "Penguin House",
+			description: "",
+			authors: []
+		},
 		author: {
 			uuid: "099fbfa5-a6f1-41c1-99e9-0d02d8364f2d",
 			firstName: "Lemony",
@@ -523,6 +532,26 @@ let constants = {
 		// User id: 1, Dev id: 1, App id: 4 (PocketLib)
 		id: 1,
 		accessToken: "ckktuujpl00028iw3s8ssrrsb",
+		publishers: [
+			{
+				uuid: "6855224f-b1e6-4f01-a7e6-515cf359af4b",
+				name: "Standard Ebooks",
+				description: "Standard Ebooks is a volunteer-driven project that produces new editions of public domain ebooks that are lovingly formatted, open source, free of U.S. copyright restrictions, and free of cost.",
+				websiteUrl: "https://standardebooks.org/",
+				authors: [],
+				profileImageItem: {
+					uuid: "830e7cd5-a41f-425f-a806-829475a02940",
+					blurhash: "LUGR@iNG01oM%MoMIVWU03t7tQR%",
+					profileImage: {
+						uuid: "ec0ca054-8e4b-4e65-a42e-a948f01d3469",
+						file: "./files/standardebooks.png",
+						etag: "2725dda467b0aaa5253e9956c5c2659c",
+						ext: "png",
+						type: "image/png"
+					}
+				}
+			}
+		],
 		authors: [
 			{
 				uuid: "622ad623-b9a4-415d-92ee-a66f8a7f3c51",
