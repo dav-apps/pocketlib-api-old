@@ -95,6 +95,7 @@ export const UserIsNotAdmin = 3014
 export const LanguageOfStoreBookDoesNotMatchLanguageOfStoreBookSeries = 3015
 export const StoreBookReleaseAlreadyPublished = 3016
 export const UserIsAlreadyPublisher = 3017
+export const UserIsNotPublisher = 3018
 
 // Access token errors
 export const CannotUseOldAccessToken = 3100
@@ -130,3 +131,6 @@ export const StoreBookReleaseDoesNotExist = 3516
 export const StoreBookCoverItemDoesNotExist = 3517
 export const StoreBookFileItemDoesNotExist = 3518
 export const AuthorProfileImageItemDoesNotExist = 3519
+export const PublisherDoesNotExist = 3520
+export const PublisherProfileImageItemDoesNotExist = 3521
+export const PublisherProfileImageDoesNotExist = 3522

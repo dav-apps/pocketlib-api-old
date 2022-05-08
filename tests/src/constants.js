@@ -37,7 +37,7 @@ let constants = {
 		publisher: {
 			uuid: "30484542-f3e2-4888-8078-15aca76f6995",
 			name: "Penguin House",
-			description: "",
+			description: "Publishing for Penguins!",
 			authors: []
 		},
 		author: {
