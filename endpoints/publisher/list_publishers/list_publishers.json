@@ -1,0 +1,7 @@
+{
+	"type": "endpoint",
+	"path": "publishers",
+	"method": "GET",
+	"source": "./list_publishers.dx",
+	"caching": true
+}

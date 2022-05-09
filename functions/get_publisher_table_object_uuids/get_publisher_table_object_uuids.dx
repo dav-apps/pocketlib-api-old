@@ -1,0 +1,7 @@
+(# params: user_id: int)
+(catch (
+	(Table.get_table_object_uuids (get_env "PUBLISHER_TABLE_ID") user_id)
+) (
+	(# Action not allowed)
+	(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
+))

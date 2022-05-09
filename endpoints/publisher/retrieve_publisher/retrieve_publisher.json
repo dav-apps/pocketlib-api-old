@@ -2,5 +2,6 @@
 	"type": "endpoint",
 	"path": "publishers/:uuid",
 	"method": "GET",
-	"source": "./retrieve_publisher.dx"
+	"source": "./retrieve_publisher.dx",
+	"caching": true
 }

@@ -1,0 +1,90 @@
+(# Get the params)
+(var fields_str (get_param "fields"))
+(var mine ((get_param "mine") == "true"))
+
+(if (is_nil fields_str) (
+	(var fields (list "uuid"))
+) elseif (fields_str == "*") (
+	(var fields (list "type" "items.uuid" "items.name" "items.description" "items.website_url" "items.facebook_username" "items.instagram_username" "items.twitter_username" "items.profile_image"))
+) else (
+	(# Process the fields string)
+	(var fields (func process_fields (fields_str)))
+))
+
+(if mine (
+	(# Get the access token)
+	(var access_token (get_header "Authorization"))
+	(func render_validation_errors ((list
+		(func validate_auth_header_presence (access_token))
+	)))
+
+	(# Get the session)
+	(var session (func get_session (access_token)))
+
+	(# Check if the user is an admin)
+	(var admins (get_env "ADMINS"))
+	(if (!(admins.contains session.user_id)) (
+		(# User is not an admin)
+		(func render_validation_errors ((list (hash (error (get_error 3014)) (status 400)))))
+	))
+
+	(# Get the publishers of the user)
+	(var publisher_uuids (func get_publisher_table_object_uuids (session.user_id)))
+) else (
+	(var publisher_uuids (list))
+))
+
+(var publishers (list))
+
+(for publisher_uuid in publisher_uuids (
+	(# Get the publisher table object)
+	(var publisher (func get_table_object (publisher_uuid (get_env "PUBLISHER_TABLE_ID"))))
+	(if (is_nil publisher) (continue))
+
+	(if (!(is_nil publisher.properties.profile_image_item)) (
+		(# Get the profile image item)
+		(var profile_image_item (func get_table_object (publisher.properties.profile_image_item (get_env "PUBLISHER_PROFILE_IMAGE_ITEM_TABLE_ID"))))
+
+		(if (!(is_nil profile_image_item)) (
+			(# Get the profile image)
+			(var profile_image (func get_table_object (profile_image_item.properties.profile_image (get_env "PUBLISHER_PROFILE_IMAGE_TABLE_ID"))))
+		))
+	))
+
+	(# Add the publisher to the list)
+	(var publisher_hash (hash))
+
+	(if (fields.contains "items.uuid") (var publisher_hash.uuid publisher.uuid))
+	(if (fields.contains "items.name") (var publisher_hash.name publisher.properties.name))
+	(if (fields.contains "items.description") (var publisher_hash.description publisher.properties.description))
+	(if (fields.contains "items.website_url") (var publisher_hash.website_url publisher.properties.website_url))
+	(if (fields.contains "items.facebook_username") (var publisher_hash.facebook_username publisher.properties.facebook_username))
+	(if (fields.contains "items.instagram_username") (var publisher_hash.instagram_username publisher.properties.instagram_username))
+	(if (fields.contains "items.twitter_username") (var publisher_hash.twitter_username publisher.properties.twitter_username))
+	(if (
+		(fields.contains "items.profile_image")
+		or (fields.contains "items.profile_image.url")
+		or (fields.contains "items.profile_image.blurhash")
+	) (
+		(if ((is_nil profile_image_item) or (is_nil profile_image)) (
+			(var publisher_hash.profile_image nil)
+		) else (
+			(var profile_image_hash (hash))
+
+			(if ((fields.contains "items.profile_image") or (fields.contains "items.profile_image.url")) (var profile_image_hash.url (TableObject.get_cdn_url profile_image.uuid (hash (etag profile_image.properties.etag)))))
+			(if ((fields.contains "items.profile_image") or (fields.contains "items.profile_image.blurhash")) (var profile_image_hash.blurhash profile_image_item.properties.blurhash))
+
+			(var publisher_hash.profile_image profile_image_hash)
+		))
+	))
+
+	(publishers.push publisher_hash)
+))
+
+(# Render the result)
+(var result (hash))
+
+(if (fields.contains "type") (var result.type "publisher"))
+(var result.items publishers)
+
+(render_json result 200)
