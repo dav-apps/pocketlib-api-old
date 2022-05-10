@@ -1,0 +1,6 @@
+{
+	"type": "endpoint",
+	"path": "publishers/:uuid",
+	"method": "PUT",
+	"source": "./update_publisher.dx"
+}

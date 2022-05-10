@@ -1,0 +1,163 @@
+(# Get the params)
+(var uuid (get_param "uuid"))
+(var fields_str (get_param "fields"))
+
+(if (is_nil fields_str) (
+	(var fields (list "uuid"))
+) elseif (fields_str == "*") (
+	(var fields (list "uuid" "name" "description" "website_url" "facebook_username" "instagram_username" "twitter_username" "profile_image"))
+) else (
+	(# Process the fields string)
+	(var fields (func process_fields (fields_str)))
+))
+
+(# Get the access token)
+(var access_token (get_header "Authorization"))
+(func render_validation_errors ((list
+	(func validate_auth_header_presence (access_token))
+)))
+
+(# Make sure content type is json)
+(func render_validation_errors ((list
+	(func validate_content_type_json ((get_header "Content-Type")))
+)))
+
+(var json (parse_json (get_body)))
+
+(var name json.name)
+(var description json.description)
+(var website_url json.website_url)
+(var raw_facebook_username json.facebook_username)
+(var raw_instagram_username json.instagram_username)
+(var raw_twitter_username json.twitter_username)
+
+(# Get the session)
+(var session (func get_session (access_token)))
+
+(# Check if the user is an admin)
+(var admins (get_env "ADMINS"))
+(var is_admin (admins.contains session.user_id))
+
+(if (uuid == "mine") (
+	(if is_admin (
+		(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
+	))
+
+	(# Get the publishers of the user)
+	(var publishers (func get_publisher_table_objects (session.user_id)))
+
+	(if (publishers.length == 0) (
+		(# User is not a publisher)
+		(func render_validation_errors ((list (hash (error (get_error 3018)) (status 400)))))
+	))
+
+	(var publisher publishers#0)
+) else (
+	(if (! is_admin) (
+		(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
+	))
+
+	(# Get the publisher)
+	(var publisher (func get_table_object (uuid (get_env "PUBLISHER_TABLE_ID"))))
+
+	(if (is_nil publisher) (
+		(# Publisher does not exist)
+		(func render_validation_errors ((list (hash (error (get_error 3520)) (status 404)))))
+	))
+
+	(# Check if the publisher belongs to the user)
+	(if (session.user_id != publisher.user_id) (
+		(# Action not allowed)
+		(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
+	))
+))
+
+(# Validate the property types)
+(func render_validation_errors ((list
+	(if (!(is_nil name)) (func validate_name_type (name)))
+	(if (!(is_nil description)) (func validate_description_type (description)))
+	(if (!(is_nil website_url)) (func validate_website_url_type (website_url)))
+	(if (!(is_nil raw_facebook_username)) (func validate_facebook_username_type (raw_facebook_username)))
+	(if (!(is_nil raw_instagram_username)) (func validate_instagram_username_type (raw_instagram_username)))
+	(if (!(is_nil raw_twitter_username)) (func validate_twitter_username_type (raw_twitter_username)))
+)))
+
+(# Validate the property length)
+(func render_validation_errors ((list
+	(if (!(is_nil name)) (func validate_name_length (name)))
+	(if (!(is_nil description)) (func validate_description_length (description)))
+)))
+
+(# Try to get the facebook username)
+(if (!(is_nil raw_facebook_username)) (
+	(var facebook_username (func get_facebook_username (raw_facebook_username)))
+))
+
+(# Try to get the instagram username)
+(if (!(is_nil raw_instagram_username)) (
+	(var instagram_username (func get_instagram_username (raw_instagram_username)))
+))
+
+(# Try to get the twitter username)
+(if (!(is_nil raw_twitter_username)) (
+	(var twitter_username (func get_twitter_username (raw_twitter_username)))
+))
+
+(# Show errors for invalid usernames)
+(func render_validation_errors ((list
+	(if (!(is_nil website_url)) (func validate_website_url_validity (website_url)))
+	(if ((!(is_nil raw_facebook_username)) and (is_nil facebook_username)) (hash (error (get_error 2501)) (status 400)))
+	(if ((!(is_nil raw_instagram_username)) and (is_nil instagram_username)) (hash (error (get_error 2502)) (status 400)))
+	(if ((!(is_nil raw_twitter_username)) and (is_nil twitter_username)) (hash (error (get_error 2503)) (status 400)))
+)))
+
+(# Set the values)
+(if (!(is_nil name)) (var publisher.properties.name name))
+(if (!(is_nil description)) (var publisher.properties.description description))
+(if (!(is_nil website_url)) (var publisher.properties.website_url (if (website_url.length == 0) nil else website_url)))
+(if (!(is_nil facebook_username)) (var publisher.properties.facebook_username (if (facebook_username.length == 0) nil else facebook_username)))
+(if (!(is_nil instagram_username)) (var publisher.properties.instagram_username (if (instagram_username.length == 0) nil else instagram_username)))
+(if (!(is_nil twitter_username)) (var publisher.properties.twitter_username (if (twitter_username.length == 0) nil else twitter_username)))
+
+(if (
+	(fields.contains "profile_image")
+	or (fields.contains "profile_image.url")
+	or (fields.contains "profile_image.blurhash")
+) (
+	(# Get the profile image item)
+	(var profile_image_item (func get_table_object (publisher.properties.profile_image_item (get_env "PUBLISHER_PROFILE_IMAGE_ITEM_TABLE_ID"))))
+
+	(if (!(is_nil profile_image_item)) (
+		(# Get the profile image)
+		(var profile_image (func get_table_object (profile_image_item.properties.profile_image (get_env "PUBLISHER_PROFILE_IMAGE_TABLE_ID"))))
+	))
+))
+
+(# Render the result)
+(var result (hash))
+
+(if (fields.contains "uuid") (var result.uuid publisher.uuid))
+(if (fields.contains "name") (var result.name publisher.properties.name))
+(if (fields.contains "description") (var result.description publisher.properties.description))
+(if (fields.contains "website_url") (var result.website_url publisher.properties.website_url))
+(if (fields.contains "facebook_username") (var result.facebook_username publisher.properties.facebook_username))
+(if (fields.contains "instagram_username") (var result.instagram_username publisher.properties.instagram_username))
+(if (fields.contains "twitter_username") (var result.twitter_username publisher.properties.twitter_username))
+(if (
+	(fields.contains "profile_image")
+	or (fields.contains "profile_image.url")
+	or (fields.contains "profile_image.blurhash")
+) (
+	(if ((is_nil profile_image_item) or (is_nil profile_image)) (
+		(var result.profile_image nil)
+	) else (
+		(var profile_image_hash (hash))
+
+		(if ((fields.contains "profile_image") or (fields.contains "profile_image.url")) (var profile_image_hash.url (TableObject.get_cdn_url profile_image.uuid (hash (etag profile_image.properties.etag)))))
+		(if ((fields.contains "profile_image") or (fields.contains "profile_image.blurhash")) (var profile_image_hash.blurhash profile_image_item.properties.blurhash))
+
+		(var result.profile_image profile_image_hash)
+	))
+))
+
+(render_json result 200)
