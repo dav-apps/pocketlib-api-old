@@ -35,6 +35,7 @@ export async function resetPublishers() {
 	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.publisherTableId)
 
 	// Reset Publishers
+	await resetAuthorUserPublisher()
 	await resetDavUserPublishers()
 }
 
@@ -176,6 +177,31 @@ export async function resetCategories() {
 export async function resetCategoryNames() {
 	// Delete CategoryNames
 	await resetDavUserCategoryNames()
+}
+
+async function resetAuthorUserPublisher() {
+	let authors = []
+	constants.authorUser.publisher.authors.forEach(author => authors.push(author.uuid))
+
+	let response = await TableObjectsController.UpdateTableObject({
+		accessToken: constants.authorUser.accessToken,
+		uuid: constants.authorUser.publisher.uuid,
+		properties: {
+			name: constants.authorUser.publisher.name,
+			description: constants.authorUser.publisher.description,
+			website_url: constants.authorUser.publisher.websiteUrl ?? "",
+			facebook_username: constants.authorUser.publisher.facebookUsername ?? "",
+			instagram_username: constants.authorUser.publisher.instagramUsername ?? "",
+			twitter_username: constants.authorUser.publisher.twitterUsername ?? "",
+			authors: authors.join(','),
+			profile_image_item: constants.authorUser.publisher.profileImageItem?.uuid ?? ""
+		}
+	})
+
+	if (!isSuccessStatusCode(response.status)) {
+		console.log("Error in resetting the publisher of author user")
+		console.log(response.errors)
+	}
 }
 
 async function resetDavUserPublishers() {
