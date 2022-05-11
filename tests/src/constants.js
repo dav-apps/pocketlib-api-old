@@ -38,7 +38,18 @@ let constants = {
 			uuid: "30484542-f3e2-4888-8078-15aca76f6995",
 			name: "Penguin House",
 			description: "Publishing for Penguins!",
-			authors: []
+			authors: [],
+			profileImageItem: {
+				uuid: "03b76a96-7ea3-407b-b895-fcb38df1b9f2",
+				blurhash: "LUGR@iNG01oM%MoMIVWU03t7tQR%",
+				profileImage: {
+					uuid: "d4952600-7040-4932-895c-9c22307c1af1",
+					file: "./files/olaf.jpg",
+					etag: "143b5249c619f06be25c7ab82863593c",
+					ext: "jpg",
+					type: "image/jpeg"
+				}
+			}
 		},
 		author: {
 			uuid: "099fbfa5-a6f1-41c1-99e9-0d02d8364f2d",
@@ -550,6 +561,12 @@ let constants = {
 						type: "image/png"
 					}
 				}
+			},
+			{
+				uuid: "3b45cb2b-b345-4556-81a8-8e9e6e27a7c1",
+				name: "Test publisher",
+				description: "Test publisher description",
+				authors: []
 			}
 		],
 		authors: [

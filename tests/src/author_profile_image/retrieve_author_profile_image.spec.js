@@ -6,7 +6,7 @@ import * as ErrorCodes from '../errorCodes.js'
 
 const retrieveAuthorProfileImageEndpoint = `${constants.apiBaseUrl}/authors/{0}/profile_image`
 
-describe("GetProfileImageOfAuthor endpoint", () => {
+describe("RetrieveAuthorProfileImage endpoint", () => {
 	it("should not return profile image of author without access token", async () => {
 		try {
 			await axios({
@@ -118,7 +118,7 @@ describe("GetProfileImageOfAuthor endpoint", () => {
 		assert.fail()
 	})
 
-	it("should not return profile image if the author does not exist", async () => {
+	it("should not return profile image of author that does not exist", async () => {
 		try {
 			await axios({
 				method: 'get',
@@ -133,6 +133,8 @@ describe("GetProfileImageOfAuthor endpoint", () => {
 			assert.equal(error.response.data.errors[0].code, ErrorCodes.AuthorDoesNotExist)
 			return
 		}
+
+		assert.fail()
 	})
 
 	it("should return profile image of author", async () => {

@@ -5,6 +5,10 @@ var tableObjects = []
 //#region Publishers, PublisherProfileImageItems, PublisherProfileImages
 addPublisherToTableObjects(constants.authorUser.publisher, constants.authorUser.id)
 
+let profileImageItem = constants.authorUser.publisher.profileImageItem
+addPublisherProfileImageItemToTableObjects(profileImageItem)
+addPublisherProfileImageToTableObjects(profileImageItem.profileImage, constants.authorUser.id)
+
 for (let publisher of constants.davUser.publishers) {
 	addPublisherToTableObjects(publisher, constants.davUser.id)
 
@@ -26,12 +30,9 @@ for (let authorBio of constants.authorUser.author.bios) {
 	addAuthorBioToTableObjects(authorBio, constants.authorUser.id)
 }
 
-let profileImageItem = constants.authorUser.author.profileImageItem
+profileImageItem = constants.authorUser.author.profileImageItem
 addAuthorProfileImageItemToTableObjects(profileImageItem, constants.authorUser.id)
-
-if (profileImageItem.profileImage) {
-	addAuthorProfileImageToTableObjects(profileImageItem.profileImage, constants.authorUser.id)
-}
+addAuthorProfileImageToTableObjects(profileImageItem.profileImage, constants.authorUser.id)
 
 for (let author of constants.davUser.authors) {
 	addAuthorToTableObjects(author, constants.davUser.id)
