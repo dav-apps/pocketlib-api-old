@@ -1,0 +1,6 @@
+{
+	"type": "endpoint",
+	"path": "publishers/:uuid/profile_image",
+	"method": "GET",
+	"source": "./retrieve_publisher_profile_image.dx"
+}

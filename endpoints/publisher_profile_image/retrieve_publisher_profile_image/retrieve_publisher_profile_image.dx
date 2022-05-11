@@ -1,0 +1,73 @@
+(# Get the params)
+(var uuid (get_param "uuid"))
+(var fields_str (get_param "fields"))
+
+(if (is_nil fields_str) (
+	(var fields (list "uuid"))
+) elseif (fields_str == "*") (
+	(var fields (list "uuid" "url" "blurhash"))
+) else (
+	(# Process the fields string)
+	(var fields (func process_fields (fields_str)))
+))
+
+(if (uuid == "mine") (
+	(# Get the access token)
+	(var access_token (get_header "Authorization"))
+	(func render_validation_errors ((list
+		(func validate_auth_header_presence (access_token))
+	)))
+
+	(# Get the session)
+	(var session (func get_session (access_token)))
+
+	(# Check if the user is an admin)
+	(var admins (get_env "ADMINS"))
+	(if (admins.contains session.user_id) (
+		(# User is an admin)
+		(func render_validation_errors ((list (hash (error (get_error 3013)) (status 400)))))
+	))
+
+	(# Get the publisher of the user)
+	(var publisher_objects (func get_publisher_table_objects (session.user_id)))
+
+	(if (publisher_objects.length == 0) (
+		(# User is not a publisher)
+		(func render_validation_errors ((list (hash (error (get_error 3018)) (status 400)))))
+	))
+
+	(var publisher publisher_objects#0)
+) else (
+	(# Get the publisher)
+	(var publisher (func get_table_object (uuid (get_env "PUBLISHER_TABLE_ID"))))
+
+	(if (is_nil publisher) (
+		(# Publisher does not exist)
+		(func render_validation_errors ((list (hash (error (get_error 3520)) (status 404)))))
+	))
+))
+
+(# Get the profile image item of the publisher)
+(var profile_image_item (func get_table_object (publisher.properties.profile_image_item (get_env "PUBLISHER_PROFILE_IMAGE_ITEM_TABLE_ID"))))
+
+(if (is_nil profile_image_item) (
+	(# ProfileImageItem does not exist)
+	(func render_validation_errors ((list (hash (error (get_error 3521)) (status 404)))))
+))
+
+(# Get the profile image)
+(var profile_image (func get_table_object (profile_image_item.properties.profile_image (get_env "PUBLISHER_PROFILE_IMAGE_TABLE_ID"))))
+
+(if (is_nil profile_image) (
+	(# PublisherProfileImage does not exist)
+	(func render_validation_errors ((list (hash (error (get_error 3522)) (status 404)))))
+))
+
+(# Render the result)
+(var result (hash))
+
+(if (fields.contains "uuid") (var result.uuid profile_image_item.uuid))
+(if (fields.contains "url") (var result.url (TableObject.get_cdn_url profile_image.uuid (hash (etag profile_image.properties.etag)))))
+(if (fields.contains "blurhash") (var result.blurhash profile_image_item.properties.blurhash))
+
+(render_json result 200)
