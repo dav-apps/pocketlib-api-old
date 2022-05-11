@@ -6,7 +6,7 @@ var tableObjects = []
 addPublisherToTableObjects(constants.authorUser.publisher, constants.authorUser.id)
 
 let profileImageItem = constants.authorUser.publisher.profileImageItem
-addPublisherProfileImageItemToTableObjects(profileImageItem)
+addPublisherProfileImageItemToTableObjects(profileImageItem, constants.authorUser.id)
 addPublisherProfileImageToTableObjects(profileImageItem.profileImage, constants.authorUser.id)
 
 for (let publisher of constants.davUser.publishers) {

@@ -11,7 +11,9 @@ import {
 import constants from './constants.js'
 
 export async function resetDatabase() {
-	resetPublishers()
+	await resetPublishers()
+	await resetPublisherProfileImageItems()
+	await resetPublisherProfileImages()
 	await resetAuthors()
 	await resetAuthorBios()
 	await resetAuthorProfileImageItems()
@@ -37,6 +39,24 @@ export async function resetPublishers() {
 	// Reset Publishers
 	await resetAuthorUserPublisher()
 	await resetDavUserPublishers()
+}
+
+export async function resetPublisherProfileImageItems() {
+	// Delete PublisherProfileImageItems
+	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.publisherProfileImageItemTableId)
+
+	// Reset PublisherProfileImageItems
+	await resetAuthorUserPublisherProfileImageItems()
+	await resetDavUserPublisherProfileImageItems()
+}
+
+export async function resetPublisherProfileImages() {
+	// Delete PublisherProfileImages
+	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.publisherProfileImageTableId)
+
+	// Reset PublisherProfileImages
+	await resetAuthorUserPublisherProfileImages()
+	await resetDavUserPublisherProfileImages()
 }
 
 export async function resetAuthors() {
@@ -256,6 +276,249 @@ async function resetDavUserPublishers() {
 
 		// Delete the publisher
 		await deleteTableObject(constants.davUser.accessToken, publisher.uuid)
+	}
+}
+
+async function resetAuthorUserPublisherProfileImageItems() {
+	// Get the profile image item table
+	let profileImageItems = []
+	let testDatabaseProfileImageItem = constants.authorUser.publisher.profileImageItem
+
+	let response = await TablesController.GetTable({
+		accessToken: constants.authorUser.accessToken,
+		id: constants.publisherProfileImageItemTableId
+	})
+
+	if (!isSuccessStatusCode(response.status)) {
+		console.log("Error in getting the PublisherProfileImageItem table")
+		console.log(response.errors)
+	}
+
+	// Reset the profile image item
+	response = await TableObjectsController.UpdateTableObject({
+		accessToken: constants.authorUser.accessToken,
+		uuid: testDatabaseProfileImageItem.uuid,
+		properties: {
+			blurhash: testDatabaseProfileImageItem.blurhash,
+			profile_image: testDatabaseProfileImageItem.profileImage?.uuid ?? ""
+		}
+	})
+
+	if (!isSuccessStatusCode(response.status)) {
+		console.log("Error in resetting PublisherProfileImageItem")
+		console.log(response.errors)
+	}
+
+	// Delete each profile image item that is not part of the test database
+	for (let profileImageItem of profileImageItems) {
+		if (profileImageItem.uuid != testDatabaseProfileImageItem.uuid) {
+			// Delete the profile image item
+			await deleteTableObject(constants.authorUser.accessToken, profileImageItem.uuid)
+		}
+	}
+}
+
+async function resetDavUserPublisherProfileImageItems() {
+	// Get the profile image item table
+	let profileImageItems = []
+	let testDatabaseProfileImageItems = []
+
+	let response = await TablesController.GetTable({
+		accessToken: constants.davUser.accessToken,
+		id: constants.publisherProfileImageItemTableId
+	})
+
+	if (!isSuccessStatusCode(response.status)) {
+		console.log("Error in getting the PublisherProfileImageItem table")
+		console.log(response.errors)
+	} else {
+		profileImageItems = response.data.tableObjects
+	}
+
+	// Get all profile image items of the test database
+	for (let publisher of constants.davUser.publishers) {
+		if (publisher.profileImageItem) testDatabaseProfileImageItems.push(publisher.profileImageItem)
+	}
+
+	// Reset each profile image item
+	for (let profileImageItem of testDatabaseProfileImageItems) {
+		let response = await TableObjectsController.UpdateTableObject({
+			accessToken: constants.davUser.accessToken,
+			uuid: profileImageItem.uuid,
+			properties: {
+				blurhash: profileImageItem.blurhash,
+				profile_image: profileImageItem.profileImage?.uuid ?? ""
+			}
+		})
+
+		if (!isSuccessStatusCode(response.status)) {
+			console.log("Error in resetting PublisherProfileImageItem")
+			console.log(response.errors)
+		}
+	}
+
+	// Delete each profile image item that is not part of the test database
+	for (let profileImageItem of profileImageItems) {
+		if (testDatabaseProfileImageItems.find(pi => pi.uuid == profileImageItem.uuid)) continue
+
+		// Delete the profile image item
+		await deleteTableObject(constants.davUser.accessToken, profileImageItem.uuid)
+	}
+}
+
+async function resetAuthorUserPublisherProfileImages() {
+	// Get the profile image table
+	let profileImages = []
+	let testDatabaseProfileImageItem = constants.authorUser.publisher.profileImageItem
+	let testDatabaseProfileImageUuid = testDatabaseProfileImageItem.profileImage.uuid
+
+	let response = await TablesController.GetTable({
+		accessToken: constants.authorUser.accessToken,
+		id: constants.publisherProfileImageTableId
+	})
+
+	if (!isSuccessStatusCode(response.status)) {
+		console.log("Error in getting the PublisherProfileImage table")
+		console.log(response.errors)
+	} else {
+		profileImages = response.data.tableObjects
+	}
+
+	// Delete each profile image that is not part of the test database
+	for (let profileImage of profileImages) {
+		if (profileImage.uuid != testDatabaseProfileImageUuid) {
+			// Delete the profile image
+			await deleteTableObject(constants.authorUser.accessToken, profileImage.uuid)
+		}
+	}
+
+	// Update the profile image of the test database if it has changed
+	if (profileImages.find(pi => pi.uuid == testDatabaseProfileImageUuid)) {
+		// Check if the etag of the file has changed
+		let response = await TableObjectsController.GetTableObject({
+			accessToken: constants.authorUser.accessToken,
+			uuid: testDatabaseProfileImageUuid
+		})
+
+		if (!isSuccessStatusCode(response.status)) {
+			console.log("Error in getting PublisherProfileImage")
+			console.log(response.errors)
+			return
+		}
+
+		if (response.data.tableObject.GetPropertyValue("etag") != testDatabaseProfileImageItem.profileImage.etag) {
+			// Set the ext
+			response = await TableObjectsController.UpdateTableObject({
+				accessToken: constants.authorUser.accessToken,
+				uuid: testDatabaseProfileImageUuid,
+				properties: {
+					ext: constants.authorUser.publisher.profileImageItem.profileImage.ext
+				}
+			})
+
+			if (!isSuccessStatusCode(response.status)) {
+				console.log("Error in updating PublisherProfileImage")
+				console.log(response.errors)
+				return
+			}
+
+			// Overwrite the file
+			let filePath = path.join(__dirname, testDatabaseProfileImageItem.profileImage.file)
+			let fileData = fs.readFileSync(filePath)
+
+			response = await TableObjectsController.SetTableObjectFile({
+				accessToken: constants.authorUser.accessToken,
+				uuid: testDatabaseProfileImageUuid,
+				data: fileData,
+				type: constants.authorUser.publisher.profileImageItem.profileImage.type
+			})
+
+			if (!isSuccessStatusCode(response.status)) {
+				console.log("Error in uploading PublisherProfileImage")
+				console.log(response.errors)
+			}
+		}
+	}
+}
+
+async function resetDavUserPublisherProfileImages() {
+	// Get the profile image table
+	let profileImages = []
+	let testDatabaseProfileImages = []
+
+	let response = await TablesController.GetTable({
+		accessToken: constants.davUser.accessToken,
+		id: constants.publisherProfileImageTableId
+	})
+
+	if (!isSuccessStatusCode(response.status)) {
+		console.log("Error in getting the PublisherProfileImage table")
+		console.log(response.errors)
+	} else {
+		profileImages = response.data.tableObjects
+	}
+
+	// Get all profile images of the test database
+	for (let publisher of constants.davUser.publishers) {
+		if (publisher.profileImageItem?.profileImage) testDatabaseProfileImages.push(publisher.profileImageItem.profileImage)
+	}
+
+	// Delete each profile image that is not part of the test database
+	for (let profileImage of profileImages) {
+		let i = testDatabaseProfileImages.findIndex(img => img.uuid == profileImage.uuid)
+
+		if (i == -1) {
+			// Delete the profile image
+			await deleteTableObject(constants.davUser.accessToken, profileImage.uuid)
+		}
+	}
+
+	// Update each profile image of the test database if it has changed
+	for (let profileImage of testDatabaseProfileImages) {
+		// Check if the etag of the file has changed
+		let response = await TableObjectsController.GetTableObject({
+			accessToken: constants.davUser.accessToken,
+			uuid: profileImage.uuid
+		})
+
+		if (!isSuccessStatusCode(response.status)) {
+			console.log("Error in getting PublisherProfileImage")
+			console.log(response.errors)
+			continue
+		}
+
+		if (response.data.tableObject.GetPropertyValue("etag") != profileImage.etag) {
+			// Set the ext
+			response = await TableObjectsController.UpdateTableObject({
+				accessToken: constants.davUser.accessToken,
+				uuid: profileImage.uuid,
+				properties: {
+					ext: profileImage.ext
+				}
+			})
+
+			if (!isSuccessStatusCode(response.status)) {
+				console.log("Error in updating PublisherProfileImage")
+				console.log(response.errors)
+				continue
+			}
+
+			// Overwrite the file
+			let filePath = path.join(__dirname, profileImage.file)
+			let fileData = fs.readFileSync(filePath)
+
+			response = await TableObjectsController.SetTableObjectFile({
+				accessToken: constants.davUser.accessToken,
+				uuid: profileImage.uuid,
+				data: fileData,
+				type: profileImage.type
+			})
+
+			if (!isSuccessStatusCode(response.status)) {
+				console.log("Error in uploading PublisherProfileImage")
+				console.log(response.errors)
+			}
+		}
 	}
 }
 

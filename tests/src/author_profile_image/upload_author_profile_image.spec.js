@@ -10,7 +10,7 @@ import constants from '../constants.js'
 import * as utils from '../utils.js'
 import * as ErrorCodes from '../errorCodes.js'
 
-const setProfileImageOfAuthorEndpointUrl = `${constants.apiBaseUrl}/authors/{0}/profile_image`
+const uploadAuthorProfileImageEndpointUrl = `${constants.apiBaseUrl}/authors/{0}/profile_image`
 let resetAuthorsAndAuthorProfileImages = false
 
 afterEach(async () => {
@@ -22,12 +22,12 @@ afterEach(async () => {
 	}
 })
 
-describe("SetProfileImageOfAuthor endpoint", () => {
+describe("UploadAuthorProfileImage endpoint", () => {
 	it("should not set profile image without access token", async () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setProfileImageOfAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
+				url: uploadAuthorProfileImageEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
 				headers: {
 					'Content-Type': 'application/json'
 				}
@@ -46,7 +46,7 @@ describe("SetProfileImageOfAuthor endpoint", () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setProfileImageOfAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
+				url: uploadAuthorProfileImageEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
 				headers: {
 					Authorization: "asdasdsdaasddas",
 					'Content-Type': 'image/png'
@@ -66,7 +66,7 @@ describe("SetProfileImageOfAuthor endpoint", () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setProfileImageOfAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
+				url: uploadAuthorProfileImageEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
 				headers: {
 					Authorization: constants.testUserTestAppAccessToken,
 					'Content-Type': 'image/jpeg'
@@ -86,7 +86,7 @@ describe("SetProfileImageOfAuthor endpoint", () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setProfileImageOfAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
+				url: uploadAuthorProfileImageEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
 				headers: {
 					Authorization: constants.davUser.accessToken
 				}
@@ -105,7 +105,7 @@ describe("SetProfileImageOfAuthor endpoint", () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setProfileImageOfAuthorEndpointUrl.replace('{0}', "mine"),
+				url: uploadAuthorProfileImageEndpointUrl.replace('{0}', "mine"),
 				headers: {
 					Authorization: constants.testUser.accessToken,
 					'Content-Type': 'image/png'
@@ -125,7 +125,7 @@ describe("SetProfileImageOfAuthor endpoint", () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setProfileImageOfAuthorEndpointUrl.replace('{0}', "mine"),
+				url: uploadAuthorProfileImageEndpointUrl.replace('{0}', "mine"),
 				headers: {
 					Authorization: constants.davUser.accessToken,
 					'Content-Type': 'image/png'
@@ -145,7 +145,7 @@ describe("SetProfileImageOfAuthor endpoint", () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setProfileImageOfAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
+				url: uploadAuthorProfileImageEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
 				headers: {
 					Authorization: constants.authorUser.accessToken,
 					'Content-Type': 'image/png'
@@ -161,11 +161,11 @@ describe("SetProfileImageOfAuthor endpoint", () => {
 		assert.fail()
 	})
 
-	it("should not set profile image if the author does not exist", async () => {
+	it("should not set profile image of author that does not exist", async () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setProfileImageOfAuthorEndpointUrl.replace('{0}', "asdasdasdads"),
+				url: uploadAuthorProfileImageEndpointUrl.replace('{0}', "asdasdasdads"),
 				headers: {
 					Authorization: constants.davUser.accessToken,
 					'Content-Type': 'image/png'
@@ -185,7 +185,7 @@ describe("SetProfileImageOfAuthor endpoint", () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setProfileImageOfAuthorEndpointUrl.replace('{0}', constants.authorUser.author.uuid),
+				url: uploadAuthorProfileImageEndpointUrl.replace('{0}', constants.authorUser.author.uuid),
 				headers: {
 					Authorization: constants.davUser.accessToken,
 					'Content-Type': 'image/png'
@@ -226,7 +226,7 @@ describe("SetProfileImageOfAuthor endpoint", () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setProfileImageOfAuthorEndpointUrl.replace('{0}', author.uuid),
+				url: uploadAuthorProfileImageEndpointUrl.replace('{0}', author.uuid),
 				headers: {
 					Authorization: accessToken,
 					'Content-Type': firstFileType
@@ -237,7 +237,7 @@ describe("SetProfileImageOfAuthor endpoint", () => {
 			assert.fail()
 		}
 
-		// Get the author table object (2)
+		// Get the author table object
 		let getAuthorObjResponse2 = await TableObjectsController.GetTableObject({
 			accessToken,
 			uuid: author.uuid
@@ -259,7 +259,6 @@ describe("SetProfileImageOfAuthor endpoint", () => {
 		assert.isNotNull(getProfileImageItemResponse.data.tableObject.GetPropertyValue("blurhash"))
 
 		let profileImageUuid = getProfileImageItemResponse.data.tableObject.GetPropertyValue("profile_image")
-
 		assert.isNotNull(profileImageUuid)
 
 		// Get the profile image table object file
@@ -289,7 +288,7 @@ describe("SetProfileImageOfAuthor endpoint", () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setProfileImageOfAuthorEndpointUrl.replace('{0}', author.uuid),
+				url: uploadAuthorProfileImageEndpointUrl.replace('{0}', author.uuid),
 				headers: {
 					Authorization: accessToken,
 					'Content-Type': secondFileType
@@ -357,7 +356,7 @@ describe("SetProfileImageOfAuthor endpoint", () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setProfileImageOfAuthorEndpointUrl.replace('{0}', "mine"),
+				url: uploadAuthorProfileImageEndpointUrl.replace('{0}', "mine"),
 				headers: {
 					Authorization: accessToken,
 					'Content-Type': firstFileType
@@ -390,7 +389,6 @@ describe("SetProfileImageOfAuthor endpoint", () => {
 		assert.isNotNull(getProfileImageItemResponse.data.tableObject.GetPropertyValue("blurhash"))
 
 		let profileImageUuid = getProfileImageItemResponse.data.tableObject.GetPropertyValue("profile_image")
-
 		assert.isNotNull(profileImageUuid)
 
 		// Get the profile image table object file
@@ -420,7 +418,7 @@ describe("SetProfileImageOfAuthor endpoint", () => {
 		try {
 			await axios({
 				method: 'put',
-				url: setProfileImageOfAuthorEndpointUrl.replace('{0}', "mine"),
+				url: uploadAuthorProfileImageEndpointUrl.replace('{0}', "mine"),
 				headers: {
 					Authorization: accessToken,
 					'Content-Type': secondFileType
