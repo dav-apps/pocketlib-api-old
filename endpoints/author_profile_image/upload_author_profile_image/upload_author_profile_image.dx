@@ -93,7 +93,7 @@
 
 (def update_profile_image (profile_image_item content_type data) (
 	(# Update the file of the profile image table object)
-	(func update_author_profile_image_table_object (profile_image_item.properties.profile_image content_type data))
+	(func update_profile_image_table_object (profile_image_item.properties.profile_image content_type data))
 
 	(func update_profile_image_item_properties (profile_image_item data))
 ))
@@ -115,7 +115,7 @@
 
 (if (is_nil profile_image) (
 	(# AuthorProfileImage does not exist)
-	(func render_validation_errors ((list (hash (error (get_error 3505)) (status 400)))))
+	(func render_validation_errors ((list (hash (error (get_error 3505)) (status 404)))))
 ))
 
 (# Render the result)

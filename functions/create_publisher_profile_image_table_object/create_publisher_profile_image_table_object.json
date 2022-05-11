@@ -1,0 +1,6 @@
+{
+	"type": "function",
+	"name": "create_publisher_profile_image_table_object",
+	"params": ["user_id", "type", "file"],
+	"source": "./create_publisher_profile_image_table_object.dx"
+}

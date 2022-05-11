@@ -1,0 +1,129 @@
+(# Get the params)
+(var uuid (get_param "uuid"))
+(var fields_str (get_param "fields"))
+
+(if (is_nil fields_str) (
+	(var fields (list "uuid"))
+) elseif (fields_str == "*") (
+	(var fields (list "uuid" "url" "blurhash"))
+) else (
+	(# Process the fields string)
+	(var fields (func process_fields (fields_str)))
+))
+
+(var data (get_body))
+
+(# Get the access token)
+(var access_token (get_header "Authorization"))
+(func render_validation_errors ((list
+	(func validate_auth_header_presence (access_token))
+)))
+
+(# Check if content type is supported)
+(var content_type (get_header "Content-Type"))
+(func render_validation_errors ((list
+	(func validate_content_type_image (content_type))
+)))
+
+(# Get the session)
+(var session (func get_session (access_token)))
+
+(# Check if the user is an admin)
+(var admins (get_env "ADMINS"))
+(var is_admin (admins.contains session.user_id))
+
+(if (uuid == "mine") (
+	(if is_admin (
+		(# User is an admin)
+		(func render_validation_errors ((list (hash (error (get_error 3013)) (status 400)))))
+	))
+
+	(# Get the publisher of the user)
+	(var publisher_objects (func get_publisher_table_objects (session.user_id)))
+
+	(if (publisher_objects.length == 0) (
+		(# User is not a publisher)
+		(func render_validation_errors ((list (hash (error (get_error 3018)) (status 400)))))
+	))
+
+	(var publisher publisher_objects#0)
+) else (
+	(if (! is_admin) (
+		(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
+	))
+
+	(# Get the publisher)
+	(var publisher (func get_table_object (uuid (get_env "PUBLISHER_TABLE_ID"))))
+
+	(if (is_nil publisher) (
+		(# Publisher does not exist)
+		(func render_validation_errors ((list (hash (error (get_error 3520)) (status 404)))))
+	))
+
+	(# Check if the author belongs to the user)
+	(if (session.user_id != publisher.user_id) (
+		(# Action not allowed)
+		(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
+	))
+))
+
+(# Define functions for creating and updating the profile image table object)
+(def update_profile_image_item_properties (profile_image_item data) (
+	(# Update the profile image item with the blurhash)
+	(var profile_image_item.properties.blurhash (Blurhash.encode data))
+))
+
+(def create_profile_image (publisher session content_type data) (
+	(# Create the profile image table object)
+	(var profile_image (func create_publisher_profile_image_table_object (publisher.user_id content_type data)))
+
+	(# Create the profile image item table object)
+	(var profile_image_item (func create_table_object (
+		publisher.user_id
+		(get_env "PUBLISHER_PROFILE_IMAGE_ITEM_TABLE_ID")
+		(hash
+			(profile_image profile_image.uuid)
+		)
+	)))
+
+	(# Set the properties of the profile image item)
+	(func update_profile_image_item_properties (profile_image_item data))
+
+	(return profile_image_item)
+))
+
+(def update_profile_image (profile_image_item content_type data) (
+	(# Update the file of the profile image table object)
+	(func update_profile_image_table_object (profile_image_item.properties.profile_image content_type data))
+
+	(func update_profile_image_item_properties (profile_image_item data))
+))
+
+(# Get the profile image item of the publisher)
+(var profile_image_item (func get_table_object (publisher.properties.profile_image_item (get_env "PUBLISHER_PROFILE_IMAGE_ITEM_TABLE_ID"))))
+
+(if (is_nil profile_image_item) (
+	(# Create the profile image and profile image item)
+	(var profile_image_item (func create_profile_image (publisher session content_type data)))
+	(var publisher.properties.profile_image_item profile_image_item.uuid)
+) else (
+	(# Update the profile image)
+	(func update_profile_image (profile_image_item content_type data))
+))
+
+(# Get the profile image)
+(var profile_image (func get_table_object (profile_image_item.properties.profile_image (get_env "PUBLISHER_PROFILE_IMAGE_TABLE_ID"))))
+
+(if (is_nil profile_image) (
+	(# PublisherProfileImage does not exist)
+	(func render_validation_errors ((list (hash (error (get_error 3522)) (status 404)))))
+))
+
+(# Render the result)
+(var result (hash))
+
+(if (fields.contains "uuid") (var result.uuid profile_image_item.uuid))
+(if (fields.contains "url") (var result.url (TableObject.get_cdn_url profile_image.uuid (hash (etag profile_image.properties.etag)))))
+(if (fields.contains "blurhash") (var result.blurhash profile_image_item.properties.blurhash))
+
+(render_json result 200)
