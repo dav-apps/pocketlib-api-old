@@ -132,5 +132,5 @@ export const StoreBookCoverItemDoesNotExist = 3517
 export const StoreBookFileItemDoesNotExist = 3518
 export const AuthorProfileImageItemDoesNotExist = 3519
 export const PublisherDoesNotExist = 3520
-export const PublisherProfileImageItemDoesNotExist = 3521
-export const PublisherProfileImageDoesNotExist = 3522
+export const PublisherLogoItemDoesNotExist = 3521
+export const PublisherLogoDoesNotExist = 3522

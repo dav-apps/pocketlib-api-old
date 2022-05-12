@@ -6,8 +6,8 @@ let constants = {
 	bookTableId: 10,
 	bookFileTableId: 11,
 	publisherTableId: 33,
-	publisherProfileImageItemTableId: 34,
-	publisherProfileImageTableId: 35,
+	publisherLogoItemTableId: 34,
+	publisherLogoTableId: 35,
 	authorTableId: 14,
 	authorBioTableId: 15,
 	authorProfileImageItemTableId: 32,
@@ -39,10 +39,10 @@ let constants = {
 			name: "Penguin House",
 			description: "Publishing for Penguins!",
 			authors: [],
-			profileImageItem: {
+			logoItem: {
 				uuid: "03b76a96-7ea3-407b-b895-fcb38df1b9f2",
 				blurhash: "LUGR@iNG01oM%MoMIVWU03t7tQR%",
-				profileImage: {
+				logo: {
 					uuid: "d4952600-7040-4932-895c-9c22307c1af1",
 					file: "./files/olaf.jpg",
 					etag: "143b5249c619f06be25c7ab82863593c",
@@ -550,10 +550,10 @@ let constants = {
 				description: "Standard Ebooks is a volunteer-driven project that produces new editions of public domain ebooks that are lovingly formatted, open source, free of U.S. copyright restrictions, and free of cost.",
 				websiteUrl: "https://standardebooks.org/",
 				authors: [],
-				profileImageItem: {
+				logoItem: {
 					uuid: "830e7cd5-a41f-425f-a806-829475a02940",
 					blurhash: "LUGR@iNG01oM%MoMIVWU03t7tQR%",
-					profileImage: {
+					logo: {
 						uuid: "ec0ca054-8e4b-4e65-a42e-a948f01d3469",
 						file: "./files/standardebooks.png",
 						etag: "2725dda467b0aaa5253e9956c5c2659c",

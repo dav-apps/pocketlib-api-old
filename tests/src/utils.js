@@ -12,8 +12,8 @@ import constants from './constants.js'
 
 export async function resetDatabase() {
 	await resetPublishers()
-	await resetPublisherProfileImageItems()
-	await resetPublisherProfileImages()
+	await resetPublisherLogoItems()
+	await resetPublisherLogos()
 	await resetAuthors()
 	await resetAuthorBios()
 	await resetAuthorProfileImageItems()
@@ -41,22 +41,22 @@ export async function resetPublishers() {
 	await resetDavUserPublishers()
 }
 
-export async function resetPublisherProfileImageItems() {
-	// Delete PublisherProfileImageItems
-	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.publisherProfileImageItemTableId)
+export async function resetPublisherLogoItems() {
+	// Delete PublisherLogoItems
+	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.publisherLogoItemTableId)
 
-	// Reset PublisherProfileImageItems
-	await resetAuthorUserPublisherProfileImageItems()
-	await resetDavUserPublisherProfileImageItems()
+	// Reset PublisherLogoItems
+	await resetAuthorUserPublisherLogoItems()
+	await resetDavUserPublisherLogoItems()
 }
 
-export async function resetPublisherProfileImages() {
+export async function resetPublisherLogos() {
 	// Delete PublisherProfileImages
-	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.publisherProfileImageTableId)
+	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.publisherLogoTableId)
 
 	// Reset PublisherProfileImages
-	await resetAuthorUserPublisherProfileImages()
-	await resetDavUserPublisherProfileImages()
+	await resetAuthorUserPublisherLogos()
+	await resetDavUserPublisherLogos()
 }
 
 export async function resetAuthors() {
@@ -214,7 +214,7 @@ async function resetAuthorUserPublisher() {
 			instagram_username: constants.authorUser.publisher.instagramUsername ?? "",
 			twitter_username: constants.authorUser.publisher.twitterUsername ?? "",
 			authors: authors.join(','),
-			profile_image_item: constants.authorUser.publisher.profileImageItem?.uuid ?? ""
+			logo_item: constants.authorUser.publisher.logoItem?.uuid ?? ""
 		}
 	})
 
@@ -245,7 +245,7 @@ async function resetDavUserPublishers() {
 				instagram_username: publisher.instagramUsername ?? "",
 				twitter_username: publisher.twitterUsername ?? "",
 				authors: authors.join(','),
-				profile_image_item: publisher.profileImageItem?.uuid ?? ""
+				logo_item: publisher.logoItem?.uuid ?? ""
 			}
 		})
 
@@ -279,243 +279,243 @@ async function resetDavUserPublishers() {
 	}
 }
 
-async function resetAuthorUserPublisherProfileImageItems() {
+async function resetAuthorUserPublisherLogoItems() {
 	// Get the profile image item table
-	let profileImageItems = []
-	let testDatabaseProfileImageItem = constants.authorUser.publisher.profileImageItem
+	let logoItems = []
+	let testDatabaseLogoItem = constants.authorUser.publisher.logoItem
 
 	let response = await TablesController.GetTable({
 		accessToken: constants.authorUser.accessToken,
-		id: constants.publisherProfileImageItemTableId
+		id: constants.publisherLogoItemTableId
 	})
 
 	if (!isSuccessStatusCode(response.status)) {
-		console.log("Error in getting the PublisherProfileImageItem table")
+		console.log("Error in getting the PublisherLogoItem table")
 		console.log(response.errors)
 	}
 
 	// Reset the profile image item
 	response = await TableObjectsController.UpdateTableObject({
 		accessToken: constants.authorUser.accessToken,
-		uuid: testDatabaseProfileImageItem.uuid,
+		uuid: testDatabaseLogoItem.uuid,
 		properties: {
-			blurhash: testDatabaseProfileImageItem.blurhash,
-			profile_image: testDatabaseProfileImageItem.profileImage?.uuid ?? ""
+			blurhash: testDatabaseLogoItem.blurhash,
+			profile_image: testDatabaseLogoItem.logo?.uuid ?? ""
 		}
 	})
 
 	if (!isSuccessStatusCode(response.status)) {
-		console.log("Error in resetting PublisherProfileImageItem")
+		console.log("Error in resetting PublisherLogoItem")
 		console.log(response.errors)
 	}
 
 	// Delete each profile image item that is not part of the test database
-	for (let profileImageItem of profileImageItems) {
-		if (profileImageItem.uuid != testDatabaseProfileImageItem.uuid) {
-			// Delete the profile image item
-			await deleteTableObject(constants.authorUser.accessToken, profileImageItem.uuid)
+	for (let logoItem of logoItems) {
+		if (logoItem.uuid != testDatabaseLogoItem.uuid) {
+			// Delete the logo item
+			await deleteTableObject(constants.authorUser.accessToken, logoItem.uuid)
 		}
 	}
 }
 
-async function resetDavUserPublisherProfileImageItems() {
-	// Get the profile image item table
-	let profileImageItems = []
-	let testDatabaseProfileImageItems = []
+async function resetDavUserPublisherLogoItems() {
+	// Get the logo item table
+	let logoItems = []
+	let testDatabaseLogoItems = []
 
 	let response = await TablesController.GetTable({
 		accessToken: constants.davUser.accessToken,
-		id: constants.publisherProfileImageItemTableId
+		id: constants.publisherLogoItemTableId
 	})
 
 	if (!isSuccessStatusCode(response.status)) {
-		console.log("Error in getting the PublisherProfileImageItem table")
+		console.log("Error in getting the PublisherLogoItem table")
 		console.log(response.errors)
 	} else {
-		profileImageItems = response.data.tableObjects
+		logoItems = response.data.tableObjects
 	}
 
-	// Get all profile image items of the test database
+	// Get all logo items of the test database
 	for (let publisher of constants.davUser.publishers) {
-		if (publisher.profileImageItem) testDatabaseProfileImageItems.push(publisher.profileImageItem)
+		if (publisher.logoItem) testDatabaseLogoItems.push(publisher.logoItem)
 	}
 
-	// Reset each profile image item
-	for (let profileImageItem of testDatabaseProfileImageItems) {
+	// Reset each logo item
+	for (let logoItem of testDatabaseLogoItems) {
 		let response = await TableObjectsController.UpdateTableObject({
 			accessToken: constants.davUser.accessToken,
-			uuid: profileImageItem.uuid,
+			uuid: logoItem.uuid,
 			properties: {
-				blurhash: profileImageItem.blurhash,
-				profile_image: profileImageItem.profileImage?.uuid ?? ""
+				blurhash: logoItem.blurhash,
+				logo: logoItem.logo?.uuid ?? ""
 			}
 		})
 
 		if (!isSuccessStatusCode(response.status)) {
-			console.log("Error in resetting PublisherProfileImageItem")
+			console.log("Error in resetting PublisherLogoItem")
 			console.log(response.errors)
 		}
 	}
 
-	// Delete each profile image item that is not part of the test database
-	for (let profileImageItem of profileImageItems) {
-		if (testDatabaseProfileImageItems.find(pi => pi.uuid == profileImageItem.uuid)) continue
+	// Delete each logo item that is not part of the test database
+	for (let logoItem of logoItems) {
+		if (testDatabaseLogoItems.find(pi => pi.uuid == logoItem.uuid)) continue
 
-		// Delete the profile image item
-		await deleteTableObject(constants.davUser.accessToken, profileImageItem.uuid)
+		// Delete the logo item
+		await deleteTableObject(constants.davUser.accessToken, logoItem.uuid)
 	}
 }
 
-async function resetAuthorUserPublisherProfileImages() {
-	// Get the profile image table
-	let profileImages = []
-	let testDatabaseProfileImageItem = constants.authorUser.publisher.profileImageItem
-	let testDatabaseProfileImageUuid = testDatabaseProfileImageItem.profileImage.uuid
+async function resetAuthorUserPublisherLogos() {
+	// Get the logo table
+	let logos = []
+	let testDatabaseLogoItem = constants.authorUser.publisher.logoItem
+	let testDatabaseLogoUuid = testDatabaseLogoItem.logo.uuid
 
 	let response = await TablesController.GetTable({
 		accessToken: constants.authorUser.accessToken,
-		id: constants.publisherProfileImageTableId
+		id: constants.publisherLogoTableId
 	})
 
 	if (!isSuccessStatusCode(response.status)) {
-		console.log("Error in getting the PublisherProfileImage table")
+		console.log("Error in getting the PublisherLogo table")
 		console.log(response.errors)
 	} else {
-		profileImages = response.data.tableObjects
+		logos = response.data.tableObjects
 	}
 
-	// Delete each profile image that is not part of the test database
-	for (let profileImage of profileImages) {
-		if (profileImage.uuid != testDatabaseProfileImageUuid) {
-			// Delete the profile image
-			await deleteTableObject(constants.authorUser.accessToken, profileImage.uuid)
+	// Delete each logo that is not part of the test database
+	for (let logo of logos) {
+		if (logo.uuid != testDatabaseLogoUuid) {
+			// Delete the logo
+			await deleteTableObject(constants.authorUser.accessToken, logo.uuid)
 		}
 	}
 
-	// Update the profile image of the test database if it has changed
-	if (profileImages.find(pi => pi.uuid == testDatabaseProfileImageUuid)) {
+	// Update the logo of the test database if it has changed
+	if (logos.find(l => l.uuid == testDatabaseLogoUuid)) {
 		// Check if the etag of the file has changed
 		let response = await TableObjectsController.GetTableObject({
 			accessToken: constants.authorUser.accessToken,
-			uuid: testDatabaseProfileImageUuid
+			uuid: testDatabaseLogoUuid
 		})
 
 		if (!isSuccessStatusCode(response.status)) {
-			console.log("Error in getting PublisherProfileImage")
+			console.log("Error in getting PublisherLogo")
 			console.log(response.errors)
 			return
 		}
 
-		if (response.data.tableObject.GetPropertyValue("etag") != testDatabaseProfileImageItem.profileImage.etag) {
+		if (response.data.tableObject.GetPropertyValue("etag") != testDatabaseLogoItem.logo.etag) {
 			// Set the ext
 			response = await TableObjectsController.UpdateTableObject({
 				accessToken: constants.authorUser.accessToken,
-				uuid: testDatabaseProfileImageUuid,
+				uuid: testDatabaseLogoUuid,
 				properties: {
-					ext: constants.authorUser.publisher.profileImageItem.profileImage.ext
+					ext: constants.authorUser.publisher.logoItem.logo.ext
 				}
 			})
 
 			if (!isSuccessStatusCode(response.status)) {
-				console.log("Error in updating PublisherProfileImage")
+				console.log("Error in updating PublisherLogo")
 				console.log(response.errors)
 				return
 			}
 
 			// Overwrite the file
-			let filePath = path.join(__dirname, testDatabaseProfileImageItem.profileImage.file)
+			let filePath = path.join(__dirname, testDatabaseLogoItem.logo.file)
 			let fileData = fs.readFileSync(filePath)
 
 			response = await TableObjectsController.SetTableObjectFile({
 				accessToken: constants.authorUser.accessToken,
-				uuid: testDatabaseProfileImageUuid,
+				uuid: testDatabaseLogoUuid,
 				data: fileData,
-				type: constants.authorUser.publisher.profileImageItem.profileImage.type
+				type: constants.authorUser.publisher.logoItem.logo.type
 			})
 
 			if (!isSuccessStatusCode(response.status)) {
-				console.log("Error in uploading PublisherProfileImage")
+				console.log("Error in uploading PublisherLogo")
 				console.log(response.errors)
 			}
 		}
 	}
 }
 
-async function resetDavUserPublisherProfileImages() {
-	// Get the profile image table
-	let profileImages = []
-	let testDatabaseProfileImages = []
+async function resetDavUserPublisherLogos() {
+	// Get the logo table
+	let logos = []
+	let testDatabaseLogos = []
 
 	let response = await TablesController.GetTable({
 		accessToken: constants.davUser.accessToken,
-		id: constants.publisherProfileImageTableId
+		id: constants.publisherLogoTableId
 	})
 
 	if (!isSuccessStatusCode(response.status)) {
-		console.log("Error in getting the PublisherProfileImage table")
+		console.log("Error in getting the PublisherLogo table")
 		console.log(response.errors)
 	} else {
-		profileImages = response.data.tableObjects
+		logos = response.data.tableObjects
 	}
 
-	// Get all profile images of the test database
+	// Get all logos of the test database
 	for (let publisher of constants.davUser.publishers) {
-		if (publisher.profileImageItem?.profileImage) testDatabaseProfileImages.push(publisher.profileImageItem.profileImage)
+		if (publisher.logoItem?.logo) testDatabaseLogos.push(publisher.logoItem.logo)
 	}
 
-	// Delete each profile image that is not part of the test database
-	for (let profileImage of profileImages) {
-		let i = testDatabaseProfileImages.findIndex(img => img.uuid == profileImage.uuid)
+	// Delete each logo that is not part of the test database
+	for (let logo of logos) {
+		let i = testDatabaseLogos.findIndex(img => img.uuid == logo.uuid)
 
 		if (i == -1) {
-			// Delete the profile image
-			await deleteTableObject(constants.davUser.accessToken, profileImage.uuid)
+			// Delete the logo
+			await deleteTableObject(constants.davUser.accessToken, logo.uuid)
 		}
 	}
 
-	// Update each profile image of the test database if it has changed
-	for (let profileImage of testDatabaseProfileImages) {
+	// Update each logo of the test database if it has changed
+	for (let logo of testDatabaseLogos) {
 		// Check if the etag of the file has changed
 		let response = await TableObjectsController.GetTableObject({
 			accessToken: constants.davUser.accessToken,
-			uuid: profileImage.uuid
+			uuid: logo.uuid
 		})
 
 		if (!isSuccessStatusCode(response.status)) {
-			console.log("Error in getting PublisherProfileImage")
+			console.log("Error in getting PublisherLogo")
 			console.log(response.errors)
 			continue
 		}
 
-		if (response.data.tableObject.GetPropertyValue("etag") != profileImage.etag) {
+		if (response.data.tableObject.GetPropertyValue("etag") != logo.etag) {
 			// Set the ext
 			response = await TableObjectsController.UpdateTableObject({
 				accessToken: constants.davUser.accessToken,
-				uuid: profileImage.uuid,
+				uuid: logo.uuid,
 				properties: {
-					ext: profileImage.ext
+					ext: logo.ext
 				}
 			})
 
 			if (!isSuccessStatusCode(response.status)) {
-				console.log("Error in updating PublisherProfileImage")
+				console.log("Error in updating PublisherLogo")
 				console.log(response.errors)
 				continue
 			}
 
 			// Overwrite the file
-			let filePath = path.join(__dirname, profileImage.file)
+			let filePath = path.join(__dirname, logo.file)
 			let fileData = fs.readFileSync(filePath)
 
 			response = await TableObjectsController.SetTableObjectFile({
 				accessToken: constants.davUser.accessToken,
-				uuid: profileImage.uuid,
+				uuid: logo.uuid,
 				data: fileData,
-				type: profileImage.type
+				type: logo.type
 			})
 
 			if (!isSuccessStatusCode(response.status)) {
-				console.log("Error in uploading PublisherProfileImage")
+				console.log("Error in uploading PublisherLogo")
 				console.log(response.errors)
 			}
 		}

@@ -2,22 +2,22 @@ import constants from './constants.js'
 
 var tableObjects = []
 
-//#region Publishers, PublisherProfileImageItems, PublisherProfileImages
+//#region Publishers, PublisherLogoItems, PublisherLogos
 addPublisherToTableObjects(constants.authorUser.publisher, constants.authorUser.id)
 
-let profileImageItem = constants.authorUser.publisher.profileImageItem
-addPublisherProfileImageItemToTableObjects(profileImageItem, constants.authorUser.id)
-addPublisherProfileImageToTableObjects(profileImageItem.profileImage, constants.authorUser.id)
+let logoItem = constants.authorUser.publisher.logoItem
+addPublisherLogoItemToTableObjects(logoItem, constants.authorUser.id)
+addPublisherLogoToTableObjects(logoItem.logo, constants.authorUser.id)
 
 for (let publisher of constants.davUser.publishers) {
 	addPublisherToTableObjects(publisher, constants.davUser.id)
 
-	if (publisher.profileImageItem) {
-		let profileImageItem = publisher.profileImageItem
-		addPublisherProfileImageItemToTableObjects(profileImageItem, constants.davUser.id)
+	if (publisher.logoItem) {
+		let logoItem = publisher.logoItem
+		addPublisherLogoItemToTableObjects(logoItem, constants.davUser.id)
 
-		if (profileImageItem.profileImage) {
-			addPublisherProfileImageToTableObjects(profileImageItem.profileImage, constants.davUser.id)
+		if (logoItem.logo) {
+			addPublisherLogoToTableObjects(logoItem.logo, constants.davUser.id)
 		}
 	}
 }
@@ -30,7 +30,7 @@ for (let authorBio of constants.authorUser.author.bios) {
 	addAuthorBioToTableObjects(authorBio, constants.authorUser.id)
 }
 
-profileImageItem = constants.authorUser.author.profileImageItem
+let profileImageItem = constants.authorUser.author.profileImageItem
 addAuthorProfileImageItemToTableObjects(profileImageItem, constants.authorUser.id)
 addAuthorProfileImageToTableObjects(profileImageItem.profileImage, constants.authorUser.id)
 
@@ -202,33 +202,33 @@ function addPublisherToTableObjects(publisher, userId) {
 			instagram_username: publisher.instagramUsername ?? "",
 			twitter_username: publisher.twitterUsername ?? "",
 			authors: authors.join(','),
-			profile_image_item: publisher.profileImageItem?.uuid ?? ""
+			logo_item: publisher.logoItem?.uuid ?? ""
 		}
 	})
 }
 
-function addPublisherProfileImageItemToTableObjects(publisherProfileImageItem, userId) {
+function addPublisherLogoItemToTableObjects(publisherLogoItem, userId) {
 	tableObjects.push({
-		uuid: publisherProfileImageItem.uuid,
+		uuid: publisherLogoItem.uuid,
 		userId,
-		tableId: constants.publisherProfileImageItemTableId,
+		tableId: constants.publisherLogoItemTableId,
 		file: false,
 		properties: {
-			blurhash: publisherProfileImageItem.blurhash ?? "",
-			profile_image: publisherProfileImageItem.profileImage?.uuid ?? ""
+			blurhash: publisherLogoItem.blurhash ?? "",
+			logo: publisherLogoItem.logo?.uuid ?? ""
 		}
 	})
 }
 
-function addPublisherProfileImageToTableObjects(publisherProfileImage, userId) {
+function addPublisherLogoToTableObjects(publisherLogo, userId) {
 	tableObjects.push({
-		uuid: publisherProfileImage.uuid,
+		uuid: publisherLogo.uuid,
 		userId,
-		tableId: constants.publisherProfileImageTableId,
+		tableId: constants.publisherLogoTableId,
 		file: true,
 		properties: {
-			ext: publisherProfileImage.ext,
-			type: publisherProfileImage.type
+			ext: publisherLogo.ext,
+			type: publisherLogo.type
 		}
 	})
 }
