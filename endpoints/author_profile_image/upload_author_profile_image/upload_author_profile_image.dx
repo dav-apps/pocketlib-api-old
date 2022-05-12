@@ -93,7 +93,7 @@
 
 (def update_profile_image (profile_image_item content_type data) (
 	(# Update the file of the profile image table object)
-	(func update_profile_image_table_object (profile_image_item.properties.profile_image content_type data))
+	(func update_image_table_object (profile_image_item.properties.profile_image content_type data))
 
 	(func update_profile_image_item_properties (profile_image_item data))
 ))

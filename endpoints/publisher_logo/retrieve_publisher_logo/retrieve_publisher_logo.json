@@ -1,0 +1,6 @@
+{
+	"type": "endpoint",
+	"path": "publishers/:uuid/logo",
+	"method": "GET",
+	"source": "./retrieve_publisher_logo.dx"
+}

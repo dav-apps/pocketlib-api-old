@@ -47,27 +47,27 @@
 	))
 ))
 
-(# Get the profile image item of the publisher)
-(var profile_image_item (func get_table_object (publisher.properties.profile_image_item (get_env "PUBLISHER_PROFILE_IMAGE_ITEM_TABLE_ID"))))
+(# Get the logo item of the publisher)
+(var logo_item (func get_table_object (publisher.properties.logo_item (get_env "PUBLISHER_LOGO_ITEM_TABLE_ID"))))
 
-(if (is_nil profile_image_item) (
-	(# ProfileImageItem does not exist)
+(if (is_nil logo_item) (
+	(# PublisherLogoItem does not exist)
 	(func render_validation_errors ((list (hash (error (get_error 3521)) (status 404)))))
 ))
 
-(# Get the profile image)
-(var profile_image (func get_table_object (profile_image_item.properties.profile_image (get_env "PUBLISHER_PROFILE_IMAGE_TABLE_ID"))))
+(# Get the logo)
+(var logo (func get_table_object (logo_item.properties.logo (get_env "PUBLISHER_LOGO_TABLE_ID"))))
 
-(if (is_nil profile_image) (
-	(# PublisherProfileImage does not exist)
+(if (is_nil logo) (
+	(# PublisherLogo does not exist)
 	(func render_validation_errors ((list (hash (error (get_error 3522)) (status 404)))))
 ))
 
 (# Render the result)
 (var result (hash))
 
-(if (fields.contains "uuid") (var result.uuid profile_image_item.uuid))
-(if (fields.contains "url") (var result.url (TableObject.get_cdn_url profile_image.uuid (hash (etag profile_image.properties.etag)))))
-(if (fields.contains "blurhash") (var result.blurhash profile_image_item.properties.blurhash))
+(if (fields.contains "uuid") (var result.uuid logo_item.uuid))
+(if (fields.contains "url") (var result.url (TableObject.get_cdn_url logo.uuid (hash (etag logo.properties.etag)))))
+(if (fields.contains "blurhash") (var result.blurhash logo_item.properties.blurhash))
 
 (render_json result 200)

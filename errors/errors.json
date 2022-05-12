@@ -122,7 +122,7 @@
 		{"code": 3518, "message": "Resource does not exist: StoreBookFileItem"},
 		{"code": 3519, "message": "Resource does not exist: AuthorProfileImageItem"},
 		{"code": 3520, "message": "Resource does not exist: Publisher"},
-		{"code": 3521, "message": "Resource does not exist: PublisherProfileImageItem"},
-		{"code": 3522, "message": "Resource does not exist: PublisherProfileImage"}
+		{"code": 3521, "message": "Resource does not exist: PublisherLogoItem"},
+		{"code": 3522, "message": "Resource does not exist: PublisherLogo"}
 	]
 }

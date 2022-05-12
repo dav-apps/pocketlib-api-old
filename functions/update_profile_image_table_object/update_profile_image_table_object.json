@@ -1,6 +1,0 @@
-{
-	"type": "function",
-	"name": "update_profile_image_table_object",
-	"params": ["uuid", "type", "file"],
-	"source": "./update_profile_image_table_object.dx"
-}

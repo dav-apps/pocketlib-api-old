@@ -1,0 +1,6 @@
+{
+	"type": "endpoint",
+	"path": "publishers/:uuid/logo",
+	"method": "PUT",
+	"source": "./upload_publisher_logo.dx"
+}
