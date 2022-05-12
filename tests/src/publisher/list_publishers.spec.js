@@ -127,8 +127,8 @@ describe("ListPublishers endpoint", () => {
 			assert.equal(responsePublisher.facebook_username, publisher.facebookUsername)
 			assert.equal(responsePublisher.instagram_username, publisher.instagramUsername)
 			assert.equal(responsePublisher.twitter_username, publisher.twitterUsername)
-			if (publisher.profileImageItem) assert.isNotNull(responsePublisher.profile_image?.url)
-			assert.equal(responsePublisher.profile_image?.blurhash, publisher.profileImageItem?.blurhash)
+			if (publisher.logoItem) assert.isNotNull(responsePublisher.logo?.url)
+			assert.equal(responsePublisher.logo?.blurhash, publisher.logoItem?.blurhash)
 		}
 	})
 })

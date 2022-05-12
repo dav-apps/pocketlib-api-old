@@ -241,7 +241,7 @@ describe("CreatePublisher endpoint", () => {
 		assert.isNull(response.data.facebook_username)
 		assert.isNull(response.data.instagram_username)
 		assert.isNull(response.data.twitter_username)
-		assert.isNull(response.data.profile_image)
+		assert.isNull(response.data.logo)
 
 		// Check if the publisher was correctly created on the server
 		let objResponse = await TableObjectsController.GetTableObject({
@@ -288,7 +288,7 @@ describe("CreatePublisher endpoint", () => {
 		assert.isNull(response.data.facebook_username)
 		assert.isNull(response.data.instagram_username)
 		assert.isNull(response.data.twitter_username)
-		assert.isNull(response.data.profile_image)
+		assert.isNull(response.data.logo)
 
 		// Check if the publisher was correctly created on the server
 		let objResponse = await TableObjectsController.GetTableObject({

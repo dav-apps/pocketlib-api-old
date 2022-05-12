@@ -323,8 +323,8 @@ describe("UpdatePublisher endpoint", () => {
 		assert.equal(response.data.facebook_username, publisher.facebookUsername)
 		assert.equal(response.data.instagram_username, publisher.instagramUsername)
 		assert.equal(response.data.twitter_username, publisher.twitterUsername)
-		if (publisher.profileImageItem) assert.isNotNull(response.data.profile_image?.url)
-		assert.equal(response.data.profile_image?.blurhash, publisher.profileImageItem?.blurhash)
+		if (publisher.logoItem) assert.isNotNull(response.data.logo?.url)
+		assert.equal(response.data.logo?.blurhash, publisher.logoItem?.blurhash)
 
 		// Check if the data was updated correctly on the server
 		let objResponse = await TableObjectsController.GetTableObject({
@@ -371,8 +371,8 @@ describe("UpdatePublisher endpoint", () => {
 		assert.equal(response.data.facebook_username, publisher.facebookUsername)
 		assert.equal(response.data.instagram_username, publisher.instagramUsername)
 		assert.equal(response.data.twitter_username, publisher.twitterUsername)
-		if (publisher.profileImageItem) assert.isNotNull(response.data.profile_image?.url)
-		assert.equal(response.data.profile_image?.blurhash, publisher.profileImageItem?.blurhash)
+		if (publisher.logoItem) assert.isNotNull(response.data.logo?.url)
+		assert.equal(response.data.logo?.blurhash, publisher.logoItem?.blurhash)
 
 		// Check if the data was updated correctly on the server
 		let objResponse = await TableObjectsController.GetTableObject({
@@ -425,8 +425,8 @@ describe("UpdatePublisher endpoint", () => {
 		assert.equal(response.data.facebook_username, facebookUsername)
 		assert.equal(response.data.instagram_username, instagramUsername)
 		assert.equal(response.data.twitter_username, twitterUsername)
-		if (publisher.profileImageItem) assert.isNotNull(response.data.profile_image?.url)
-		assert.equal(response.data.profile_image?.blurhash, publisher.profileImageItem?.blurhash)
+		if (publisher.logoItem) assert.isNotNull(response.data.logo?.url)
+		assert.equal(response.data.logo?.blurhash, publisher.logoItem?.blurhash)
 
 		// Check if the data was updated correctly on the server
 		let objResponse = await TableObjectsController.GetTableObject({
@@ -517,8 +517,8 @@ describe("UpdatePublisher endpoint", () => {
 		assert.equal(response.data.facebook_username, facebookUsername)
 		assert.equal(response.data.instagram_username, instagramUsername)
 		assert.equal(response.data.twitter_username, twitterUsername)
-		if (publisher.profileImageItem) assert.isNotNull(response.data.profile_image?.url)
-		assert.equal(response.data.profile_image?.blurhash, publisher.profileImageItem?.blurhash)
+		if (publisher.logoItem) assert.isNotNull(response.data.logo?.url)
+		assert.equal(response.data.logo?.blurhash, publisher.logoItem?.blurhash)
 
 		// Check if the data was updated correctly on the server
 		let objResponse = await TableObjectsController.GetTableObject({
@@ -570,8 +570,8 @@ describe("UpdatePublisher endpoint", () => {
 		assert.equal(response.data.facebook_username, publisher.facebookUsername)
 		assert.equal(response.data.instagram_username, publisher.instagramUsername)
 		assert.equal(response.data.twitter_username, publisher.twitterUsername)
-		if (publisher.profileImageItem) assert.isNotNull(response.data.profile_image?.url)
-		assert.equal(response.data.profile_image?.blurhash, publisher.profileImageItem?.blurhash)
+		if (publisher.logoItem) assert.isNotNull(response.data.logo?.url)
+		assert.equal(response.data.logo?.blurhash, publisher.logoItem?.blurhash)
 
 		// Check if the data was updated correctly on the server
 		let objResponse = await TableObjectsController.GetTableObject({
@@ -618,8 +618,8 @@ describe("UpdatePublisher endpoint", () => {
 		assert.equal(response.data.facebook_username, publisher.facebookUsername)
 		assert.equal(response.data.instagram_username, publisher.instagramUsername)
 		assert.equal(response.data.twitter_username, publisher.twitterUsername)
-		if (publisher.profileImageItem) assert.isNotNull(response.data.profile_image?.url)
-		assert.equal(response.data.profile_image?.blurhash, publisher.profileImageItem?.blurhash)
+		if (publisher.logoItem) assert.isNotNull(response.data.logo?.url)
+		assert.equal(response.data.logo?.blurhash, publisher.logoItem?.blurhash)
 
 		// Check if the data was updated correctly on the server
 		let objResponse = await TableObjectsController.GetTableObject({
@@ -672,8 +672,8 @@ describe("UpdatePublisher endpoint", () => {
 		assert.equal(response.data.facebook_username, facebookUsername)
 		assert.equal(response.data.instagram_username, instagramUsername)
 		assert.equal(response.data.twitter_username, twitterUsername)
-		if (publisher.profileImageItem) assert.isNotNull(response.data.profile_image?.url)
-		assert.equal(response.data.profile_image?.blurhash, publisher.profileImageItem?.blurhash)
+		if (publisher.logoItem) assert.isNotNull(response.data.logo?.url)
+		assert.equal(response.data.logo?.blurhash, publisher.logoItem?.blurhash)
 
 		// Check if the data was updated correctly on the server
 		let objResponse = await TableObjectsController.GetTableObject({
@@ -764,8 +764,8 @@ describe("UpdatePublisher endpoint", () => {
 		assert.equal(response.data.facebook_username, facebookUsername)
 		assert.equal(response.data.instagram_username, instagramUsername)
 		assert.equal(response.data.twitter_username, twitterUsername)
-		if (publisher.profileImageItem) assert.isNotNull(response.data.profile_image?.url)
-		assert.equal(response.data.profile_image?.blurhash, publisher.profileImageItem?.blurhash)
+		if (publisher.logoItem) assert.isNotNull(response.data.logo?.url)
+		assert.equal(response.data.logo?.blurhash, publisher.logoItem?.blurhash)
 
 		// Check if the data was updated correctly on the server
 		let objResponse = await TableObjectsController.GetTableObject({

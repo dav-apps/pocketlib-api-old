@@ -5,7 +5,7 @@
 (if (is_nil fields_str) (
 	(var fields (list "uuid"))
 ) elseif (fields_str == "*") (
-	(var fields (list "type" "items.uuid" "items.name" "items.description" "items.website_url" "items.facebook_username" "items.instagram_username" "items.twitter_username" "items.profile_image"))
+	(var fields (list "type" "items.uuid" "items.name" "items.description" "items.website_url" "items.facebook_username" "items.instagram_username" "items.twitter_username" "items.logo"))
 ) else (
 	(# Process the fields string)
 	(var fields (func process_fields (fields_str)))
@@ -41,13 +41,13 @@
 	(var publisher (func get_table_object (publisher_uuid (get_env "PUBLISHER_TABLE_ID"))))
 	(if (is_nil publisher) (continue))
 
-	(if (!(is_nil publisher.properties.profile_image_item)) (
-		(# Get the profile image item)
-		(var profile_image_item (func get_table_object (publisher.properties.profile_image_item (get_env "PUBLISHER_PROFILE_IMAGE_ITEM_TABLE_ID"))))
+	(if (!(is_nil publisher.properties.logo_item)) (
+		(# Get the logo item)
+		(var logo_item (func get_table_object (publisher.properties.logo_item (get_env "PUBLISHER_LOGO_ITEM_TABLE_ID"))))
 
-		(if (!(is_nil profile_image_item)) (
-			(# Get the profile image)
-			(var profile_image (func get_table_object (profile_image_item.properties.profile_image (get_env "PUBLISHER_PROFILE_IMAGE_TABLE_ID"))))
+		(if (!(is_nil logo_item)) (
+			(# Get the logo)
+			(var logo (func get_table_object (logo_item.properties.logo (get_env "PUBLISHER_LOGO_TABLE_ID"))))
 		))
 	))
 
@@ -62,19 +62,19 @@
 	(if (fields.contains "items.instagram_username") (var publisher_hash.instagram_username publisher.properties.instagram_username))
 	(if (fields.contains "items.twitter_username") (var publisher_hash.twitter_username publisher.properties.twitter_username))
 	(if (
-		(fields.contains "items.profile_image")
-		or (fields.contains "items.profile_image.url")
-		or (fields.contains "items.profile_image.blurhash")
+		(fields.contains "items.logo")
+		or (fields.contains "items.logo.url")
+		or (fields.contains "items.logo.blurhash")
 	) (
-		(if ((is_nil profile_image_item) or (is_nil profile_image)) (
-			(var publisher_hash.profile_image nil)
+		(if ((is_nil logo_item) or (is_nil logo)) (
+			(var publisher_hash.logo nil)
 		) else (
-			(var profile_image_hash (hash))
+			(var logo_hash (hash))
 
-			(if ((fields.contains "items.profile_image") or (fields.contains "items.profile_image.url")) (var profile_image_hash.url (TableObject.get_cdn_url profile_image.uuid (hash (etag profile_image.properties.etag)))))
-			(if ((fields.contains "items.profile_image") or (fields.contains "items.profile_image.blurhash")) (var profile_image_hash.blurhash profile_image_item.properties.blurhash))
+			(if ((fields.contains "items.logo") or (fields.contains "items.logo.url")) (var logo_hash.url (TableObject.get_cdn_url logo.uuid (hash (etag logo.properties.etag)))))
+			(if ((fields.contains "items.logo") or (fields.contains "items.logo.blurhash")) (var logo_hash.blurhash logo_item.properties.blurhash))
 
-			(var publisher_hash.profile_image profile_image_hash)
+			(var publisher_hash.logo logo_hash)
 		))
 	))
 

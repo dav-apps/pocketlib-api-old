@@ -4,7 +4,7 @@
 (if (is_nil fields_str) (
 	(var fields (list "uuid"))
 ) elseif (fields_str == "*") (
-	(var fields (list "uuid" "name" "description" "website_url" "facebook_username" "instagram_username" "twitter_username" "profile_image"))
+	(var fields (list "uuid" "name" "description" "website_url" "facebook_username" "instagram_username" "twitter_username" "logo"))
 ) else (
 	(# Process the fields string)
 	(var fields (func process_fields (fields_str)))
@@ -67,6 +67,6 @@
 (if (fields.contains "facebook_username") (var result.facebook_username nil))
 (if (fields.contains "instagram_username") (var result.instagram_username nil))
 (if (fields.contains "twitter_username") (var result.twitter_username nil))
-(if (fields.contains "profile_image") (var result.profile_image nil))
+(if (fields.contains "logo") (var result.logo nil))
 
 (render_json result 201)

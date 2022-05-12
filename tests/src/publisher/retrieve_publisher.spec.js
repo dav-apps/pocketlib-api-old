@@ -160,6 +160,6 @@ async function testGetPublisher(publisher, accessToken) {
 	assert.equal(response.data.facebook_username, publisher.facebookUsername)
 	assert.equal(response.data.instagram_username, publisher.instagramUsername)
 	assert.equal(response.data.twitter_username, publisher.twitterUsername)
-	if (publisher.profileImageItem) assert.isNotNull(response.data.profile_image?.url)
-	assert.equal(response.data.profile_image?.blurhash, publisher.profileImageItem?.blurhash)
+	if (publisher.logoItem) assert.isNotNull(response.data.logo?.url)
+	assert.equal(response.data.logo?.blurhash, publisher.logoItem?.blurhash)
 }
