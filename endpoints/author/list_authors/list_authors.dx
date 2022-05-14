@@ -8,7 +8,7 @@
 (if (is_nil fields_str) (
 	(var fields (list "type" "items.uuid"))
 ) elseif (fields_str == "*") (
-	(var fields (list "type" "items.uuid" "items.first_name" "items.last_name" "items.bio" "items.website_url" "items.facebook_username" "items.instagram_username" "items.twitter_username" "items.profile_image"))
+	(var fields (list "type" "items.uuid" "items.publisher" "items.first_name" "items.last_name" "items.bio" "items.website_url" "items.facebook_username" "items.instagram_username" "items.twitter_username" "items.profile_image"))
 ) else (
 	(# Process the fields string)
 	(var fields (func process_fields (fields_str)))
@@ -70,6 +70,7 @@
 	(var author_hash (hash))
 
 	(if (fields.contains "items.uuid") (var author_hash.uuid author.uuid))
+	(if (fields.contains "items.publisher") (var author_hash.publisher author.properties.publisher))
 	(if (fields.contains "items.first_name") (var author_hash.first_name author.properties.first_name))
 	(if (fields.contains "items.last_name") (var author_hash.last_name author.properties.last_name))
 	(if (

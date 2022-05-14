@@ -244,8 +244,9 @@ describe("CreateAuthor endpoint", () => {
 		}
 
 		assert.equal(response.status, 201)
-		assert.equal(Object.keys(response.data).length, 9)
+		assert.equal(Object.keys(response.data).length, 10)
 		assert.isNotNull(response.data.uuid)
+		assert.isNull(response.data.publisher)
 		assert.equal(response.data.first_name, firstName)
 		assert.equal(response.data.last_name, lastName)
 		assert.isNull(response.data.bio)
@@ -297,8 +298,9 @@ describe("CreateAuthor endpoint", () => {
 		}
 
 		assert.equal(response1.status, 201)
-		assert.equal(Object.keys(response1.data).length, 9)
+		assert.equal(Object.keys(response1.data).length, 10)
 		assert.isNotNull(response1.data.uuid)
+		assert.isNull(response1.data.publisher)
 		assert.equal(response1.data.first_name, firstName1)
 		assert.equal(response1.data.last_name, lastName1)
 		assert.isNull(response1.data.bio)
@@ -334,8 +336,9 @@ describe("CreateAuthor endpoint", () => {
 		}
 
 		assert.equal(response2.status, 201)
-		assert.equal(Object.keys(response2.data).length, 9)
+		assert.equal(Object.keys(response2.data).length, 10)
 		assert.isNotNull(response2.data.uuid)
+		assert.isNull(response2.data.publisher)
 		assert.equal(response2.data.first_name, firstName2)
 		assert.equal(response2.data.last_name, lastName2)
 		assert.isNull(response2.data.bio)

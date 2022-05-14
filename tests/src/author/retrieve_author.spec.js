@@ -151,8 +151,9 @@ describe("RetrieveAuthor endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 9)
+		assert.equal(Object.keys(response.data).length, 10)
 		assert.equal(response.data.uuid, author.uuid)
+		assert.isNull(response.data.publisher)
 		assert.equal(response.data.first_name, author.firstName)
 		assert.equal(response.data.last_name, author.lastName)
 		assert.equal(response.data.website_url, author.websiteUrl)
@@ -194,8 +195,9 @@ describe("RetrieveAuthor endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 9)
+		assert.equal(Object.keys(response.data).length, 10)
 		assert.equal(response.data.uuid, author.uuid)
+		assert.isNull(response.data.publisher)
 		assert.equal(response.data.first_name, author.firstName)
 		assert.equal(response.data.last_name, author.lastName)
 		assert.equal(response.data.website_url, author.websiteUrl)
@@ -240,8 +242,9 @@ async function testGetAuthor(author) {
 	}
 
 	assert.equal(response.status, 200)
-	assert.equal(Object.keys(response.data).length, 9)
+	assert.equal(Object.keys(response.data).length, 10)
 	assert.equal(response.data.uuid, author.uuid)
+	assert.equal(response.data.publisher)
 	assert.equal(response.data.first_name, author.firstName)
 	assert.equal(response.data.last_name, author.lastName)
 	assert.equal(response.data.website_url, author.websiteUrl)
@@ -278,8 +281,9 @@ async function testGetAuthorWithLanguage(author, language) {
 	}
 
 	assert.equal(response.status, 200)
-	assert.equal(Object.keys(response.data).length, 9)
+	assert.equal(Object.keys(response.data).length, 10)
 	assert.equal(response.data.uuid, author.uuid)
+	assert.isNull(response.data.publisher)
 	assert.equal(response.data.first_name, author.firstName)
 	assert.equal(response.data.last_name, author.lastName)
 	assert.equal(response.data.website_url, author.websiteUrl)

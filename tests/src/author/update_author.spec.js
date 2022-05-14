@@ -319,8 +319,9 @@ describe("UpdateAuthor endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 9)
+		assert.equal(Object.keys(response.data).length, 10)
 		assert.equal(response.data.uuid, author.uuid)
+		assert.isNull(response.data.publisher)
 		assert.equal(response.data.first_name, firstName)
 		assert.equal(response.data.last_name, author.lastName)
 		assert.equal(response.data.website_url, author.websiteUrl)
@@ -379,8 +380,9 @@ describe("UpdateAuthor endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 9)
+		assert.equal(Object.keys(response.data).length, 10)
 		assert.equal(response.data.uuid, author.uuid)
+		assert.isNull(response.data.publisher)
 		assert.equal(response.data.first_name, firstName)
 		assert.equal(response.data.last_name, author.lastName)
 		assert.equal(response.data.website_url, author.websiteUrl)
@@ -445,8 +447,9 @@ describe("UpdateAuthor endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 9)
+		assert.equal(Object.keys(response.data).length, 10)
 		assert.equal(response.data.uuid, author.uuid)
+		assert.isNull(response.data.publisher)
 		assert.equal(response.data.first_name, author.firstName)
 		assert.equal(response.data.last_name, lastName)
 		assert.equal(response.data.website_url, author.websiteUrl)
@@ -509,8 +512,9 @@ describe("UpdateAuthor endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 9)
+		assert.equal(Object.keys(response.data).length, 10)
 		assert.equal(response.data.uuid, author.uuid)
+		assert.isNull(response.data.publisher)
 		assert.equal(response.data.first_name, author.firstName)
 		assert.equal(response.data.last_name, author.lastName)
 		assert.equal(response.data.website_url, websiteUrl)
@@ -566,7 +570,7 @@ describe("UpdateAuthor endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 9)
+		assert.equal(Object.keys(response.data).length, 10)
 		assert.equal(response.data.uuid, author.uuid)
 		assert.isNull(response.data.website_url)
 		assert.isNull(response.data.facebook_username)
@@ -610,8 +614,9 @@ describe("UpdateAuthor endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 9)
+		assert.equal(Object.keys(response.data).length, 10)
 		assert.equal(response.data.uuid, author.uuid)
+		assert.isNull(response.data.publisher)
 		assert.equal(response.data.first_name, firstName)
 		assert.equal(response.data.last_name, lastName)
 		assert.equal(response.data.website_url, websiteUrl)
@@ -662,8 +667,9 @@ describe("UpdateAuthor endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 9)
+		assert.equal(Object.keys(response.data).length, 10)
 		assert.equal(response.data.uuid, author.uuid)
+		assert.isNull(response.data.publisher)
 		assert.equal(response.data.first_name, firstName)
 		assert.equal(response.data.last_name, author.lastName)
 		assert.equal(response.data.website_url, author.websiteUrl)
@@ -722,8 +728,9 @@ describe("UpdateAuthor endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 9)
+		assert.equal(Object.keys(response.data).length, 10)
 		assert.equal(response.data.uuid, author.uuid)
+		assert.isNull(response.data.publisher)
 		assert.equal(response.data.first_name, firstName)
 		assert.equal(response.data.last_name, author.lastName)
 		assert.equal(response.data.website_url, author.websiteUrl)
@@ -788,8 +795,9 @@ describe("UpdateAuthor endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 9)
+		assert.equal(Object.keys(response.data).length, 10)
 		assert.equal(response.data.uuid, author.uuid)
+		assert.isNull(response.data.publisher)
 		assert.equal(response.data.first_name, author.firstName)
 		assert.equal(response.data.last_name, lastName)
 		assert.equal(response.data.website_url, author.websiteUrl)
@@ -852,8 +860,9 @@ describe("UpdateAuthor endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 9)
+		assert.equal(Object.keys(response.data).length, 10)
 		assert.equal(response.data.uuid, author.uuid)
+		assert.isNull(response.data.publisher)
 		assert.equal(response.data.first_name, author.firstName)
 		assert.equal(response.data.last_name, author.lastName)
 		assert.equal(response.data.website_url, websiteUrl)
@@ -909,7 +918,7 @@ describe("UpdateAuthor endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 9)
+		assert.equal(Object.keys(response.data).length, 10)
 		assert.equal(response.data.uuid, author.uuid)
 		assert.isNull(response.data.website_url)
 		assert.isNull(response.data.facebook_username)
@@ -953,8 +962,9 @@ describe("UpdateAuthor endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 9)
+		assert.equal(Object.keys(response.data).length, 10)
 		assert.equal(response.data.uuid, author.uuid)
+		assert.isNull(response.data.publisher)
 		assert.equal(response.data.first_name, firstName)
 		assert.equal(response.data.last_name, lastName)
 		assert.equal(response.data.website_url, websiteUrl)

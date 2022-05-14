@@ -6,7 +6,7 @@
 (if (is_nil fields_str) (
 	(var fields (list "uuid"))
 ) elseif (fields_str == "*") (
-	(var fields (list "uuid" "first_name" "last_name" "bio" "website_url" "facebook_username" "instagram_username" "twitter_username" "profile_image"))
+	(var fields (list "uuid" "publisher" "first_name" "last_name" "bio" "website_url" "facebook_username" "instagram_username" "twitter_username" "profile_image"))
 ) else (
 	(# Process the fields string)
 	(var fields (func process_fields (fields_str)))
@@ -138,6 +138,7 @@
 (var result (hash))
 
 (if (fields.contains "uuid") (var result.uuid author.uuid))
+(if (fields.contains "publisher") (var result.publisher author.properties.publisher))
 (if (fields.contains "first_name") (var result.first_name author.properties.first_name))
 (if (fields.contains "last_name") (var result.last_name author.properties.last_name))
 (if (
