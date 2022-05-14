@@ -1,0 +1,11 @@
+(# params: publisher: TableObject, uuid: string)
+(# Get the authors of the publisher)
+(var authors publisher.properties.authors)
+
+(if (is_nil authors) (
+	(# Add the first author to the authors of the publisher)
+	(var publisher.properties.authors uuid)
+) else (
+	(# Add the uuid to the list of authors, separated by comma)
+	(var publisher.properties.authors (authors + "," + uuid))
+))

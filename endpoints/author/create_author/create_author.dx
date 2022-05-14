@@ -12,6 +12,7 @@
 
 (var json (parse_json (get_body)))
 
+(var publisher_uuid json.publisher)
 (var first_name json.first_name)
 (var last_name json.last_name)
 
@@ -58,11 +59,39 @@
 	(func validate_last_name_length (last_name))
 )))
 
+(var author_properties (hash (first_name first_name) (last_name last_name)))
+
+(if (is_admin and (!(is_nil publisher_uuid))) (
+	(# Get the publisher)
+	(var publisher (func get_table_object (publisher_uuid (get_env "PUBLISHER_TABLE_ID"))))
+
+	(if (is_nil publisher) (
+		(# Publisher does not exist)
+		(func render_validation_errors ((list (hash (error (get_error 3520)) (status 404)))))
+	))
+
+	(# Check if the publisher belongs to the user)
+	(if (publisher.user_id != session.user_id) (
+		(func render_validation_errors ((list (hash (error (get_error 1002)) (status 403)))))
+	))
+
+	(var author_properties.publisher publisher.uuid)
+))
+
 (# Create the author)
-(var author (func create_table_object (session.user_id (get_env "AUTHOR_TABLE_ID") (hash (first_name first_name) (last_name last_name)))))
+(var author (func create_table_object (
+	session.user_id
+	(get_env "AUTHOR_TABLE_ID")
+	author_properties
+)))
 
 (# Add the author to the latest authors)
 (func add_author_to_latest_authors_collection (author))
+
+(if (is_admin and (!(is_nil publisher_uuid))) (
+	(# Add the author to the authors of the publisher)
+	(func add_author_to_publisher (publisher author.uuid))
+))
 
 (# Render the result)
 (var result (hash))

@@ -7,9 +7,15 @@ import * as utils from '../utils.js'
 import * as ErrorCodes from '../errorCodes.js'
 
 const createAuthorEndpointUrl = `${constants.apiBaseUrl}/authors`
+var resetPublishers = false
 var resetAuthors = false
 
 afterEach(async () => {
+	if (resetPublishers) {
+		await utils.resetPublishers()
+		resetPublishers = false
+	}
+
 	if (resetAuthors) {
 		await utils.resetAuthors()
 		resetAuthors = false
@@ -217,6 +223,56 @@ describe("CreateAuthor endpoint", () => {
 		assert.fail()
 	})
 
+	it("should not create author for publisher that does not exist", async () => {
+		try {
+			await axios({
+				method: 'post',
+				url: createAuthorEndpointUrl,
+				headers: {
+					Authorization: constants.davUser.accessToken,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					publisher: "sjkldfjklsdfjklsfd",
+					first_name: "Dav",
+					last_name: "Tester"
+				}
+			})
+		} catch (error) {
+			assert.equal(error.response.status, 404)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.PublisherDoesNotExist)
+			return
+		}
+
+		assert.fail()
+	})
+
+	it("should not create author for publisher that belongs to another user", async () => {
+		try {
+			await axios({
+				method: 'post',
+				url: createAuthorEndpointUrl,
+				headers: {
+					Authorization: constants.davUser.accessToken,
+					'Content-Type': 'application/json'
+				},
+				data: {
+					publisher: constants.authorUser.publisher.uuid,
+					first_name: "Dav",
+					last_name: "Tester"
+				}
+			})
+		} catch (error) {
+			assert.equal(error.response.status, 403)
+			assert.equal(error.response.data.errors.length, 1)
+			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
+			return
+		}
+
+		assert.fail()
+	})
+
 	it("should create author", async () => {
 		resetAuthors = true
 		let firstName = "Dav"
@@ -368,5 +424,74 @@ describe("CreateAuthor endpoint", () => {
 		assert.equal(objResponse2.data.tableObject.Uuid, response2.data.uuid)
 		assert.equal(objResponse2.data.tableObject.GetPropertyValue("first_name"), firstName2)
 		assert.equal(objResponse2.data.tableObject.GetPropertyValue("last_name"), lastName2)
+	})
+
+	it("should create author for publisher of admin", async () => {
+		resetPublishers = true
+		resetAuthors = true
+		let publisher = constants.davUser.publishers[0]
+		let firstName = "Dav"
+		let lastName = "Tester"
+		let response
+
+		try {
+			response = await axios({
+				method: 'post',
+				url: createAuthorEndpointUrl,
+				headers: {
+					Authorization: constants.davUser.accessToken,
+					'Content-Type': 'application/json'
+				},
+				params: {
+					fields: "*"
+				},
+				data: {
+					publisher: publisher.uuid,
+					first_name: firstName,
+					last_name: lastName
+				}
+			})
+		} catch (error) {
+			assert.fail()
+		}
+
+		assert.equal(response.status, 201)
+		assert.equal(Object.keys(response.data).length, 10)
+		assert.equal(response.data.publisher, publisher.uuid)
+		assert.equal(response.data.first_name, firstName)
+		assert.equal(response.data.last_name, lastName)
+		assert.isNull(response.data.bio)
+		assert.isNull(response.data.website_url)
+		assert.isNull(response.data.facebook_username)
+		assert.isNull(response.data.instagram_username)
+		assert.isNull(response.data.twitter_username)
+		assert.isNull(response.data.profile_image)
+
+		// Check if the author was correctly created on the server
+		let authorObjResponse = await TableObjectsController.GetTableObject({
+			accessToken: constants.davUser.accessToken,
+			uuid: response.data.uuid
+		})
+
+		assert.equal(authorObjResponse.status, 200)
+		assert.equal(authorObjResponse.data.tableObject.Uuid, response.data.uuid)
+		assert.equal(Object.keys(authorObjResponse.data.tableObject.Properties).length, 3)
+		assert.equal(authorObjResponse.data.tableObject.GetPropertyValue("publisher"), publisher.uuid)
+		assert.equal(authorObjResponse.data.tableObject.GetPropertyValue("first_name"), firstName)
+		assert.equal(authorObjResponse.data.tableObject.GetPropertyValue("last_name"), lastName)
+
+		let publisherObjResponse = await TableObjectsController.GetTableObject({
+			accessToken: constants.davUser.accessToken,
+			uuid: publisher.uuid
+		})
+
+		assert.equal(publisherObjResponse.status, 200)
+		assert.equal(publisherObjResponse.data.tableObject.Uuid, publisher.uuid)
+
+		let publisherAuthorUuids = []
+		publisher.authors.forEach(a => publisherAuthorUuids.push(a.uuid))
+		publisherAuthorUuids.push(response.data.uuid)
+
+		assert.equal(publisherObjResponse.data.tableObject.GetPropertyValue("authors"), publisherAuthorUuids.join(','))
 	})
 })
