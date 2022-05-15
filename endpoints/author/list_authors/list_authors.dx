@@ -4,6 +4,7 @@
 (var limit (to_int (get_param "limit")))
 (var mine ((get_param "mine") == "true"))
 (var latest ((get_param "latest") == "true"))
+(var publisher_uuid (get_param "publisher"))
 
 (if (is_nil fields_str) (
 	(var fields (list "type" "items.uuid"))
@@ -15,8 +16,11 @@
 ))
 
 (var language_list (func process_languages (languages)))
+(var skip_authors_without_profile_image true)
 
 (if mine (
+	(var skip_authors_without_profile_image false)
+
 	(# Get the access token)
 	(var access_token (get_header "Authorization"))
 	(func render_validation_errors ((list
@@ -39,6 +43,28 @@
 	(# Get the latest authors)
 	(var author_uuids (func get_latest_author_table_object_uuids ()))
 	(var author_uuids author_uuids.reverse)
+) elseif (!(is_nil publisher_uuid)) (
+	(# Get the publisher)
+	(var publisher (func get_table_object (publisher_uuid (get_env "PUBLISHER_TABLE_ID"))))
+
+	(if (is_nil publisher) (
+		(# Publisher does not exist)
+		(func render_validation_errors ((list (hash (error (get_error 3520)) (status 404)))))
+	))
+
+	(# Get the access token)
+	(var access_token (get_header "Authorization"))
+
+	(if (!(is_nil access_token)) (
+		(# Get the session)
+		(var session (func get_session (access_token)))
+
+		(# Check if the publisher belongs to the user)
+		(var skip_authors_without_profile_image (publisher.user_id != session.user_id))
+	))
+
+	(# Get the authors of the publisher)
+	(var author_uuids (func get_author_table_object_uuids (publisher.user_id)))
 ) else (
 	(var author_uuids (list))
 ))
@@ -50,19 +76,22 @@
 	(var author (func get_table_object (author_uuid (get_env "AUTHOR_TABLE_ID"))))
 	(if (is_nil author) (continue))
 
+	(if (mine and (!(is_nil author.properties.publisher))) (continue))
+	(if ((!(is_nil publisher_uuid)) and (author.properties.publisher != publisher_uuid)) (continue))
+
 	(# Don't add authors to latest_authors without profile image)
-	(if (latest and (is_nil author.properties.profile_image_item)) (continue))
+	(if (skip_authors_without_profile_image and (is_nil author.properties.profile_image_item)) (continue))
 	(var profile_image_item nil)
 
 	(if (!(is_nil author.properties.profile_image_item)) (
 		(# Get the profile image item)
 		(var profile_image_item (func get_table_object (author.properties.profile_image_item (get_env "AUTHOR_PROFILE_IMAGE_ITEM_TABLE_ID"))))
-		(if (latest and (is_nil profile_image_item)) (continue))
+		(if (skip_authors_without_profile_image and (is_nil profile_image_item)) (continue))
 
 		(if (!(is_nil profile_image_item)) (
 			(# Get the profile image)
 			(var profile_image (func get_table_object (profile_image_item.properties.profile_image (get_env "AUTHOR_PROFILE_IMAGE_TABLE_ID"))))
-			(if (latest and (is_nil profile_image)) (continue))
+			(if (skip_authors_without_profile_image and (is_nil profile_image)) (continue))
 		))
 	))
 

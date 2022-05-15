@@ -46,6 +46,25 @@ let constants = {
 					bios: [],
 					collections: [],
 					series: []
+				},
+				{
+					uuid: "3385e9fa-37af-46ca-bb58-b89a11fd3037",
+					firstName: "Hilaire",
+					lastName: "Belloc",
+					bios: [],
+					collections: [],
+					series: [],
+					profileImageItem: {
+						uuid: "316ccd51-380c-4928-a01f-33bf23ab7b21",
+						blurhash: "LUGR@iNG01oM%MoMIVWU03t7tQR%",
+						profileImage: {
+							uuid: "43c912fd-8034-4946-ae02-e40f9cb3cb27",
+							file: "./files/Belloc.jpg",
+							etag: "0065f15102449b1d7119183a74ba4183",
+							ext: "jpg",
+							type: "image/jpeg"
+						}
+					}
 				}
 			],
 			logoItem: {
@@ -1140,6 +1159,8 @@ constants.collections = [
 		tableId: constants.authorTableId,
 		tableObjects: [
 			"099fbfa5-a6f1-41c1-99e9-0d02d8364f2d",
+			"76079c7f-f73f-4fd6-8c39-0069dc126a12",
+			"3385e9fa-37af-46ca-bb58-b89a11fd3037",
 			"622ad623-b9a4-415d-92ee-a66f8a7f3c51",
 			"1dd980fd-ae20-4566-b842-a25e241bfb46",
 			"74667201-3a22-4486-a455-b4b381a9d45a"
