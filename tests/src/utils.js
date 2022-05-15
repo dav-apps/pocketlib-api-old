@@ -65,7 +65,9 @@ export async function resetAuthors() {
 
 	// Reset Authors
 	await resetAuthorUserAuthor()
+	await resetAuthorUserPublisherAuthors()
 	await resetDavUserAuthors()
+	await resetDavUserPublisherAuthors()
 }
 
 export async function resetAuthorBios() {
@@ -556,7 +558,73 @@ async function resetAuthorUserAuthor() {
 	}
 }
 
-async function resetDavUserAuthors() {
+async function resetAuthorUserPublisherAuthors() {
+	let testDatabaseAuthors = []
+
+	for (let author of constants.authorUser.publisher.authors) {
+		testDatabaseAuthors.push(author.uuid)
+
+		let collections = []
+		author.collections.forEach(collection => collections.push(collection.uuid))
+
+		let series = []
+		author.series.forEach(s => series.push(s.uuid))
+
+		let bios = []
+		author.bios.forEach(bio => bios.push(bio.uuid))
+
+		let response = await TableObjectsController.UpdateTableObject({
+			accessToken: constants.authorUser.accessToken,
+			uuid: author.uuid,
+			properties: {
+				publisher: constants.authorUser.publisher.uuid,
+				first_name: author.firstName,
+				last_name: author.lastName,
+				website_url: author.websiteUrl ?? "",
+				facebook_username: author.facebookUsername ?? "",
+				instagram_username: author.instagramUsername ?? "",
+				twitter_username: author.twitterUsername ?? "",
+				bios: bios.join(','),
+				collections: collections.join(','),
+				series: series.join(','),
+				profile_image_item: author.profileImageItem?.uuid ?? "",
+			}
+		})
+
+		if (!isSuccessStatusCode(response.status)) {
+			console.log(`Error in resetting the author ${author.firstName} ${author.lastName} of the publisher of authorUser`)
+			console.log(response.errors)
+		}
+	}
+
+	// Get the Author table
+	let authors = []
+
+	let response = await TablesController.GetTable({
+		accessToken: constants.authorUser.accessToken,
+		id: constants.authorTableId
+	})
+
+	if (!isSuccessStatusCode(response.status)) {
+		console.log("Error in getting the Author table")
+		console.log(response.errors)
+	} else {
+		authors = response.data.tableObjects
+	}
+
+	// Delete each author that is not part of the test database
+	for (let author of authors) {
+		if (
+			testDatabaseAuthors.includes(author.uuid)
+			|| author.uuid == constants.authorUser.author.uuid
+		) continue
+
+		// Delete the author
+		await deleteTableObject(constants.authorUser.accessToken, author.uuid)
+	}
+}
+
+export async function resetDavUserAuthors() {
 	let testDatabaseAuthors = []
 
 	// Reset the authors of dav user
@@ -612,7 +680,78 @@ async function resetDavUserAuthors() {
 
 	// Delete each author that is not part of the test database
 	for (let author of authors) {
-		if (testDatabaseAuthors.includes(author.uuid)) continue
+		if (
+			testDatabaseAuthors.includes(author.uuid)
+			|| constants.davUser.publishers.find(p => p.authors.find(a => a.uuid == author.uuid)) != null
+		) continue
+
+		// Delete the author
+		await deleteTableObject(constants.davUser.accessToken, author.uuid)
+	}
+}
+
+export async function resetDavUserPublisherAuthors() {
+	let testDatabaseAuthors = []
+
+	for (let publisher of constants.davUser.publishers) {
+		for (let author of publisher.authors) {
+			testDatabaseAuthors.push(author.uuid)
+
+			let collections = []
+			author.collections.forEach(collection => collections.push(collection.uuid))
+
+			let series = []
+			author.series.forEach(s => series.push(s.uuid))
+
+			let bios = []
+			author.bios.forEach(bio => bios.push(bio.uuid))
+
+			let response = await TableObjectsController.UpdateTableObject({
+				accessToken: constants.davUser.accessToken,
+				uuid: author.uuid,
+				properties: {
+					publisher: publisher.uuid,
+					first_name: author.firstName,
+					last_name: author.lastName,
+					website_url: author.websiteUrl ?? "",
+					facebook_username: author.facebookUsername ?? "",
+					instagram_username: author.instagramUsername ?? "",
+					twitter_username: author.twitterUsername ?? "",
+					bios: bios.join(','),
+					collections: collections.join(','),
+					series: series.join(','),
+					profile_image_item: author.profileImageItem?.uuid ?? "",
+				}
+			})
+	
+			if (!isSuccessStatusCode(response.status)) {
+				console.log(`Error in resetting the author ${author.firstName} ${author.lastName} of publisher ${publisher.name} of dav user`)
+				console.log(response.errors)
+			}
+		}
+	}
+
+	// Get the Author table
+	let authors = []
+
+	let response = await TablesController.GetTable({
+		accessToken: constants.davUser.accessToken,
+		id: constants.authorTableId
+	})
+
+	if (!isSuccessStatusCode(response.status)) {
+		console.log("Error in getting the Author table")
+		console.log(response.errors)
+	} else {
+		authors = response.data.tableObjects
+	}
+
+	// Delete each author that is not part of the test database
+	for (let author of authors) {
+		if (
+			testDatabaseAuthors.includes(author.uuid)
+			|| constants.davUser.authors.find(a => a.uuid == author.uuid) != null
+		) continue
 
 		// Delete the author
 		await deleteTableObject(constants.davUser.accessToken, author.uuid)

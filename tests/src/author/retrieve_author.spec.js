@@ -163,7 +163,7 @@ describe("RetrieveAuthor endpoint", () => {
 		assert.equal(response.data.profile_image?.blurhash, author.profileImageItem.blurhash)
 
 		if (author.bios.length == 0) {
-			assert.isNull(response.data.bios)
+			assert.isNull(response.data.bio)
 		} else {
 			let authorBio = author.bios.find(b => b.language == "en")
 
@@ -224,6 +224,86 @@ describe("RetrieveAuthor endpoint", () => {
 			}
 		}
 	})
+
+	it("should return author of publisher", async () => {
+		let publisher = constants.authorUser.publisher
+		let author = publisher.authors[0]
+		let response
+
+		try {
+			response = await axios({
+				method: 'get',
+				url: retrieveAuthorEndpointUrl.replace('{0}', author.uuid),
+				params: {
+					fields: "*"
+				}
+			})
+		} catch (error) {
+			assert.fail()
+		}
+
+		assert.equal(response.status, 200)
+		assert.equal(Object.keys(response.data).length, 10)
+		assert.equal(response.data.uuid, author.uuid)
+		assert.equal(response.data.publisher, publisher.uuid)
+		assert.equal(response.data.first_name, author.firstName)
+		assert.equal(response.data.last_name, author.lastName)
+		assert.equal(response.data.website_url, author.websiteUrl)
+		assert.equal(response.data.facebook_username, author.facebookUsername)
+		assert.equal(response.data.instagram_username, author.instagramUsername)
+		assert.equal(response.data.twitter_username, author.twitterUsername)
+		assert.equal(response.data.profile_image?.blurhash, author.profileImageItem?.blurhash)
+
+		if (author.bios.length == 0) {
+			assert.isNull(response.data.bio)
+		} else {
+			let authorBio = author.bios.find(b => b.language == "en")
+
+			assert.isNotNull(authorBio)
+			assert.equal(response.data.bio.language, "en")
+			assert.equal(response.data.bio.value, authorBio.bio)
+		}
+	})
+
+	it("should return author of publisher of admin", async () => {
+		let publisher = constants.davUser.publishers[0]
+		let author = publisher.authors[0]
+		let response
+
+		try {
+			response = await axios({
+				method: 'get',
+				url: retrieveAuthorEndpointUrl.replace('{0}', author.uuid),
+				params: {
+					fields: "*"
+				}
+			})
+		} catch (error) {
+			assert.fail()
+		}
+
+		assert.equal(response.status, 200)
+		assert.equal(Object.keys(response.data).length, 10)
+		assert.equal(response.data.uuid, author.uuid)
+		assert.equal(response.data.publisher, publisher.uuid)
+		assert.equal(response.data.first_name, author.firstName)
+		assert.equal(response.data.last_name, author.lastName)
+		assert.equal(response.data.website_url, author.websiteUrl)
+		assert.equal(response.data.facebook_username, author.facebookUsername)
+		assert.equal(response.data.instagram_username, author.instagramUsername)
+		assert.equal(response.data.twitter_username, author.twitterUsername)
+		assert.equal(response.data.profile_image?.blurhash, author.profileImageItem?.blurhash)
+
+		if (author.bios.length == 0) {
+			assert.isNull(response.data.bio)
+		} else {
+			let authorBio = author.bios.find(b => b.language == "en")
+
+			assert.isNotNull(authorBio)
+			assert.equal(response.data.bio.language, "en")
+			assert.equal(response.data.bio.value, authorBio.bio)
+		}
+	})
 })
 
 async function testGetAuthor(author) {
@@ -254,7 +334,7 @@ async function testGetAuthor(author) {
 	assert.equal(response.data.profile_image?.blurhash, author.profileImageItem?.blurhash)
 
 	if (author.bios.length == 0) {
-		assert.isNull(response.data.bios)
+		assert.isNull(response.data.bio)
 	} else {
 		let authorBio = author.bios.find(b => b.language == "en")
 

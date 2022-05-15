@@ -51,9 +51,26 @@ for (let author of constants.davUser.authors) {
 	}
 }
 
+for (let author of constants.authorUser.publisher.authors) {
+	addAuthorToTableObjects(author, constants.authorUser.id, constants.authorUser.publisher.uuid)
+
+	for (let authorBio of author.bios) {
+		addAuthorBioToTableObjects(authorBio, constants.authorUser.id)
+	}
+
+	if (author.profileImageItem) {
+		let profileImageItem = author.profileImageItem
+		addAuthorProfileImageItemToTableObjects(profileImageItem, constants.authorUser.id)
+
+		if (profileImageItem.profileImage) {
+			addAuthorProfileImageToTableObjects(profileImageItem.profileImage, constants.authorUser.id)
+		}
+	}
+}
+
 for (let publisher of constants.davUser.publishers) {
 	for (let author of publisher.authors) {
-		addAuthorToTableObjects(author, constants.davUser.id)
+		addAuthorToTableObjects(author, constants.davUser.id, publisher.uuid)
 
 		for (let authorBio of author.bios) {
 			addAuthorBioToTableObjects(authorBio, constants.davUser.id)
@@ -233,7 +250,7 @@ function addPublisherLogoToTableObjects(publisherLogo, userId) {
 	})
 }
 
-function addAuthorToTableObjects(author, userId) {
+function addAuthorToTableObjects(author, userId, publisherUuid) {
 	let bios = []
 	author.bios.forEach(bio => bios.push(bio.uuid))
 
@@ -249,6 +266,7 @@ function addAuthorToTableObjects(author, userId) {
 		tableId: constants.authorTableId,
 		file: false,
 		properties: {
+			publisher: publisherUuid ?? "",
 			first_name: author.firstName,
 			last_name: author.lastName,
 			website_url: author.websiteUrl ?? "",

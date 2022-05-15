@@ -38,7 +38,16 @@ let constants = {
 			uuid: "30484542-f3e2-4888-8078-15aca76f6995",
 			name: "Penguin House",
 			description: "Publishing for Penguins!",
-			authors: [],
+			authors: [
+				{
+					uuid: "76079c7f-f73f-4fd6-8c39-0069dc126a12",
+					firstName: "William Hope",
+					lastName: "Hodgson",
+					bios: [],
+					collections: [],
+					series: []
+				}
+			],
 			logoItem: {
 				uuid: "03b76a96-7ea3-407b-b895-fcb38df1b9f2",
 				blurhash: "LUGR@iNG01oM%MoMIVWU03t7tQR%",
@@ -549,7 +558,16 @@ let constants = {
 				name: "Standard Ebooks",
 				description: "Standard Ebooks is a volunteer-driven project that produces new editions of public domain ebooks that are lovingly formatted, open source, free of U.S. copyright restrictions, and free of cost.",
 				websiteUrl: "https://standardebooks.org/",
-				authors: [],
+				authors: [
+					{
+						uuid: "2dd9add7-cbbf-4149-a038-07f40af8f747",
+						firstName: "Henry",
+						lastName: "James",
+						bios: [],
+						collections: [],
+						series: []
+					}
+				],
 				logoItem: {
 					uuid: "830e7cd5-a41f-425f-a806-829475a02940",
 					blurhash: "LUGR@iNG01oM%MoMIVWU03t7tQR%",
