@@ -2,6 +2,7 @@
 (var fields_str (get_param "fields"))
 (var languages (get_param "languages"))
 (var limit (to_int (get_param "limit")))
+(var page (to_int (get_param "page")))
 (var mine ((get_param "mine") == "true"))
 (var latest ((get_param "latest") == "true"))
 (var publisher_uuid (get_param "publisher"))
@@ -9,13 +10,22 @@
 (if (is_nil fields_str) (
 	(var fields (list "type" "items.uuid"))
 ) elseif (fields_str == "*") (
-	(var fields (list "type" "items.uuid" "items.publisher" "items.first_name" "items.last_name" "items.bio" "items.website_url" "items.facebook_username" "items.instagram_username" "items.twitter_username" "items.profile_image"))
+	(var fields (list "type" "pages" "items.uuid" "items.publisher" "items.first_name" "items.last_name" "items.bio" "items.website_url" "items.facebook_username" "items.instagram_username" "items.twitter_username" "items.profile_image"))
 ) else (
 	(# Process the fields string)
 	(var fields (func process_fields (fields_str)))
 ))
 
+(if (limit <= 0) (
+	(var limit 50)
+))
+
+(if (page <= 0) (
+	(var page 1)
+))
+
 (var language_list (func process_languages (languages)))
+(var calculate_pages ((fields.contains "pages") or (page > 1)))
 (var skip_authors_without_profile_image true)
 
 (if mine (
@@ -139,14 +149,40 @@
 
 	(authors.push author_hash)
 
-	(# Check if the limit is reached)
-	(if ((limit > 0) and (authors.length >= limit)) (break))
+	(if (! calculate_pages) (
+		(# Check if the limit is reached)
+		(if ((limit > 0) and (authors.length >= limit)) (break))
+	))
+))
+
+(if calculate_pages (
+	(# Calculate the available pages)
+	(var pages 1)
+	(if (authors.length > 0) (
+		(if ((authors.length % limit) == 0) (
+			(var pages (authors.length / limit))
+		) else (
+			(var pages ((authors.length / limit) + 1))
+		))
+	))
+
+	(if (page > pages) (
+		(var page pages)
+	))
+
+	(# Select the correct authors)
+	(var start (limit * (page - 1)))
+	(var length (if (limit > authors.length) authors.length else limit))
+	(var selected_authors (authors.select start length))
+) else (
+	(var selected_authors authors)
 ))
 
 (# Render the result)
 (var result (hash))
 
 (if (fields.contains "type") (var result.type "author"))
-(var result.items authors)
+(if (fields.contains "pages") (var result.pages pages))
+(var result.items selected_authors)
 
 (render_json result 200)

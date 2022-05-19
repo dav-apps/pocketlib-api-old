@@ -112,11 +112,117 @@ describe("ListAuthors endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 2)
+		assert.equal(Object.keys(response.data).length, 3)
 		assert.equal(response.data.items.length, constants.davUser.authors.length)
 
 		for (let author of constants.davUser.authors) {
 			let responseAuthor = response.data.items.find(a => a.uuid == author.uuid)
+
+			assert.isNotNull(responseAuthor)
+			assert.equal(Object.keys(responseAuthor).length, 10)
+			assert.equal(responseAuthor.uuid, author.uuid)
+			assert.isNull(responseAuthor.publisher)
+			assert.equal(responseAuthor.first_name, author.firstName)
+			assert.equal(responseAuthor.last_name, author.lastName)
+			assert.equal(responseAuthor.website_url, author.websiteUrl)
+			assert.equal(responseAuthor.facebook_username, author.facebookUsername)
+			assert.equal(responseAuthor.instagram_username, author.instagramUsername)
+			assert.equal(responseAuthor.twitter_username, author.twitterUsername)
+			assert.equal(responseAuthor.profile_image?.blurhash, author.profileImageItem?.blurhash)
+
+			if (author.bios.length == 0) {
+				assert.isNull(responseAuthor.bio)
+			} else {
+				let authorBio = author.bios.find(b => b.language == "en")
+
+				assert.isNotNull(authorBio)
+				assert.equal(responseAuthor.bio.language, "en")
+				assert.equal(responseAuthor.bio.value, authorBio.bio)
+			}
+		}
+	})
+
+	it("should return authors of admin with limit and page", async () => {
+		let limit = 1
+		let response
+
+		try {
+			response = await axios({
+				method: 'get',
+				url: listAuthorsEndpointUrl,
+				headers: {
+					Authorization: constants.davUser.accessToken
+				},
+				params: {
+					fields: "*",
+					mine: true,
+					limit
+				}
+			})
+		} catch (error) {
+			assert.fail()
+		}
+
+		let authors = constants.davUser.authors
+		let pages = Math.ceil(authors.length / limit)
+
+		assert.equal(response.status, 200)
+		assert.equal(Object.keys(response.data).length, 3)
+		assert.equal(response.data.pages, pages)
+		assert.equal(response.data.items.length, limit)
+
+		for (let responseAuthor of response.data.items) {
+			let author = authors.find(a => a.uuid == responseAuthor.uuid)
+
+			assert.isNotNull(responseAuthor)
+			assert.equal(Object.keys(responseAuthor).length, 10)
+			assert.equal(responseAuthor.uuid, author.uuid)
+			assert.isNull(responseAuthor.publisher)
+			assert.equal(responseAuthor.first_name, author.firstName)
+			assert.equal(responseAuthor.last_name, author.lastName)
+			assert.equal(responseAuthor.website_url, author.websiteUrl)
+			assert.equal(responseAuthor.facebook_username, author.facebookUsername)
+			assert.equal(responseAuthor.instagram_username, author.instagramUsername)
+			assert.equal(responseAuthor.twitter_username, author.twitterUsername)
+			assert.equal(responseAuthor.profile_image?.blurhash, author.profileImageItem?.blurhash)
+
+			if (author.bios.length == 0) {
+				assert.isNull(responseAuthor.bio)
+			} else {
+				let authorBio = author.bios.find(b => b.language == "en")
+
+				assert.isNotNull(authorBio)
+				assert.equal(responseAuthor.bio.language, "en")
+				assert.equal(responseAuthor.bio.value, authorBio.bio)
+			}
+		}
+
+		// Get the authors of the next page
+		try {
+			response = await axios({
+				method: 'get',
+				url: listAuthorsEndpointUrl,
+				headers: {
+					Authorization: constants.davUser.accessToken
+				},
+				params: {
+					fields: "*",
+					mine: true,
+					limit,
+					page: 2
+				}
+			})
+		} catch (error) {
+			assert.fail()
+		}
+
+		assert.equal(response.status, 200)
+		assert.equal(Object.keys(response.data).length, 3)
+		assert.equal(response.data.pages, pages)
+		assert.equal(response.data.items.length, limit)
+
+		for (let responseAuthor of response.data.items) {
+			let author = authors.find(a => a.uuid == responseAuthor.uuid)
 
 			assert.isNotNull(responseAuthor)
 			assert.equal(Object.keys(responseAuthor).length, 10)
@@ -164,7 +270,7 @@ describe("ListAuthors endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 2)
+		assert.equal(Object.keys(response.data).length, 3)
 		assert.equal(response.data.items.length, constants.davUser.authors.length)
 
 		for (let author of constants.davUser.authors) {
@@ -225,7 +331,7 @@ describe("ListAuthors endpoint", () => {
 		}
 	
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 2)
+		assert.equal(Object.keys(response.data).length, 3)
 		assert.equal(response.data.items.length, 1)
 
 		let responseAuthor = response.data.items[0]
@@ -262,7 +368,7 @@ describe("ListAuthors endpoint", () => {
 		}
 	})
 
-	it("should return latest authors2", async () => {
+	it("should return latest authors", async () => {
 		let response
 
 		try {
@@ -303,7 +409,7 @@ describe("ListAuthors endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 2)
+		assert.equal(Object.keys(response.data).length, 3)
 		assert.equal(response.data.items.length, authors.length)
 
 		for (let authorItem of authors) {
@@ -377,7 +483,7 @@ describe("ListAuthors endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 2)
+		assert.equal(Object.keys(response.data).length, 3)
 		assert.equal(response.data.items.length, authors.length)
 
 		for (let authorItem of authors) {
@@ -436,7 +542,7 @@ describe("ListAuthors endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 2)
+		assert.equal(Object.keys(response.data).length, 3)
 		assert.equal(response.data.items.length, 1)
 
 		let responseAuthor = response.data.items[0]
@@ -539,7 +645,7 @@ describe("ListAuthors endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 2)
+		assert.equal(Object.keys(response.data).length, 3)
 		assert.equal(response.data.items.length, authors.length)
 
 		for (let author of authors) {
@@ -599,7 +705,7 @@ describe("ListAuthors endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 2)
+		assert.equal(Object.keys(response.data).length, 3)
 		assert.equal(response.data.items.length, publisher.authors.length)
 
 		for (let author of publisher.authors) {
@@ -633,6 +739,113 @@ describe("ListAuthors endpoint", () => {
 					assert.equal(responseAuthor.bio.language, language)
 					assert.equal(responseAuthor.bio.value, authorBio.bio)
 				}
+			}
+		}
+	})
+
+	it("should return authors of publisher of user with limit and page", async () => {
+		let publisher = constants.authorUser.publisher
+		let limit = 1
+		let response
+
+		try {
+			response = await axios({
+				method: 'get',
+				url: listAuthorsEndpointUrl,
+				headers: {
+					Authorization: constants.authorUser.accessToken
+				},
+				params: {
+					fields: "*",
+					publisher: publisher.uuid,
+					limit
+				}
+			})
+		} catch (error) {
+			assert.fail()
+		}
+
+		let authors = publisher.authors
+		let pages = Math.ceil(authors.length / limit)
+
+		assert.equal(response.status, 200)
+		assert.equal(Object.keys(response.data).length, 3)
+		assert.equal(response.data.pages, pages)
+		assert.equal(response.data.items.length, limit)
+
+		for (let responseAuthor of response.data.items) {
+			let author = authors.find(a => a.uuid == responseAuthor.uuid)
+
+			assert.isNotNull(responseAuthor)
+			assert.equal(Object.keys(responseAuthor).length, 10)
+			assert.equal(responseAuthor.uuid, author.uuid)
+			assert.equal(responseAuthor.publisher, publisher.uuid)
+			assert.equal(responseAuthor.first_name, author.firstName)
+			assert.equal(responseAuthor.last_name, author.lastName)
+			assert.equal(responseAuthor.website_url, author.websiteUrl)
+			assert.equal(responseAuthor.facebook_username, author.facebookUsername)
+			assert.equal(responseAuthor.instagram_username, author.instagramUsername)
+			assert.equal(responseAuthor.twitter_username, author.twitterUsername)
+			assert.equal(responseAuthor.profile_image?.blurhash, author.profileImageItem?.blurhash)
+
+			if (author.bios.length == 0) {
+				assert.isNull(responseAuthor.bio)
+			} else {
+				let authorBio = author.bios.find(b => b.language == "en")
+
+				assert.isNotNull(authorBio)
+				assert.equal(responseAuthor.bio.language, "en")
+				assert.equal(responseAuthor.bio.value, authorBio.bio)
+			}
+		}
+
+		// Get the authors of the next page
+		try {
+			response = await axios({
+				method: 'get',
+				url: listAuthorsEndpointUrl,
+				headers: {
+					Authorization: constants.authorUser.accessToken
+				},
+				params: {
+					fields: "*",
+					publisher: publisher.uuid,
+					limit,
+					page: 2
+				}
+			})
+		} catch (error) {
+			assert.fail()
+		}
+
+		assert.equal(response.status, 200)
+		assert.equal(Object.keys(response.data).length, 3)
+		assert.equal(response.data.pages, pages)
+		assert.equal(response.data.items.length, limit)
+
+		for (let responseAuthor of response.data.items) {
+			let author = authors.find(a => a.uuid == responseAuthor.uuid)
+
+			assert.isNotNull(responseAuthor)
+			assert.equal(Object.keys(responseAuthor).length, 10)
+			assert.equal(responseAuthor.uuid, author.uuid)
+			assert.equal(responseAuthor.publisher, publisher.uuid)
+			assert.equal(responseAuthor.first_name, author.firstName)
+			assert.equal(responseAuthor.last_name, author.lastName)
+			assert.equal(responseAuthor.website_url, author.websiteUrl)
+			assert.equal(responseAuthor.facebook_username, author.facebookUsername)
+			assert.equal(responseAuthor.instagram_username, author.instagramUsername)
+			assert.equal(responseAuthor.twitter_username, author.twitterUsername)
+			assert.equal(responseAuthor.profile_image?.blurhash, author.profileImageItem?.blurhash)
+
+			if (author.bios.length == 0) {
+				assert.isNull(responseAuthor.bio)
+			} else {
+				let authorBio = author.bios.find(b => b.language == "en")
+
+				assert.isNotNull(authorBio)
+				assert.equal(responseAuthor.bio.language, "en")
+				assert.equal(responseAuthor.bio.value, authorBio.bio)
 			}
 		}
 	})
