@@ -1,0 +1,508 @@
+{
+	"type": "schema",
+	"schema": {
+		"Publisher": {
+			"properties": {
+				"name": {
+					"type": "String",
+					"required": true,
+					"minLength": 2,
+					"maxLength": 100
+				},
+				"description": {
+					"type": "String",
+					"maxLength": 5700
+				},
+				"website_url": {
+					"type": "String",
+					"validator": "website_url_validator"
+				},
+				"facebook_username": {
+					"type": "String",
+					"validator": "facebook_username_validator",
+					"preprocessor": "facebook_username_preprocessor"
+				},
+				"instagram_username": {
+					"type": "String",
+					"validator": "instagram_username_validator",
+					"preprocessor": "instagram_username_preprocessor"
+				},
+				"twitter_username": {
+					"type": "String",
+					"validator": "twitter_username_validator",
+					"preprocessor": "twitter_username_preprocessor"
+				},
+				"logo": {
+					"type": "PublisherLogo"
+				},
+				"authors": {
+					"type": "Author",
+					"relationship": "multiple"
+				}
+			},
+			"endpoints": {
+				"create": {
+					"authenticated": true,
+					"properties": {
+						"name": {
+							"type": "String",
+							"required": true
+						}
+					}
+				},
+				"retrieve": {},
+				"list": {},
+				"update": {
+					"authenticated": true,
+					"properties": {
+						"name": {},
+						"description": {},
+						"website_url": {},
+						"facebook_username": {},
+						"instagram_username": {},
+						"twitter_username": {}
+					}
+				}
+			}
+		},
+		"PublisherLogo": {
+			"properties": {
+				"url": {
+					"type": "String",
+					"getter": "url_getter"
+				},
+				"blurhash": {
+					"type": "String"
+				}
+			},
+			"endpoints": {
+				"retrieve": {
+					"url": "/publishers/:uuid/logo"
+				},
+				"upload": {
+					"url": "/publishers/:uuid/logo",
+					"content_types": [
+						"image/png",
+						"image/jpeg"
+					]
+				}
+			}
+		},
+		"Author": {
+			"properties": {
+				"publisher": {
+					"type": "Publisher"
+				},
+				"first_name": {
+					"type": "String",
+					"minLength": 2,
+					"maxLength": 20
+				},
+				"last_name": {
+					"type": "String",
+					"minLength": 2,
+					"maxLength": 20
+				},
+				"bio": {
+					"type": "AuthorBio",
+					"getter": "author_bio_getter"
+				},
+				"website_url": {
+					"type": "String",
+					"validator": "website_url_validator"
+				},
+				"facebook_username": {
+					"type": "String",
+					"validator": "facebook_username_validator",
+					"preprocessor": "facebook_username_preprocessor"
+				},
+				"instagram_username": {
+					"type": "String",
+					"validator": "instagram_username_validator",
+					"preprocessor": "instagram_username_preprocessor"
+				},
+				"twitter_username": {
+					"type": "String",
+					"validator": "twitter_username_validator",
+					"preprocessor": "twitter_username_preprocessor"
+				},
+				"profile_image": {
+					"type": "AuthorProfileImage"
+				},
+				"bios": {
+					"type": "AuthorBio",
+					"relationship": "multiple"
+				},
+				"collections": {
+					"type": "StoreBookCollection",
+					"relationship": "multiple"
+				},
+				"series": {
+					"type": "StoreBookSeries",
+					"relationship": "multiple"
+				}
+			},
+			"endpoints": {
+				"create": {},
+				"retrieve": {
+					"properties": {
+						"language": {
+							"type": "String",
+							"default": "en"
+						}
+					}
+				},
+				"list": {
+					"properties": {
+						"language": {
+							"type": "String",
+							"default": "en"
+						}
+					}
+				}
+			}
+		},
+		"AuthorBio": {
+			"properties": {
+				"bio": {
+					"type": "String",
+					"required": true,
+					"maxLength": 2000
+				},
+				"language": {
+					"type": "String",
+					"required": true,
+					"validator": "language_validator"
+				}
+			},
+			"endpoints": {
+				"list": {
+					"url": "/authors/:uuid/bios"
+				},
+				"set": {
+					"url": "/authors/:uuid/bios/:language",
+					"authenticated": true
+				}
+			}
+		},
+		"AuthorProfileImage": {
+			"properties": {
+				"url": {
+					"type": "String",
+					"getter": "url_getter"
+				},
+				"blurhash": {
+					"type": "String"
+				}
+			},
+			"endpoints": {
+				"retrieve": {
+					"url": "/authors/:uuid/profile_image"
+				},
+				"upload": {
+					"url": "/authors/:uuid/profile_image",
+					"content_types": [
+						"image/png",
+						"image/jpeg"
+					]
+				}
+			}
+		},
+		"StoreBookCollection": {
+			"properties": {
+				"author": {
+					"type": "Author"
+				},
+				"name": {
+					"type": "StoreBookCollectionName",
+					"getter": "store_book_collection_name_getter"
+				},
+				"names": {
+					"type": "StoreBookCollectionName",
+					"relationship": "multiple"
+				},
+				"books": {
+					"type": "StoreBook",
+					"relationship": "multiple"
+				}
+			},
+			"endpoints": {
+				"create": {},
+				"retrieve": {},
+				"list": {}
+			}
+		},
+		"StoreBookCollectionName": {
+			"properties": {
+				"name": {
+					"type": "String",
+					"required": true,
+					"minLength": 2,
+					"maxLength": 100
+				},
+				"language": {
+					"type": "String",
+					"required": true,
+					"validator": "language_validator"
+				}
+			},
+			"endpoints": {
+				"list": {
+					"url": "/store_book_collections/:uuid/names"
+				},
+				"set": {
+					"url": "/store_book_collections/:uuid/names/:language"
+				}
+			}
+		},
+		"StoreBookSeries": {
+			"properties": {
+				"author": {
+					"type": "Author"
+				},
+				"name": {
+					"type": "String",
+					"required": true,
+					"minLength": 2,
+					"maxLength": 100
+				},
+				"language": {
+					"type": "String",
+					"required": true,
+					"validator": "language_validator"
+				},
+				"store_books": {
+					"type": "StoreBook",
+					"relationship": "multiple"
+				}
+			},
+			"endpoints": {
+				"create": {
+					"authenticated": true
+				},
+				"retrieve": {},
+				"list": {},
+				"update": {
+					"authenticated": true
+				}
+			}
+		},
+		"StoreBook": {
+			"properties": {
+				"collection": {
+					"type": "StoreBookCollection"
+				},
+				"title": {
+					"type": "String",
+					"required": true,
+					"getter": "store_book_title_getter"
+				},
+				"description": {
+					"type": "String",
+					"getter": "store_book_description_getter"
+				},
+				"language": {
+					"type": "String",
+					"required": true,
+					"validator": "language_validator"
+				},
+				"price": {
+					"type": "Integer",
+					"getter": "store_book_price_getter"
+				},
+				"isbn": {
+					"type": "String",
+					"getter": "store_book_isbn_getter"
+				},
+				"status": {
+					"type": "String",
+					"validator": "status_validator"
+				},
+				"cover": {
+					"type": "StoreBookCover",
+					"getter": "store_book_cover_getter"
+				},
+				"file": {
+					"type": "StoreBookFile",
+					"getter": "store_book_file_getter"
+				},
+				"in_library": {
+					"type": "Boolean",
+					"authenticated": true,
+					"getter": "store_book_in_library_getter"
+				},
+				"purchased": {
+					"type": "Boolean",
+					"authenticated": true,
+					"getter": "store_book_purchased_getter"
+				},
+				"categories": {
+					"type": "Category",
+					"relationship": "multiple",
+					"getter": "store_book_categories_getter"
+				},
+				"releases": {
+					"type": "StoreBookRelease",
+					"relationship": "multiple"
+				}
+			},
+			"endpoints": {
+				"create": {},
+				"retrieve": {},
+				"list": {},
+				"update": {}
+			}
+		},
+		"StoreBookCover": {
+			"properties": {
+				"url": {
+					"type": "String",
+					"getter": "url_getter"
+				},
+				"aspect_ratio": {
+					"type": "String"
+				},
+				"blurhash": {
+					"type": "String"
+				}
+			},
+			"endpoints": {
+				"retrieve": {
+					"url": "/store_books/:uuid/cover"
+				},
+				"upload": {
+					"url": "/store_books/:uuid/cover",
+					"authenticated": true,
+					"content_types": [
+						"image/png",
+						"image/jpeg"
+					]
+				}
+			}
+		},
+		"StoreBookFile": {
+			"properties": {
+				"file_name": {
+					"type": "String"
+				}
+			},
+			"endpoints": {
+				"retrieve": {
+					"url": "/store_books/:uuid/file",
+					"authenticated": true
+				},
+				"upload": {
+					"url": "/store_books/:uuid/file",
+					"authenticated": true,
+					"content_types": [
+						"application/epub+zip",
+						"application/pdf"
+					]
+				}
+			}
+		},
+		"StoreBookRelease": {
+			"properties": {
+				"store_book": {
+					"type": "StoreBook"
+				},
+				"release_name": {
+					"type": "String"
+				},
+				"release_notes": {
+					"type": "String"
+				},
+				"published_at": {
+					"type": "Integer"
+				},
+				"title": {
+					"type": "String",
+					"minLength": 2,
+					"maxLength": 100
+				},
+				"description": {
+					"type": "String",
+					"maxLength": 5700
+				},
+				"price": {
+					"type": "Integer"
+				},
+				"isbn": {
+					"type": "String",
+					"validator": "isbn_validator"
+				},
+				"status": {
+					"type": "String"
+				},
+				"cover": {
+					"type": "StoreBookCover"
+				},
+				"file": {
+					"type": "StoreBookFile"
+				},
+				"categories": {
+					"type": "Category",
+					"relationship": "multiple"
+				}
+			},
+			"endpoints": {
+				"retrieve": {},
+				"list": {}
+			}
+		},
+		"Category": {
+			"properties": {
+				"key": {
+					"type": "String"
+				},
+				"name": {
+					"type": "CategoryName",
+					"getter": "category_name_getter"
+				},
+				"names": {
+					"type": "CategoryName",
+					"relationship": "multiple"
+				}
+			},
+			"endpoints": {
+				"create": {
+					"authenticated": true
+				},
+				"list": {}
+			}
+		},
+		"CategoryName": {
+			"properties": {
+				"name": {
+					"type": "String",
+					"required": true,
+					"minLength": 2,
+					"maxLength": 100
+				},
+				"language": {
+					"type": "String",
+					"required": true,
+					"validator": "language_validator"
+				}
+			},
+			"endpoints": {
+				"list": {
+					"url": "/categories/:uuid/names"
+				},
+				"set": {
+					"url": "/categories/:uuid/names/:language"
+				}
+			}
+		},
+		"Book": {
+			"properties": {
+				"store_book": {
+					"type": "StoreBook"
+				},
+				"file": {
+					"type": "StoreBookFile"
+				}
+			}
+		}
+	}
+}
