@@ -1,0 +1,7 @@
+(# params: value: string)
+(if ((is_nil value) or (value.length == 0)) (
+	(return nil)
+) else (
+	(var matches (Regex.match value /^((https?:\/\/)?(www.)?instagram.com\/)?@?(?<username>[a-zA-Z0-9\._\-]{3,})(\/)?$/))
+	(return matches.username)
+))

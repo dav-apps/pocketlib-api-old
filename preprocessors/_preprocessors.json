@@ -1,0 +1,26 @@
+{
+	"type": "functions",
+	"functions": [
+		{
+			"name": "facebook_username_preprocessor",
+			"params": [
+				"value"
+			],
+			"source": "./facebook_username.dx"
+		},
+		{
+			"name": "instagram_username_preprocessor",
+			"params": [
+				"value"
+			],
+			"source": "./instagram_username.dx"
+		},
+		{
+			"name": "twitter_username_preprocessor",
+			"params": [
+				"value"
+			],
+			"source": "./twitter_username.dx"
+		}
+	]
+}
