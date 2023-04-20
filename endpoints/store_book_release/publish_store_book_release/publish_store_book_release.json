@@ -1,6 +1,0 @@
-{
-	"type": "endpoint",
-	"path": "store_book_releases/:uuid/publish",
-	"method": "PUT",
-	"source": "./publish_store_book_release.dx"
-}

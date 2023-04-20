@@ -1,6 +1,0 @@
-{
-	"type": "endpoint",
-	"path": "categories",
-	"method": "POST",
-	"source": "./create_category.dx"
-}

@@ -1,6 +1,0 @@
-{
-	"type": "endpoint",
-	"path": "store_book_collections",
-	"method": "POST",
-	"source": "./create_store_book_collection.dx"
-}

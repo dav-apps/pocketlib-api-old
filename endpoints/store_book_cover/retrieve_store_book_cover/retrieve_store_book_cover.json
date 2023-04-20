@@ -1,6 +1,0 @@
-{
-	"type": "endpoint",
-	"path": "store_books/:uuid/cover",
-	"method": "GET",
-	"source": "./retrieve_store_book_cover.dx"
-}

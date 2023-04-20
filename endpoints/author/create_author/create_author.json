@@ -1,6 +1,0 @@
-{
-	"type": "endpoint",
-	"path": "authors",
-	"method": "POST",
-	"source": "./create_author.dx"
-}

@@ -1,7 +1,0 @@
-{
-	"type": "endpoint",
-	"path": "store_books",
-	"method": "GET",
-	"source": "./list_store_books.dx",
-	"caching": true
-}

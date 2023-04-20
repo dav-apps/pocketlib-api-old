@@ -1,7 +1,0 @@
-{
-	"type": "endpoint",
-	"path": "authors",
-	"method": "GET",
-	"source": "./list_authors.dx",
-	"caching": true
-}

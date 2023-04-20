@@ -1,6 +1,0 @@
-{
-	"type": "endpoint",
-	"path": "publishers",
-	"method": "POST",
-	"source": "./create_publisher.dx"
-}

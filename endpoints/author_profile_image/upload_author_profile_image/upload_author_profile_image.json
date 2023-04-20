@@ -1,6 +1,0 @@
-{
-	"type": "endpoint",
-	"path": "authors/:uuid/profile_image",
-	"method": "PUT",
-	"source": "./upload_author_profile_image.dx"
-}

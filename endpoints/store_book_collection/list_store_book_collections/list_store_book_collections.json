@@ -1,6 +1,0 @@
-{
-	"type": "endpoint",
-	"path": "store_book_collections",
-	"method": "GET",
-	"source": "./list_store_book_collections.dx"
-}

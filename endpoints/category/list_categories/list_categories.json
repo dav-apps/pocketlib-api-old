@@ -1,7 +1,0 @@
-{
-	"type": "endpoint",
-	"path": "categories",
-	"method": "GET",
-	"source": "./list_categories.dx",
-	"caching": true
-}
