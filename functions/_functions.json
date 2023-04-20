@@ -1,0 +1,13 @@
+{
+	"type": "functions",
+	"functions": [
+		{
+			"name": "get_last_release_of_store_book",
+			"params": [
+				"store_book",
+				"published"
+			],
+			"source": "./get_last_release_of_store_book.dx"
+		}
+	]
+}
