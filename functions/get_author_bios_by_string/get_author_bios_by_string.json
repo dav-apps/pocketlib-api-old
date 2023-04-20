@@ -1,6 +1,0 @@
-{
-	"type": "function",
-	"name": "get_author_bios_by_string",
-	"params": ["bios_string", "include_uuids"],
-	"source": "./get_author_bios_by_string.dx"
-}

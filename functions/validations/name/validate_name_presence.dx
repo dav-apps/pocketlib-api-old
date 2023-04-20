@@ -1,4 +1,0 @@
-(# params: name: string)
-(if (is_nil name)
-	(hash (error (get_error 2102)) (status 400))
-)

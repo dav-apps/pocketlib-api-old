@@ -1,4 +1,0 @@
-(# params: price: int)
-(if (price.class != "Integer") (
-	(hash (error (get_error 2213)) (status 400))
-))

@@ -1,4 +1,0 @@
-(# params: website_url: string)
-(if (website_url.class != "String") (
-	(hash (error (get_error 2203) (status 400)))
-))

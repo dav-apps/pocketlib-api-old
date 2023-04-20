@@ -1,6 +1,0 @@
-{
-	"type": "function",
-	"name": "process_languages",
-	"params": ["languages"],
-	"source": "./process_languages.dx"
-}

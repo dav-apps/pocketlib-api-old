@@ -1,4 +1,0 @@
-(# params: instagram_username: string)
-(if (instagram_username.class != "String") (
-	(hash (error (get_error 2205) (status 400)))
-))

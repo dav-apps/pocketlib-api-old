@@ -1,4 +1,0 @@
-(# params: title: string)
-(if (is_nil title)
-	(hash (error (get_error 2107)) (status 400))
-)

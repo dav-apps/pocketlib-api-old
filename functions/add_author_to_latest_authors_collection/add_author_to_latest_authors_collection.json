@@ -1,6 +1,0 @@
-{
-	"type": "function",
-	"name": "add_author_to_latest_authors_collection",
-	"params": ["author"],
-	"source": "./add_author_to_latest_authors_collection.dx"
-}

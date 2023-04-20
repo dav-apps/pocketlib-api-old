@@ -1,6 +1,0 @@
-(# params: last_name: string)
-(if ((is_nil last_name) or (last_name.length < 2)) (
-	(hash (error (get_error 2301)) (status 400))
-) elseif (last_name.length > 20) (
-	(hash (error (get_error 2401)) (status 400))
-))

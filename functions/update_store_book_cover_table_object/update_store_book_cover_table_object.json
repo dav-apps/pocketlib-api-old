@@ -1,6 +1,0 @@
-{
-	"type": "function",
-	"name": "update_store_book_cover_table_object",
-	"params": ["uuid", "type", "file"],
-	"source": "./update_store_book_cover_table_object.dx"
-}

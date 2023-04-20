@@ -1,6 +1,0 @@
-{
-	"type": "function",
-	"name": "get_session",
-	"params": ["token"],
-	"source": "./get_session.dx"
-}

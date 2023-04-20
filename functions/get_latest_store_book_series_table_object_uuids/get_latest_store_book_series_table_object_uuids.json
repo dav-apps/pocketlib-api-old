@@ -1,6 +1,0 @@
-{
-	"type": "function",
-	"name": "get_latest_store_book_series_table_object_uuids",
-	"params": [],
-	"source": "./get_latest_store_book_series_table_object_uuids.dx"
-}

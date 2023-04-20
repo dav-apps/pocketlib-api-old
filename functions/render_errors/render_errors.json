@@ -1,9 +1,0 @@
-{
-	"type": "function",
-	"name": "render_errors",
-	"params": [
-		"errors",
-		"status"
-	],
-	"source": "./render_errors.dx"
-}

@@ -1,4 +1,0 @@
-(# params: release_name: string)
-(if (is_nil release_name) (
-	(hash (error (get_error 2111)) (status 400))
-))

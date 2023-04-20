@@ -1,6 +1,0 @@
-{
-	"type": "function",
-	"name": "add_author_to_publisher",
-	"params": ["publisher", "uuid"],
-	"source": "./add_author_to_publisher.dx"
-}

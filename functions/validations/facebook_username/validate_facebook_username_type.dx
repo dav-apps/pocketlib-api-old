@@ -1,4 +1,0 @@
-(# params: facebook_username: string)
-(if (facebook_username.class != "String") (
-	(hash (error (get_error 2204) (status 400)))
-))

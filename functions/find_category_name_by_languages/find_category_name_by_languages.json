@@ -1,6 +1,0 @@
-{
-	"type": "function",
-	"name": "find_category_name_by_languages",
-	"params": ["names_string", "language_list", "include_value", "include_language"],
-	"source": "./find_category_name_by_languages.dx"
-}

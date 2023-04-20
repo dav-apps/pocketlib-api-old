@@ -1,4 +1,0 @@
-(# params: store_book: string)
-(if (store_book.class != "String") (
-	(hash (error (get_error 2219)) (status 400))
-))

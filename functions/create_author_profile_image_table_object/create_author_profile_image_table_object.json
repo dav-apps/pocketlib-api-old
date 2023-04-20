@@ -1,6 +1,0 @@
-{
-	"type": "function",
-	"name": "create_author_profile_image_table_object",
-	"params": ["user_id", "type", "file"],
-	"source": "./create_author_profile_image_table_object.dx"
-}

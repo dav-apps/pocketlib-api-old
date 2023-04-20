@@ -1,6 +1,0 @@
-{
-	"type": "function",
-	"name": "set_table_object_price",
-	"params": ["uuid", "price", "currency"],
-	"source": "./set_table_object_price.dx"
-}

@@ -1,6 +1,0 @@
-(# params: key: string)
-(if ((is_nil key) or (key.length < 2)) (
-	(hash (error (get_error 2306)) (status 400))
-) elseif (key.length > 30) (
-	(hash (error (get_error 2406)) (status 400))
-))

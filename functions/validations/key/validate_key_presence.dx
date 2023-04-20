@@ -1,4 +1,0 @@
-(# params: key: string)
-(if (is_nil key) (
-	(hash (error (get_error 2108)) (status 400))
-))

@@ -1,4 +1,0 @@
-(# params: website_url: string)
-(if ((website_url.length != 0) and (!(Regex.check website_url /^(https?:\/\/)?[\w.-]+(\.[\w.-]+)+[\w\-._~/?#@&\+,;=]+$/))) (
-	(hash (error (get_error 2500)) (status 400))
-))

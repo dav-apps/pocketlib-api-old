@@ -1,4 +1,0 @@
-(# params: key: string)
-(if (key.class != "String") (
-	(hash (error (get_error 2218)) (status 400))
-))

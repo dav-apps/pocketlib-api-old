@@ -1,2 +1,0 @@
-(# params: errors: list, status: int)
-(render_json (hash (errors errors)) status)

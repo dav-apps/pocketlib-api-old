@@ -1,5 +1,0 @@
-(# params: auth_header: string)
-(if (is_nil auth_header) (
-	(# Show error for missing Authorization header)
-	(hash (error (get_error 1100)) (status 401))
-))

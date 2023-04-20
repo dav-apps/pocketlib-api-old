@@ -1,6 +1,0 @@
-{
-	"type": "function",
-	"name": "update_image_table_object",
-	"params": ["uuid", "type", "file"],
-	"source": "./update_image_table_object.dx"
-}

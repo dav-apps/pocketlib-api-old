@@ -1,6 +1,0 @@
-{
-	"type": "function",
-	"name": "get_facebook_username",
-	"params": ["facebook_username"],
-	"source": "./get_facebook_username.dx"
-}

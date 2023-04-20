@@ -1,7 +1,0 @@
-(# params: author: TableObject)
-(catch (
-	(Collection.add_table_object "latest_authors" author.id)
-) (
-	(# Unexpected error)
-	(func render_validation_errors ((list (hash (error (get_error 1000)) (status 500)))))
-))

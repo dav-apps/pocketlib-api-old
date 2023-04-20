@@ -1,4 +1,0 @@
-(# params: release_notes: string)
-(if (release_notes.length > 5700) (
-	(hash (error (get_error 2408)) (status 400))
-))

@@ -1,6 +1,0 @@
-{
-	"type": "function",
-	"name": "create_table_object_user_access",
-	"params": ["table_object_id", "user_id", "table_alias"],
-	"source": "./create_table_object_user_access.dx"
-}

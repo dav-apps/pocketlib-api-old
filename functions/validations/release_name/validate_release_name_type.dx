@@ -1,4 +1,0 @@
-(# params: release_name: string)
-(if (release_name.class != "String") (
-	(hash (error (get_error 2223)) (status 400))
-))

@@ -1,6 +1,0 @@
-{
-	"type": "function",
-	"name": "get_author_table_object_uuids",
-	"params": ["user_id"],
-	"source": "./get_author_table_object_uuids.dx"
-}

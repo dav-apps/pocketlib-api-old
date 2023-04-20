@@ -1,6 +1,0 @@
-{
-	"type": "function",
-	"name": "create_publisher_logo_table_object",
-	"params": ["user_id", "type", "file"],
-	"source": "./create_publisher_logo_table_object.dx"
-}

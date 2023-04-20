@@ -1,7 +1,0 @@
-(# params: none)
-(catch (
-	(Collection.get_table_object_uuids (get_env "STORE_BOOK_TABLE_ID") "latest_books")
-) (
-	(# Unexpected error)
-	(func render_validation_errors ((list (hash (error (get_error 1000)) (status 500)))))
-))

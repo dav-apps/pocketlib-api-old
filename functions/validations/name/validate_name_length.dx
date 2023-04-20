@@ -1,6 +1,0 @@
-(# params: name: string)
-(if ((is_nil name) or (name.length < 2)) (
-	(hash (error (get_error 2302)) (status 400))
-) elseif (name.length > 100) (
-	(hash (error (get_error 2402)) (status 400))
-))

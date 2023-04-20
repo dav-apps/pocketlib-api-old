@@ -1,6 +1,0 @@
-{
-	"type": "function",
-	"name": "add_series_to_author",
-	"params": ["author", "uuid"],
-	"source": "./add_series_to_author.dx"
-}

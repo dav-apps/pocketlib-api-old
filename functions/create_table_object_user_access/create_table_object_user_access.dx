@@ -1,6 +1,0 @@
-(# params: table_object_id: int, user_id: int, table_alias: int)
-(catch (
-	(TableObjectUserAccess.create table_object_id user_id table_alias)
-) (
-	(func render_validation_errors ((list (hash (error (get_error 1000)) (status 500)))))
-))

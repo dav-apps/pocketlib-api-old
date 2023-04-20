@@ -1,4 +1,0 @@
-(# params: isbn: string)
-(if (isbn.class != "String") (
-	(hash (error (get_error 2214)) (status 400))
-))

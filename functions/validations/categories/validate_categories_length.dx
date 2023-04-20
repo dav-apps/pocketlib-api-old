@@ -1,4 +1,0 @@
-(# params: categories: Array<string>)
-(if (categories.length > 3) (
-	(hash (error (get_error 3011)) (status 400))
-))

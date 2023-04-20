@@ -1,6 +1,0 @@
-{
-	"type": "function",
-	"name": "get_twitter_username",
-	"params": ["twitter_username"],
-	"source": "./get_twitter_username.dx"
-}

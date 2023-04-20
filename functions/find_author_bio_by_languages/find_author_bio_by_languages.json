@@ -1,6 +1,0 @@
-{
-	"type": "function",
-	"name": "find_author_bio_by_languages",
-	"params": ["bios_string", "language_list", "include_value", "include_language"],
-	"source": "./find_author_bio_by_languages.dx"
-}

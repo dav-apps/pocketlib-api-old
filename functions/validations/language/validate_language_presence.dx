@@ -1,4 +1,0 @@
-(# params: language: string)
-(if (is_nil language)
-	(hash (error (get_error 2104)) (status 400))
-)

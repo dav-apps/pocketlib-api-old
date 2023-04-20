@@ -1,6 +1,0 @@
-{
-	"type": "function",
-	"name": "is_store_book_in_user_library",
-	"params": ["user_id", "store_book_uuid"],
-	"source": "./is_store_book_in_user_library.dx"
-}

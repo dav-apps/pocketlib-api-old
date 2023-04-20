@@ -1,6 +1,0 @@
-{
-	"type": "function",
-	"name": "has_user_purchased_table_object",
-	"params": ["user_id", "table_object_id"],
-	"source": "./has_user_purchased_table_object.dx"
-}
