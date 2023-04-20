@@ -1,0 +1,10 @@
+(# params: object: StoreBook, params: Hash)
+(# Get the latest release of the store book and return the price)
+(# Get the store book release)
+(var store_book_release (func get_last_release_of_store_book (object true)))
+
+(if (is_nil store_book_release) (
+	(return nil)
+))
+
+(return store_book_release.price)

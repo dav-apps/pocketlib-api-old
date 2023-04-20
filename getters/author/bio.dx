@@ -1,0 +1,38 @@
+(# params: object: Author, params: Hash)
+(var bios_string object.properties.bios)
+(if (is_nil bios_string) (return nil))
+
+(var languages params["languages"])
+(if (is_nil languages) (var languages "en"))
+(var language_list (languages_string.split ","))
+
+(# Get all bios)
+(var bios (hash))
+(var bio_uuids (bios_string.split ","))
+
+(for uuid in bio_uuids (
+	(var bio (func get_table_object (
+		uuid
+		(get_env "AUTHOR_BIO_TABLE_ID")
+	)))
+	(if (is_nil bio) (continue))
+
+	(var bios[bio.properties.language] bio)
+))
+
+(if (bios.length == 0) (return nil))
+
+(# Find the most appropriate language)
+(var found_bios (array))
+
+(for lang in language_list (
+	(if (!(is_nil bios[lang])) (
+		(found_bios.push lang)
+	))
+))
+
+(if (found_bios.length == 0) (
+	(return nil)
+) else (
+	(return found_bios#0)
+))

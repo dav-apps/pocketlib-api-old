@@ -1,0 +1,5 @@
+(# params: object: TableObject, params: Hash)
+(return (TableObject.get_cdn_url
+	object.uuid
+	(hash (etag object.properties.etag))
+))
