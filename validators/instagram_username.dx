@@ -1,0 +1,5 @@
+(# params: value: string)
+(return (
+	(value.length == 0)
+	or (Regex.check value /^((https?:\/\/)?(www.)?instagram.com\/)?@?[a-zA-Z0-9\._\-]{3,}(\/)?$/)
+))

@@ -1,0 +1,3 @@
+(# params: value: string)
+(var languages (list "en" "de" "fr"))
+(return (languages.contains value))

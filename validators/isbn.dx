@@ -1,0 +1,9 @@
+(# params: value: string)
+(# Must be of length 0, 10 or 13 and only contain numbers)
+(return (
+	(if (value.length == 0)
+		true
+	else
+		(Regex.check value /^([0-9]{10}|[0-9]{13})$/)
+	)
+))

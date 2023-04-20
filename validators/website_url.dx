@@ -1,0 +1,5 @@
+(# params: value: string)
+(return (
+	(value.length != 0)
+	and (!(Regex.check value /^(https?:\/\/)?[\w.-]+(\.[\w.-]+)+[\w\-._~/?#@&\+,;=]+$/))
+))
