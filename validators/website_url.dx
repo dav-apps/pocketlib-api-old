@@ -1,5 +1,5 @@
 (# params: value: string)
 (return (
-	(value.length != 0)
-	and (!(Regex.check value /^(https?:\/\/)?[\w.-]+(\.[\w.-]+)+[\w\-._~/?#@&\+,;=]+$/))
+	(value.length == 0)
+	or (Regex.check value /^(https?:\/\/)?[\w.-]+(\.[\w.-]+)+[\w\-._~/?#@&\+,;=]+$/)
 ))
