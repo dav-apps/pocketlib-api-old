@@ -6,11 +6,11 @@
 
 (if published (
 	(for release_uuid in releases.reverse (
-		(var release (func get_table_object (release_uuid (get_env "STORE_BOOK_RELEASE_TABLE_ID"))))
+		(var release (func get_table_object (release_uuid)))
 		(if (release.properties.status == "published") (
 			(return release)
 		))
 	))
 ))
 
-(return (func get_table_object ((releases.pop) (get_env "STORE_BOOK_RELEASE_TABLE_ID"))))
+(return (func get_table_object ((releases.pop))))

@@ -11,10 +11,7 @@
 (var name_uuids (names_string.split ","))
 
 (for uuid in name_uuids (
-	(var name (func get_table_object (
-		uuid
-		(get_env "STORE_BOOK_COLLECTION_NAME_TABLE_ID")
-	)))
+	(var name (func get_table_object (uuid)))
 	(if (is_nil name) (continue))
 
 	(var names[name.properties.language] name)

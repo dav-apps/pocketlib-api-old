@@ -11,10 +11,7 @@
 (var bio_uuids (bios_string.split ","))
 
 (for uuid in bio_uuids (
-	(var bio (func get_table_object (
-		uuid
-		(get_env "AUTHOR_BIO_TABLE_ID")
-	)))
+	(var bio (func get_table_object (uuid)))
 	(if (is_nil bio) (continue))
 
 	(var bios[bio.properties.language] bio)

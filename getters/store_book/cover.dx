@@ -7,7 +7,4 @@
 	(return nil)
 ))
 
-(return (func get_table_object (
-	store_book_release.properties.cover
-	(get_env "STORE_BOOK_COVER_TABLE_ID")
-)))
+(return (func get_table_object (store_book_release.properties.cover)))
