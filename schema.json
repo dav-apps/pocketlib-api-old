@@ -5,30 +5,36 @@
 			"properties": {
 				"name": {
 					"type": "String",
+					"description": "The name of the publisher",
 					"required": true,
 					"minLength": 2,
 					"maxLength": 100
 				},
 				"description": {
 					"type": "String",
+					"description": "The description for the publisher",
 					"maxLength": 5700
 				},
 				"website_url": {
 					"type": "String",
+					"description": "URL to the website of the publisher",
 					"validator": "website_url_validator"
 				},
 				"facebook_username": {
 					"type": "String",
+					"description": "URL to the Facebook profile or Facebook username of the publisher",
 					"validator": "facebook_username_validator",
 					"preprocessor": "facebook_username_preprocessor"
 				},
 				"instagram_username": {
 					"type": "String",
+					"description": "URL to the Instagram profile or Instagram username of the publisher",
 					"validator": "instagram_username_validator",
 					"preprocessor": "instagram_username_preprocessor"
 				},
 				"twitter_username": {
 					"type": "String",
+					"description": "URL to the Twitter profile or Twitter username of the publisher",
 					"validator": "twitter_username_validator",
 					"preprocessor": "twitter_username_preprocessor"
 				},
@@ -43,13 +49,7 @@
 			"endpoints": {
 				"create": {
 					"description": "If the user is an admin, creates a new publisher for the admin. Otherwise creates a publisher for the user.",
-					"authenticated": true,
-					"properties": {
-						"name": {
-							"type": "String",
-							"required": true
-						}
-					}
+					"authenticated": true
 				},
 				"retrieve": {
 					"description": "Retrieves the publisher with the given uuid. If uuid = 'mine', returns the publisher of the user."
@@ -96,11 +96,13 @@
 				},
 				"first_name": {
 					"type": "String",
+					"description": "The first name of the author",
 					"minLength": 2,
 					"maxLength": 20
 				},
 				"last_name": {
 					"type": "String",
+					"description": "The last name of the author",
 					"minLength": 2,
 					"maxLength": 20
 				},
@@ -110,20 +112,24 @@
 				},
 				"website_url": {
 					"type": "String",
+					"description": "URL to the website of the author",
 					"validator": "website_url_validator"
 				},
 				"facebook_username": {
 					"type": "String",
+					"description": "URL to the Facebook profile or Facebook username of the author",
 					"validator": "facebook_username_validator",
 					"preprocessor": "facebook_username_preprocessor"
 				},
 				"instagram_username": {
 					"type": "String",
+					"description": "URL to the Instagram profile or Instagram username of the author",
 					"validator": "instagram_username_validator",
 					"preprocessor": "instagram_username_preprocessor"
 				},
 				"twitter_username": {
 					"type": "String",
+					"description": "URL to the Twitter profile or Twitter username of the author",
 					"validator": "twitter_username_validator",
 					"preprocessor": "twitter_username_preprocessor"
 				},
@@ -266,7 +272,7 @@
 			},
 			"endpoints": {
 				"list": {
-					"description": "Retrieves the names of the store book collection.",
+					"description": "Retrieves all names of the store book collection.",
 					"url": "/store_book_collections/:uuid/names"
 				},
 				"set": {
@@ -282,12 +288,14 @@
 				},
 				"name": {
 					"type": "String",
+					"description": "The name for the store book series",
 					"required": true,
 					"minLength": 2,
 					"maxLength": 100
 				},
 				"language": {
 					"type": "String",
+					"description": "The language of the books in the series",
 					"required": true,
 					"validator": "language_validator"
 				},
@@ -320,24 +328,29 @@
 				},
 				"title": {
 					"type": "String",
+					"description": "The title of the store book",
 					"required": true,
 					"getter": "store_book_title_getter"
 				},
 				"description": {
 					"type": "String",
+					"description": "The description of the store book",
 					"getter": "store_book_description_getter"
 				},
 				"language": {
 					"type": "String",
+					"description": "The language of the store book",
 					"required": true,
 					"validator": "language_validator"
 				},
 				"price": {
 					"type": "Integer",
+					"description": "The price of the store book",
 					"getter": "store_book_price_getter"
 				},
 				"isbn": {
 					"type": "String",
+					"description": "The isbn of the store book",
 					"getter": "store_book_isbn_getter"
 				},
 				"status": {
@@ -446,10 +459,12 @@
 					"type": "StoreBook"
 				},
 				"release_name": {
-					"type": "String"
+					"type": "String",
+					"description": "The name of the release"
 				},
 				"release_notes": {
-					"type": "String"
+					"type": "String",
+					"description": "Optional description of changes in this release"
 				},
 				"published_at": {
 					"type": "Integer"
@@ -496,10 +511,12 @@
 		"Category": {
 			"properties": {
 				"key": {
-					"type": "String"
+					"type": "String",
+					"description": "The key of the category"
 				},
 				"name": {
 					"type": "CategoryName",
+					"description": "The name for the category in the given language",
 					"getter": "category_name_getter"
 				},
 				"names": {
@@ -533,7 +550,7 @@
 			},
 			"endpoints": {
 				"list": {
-					"description": "Retrieves the names of the category.",
+					"description": "Retrieves all names of the category.",
 					"url": "/categories/:uuid/names"
 				},
 				"set": {
