@@ -1,0 +1,3 @@
+(# params: params: Hash)
+(var uuid params["uuid"])
+(return (uuid == "mine"))

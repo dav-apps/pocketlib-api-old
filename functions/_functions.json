@@ -8,6 +8,13 @@
 				"published"
 			],
 			"source": "./get_last_release_of_store_book.dx"
+		},
+		{
+			"name": "uuid_mine_check",
+			"params": [
+				"params"
+			],
+			"source": "./uuid_mine_check.dx"
 		}
 	]
 }
