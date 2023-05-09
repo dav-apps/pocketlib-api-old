@@ -60,7 +60,17 @@
 				},
 				"list": {
 					"description": "Retrieves the publishers with the given params.",
-					"authenticated": true
+					"queryParams": {
+						"mine": {
+							"type": "Boolean",
+							"description": "If true and the user is an admin, returns the publishers of the admin",
+							"default": false
+						}
+					},
+					"authenticated": {
+						"value": "uuid_mine_check",
+						"description": "If uuid = 'mine'"
+					}
 				},
 				"update": {
 					"description": "Updates the publisher with the given uuid and returns it. If uuid = 'mine', updates the publisher of the user.",
@@ -164,28 +174,66 @@
 			},
 			"endpoints": {
 				"create": {
-					"description": "If the user is an admin, creates a new author for the admin. Otherwise creates an author for the user."
+					"description": "If the user is an admin, creates a new author for the admin. Otherwise creates an author for the user.",
+					"bodyParams": {
+						"publisher": {
+							"type": "String",
+							"description": "The uuid of the publisher for which to create the author. Only used for admins.",
+							"setter": "author_publisher_setter"
+						}
+					}
 				},
 				"retrieve": {
 					"description": "Retrieves the author with the given uuid. If uuid = 'mine', returns the author of the user.",
-					"properties": {
-						"language": {
+					"queryParams": {
+						"languages": {
 							"type": "String",
+							"description": "List of preferred languages for localized fields, separated by comma",
 							"default": "en"
 						}
+					},
+					"authenticated": {
+						"value": "uuid_mine_check",
+						"description": "If uuid = 'mine'"
 					}
 				},
 				"list": {
 					"description": "Retrieves the authors with the given params.",
-					"properties": {
-						"language": {
+					"queryParams": {
+						"languages": {
 							"type": "String",
+							"description": "List of preferred languages for localized fields, separated by comma",
 							"default": "en"
+						},
+						"latest": {
+							"type": "Boolean",
+							"description": "If true, returns the authors of the collection 'latest_authors' which have a profile image",
+							"default": true
+						},
+						"mine": {
+							"type": "Boolean",
+							"description": "If true and the user is an admin, returns the authors of the admin",
+							"default": false
+						},
+						"publisher": {
+							"type": "String",
+							"description": "The uuid of the publisher of which to retrieve the authors. If the publisher belongs to the user, returns all authors, otherwise returns only the authors with a profile image"
 						}
+					},
+					"authenticated": {
+						"value": "uuid_mine_check",
+						"description": "If uuid = 'mine'"
 					}
 				},
 				"update": {
-					"description": "Updates the author with the given uuid and returns it. If uuid = 'mine', updates the author of the user."
+					"description": "Updates the author with the given uuid and returns it. If uuid = 'mine', updates the author of the user.",
+					"queryParams": {
+						"languages": {
+							"type": "String",
+							"description": "List of preferred languages for localized fields, separated by comma",
+							"default": "en"
+						}
+					}
 				}
 			}
 		},
@@ -193,11 +241,13 @@
 			"properties": {
 				"bio": {
 					"type": "String",
+					"description": "The bio of the author in the specified language",
 					"required": true,
 					"maxLength": 2000
 				},
 				"language": {
 					"type": "String",
+					"description": "The language of the bio",
 					"required": true,
 					"validator": "language_validator"
 				}
@@ -211,6 +261,10 @@
 							"type": "String",
 							"description": "The uuid of the author"
 						}
+					},
+					"authenticated": {
+						"value": "uuid_mine_check",
+						"description": "If uuid = 'mine'"
 					}
 				},
 				"set": {
@@ -220,6 +274,10 @@
 						"uuid": {
 							"type": "String",
 							"description": "The uuid of the author"
+						},
+						"language": {
+							"type": "String",
+							"description": "The language of the bio"
 						}
 					},
 					"authenticated": true
