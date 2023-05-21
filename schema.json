@@ -221,8 +221,8 @@
 						}
 					},
 					"authenticated": {
-						"value": "uuid_mine_check",
-						"description": "If uuid = 'mine'"
+						"value": "mine_check",
+						"description": "If mine = true"
 					}
 				},
 				"update": {
@@ -338,13 +338,52 @@
 			},
 			"endpoints": {
 				"create": {
-					"description": "Creates a new store book collection."
+					"description": "Creates a new store book collection.",
+					"bodyParams": {
+						"author": {
+							"type": "String",
+							"description": "The author of the store book collection",
+							"setter": "store_book_collection_author_setter",
+							"required": {
+								"value": "user_admin_check",
+								"description": "If user is admin"
+							}
+						},
+						"name": {
+							"type": "String",
+							"description": "The name for the store book collection in the given language",
+							"required": true
+						},
+						"language": {
+							"type": "String",
+							"description": "The language of the given name",
+							"required": true
+						}
+					}
 				},
 				"retrieve": {
-					"description": "Retrieves the store book collection with the given uuid."
+					"description": "Retrieves the store book collection with the given uuid.",
+					"queryParams": {
+						"languages": {
+							"type": "String",
+							"description": "List of preferred languages for localized fields, separated by comma",
+							"default": "en"
+						}
+					}
 				},
 				"list": {
-					"description": "Retrieves the store book collections with the given params."
+					"description": "Retrieves the store book collections with the given params.",
+					"queryParams": {
+						"languages": {
+							"type": "String",
+							"description": "List of preferred languages for localized fields, separated by comma",
+							"default": "en"
+						},
+						"author": {
+							"type": "String",
+							"description": "The uuid of an author. Returns the store book collections of the author."
+						}
+					}
 				}
 			}
 		},
@@ -352,6 +391,7 @@
 			"properties": {
 				"name": {
 					"type": "String",
+					"description": "The name for the StoreBookCollection in the specified language",
 					"required": true,
 					"minLength": 2,
 					"maxLength": 100
@@ -415,17 +455,58 @@
 			"endpoints": {
 				"create": {
 					"description": "Creates a new store book series.",
-					"authenticated": true
+					"authenticated": true,
+					"bodyParams": {
+						"author": {
+							"type": "String",
+							"description": "The author of the store book series",
+							"setter": "store_book_series_author_setter",
+							"required": {
+								"value": "user_admin_check",
+								"description": "If user is admin"
+							}
+						},
+						"store_books": {
+							"type": "String[]",
+							"description": "The uuids of the store books that belong to the series"
+						}
+					}
 				},
 				"retrieve": {
 					"description": "Retrieves the store book series with the given uuid."
 				},
 				"list": {
-					"description": "Retrieves the store book series with the given params."
+					"description": "Retrieves the store book series with the given params.",
+					"queryParams": {
+						"languages": {
+							"type": "String",
+							"description": "List of preferred languages for localized fields, separated by comma",
+							"default": "en"
+						},
+						"latest": {
+							"type": "Boolean",
+							"description": "If true, returns the series of the collection 'latest_series'",
+							"default": false
+						},
+						"author": {
+							"type": "String",
+							"description": "The uuid of the author for which to retrieve the store book series."
+						},
+						"store_book": {
+							"type": "String",
+							"description": "The uuid of a store book. Retrieves the series to which the store book belongs to."
+						}
+					}
 				},
 				"update": {
 					"description": "Updates the store book series with the given uuid and returns it.",
-					"authenticated": true
+					"authenticated": true,
+					"bodyParams": {
+						"store_books": {
+							"type": "String[]",
+							"description": "The uuids of the store books that belong to the series"
+						}
+					}
 				}
 			}
 		},
