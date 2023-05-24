@@ -445,7 +445,8 @@
 					"type": "String",
 					"description": "The language of the books in the series",
 					"required": true,
-					"validator": "language_validator"
+					"validator": "language_validator",
+					"endpoints": ["create"]
 				},
 				"store_books": {
 					"type": "StoreBook",
@@ -544,7 +545,9 @@
 				},
 				"status": {
 					"type": "String",
-					"validator": "status_validator"
+					"description": "The publication status of the store book",
+					"validator": "status_validator",
+					"endpoints": ["update"]
 				},
 				"cover": {
 					"type": "StoreBookCover",
@@ -552,17 +555,20 @@
 				},
 				"file": {
 					"type": "StoreBookFile",
+					"accessor": "store_book_file_accessor",
 					"getter": "store_book_file_getter"
 				},
 				"in_library": {
 					"type": "Boolean",
 					"authenticated": true,
-					"getter": "store_book_in_library_getter"
+					"getter": "store_book_in_library_getter",
+					"endpoints": []
 				},
 				"purchased": {
 					"type": "Boolean",
 					"authenticated": true,
-					"getter": "store_book_purchased_getter"
+					"getter": "store_book_purchased_getter",
+					"endpoints": []
 				},
 				"categories": {
 					"type": "Category",
@@ -576,17 +582,69 @@
 			},
 			"endpoints": {
 				"create": {
-					"description": "Creates a new store book and the first store book release."
+					"description": "Creates a new store book and the first store book release.",
+					"bodyParams": {
+						"categories": {
+							"type": "String[]",
+							"description": "The uuids of the categories of the store book"
+						}
+					}
 				},
 				"retrieve": {
-					"description": "Retrieves the store book with the given uuid. If the user is the author or admin of the store book, the response includes the details of the last release, otherwise it includes the details of the last published release."
+					"description": "Retrieves the store book with the given uuid. If the user is the author or admin of the store book, the response includes the details of the last release, otherwise it includes the details of the last published release.",
+					"authenticated": {
+						"value": "store_book_not_published_check",
+						"description": "Only if the store book is not published"
+					}
 				},
 				"list": {
-					"description": "Retrieves the store books with the given params. The response includes the details of the last published release of each store book.\nReturns the `file` property only if the user is the author or admin of the store book.\nReturns `in_library` and `purchased` properties only if the user is authenticated.",
-					"collection": "latest_books"
+					"description": "Retrieves the store books with the given params. The response includes the details of the last published release of each store book.",
+					"queryParams": {
+						"languages": {
+							"type": "String",
+							"description": "List of languages for which store books should be filtered, separated by comma. Is only used with latest, author or series params.",
+							"default": "en"
+						},
+						"latest": {
+							"type": "Boolean",
+							"description": "If true, returns the store books of the collection 'latest_books'",
+							"default": false
+						},
+						"review": {
+							"type": "Boolean",
+							"description": "If true, returns all store books in review",
+							"default": false
+						},
+						"author": {
+							"type": "String",
+							"description": "The author of which to retrieve store books"
+						},
+						"collection": {
+							"type": "String",
+							"description": "The store book collection of which to retrieve store books"
+						},
+						"series": {
+							"type": "String",
+							"description": "The store book series of which to retrieve store books. If the user is not the author or an admin, is only successful with all store books published."
+						},
+						"categories": {
+							"type": "String",
+							"description": "The keys of the categories for which to retrieve store books, separated by comma."
+						}
+					},
+					"authenticated": {
+						"value": "list_store_books_authenticated_check",
+						"description": "Required only with collection or review param"
+					}
 				},
 				"update": {
-					"description": "Updates the store book with the given uuid and returns it with the details of the last release."
+					"description": "Updates the store book with the given uuid and returns it with the details of the last release.",
+					"bodyParams": {
+						"categories": {
+							"type": "String[]",
+							"description": "The uuids of the categories of the store book"
+						}
+					}
 				}
 			}
 		},
