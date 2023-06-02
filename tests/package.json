@@ -7,9 +7,9 @@
 	},
 	"license": "MIT",
 	"dependencies": {
-		"axios": "^0.27.2",
-		"chai": "^4.3.6",
-		"dav-js": "git+https://github.com/dav-apps/dav-js.git#v2.5.1",
-		"mocha": "^10.0.0"
+		"axios": "^1.4.0",
+		"chai": "^4.3.7",
+		"dav-js": "git+https://github.com/dav-apps/dav-js.git#v2.6.3",
+		"mocha": "^10.2.0"
 	}
 }
