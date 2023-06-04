@@ -1,0 +1,9 @@
+(# params: state: Hash)
+(if ((! state.is_admin) and (state.publishers.length > 0)) (
+	(func render_validation_errors ((list
+		(hash
+			(error "user_is_already_publisher")
+			(status 400)
+		)
+	)))
+))

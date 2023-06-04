@@ -49,7 +49,9 @@
 			"endpoints": {
 				"create": {
 					"description": "If the user is an admin, creates a new publisher for the admin. Otherwise creates a publisher for the user.",
-					"authenticated": true
+					"authenticated": true,
+					"state": "create_publisher_state",
+					"validators": ["user_is_not_publisher_validator"]
 				},
 				"retrieve": {
 					"description": "Retrieves the publisher with the given uuid. If uuid = 'mine', returns the publisher of the user.",

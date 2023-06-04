@@ -1,0 +1,12 @@
+(# params: user_id: int)
+(catch (
+	(Table.get_table_objects "Publisher" user_id)
+) (
+	(# Action not allowed)
+	(func render_validation_errors ((list
+		(hash
+			(error "action_not_allowed")
+			(status 403)
+		)
+	)))
+))

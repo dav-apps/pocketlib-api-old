@@ -1,0 +1,10 @@
+{
+	"type": "functions",
+	"functions": [
+		{
+			"name": "create_publisher_state",
+			"params": ["session"],
+			"source": "./publisher/create_publisher.dx"
+		}
+	]
+}
