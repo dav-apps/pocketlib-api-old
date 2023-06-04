@@ -20,13 +20,16 @@ describe("CreatePublisher endpoint", () => {
 	it("should not create publisher without access token", async () => {
 		try {
 			await axios({
-				method: 'post',
+				method: "post",
 				url: createPublisherEndpointUrl
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 401)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.AuthorizationHeaderMissing)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.AuthorizationHeaderMissing
+			)
 			return
 		}
 
@@ -36,17 +39,20 @@ describe("CreatePublisher endpoint", () => {
 	it("should not create publisher with access token for session that does not exist", async () => {
 		try {
 			await axios({
-				method: 'post',
+				method: "post",
 				url: createPublisherEndpointUrl,
 				headers: {
 					Authorization: "badasdasdad",
-					'Content-Type': 'application/json'
+					"Content-Type": "application/json"
 				}
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 404)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.SessionDoesNotExist)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.SessionDoesNotExist
+			)
 			return
 		}
 
@@ -56,17 +62,20 @@ describe("CreatePublisher endpoint", () => {
 	it("should not create publisher without Content-Type json", async () => {
 		try {
 			await axios({
-				method: 'post',
+				method: "post",
 				url: createPublisherEndpointUrl,
 				headers: {
 					Authorization: constants.davUser.accessToken,
-					'Content-Type': 'application/xml'
+					"Content-Type": "application/xml"
 				}
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 415)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.ContentTypeNotSupported)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.ContentTypeNotSupported
+			)
 			return
 		}
 
@@ -76,11 +85,11 @@ describe("CreatePublisher endpoint", () => {
 	it("should not create publisher with access token for another app", async () => {
 		try {
 			await axios({
-				method: 'post',
+				method: "post",
 				url: createPublisherEndpointUrl,
 				headers: {
 					Authorization: constants.testUserTestAppAccessToken,
-					'Content-Type': 'application/json'
+					"Content-Type": "application/json"
 				},
 				data: {
 					name: "asdasd"
@@ -89,7 +98,10 @@ describe("CreatePublisher endpoint", () => {
 		} catch (error) {
 			assert.equal(error.response.status, 403)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.ActionNotAllowed
+			)
 			return
 		}
 
@@ -99,17 +111,17 @@ describe("CreatePublisher endpoint", () => {
 	it("should not create publisher without required properties", async () => {
 		try {
 			await axios({
-				method: 'post',
+				method: "post",
 				url: createPublisherEndpointUrl,
 				headers: {
 					Authorization: constants.davUser.accessToken,
-					'Content-Type': 'application/json'
+					"Content-Type": "application/json"
 				}
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 400)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.NameMissing)
+			assert.equal(error.response.data.errors[0], ErrorCodes.NameMissing)
 			return
 		}
 
@@ -119,11 +131,11 @@ describe("CreatePublisher endpoint", () => {
 	it("should not create publisher with properties with wrong types", async () => {
 		try {
 			await axios({
-				method: 'post',
+				method: "post",
 				url: createPublisherEndpointUrl,
 				headers: {
 					Authorization: constants.davUser.accessToken,
-					'Content-Type': 'application/json'
+					"Content-Type": "application/json"
 				},
 				data: {
 					name: true
@@ -132,7 +144,7 @@ describe("CreatePublisher endpoint", () => {
 		} catch (error) {
 			assert.equal(error.response.status, 400)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.NameWrongType)
+			assert.equal(error.response.data.errors[0], ErrorCodes.NameWrongType)
 			return
 		}
 
@@ -142,11 +154,11 @@ describe("CreatePublisher endpoint", () => {
 	it("should not create publisher with too short properties", async () => {
 		try {
 			await axios({
-				method: 'post',
+				method: "post",
 				url: createPublisherEndpointUrl,
 				headers: {
 					Authorization: constants.davUser.accessToken,
-					'Content-Type': 'application/json'
+					"Content-Type": "application/json"
 				},
 				data: {
 					name: "a"
@@ -155,7 +167,7 @@ describe("CreatePublisher endpoint", () => {
 		} catch (error) {
 			assert.equal(error.response.status, 400)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.NameTooShort)
+			assert.equal(error.response.data.errors[0], ErrorCodes.NameTooShort)
 			return
 		}
 
@@ -165,11 +177,11 @@ describe("CreatePublisher endpoint", () => {
 	it("should not create publisher with too long properties", async () => {
 		try {
 			await axios({
-				method: 'post',
+				method: "post",
 				url: createPublisherEndpointUrl,
 				headers: {
 					Authorization: constants.davUser.accessToken,
-					'Content-Type': 'application/json'
+					"Content-Type": "application/json"
 				},
 				data: {
 					name: "a".repeat(140)
@@ -178,7 +190,7 @@ describe("CreatePublisher endpoint", () => {
 		} catch (error) {
 			assert.equal(error.response.status, 400)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.NameTooLong)
+			assert.equal(error.response.data.errors[0], ErrorCodes.NameTooLong)
 			return
 		}
 
@@ -188,11 +200,11 @@ describe("CreatePublisher endpoint", () => {
 	it("should not create publisher if the user is already a publisher", async () => {
 		try {
 			await axios({
-				method: 'post',
+				method: "post",
 				url: createPublisherEndpointUrl,
 				headers: {
 					Authorization: constants.authorUser.accessToken,
-					'Content-Type': 'application/json'
+					"Content-Type": "application/json"
 				},
 				data: {
 					name: "Test publisher"
@@ -201,7 +213,10 @@ describe("CreatePublisher endpoint", () => {
 		} catch (error) {
 			assert.equal(error.response.status, 400)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.UserIsAlreadyPublisher)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.UserIsAlreadyPublisher
+			)
 			return
 		}
 
@@ -215,14 +230,15 @@ describe("CreatePublisher endpoint", () => {
 
 		try {
 			response = await axios({
-				method: 'post',
+				method: "post",
 				url: createPublisherEndpointUrl,
 				headers: {
 					Authorization: constants.testUser.accessToken,
-					'Content-Type': 'application/json'
+					"Content-Type": "application/json"
 				},
 				params: {
-					fields: "*"
+					fields:
+						"uuid,name,description,website_url,facebook_username,instagram_username,twitter_username"
 				},
 				data: {
 					name
@@ -233,7 +249,7 @@ describe("CreatePublisher endpoint", () => {
 		}
 
 		assert.equal(response.status, 201)
-		assert.equal(Object.keys(response.data).length, 8)
+		assert.equal(Object.keys(response.data).length, 7)
 		assert.isNotNull(response.data.uuid)
 		assert.equal(response.data.name, name)
 		assert.isNull(response.data.description)
@@ -241,7 +257,6 @@ describe("CreatePublisher endpoint", () => {
 		assert.isNull(response.data.facebook_username)
 		assert.isNull(response.data.instagram_username)
 		assert.isNull(response.data.twitter_username)
-		assert.isNull(response.data.logo)
 
 		// Check if the publisher was correctly created on the server
 		let objResponse = await TableObjectsController.GetTableObject({
@@ -251,7 +266,10 @@ describe("CreatePublisher endpoint", () => {
 
 		assert.equal(objResponse.status, 200)
 		assert.equal(objResponse.data.tableObject.Uuid, response.data.uuid)
-		assert.equal(Object.keys(objResponse.data.tableObject.Properties).length, 1)
+		assert.equal(
+			Object.keys(objResponse.data.tableObject.Properties).length,
+			1
+		)
 		assert.equal(objResponse.data.tableObject.GetPropertyValue("name"), name)
 	})
 
@@ -259,17 +277,18 @@ describe("CreatePublisher endpoint", () => {
 		resetPublishers = true
 		let name = "Test publisher"
 		let response
-		
+
 		try {
 			response = await axios({
-				method: 'post',
+				method: "post",
 				url: createPublisherEndpointUrl,
 				headers: {
 					Authorization: constants.davUser.accessToken,
-					'Content-Type': 'application/json'
+					"Content-Type": "application/json"
 				},
 				params: {
-					fields: "*"
+					fields:
+						"uuid,name,description,website_url,facebook_username,instagram_username,twitter_username"
 				},
 				data: {
 					name
@@ -278,9 +297,9 @@ describe("CreatePublisher endpoint", () => {
 		} catch (error) {
 			assert.fail()
 		}
-	
+
 		assert.equal(response.status, 201)
-		assert.equal(Object.keys(response.data).length, 8)
+		assert.equal(Object.keys(response.data).length, 7)
 		assert.isNotNull(response.data.uuid)
 		assert.equal(response.data.name, name)
 		assert.isNull(response.data.description)
@@ -288,7 +307,6 @@ describe("CreatePublisher endpoint", () => {
 		assert.isNull(response.data.facebook_username)
 		assert.isNull(response.data.instagram_username)
 		assert.isNull(response.data.twitter_username)
-		assert.isNull(response.data.logo)
 
 		// Check if the publisher was correctly created on the server
 		let objResponse = await TableObjectsController.GetTableObject({
@@ -298,7 +316,10 @@ describe("CreatePublisher endpoint", () => {
 
 		assert.equal(objResponse.status, 200)
 		assert.equal(objResponse.data.tableObject.Uuid, response.data.uuid)
-		assert.equal(Object.keys(objResponse.data.tableObject.Properties).length, 1)
+		assert.equal(
+			Object.keys(objResponse.data.tableObject.Properties).length,
+			1
+		)
 		assert.equal(objResponse.data.tableObject.GetPropertyValue("name"), name)
 	})
 })

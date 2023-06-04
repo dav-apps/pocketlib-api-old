@@ -1,82 +1,82 @@
 // Generic request errors
 export const UnexpectedError = 1000
 export const AuthenticationFailed = 1001
-export const ActionNotAllowed = 1002
-export const ContentTypeNotSupported = 1003
+export const ActionNotAllowed = "action_not_allowed"
+export const ContentTypeNotSupported = "content_type_not_supported"
 
 // Errors for missing headers
-export const AuthorizationHeaderMissing = 1100
+export const AuthorizationHeaderMissing = "authorization_header_missing"
 export const ContentTypeHeaderMissing = 1101
 
 // Generic request body errors
 export const InvalidBody = 2000
 
 // Missing fields
-export const FirstNameMissing = 2100
-export const LastNameMissing = 2101
-export const NameMissing = 2102
-export const BioMissing = 2103
-export const LanguageMissing = 2104
-export const AuthorMissing = 2105
-export const TitleMissing = 2107
-export const KeyMissing = 2108
-export const StoreBookMissing = 2109
-export const ReleaseNameMissing = 2111
+export const FirstNameMissing = "first_name_missing"
+export const LastNameMissing = "last_name_missing"
+export const NameMissing = "name_missing"
+export const BioMissing = "bio_missing"
+export const LanguageMissing = "language_missing"
+export const AuthorMissing = "author_missing"
+export const TitleMissing = "title_missing"
+export const KeyMissing = "key_missing"
+export const StoreBookMissing = "store_book_missing"
+export const ReleaseNameMissing = "release_name_missing"
 
 // Fields with wrong type
-export const FirstNameWrongType = 2200
-export const LastNameWrongType = 2201
-export const NameWrongType = 2202
-export const WebsiteUrlWrongType = 2203
-export const FacebookUsernameWrongType = 2204
-export const InstagramUsernameWrongType = 2205
-export const TwitterUsernameWrongType = 2206
-export const BioWrongType = 2207
-export const LanguageWrongType = 2208
-export const AuthorWrongType = 2209
-export const CollectionWrongType = 2210
-export const TitleWrongType = 2211
-export const DescriptionWrongType = 2212
-export const PriceWrongType = 2213
-export const IsbnWrongType = 2214
-export const StatusWrongType = 2215
-export const CategoriesWrongType = 2216
-export const KeyWrongType = 2218
-export const StoreBookWrongType = 2219
-export const StoreBooksWrongType = 2222
-export const ReleaseNameWrongType = 2223
-export const ReleaseNotesWrongType = 2224
+export const FirstNameWrongType = "first_name_wrong_type"
+export const LastNameWrongType = "last_name_wrong_type"
+export const NameWrongType = "name_wrong_type"
+export const WebsiteUrlWrongType = "website_url_wrong_type"
+export const FacebookUsernameWrongType = "facebook_username_wrong_type"
+export const InstagramUsernameWrongType = "instagram_username_wrong_type"
+export const TwitterUsernameWrongType = "twitter_username_wrong_type"
+export const BioWrongType = "bio_wrong_type"
+export const LanguageWrongType = "language_wrong_type"
+export const AuthorWrongType = "author_wrong_type"
+export const CollectionWrongType = "collection_wrong_type"
+export const TitleWrongType = "title_wrong_type"
+export const DescriptionWrongType = "description_wrong_type"
+export const PriceWrongType = "price_wrong_type"
+export const IsbnWrongType = "isbn_wrong_type"
+export const StatusWrongType = "status_wrong_type"
+export const CategoriesWrongType = "categories_wrong_type"
+export const KeyWrongType = "key_wrong_type"
+export const StoreBookWrongType = "store_book_wrong_type"
+export const StoreBooksWrongType = "store_books_wrong_type"
+export const ReleaseNameWrongType = "release_name_wrong_type"
+export const ReleaseNotesWrongType = "release_notes_wrong_type"
 
 // Too short fields
-export const FirstNameTooShort = 2300
-export const LastNameTooShort = 2301
-export const NameTooShort = 2302
-export const BioTooShort = 2303
-export const TitleTooShort = 2304
-export const DescriptionTooShort = 2305
-export const KeyTooShort = 2306
-export const ReleaseNameTooShort = 2307
-export const ReleaseNotesTooShort = 2308
+export const FirstNameTooShort = "first_name_too_short"
+export const LastNameTooShort = "last_name_too_short"
+export const NameTooShort = "name_too_short"
+export const BioTooShort = "bio_too_short"
+export const TitleTooShort = "title_too_short"
+export const DescriptionTooShort = "description_too_short"
+export const KeyTooShort = "key_too_short"
+export const ReleaseNameTooShort = "release_name_too_short"
+export const ReleaseNotesTooShort = "release_notes_too_short"
 
 // Too long fields
-export const FirstNameTooLong = 2400
-export const LastNameTooLong = 2401
-export const NameTooLong = 2402
-export const BioTooLong = 2403
-export const TitleTooLong = 2404
-export const DescriptionTooLong = 2405
-export const KeyTooLong = 2406
-export const ReleaseNameTooLong = 2407
-export const ReleaseNotesTooLong = 2408
+export const FirstNameTooLong = "first_name_too_long"
+export const LastNameTooLong = "last_name_too_long"
+export const NameTooLong = "name_too_long"
+export const BioTooLong = "bio_too_long"
+export const TitleTooLong = "title_too_long"
+export const DescriptionTooLong = "description_too_long"
+export const KeyTooLong = "key_too_long"
+export const ReleaseNameTooLong = "release_name_too_long"
+export const ReleaseNotesTooLong = "release_notes_too_long"
 
 // Invalid fields
-export const WebsiteUrlInvalid = 2500
-export const FacebookUsernameInvalid = 2501
-export const InstagramUsernameInvalid = 2502
-export const TwitterUsernameInvalid = 2503
-export const PriceInvalid = 2504
-export const IsbnInvalid = 2505
-export const KeyInvalid = 2506
+export const WebsiteUrlInvalid = "website_url_invalid"
+export const FacebookUsernameInvalid = "facebook_username_invalid"
+export const InstagramUsernameInvalid = "instagram_username_invalid"
+export const TwitterUsernameInvalid = "twitter_username_invalid"
+export const PriceInvalid = "price_invalid"
+export const IsbnInvalid = "isbn_invalid"
+export const KeyInvalid = "key_invalid"
 
 // Generic state errors
 export const UserIsNotAuthor = 3000
@@ -94,7 +94,7 @@ export const UserIsAdmin = 3013
 export const UserIsNotAdmin = 3014
 export const LanguageOfStoreBookDoesNotMatchLanguageOfStoreBookSeries = 3015
 export const StoreBookReleaseAlreadyPublished = 3016
-export const UserIsAlreadyPublisher = 3017
+export const UserIsAlreadyPublisher = "user_is_already_publisher"
 export const UserIsNotPublisher = 3018
 
 // Access token errors
@@ -113,24 +113,32 @@ export const CannotPublishStoreBookWithoutFile = 3302
 export const CannotUpdateLanguageOfPublishedStoreBook = 3400
 
 // Errors for not existing resources
-export const UserDoesNotExist = 3500
-export const SessionDoesNotExist = 3501
-export const AuthorDoesNotExist = 3503
-export const AuthorBioDoesNotExist = 3504
-export const AuthorProfileImageDoesNotExist = 3505
-export const StoreBookCollectionDoesNotExist = 3506
-export const StoreBookCollectionNameDoesNotExist = 3507
-export const StoreBookDoesNotExist = 3508
-export const StoreBookCoverDoesNotExist = 3509
-export const StoreBookFileDoesNotExist = 3510
-export const CategoryDoesNotExist = 3511
-export const CategoryNameDoesNotExist = 3512
-export const StoreBookSeriesDoesNotExist = 3514
-export const StoreBookSeriesNameDoesNotExist = 3515
-export const StoreBookReleaseDoesNotExist = 3516
-export const StoreBookCoverItemDoesNotExist = 3517
-export const StoreBookFileItemDoesNotExist = 3518
-export const AuthorProfileImageItemDoesNotExist = 3519
-export const PublisherDoesNotExist = 3520
-export const PublisherLogoItemDoesNotExist = 3521
-export const PublisherLogoDoesNotExist = 3522
+export const UserDoesNotExist = "user_does_not_exist"
+export const SessionDoesNotExist = "session_does_not_exist"
+export const AuthorDoesNotExist = "author_does_not_exist"
+export const AuthorBioDoesNotExist = "author_bio_does_not_exist"
+export const AuthorProfileImageDoesNotExist =
+	"author_profile_image_does_not_exist"
+export const StoreBookCollectionDoesNotExist =
+	"store_book_collection_does_not_exist"
+export const StoreBookCollectionNameDoesNotExist =
+	"store_book_collection_name_does_not_exist"
+export const StoreBookDoesNotExist = "store_book_does_not_exist"
+export const StoreBookCoverDoesNotExist = "store_book_cover_does_not_exist"
+export const StoreBookFileDoesNotExist = "store_book_file_does_not_exist"
+export const CategoryDoesNotExist = "category_does_not_exist"
+export const CategoryNameDoesNotExist = "category_name_does_not_exist"
+export const StoreBookSeriesDoesNotExist = "store_book_series_does_not_exist"
+export const StoreBookSeriesNameDoesNotExist =
+	"store_book_series_name_does_not_exist"
+export const StoreBookReleaseDoesNotExist = "store_book_release_does_not_exist"
+export const StoreBookCoverItemDoesNotExist =
+	"store_book_cover_item_does_not_exist"
+export const StoreBookFileItemDoesNotExist =
+	"store_book_file_item_does_not_exist"
+export const AuthorProfileImageItemDoesNotExist =
+	"author_profile_image_item_does_not_exist"
+export const PublisherDoesNotExist = "publisher_does_not_exist"
+export const PublisherLogoItemDoesNotExist =
+	"publisher_logo_item_does_not_exist"
+export const PublisherLogoDoesNotExist = "publisher_logo_does_not_exist"
