@@ -121,14 +121,15 @@ let constants = {
 									uuid: "f1ea042a-46da-4a4b-911e-733d1f84b335",
 									releaseName: "Initial release",
 									title: "A Series of Unfortunate Events - Book the First",
-									description: "Dear Reader, I'm sorry to say that the book you are holding in your hands is extremely unpleasant. It tells an unhappy tale about three very unlucky children.",
+									description:
+										"Dear Reader, I'm sorry to say that the book you are holding in your hands is extremely unpleasant. It tells an unhappy tale about three very unlucky children.",
 									price: 1399,
 									isbn: "9780064407663",
 									coverItem: "bf3b23fb-dd1e-4c7a-a526-6d997765e77e",
 									fileItem: "18f44382-9f5a-4933-be7a-6c4a03daa790",
 									categories: [
-										"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
-										"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
+										"0d29f1a8-e181-448c-81d1-5000b167cb16", // Childrens
+										"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f" // Tragedy
 									]
 								}
 							]
@@ -143,14 +144,15 @@ let constants = {
 									releaseName: "Initial release",
 									publishedAt: 1650129331,
 									title: "Eine Reihe betrüblicher Ereignisse - Der schreckliche Anfang",
-									description: "Lieber Leser, es tut mir sehr Leid, aber das Buch, das du gerade in Händen hältst, ist außerordentlich unerfreulich. Es erzählt die traurige Geschichte von drei sehr bedauernswerten Kindern.",
+									description:
+										"Lieber Leser, es tut mir sehr Leid, aber das Buch, das du gerade in Händen hältst, ist außerordentlich unerfreulich. Es erzählt die traurige Geschichte von drei sehr bedauernswerten Kindern.",
 									isbn: "3442545790",
 									status: "published",
 									coverItem: "22699239-8326-4508-9b9b-07178a228bba",
 									fileItem: "e3737248-690a-4084-a5b6-5f9b56eb1f58",
 									categories: [
-										"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
-										"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
+										"0d29f1a8-e181-448c-81d1-5000b167cb16", // Childrens
+										"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f" // Tragedy
 									]
 								},
 								{
@@ -159,14 +161,15 @@ let constants = {
 									releaseNotes: "Add more description",
 									publishedAt: 1650149462,
 									title: "Eine Reihe betrüblicher Ereignisse - Der schreckliche Anfang",
-									description: "Lieber Leser, es tut mir sehr Leid, aber das Buch, das du gerade in Händen hältst, ist außerordentlich unerfreulich. Es erzählt die traurige Geschichte von drei sehr bedauernswerten Kindern. Die drei sind klug, charmant und einfallsreich, aber das nützt ihnen gar nichts. Im Gegenteil: Gleich zu Beginn dieses Buches erhalten die Kinder eine schreckliche Nachricht, und auch alles, was ihnen danach passiert, strotzt nur so vor Unheil, Elend und Verzweiflung.",
+									description:
+										"Lieber Leser, es tut mir sehr Leid, aber das Buch, das du gerade in Händen hältst, ist außerordentlich unerfreulich. Es erzählt die traurige Geschichte von drei sehr bedauernswerten Kindern. Die drei sind klug, charmant und einfallsreich, aber das nützt ihnen gar nichts. Im Gegenteil: Gleich zu Beginn dieses Buches erhalten die Kinder eine schreckliche Nachricht, und auch alles, was ihnen danach passiert, strotzt nur so vor Unheil, Elend und Verzweiflung.",
 									isbn: "3442545790",
 									status: "published",
 									coverItem: "22699239-8326-4508-9b9b-07178a228bba",
 									fileItem: "e3737248-690a-4084-a5b6-5f9b56eb1f58",
 									categories: [
-										"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
-										"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
+										"0d29f1a8-e181-448c-81d1-5000b167cb16", // Childrens
+										"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f" // Tragedy
 									]
 								}
 							]
@@ -197,14 +200,15 @@ let constants = {
 									uuid: "7f5a550a-34dc-41ea-b71a-a36c625e8c05",
 									releaseName: "Initial release",
 									title: "A Series of Unfortunate Events - Book the Second",
-									description: "Dear Reader, if you have picked up this book with the hope of finding a simple and cheery tale, I'm afraid you have picked up the wrong book altogether.",
+									description:
+										"Dear Reader, if you have picked up this book with the hope of finding a simple and cheery tale, I'm afraid you have picked up the wrong book altogether.",
 									isbn: "9780064407670",
 									status: "unpublished",
 									coverItem: "9f3549bc-c0da-4301-8346-65d6164fbe38",
 									fileItem: "a77579fc-5f77-4a0b-b616-99cb9d0d7ea7",
 									categories: [
-										"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
-										"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
+										"0d29f1a8-e181-448c-81d1-5000b167cb16", // Childrens
+										"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f" // Tragedy
 									]
 								}
 							]
@@ -219,15 +223,16 @@ let constants = {
 									releaseName: "Initial release",
 									publishedAt: 1650129332,
 									title: "Eine Reihe betrüblicher Ereignisse - Das Haus der Schlangen",
-									description: "Lieber Leser, wenn du dieses Buch zur Hand genommen hast in der Hoffnung, darin Zerstreuung und Vergnügen zu finden, dann liegst du leider völlig falsch.",
+									description:
+										"Lieber Leser, wenn du dieses Buch zur Hand genommen hast in der Hoffnung, darin Zerstreuung und Vergnügen zu finden, dann liegst du leider völlig falsch.",
 									price: 2000,
 									isbn: "3442545803",
 									status: "published",
 									coverItem: "d9aaf019-b602-44a7-86ff-f39ec66ac8ae",
 									fileItem: "a6500f16-b6f8-45fe-810a-4a2901a66aaa",
 									categories: [
-										"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
-										"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
+										"0d29f1a8-e181-448c-81d1-5000b167cb16", // Childrens
+										"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f" // Tragedy
 									]
 								}
 							]
@@ -252,7 +257,8 @@ let constants = {
 								{
 									uuid: "5763aeb2-0843-4e2f-bac0-fd034d84d3fe",
 									title: "A Series of Unfortunate Events - Book the Third",
-									description: "Dear Reader, if you have not read anything about the Baudelaire orphans, then before you read even one more sentence, you should know this: Violet, Klaus and Sunny are kindhearted and quick-witted, but their lives, I am sorry to say, are filled with bad luck and misery.",
+									description:
+										"Dear Reader, if you have not read anything about the Baudelaire orphans, then before you read even one more sentence, you should know this: Violet, Klaus and Sunny are kindhearted and quick-witted, but their lives, I am sorry to say, are filled with bad luck and misery.",
 									isbn: "9780064407687"
 								}
 							]
@@ -267,14 +273,15 @@ let constants = {
 									releaseName: "Initial release",
 									publishedAt: 1650125352,
 									title: "Eine Reihe betrüblicher Ereignisse - Der Seufzersee",
-									description: "Lieber Leser, wenn du noch nie etwas von den Baudelaire-Kindern gehört hast, dann solltest du, bevor du auch nur eine einzige Zeile liest, Folgendes wissen: Violet, Klaus und Sunny sind nett, charmant und klug, aber ihr Leben - leider, leider - strotzt nur so vor Elend und Unheil.",
+									description:
+										"Lieber Leser, wenn du noch nie etwas von den Baudelaire-Kindern gehört hast, dann solltest du, bevor du auch nur eine einzige Zeile liest, Folgendes wissen: Violet, Klaus und Sunny sind nett, charmant und klug, aber ihr Leben - leider, leider - strotzt nur so vor Elend und Unheil.",
 									isbn: "3442545811",
 									status: "published",
 									coverItem: "4fbcc890-03c1-4fcd-9e38-89c725be1bf0",
 									fileItem: "7f444ffc-e515-4f0f-a76d-7997cf64e63b",
 									categories: [
-										"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
-										"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
+										"0d29f1a8-e181-448c-81d1-5000b167cb16", // Childrens
+										"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f" // Tragedy
 									]
 								}
 							]
@@ -301,28 +308,30 @@ let constants = {
 									releaseName: "Initial release",
 									publishedAt: 1650361252,
 									title: "A Series of Unfortunate Events - Book the Fourth",
-									description: "Dear Reader, I hope, for your sake, that you have not chosen to read this book because you are in the mood for a pleasant experience. If this is the case, I advise you to put this book down instantaneously, because of all the books describing the unhappy lives of the Baudelaire orphans, THE MISERABLE MILL might be the unhappiest yet.",
+									description:
+										"Dear Reader, I hope, for your sake, that you have not chosen to read this book because you are in the mood for a pleasant experience. If this is the case, I advise you to put this book down instantaneously, because of all the books describing the unhappy lives of the Baudelaire orphans, THE MISERABLE MILL might be the unhappiest yet.",
 									price: 3500,
 									isbn: "9780064407694",
 									status: "published",
 									coverItem: "78182c23-faa0-4950-9011-e0a0d724fa4a",
 									fileItem: "47027837-ac77-4d30-8117-04e638e7d176",
 									categories: [
-										"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
-										"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
+										"0d29f1a8-e181-448c-81d1-5000b167cb16", // Childrens
+										"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f" // Tragedy
 									]
 								},
 								{
 									uuid: "27092d24-764d-44b1-967a-68f0a5f51254",
 									title: "A Series of Unfortunate Events - Book the Fourth",
-									description: "Dear Reader, I hope, for your sake, that you have not chosen to read this book because you are in the mood for a pleasant experience. If this is the case, I advise you to put this book down instantaneously, because of all the books describing the unhappy lives of the Baudelaire orphans, THE MISERABLE MILL might be the unhappiest yet. Violet, Klaus, and Sunny Baudelaire are sent to Paltryville to work in a lumbermill, and they find disaster and misfortune lurking behind every log.",
+									description:
+										"Dear Reader, I hope, for your sake, that you have not chosen to read this book because you are in the mood for a pleasant experience. If this is the case, I advise you to put this book down instantaneously, because of all the books describing the unhappy lives of the Baudelaire orphans, THE MISERABLE MILL might be the unhappiest yet. Violet, Klaus, and Sunny Baudelaire are sent to Paltryville to work in a lumbermill, and they find disaster and misfortune lurking behind every log.",
 									price: 3500,
 									isbn: "9780064407694",
 									coverItem: "78182c23-faa0-4950-9011-e0a0d724fa4a",
 									fileItem: "47027837-ac77-4d30-8117-04e638e7d176",
 									categories: [
-										"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
-										"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
+										"0d29f1a8-e181-448c-81d1-5000b167cb16", // Childrens
+										"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f" // Tragedy
 									]
 								}
 							]
@@ -349,15 +358,16 @@ let constants = {
 									releaseName: "Initial release",
 									publishedAt: 1650339311,
 									title: "A Series of Unfortunate Events - Book the Fifth",
-									description: "Dear Reader, if you are looking for a story about cheerful youngsters spending a jolly time at boarding school, look elsewhere. Violet, Klaus and Sunny Baudelaire are intelligent and resourceful children, and you might expect that they would do very well at school. Don't. For the Baudelaires, school turns out to be another miserable episode in their unlucky lives.",
+									description:
+										"Dear Reader, if you are looking for a story about cheerful youngsters spending a jolly time at boarding school, look elsewhere. Violet, Klaus and Sunny Baudelaire are intelligent and resourceful children, and you might expect that they would do very well at school. Don't. For the Baudelaires, school turns out to be another miserable episode in their unlucky lives.",
 									price: 0,
 									isbn: "9780064408639",
 									status: "published",
 									coverItem: "86ffda0f-0622-41b7-8fc5-0b98f6db5e98",
 									fileItem: "e276d6f1-1dc0-4e2d-bbad-cc0e975b4200",
 									categories: [
-										"0d29f1a8-e181-448c-81d1-5000b167cb16",	// Childrens
-										"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f"		// Tragedy
+										"0d29f1a8-e181-448c-81d1-5000b167cb16", // Childrens
+										"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f" // Tragedy
 									]
 								}
 							]
@@ -575,7 +585,8 @@ let constants = {
 			{
 				uuid: "6855224f-b1e6-4f01-a7e6-515cf359af4b",
 				name: "Standard Ebooks",
-				description: "Standard Ebooks is a volunteer-driven project that produces new editions of public domain ebooks that are lovingly formatted, open source, free of U.S. copyright restrictions, and free of cost.",
+				description:
+					"Standard Ebooks is a volunteer-driven project that produces new editions of public domain ebooks that are lovingly formatted, open source, free of U.S. copyright restrictions, and free of cost.",
 				websiteUrl: "https://standardebooks.org/",
 				authors: [
 					{
@@ -639,24 +650,26 @@ let constants = {
 										releaseName: "Initial release",
 										publishedAt: 1650319352,
 										title: "1984",
-										description: "Orwell's novel about the destruction of man by a perfect state machinery has long since become a metaphor for totalitarian conditions that no longer seems in need of explanation.",
+										description:
+											"Orwell's novel about the destruction of man by a perfect state machinery has long since become a metaphor for totalitarian conditions that no longer seems in need of explanation.",
 										price: 1000,
 										status: "published",
 										coverItem: "bac664ad-f5f4-464d-bf0f-bbf4b126e880",
 										fileItem: "b7d0dd22-4f65-4f96-83d7-bdcc3d682e7d",
 										categories: [
-											"27c78f90-934e-41e3-8738-b20f6d76f0a9"		// Dystopia
+											"27c78f90-934e-41e3-8738-b20f6d76f0a9" // Dystopia
 										]
 									},
 									{
 										uuid: "182e4691-d9b6-4d9d-854f-b097dc348035",
 										title: "1984",
-										description: "Orwell's novel about the destruction of man by a perfect state machinery has long since become a metaphor for totalitarian conditions that no longer seems in need of explanation.",
+										description:
+											"Orwell's novel about the destruction of man by a perfect state machinery has long since become a metaphor for totalitarian conditions that no longer seems in need of explanation.",
 										price: 1984,
 										coverItem: "bac664ad-f5f4-464d-bf0f-bbf4b126e880",
 										fileItem: "b7d0dd22-4f65-4f96-83d7-bdcc3d682e7d",
 										categories: [
-											"27c78f90-934e-41e3-8738-b20f6d76f0a9"		// Dystopia
+											"27c78f90-934e-41e3-8738-b20f6d76f0a9" // Dystopia
 										]
 									}
 								]
@@ -670,11 +683,12 @@ let constants = {
 										uuid: "43708a0f-d06b-4733-850a-4bd22e5f4ac4",
 										releaseName: "Initial release",
 										title: "1984",
-										description: "Orwells Roman über die Zerstörung des Menschen durch eine perfekte Staatsmaschinerie ist längst zu einer scheinbar nicht mehr erklärungsbedürftigen Metapher für totalitäre Verhältnisse geworden.",
+										description:
+											"Orwells Roman über die Zerstörung des Menschen durch eine perfekte Staatsmaschinerie ist längst zu einer scheinbar nicht mehr erklärungsbedürftigen Metapher für totalitäre Verhältnisse geworden.",
 										isbn: "9783548234106",
 										fileItem: "420fc2a1-d0f3-4770-8e60-c6da3b3b0985",
 										categories: [
-											"27c78f90-934e-41e3-8738-b20f6d76f0a9"		// Dystopia
+											"27c78f90-934e-41e3-8738-b20f6d76f0a9" // Dystopia
 										]
 									}
 								]
@@ -687,7 +701,8 @@ let constants = {
 									{
 										uuid: "525bc760-1bc3-44ab-8a99-5abd92a2252b",
 										title: "1984",
-										description: "Le roman d'Orwell sur la destruction de l'homme par une machine étatique parfaite est devenu depuis longtemps une métaphore des conditions totalitaires qui ne semble plus avoir besoin d'explication."
+										description:
+											"Le roman d'Orwell sur la destruction de l'homme par une machine étatique parfaite est devenu depuis longtemps une métaphore des conditions totalitaires qui ne semble plus avoir besoin d'explication."
 									}
 								]
 							}
@@ -713,7 +728,8 @@ let constants = {
 										releaseName: "Initial release",
 										publishedAt: 1650339311,
 										title: "Animal Farm",
-										description: "Animal Farm is an allegorical novella by George Orwell, first published in England on 17 August 1945. The book tells the story of a group of farm animals who rebel against their human farmer, hoping to create a society where the animals can be equal, free, and happy.",
+										description:
+											"Animal Farm is an allegorical novella by George Orwell, first published in England on 17 August 1945. The book tells the story of a group of farm animals who rebel against their human farmer, hoping to create a society where the animals can be equal, free, and happy.",
 										status: "published",
 										coverItem: "708bf15c-8e6e-49c6-8113-33f5ddb28d15",
 										fileItem: "290a762c-5c9a-4951-9c38-a64dd3b2a6e4"
@@ -728,7 +744,8 @@ let constants = {
 										uuid: "d425b3b5-3fad-45bb-808d-50fe797a3de0",
 										releaseName: "Initial release",
 										title: "Farm der Tiere",
-										description: "Farm der Tiere ist eine allegorische Novelle von George Orwell, die erstmals am 17. August 1945 in England veröffentlicht wurde. Das Buch erzählt die Geschichte einer Gruppe von Nutztieren, die sich gegen ihren menschlichen Bauern auflehnen, in der Hoffnung, eine Gesellschaft zu schaffen, in der die Tiere gleichberechtigt, frei und glücklich sein können.",
+										description:
+											"Farm der Tiere ist eine allegorische Novelle von George Orwell, die erstmals am 17. August 1945 in England veröffentlicht wurde. Das Buch erzählt die Geschichte einer Gruppe von Nutztieren, die sich gegen ihren menschlichen Bauern auflehnen, in der Hoffnung, eine Gesellschaft zu schaffen, in der die Tiere gleichberechtigt, frei und glücklich sein können.",
 										isbn: "3257201184",
 										fileItem: "4a7a2328-4522-4d06-ab45-a3cc4e502348"
 									}
@@ -744,7 +761,8 @@ let constants = {
 										releaseName: "Initial release",
 										publishedAt: 1650336312,
 										title: "La Ferme des animaux",
-										description: "La Ferme des animaux est un roman allégorique de George Orwell, publié pour la première fois en Angleterre le 17 août 1945. Le livre raconte l'histoire d'un groupe d'animaux de ferme qui se rebellent contre leur éleveur humain dans l'espoir de créer une société dans laquelle les animaux peuvent être égaux, libres et heureux.",
+										description:
+											"La Ferme des animaux est un roman allégorique de George Orwell, publié pour la première fois en Angleterre le 17 août 1945. Le livre raconte l'histoire d'un groupe d'animaux de ferme qui se rebellent contre leur éleveur humain dans l'espoir de créer une société dans laquelle les animaux peuvent être égaux, libres et heureux.",
 										price: 0,
 										status: "published",
 										coverItem: "0091cc8d-7883-4019-8c2e-1d4fb092b950",
@@ -905,13 +923,14 @@ let constants = {
 										releaseName: "Initial release",
 										publishedAt: 1651338517,
 										title: "The Life and Adventures of Robinson Crusoe",
-										description: "Robinson Crusoe is one of the most popular books ever written in the English language, published in innumerable editions and translated into almost every language of the world, not to mention the many versions created in film, television and even radio.",
+										description:
+											"Robinson Crusoe is one of the most popular books ever written in the English language, published in innumerable editions and translated into almost every language of the world, not to mention the many versions created in film, television and even radio.",
 										price: 1200,
 										status: "published",
 										coverItem: "87c20601-bf63-423e-afa7-008a97e397d5",
 										fileItem: "ac91cf62-3013-43b2-ae4b-1829c6aa0c1c",
 										categories: [
-											"76dd74fa-0fb3-4d80-8c0a-6d6a803383a7"		// Adventure
+											"76dd74fa-0fb3-4d80-8c0a-6d6a803383a7" // Adventure
 										]
 									},
 									{
@@ -919,14 +938,15 @@ let constants = {
 										releaseName: "Update chategories",
 										releaseNotes: "Add fiction category",
 										title: "The Life and Adventures of Robinson Crusoe",
-										description: "Robinson Crusoe is one of the most popular books ever written in the English language, published in innumerable editions and translated into almost every language of the world, not to mention the many versions created in film, television and even radio.",
+										description:
+											"Robinson Crusoe is one of the most popular books ever written in the English language, published in innumerable editions and translated into almost every language of the world, not to mention the many versions created in film, television and even radio.",
 										price: 1200,
 										status: "published",
 										coverItem: "87c20601-bf63-423e-afa7-008a97e397d5",
 										fileItem: "ac91cf62-3013-43b2-ae4b-1829c6aa0c1c",
 										categories: [
-											"8c98e8cb-33a5-460e-8c33-3fa335e11c81",	// Fiction
-											"76dd74fa-0fb3-4d80-8c0a-6d6a803383a7"		// Adventure
+											"8c98e8cb-33a5-460e-8c33-3fa335e11c81", // Fiction
+											"76dd74fa-0fb3-4d80-8c0a-6d6a803383a7" // Adventure
 										]
 									}
 								]
@@ -953,13 +973,14 @@ let constants = {
 										releaseName: "Initial release",
 										publishedAt: 1650339352,
 										title: "The Further Adventures of Robinson Crusoe",
-										description: "After his return from an uninhabited island, Robinson Crusoe marries and starts a family. Despite his comfortable life in England, he has an intense desire to go back to sea.",
+										description:
+											"After his return from an uninhabited island, Robinson Crusoe marries and starts a family. Despite his comfortable life in England, he has an intense desire to go back to sea.",
 										price: 1200,
 										status: "published",
 										coverItem: "3a68a4a9-d6a0-4a32-b13c-32c753cb0038",
 										fileItem: "671f2d6c-c6f1-449c-b392-320549794c29",
 										categories: [
-											"76dd74fa-0fb3-4d80-8c0a-6d6a803383a7"		// Adventure
+											"76dd74fa-0fb3-4d80-8c0a-6d6a803383a7" // Adventure
 										]
 									}
 								]
