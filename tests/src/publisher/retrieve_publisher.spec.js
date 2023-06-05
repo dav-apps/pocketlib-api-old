@@ -10,8 +10,8 @@ describe("RetrievePublisher endpoint", () => {
 	it("should not return publisher of user with access token for session that does not exist", async () => {
 		try {
 			await axios({
-				method: 'get',
-				url: retrievePublisherEndpointUrl.replace('{0}', "mine"),
+				method: "get",
+				url: retrievePublisherEndpointUrl.replace("{0}", "mine"),
 				headers: {
 					Authorization: "asdasdasd"
 				}
@@ -19,7 +19,10 @@ describe("RetrievePublisher endpoint", () => {
 		} catch (error) {
 			assert.equal(error.response.status, 404)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.SessionDoesNotExist)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.SessionDoesNotExist
+			)
 			return
 		}
 
@@ -29,8 +32,8 @@ describe("RetrievePublisher endpoint", () => {
 	it("should not return publisher of user with access token for another app", async () => {
 		try {
 			await axios({
-				method: 'get',
-				url: retrievePublisherEndpointUrl.replace('{0}', "mine"),
+				method: "get",
+				url: retrievePublisherEndpointUrl.replace("{0}", "mine"),
 				headers: {
 					Authorization: constants.testUserTestAppAccessToken
 				}
@@ -38,7 +41,10 @@ describe("RetrievePublisher endpoint", () => {
 		} catch (error) {
 			assert.equal(error.response.status, 403)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.ActionNotAllowed
+			)
 			return
 		}
 
@@ -48,8 +54,8 @@ describe("RetrievePublisher endpoint", () => {
 	it("should not return publisher of user if the user is an admin", async () => {
 		try {
 			await axios({
-				method: 'get',
-				url: retrievePublisherEndpointUrl.replace('{0}', "mine"),
+				method: "get",
+				url: retrievePublisherEndpointUrl.replace("{0}", "mine"),
 				headers: {
 					Authorization: constants.davUser.accessToken
 				}
@@ -57,7 +63,7 @@ describe("RetrievePublisher endpoint", () => {
 		} catch (error) {
 			assert.equal(error.response.status, 400)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.UserIsAdmin)
+			assert.equal(error.response.data.errors[0], ErrorCodes.UserIsAdmin)
 			return
 		}
 
@@ -67,8 +73,8 @@ describe("RetrievePublisher endpoint", () => {
 	it("should not return publisher of user if the user is not a publisher", async () => {
 		try {
 			await axios({
-				method: 'get',
-				url: retrievePublisherEndpointUrl.replace('{0}', "mine"),
+				method: "get",
+				url: retrievePublisherEndpointUrl.replace("{0}", "mine"),
 				headers: {
 					Authorization: constants.testUser.accessToken
 				}
@@ -76,7 +82,10 @@ describe("RetrievePublisher endpoint", () => {
 		} catch (error) {
 			assert.equal(error.response.status, 400)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.UserIsNotPublisher)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.UserIsNotPublisher
+			)
 			return
 		}
 
@@ -86,13 +95,16 @@ describe("RetrievePublisher endpoint", () => {
 	it("should not return publisher that does not exist", async () => {
 		try {
 			await axios({
-				method: 'get',
-				url: retrievePublisherEndpointUrl.replace('{0}', "asdasdasd")
+				method: "get",
+				url: retrievePublisherEndpointUrl.replace("{0}", "asdasdasd")
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 404)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.PublisherDoesNotExist)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.PublisherDoesNotExist
+			)
 			return
 		}
 
@@ -102,13 +114,19 @@ describe("RetrievePublisher endpoint", () => {
 	it("should not return publisher if the table object is not a publisher", async () => {
 		try {
 			await axios({
-				method: 'get',
-				url: retrievePublisherEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid)
+				method: "get",
+				url: retrievePublisherEndpointUrl.replace(
+					"{0}",
+					constants.davUser.authors[0].uuid
+				)
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 403)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.ActionNotAllowed
+			)
 			return
 		}
 
@@ -124,7 +142,10 @@ describe("RetrievePublisher endpoint", () => {
 	})
 
 	it("should return publisher of user", async () => {
-		await testGetPublisher(constants.authorUser.publisher, constants.authorUser.accessToken)
+		await testGetPublisher(
+			constants.authorUser.publisher,
+			constants.authorUser.accessToken
+		)
 	})
 })
 
@@ -133,10 +154,11 @@ async function testGetPublisher(publisher, accessToken) {
 
 	try {
 		let options = {
-			method: 'get',
-			url: retrievePublisherEndpointUrl.replace('{0}', publisher.uuid),
+			method: "get",
+			url: retrievePublisherEndpointUrl.replace("{0}", publisher.uuid),
 			params: {
-				fields: "*"
+				fields:
+					"uuid,name,description,website_url,facebook_username,instagram_username,twitter_username"
 			}
 		}
 
@@ -152,7 +174,7 @@ async function testGetPublisher(publisher, accessToken) {
 	}
 
 	assert.equal(response.status, 200)
-	assert.equal(Object.keys(response.data).length, 8)
+	assert.equal(Object.keys(response.data).length, 7)
 	assert.equal(response.data.uuid, publisher.uuid)
 	assert.equal(response.data.name, publisher.name)
 	assert.equal(response.data.description, publisher.description)
@@ -160,6 +182,4 @@ async function testGetPublisher(publisher, accessToken) {
 	assert.equal(response.data.facebook_username, publisher.facebookUsername)
 	assert.equal(response.data.instagram_username, publisher.instagramUsername)
 	assert.equal(response.data.twitter_username, publisher.twitterUsername)
-	if (publisher.logoItem) assert.isNotNull(response.data.logo?.url)
-	assert.equal(response.data.logo?.blurhash, publisher.logoItem?.blurhash)
 }

@@ -90,12 +90,12 @@ export const NotSufficientStorageAvailable = 3007
 export const DavProRequired = 3008
 export const TooManyCategoriesForStoreBook = 3011
 export const StoreBookSeriesIsIncomplete = 3012
-export const UserIsAdmin = 3013
+export const UserIsAdmin = "user_is_admin"
 export const UserIsNotAdmin = 3014
 export const LanguageOfStoreBookDoesNotMatchLanguageOfStoreBookSeries = 3015
 export const StoreBookReleaseAlreadyPublished = 3016
 export const UserIsAlreadyPublisher = "user_is_already_publisher"
-export const UserIsNotPublisher = 3018
+export const UserIsNotPublisher = "user_is_not_publisher"
 
 // Access token errors
 export const CannotUseOldAccessToken = 3100
