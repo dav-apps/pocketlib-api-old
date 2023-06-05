@@ -58,7 +58,11 @@
 					"authenticated": {
 						"value": "uuid_mine_check",
 						"description": "If uuid = 'mine'"
-					}
+					},
+					"validators": [
+						"user_is_not_admin_validator",
+						"user_is_publisher_validator"
+					]
 				},
 				"list": {
 					"description": "Retrieves the publishers with the given params.",
