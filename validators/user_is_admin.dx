@@ -1,0 +1,14 @@
+(# params: state: Hash)
+(if (is_nil state.session) (return))
+
+(# Check if the user is an admin)
+(var admins (get_env "ADMINS"))
+(if (!(admins.contains state.session.user_id)) (
+	(# User is not an admin)
+	(func render_validation_errors ((list
+		(hash
+			(error "user_is_not_admin")
+			(status 400)
+		)
+	)))
+))

@@ -1,0 +1,4 @@
+(# params: session: Session, params: Hash)
+(return (hash
+	(mine (params.mine == "true"))
+))

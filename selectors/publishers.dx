@@ -1,0 +1,17 @@
+(# params: state: Hash)
+(if (!(is_nil state.session) and state.mine) (
+	(# Get the publishers of the user)
+	(catch (
+		(return (Table.get_table_object_uuids "Publisher" state.session.user_id))
+	) (
+		(# Action not allowed)
+		(func render_validation_errors ((list
+			(hash
+				(error "action_not_allowed")
+				(status 403)
+			)
+		)))
+	))
+))
+
+(return [])

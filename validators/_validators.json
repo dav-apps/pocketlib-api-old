@@ -47,6 +47,11 @@
 			"source": "./user_is_not_admin.dx"
 		},
 		{
+			"name": "user_is_admin_validator",
+			"params": ["state"],
+			"source": "./user_is_admin.dx"
+		},
+		{
 			"name": "user_is_publisher_validator",
 			"params": ["state"],
 			"source": "./user_is_publisher.dx"

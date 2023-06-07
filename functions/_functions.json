@@ -3,18 +3,18 @@
 	"functions": [
 		{
 			"name": "get_last_release_of_store_book",
-			"params": [
-				"store_book",
-				"published"
-			],
+			"params": ["store_book", "published"],
 			"source": "./get_last_release_of_store_book.dx"
 		},
 		{
 			"name": "uuid_mine_check",
-			"params": [
-				"params"
-			],
+			"params": ["params"],
 			"source": "./uuid_mine_check.dx"
+		},
+		{
+			"name": "mine_check",
+			"params": ["params"],
+			"source": "./mine_check.dx"
 		},
 		{
 			"name": "get_publisher_table_objects",

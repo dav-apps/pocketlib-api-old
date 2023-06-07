@@ -1,0 +1,10 @@
+{
+	"type": "functions",
+	"functions": [
+		{
+			"name": "publishers_selector",
+			"params": ["state"],
+			"source": "publishers.dx"
+		}
+	]
+}

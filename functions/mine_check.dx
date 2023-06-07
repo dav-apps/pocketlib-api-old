@@ -1,0 +1,2 @@
+(# params: params: Hash)
+(return (params.mine == "true"))

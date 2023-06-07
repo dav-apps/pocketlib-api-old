@@ -66,6 +66,7 @@
 				},
 				"list": {
 					"description": "Retrieves the publishers with the given params.",
+					"state": "list_publishers_state",
 					"queryParams": {
 						"mine": {
 							"type": "Boolean",
@@ -74,9 +75,11 @@
 						}
 					},
 					"authenticated": {
-						"value": "uuid_mine_check",
-						"description": "If uuid = 'mine'"
-					}
+						"value": "mine_check",
+						"description": "If mine = true"
+					},
+					"validators": ["user_is_admin_validator"],
+					"selector": "publishers_selector"
 				},
 				"update": {
 					"description": "Updates the publisher with the given uuid and returns it. If uuid = 'mine', updates the publisher of the user.",
