@@ -3,106 +3,72 @@
 	"functions": [
 		{
 			"name": "url_getter",
-			"params": [
-				"object",
-				"params"
-			],
+			"params": ["object", "params"],
 			"source": "./url.dx"
 		},
 		{
+			"name": "publisher_getter",
+			"params": ["state", "uuid"],
+			"source": "./publisher/publisher.dx"
+		},
+		{
 			"name": "author_bio_getter",
-			"params": [
-				"object",
-				"params"
-			],
+			"params": ["object", "params"],
 			"source": "./author/bio.dx"
 		},
 		{
 			"name": "store_book_title_getter",
-			"params": [
-				"object",
-				"params"
-			],
+			"params": ["object", "params"],
 			"source": "./store_book/title.dx"
 		},
 		{
 			"name": "store_book_description_getter",
-			"params": [
-				"object",
-				"params"
-			],
+			"params": ["object", "params"],
 			"source": "./store_book/description.dx"
 		},
 		{
 			"name": "store_book_price_getter",
-			"params": [
-				"object",
-				"params"
-			],
+			"params": ["object", "params"],
 			"source": "./store_book/price.dx"
 		},
 		{
 			"name": "store_book_isbn_getter",
-			"params": [
-				"object",
-				"params"
-			],
+			"params": ["object", "params"],
 			"source": "./store_book/isbn.dx"
 		},
 		{
 			"name": "store_book_cover_getter",
-			"params": [
-				"object",
-				"params"
-			],
+			"params": ["object", "params"],
 			"source": "./store_book/cover.dx"
 		},
 		{
 			"name": "store_book_file_getter",
-			"params": [
-				"object",
-				"params"
-			],
+			"params": ["object", "params"],
 			"source": "./store_book/file.dx"
 		},
 		{
 			"name": "store_book_in_library_getter",
-			"params": [
-				"object",
-				"params"
-			],
+			"params": ["object", "params"],
 			"source": "./store_book/in_library.dx"
 		},
 		{
 			"name": "store_book_purchased_getter",
-			"params": [
-				"object",
-				"params"
-			],
+			"params": ["object", "params"],
 			"source": "./store_book/purchased.dx"
 		},
 		{
 			"name": "store_book_categories_getter",
-			"params": [
-				"object",
-				"params"
-			],
+			"params": ["object", "params"],
 			"source": "./store_book/categories.dx"
 		},
 		{
 			"name": "store_book_collection_name_getter",
-			"params": [
-				"object",
-				"params"
-			],
+			"params": ["object", "params"],
 			"source": "./store_book_collection/name.dx"
 		},
 		{
 			"name": "category_name_getter",
-			"params": [
-				"object",
-				"params"
-			],
+			"params": ["object", "params"],
 			"source": "./category/name.dx"
 		}
 	]

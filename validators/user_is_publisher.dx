@@ -1,4 +1,4 @@
-(# params: state: Hash)
+(# params: state: Hash, params: Hash)
 (if (is_nil state.session) (return))
 
 (# Get the publishers of the user)
