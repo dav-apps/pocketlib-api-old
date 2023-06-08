@@ -132,13 +132,5 @@ export const StoreBookSeriesDoesNotExist = "store_book_series_does_not_exist"
 export const StoreBookSeriesNameDoesNotExist =
 	"store_book_series_name_does_not_exist"
 export const StoreBookReleaseDoesNotExist = "store_book_release_does_not_exist"
-export const StoreBookCoverItemDoesNotExist =
-	"store_book_cover_item_does_not_exist"
-export const StoreBookFileItemDoesNotExist =
-	"store_book_file_item_does_not_exist"
-export const AuthorProfileImageItemDoesNotExist =
-	"author_profile_image_item_does_not_exist"
 export const PublisherDoesNotExist = "publisher_does_not_exist"
-export const PublisherLogoItemDoesNotExist =
-	"publisher_logo_item_does_not_exist"
 export const PublisherLogoDoesNotExist = "publisher_logo_does_not_exist"
