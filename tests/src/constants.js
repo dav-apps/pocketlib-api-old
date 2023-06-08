@@ -6,20 +6,16 @@ let constants = {
 	bookTableId: 10,
 	bookFileTableId: 11,
 	publisherTableId: 33,
-	publisherLogoItemTableId: 34,
 	publisherLogoTableId: 35,
 	authorTableId: 14,
 	authorBioTableId: 15,
-	authorProfileImageItemTableId: 32,
 	authorProfileImageTableId: 16,
 	storeBookCollectionTableId: 17,
 	storeBookCollectionNameTableId: 18,
 	storeBookSeriesTableId: 26,
 	storeBookTableId: 19,
 	storeBookReleaseTableId: 29,
-	storeBookCoverItemTableId: 30,
 	storeBookCoverTableId: 20,
-	storeBookFileItemTableId: 31,
 	storeBookFileTableId: 21,
 	categoryTableId: 22,
 	categoryNameTableId: 23,
@@ -54,29 +50,23 @@ let constants = {
 					bios: [],
 					collections: [],
 					series: [],
-					profileImageItem: {
-						uuid: "316ccd51-380c-4928-a01f-33bf23ab7b21",
-						blurhash: "LUGR@iNG01oM%MoMIVWU03t7tQR%",
-						profileImage: {
-							uuid: "43c912fd-8034-4946-ae02-e40f9cb3cb27",
-							file: "./files/Belloc.jpg",
-							etag: "0065f15102449b1d7119183a74ba4183",
-							ext: "jpg",
-							type: "image/jpeg"
-						}
+					profileImage: {
+						uuid: "43c912fd-8034-4946-ae02-e40f9cb3cb27",
+						file: "./files/Belloc.jpg",
+						etag: "0065f15102449b1d7119183a74ba4183",
+						ext: "jpg",
+						type: "image/jpeg",
+						blurhash: "LUGR@iNG01oM%MoMIVWU03t7tQR%"
 					}
 				}
 			],
-			logoItem: {
-				uuid: "03b76a96-7ea3-407b-b895-fcb38df1b9f2",
-				blurhash: "LUGR@iNG01oM%MoMIVWU03t7tQR%",
-				logo: {
-					uuid: "d4952600-7040-4932-895c-9c22307c1af1",
-					file: "./files/olaf.jpg",
-					etag: "143b5249c619f06be25c7ab82863593c",
-					ext: "jpg",
-					type: "image/jpeg"
-				}
+			logo: {
+				uuid: "d4952600-7040-4932-895c-9c22307c1af1",
+				file: "./files/olaf.jpg",
+				etag: "143b5249c619f06be25c7ab82863593c",
+				ext: "jpg",
+				type: "image/jpeg",
+				blurhash: "LUGR@iNG01oM%MoMIVWU03t7tQR%"
 			}
 		},
 		author: {
@@ -125,8 +115,8 @@ let constants = {
 										"Dear Reader, I'm sorry to say that the book you are holding in your hands is extremely unpleasant. It tells an unhappy tale about three very unlucky children.",
 									price: 1399,
 									isbn: "9780064407663",
-									coverItem: "bf3b23fb-dd1e-4c7a-a526-6d997765e77e",
-									fileItem: "18f44382-9f5a-4933-be7a-6c4a03daa790",
+									cover: "bb63e1c9-866c-47b5-b852-e8473df404f3",
+									file: "b7cf0cee-fe8d-4f08-8b6e-d391065f1abb",
 									categories: [
 										"0d29f1a8-e181-448c-81d1-5000b167cb16", // Childrens
 										"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f" // Tragedy
@@ -148,8 +138,8 @@ let constants = {
 										"Lieber Leser, es tut mir sehr Leid, aber das Buch, das du gerade in Händen hältst, ist außerordentlich unerfreulich. Es erzählt die traurige Geschichte von drei sehr bedauernswerten Kindern.",
 									isbn: "3442545790",
 									status: "published",
-									coverItem: "22699239-8326-4508-9b9b-07178a228bba",
-									fileItem: "e3737248-690a-4084-a5b6-5f9b56eb1f58",
+									cover: "2ba327c3-d33c-4181-900e-f4c331ddf288",
+									file: "8f219b89-eb25-4c55-b1a4-467e36bfa081",
 									categories: [
 										"0d29f1a8-e181-448c-81d1-5000b167cb16", // Childrens
 										"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f" // Tragedy
@@ -165,8 +155,8 @@ let constants = {
 										"Lieber Leser, es tut mir sehr Leid, aber das Buch, das du gerade in Händen hältst, ist außerordentlich unerfreulich. Es erzählt die traurige Geschichte von drei sehr bedauernswerten Kindern. Die drei sind klug, charmant und einfallsreich, aber das nützt ihnen gar nichts. Im Gegenteil: Gleich zu Beginn dieses Buches erhalten die Kinder eine schreckliche Nachricht, und auch alles, was ihnen danach passiert, strotzt nur so vor Unheil, Elend und Verzweiflung.",
 									isbn: "3442545790",
 									status: "published",
-									coverItem: "22699239-8326-4508-9b9b-07178a228bba",
-									fileItem: "e3737248-690a-4084-a5b6-5f9b56eb1f58",
+									cover: "2ba327c3-d33c-4181-900e-f4c331ddf288",
+									file: "8f219b89-eb25-4c55-b1a4-467e36bfa081",
 									categories: [
 										"0d29f1a8-e181-448c-81d1-5000b167cb16", // Childrens
 										"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f" // Tragedy
@@ -204,8 +194,8 @@ let constants = {
 										"Dear Reader, if you have picked up this book with the hope of finding a simple and cheery tale, I'm afraid you have picked up the wrong book altogether.",
 									isbn: "9780064407670",
 									status: "unpublished",
-									coverItem: "9f3549bc-c0da-4301-8346-65d6164fbe38",
-									fileItem: "a77579fc-5f77-4a0b-b616-99cb9d0d7ea7",
+									cover: "a557824f-26ed-4e5e-8afa-43e20e76e2ad",
+									file: "fb2745e4-f095-4237-97d5-660e41356790",
 									categories: [
 										"0d29f1a8-e181-448c-81d1-5000b167cb16", // Childrens
 										"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f" // Tragedy
@@ -228,8 +218,8 @@ let constants = {
 									price: 2000,
 									isbn: "3442545803",
 									status: "published",
-									coverItem: "d9aaf019-b602-44a7-86ff-f39ec66ac8ae",
-									fileItem: "a6500f16-b6f8-45fe-810a-4a2901a66aaa",
+									cover: "33b486ae-a22e-414b-915c-9a9520970ed8",
+									file: "d6f52b96-6bca-40ee-bb70-fb1347e1c8ba",
 									categories: [
 										"0d29f1a8-e181-448c-81d1-5000b167cb16", // Childrens
 										"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f" // Tragedy
@@ -277,8 +267,8 @@ let constants = {
 										"Lieber Leser, wenn du noch nie etwas von den Baudelaire-Kindern gehört hast, dann solltest du, bevor du auch nur eine einzige Zeile liest, Folgendes wissen: Violet, Klaus und Sunny sind nett, charmant und klug, aber ihr Leben - leider, leider - strotzt nur so vor Elend und Unheil.",
 									isbn: "3442545811",
 									status: "published",
-									coverItem: "4fbcc890-03c1-4fcd-9e38-89c725be1bf0",
-									fileItem: "7f444ffc-e515-4f0f-a76d-7997cf64e63b",
+									cover: "c877a6e5-aebb-4c8c-b28d-817aaffc9226",
+									file: "090cb584-c10e-4068-9346-81f134c3a5e3",
 									categories: [
 										"0d29f1a8-e181-448c-81d1-5000b167cb16", // Childrens
 										"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f" // Tragedy
@@ -313,8 +303,8 @@ let constants = {
 									price: 3500,
 									isbn: "9780064407694",
 									status: "published",
-									coverItem: "78182c23-faa0-4950-9011-e0a0d724fa4a",
-									fileItem: "47027837-ac77-4d30-8117-04e638e7d176",
+									cover: "33ddb7d6-03ff-430f-a526-e7ceeb43782d",
+									file: "4dd8c2cf-82a0-4887-95f1-68284679a026",
 									categories: [
 										"0d29f1a8-e181-448c-81d1-5000b167cb16", // Childrens
 										"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f" // Tragedy
@@ -327,8 +317,8 @@ let constants = {
 										"Dear Reader, I hope, for your sake, that you have not chosen to read this book because you are in the mood for a pleasant experience. If this is the case, I advise you to put this book down instantaneously, because of all the books describing the unhappy lives of the Baudelaire orphans, THE MISERABLE MILL might be the unhappiest yet. Violet, Klaus, and Sunny Baudelaire are sent to Paltryville to work in a lumbermill, and they find disaster and misfortune lurking behind every log.",
 									price: 3500,
 									isbn: "9780064407694",
-									coverItem: "78182c23-faa0-4950-9011-e0a0d724fa4a",
-									fileItem: "47027837-ac77-4d30-8117-04e638e7d176",
+									cover: "33ddb7d6-03ff-430f-a526-e7ceeb43782d",
+									file: "4dd8c2cf-82a0-4887-95f1-68284679a026",
 									categories: [
 										"0d29f1a8-e181-448c-81d1-5000b167cb16", // Childrens
 										"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f" // Tragedy
@@ -363,8 +353,8 @@ let constants = {
 									price: 0,
 									isbn: "9780064408639",
 									status: "published",
-									coverItem: "86ffda0f-0622-41b7-8fc5-0b98f6db5e98",
-									fileItem: "e276d6f1-1dc0-4e2d-bbad-cc0e975b4200",
+									cover: "fcd1ddb9-fab4-465e-ad8c-f5074e2d7fc3",
+									file: "35e1418d-ff2f-4498-8a93-a0bf7b47ccce",
 									categories: [
 										"0d29f1a8-e181-448c-81d1-5000b167cb16", // Childrens
 										"8f1ac4ab-aeba-4e8a-8071-a2a77553dc3f" // Tragedy
@@ -399,181 +389,136 @@ let constants = {
 					]
 				}
 			],
-			coverItems: [
+			covers: [
 				{
-					uuid: "bf3b23fb-dd1e-4c7a-a526-6d997765e77e",
-					aspectRatio: "1:1.42377",
-					blurhash: "LOK12L4?V]5FNeoJn~kB~8NKE3R%",
-					cover: {
-						uuid: "bb63e1c9-866c-47b5-b852-e8473df404f3",
-						file: "./files/The Adventures of Sherlock Holmes.jpg",
-						etag: "c47bb35fbe9388ab669aae80499b8488",
-						ext: "jpg",
-						type: "image/jpeg"
-					}
-				},
-				{
-					uuid: "22699239-8326-4508-9b9b-07178a228bba",
-					aspectRatio: "1:1.4073",
-					blurhash: "LQKmh00hrr5AI@j@s,j[^hWXENWB",
-					cover: {
-						uuid: "2ba327c3-d33c-4181-900e-f4c331ddf288",
-						file: "./files/The Hound of the Baskervilles.jpg",
-						etag: "c73ed5e0ceee34235f9857d05618db72",
-						ext: "jpg",
-						type: "image/jpeg"
-					}
-				},
-				{
-					uuid: "9f3549bc-c0da-4301-8346-65d6164fbe38",
-					aspectRatio: "1:1.67151",
-					blurhash: "LWJkJRja^hjaS}oei{WC~9ofIqWB",
-					cover: {
-						uuid: "a557824f-26ed-4e5e-8afa-43e20e76e2ad",
-						file: "./files/The Memoirs of Sherlock Holmes.jpg",
-						etag: "b97eb6911a265f99bad04dca3344e65a",
-						ext: "jpg",
-						type: "image/jpeg"
-					}
-				},
-				{
-					uuid: "d9aaf019-b602-44a7-86ff-f39ec66ac8ae",
-					aspectRatio: "1:1.49701",
-					blurhash: "LUKJ}L9bix0$OYo0nifj^hNcEMo0",
-					cover: {
-						uuid: "33b486ae-a22e-414b-915c-9a9520970ed8",
-						file: "./files/The Return of Sherlock Holmes.jpg",
-						etag: "e5e877cabc8e335c5c9ccee3fe537d39",
-						ext: "jpg",
-						type: "image/jpeg"
-					}
-				},
-				{
-					uuid: "4fbcc890-03c1-4fcd-9e38-89c725be1bf0",
-					aspectRatio: "1:1.49701",
-					blurhash: "LSJQs39brr0*I[oJs,fk}-NeIrV@",
-					cover: {
-						uuid: "c877a6e5-aebb-4c8c-b28d-817aaffc9226",
-						file: "./files/The Sign of the Four.jpg",
-						etag: "73a9473e8fe01a4f668d8102aaff54cf",
-						ext: "jpg",
-						type: "image/jpeg"
-					}
-				},
-				{
-					uuid: "78182c23-faa0-4950-9011-e0a0d724fa4a",
-					aspectRatio: "1:1.41224",
-					blurhash: "LMLg8{0RjL5GX8WBs.of^gW=IXRk",
-					cover: {
-						uuid: "33ddb7d6-03ff-430f-a526-e7ceeb43782d",
-						file: "./files/The Valley of Fear.jpg",
-						etag: "0bdf921ec97fcd6280fda4df621117bd",
-						ext: "jpg",
-						type: "image/jpeg"
-					}
-				},
-				{
-					uuid: "86ffda0f-0622-41b7-8fc5-0b98f6db5e98",
-					aspectRatio: "1:1.41509",
-					blurhash: "LbK18I9HjY4=NIodsnWX~SNIE3WX",
-					cover: {
-						uuid: "fcd1ddb9-fab4-465e-ad8c-f5074e2d7fc3",
-						file: "./files/A Study in Scarlet.jpg",
-						etag: "017157c7e8e63d1ad0f9730e46799d61",
-						ext: "jpg",
-						type: "image/jpeg"
-					}
-				}
-			],
-			fileItems: [
-				{
-					uuid: "18f44382-9f5a-4933-be7a-6c4a03daa790",
-					fileName: "Bad Beginning.epub",
-					file: {
-						uuid: "b7cf0cee-fe8d-4f08-8b6e-d391065f1abb",
-						file: "./files/The Adventures of Sherlock Holmes.epub",
-						etag: "2a86c3d212f5c3b84f2c4a1fb8ee4d49",
-						ext: "epub",
-						type: "application/epub+zip"
-					}
-				},
-				{
-					uuid: "e3737248-690a-4084-a5b6-5f9b56eb1f58",
-					fileName: "Schrecklicher Anfang.epub",
-					file: {
-						uuid: "8f219b89-eb25-4c55-b1a4-467e36bfa081",
-						file: "./files/The Hound of the Baskervilles.epub",
-						etag: "5372c020b6dba736893f3b21842d6563",
-						ext: "epub",
-						type: "application/epub+zip"
-					}
-				},
-				{
-					uuid: "a77579fc-5f77-4a0b-b616-99cb9d0d7ea7",
-					fileName: "The Reptile Room.epub",
-					file: {
-						uuid: "fb2745e4-f095-4237-97d5-660e41356790",
-						file: "./files/The Memoirs of Sherlock Holmes.epub",
-						etag: "7eaa7936d00e764aeeb3e0c127b2648f",
-						ext: "epub",
-						type: "application/epub+zip"
-					}
-				},
-				{
-					uuid: "a6500f16-b6f8-45fe-810a-4a2901a66aaa",
-					fileName: "Haus der Schlangen.epub",
-					file: {
-						uuid: "d6f52b96-6bca-40ee-bb70-fb1347e1c8ba",
-						file: "./files/The Return of Sherlock Holmes.epub",
-						etag: "1c97f50c5befefbbce209e17f5403b21",
-						ext: "epub",
-						type: "application/epub+zip"
-					}
-				},
-				{
-					uuid: "7f444ffc-e515-4f0f-a76d-7997cf64e63b",
-					fileName: "Seufzersee.epub",
-					file: {
-						uuid: "090cb584-c10e-4068-9346-81f134c3a5e3",
-						file: "./files/The Sign of the Four.epub",
-						etag: "31f52b6e3febfc61265ff7b1e6f7d74d",
-						ext: "epub",
-						type: "application/epub+zip"
-					}
-				},
-				{
-					uuid: "47027837-ac77-4d30-8117-04e638e7d176",
-					fileName: "The Miserable Mill.epub",
-					file: {
-						uuid: "4dd8c2cf-82a0-4887-95f1-68284679a026",
-						file: "./files/The Valley of Fear.epub",
-						etag: "4172d1756eb1de44199c5129f050939d",
-						ext: "epub",
-						type: "application/epub+zip"
-					}
-				},
-				{
-					uuid: "e276d6f1-1dc0-4e2d-bbad-cc0e975b4200",
-					fileName: "The Austere Academy.epub",
-					file: {
-						uuid: "35e1418d-ff2f-4498-8a93-a0bf7b47ccce",
-						file: "./files/A Study in Scarlet.epub",
-						etag: "d2c1db4316f514b0ed3d6ad9f24cde81",
-						ext: "epub",
-						type: "application/epub+zip"
-					}
-				}
-			],
-			profileImageItem: {
-				uuid: "0c7cfccb-bbea-4e55-a14f-d6187a82c8ba",
-				blurhash: "LUGR@iNG01oM%MoMIVWU03t7tQR%",
-				profileImage: {
-					uuid: "14e5ad81-3105-4cbc-85c8-4ffeec1c3812",
-					file: "./files/Hildebrandt.jpg",
-					etag: "7e5755c34e9472a23d4b3adc87bcc49d",
+					uuid: "bb63e1c9-866c-47b5-b852-e8473df404f3",
+					file: "./files/The Adventures of Sherlock Holmes.jpg",
+					etag: "c47bb35fbe9388ab669aae80499b8488",
 					ext: "jpg",
-					type: "image/jpeg"
+					type: "image/jpeg",
+					aspectRatio: "1:1.42377",
+					blurhash: "LOK12L4?V]5FNeoJn~kB~8NKE3R%"
+				},
+				{
+					uuid: "2ba327c3-d33c-4181-900e-f4c331ddf288",
+					file: "./files/The Hound of the Baskervilles.jpg",
+					etag: "c73ed5e0ceee34235f9857d05618db72",
+					ext: "jpg",
+					type: "image/jpeg",
+					aspectRatio: "1:1.4073",
+					blurhash: "LQKmh00hrr5AI@j@s,j[^hWXENWB"
+				},
+				{
+					uuid: "a557824f-26ed-4e5e-8afa-43e20e76e2ad",
+					file: "./files/The Memoirs of Sherlock Holmes.jpg",
+					etag: "b97eb6911a265f99bad04dca3344e65a",
+					ext: "jpg",
+					type: "image/jpeg",
+					aspectRatio: "1:1.67151",
+					blurhash: "LWJkJRja^hjaS}oei{WC~9ofIqWB"
+				},
+				{
+					uuid: "33b486ae-a22e-414b-915c-9a9520970ed8",
+					file: "./files/The Return of Sherlock Holmes.jpg",
+					etag: "e5e877cabc8e335c5c9ccee3fe537d39",
+					ext: "jpg",
+					type: "image/jpeg",
+					aspectRatio: "1:1.49701",
+					blurhash: "LUKJ}L9bix0$OYo0nifj^hNcEMo0"
+				},
+				{
+					uuid: "c877a6e5-aebb-4c8c-b28d-817aaffc9226",
+					file: "./files/The Sign of the Four.jpg",
+					etag: "73a9473e8fe01a4f668d8102aaff54cf",
+					ext: "jpg",
+					type: "image/jpeg",
+					aspectRatio: "1:1.49701",
+					blurhash: "LSJQs39brr0*I[oJs,fk}-NeIrV@"
+				},
+				{
+					uuid: "33ddb7d6-03ff-430f-a526-e7ceeb43782d",
+					file: "./files/The Valley of Fear.jpg",
+					etag: "0bdf921ec97fcd6280fda4df621117bd",
+					ext: "jpg",
+					type: "image/jpeg",
+					aspectRatio: "1:1.41224",
+					blurhash: "LMLg8{0RjL5GX8WBs.of^gW=IXRk"
+				},
+				{
+					uuid: "fcd1ddb9-fab4-465e-ad8c-f5074e2d7fc3",
+					file: "./files/A Study in Scarlet.jpg",
+					etag: "017157c7e8e63d1ad0f9730e46799d61",
+					ext: "jpg",
+					type: "image/jpeg",
+					aspectRatio: "1:1.41509",
+					blurhash: "LbK18I9HjY4=NIodsnWX~SNIE3WX"
 				}
+			],
+			files: [
+				{
+					uuid: "b7cf0cee-fe8d-4f08-8b6e-d391065f1abb",
+					file: "./files/The Adventures of Sherlock Holmes.epub",
+					etag: "2a86c3d212f5c3b84f2c4a1fb8ee4d49",
+					ext: "epub",
+					type: "application/epub+zip",
+					fileName: "Bad Beginning.epub"
+				},
+				{
+					uuid: "8f219b89-eb25-4c55-b1a4-467e36bfa081",
+					file: "./files/The Hound of the Baskervilles.epub",
+					etag: "5372c020b6dba736893f3b21842d6563",
+					ext: "epub",
+					type: "application/epub+zip",
+					fileName: "Schrecklicher Anfang.epub"
+				},
+				{
+					uuid: "fb2745e4-f095-4237-97d5-660e41356790",
+					file: "./files/The Memoirs of Sherlock Holmes.epub",
+					etag: "7eaa7936d00e764aeeb3e0c127b2648f",
+					ext: "epub",
+					type: "application/epub+zip",
+					fileName: "The Reptile Room.epub"
+				},
+				{
+					uuid: "d6f52b96-6bca-40ee-bb70-fb1347e1c8ba",
+					file: "./files/The Return of Sherlock Holmes.epub",
+					etag: "1c97f50c5befefbbce209e17f5403b21",
+					ext: "epub",
+					type: "application/epub+zip",
+					fileName: "Haus der Schlangen.epub"
+				},
+				{
+					uuid: "090cb584-c10e-4068-9346-81f134c3a5e3",
+					file: "./files/The Sign of the Four.epub",
+					etag: "31f52b6e3febfc61265ff7b1e6f7d74d",
+					ext: "epub",
+					type: "application/epub+zip",
+					fileName: "Seufzersee.epub"
+				},
+				{
+					uuid: "4dd8c2cf-82a0-4887-95f1-68284679a026",
+					file: "./files/The Valley of Fear.epub",
+					etag: "4172d1756eb1de44199c5129f050939d",
+					ext: "epub",
+					type: "application/epub+zip",
+					fileName: "The Miserable Mill.epub"
+				},
+				{
+					uuid: "35e1418d-ff2f-4498-8a93-a0bf7b47ccce",
+					file: "./files/A Study in Scarlet.epub",
+					etag: "d2c1db4316f514b0ed3d6ad9f24cde81",
+					ext: "epub",
+					type: "application/epub+zip",
+					fileName: "The Austere Academy.epub"
+				}
+			],
+			profileImage: {
+				uuid: "14e5ad81-3105-4cbc-85c8-4ffeec1c3812",
+				file: "./files/Hildebrandt.jpg",
+				etag: "7e5755c34e9472a23d4b3adc87bcc49d",
+				ext: "jpg",
+				type: "image/jpeg",
+				blurhash: "LUGR@iNG01oM%MoMIVWU03t7tQR%"
 			}
 		}
 	},
@@ -598,16 +543,13 @@ let constants = {
 						series: []
 					}
 				],
-				logoItem: {
-					uuid: "830e7cd5-a41f-425f-a806-829475a02940",
-					blurhash: "LUGR@iNG01oM%MoMIVWU03t7tQR%",
-					logo: {
-						uuid: "ec0ca054-8e4b-4e65-a42e-a948f01d3469",
-						file: "./files/standardebooks.png",
-						etag: "2725dda467b0aaa5253e9956c5c2659c",
-						ext: "png",
-						type: "image/png"
-					}
+				logo: {
+					uuid: "ec0ca054-8e4b-4e65-a42e-a948f01d3469",
+					file: "./files/standardebooks.png",
+					etag: "2725dda467b0aaa5253e9956c5c2659c",
+					ext: "png",
+					type: "image/png",
+					blurhash: "LUGR@iNG01oM%MoMIVWU03t7tQR%"
 				}
 			},
 			{
@@ -654,8 +596,8 @@ let constants = {
 											"Orwell's novel about the destruction of man by a perfect state machinery has long since become a metaphor for totalitarian conditions that no longer seems in need of explanation.",
 										price: 1000,
 										status: "published",
-										coverItem: "bac664ad-f5f4-464d-bf0f-bbf4b126e880",
-										fileItem: "b7d0dd22-4f65-4f96-83d7-bdcc3d682e7d",
+										cover: "63960709-1aa5-40dd-a7a3-8fa79aaa1f5d",
+										file: "32adbdaa-0cbe-4672-80a6-19d4b8d6e943",
 										categories: [
 											"27c78f90-934e-41e3-8738-b20f6d76f0a9" // Dystopia
 										]
@@ -666,8 +608,8 @@ let constants = {
 										description:
 											"Orwell's novel about the destruction of man by a perfect state machinery has long since become a metaphor for totalitarian conditions that no longer seems in need of explanation.",
 										price: 1984,
-										coverItem: "bac664ad-f5f4-464d-bf0f-bbf4b126e880",
-										fileItem: "b7d0dd22-4f65-4f96-83d7-bdcc3d682e7d",
+										cover: "63960709-1aa5-40dd-a7a3-8fa79aaa1f5d",
+										file: "32adbdaa-0cbe-4672-80a6-19d4b8d6e943",
 										categories: [
 											"27c78f90-934e-41e3-8738-b20f6d76f0a9" // Dystopia
 										]
@@ -686,7 +628,7 @@ let constants = {
 										description:
 											"Orwells Roman über die Zerstörung des Menschen durch eine perfekte Staatsmaschinerie ist längst zu einer scheinbar nicht mehr erklärungsbedürftigen Metapher für totalitäre Verhältnisse geworden.",
 										isbn: "9783548234106",
-										fileItem: "420fc2a1-d0f3-4770-8e60-c6da3b3b0985",
+										file: "050f7a0d-59a9-498a-9caa-8b418227e72b",
 										categories: [
 											"27c78f90-934e-41e3-8738-b20f6d76f0a9" // Dystopia
 										]
@@ -731,8 +673,8 @@ let constants = {
 										description:
 											"Animal Farm is an allegorical novella by George Orwell, first published in England on 17 August 1945. The book tells the story of a group of farm animals who rebel against their human farmer, hoping to create a society where the animals can be equal, free, and happy.",
 										status: "published",
-										coverItem: "708bf15c-8e6e-49c6-8113-33f5ddb28d15",
-										fileItem: "290a762c-5c9a-4951-9c38-a64dd3b2a6e4"
+										cover: "244d873a-ce11-4a01-920b-c1ef2855d4e5",
+										file: "6566a1b6-0b17-4ff8-ba01-c58374c179ee"
 									}
 								]
 							},
@@ -747,7 +689,7 @@ let constants = {
 										description:
 											"Farm der Tiere ist eine allegorische Novelle von George Orwell, die erstmals am 17. August 1945 in England veröffentlicht wurde. Das Buch erzählt die Geschichte einer Gruppe von Nutztieren, die sich gegen ihren menschlichen Bauern auflehnen, in der Hoffnung, eine Gesellschaft zu schaffen, in der die Tiere gleichberechtigt, frei und glücklich sein können.",
 										isbn: "3257201184",
-										fileItem: "4a7a2328-4522-4d06-ab45-a3cc4e502348"
+										file: "987335cf-4fd0-4c80-a6f1-97bedd46ecbf"
 									}
 								]
 							},
@@ -765,8 +707,8 @@ let constants = {
 											"La Ferme des animaux est un roman allégorique de George Orwell, publié pour la première fois en Angleterre le 17 août 1945. Le livre raconte l'histoire d'un groupe d'animaux de ferme qui se rebellent contre leur éleveur humain dans l'espoir de créer une société dans laquelle les animaux peuvent être égaux, libres et heureux.",
 										price: 0,
 										status: "published",
-										coverItem: "0091cc8d-7883-4019-8c2e-1d4fb092b950",
-										fileItem: "c8c4736b-ec69-4524-905d-eea43c69c73d"
+										cover: "9ac13017-9b5f-4fef-abe4-6964171767f0",
+										file: "ab3f8f74-b335-4bf2-bc1e-4f85f866ae22"
 									}
 								]
 							}
@@ -774,111 +716,84 @@ let constants = {
 					}
 				],
 				series: [],
-				coverItems: [
+				covers: [
 					{
-						uuid: "bac664ad-f5f4-464d-bf0f-bbf4b126e880",
-						aspectRatio: "1:1.5",
-						blurhash: "LML.f7~C-pbvI9J,%2oz^Q9ttRxu",
-						cover: {
-							uuid: "63960709-1aa5-40dd-a7a3-8fa79aaa1f5d",
-							file: "./files/The House of Arden.jpg",
-							etag: "4f02b59bc16b8c4475bfcad53c83e443",
-							ext: "jpg",
-							type: "image/jpeg"
-						}
-					},
-					{
-						uuid: "708bf15c-8e6e-49c6-8113-33f5ddb28d15",
-						aspectRatio: "1:1.59309",
-						blurhash: "LbR.uzbH.RsoHXa|x]n%xua|V@jt",
-						cover: {
-							uuid: "244d873a-ce11-4a01-920b-c1ef2855d4e5",
-							file: "./files/A Christmas Carol.jpg",
-							etag: "36c33e7f2a5ca3c7c437440e260ebe4c",
-							ext: "jpg",
-							type: "image/jpeg"
-						}
-					},
-					{
-						uuid: "0091cc8d-7883-4019-8c2e-1d4fb092b950",
-						aspectRatio: "1:1.59309",
-						blurhash: "LbR.uzbH.RsoHXa|x]n%xua|V@jt",
-						cover: {
-							uuid: "9ac13017-9b5f-4fef-abe4-6964171767f0",
-							file: "./files/Hard Times.jpg",
-							etag: "a44e9413c96f3fa33caf7ee33f56bd13",
-							ext: "jpg",
-							type: "image/jpeg"
-						}
-					}
-				],
-				fileItems: [
-					{
-						uuid: "b7d0dd22-4f65-4f96-83d7-bdcc3d682e7d",
-						fileName: "1984.epub",
-						file: {
-							uuid: "32adbdaa-0cbe-4672-80a6-19d4b8d6e943",
-							file: "./files/The House of Arden.epub",
-							etag: "ddbae26972c706ecf522c6bd36f06e48",
-							ext: "epub",
-							type: "application/epub+zip"
-						}
-					},
-					{
-						uuid: "420fc2a1-d0f3-4770-8e60-c6da3b3b0985",
-						fileName: "1984.epub",
-						file: {
-							uuid: "050f7a0d-59a9-498a-9caa-8b418227e72b",
-							file: "./files/The Story of the Amulet.epub",
-							etag: "3a80045d35fc9407059325c151c11878",
-							ext: "epub",
-							type: "application/epub+zip"
-						}
-					},
-					{
-						uuid: "290a762c-5c9a-4951-9c38-a64dd3b2a6e4",
-						fileName: "Animal Farm.epub",
-						file: {
-							uuid: "6566a1b6-0b17-4ff8-ba01-c58374c179ee",
-							file: "./files/A Christmas Carol.epub",
-							etag: "f7e51c3f828de25ef84dfb118b6aefa1",
-							ext: "epub",
-							type: "application/epub+zip"
-						}
-					},
-					{
-						uuid: "4a7a2328-4522-4d06-ab45-a3cc4e502348",
-						fileName: "Farm der Tiere.epub",
-						file: {
-							uuid: "987335cf-4fd0-4c80-a6f1-97bedd46ecbf",
-							file: "./files/A Tale of Two Cities.epub",
-							etag: "fb3a8764927a4041c26aabca95f3533e",
-							ext: "epub",
-							type: "application/epub+zip"
-						}
-					},
-					{
-						uuid: "c8c4736b-ec69-4524-905d-eea43c69c73d",
-						fileName: "Ferme des animaux.epub",
-						file: {
-							uuid: "ab3f8f74-b335-4bf2-bc1e-4f85f866ae22",
-							file: "./files/Hard Times.epub",
-							etag: "592212baa25df103bfaece0a9a38a4b2",
-							ext: "epub",
-							type: "application/epub+zip"
-						}
-					}
-				],
-				profileImageItem: {
-					uuid: "34253e30-bbfe-42e3-9f9c-b0511f359802",
-					blurhash: "LUI;@boe^*j[-oWBt6of~WRjjss:",
-					profileImage: {
-						uuid: "df45f27f-8ecb-41b0-864f-bb76669279f5",
-						file: "./files/Bebel.jpg",
-						etag: "5a05d8649d62c2051167126ad8cf8ec2",
+						uuid: "63960709-1aa5-40dd-a7a3-8fa79aaa1f5d",
+						file: "./files/The House of Arden.jpg",
+						etag: "4f02b59bc16b8c4475bfcad53c83e443",
 						ext: "jpg",
-						type: "image/jpeg"
+						type: "image/jpeg",
+						aspectRatio: "1:1.5",
+						blurhash: "LML.f7~C-pbvI9J,%2oz^Q9ttRxu"
+					},
+					{
+						uuid: "244d873a-ce11-4a01-920b-c1ef2855d4e5",
+						file: "./files/A Christmas Carol.jpg",
+						etag: "36c33e7f2a5ca3c7c437440e260ebe4c",
+						ext: "jpg",
+						type: "image/jpeg",
+						aspectRatio: "1:1.59309",
+						blurhash: "LbR.uzbH.RsoHXa|x]n%xua|V@jt"
+					},
+					{
+						uuid: "9ac13017-9b5f-4fef-abe4-6964171767f0",
+						file: "./files/Hard Times.jpg",
+						etag: "a44e9413c96f3fa33caf7ee33f56bd13",
+						ext: "jpg",
+						type: "image/jpeg",
+						aspectRatio: "1:1.59309",
+						blurhash: "LbR.uzbH.RsoHXa|x]n%xua|V@jt"
 					}
+				],
+				files: [
+					{
+						uuid: "32adbdaa-0cbe-4672-80a6-19d4b8d6e943",
+						file: "./files/The House of Arden.epub",
+						etag: "ddbae26972c706ecf522c6bd36f06e48",
+						ext: "epub",
+						type: "application/epub+zip",
+						fileName: "1984.epub"
+					},
+					{
+						uuid: "050f7a0d-59a9-498a-9caa-8b418227e72b",
+						file: "./files/The Story of the Amulet.epub",
+						etag: "3a80045d35fc9407059325c151c11878",
+						ext: "epub",
+						type: "application/epub+zip",
+						fileName: "1984.epub"
+					},
+					{
+						uuid: "6566a1b6-0b17-4ff8-ba01-c58374c179ee",
+						file: "./files/A Christmas Carol.epub",
+						etag: "f7e51c3f828de25ef84dfb118b6aefa1",
+						ext: "epub",
+						type: "application/epub+zip",
+						fileName: "Animal Farm.epub"
+					},
+					{
+						uuid: "987335cf-4fd0-4c80-a6f1-97bedd46ecbf",
+						file: "./files/A Tale of Two Cities.epub",
+						etag: "fb3a8764927a4041c26aabca95f3533e",
+						ext: "epub",
+						type: "application/epub+zip",
+						fileName: "Farm der Tiere.epub"
+					},
+					{
+						uuid: "ab3f8f74-b335-4bf2-bc1e-4f85f866ae22",
+						file: "./files/Hard Times.epub",
+						etag: "592212baa25df103bfaece0a9a38a4b2",
+						ext: "epub",
+						type: "application/epub+zip",
+						fileName: "Ferme des animaux.epub"
+					}
+				],
+				profileImage: {
+					uuid: "df45f27f-8ecb-41b0-864f-bb76669279f5",
+					file: "./files/Bebel.jpg",
+					etag: "5a05d8649d62c2051167126ad8cf8ec2",
+					ext: "jpg",
+					type: "image/jpeg",
+					blurhash: "LUI;@boe^*j[-oWBt6of~WRjjss:"
 				}
 			},
 			{
@@ -894,8 +809,8 @@ let constants = {
 				],
 				collections: [],
 				series: [],
-				coverItems: [],
-				fileItems: []
+				covers: [],
+				files: []
 			},
 			{
 				uuid: "74667201-3a22-4486-a455-b4b381a9d45a",
@@ -927,8 +842,8 @@ let constants = {
 											"Robinson Crusoe is one of the most popular books ever written in the English language, published in innumerable editions and translated into almost every language of the world, not to mention the many versions created in film, television and even radio.",
 										price: 1200,
 										status: "published",
-										coverItem: "87c20601-bf63-423e-afa7-008a97e397d5",
-										fileItem: "ac91cf62-3013-43b2-ae4b-1829c6aa0c1c",
+										cover: "fb230b01-ee89-4209-83f5-7680e116ed14",
+										file: "97fd0673-d445-4e40-b72c-31698c9d1d8b",
 										categories: [
 											"76dd74fa-0fb3-4d80-8c0a-6d6a803383a7" // Adventure
 										]
@@ -942,8 +857,8 @@ let constants = {
 											"Robinson Crusoe is one of the most popular books ever written in the English language, published in innumerable editions and translated into almost every language of the world, not to mention the many versions created in film, television and even radio.",
 										price: 1200,
 										status: "published",
-										coverItem: "87c20601-bf63-423e-afa7-008a97e397d5",
-										fileItem: "ac91cf62-3013-43b2-ae4b-1829c6aa0c1c",
+										cover: "fb230b01-ee89-4209-83f5-7680e116ed14",
+										file: "97fd0673-d445-4e40-b72c-31698c9d1d8b",
 										categories: [
 											"8c98e8cb-33a5-460e-8c33-3fa335e11c81", // Fiction
 											"76dd74fa-0fb3-4d80-8c0a-6d6a803383a7" // Adventure
@@ -977,8 +892,8 @@ let constants = {
 											"After his return from an uninhabited island, Robinson Crusoe marries and starts a family. Despite his comfortable life in England, he has an intense desire to go back to sea.",
 										price: 1200,
 										status: "published",
-										coverItem: "3a68a4a9-d6a0-4a32-b13c-32c753cb0038",
-										fileItem: "671f2d6c-c6f1-449c-b392-320549794c29",
+										cover: "fb6d4537-3a71-40b7-9f58-bbbbce7bc62e",
+										file: "2cc4f77e-cda8-433d-9367-25cb431e9ea6",
 										categories: [
 											"76dd74fa-0fb3-4d80-8c0a-6d6a803383a7" // Adventure
 										]
@@ -999,54 +914,42 @@ let constants = {
 						]
 					}
 				],
-				coverItems: [
+				covers: [
 					{
-						uuid: "87c20601-bf63-423e-afa7-008a97e397d5",
+						uuid: "fb230b01-ee89-4209-83f5-7680e116ed14",
+						file: "./files/The Life and Adventures of Robinson Crusoe.jpg",
+						etag: "bfdfc26eef7ff3628d85454f3c414d51",
+						ext: "jpg",
+						type: "image/jpeg",
 						aspectRatio: "1:1.5",
-						blurhash: "LbR.uzbH.RsoHXa|x]n%xua|V@jt",
-						cover: {
-							uuid: "fb230b01-ee89-4209-83f5-7680e116ed14",
-							file: "./files/The Life and Adventures of Robinson Crusoe.jpg",
-							etag: "bfdfc26eef7ff3628d85454f3c414d51",
-							ext: "jpg",
-							type: "image/jpeg"
-						}
+						blurhash: "LbR.uzbH.RsoHXa|x]n%xua|V@jt"
 					},
 					{
-						uuid: "3a68a4a9-d6a0-4a32-b13c-32c753cb0038",
+						uuid: "fb6d4537-3a71-40b7-9f58-bbbbce7bc62e",
+						file: "./files/The Further Adventures of Robinson Crusoe.jpg",
+						etag: "09ec9adee6563185397de00defc093d7",
+						ext: "jpg",
+						type: "image/jpeg",
 						aspectRatio: "1:1.5",
-						blurhash: "LbR.uzbH.RsoHXa|x]n%xua|V@jt",
-						cover: {
-							uuid: "fb6d4537-3a71-40b7-9f58-bbbbce7bc62e",
-							file: "./files/The Further Adventures of Robinson Crusoe.jpg",
-							etag: "09ec9adee6563185397de00defc093d7",
-							ext: "jpg",
-							type: "image/jpeg"
-						}
+						blurhash: "LbR.uzbH.RsoHXa|x]n%xua|V@jt"
 					}
 				],
-				fileItems: [
+				files: [
 					{
-						uuid: "ac91cf62-3013-43b2-ae4b-1829c6aa0c1c",
-						fileName: "The Life and Adventures of Robinson Crusoe.epub",
-						file: {
-							uuid: "97fd0673-d445-4e40-b72c-31698c9d1d8b",
-							file: "./files/The Life and Adventures of Robinson Crusoe.epub",
-							etag: "d53c23713fc41f87cfa1650ade7e37e1",
-							ext: "epub",
-							type: "application/epub+zip"
-						}
+						uuid: "97fd0673-d445-4e40-b72c-31698c9d1d8b",
+						file: "./files/The Life and Adventures of Robinson Crusoe.epub",
+						etag: "d53c23713fc41f87cfa1650ade7e37e1",
+						ext: "epub",
+						type: "application/epub+zip",
+						fileName: "The Life and Adventures of Robinson Crusoe.epub"
 					},
 					{
-						uuid: "671f2d6c-c6f1-449c-b392-320549794c29",
-						fileName: "The Further Adventures of Robinson Crusoe.epub",
-						file: {
-							uuid: "2cc4f77e-cda8-433d-9367-25cb431e9ea6",
-							file: "./files/The Further Adventures of Robinson Crusoe.epub",
-							etag: "7552f19225eff84741b1b83365320e18",
-							ext: "epub",
-							type: "application/epub+zip"
-						}
+						uuid: "2cc4f77e-cda8-433d-9367-25cb431e9ea6",
+						file: "./files/The Further Adventures of Robinson Crusoe.epub",
+						etag: "7552f19225eff84741b1b83365320e18",
+						ext: "epub",
+						type: "application/epub+zip",
+						fileName: "The Further Adventures of Robinson Crusoe.epub"
 					}
 				]
 			}
