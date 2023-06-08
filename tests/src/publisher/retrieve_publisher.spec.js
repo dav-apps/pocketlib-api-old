@@ -144,18 +144,22 @@ describe("RetrievePublisher endpoint", () => {
 	it("should return publisher of user", async () => {
 		await testGetPublisher(
 			constants.authorUser.publisher,
+			"mine",
 			constants.authorUser.accessToken
 		)
 	})
 })
 
-async function testGetPublisher(publisher, accessToken) {
+async function testGetPublisher(publisher, uuid, accessToken) {
 	let response
 
 	try {
 		let options = {
 			method: "get",
-			url: retrievePublisherEndpointUrl.replace("{0}", publisher.uuid),
+			url: retrievePublisherEndpointUrl.replace(
+				"{0}",
+				uuid || publisher.uuid
+			),
 			params: {
 				fields:
 					"uuid,name,description,website_url,facebook_username,instagram_username,twitter_username"
