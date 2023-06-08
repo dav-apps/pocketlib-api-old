@@ -17,6 +17,6 @@
 
 (return (func get_table_object (
 	uuid
-	(if (is_nil state.session) nil else state.session.user_id)
+	nil
 	"Publisher"
 )))

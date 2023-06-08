@@ -106,17 +106,23 @@
 			"endpoints": {
 				"retrieve": {
 					"description": "Retrieves the publisher logo metadata. If uuid = 'mine', retrieves the logo metadata of the publisher of the current user.",
-					"url": "/publishers/:uuid/logo",
+					"url": "publishers/:uuid/logo",
 					"urlParams": {
 						"uuid": {
 							"type": "String",
 							"description": "The uuid of the publisher"
 						}
-					}
+					},
+					"authenticated": {
+						"value": "uuid_mine_check",
+						"description": "If uuid = 'mine'"
+					},
+					"validators": ["user_is_not_admin_if_uuid_mine_validator"],
+					"getter": "publisher_logo_getter"
 				},
 				"upload": {
 					"description": "Uploads a logo for the given publisher. If uuid = 'mine', sets the logo for the publisher of the current user.",
-					"url": "/publishers/:uuid/logo",
+					"url": "publishers/:uuid/logo",
 					"urlParams": {
 						"uuid": {
 							"type": "String",
@@ -270,7 +276,7 @@
 			"endpoints": {
 				"list": {
 					"description": "Retrieves the bios of the author. If uuid = 'mine', retrieves the bios of the author of the current user.",
-					"url": "/authors/:uuid/bios",
+					"url": "authors/:uuid/bios",
 					"urlParams": {
 						"uuid": {
 							"type": "String",
@@ -284,7 +290,7 @@
 				},
 				"set": {
 					"description": "Sets the bio for the given author in the given language. If uuid = 'mine', sets the bio for the author of the current user.",
-					"url": "/authors/:uuid/bios/:language",
+					"url": "authors/:uuid/bios/:language",
 					"urlParams": {
 						"uuid": {
 							"type": "String",
@@ -312,7 +318,7 @@
 			"endpoints": {
 				"retrieve": {
 					"description": "Retrieves the author profile image metadata. If uuid = 'mine', retrieves the profile image metadata of the author of the current user.",
-					"url": "/authors/:uuid/profile_image",
+					"url": "authors/:uuid/profile_image",
 					"urlParams": {
 						"uuid": {
 							"type": "String",
@@ -322,7 +328,7 @@
 				},
 				"upload": {
 					"description": "Uploads a profile image for the given author. If uuid = 'mine', sets the profile image for the author of the current user.",
-					"url": "/authors/:uuid/profile_image",
+					"url": "authors/:uuid/profile_image",
 					"urlParams": {
 						"uuid": {
 							"type": "String",
@@ -420,7 +426,7 @@
 			"endpoints": {
 				"list": {
 					"description": "Retrieves all names of the store book collection.",
-					"url": "/store_book_collections/:uuid/names",
+					"url": "store_book_collections/:uuid/names",
 					"urlParams": {
 						"uuid": {
 							"type": "String",
@@ -430,7 +436,7 @@
 				},
 				"set": {
 					"description": "Sets the name for the given store book collection in the given language.",
-					"url": "/store_book_collections/:uuid/names/:language",
+					"url": "store_book_collections/:uuid/names/:language",
 					"urlParams": {
 						"uuid": {
 							"type": "String",
@@ -691,7 +697,7 @@
 			"endpoints": {
 				"retrieve": {
 					"description": "Retrieves the store book cover metadata.",
-					"url": "/store_books/:uuid/cover",
+					"url": "store_books/:uuid/cover",
 					"urlParams": {
 						"uuid": {
 							"type": "String",
@@ -701,7 +707,7 @@
 				},
 				"upload": {
 					"description": "Uploads a store book cover for the given store book and updates the last unpublished release or creates a new release.",
-					"url": "/store_books/:uuid/cover",
+					"url": "store_books/:uuid/cover",
 					"urlParams": {
 						"uuid": {
 							"type": "String",
@@ -722,7 +728,7 @@
 			"endpoints": {
 				"retrieve": {
 					"description": "Retrieves the store book file metadata.",
-					"url": "/store_books/:uuid/file",
+					"url": "store_books/:uuid/file",
 					"urlParams": {
 						"uuid": {
 							"type": "String",
@@ -733,7 +739,7 @@
 				},
 				"upload": {
 					"description": "Uploads a store book file for the given store book and updates the last unpublished release or creates a new release.",
-					"url": "/store_books/:uuid/file",
+					"url": "store_books/:uuid/file",
 					"urlParams": {
 						"uuid": {
 							"type": "String",
@@ -806,7 +812,7 @@
 				"publish": {
 					"description": "Publishes the store book release with the given uuid.",
 					"method": "POST",
-					"url": "/store_book_releases/:uuid/publish"
+					"url": "store_book_releases/:uuid/publish"
 				}
 			}
 		},
@@ -874,7 +880,7 @@
 			"endpoints": {
 				"list": {
 					"description": "Retrieves all names of the category.",
-					"url": "/categories/:uuid/names",
+					"url": "categories/:uuid/names",
 					"urlParams": {
 						"uuid": {
 							"type": "String",
@@ -884,7 +890,7 @@
 				},
 				"set": {
 					"description": "Sets the name for the given category in the given language.",
-					"url": "/categories/:uuid/names/:language",
+					"url": "categories/:uuid/names/:language",
 					"urlParams": {
 						"uuid": {
 							"type": "String",

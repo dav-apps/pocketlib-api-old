@@ -10,8 +10,8 @@
 	(# User is an admin)
 	(func render_validation_errors ((list
 		(hash
-			(error "action_not_allowed")
-			(status 403)
+			(error "user_is_admin")
+			(status 400)
 		)
 	)))
 ))

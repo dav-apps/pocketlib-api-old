@@ -12,6 +12,11 @@
 			"source": "./publisher/publisher.dx"
 		},
 		{
+			"name": "publisher_logo_getter",
+			"params": ["state", "uuid"],
+			"source": "./publisher_logo/publisher_logo.dx"
+		},
+		{
 			"name": "author_bio_getter",
 			"params": ["object", "params"],
 			"source": "./author/bio.dx"

@@ -1,0 +1,19 @@
+(# params: state: Hash, uuid: String)
+(var publisher (func publisher_getter (state uuid)))
+
+(if (is_nil publisher) (
+	(# Publisher does not exist)
+	(func render_validation_errors ((list
+		(hash
+			(error "publisher_does_not_exist")
+			(status 404)
+		)
+	)))
+))
+
+(# Get the logo of the publisher)
+(return (func get_table_object (
+	publisher.properties.logo
+	nil
+	"PublisherLogo"
+)))
