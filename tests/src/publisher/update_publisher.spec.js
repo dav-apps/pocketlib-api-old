@@ -185,12 +185,9 @@ describe("UpdatePublisher endpoint", () => {
 				}
 			})
 		} catch (error) {
-			assert.equal(error.response.status, 403)
+			assert.equal(error.response.status, 400)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(
-				error.response.data.errors[0],
-				ErrorCodes.ActionNotAllowed
-			)
+			assert.equal(error.response.data.errors[0], ErrorCodes.UserIsAdmin)
 			return
 		}
 

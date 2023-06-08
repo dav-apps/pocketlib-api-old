@@ -10,13 +10,16 @@ describe("RetrievePublisherLogo endpoint", () => {
 	it("should not return logo of publisher without access token", async () => {
 		try {
 			await axios({
-				method: 'get',
-				url: retrievePublisherLogoEndpoint.replace('{0}', "mine")
+				method: "get",
+				url: retrievePublisherLogoEndpoint.replace("{0}", "mine")
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 401)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.AuthorizationHeaderMissing)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.AuthorizationHeaderMissing
+			)
 			return
 		}
 
@@ -26,8 +29,8 @@ describe("RetrievePublisherLogo endpoint", () => {
 	it("should not return logo of publisher with access token for session that does not exist", async () => {
 		try {
 			await axios({
-				method: 'get',
-				url: retrievePublisherLogoEndpoint.replace('{0}', "mine"),
+				method: "get",
+				url: retrievePublisherLogoEndpoint.replace("{0}", "mine"),
 				headers: {
 					Authorization: "kljdjksdfljsdlsdjfk"
 				}
@@ -35,7 +38,10 @@ describe("RetrievePublisherLogo endpoint", () => {
 		} catch (error) {
 			assert.equal(error.response.status, 404)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.SessionDoesNotExist)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.SessionDoesNotExist
+			)
 			return
 		}
 
@@ -45,8 +51,8 @@ describe("RetrievePublisherLogo endpoint", () => {
 	it("should not return logo of publisher with access token for another app", async () => {
 		try {
 			await axios({
-				method: 'get',
-				url: retrievePublisherLogoEndpoint.replace('{0}', "mine"),
+				method: "get",
+				url: retrievePublisherLogoEndpoint.replace("{0}", "mine"),
 				headers: {
 					Authorization: constants.testUserTestAppAccessToken
 				}
@@ -54,7 +60,10 @@ describe("RetrievePublisherLogo endpoint", () => {
 		} catch (error) {
 			assert.equal(error.response.status, 403)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.ActionNotAllowed
+			)
 			return
 		}
 
@@ -64,8 +73,8 @@ describe("RetrievePublisherLogo endpoint", () => {
 	it("should not return logo of publisher if the user is not a publisher", async () => {
 		try {
 			await axios({
-				method: 'get',
-				url: retrievePublisherLogoEndpoint.replace('{0}', "mine"),
+				method: "get",
+				url: retrievePublisherLogoEndpoint.replace("{0}", "mine"),
 				headers: {
 					Authorization: constants.testUser.accessToken
 				}
@@ -73,7 +82,10 @@ describe("RetrievePublisherLogo endpoint", () => {
 		} catch (error) {
 			assert.equal(error.response.status, 400)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.UserIsNotPublisher)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.UserIsNotPublisher
+			)
 			return
 		}
 
@@ -83,8 +95,8 @@ describe("RetrievePublisherLogo endpoint", () => {
 	it("should not return logo of publisher if the user is an admin", async () => {
 		try {
 			await axios({
-				method: 'get',
-				url: retrievePublisherLogoEndpoint.replace('{0}', "mine"),
+				method: "get",
+				url: retrievePublisherLogoEndpoint.replace("{0}", "mine"),
 				headers: {
 					Authorization: constants.davUser.accessToken
 				}
@@ -92,7 +104,7 @@ describe("RetrievePublisherLogo endpoint", () => {
 		} catch (error) {
 			assert.equal(error.response.status, 400)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.UserIsAdmin)
+			assert.equal(error.response.data.errors[0], ErrorCodes.UserIsAdmin)
 			return
 		}
 
@@ -102,8 +114,11 @@ describe("RetrievePublisherLogo endpoint", () => {
 	it("should not return logo if the publisher has no logo", async () => {
 		try {
 			await axios({
-				method: 'get',
-				url: retrievePublisherLogoEndpoint.replace('{0}', constants.davUser.publishers[1].uuid),
+				method: "get",
+				url: retrievePublisherLogoEndpoint.replace(
+					"{0}",
+					constants.davUser.publishers[1].uuid
+				),
 				headers: {
 					Authorization: constants.authorUser.accessToken
 				}
@@ -111,7 +126,10 @@ describe("RetrievePublisherLogo endpoint", () => {
 		} catch (error) {
 			assert.equal(error.response.status, 404)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.PublisherLogoItemDoesNotExist)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.PublisherLogoDoesNotExist
+			)
 			return
 		}
 
@@ -121,8 +139,11 @@ describe("RetrievePublisherLogo endpoint", () => {
 	it("should not return logo of publisher that does not exist", async () => {
 		try {
 			await axios({
-				method: 'get',
-				url: retrievePublisherLogoEndpoint.replace('{0}', "kjsdfjkhsdfhjksdf"),
+				method: "get",
+				url: retrievePublisherLogoEndpoint.replace(
+					"{0}",
+					"kjsdfjkhsdfhjksdf"
+				),
 				headers: {
 					Authorization: constants.davUser.accessToken
 				}
@@ -130,7 +151,10 @@ describe("RetrievePublisherLogo endpoint", () => {
 		} catch (error) {
 			assert.equal(error.response.status, 404)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.PublisherDoesNotExist)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.PublisherDoesNotExist
+			)
 			return
 		}
 
@@ -143,10 +167,10 @@ describe("RetrievePublisherLogo endpoint", () => {
 
 		try {
 			response = await axios({
-				method: 'get',
-				url: retrievePublisherLogoEndpoint.replace('{0}', publisher.uuid),
+				method: "get",
+				url: retrievePublisherLogoEndpoint.replace("{0}", publisher.uuid),
 				params: {
-					fields: "*"
+					fields: "uuid,url,blurhash"
 				}
 			})
 		} catch (error) {
@@ -155,9 +179,9 @@ describe("RetrievePublisherLogo endpoint", () => {
 
 		assert.equal(response.status, 200)
 		assert.equal(Object.keys(response.data).length, 3)
-		assert.equal(response.data.uuid, publisher.logoItem.uuid)
+		assert.equal(response.data.uuid, publisher.logo.uuid)
 		assert.isNotNull(response.data.url)
-		assert.equal(response.data.blurhash, publisher.logoItem.blurhash)
+		assert.equal(response.data.blurhash, publisher.logo.blurhash)
 	})
 
 	it("should return logo of publisher of user", async () => {
@@ -166,13 +190,13 @@ describe("RetrievePublisherLogo endpoint", () => {
 
 		try {
 			response = await axios({
-				method: 'get',
-				url: retrievePublisherLogoEndpoint.replace('{0}', "mine"),
+				method: "get",
+				url: retrievePublisherLogoEndpoint.replace("{0}", "mine"),
 				headers: {
 					Authorization: constants.authorUser.accessToken
 				},
 				params: {
-					fields: "*"
+					fields: "uuid,url,blurhash"
 				}
 			})
 		} catch (error) {
@@ -181,8 +205,8 @@ describe("RetrievePublisherLogo endpoint", () => {
 
 		assert.equal(response.status, 200)
 		assert.equal(Object.keys(response.data).length, 3)
-		assert.equal(response.data.uuid, publisher.logoItem.uuid)
+		assert.equal(response.data.uuid, publisher.logo.uuid)
 		assert.isNotNull(response.data.url)
-		assert.equal(response.data.blurhash, publisher.logoItem.blurhash)
+		assert.equal(response.data.blurhash, publisher.logo.blurhash)
 	})
 })
