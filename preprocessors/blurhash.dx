@@ -1,0 +1,2 @@
+(# params: data: Blob)
+(return (Blurhash.encode data))

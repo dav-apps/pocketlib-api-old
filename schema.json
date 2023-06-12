@@ -85,10 +85,7 @@
 				"update": {
 					"description": "Updates the publisher with the given uuid and returns it. If uuid = 'mine', updates the publisher of the user.",
 					"authenticated": true,
-					"validators": [
-						"user_is_admin_if_uuid_not_mine_validator",
-						"user_is_not_admin_if_uuid_mine_validator"
-					],
+					"validators": ["user_is_not_admin_if_uuid_mine_validator"],
 					"getter": "publisher_getter"
 				}
 			}
@@ -100,7 +97,8 @@
 					"getter": "url_getter"
 				},
 				"blurhash": {
-					"type": "String"
+					"type": "String",
+					"preprocessor": "blurhash_preprocessor"
 				}
 			},
 			"endpoints": {
@@ -129,7 +127,9 @@
 							"description": "The uuid of the publisher"
 						}
 					},
-					"content_types": ["image/png", "image/jpeg"]
+					"content_types": ["image/png", "image/jpeg"],
+					"validators": ["user_is_not_admin_if_uuid_mine_validator"],
+					"getter": "publisher_logo_getter"
 				}
 			}
 		},

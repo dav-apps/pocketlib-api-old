@@ -3,24 +3,23 @@
 	"functions": [
 		{
 			"name": "facebook_username_preprocessor",
-			"params": [
-				"value"
-			],
+			"params": ["value"],
 			"source": "./facebook_username.dx"
 		},
 		{
 			"name": "instagram_username_preprocessor",
-			"params": [
-				"value"
-			],
+			"params": ["value"],
 			"source": "./instagram_username.dx"
 		},
 		{
 			"name": "twitter_username_preprocessor",
-			"params": [
-				"value"
-			],
+			"params": ["value"],
 			"source": "./twitter_username.dx"
+		},
+		{
+			"name": "blurhash_preprocessor",
+			"params": ["data"],
+			"source": "./blurhash.dx"
 		}
 	]
 }
