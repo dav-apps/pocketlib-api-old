@@ -17,9 +17,9 @@
 			"source": "./mine_check.dx"
 		},
 		{
-			"name": "get_publisher_table_objects",
-			"params": ["user_id"],
-			"source": "./get_publisher_table_objects.dx"
+			"name": "get_table_objects_of_user",
+			"params": ["table_name", "user_id"],
+			"source": "./get_table_objects_of_user.dx"
 		}
 	]
 }

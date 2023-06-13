@@ -1,6 +1,6 @@
-(# params: user_id: int)
+(# params: table_name: string, user_id: int)
 (catch (
-	(Table.get_table_objects "Publisher" user_id)
+	(Table.get_table_objects table_name user_id)
 ) (
 	(# Action not allowed)
 	(func render_validation_errors ((list

@@ -1,10 +1,10 @@
-(# params: session: Session, params: Hash)
+(# params: session: Session, params: Hash, data: Hash)
 (# Check if the user is an admin)
 (var admins (get_env "ADMINS"))
 (var is_admin (admins.contains session.user_id))
 
 (# Get the publishers of the user)
-(var publishers (func get_publisher_table_objects (session.user_id)))
+(var publishers (func get_table_objects_of_user ("Publisher" session.user_id)))
 
 (return (hash
 	(is_admin is_admin)
