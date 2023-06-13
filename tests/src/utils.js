@@ -1,31 +1,27 @@
-import path from 'path'
-import url from 'url'
+import path from "path"
+import url from "url"
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
-import fs from 'fs'
+import fs from "fs"
 import {
 	TablesController,
 	TableObjectsController,
 	CollectionsController,
 	isSuccessStatusCode
-} from 'dav-js'
-import constants from './constants.js'
+} from "dav-js"
+import constants from "./constants.js"
 
 export async function resetDatabase() {
 	await resetPublishers()
-	await resetPublisherLogoItems()
 	await resetPublisherLogos()
 	await resetAuthors()
 	await resetAuthorBios()
-	await resetAuthorProfileImageItems()
 	await resetAuthorProfileImages()
 	await resetStoreBookCollections()
 	await resetStoreBookCollectionNames()
 	await resetStoreBookSeries()
 	await resetStoreBooks()
 	await resetStoreBookReleases()
-	await resetStoreBookCoverItems()
 	await resetStoreBookCovers()
-	await resetStoreBookFileItems()
 	await resetStoreBookFiles()
 	await resetBooks()
 	await resetCategories()
@@ -34,25 +30,22 @@ export async function resetDatabase() {
 
 export async function resetPublishers() {
 	// Delete Publishers
-	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.publisherTableId)
+	await deleteTableObjectsOfTable(
+		constants.testUser.accessToken,
+		constants.publisherTableId
+	)
 
 	// Reset Publishers
 	await resetAuthorUserPublisher()
 	await resetDavUserPublishers()
 }
 
-export async function resetPublisherLogoItems() {
-	// Delete PublisherLogoItems
-	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.publisherLogoItemTableId)
-
-	// Reset PublisherLogoItems
-	await resetAuthorUserPublisherLogoItems()
-	await resetDavUserPublisherLogoItems()
-}
-
 export async function resetPublisherLogos() {
 	// Delete PublisherProfileImages
-	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.publisherLogoTableId)
+	await deleteTableObjectsOfTable(
+		constants.testUser.accessToken,
+		constants.publisherLogoTableId
+	)
 
 	// Reset PublisherProfileImages
 	await resetAuthorUserPublisherLogos()
@@ -61,7 +54,10 @@ export async function resetPublisherLogos() {
 
 export async function resetAuthors() {
 	// Delete Authors
-	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.authorTableId)
+	await deleteTableObjectsOfTable(
+		constants.testUser.accessToken,
+		constants.authorTableId
+	)
 
 	// Reset Authors
 	await resetAuthorUserAuthor()
@@ -72,25 +68,22 @@ export async function resetAuthors() {
 
 export async function resetAuthorBios() {
 	// Delete AuthorBios
-	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.authorBioTableId)
+	await deleteTableObjectsOfTable(
+		constants.testUser.accessToken,
+		constants.authorBioTableId
+	)
 
 	// Reset AuthorBios
 	await resetAuthorUserAuthorBios()
 	await resetDavUserAuthorBios()
 }
 
-export async function resetAuthorProfileImageItems() {
-	// Delete AuthorProfileImageItems
-	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.authorProfileImageItemTableId)
-
-	// Reset AuthorProfileImageItems
-	await resetAuthorUserAuthorProfileImageItems()
-	await resetDavUserAuthorProfileImageItems()
-}
-
 export async function resetAuthorProfileImages() {
 	// Delete AuthorProfileImages
-	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.authorProfileImageTableId)
+	await deleteTableObjectsOfTable(
+		constants.testUser.accessToken,
+		constants.authorProfileImageTableId
+	)
 
 	// Reset AuthorProfileImages
 	await resetAuthorUserAuthorProfileImages()
@@ -99,7 +92,10 @@ export async function resetAuthorProfileImages() {
 
 export async function resetStoreBookCollections() {
 	// Delete StoreBookCollections
-	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.storeBookCollectionTableId)
+	await deleteTableObjectsOfTable(
+		constants.testUser.accessToken,
+		constants.storeBookCollectionTableId
+	)
 
 	// Reset StoreBookCollections
 	await resetAuthorUserStoreBookCollections()
@@ -108,7 +104,10 @@ export async function resetStoreBookCollections() {
 
 export async function resetStoreBookCollectionNames() {
 	// Delete StoreBookCollectionNames
-	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.storeBookCollectionNameTableId)
+	await deleteTableObjectsOfTable(
+		constants.testUser.accessToken,
+		constants.storeBookCollectionNameTableId
+	)
 
 	// Reset StoreBookCollectionNames
 	await resetAuthorUserStoreBookCollectionNames()
@@ -117,7 +116,10 @@ export async function resetStoreBookCollectionNames() {
 
 export async function resetStoreBookSeries() {
 	// Delete StoreBookSeries
-	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.storeBookSeriesTableId)
+	await deleteTableObjectsOfTable(
+		constants.testUser.accessToken,
+		constants.storeBookSeriesTableId
+	)
 
 	// Reset StoreBookSeries
 	await resetAuthorUserStoreBookSeries()
@@ -129,7 +131,10 @@ export async function resetStoreBookSeries() {
 
 export async function resetStoreBooks() {
 	// Delete StoreBooks
-	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.storeBookTableId)
+	await deleteTableObjectsOfTable(
+		constants.testUser.accessToken,
+		constants.storeBookTableId
+	)
 
 	// Reset StoreBooks
 	await resetAuthorUserStoreBooks()
@@ -138,43 +143,34 @@ export async function resetStoreBooks() {
 
 export async function resetStoreBookReleases() {
 	// Delete StoreBookReleases
-	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.storeBookReleaseTableId)
+	await deleteTableObjectsOfTable(
+		constants.testUser.accessToken,
+		constants.storeBookReleaseTableId
+	)
 
 	// Reset StoreBookReleases
 	await resetAuthorUserStoreBookReleases()
 	await resetDavUserStoreBookReleases()
 }
 
-export async function resetStoreBookCoverItems() {
-	// Delete StoreBookCoverItems
-	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.storeBookCoverItemTableId)
-
-	// Reset StoreBookCoverItems
-	await resetAuthorUserStoreBookCoverItems()
-	await resetDavUserStoreBookCoverItems()
-}
-
 export async function resetStoreBookCovers() {
 	// Delete StoreBookCovers
-	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.storeBookCoverTableId)
+	await deleteTableObjectsOfTable(
+		constants.testUser.accessToken,
+		constants.storeBookCoverTableId
+	)
 
 	// Reset StoreBookCovers
 	await resetAuthorUserStoreBookCovers()
 	await resetDavUserStoreBookCovers()
 }
 
-export async function resetStoreBookFileItems() {
-	// Delete StoreBookCoverItems
-	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.storeBookFileItemTableId)
-
-	// Reset StoreBookFileItems
-	await resetAuthorUserStoreBookFileItems()
-	await resetDavUserStoreBookFileItems()
-}
-
 export async function resetStoreBookFiles() {
 	// Delete StoreBookFiles
-	await deleteTableObjectsOfTable(constants.testUser.accessToken, constants.storeBookFileTableId)
+	await deleteTableObjectsOfTable(
+		constants.testUser.accessToken,
+		constants.storeBookFileTableId
+	)
 
 	// Reset StoreBookFiles
 	await resetAuthorUserStoreBookFiles()
@@ -183,8 +179,14 @@ export async function resetStoreBookFiles() {
 
 export async function resetBooks() {
 	// Delete Books
-	await deleteTableObjectsOfTable(constants.authorUser.accessToken, constants.bookTableId)
-	await deleteTableObjectsOfTable(constants.davUser.accessToken, constants.bookTableId)
+	await deleteTableObjectsOfTable(
+		constants.authorUser.accessToken,
+		constants.bookTableId
+	)
+	await deleteTableObjectsOfTable(
+		constants.davUser.accessToken,
+		constants.bookTableId
+	)
 
 	// Reset books
 	await resetKlausUserBooks()
@@ -203,7 +205,9 @@ export async function resetCategoryNames() {
 
 async function resetAuthorUserPublisher() {
 	let authors = []
-	constants.authorUser.publisher.authors.forEach(author => authors.push(author.uuid))
+	constants.authorUser.publisher.authors.forEach(author =>
+		authors.push(author.uuid)
+	)
 
 	let response = await TableObjectsController.UpdateTableObject({
 		accessToken: constants.authorUser.accessToken,
@@ -212,11 +216,13 @@ async function resetAuthorUserPublisher() {
 			name: constants.authorUser.publisher.name,
 			description: constants.authorUser.publisher.description,
 			website_url: constants.authorUser.publisher.websiteUrl ?? "",
-			facebook_username: constants.authorUser.publisher.facebookUsername ?? "",
-			instagram_username: constants.authorUser.publisher.instagramUsername ?? "",
+			facebook_username:
+				constants.authorUser.publisher.facebookUsername ?? "",
+			instagram_username:
+				constants.authorUser.publisher.instagramUsername ?? "",
 			twitter_username: constants.authorUser.publisher.twitterUsername ?? "",
-			authors: authors.join(','),
-			logo_item: constants.authorUser.publisher.logoItem?.uuid ?? ""
+			authors: authors.join(","),
+			logo: constants.authorUser.publisher.logo?.uuid ?? ""
 		}
 	})
 
@@ -246,13 +252,15 @@ async function resetDavUserPublishers() {
 				facebook_username: publisher.facebookUsername ?? "",
 				instagram_username: publisher.instagramUsername ?? "",
 				twitter_username: publisher.twitterUsername ?? "",
-				authors: authors.join(','),
-				logo_item: publisher.logoItem?.uuid ?? ""
+				authors: authors.join(","),
+				logo: publisher.logo?.uuid ?? ""
 			}
 		})
 
 		if (!isSuccessStatusCode(response.status)) {
-			console.log(`Error in resetting the publisher ${publisher.name} of dav user`)
+			console.log(
+				`Error in resetting the publisher ${publisher.name} of dav user`
+			)
 			console.log(response.errors)
 		}
 	}
@@ -281,98 +289,10 @@ async function resetDavUserPublishers() {
 	}
 }
 
-async function resetAuthorUserPublisherLogoItems() {
-	// Get the profile image item table
-	let logoItems = []
-	let testDatabaseLogoItem = constants.authorUser.publisher.logoItem
-
-	let response = await TablesController.GetTable({
-		accessToken: constants.authorUser.accessToken,
-		id: constants.publisherLogoItemTableId
-	})
-
-	if (!isSuccessStatusCode(response.status)) {
-		console.log("Error in getting the PublisherLogoItem table")
-		console.log(response.errors)
-	}
-
-	// Reset the profile image item
-	response = await TableObjectsController.UpdateTableObject({
-		accessToken: constants.authorUser.accessToken,
-		uuid: testDatabaseLogoItem.uuid,
-		properties: {
-			blurhash: testDatabaseLogoItem.blurhash,
-			profile_image: testDatabaseLogoItem.logo?.uuid ?? ""
-		}
-	})
-
-	if (!isSuccessStatusCode(response.status)) {
-		console.log("Error in resetting PublisherLogoItem")
-		console.log(response.errors)
-	}
-
-	// Delete each profile image item that is not part of the test database
-	for (let logoItem of logoItems) {
-		if (logoItem.uuid != testDatabaseLogoItem.uuid) {
-			// Delete the logo item
-			await deleteTableObject(constants.authorUser.accessToken, logoItem.uuid)
-		}
-	}
-}
-
-async function resetDavUserPublisherLogoItems() {
-	// Get the logo item table
-	let logoItems = []
-	let testDatabaseLogoItems = []
-
-	let response = await TablesController.GetTable({
-		accessToken: constants.davUser.accessToken,
-		id: constants.publisherLogoItemTableId
-	})
-
-	if (!isSuccessStatusCode(response.status)) {
-		console.log("Error in getting the PublisherLogoItem table")
-		console.log(response.errors)
-	} else {
-		logoItems = response.data.tableObjects
-	}
-
-	// Get all logo items of the test database
-	for (let publisher of constants.davUser.publishers) {
-		if (publisher.logoItem) testDatabaseLogoItems.push(publisher.logoItem)
-	}
-
-	// Reset each logo item
-	for (let logoItem of testDatabaseLogoItems) {
-		let response = await TableObjectsController.UpdateTableObject({
-			accessToken: constants.davUser.accessToken,
-			uuid: logoItem.uuid,
-			properties: {
-				blurhash: logoItem.blurhash,
-				logo: logoItem.logo?.uuid ?? ""
-			}
-		})
-
-		if (!isSuccessStatusCode(response.status)) {
-			console.log("Error in resetting PublisherLogoItem")
-			console.log(response.errors)
-		}
-	}
-
-	// Delete each logo item that is not part of the test database
-	for (let logoItem of logoItems) {
-		if (testDatabaseLogoItems.find(pi => pi.uuid == logoItem.uuid)) continue
-
-		// Delete the logo item
-		await deleteTableObject(constants.davUser.accessToken, logoItem.uuid)
-	}
-}
-
 async function resetAuthorUserPublisherLogos() {
 	// Get the logo table
 	let logos = []
-	let testDatabaseLogoItem = constants.authorUser.publisher.logoItem
-	let testDatabaseLogoUuid = testDatabaseLogoItem.logo.uuid
+	let testDatabaseLogo = constants.authorUser.publisher.logo
 
 	let response = await TablesController.GetTable({
 		accessToken: constants.authorUser.accessToken,
@@ -388,18 +308,18 @@ async function resetAuthorUserPublisherLogos() {
 
 	// Delete each logo that is not part of the test database
 	for (let logo of logos) {
-		if (logo.uuid != testDatabaseLogoUuid) {
+		if (logo.uuid != testDatabaseLogo.uuid) {
 			// Delete the logo
 			await deleteTableObject(constants.authorUser.accessToken, logo.uuid)
 		}
 	}
 
 	// Update the logo of the test database if it has changed
-	if (logos.find(l => l.uuid == testDatabaseLogoUuid)) {
+	if (logos.find(l => l.uuid == testDatabaseLogo.uuid)) {
 		// Check if the etag of the file has changed
 		let response = await TableObjectsController.GetTableObject({
 			accessToken: constants.authorUser.accessToken,
-			uuid: testDatabaseLogoUuid
+			uuid: testDatabaseLogo.uuid
 		})
 
 		if (!isSuccessStatusCode(response.status)) {
@@ -408,13 +328,16 @@ async function resetAuthorUserPublisherLogos() {
 			return
 		}
 
-		if (response.data.tableObject.GetPropertyValue("etag") != testDatabaseLogoItem.logo.etag) {
+		if (
+			response.data.tableObject.GetPropertyValue("etag") !=
+			testDatabaseLogo.etag
+		) {
 			// Set the ext
 			response = await TableObjectsController.UpdateTableObject({
 				accessToken: constants.authorUser.accessToken,
-				uuid: testDatabaseLogoUuid,
+				uuid: testDatabaseLogo.uuid,
 				properties: {
-					ext: constants.authorUser.publisher.logoItem.logo.ext
+					ext: testDatabaseLogo.ext
 				}
 			})
 
@@ -425,14 +348,14 @@ async function resetAuthorUserPublisherLogos() {
 			}
 
 			// Overwrite the file
-			let filePath = path.join(__dirname, testDatabaseLogoItem.logo.file)
+			let filePath = path.join(__dirname, testDatabaseLogo.file)
 			let fileData = fs.readFileSync(filePath)
 
 			response = await TableObjectsController.SetTableObjectFile({
 				accessToken: constants.authorUser.accessToken,
-				uuid: testDatabaseLogoUuid,
+				uuid: testDatabaseLogo.uuid,
 				data: fileData,
-				type: constants.authorUser.publisher.logoItem.logo.type
+				type: constants.authorUser.publisher.logo.type
 			})
 
 			if (!isSuccessStatusCode(response.status)) {
@@ -462,7 +385,7 @@ async function resetDavUserPublisherLogos() {
 
 	// Get all logos of the test database
 	for (let publisher of constants.davUser.publishers) {
-		if (publisher.logoItem?.logo) testDatabaseLogos.push(publisher.logoItem.logo)
+		if (publisher.logo) testDatabaseLogos.push(publisher.logo)
 	}
 
 	// Delete each logo that is not part of the test database
@@ -527,7 +450,9 @@ async function resetDavUserPublisherLogos() {
 async function resetAuthorUserAuthor() {
 	// Reset the author of author user
 	let collections = []
-	constants.authorUser.author.collections.forEach(collection => collections.push(collection.uuid))
+	constants.authorUser.author.collections.forEach(collection =>
+		collections.push(collection.uuid)
+	)
 
 	let series = []
 	constants.authorUser.author.series.forEach(s => series.push(s.uuid))
@@ -543,12 +468,13 @@ async function resetAuthorUserAuthor() {
 			last_name: constants.authorUser.author.lastName,
 			website_url: constants.authorUser.author.websiteUrl ?? "",
 			facebook_username: constants.authorUser.author.facebookUsername ?? "",
-			instagram_username: constants.authorUser.author.instagramUsername ?? "",
+			instagram_username:
+				constants.authorUser.author.instagramUsername ?? "",
 			twitter_username: constants.authorUser.author.twitterUsername ?? "",
-			bios: bios.join(','),
-			collections: collections.join(','),
-			series: series.join(','),
-			profile_image_item: constants.authorUser.author.profileImageItem?.uuid ?? "",
+			bios: bios.join(","),
+			collections: collections.join(","),
+			series: series.join(","),
+			profile_image: constants.authorUser.author.profileImage?.uuid ?? ""
 		}
 	})
 
@@ -565,7 +491,9 @@ async function resetAuthorUserPublisherAuthors() {
 		testDatabaseAuthors.push(author.uuid)
 
 		let collections = []
-		author.collections.forEach(collection => collections.push(collection.uuid))
+		author.collections.forEach(collection =>
+			collections.push(collection.uuid)
+		)
 
 		let series = []
 		author.series.forEach(s => series.push(s.uuid))
@@ -584,15 +512,17 @@ async function resetAuthorUserPublisherAuthors() {
 				facebook_username: author.facebookUsername ?? "",
 				instagram_username: author.instagramUsername ?? "",
 				twitter_username: author.twitterUsername ?? "",
-				bios: bios.join(','),
-				collections: collections.join(','),
-				series: series.join(','),
-				profile_image_item: author.profileImageItem?.uuid ?? "",
+				bios: bios.join(","),
+				collections: collections.join(","),
+				series: series.join(","),
+				profile_image: author.profileImage?.uuid ?? ""
 			}
 		})
 
 		if (!isSuccessStatusCode(response.status)) {
-			console.log(`Error in resetting the author ${author.firstName} ${author.lastName} of the publisher of authorUser`)
+			console.log(
+				`Error in resetting the author ${author.firstName} ${author.lastName} of the publisher of authorUser`
+			)
 			console.log(response.errors)
 		}
 	}
@@ -615,9 +545,11 @@ async function resetAuthorUserPublisherAuthors() {
 	// Delete each author that is not part of the test database
 	for (let author of authors) {
 		if (
-			testDatabaseAuthors.includes(author.uuid)
-			|| author.uuid == constants.authorUser.author.uuid
-		) continue
+			testDatabaseAuthors.includes(author.uuid) ||
+			author.uuid == constants.authorUser.author.uuid
+		) {
+			continue
+		}
 
 		// Delete the author
 		await deleteTableObject(constants.authorUser.accessToken, author.uuid)
@@ -632,7 +564,9 @@ export async function resetDavUserAuthors() {
 		testDatabaseAuthors.push(author.uuid)
 
 		let collections = []
-		author.collections.forEach(collection => collections.push(collection.uuid))
+		author.collections.forEach(collection =>
+			collections.push(collection.uuid)
+		)
 
 		let series = []
 		author.series.forEach(s => series.push(s.uuid))
@@ -650,15 +584,17 @@ export async function resetDavUserAuthors() {
 				facebook_username: author.facebookUsername ?? "",
 				instagram_username: author.instagramUsername ?? "",
 				twitter_username: author.twitterUsername ?? "",
-				bios: bios.join(','),
-				collections: collections.join(','),
-				series: series.join(','),
-				profile_image_item: author.profileImageItem?.uuid ?? "",
+				bios: bios.join(","),
+				collections: collections.join(","),
+				series: series.join(","),
+				profile_image: author.profileImage?.uuid ?? ""
 			}
 		})
 
 		if (!isSuccessStatusCode(response.status)) {
-			console.log(`Error in resetting the author ${author.firstName} ${author.lastName} of dav user`)
+			console.log(
+				`Error in resetting the author ${author.firstName} ${author.lastName} of dav user`
+			)
 			console.log(response.errors)
 		}
 	}
@@ -681,9 +617,13 @@ export async function resetDavUserAuthors() {
 	// Delete each author that is not part of the test database
 	for (let author of authors) {
 		if (
-			testDatabaseAuthors.includes(author.uuid)
-			|| constants.davUser.publishers.find(p => p.authors.find(a => a.uuid == author.uuid)) != null
-		) continue
+			testDatabaseAuthors.includes(author.uuid) ||
+			constants.davUser.publishers.find(p =>
+				p.authors.find(a => a.uuid == author.uuid)
+			) != null
+		) {
+			continue
+		}
 
 		// Delete the author
 		await deleteTableObject(constants.davUser.accessToken, author.uuid)
@@ -698,7 +638,9 @@ export async function resetDavUserPublisherAuthors() {
 			testDatabaseAuthors.push(author.uuid)
 
 			let collections = []
-			author.collections.forEach(collection => collections.push(collection.uuid))
+			author.collections.forEach(collection =>
+				collections.push(collection.uuid)
+			)
 
 			let series = []
 			author.series.forEach(s => series.push(s.uuid))
@@ -717,15 +659,17 @@ export async function resetDavUserPublisherAuthors() {
 					facebook_username: author.facebookUsername ?? "",
 					instagram_username: author.instagramUsername ?? "",
 					twitter_username: author.twitterUsername ?? "",
-					bios: bios.join(','),
-					collections: collections.join(','),
-					series: series.join(','),
-					profile_image_item: author.profileImageItem?.uuid ?? "",
+					bios: bios.join(","),
+					collections: collections.join(","),
+					series: series.join(","),
+					profile_image: author.profileImage?.uuid ?? ""
 				}
 			})
-	
+
 			if (!isSuccessStatusCode(response.status)) {
-				console.log(`Error in resetting the author ${author.firstName} ${author.lastName} of publisher ${publisher.name} of dav user`)
+				console.log(
+					`Error in resetting the author ${author.firstName} ${author.lastName} of publisher ${publisher.name} of dav user`
+				)
 				console.log(response.errors)
 			}
 		}
@@ -749,9 +693,11 @@ export async function resetDavUserPublisherAuthors() {
 	// Delete each author that is not part of the test database
 	for (let author of authors) {
 		if (
-			testDatabaseAuthors.includes(author.uuid)
-			|| constants.davUser.authors.find(a => a.uuid == author.uuid) != null
-		) continue
+			testDatabaseAuthors.includes(author.uuid) ||
+			constants.davUser.authors.find(a => a.uuid == author.uuid) != null
+		) {
+			continue
+		}
 
 		// Delete the author
 		await deleteTableObject(constants.davUser.accessToken, author.uuid)
@@ -850,98 +796,10 @@ async function resetDavUserAuthorBios() {
 	}
 }
 
-async function resetAuthorUserAuthorProfileImageItems() {
-	// Get the profile image item table
-	let profileImageItems = []
-	let testDatabaseProfileImageItem = constants.authorUser.author.profileImageItem
-
-	let response = await TablesController.GetTable({
-		accessToken: constants.authorUser.accessToken,
-		id: constants.authorProfileImageItemTableId
-	})
-
-	if (!isSuccessStatusCode(response.status)) {
-		console.log("Error in getting the AuthorProfileImageItem table")
-		console.log(response.errors)
-	}
-
-	// Reset the profile image item
-	response = await TableObjectsController.UpdateTableObject({
-		accessToken: constants.authorUser.accessToken,
-		uuid: testDatabaseProfileImageItem.uuid,
-		properties: {
-			blurhash: testDatabaseProfileImageItem.blurhash,
-			profile_image: testDatabaseProfileImageItem.profileImage?.uuid ?? ""
-		}
-	})
-
-	if (!isSuccessStatusCode(response.status)) {
-		console.log("Error in resetting AuthorProfileImageItem")
-		console.log(response.errors)
-	}
-
-	// Delete each profile image item that is not part of the test database
-	for (let profileImageItem of profileImageItems) {
-		if (profileImageItem.uuid != testDatabaseProfileImageItem.uuid) {
-			// Delete the profile image item
-			await deleteTableObject(constants.authorUser.accessToken, profileImageItem.uuid)
-		}
-	}
-}
-
-async function resetDavUserAuthorProfileImageItems() {
-	// Get the profile image item table
-	let profileImageItems = []
-	let testDatabaseProfileImageItems = []
-
-	let response = await TablesController.GetTable({
-		accessToken: constants.davUser.accessToken,
-		id: constants.authorProfileImageItemTableId
-	})
-
-	if (!isSuccessStatusCode(response.status)) {
-		console.log("Error in getting the AuthorProfileImageItem table")
-		console.log(response.errors)
-	} else {
-		profileImageItems = response.data.tableObjects
-	}
-
-	// Get all profile image items of the test database
-	for (let author of constants.davUser.authors) {
-		if (author.profileImageItem) testDatabaseProfileImageItems.push(author.profileImageItem)
-	}
-
-	// Reset each profile image item
-	for (let profileImageItem of testDatabaseProfileImageItems) {
-		let response = await TableObjectsController.UpdateTableObject({
-			accessToken: constants.davUser.accessToken,
-			uuid: profileImageItem.uuid,
-			properties: {
-				blurhash: profileImageItem.blurhash,
-				profile_image: profileImageItem.profileImage?.uuid ?? ""
-			}
-		})
-
-		if (!isSuccessStatusCode(response.status)) {
-			console.log("Error in resetting AuthorProfileImageItem")
-			console.log(response.errors)
-		}
-	}
-
-	// Delete each profile image item that is not part of the test database
-	for (let profileImageItem of profileImageItems) {
-		if (testDatabaseProfileImageItems.find(pi => pi.uuid == profileImageItem.uuid)) continue
-
-		// Delete the profile image item
-		await deleteTableObject(constants.davUser.accessToken, profileImageItem.uuid)
-	}
-}
-
 async function resetAuthorUserAuthorProfileImages() {
 	// Get the profile image table
 	let profileImages = []
-	let testDatabaseProfileImageItem = constants.authorUser.author.profileImageItem
-	let testDatabaseProfileImageUuid = testDatabaseProfileImageItem.profileImage.uuid
+	let testDatabaseProfileImage = constants.authorUser.author.profileImage
 
 	let response = await TablesController.GetTable({
 		accessToken: constants.authorUser.accessToken,
@@ -957,18 +815,21 @@ async function resetAuthorUserAuthorProfileImages() {
 
 	// Delete each profile image that is not part of the test database
 	for (let profileImage of profileImages) {
-		if (profileImage.uuid != testDatabaseProfileImageUuid) {
+		if (profileImage.uuid != testDatabaseProfileImage.uuid) {
 			// Delete the profile image
-			await deleteTableObject(constants.authorUser.accessToken, profileImage.uuid)
+			await deleteTableObject(
+				constants.authorUser.accessToken,
+				profileImage.uuid
+			)
 		}
 	}
 
 	// Update the profile image of the test database if it has changed
-	if (profileImages.find(pi => pi.uuid == testDatabaseProfileImageUuid)) {
+	if (profileImages.find(pi => pi.uuid == testDatabaseProfileImage.uuid)) {
 		// Check if the etag of the file has changed
 		let response = await TableObjectsController.GetTableObject({
 			accessToken: constants.authorUser.accessToken,
-			uuid: testDatabaseProfileImageUuid
+			uuid: testDatabaseProfileImage.uuid
 		})
 
 		if (!isSuccessStatusCode(response.status)) {
@@ -977,13 +838,16 @@ async function resetAuthorUserAuthorProfileImages() {
 			return
 		}
 
-		if (response.data.tableObject.GetPropertyValue("etag") != testDatabaseProfileImageItem.profileImage.etag) {
+		if (
+			response.data.tableObject.GetPropertyValue("etag") !=
+			testDatabaseProfileImage.etag
+		) {
 			// Set the ext
 			response = await TableObjectsController.UpdateTableObject({
 				accessToken: constants.authorUser.accessToken,
-				uuid: testDatabaseProfileImageUuid,
+				uuid: testDatabaseProfileImage.uuid,
 				properties: {
-					ext: constants.authorUser.author.profileImageItem.profileImage.ext
+					ext: testDatabaseProfileImage.ext
 				}
 			})
 
@@ -994,18 +858,18 @@ async function resetAuthorUserAuthorProfileImages() {
 			}
 
 			// Overwrite the file
-			let filePath = path.join(__dirname, testDatabaseProfileImageItem.profileImage.file)
+			let filePath = path.join(__dirname, testDatabaseProfileImage.file)
 			let fileData = fs.readFileSync(filePath)
 
 			response = await TableObjectsController.SetTableObjectFile({
 				accessToken: constants.authorUser.accessToken,
-				uuid: testDatabaseProfileImageUuid,
+				uuid: testDatabaseProfileImage.uuid,
 				data: fileData,
-				type: constants.authorUser.author.profileImageItem.profileImage.type
+				type: testDatabaseProfileImage.type
 			})
 
 			if (!isSuccessStatusCode(response.status)) {
-				console.log("Error in uploading AuthorProfileImage")
+				console.log("Error in uploading AuthorProfile")
 				console.log(response.errors)
 			}
 		}
@@ -1031,16 +895,22 @@ async function resetDavUserAuthorProfileImages() {
 
 	// Get all profile images of the test database
 	for (let author of constants.davUser.authors) {
-		if (author.profileImageItem?.profileImage) testDatabaseProfileImages.push(author.profileImageItem.profileImage)
+		if (author.profileImage)
+			testDatabaseProfileImages.push(author.profileImage)
 	}
 
 	// Delete each profile image that is not part of the test database
 	for (let profileImage of profileImages) {
-		let i = testDatabaseProfileImages.findIndex(img => img.uuid == profileImage.uuid)
+		let i = testDatabaseProfileImages.findIndex(
+			img => img.uuid == profileImage.uuid
+		)
 
 		if (i == -1) {
 			// Delete the profile image
-			await deleteTableObject(constants.davUser.accessToken, profileImage.uuid)
+			await deleteTableObject(
+				constants.davUser.accessToken,
+				profileImage.uuid
+			)
 		}
 	}
 
@@ -1058,7 +928,9 @@ async function resetDavUserAuthorProfileImages() {
 			continue
 		}
 
-		if (response.data.tableObject.GetPropertyValue("etag") != profileImage.etag) {
+		if (
+			response.data.tableObject.GetPropertyValue("etag") != profileImage.etag
+		) {
 			// Set the ext
 			response = await TableObjectsController.UpdateTableObject({
 				accessToken: constants.davUser.accessToken,
@@ -1111,8 +983,8 @@ async function resetAuthorUserStoreBookCollections() {
 			uuid: collection.uuid,
 			properties: {
 				author: constants.authorUser.author.uuid,
-				names: names.join(','),
-				books: books.join(',')
+				names: names.join(","),
+				books: books.join(",")
 			}
 		})
 
@@ -1165,8 +1037,8 @@ async function resetDavUserStoreBookCollections() {
 				uuid: collection.uuid,
 				properties: {
 					author: author.uuid,
-					names: names.join(','),
-					books: books.join(',')
+					names: names.join(","),
+					books: books.join(",")
 				}
 			})
 
@@ -1245,7 +1117,10 @@ async function resetAuthorUserStoreBookCollectionNames() {
 		if (testDatabaseCollectionNames.includes(collectionName.uuid)) continue
 
 		// Delete the collection name
-		await deleteTableObject(constants.authorUser.accessToken, collectionName.uuid)
+		await deleteTableObject(
+			constants.authorUser.accessToken,
+			collectionName.uuid
+		)
 	}
 }
 
@@ -1295,7 +1170,10 @@ async function resetDavUserStoreBookCollectionNames() {
 		if (testDatabaseCollectionNames.includes(collectionName.uuid)) continue
 
 		// Delete the collection name
-		await deleteTableObject(constants.davUser.accessToken, collectionName.uuid)
+		await deleteTableObject(
+			constants.davUser.accessToken,
+			collectionName.uuid
+		)
 	}
 }
 
@@ -1313,7 +1191,7 @@ async function resetAuthorUserStoreBookSeries() {
 				author: constants.authorUser.author.uuid,
 				name: series.name,
 				language: series.language,
-				store_books: series.storeBooks.join(',')
+				store_books: series.storeBooks.join(",")
 			}
 		})
 
@@ -1362,7 +1240,7 @@ async function resetDavUserStoreBookSeries() {
 					author: author.uuid,
 					name: series.name,
 					language: series.language,
-					store_books: series.storeBooks.join(',')
+					store_books: series.storeBooks.join(",")
 				}
 			})
 
@@ -1415,7 +1293,7 @@ async function resetAuthorUserStoreBooks() {
 					collection: collection.uuid,
 					language: book.language,
 					status: book.status ?? "",
-					releases: releases.join(',')
+					releases: releases.join(",")
 				}
 			})
 
@@ -1469,7 +1347,7 @@ async function resetDavUserStoreBooks() {
 						collection: collection.uuid,
 						language: book.language,
 						status: book.status ?? "",
-						releases: releases.join(',')
+						releases: releases.join(",")
 					}
 				})
 
@@ -1527,9 +1405,9 @@ async function resetAuthorUserStoreBookReleases() {
 						price: release.price ?? "",
 						isbn: release.isbn ?? "",
 						status: release.status ?? "",
-						cover_item: release.coverItem ?? "",
-						file_item: release.fileItem ?? "",
-						categories: release.categories?.join(',') ?? ""
+						cover: release.cover ?? "",
+						file: release.file ?? "",
+						categories: release.categories?.join(",") ?? ""
 					}
 				})
 
@@ -1558,10 +1436,14 @@ async function resetAuthorUserStoreBookReleases() {
 
 	// Delete each store book release that is not part of the test database
 	for (let storeBookRelease of storeBookReleases) {
-		if (testDatabaseStoreBookReleases.includes(storeBookRelease.uuid)) continue
+		if (testDatabaseStoreBookReleases.includes(storeBookRelease.uuid))
+			continue
 
 		// Delete the store book release
-		await deleteTableObject(constants.authorUser.accessToken, storeBookRelease.uuid)
+		await deleteTableObject(
+			constants.authorUser.accessToken,
+			storeBookRelease.uuid
+		)
 	}
 }
 
@@ -1588,9 +1470,9 @@ async function resetDavUserStoreBookReleases() {
 							price: release.price ?? "",
 							isbn: release.isbn ?? "",
 							status: release.status ?? "",
-							cover_item: release.coverItem ?? "",
-							file_item: release.fileItem ?? "",
-							categories: release.categories?.join(',') ?? ""
+							cover: release.cover ?? "",
+							file: release.file ?? "",
+							categories: release.categories?.join(",") ?? ""
 						}
 					})
 
@@ -1620,140 +1502,14 @@ async function resetDavUserStoreBookReleases() {
 
 	// Delete each store book release that is not part of the test database
 	for (let storeBookRelease of storeBookReleases) {
-		if (testDatabaseStoreBookReleases.includes(storeBookRelease.uuid)) continue
+		if (testDatabaseStoreBookReleases.includes(storeBookRelease.uuid))
+			continue
 
 		// Delete the store book release
-		await deleteTableObject(constants.davUser.accessToken, storeBookRelease.uuid)
-	}
-}
-
-async function resetAuthorUserStoreBookCoverItems() {
-	let testDatabaseStoreBookCoverItems = []
-
-	for (let coverItem of constants.authorUser.author.coverItems) {
-		testDatabaseStoreBookCoverItems.push(coverItem)
-
-		// Reset the cover item
-		let response = await TableObjectsController.UpdateTableObject({
-			accessToken: constants.authorUser.accessToken,
-			uuid: coverItem.uuid,
-			properties: {
-				aspect_ratio: coverItem.aspectRatio,
-				blurhash: coverItem.blurhash,
-				cover: coverItem.cover.uuid
-			}
-		})
-
-		if (!isSuccessStatusCode(response.status)) {
-			console.log("Error in resetting StoreBookCoverItem")
-		}
-	}
-
-	// Get the StoreBookCoverItem table
-	let coverItems = []
-
-	let response = await TablesController.GetTable({
-		accessToken: constants.authorUser.accessToken,
-		id: constants.storeBookCoverItemTableId
-	})
-
-	if (!isSuccessStatusCode(response.status)) {
-		console.log("Error in getting the StoreBookCoverItem table")
-		console.log(response.errors)
-	} else {
-		coverItems = response.data.tableObjects
-	}
-
-	// Reset each store book cover item
-	for (let coverItem of testDatabaseStoreBookCoverItems) {
-		let response = await TableObjectsController.UpdateTableObject({
-			accessToken: constants.authorUser.accessToken,
-			uuid: coverItem.uuid,
-			properties: {
-				aspect_ratio: coverItem.aspectRatio,
-				blurhash: coverItem.blurhash,
-				cover: coverItem.cover?.uuid ?? ""
-			}
-		})
-
-		if (!isSuccessStatusCode(response.status)) {
-			console.log("Error in resetting StoreBookCoverItem")
-			console.log(response.errors)
-		}
-	}
-
-	// Delete each cover item that is not part of the test database
-	for (let coverItem of coverItems) {
-		if (testDatabaseStoreBookCoverItems.find(ci => ci.uuid == coverItem.uuid)) continue
-
-		// Delete the cover item
-		await deleteTableObject(constants.authorUser.accessToken, coverItem.uuid)
-	}
-}
-
-async function resetDavUserStoreBookCoverItems() {
-	let testDatabaseStoreBookCoverItems = []
-
-	for (let author of constants.davUser.authors) {
-		for (let coverItem of author.coverItems) {
-			testDatabaseStoreBookCoverItems.push(coverItem)
-
-			// Reset the cover item
-			let response = await TableObjectsController.UpdateTableObject({
-				accessToken: constants.davUser.accessToken,
-				uuid: coverItem.uuid,
-				properties: {
-					aspect_ratio: coverItem.aspectRatio,
-					blurhash: coverItem.blurhash,
-					cover: coverItem.cover.uuid
-				}
-			})
-
-			if (!isSuccessStatusCode(response.status)) {
-				console.log("Error in resetting StoreBookCoverItem")
-			}
-		}
-	}
-
-	// Get the StoreBookCoverItem table
-	let coverItems = []
-
-	let response = await TablesController.GetTable({
-		accessToken: constants.davUser.accessToken,
-		id: constants.storeBookCoverItemTableId
-	})
-
-	if (!isSuccessStatusCode(response.status)) {
-		console.log("Error in getting the StoreBookCoverItem table")
-		console.log(response.errors)
-	} else {
-		coverItems = response.data.tableObjects
-	}
-
-	// Reset each store book cover item
-	for (let coverItem of testDatabaseStoreBookCoverItems) {
-		let response = await TableObjectsController.UpdateTableObject({
-			accessToken: constants.davUser.accessToken,
-			uuid: coverItem.uuid,
-			properties: {
-				aspect_ratio: coverItem.aspectRatio,
-				blurhash: coverItem.blurhash,
-				cover: coverItem.cover?.uuid ?? ""
-			}
-		})
-
-		if (!isSuccessStatusCode(response.status)) {
-			console.log("Error in resetting StoreBookCoverItem")
-			console.log(response.errors)
-		}
-	}
-
-	// Delete each cover item that is not part of the test database
-	for (let coverItem of coverItems) {
-		if (testDatabaseStoreBookCoverItems.find(ci => ci.uuid == coverItem.uuid)) continue
-
-		// Delete the cover item
-		await deleteTableObject(constants.davUser.accessToken, coverItem.uuid)
+		await deleteTableObject(
+			constants.davUser.accessToken,
+			storeBookRelease.uuid
+		)
 	}
 }
 
@@ -1775,8 +1531,8 @@ async function resetAuthorUserStoreBookCovers() {
 	}
 
 	// Get all covers of the test database
-	for (let coverItem of constants.authorUser.author.coverItems) {
-		if (coverItem.cover != null) testDatabaseCovers.push(coverItem.cover)
+	for (let cover of constants.authorUser.author.covers) {
+		testDatabaseCovers.push(cover)
 	}
 
 	// Delete each cover that is not part of the test database
@@ -1809,7 +1565,7 @@ async function resetAuthorUserStoreBookCovers() {
 				accessToken: constants.authorUser.accessToken,
 				uuid: cover.uuid,
 				properties: {
-					ext: cover.ext,
+					ext: cover.ext
 				}
 			})
 
@@ -1857,8 +1613,8 @@ async function resetDavUserStoreBookCovers() {
 
 	// Get all covers of the test database
 	for (let author of constants.davUser.authors) {
-		for (let coverItem of author.coverItems) {
-			if (coverItem.cover != null) testDatabaseCovers.push(coverItem.cover)
+		for (let cover of author.covers) {
+			testDatabaseCovers.push(cover)
 		}
 	}
 
@@ -1921,132 +1677,6 @@ async function resetDavUserStoreBookCovers() {
 	}
 }
 
-async function resetAuthorUserStoreBookFileItems() {
-	let testDatabaseStoreBookFileItems = []
-
-	for (let fileItem of constants.authorUser.author.fileItems) {
-		testDatabaseStoreBookFileItems.push(fileItem)
-
-		// Reset the file item
-		let response = await TableObjectsController.UpdateTableObject({
-			accessToken: constants.authorUser.accessToken,
-			uuid: fileItem.uuid,
-			properties: {
-				file_name: fileItem.fileName,
-				file: fileItem.file.uuid
-			}
-		})
-
-		if (!isSuccessStatusCode(response.status)) {
-			console.log("Error in resetting StoreBookFileItem")
-		}
-	}
-
-	// Get the StoreBookFileItem table
-	let fileItems = []
-
-	let response = await TablesController.GetTable({
-		accessToken: constants.authorUser.accessToken,
-		id: constants.storeBookFileItemTableId
-	})
-
-	if (!isSuccessStatusCode(response.status)) {
-		console.log("Error in getting the StoreBookFileItem table")
-		console.log(response.errors)
-	} else {
-		fileItems = response.data.tableObjects
-	}
-
-	// Reset each store book file item
-	for (let fileItem of testDatabaseStoreBookFileItems) {
-		let response = await TableObjectsController.UpdateTableObject({
-			accessToken: constants.authorUser.accessToken,
-			uuid: fileItem.uuid,
-			properties: {
-				file_name: fileItem.fileName,
-				file: fileItem.file?.uuid ?? ""
-			}
-		})
-
-		if (!isSuccessStatusCode(response.status)) {
-			console.log("Error in resetting StoreBookFileItem")
-			console.log(response.errors)
-		}
-	}
-
-	// Delete each file item that is not part of the test database
-	for (let fileItem of fileItems) {
-		if (testDatabaseStoreBookFileItems.find(fi => fi.uuid == fileItem.uuid)) continue
-
-		// Delete the file item
-		await deleteTableObject(constants.authorUser.accessToken, fileItem.uuid)
-	}
-}
-
-async function resetDavUserStoreBookFileItems() {
-	let testDatabaseStoreBookFileItems = []
-
-	for (let author of constants.davUser.authors) {
-		for (let fileItem of author.fileItems) {
-			testDatabaseStoreBookFileItems.push(fileItem)
-
-			// Reset the file item
-			let response = await TableObjectsController.UpdateTableObject({
-				accessToken: constants.davUser.accessToken,
-				uuid: fileItem.uuid,
-				properties: {
-					file_name: fileItem.fileName,
-					file: fileItem.file.uuid
-				}
-			})
-
-			if (!isSuccessStatusCode(response.status)) {
-				console.log("Error in resetting StoreBookFileItem")
-			}
-		}
-	}
-
-	// Get the StoreBookFileItem table
-	let fileItems = []
-
-	let response = await TablesController.GetTable({
-		accessToken: constants.davUser.accessToken,
-		id: constants.storeBookFileItemTableId
-	})
-
-	if (!isSuccessStatusCode(response.status)) {
-		console.log("Error in getting the StoreBookFileItem table")
-		console.log(response.errors)
-	} else {
-		fileItems = response.data.tableObjects
-	}
-
-	// Reset each store book file item
-	for (let fileItem of testDatabaseStoreBookFileItems) {
-		let response = await TableObjectsController.UpdateTableObject({
-			accessToken: constants.davUser.accessToken,
-			uuid: fileItem.uuid,
-			properties: {
-				file_name: fileItem.fileName,
-				file: fileItem.file?.uuid ?? ""
-			}
-		})
-
-		if (!isSuccessStatusCode(response.status)) {
-			console.log("Error in resetting StoreBookFileItem")
-			console.log(response.errors)
-		}
-	}
-
-	// Delete each file item that is not part of the test database
-	for (let fileItem of fileItems) {
-		if (testDatabaseStoreBookFileItems.find(fi => fi.uuid == fileItem.uuid)) continue
-
-		// Delete the file item
-		await deleteTableObject(constants.davUser.accessToken, fileItem.uuid)
-	}
-}
-
 async function resetAuthorUserStoreBookFiles() {
 	// Get the file table
 	let files = []
@@ -2065,8 +1695,8 @@ async function resetAuthorUserStoreBookFiles() {
 	}
 
 	// Get all files of the test database
-	for (let fileItem of constants.authorUser.author.fileItems) {
-		if (fileItem.file != null) testDatabaseFiles.push(fileItem.file)
+	for (let file of constants.authorUser.author.files) {
+		testDatabaseFiles.push(file)
 	}
 
 	// Delete each file that is not part of the test database
@@ -2147,8 +1777,8 @@ async function resetDavUserStoreBookFiles() {
 
 	// Get all files of the test database
 	for (let author of constants.davUser.authors) {
-		for (let fileItem of author.fileItems) {
-			if (fileItem.file != null) testDatabaseFiles.push(fileItem.file)
+		for (let file of author.files) {
+			testDatabaseFiles.push(file)
 		}
 	}
 
@@ -2344,7 +1974,7 @@ async function resetDavUserCategories() {
 			uuid: category.uuid,
 			properties: {
 				key: category.key,
-				names: names.join(',')
+				names: names.join(",")
 			}
 		})
 
@@ -2393,7 +2023,7 @@ async function resetDavUserCategories() {
 			tableId: constants.categoryTableId,
 			properties: {
 				key: category.key,
-				names: names.join(',')
+				names: names.join(",")
 			}
 		})
 
@@ -2445,13 +2075,18 @@ async function resetDavUserCategoryNames() {
 
 	// Delete each category name that is not part of the test database
 	for (let categoryName of categoryNames) {
-		let i = testDatabaseCategoryNames.findIndex(name => name.uuid == categoryName.uuid)
+		let i = testDatabaseCategoryNames.findIndex(
+			name => name.uuid == categoryName.uuid
+		)
 
 		if (i != -1) {
 			testDatabaseCategoryNames.splice(i, 1)
 		} else {
 			// Delete the category name
-			await deleteTableObject(constants.davUser.accessToken, categoryName.uuid)
+			await deleteTableObject(
+				constants.davUser.accessToken,
+				categoryName.uuid
+			)
 		}
 	}
 
@@ -2527,46 +2162,4 @@ async function resetCollection(name, tableId) {
 		console.log(`Error in resetting the ${name} collection`)
 		console.log(response.errors)
 	}
-}
-
-export function findCoverItem(uuid) {
-	let coverItem = constants.authorUser.author.coverItems.find(ci => ci.uuid == uuid)
-	if (coverItem) return coverItem
-
-	for (let author of constants.davUser.authors) {
-		coverItem = author.coverItems.find(ci => ci.uuid == uuid)
-		if (coverItem) return coverItem
-	}
-
-	return null
-}
-
-export function findFileItem(uuid) {
-	let fileItem = constants.authorUser.author.fileItems.find(fi => fi.uuid == uuid)
-	if (fileItem) return fileItem
-
-	for (let author of constants.davUser.authors) {
-		fileItem = author.fileItems.find(fi => fi.uuid == uuid)
-		if (fileItem) return fileItem
-	}
-
-	return null
-}
-
-export function findLastPublishedRelease(releases) {
-	let releasesCopy = []
-
-	for (let release of releases) {
-		releasesCopy.push(release)
-	}
-
-	while (releasesCopy.length > 0) {
-		let release = releasesCopy.pop()
-
-		if (release.status == "published") {
-			return release
-		}
-	}
-
-	return null
 }
