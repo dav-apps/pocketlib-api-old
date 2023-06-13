@@ -91,6 +91,10 @@
 			}
 		},
 		"PublisherLogo": {
+			"parent": {
+				"type": "Publisher",
+				"getter": "publisher_getter"
+			},
 			"properties": {
 				"url": {
 					"type": "String",
@@ -127,9 +131,8 @@
 							"description": "The uuid of the publisher"
 						}
 					},
-					"content_types": ["image/png", "image/jpeg"],
-					"validators": ["user_is_not_admin_if_uuid_mine_validator"],
-					"getter": "publisher_logo_getter"
+					"contentTypes": ["image/png", "image/jpeg"],
+					"validators": ["user_is_not_admin_if_uuid_mine_validator"]
 				}
 			}
 		},
@@ -335,7 +338,7 @@
 							"description": "The uuid of the author"
 						}
 					},
-					"content_types": ["image/png", "image/jpeg"]
+					"contentTypes": ["image/png", "image/jpeg"]
 				}
 			}
 		},
@@ -715,7 +718,7 @@
 						}
 					},
 					"authenticated": true,
-					"content_types": ["image/png", "image/jpeg"]
+					"contentTypes": ["image/png", "image/jpeg"]
 				}
 			}
 		},
@@ -747,7 +750,7 @@
 						}
 					},
 					"authenticated": true,
-					"content_types": ["application/epub+zip", "application/pdf"]
+					"contentTypes": ["application/epub+zip", "application/pdf"]
 				}
 			}
 		},
