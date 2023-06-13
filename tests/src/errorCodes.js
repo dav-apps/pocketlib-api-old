@@ -1,5 +1,5 @@
 // Generic request errors
-export const UnexpectedError = 1000
+export const UnexpectedError = "unexpected_error"
 export const AuthenticationFailed = 1001
 export const ActionNotAllowed = "action_not_allowed"
 export const ContentTypeNotSupported = "content_type_not_supported"
@@ -86,7 +86,7 @@ export const StoreBookNotPublished = 3003
 export const FreeStoreBooksMustBePurchased = 3004
 export const StoreBookIsAlreadyInLibrary = 3005
 export const StatusNotSupported = 3006
-export const NotSufficientStorageAvailable = 3007
+export const NotSufficientStorageAvailable = "not_sufficient_storage_available"
 export const DavProRequired = 3008
 export const TooManyCategoriesForStoreBook = 3011
 export const StoreBookSeriesIsIncomplete = 3012
