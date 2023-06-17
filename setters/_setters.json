@@ -1,0 +1,10 @@
+{
+	"type": "functions",
+	"functions": [
+		{
+			"name": "author_publisher_setter",
+			"params": ["state", "params", "data"],
+			"source": "./author/publisher.dx"
+		}
+	]
+}

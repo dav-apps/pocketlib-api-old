@@ -1,0 +1,7 @@
+(# params: state: Hash, params: Hash, data: Hash)
+(# Get the publisher)
+(return (func get_table_object (
+	data.publisher
+	(if (is_nil state.session) nil else state.session.user_id)
+	"Publisher"
+)))

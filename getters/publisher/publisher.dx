@@ -1,5 +1,5 @@
-(# params: state: Hash, uuid: String)
-(if ((uuid == "mine") and (!(is_nil state.session))) (
+(# params: state: Hash, params: Hash, data: Hash)
+(if ((params.uuid == "mine") and (!(is_nil state.session))) (
 	(var publishers (func get_table_objects_of_user (
 		"Publisher"
 		state.session.user_id
@@ -19,7 +19,7 @@
 ))
 
 (return (func get_table_object (
-	uuid
+	params.uuid
 	nil
 	"Publisher"
 )))

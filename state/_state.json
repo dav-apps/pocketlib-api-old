@@ -3,13 +3,18 @@
 	"functions": [
 		{
 			"name": "create_publisher_state",
-			"params": ["session", "params"],
+			"params": ["session", "params", "data"],
 			"source": "./publisher/create_publisher.dx"
 		},
 		{
 			"name": "list_publishers_state",
-			"params": ["session", "params"],
+			"params": ["session", "params", "data"],
 			"source": "./publisher/list_publishers.dx"
+		},
+		{
+			"name": "create_author_state",
+			"params": ["session", "params", "data"],
+			"source": "./author/create_author.dx"
 		}
 	]
 }

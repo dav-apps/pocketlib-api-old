@@ -1,8 +1,8 @@
-(# params: state: Hash, params: Hash)
+(# params: state: Hash, params: Hash, data: Hash)
 (if (is_nil state.session) (return))
 
 (# Get the publishers of the user)
-(var publisher_objects (func get_publisher_table_objects (state.session.user_id)))
+(var publisher_objects (func get_table_objects_of_user ("Publisher" state.session.user_id)))
 
 (if (publisher_objects.length == 0) (
 	(# User is not a publisher)

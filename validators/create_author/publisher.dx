@@ -1,0 +1,12 @@
+(# params: state: Hash, params: Hash, data: Hash)
+(if (state.is_admin and (!(is_nil data.publisher))) (
+	(if (is_nil state.publisher) (
+		(# Publisher does not exist)
+		(func render_validation_errors ((list
+			(hash
+				(error "publisher_does_not_exist")
+				(status 404)
+			)
+		)))
+	))
+))

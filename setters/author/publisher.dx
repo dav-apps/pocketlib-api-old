@@ -1,0 +1,2 @@
+(# params: state: Hash, params: Hash, data: Hash)
+(return data.publisher)

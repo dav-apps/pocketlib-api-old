@@ -1,8 +1,8 @@
 (# params: state: Hash, params: Hash, data: Hash)
-(if ((! state.is_admin) and (state.publishers.length > 0)) (
+(if ((! state.is_admin) and (state.authors.length > 0)) (
 	(func render_validation_errors ((list
 		(hash
-			(error "user_is_already_publisher")
+			(error "user_is_already_author")
 			(status 400)
 		)
 	)))

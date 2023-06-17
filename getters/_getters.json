@@ -8,13 +8,18 @@
 		},
 		{
 			"name": "publisher_getter",
-			"params": ["state", "uuid"],
+			"params": ["state", "params", "data"],
 			"source": "./publisher/publisher.dx"
 		},
 		{
 			"name": "publisher_logo_getter",
-			"params": ["state", "uuid"],
+			"params": ["state", "params", "data"],
 			"source": "./publisher_logo/publisher_logo.dx"
+		},
+		{
+			"name": "author_publisher_getter",
+			"params": ["state", "params", "data"],
+			"source": "./author/publisher.dx"
 		},
 		{
 			"name": "author_bio_getter",

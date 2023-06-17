@@ -1,4 +1,4 @@
-(# params: state: Hash, params: Hash)
+(# params: state: Hash, params: Hash, data: Hash)
 (if (is_nil state.session) (return))
 
 (# Check if the user is an admin)
