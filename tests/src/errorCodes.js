@@ -80,7 +80,7 @@ export const KeyInvalid = "key_invalid"
 
 // Generic state errors
 export const UserIsNotAuthor = 3000
-export const UserIsAlreadyAuthor = 3001
+export const UserIsAlreadyAuthor = "user_is_already_author"
 export const LanguageNotSupported = 3002
 export const StoreBookNotPublished = 3003
 export const FreeStoreBooksMustBePurchased = 3004
