@@ -79,7 +79,7 @@ export const IsbnInvalid = "isbn_invalid"
 export const KeyInvalid = "key_invalid"
 
 // Generic state errors
-export const UserIsNotAuthor = 3000
+export const UserIsNotAuthor = "user_is_not_author"
 export const UserIsAlreadyAuthor = "user_is_already_author"
 export const LanguageNotSupported = 3002
 export const StoreBookNotPublished = 3003

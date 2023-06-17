@@ -10,8 +10,8 @@ describe("RetrieveAuthor endpoint", () => {
 	it("should not return author of user with access token for session that does not exist", async () => {
 		try {
 			await axios({
-				method: 'get',
-				url: retrieveAuthorEndpointUrl.replace('{0}', "mine"),
+				method: "get",
+				url: retrieveAuthorEndpointUrl.replace("{0}", "mine"),
 				headers: {
 					Authorization: "asdasdasdasdasd"
 				}
@@ -19,7 +19,10 @@ describe("RetrieveAuthor endpoint", () => {
 		} catch (error) {
 			assert.equal(error.response.status, 404)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.SessionDoesNotExist)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.SessionDoesNotExist
+			)
 			return
 		}
 
@@ -29,8 +32,8 @@ describe("RetrieveAuthor endpoint", () => {
 	it("should not return author of user with access token for another app", async () => {
 		try {
 			await axios({
-				method: 'get',
-				url: retrieveAuthorEndpointUrl.replace('{0}', "mine"),
+				method: "get",
+				url: retrieveAuthorEndpointUrl.replace("{0}", "mine"),
 				headers: {
 					Authorization: constants.testUserTestAppAccessToken
 				}
@@ -38,7 +41,10 @@ describe("RetrieveAuthor endpoint", () => {
 		} catch (error) {
 			assert.equal(error.response.status, 403)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.ActionNotAllowed
+			)
 			return
 		}
 
@@ -48,8 +54,8 @@ describe("RetrieveAuthor endpoint", () => {
 	it("should not return author of user if the user is an admin", async () => {
 		try {
 			await axios({
-				method: 'get',
-				url: retrieveAuthorEndpointUrl.replace('{0}', "mine"),
+				method: "get",
+				url: retrieveAuthorEndpointUrl.replace("{0}", "mine"),
 				headers: {
 					Authorization: constants.davUser.accessToken
 				}
@@ -57,7 +63,7 @@ describe("RetrieveAuthor endpoint", () => {
 		} catch (error) {
 			assert.equal(error.response.status, 400)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.UserIsAdmin)
+			assert.equal(error.response.data.errors[0], ErrorCodes.UserIsAdmin)
 			return
 		}
 
@@ -67,8 +73,8 @@ describe("RetrieveAuthor endpoint", () => {
 	it("should not return author of user if the user is not an author", async () => {
 		try {
 			await axios({
-				method: 'get',
-				url: retrieveAuthorEndpointUrl.replace('{0}', "mine"),
+				method: "get",
+				url: retrieveAuthorEndpointUrl.replace("{0}", "mine"),
 				headers: {
 					Authorization: constants.testUser.accessToken
 				}
@@ -76,7 +82,7 @@ describe("RetrieveAuthor endpoint", () => {
 		} catch (error) {
 			assert.equal(error.response.status, 400)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.UserIsNotAuthor)
+			assert.equal(error.response.data.errors[0], ErrorCodes.UserIsNotAuthor)
 			return
 		}
 
@@ -86,13 +92,16 @@ describe("RetrieveAuthor endpoint", () => {
 	it("should not return author that does not exist", async () => {
 		try {
 			await axios({
-				method: 'get',
-				url: retrieveAuthorEndpointUrl.replace('{0}', "asdasdasd")
+				method: "get",
+				url: retrieveAuthorEndpointUrl.replace("{0}", "asdasdasd")
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 404)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.AuthorDoesNotExist)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.AuthorDoesNotExist
+			)
 			return
 		}
 
@@ -102,13 +111,19 @@ describe("RetrieveAuthor endpoint", () => {
 	it("should not return author if the table object is not an author", async () => {
 		try {
 			await axios({
-				method: 'get',
-				url: retrieveAuthorEndpointUrl.replace('{0}', constants.davUser.authors[0].bios[0].uuid)
+				method: "get",
+				url: retrieveAuthorEndpointUrl.replace(
+					"{0}",
+					constants.davUser.authors[0].bios[0].uuid
+				)
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 403)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.ActionNotAllowed
+			)
 			return
 		}
 
@@ -137,13 +152,14 @@ describe("RetrieveAuthor endpoint", () => {
 
 		try {
 			response = await axios({
-				method: 'get',
-				url: retrieveAuthorEndpointUrl.replace('{0}', "mine"),
+				method: "get",
+				url: retrieveAuthorEndpointUrl.replace("{0}", "mine"),
 				headers: {
 					Authorization: constants.authorUser.accessToken
 				},
 				params: {
-					fields: "*"
+					fields:
+						"uuid,first_name,last_name,website_url,facebook_username,instagram_username,twitter_username,bio[uuid,bio,language]"
 				}
 			})
 		} catch (error) {
@@ -151,16 +167,14 @@ describe("RetrieveAuthor endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 10)
+		assert.equal(Object.keys(response.data).length, 8)
 		assert.equal(response.data.uuid, author.uuid)
-		assert.isNull(response.data.publisher)
 		assert.equal(response.data.first_name, author.firstName)
 		assert.equal(response.data.last_name, author.lastName)
 		assert.equal(response.data.website_url, author.websiteUrl)
 		assert.equal(response.data.facebook_username, author.facebookUsername)
 		assert.equal(response.data.instagram_username, author.instagramUsername)
 		assert.equal(response.data.twitter_username, author.twitterUsername)
-		assert.equal(response.data.profile_image?.blurhash, author.profileImageItem.blurhash)
 
 		if (author.bios.length == 0) {
 			assert.isNull(response.data.bio)
@@ -169,7 +183,7 @@ describe("RetrieveAuthor endpoint", () => {
 
 			assert.isNotNull(authorBio)
 			assert.equal(response.data.bio.language, "en")
-			assert.equal(response.data.bio.value, authorBio.bio)
+			assert.equal(response.data.bio.bio, authorBio.bio)
 		}
 	})
 
@@ -180,13 +194,14 @@ describe("RetrieveAuthor endpoint", () => {
 
 		try {
 			response = await axios({
-				method: 'get',
-				url: retrieveAuthorEndpointUrl.replace('{0}', "mine"),
+				method: "get",
+				url: retrieveAuthorEndpointUrl.replace("{0}", "mine"),
 				headers: {
 					Authorization: constants.authorUser.accessToken
 				},
 				params: {
-					fields: "*",
+					fields:
+						"uuid,first_name,last_name,website_url,facebook_username,instagram_username,twitter_username,bio[uuid,bio,language]",
 					languages: language
 				}
 			})
@@ -195,16 +210,14 @@ describe("RetrieveAuthor endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 10)
+		assert.equal(Object.keys(response.data).length, 8)
 		assert.equal(response.data.uuid, author.uuid)
-		assert.isNull(response.data.publisher)
 		assert.equal(response.data.first_name, author.firstName)
 		assert.equal(response.data.last_name, author.lastName)
 		assert.equal(response.data.website_url, author.websiteUrl)
 		assert.equal(response.data.facebook_username, author.facebookUsername)
 		assert.equal(response.data.instagram_username, author.instagramUsername)
 		assert.equal(response.data.twitter_username, author.twitterUsername)
-		assert.equal(response.data.profile_image?.blurhash, author.profileImageItem.blurhash)
 
 		if (author.bios.length == 0) {
 			assert.isNull(response.data.bio)
@@ -220,7 +233,7 @@ describe("RetrieveAuthor endpoint", () => {
 				assert.equal(response.data.bio.value, authorBio.bio)
 			} else {
 				assert.equal(response.data.bio.language, language)
-				assert.equal(response.data.bio.value, authorBio.bio)
+				assert.equal(response.data.bio.bio, authorBio.bio)
 			}
 		}
 	})
@@ -232,10 +245,11 @@ describe("RetrieveAuthor endpoint", () => {
 
 		try {
 			response = await axios({
-				method: 'get',
-				url: retrieveAuthorEndpointUrl.replace('{0}', author.uuid),
+				method: "get",
+				url: retrieveAuthorEndpointUrl.replace("{0}", author.uuid),
 				params: {
-					fields: "*"
+					fields:
+						"uuid,first_name,last_name,website_url,facebook_username,instagram_username,twitter_username,bio[uuid,bio,language]"
 				}
 			})
 		} catch (error) {
@@ -243,16 +257,14 @@ describe("RetrieveAuthor endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 10)
+		assert.equal(Object.keys(response.data).length, 8)
 		assert.equal(response.data.uuid, author.uuid)
-		assert.equal(response.data.publisher, publisher.uuid)
 		assert.equal(response.data.first_name, author.firstName)
 		assert.equal(response.data.last_name, author.lastName)
 		assert.equal(response.data.website_url, author.websiteUrl)
 		assert.equal(response.data.facebook_username, author.facebookUsername)
 		assert.equal(response.data.instagram_username, author.instagramUsername)
 		assert.equal(response.data.twitter_username, author.twitterUsername)
-		assert.equal(response.data.profile_image?.blurhash, author.profileImageItem?.blurhash)
 
 		if (author.bios.length == 0) {
 			assert.isNull(response.data.bio)
@@ -261,7 +273,7 @@ describe("RetrieveAuthor endpoint", () => {
 
 			assert.isNotNull(authorBio)
 			assert.equal(response.data.bio.language, "en")
-			assert.equal(response.data.bio.value, authorBio.bio)
+			assert.equal(response.data.bio.bio, authorBio.bio)
 		}
 	})
 
@@ -272,10 +284,11 @@ describe("RetrieveAuthor endpoint", () => {
 
 		try {
 			response = await axios({
-				method: 'get',
-				url: retrieveAuthorEndpointUrl.replace('{0}', author.uuid),
+				method: "get",
+				url: retrieveAuthorEndpointUrl.replace("{0}", author.uuid),
 				params: {
-					fields: "*"
+					fields:
+						"uuid,first_name,last_name,website_url,facebook_username,instagram_username,twitter_username,bio[uuid,bio,language]"
 				}
 			})
 		} catch (error) {
@@ -283,16 +296,14 @@ describe("RetrieveAuthor endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 10)
+		assert.equal(Object.keys(response.data).length, 8)
 		assert.equal(response.data.uuid, author.uuid)
-		assert.equal(response.data.publisher, publisher.uuid)
 		assert.equal(response.data.first_name, author.firstName)
 		assert.equal(response.data.last_name, author.lastName)
 		assert.equal(response.data.website_url, author.websiteUrl)
 		assert.equal(response.data.facebook_username, author.facebookUsername)
 		assert.equal(response.data.instagram_username, author.instagramUsername)
 		assert.equal(response.data.twitter_username, author.twitterUsername)
-		assert.equal(response.data.profile_image?.blurhash, author.profileImageItem?.blurhash)
 
 		if (author.bios.length == 0) {
 			assert.isNull(response.data.bio)
@@ -301,7 +312,7 @@ describe("RetrieveAuthor endpoint", () => {
 
 			assert.isNotNull(authorBio)
 			assert.equal(response.data.bio.language, "en")
-			assert.equal(response.data.bio.value, authorBio.bio)
+			assert.equal(response.data.bio.bio, authorBio.bio)
 		}
 	})
 })
@@ -311,10 +322,11 @@ async function testGetAuthor(author) {
 
 	try {
 		response = await axios({
-			method: 'get',
-			url: retrieveAuthorEndpointUrl.replace('{0}', author.uuid),
+			method: "get",
+			url: retrieveAuthorEndpointUrl.replace("{0}", author.uuid),
 			params: {
-				fields: "*"
+				fields:
+					"uuid,first_name,last_name,website_url,facebook_username,instagram_username,twitter_username,bio[uuid,bio,language]"
 			}
 		})
 	} catch (error) {
@@ -322,16 +334,14 @@ async function testGetAuthor(author) {
 	}
 
 	assert.equal(response.status, 200)
-	assert.equal(Object.keys(response.data).length, 10)
+	assert.equal(Object.keys(response.data).length, 8)
 	assert.equal(response.data.uuid, author.uuid)
-	assert.equal(response.data.publisher)
 	assert.equal(response.data.first_name, author.firstName)
 	assert.equal(response.data.last_name, author.lastName)
 	assert.equal(response.data.website_url, author.websiteUrl)
 	assert.equal(response.data.facebook_username, author.facebookUsername)
 	assert.equal(response.data.instagram_username, author.instagramUsername)
 	assert.equal(response.data.twitter_username, author.twitterUsername)
-	assert.equal(response.data.profile_image?.blurhash, author.profileImageItem?.blurhash)
 
 	if (author.bios.length == 0) {
 		assert.isNull(response.data.bio)
@@ -340,7 +350,7 @@ async function testGetAuthor(author) {
 
 		assert.isNotNull(authorBio)
 		assert.equal(response.data.bio.language, "en")
-		assert.equal(response.data.bio.value, authorBio.bio)
+		assert.equal(response.data.bio.bio, authorBio.bio)
 	}
 }
 
@@ -349,10 +359,11 @@ async function testGetAuthorWithLanguage(author, language) {
 
 	try {
 		response = await axios({
-			method: 'get',
-			url: retrieveAuthorEndpointUrl.replace('{0}', author.uuid),
+			method: "get",
+			url: retrieveAuthorEndpointUrl.replace("{0}", author.uuid),
 			params: {
-				fields: "*",
+				fields:
+					"uuid,first_name,last_name,website_url,facebook_username,instagram_username,twitter_username,bio[uuid,bio,language]",
 				languages: language
 			}
 		})
@@ -361,16 +372,14 @@ async function testGetAuthorWithLanguage(author, language) {
 	}
 
 	assert.equal(response.status, 200)
-	assert.equal(Object.keys(response.data).length, 10)
+	assert.equal(Object.keys(response.data).length, 8)
 	assert.equal(response.data.uuid, author.uuid)
-	assert.isNull(response.data.publisher)
 	assert.equal(response.data.first_name, author.firstName)
 	assert.equal(response.data.last_name, author.lastName)
 	assert.equal(response.data.website_url, author.websiteUrl)
 	assert.equal(response.data.facebook_username, author.facebookUsername)
 	assert.equal(response.data.instagram_username, author.instagramUsername)
 	assert.equal(response.data.twitter_username, author.twitterUsername)
-	assert.equal(response.data.profile_image?.blurhash, author.profileImageItem?.blurhash)
 
 	if (author.bios.length == 0) {
 		assert.isNull(response.data.bio)
@@ -386,7 +395,7 @@ async function testGetAuthorWithLanguage(author, language) {
 			assert.equal(response.data.bio.value, authorBio.bio)
 		} else {
 			assert.equal(response.data.bio.language, language)
-			assert.equal(response.data.bio.value, authorBio.bio)
+			assert.equal(response.data.bio.bio, authorBio.bio)
 		}
 	}
 }
