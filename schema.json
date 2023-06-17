@@ -231,7 +231,10 @@
 					"authenticated": {
 						"value": "uuid_mine_check",
 						"description": "If uuid = 'mine'"
-					}
+					},
+					"state": "retrieve_author_state",
+					"validators": ["user_is_not_admin_if_uuid_mine_validator"],
+					"getter": "author_getter"
 				},
 				"list": {
 					"description": "Retrieves the authors with the given params.",

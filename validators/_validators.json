@@ -37,9 +37,19 @@
 			"source": "./status.dx"
 		},
 		{
+			"name": "user_is_publisher_validator",
+			"params": ["state", "params", "data"],
+			"source": "./user_is_publisher.dx"
+		},
+		{
 			"name": "user_is_not_publisher_validator",
 			"params": ["state", "params", "data"],
 			"source": "./user_is_not_publisher.dx"
+		},
+		{
+			"name": "user_is_admin_validator",
+			"params": ["state", "params", "data"],
+			"source": "./user_is_admin.dx"
 		},
 		{
 			"name": "user_is_not_admin_validator",
@@ -50,16 +60,6 @@
 			"name": "user_is_not_admin_if_uuid_mine_validator",
 			"params": ["state", "params", "data"],
 			"source": "./user_is_not_admin_if_uuid_mine.dx"
-		},
-		{
-			"name": "user_is_admin_validator",
-			"params": ["state", "params", "data"],
-			"source": "./user_is_admin.dx"
-		},
-		{
-			"name": "user_is_publisher_validator",
-			"params": ["state", "params", "data"],
-			"source": "./user_is_publisher.dx"
 		},
 		{
 			"name": "user_is_not_author_validator",

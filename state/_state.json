@@ -15,6 +15,11 @@
 			"name": "create_author_state",
 			"params": ["session", "params", "data"],
 			"source": "./author/create_author.dx"
+		},
+		{
+			"name": "retrieve_author_state",
+			"params": ["session", "params", "data"],
+			"source": "./author/retrieve_author.dx"
 		}
 	]
 }

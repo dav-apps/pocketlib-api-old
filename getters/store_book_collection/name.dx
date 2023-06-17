@@ -1,4 +1,4 @@
-(# params: object: StoreBookCollection, params: Hash)
+(# params: object: StoreBookCollection, state: Hash, params: Hash)
 (var names_string object.properties.names)
 (if (is_nil names_string) (return nil))
 

@@ -1,0 +1,20 @@
+(# params: session: Session, params: Hash, data: Hash)
+(var state (hash
+	(is_admin false)
+	(authors (list))
+))
+
+(if ((params.uuid == "mine") and (!(is_nil session))) (
+	(# Check if the user is an admin)
+	(var admins (get_env "ADMINS"))
+	(var state.is_admin (admins.contains session.user_id))
+
+	(# Get the authors of the user)
+	(var state.authors (func get_table_objects_of_user ("Author" session.user_id)))
+))
+
+(var languages params.languages)
+(if (is_nil languages) (var languages "en"))
+(var state.languages (languages.split ","))
+
+(return state)

@@ -1,10 +1,6 @@
-(# params: object: Author, params: Hash)
+(# params: object: Author, state: Hash, params: Hash)
 (var bios_string object.properties.bios)
 (if (is_nil bios_string) (return nil))
-
-(var languages params["languages"])
-(if (is_nil languages) (var languages "en"))
-(var language_list (languages_string.split ","))
 
 (# Get all bios)
 (var bios (hash))
@@ -20,11 +16,11 @@
 (if (bios.length == 0) (return nil))
 
 (# Find the most appropriate language)
-(var found_bios (array))
+(var found_bios (list))
 
-(for lang in language_list (
+(for lang in state.languages (
 	(if (!(is_nil bios[lang])) (
-		(found_bios.push lang)
+		(found_bios.push bios[lang])
 	))
 ))
 
