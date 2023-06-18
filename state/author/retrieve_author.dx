@@ -16,5 +16,6 @@
 (var languages params.languages)
 (if (is_nil languages) (var languages "en"))
 (var state.languages (languages.split ","))
+(if (!(state.languages.contains "en")) (state.languages.push "en"))
 
 (return state)

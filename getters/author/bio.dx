@@ -20,12 +20,8 @@
 
 (for lang in state.languages (
 	(if (!(is_nil bios[lang])) (
-		(found_bios.push bios[lang])
+		(return bios[lang])
 	))
 ))
 
-(if (found_bios.length == 0) (
-	(return nil)
-) else (
-	(return found_bios#0)
-))
+(return bios#0)
