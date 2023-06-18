@@ -1,0 +1,14 @@
+(# params: state: Hash, params: Hash, data: Hash)
+(if ((is_nil state.session) or (! state.mine))
+	(return)
+)
+
+(if (! state.is_admin) (
+	(# User is not an admin)
+	(func render_validation_errors ((list
+		(hash
+			(error "user_is_not_admin")
+			(status 400)
+		)
+	)))
+))

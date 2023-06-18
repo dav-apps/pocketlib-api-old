@@ -5,6 +5,11 @@
 			"name": "publishers_selector",
 			"params": ["state"],
 			"source": "publishers.dx"
+		},
+		{
+			"name": "authors_selector",
+			"params": ["state"],
+			"source": "authors.dx"
 		}
 	]
 }

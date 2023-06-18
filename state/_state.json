@@ -20,6 +20,11 @@
 			"name": "retrieve_author_state",
 			"params": ["session", "params", "data"],
 			"source": "./author/retrieve_author.dx"
+		},
+		{
+			"name": "list_authors_state",
+			"params": ["session", "params", "data"],
+			"source": "./author/list_authors.dx"
 		}
 	]
 }

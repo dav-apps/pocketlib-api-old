@@ -1,0 +1,18 @@
+(# params: session: Session, params: Hash, data: Hash)
+(var state (hash
+	(session session)
+	(mine (params.mine == "true"))
+	(is_admin false)
+))
+
+(if (state.mine and (!(is_nil session))) (
+	(# Check if the user is an admin)
+	(var admins (get_env "ADMINS"))
+	(var state.is_admin (admins.contains session.user_id))
+))
+
+(var languages params.languages)
+(if (is_nil languages) (var languages "en"))
+(var state.languages (languages.split ","))
+
+(return state)

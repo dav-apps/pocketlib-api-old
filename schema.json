@@ -262,7 +262,10 @@
 					"authenticated": {
 						"value": "mine_check",
 						"description": "If mine = true"
-					}
+					},
+					"state": "list_authors_state",
+					"validators": ["user_is_admin_with_mine_param_validator"],
+					"selector": "authors_selector"
 				},
 				"update": {
 					"description": "Updates the author with the given uuid and returns it. If uuid = 'mine', updates the author of the user.",

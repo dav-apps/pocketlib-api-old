@@ -1,0 +1,17 @@
+(# params: state: Hash)
+(if (!(is_nil state.session) and state.mine) (
+	(# Get the authors of the user)
+	(var authors (list))
+	(var uuids (func get_table_object_uuids ("Author" state.session.user_id)))
+
+	(for uuid in uuids (
+		(var obj (func get_table_object (uuid state.session.user_id "Author")))
+		(if (is_nil obj.properties.publisher) (
+			(authors.push obj.uuid)
+		))
+	))
+	
+	(return authors)
+))
+
+(return [])
