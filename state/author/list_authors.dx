@@ -1,14 +1,39 @@
 (# params: session: Session, params: Hash, data: Hash)
 (var state (hash
 	(session session)
-	(mine (params.mine == "true"))
 	(is_admin false)
+	(mine (params.mine == "true"))
+	(latest (params.latest == "true"))
+	(publisher nil)
 ))
 
 (if (state.mine and (!(is_nil session))) (
 	(# Check if the user is an admin)
 	(var admins (get_env "ADMINS"))
 	(var state.is_admin (admins.contains session.user_id))
+))
+
+(# Get the publisher)
+(var publisher_uuid params.publisher)
+
+(if (!(is_nil publisher_uuid)) (
+	(var publisher (func get_table_object (
+		publisher_uuid
+		nil
+		"Publisher"
+	)))
+
+	(if (is_nil publisher) (
+		(# Publisher does not exist)
+		(func render_validation_errors ((list
+			(hash
+				(error "publisher_does_not_exist")
+				(status 404)
+			)
+		)))
+	))
+
+	(var state.publisher publisher)
 ))
 
 (var languages params.languages)

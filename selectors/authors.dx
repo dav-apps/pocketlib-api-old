@@ -1,17 +1,91 @@
 (# params: state: Hash)
-(if (!(is_nil state.session) and state.mine) (
+(var authors (list))
+(var remove_authors_without_profile_image false)
+(var remove_authors_with_publisher false)
+(var remove_authors_without_publisher false)
+
+(if ((!(is_nil state.session)) and state.mine) (
 	(# Get the authors of the user)
-	(var authors (list))
 	(var uuids (func get_table_object_uuids ("Author" state.session.user_id)))
+	(var remove_authors_with_publisher true)
 
 	(for uuid in uuids (
 		(var obj (func get_table_object (uuid state.session.user_id "Author")))
+
 		(if (is_nil obj.properties.publisher) (
 			(authors.push obj.uuid)
 		))
 	))
-	
+) elseif state.latest (
+	(# Get the latest authors)
+	(var author_uuids (func get_table_object_uuids_of_collection ("Author" "latest_authors")))
+	(for uuid in author_uuids.reverse (authors.push uuid))
+	(var remove_authors_without_profile_image true)
+) elseif (!(is_nil state.publisher)) (
+	(# Get the authors of the publisher)
+	(var authors (func get_table_object_uuids ("Author" state.publisher.user_id)))
+	(var remove_authors_without_publisher true)
+
+	(# Check if the publisher belongs to the user)
+	(var remove_authors_without_profile_image (
+		(is_nil state.session)
+		or (state.publisher.user_id != state.session.user_id)
+	))
+))
+
+(if (!(
+	(
+		remove_authors_without_profile_image
+		or remove_authors_with_publisher
+	) or remove_authors_without_publisher
+)) (
 	(return authors)
 ))
 
-(return [])
+(var reduced_authors (list))
+(var removed_objects (list))
+
+(for uuid in authors (
+	(reduced_authors.push (func get_table_object (uuid nil "Author")))
+))
+
+(if remove_authors_without_profile_image (
+	(for obj in reduced_authors (
+		(if (is_nil obj.properties.profile_image) (
+			(# Remove obj from reduced_authors)
+			(removed_objects.push obj)
+		))
+	))
+))
+
+(if remove_authors_with_publisher (
+	(for obj in reduced_authors (
+		(if (!(is_nil obj.properties.publisher)) (
+			(# Remove obj from reduced_authors)
+			(removed_objects.push obj)
+		))
+	))
+))
+
+(if remove_authors_without_publisher (
+	(for obj in reduced_authors (
+		(if (is_nil obj.properties.publisher) (
+			(# Remove obj from reduced_authors)
+			(removed_objects.push obj)
+		))
+	))
+))
+
+(# Remove the selected objects from the list of objects)
+(for obj in removed_objects (
+	(reduced_authors.delete obj)
+))
+
+(# Convert reduced_authors to list of uuids)
+(var reduced_author_uuids (list))
+
+(for obj in reduced_authors (
+	(reduced_author_uuids.push obj.uuid)
+))
+
+(return reduced_author_uuids)
