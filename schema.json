@@ -232,7 +232,7 @@
 						"value": "uuid_mine_check",
 						"description": "If uuid = 'mine'"
 					},
-					"state": "retrieve_author_state",
+					"state": "retrieve_update_author_state",
 					"validators": ["user_is_not_admin_if_uuid_mine_validator"],
 					"getter": "author_getter"
 				},
@@ -275,7 +275,10 @@
 							"description": "List of preferred languages for localized fields, separated by comma",
 							"default": "en"
 						}
-					}
+					},
+					"state": "retrieve_update_author_state",
+					"validators": ["user_is_not_admin_if_uuid_mine_validator"],
+					"getter": "author_getter"
 				}
 			}
 		},

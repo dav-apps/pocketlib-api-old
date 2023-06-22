@@ -1,12 +1,10 @@
 (# params: state: Hash, params: Hash, data: Hash)
-(if ((is_nil state.session) or (params.uuid != "mine"))
+(if ((is_nil state.session) or (! state.mine))
 	(return)
 )
 
 (# Check if the user is an admin)
-(var admins (get_env "ADMINS"))
-
-(if (admins.contains state.session.user_id) (
+(if state.is_admin (
 	(# User is an admin)
 	(func render_validation_errors ((list
 		(hash

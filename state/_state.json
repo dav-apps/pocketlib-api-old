@@ -17,9 +17,9 @@
 			"source": "./author/create_author.dx"
 		},
 		{
-			"name": "retrieve_author_state",
+			"name": "retrieve_update_author_state",
 			"params": ["session", "params", "data"],
-			"source": "./author/retrieve_author.dx"
+			"source": "./author/retrieve_update_author.dx"
 		},
 		{
 			"name": "list_authors_state",

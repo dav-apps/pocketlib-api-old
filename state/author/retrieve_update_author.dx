@@ -2,9 +2,10 @@
 (var state (hash
 	(is_admin false)
 	(authors (list))
+	(mine (params.uuid == "mine"))
 ))
 
-(if ((params.uuid == "mine") and (!(is_nil session))) (
+(if (state.mine and (!(is_nil session))) (
 	(# Check if the user is an admin)
 	(var admins (get_env "ADMINS"))
 	(var state.is_admin (admins.contains session.user_id))
