@@ -10,6 +10,11 @@
 			"name": "authors_selector",
 			"params": ["state"],
 			"source": "authors.dx"
+		},
+		{
+			"name": "author_bios_selector",
+			"params": ["state"],
+			"source": "./author_bios.dx"
 		}
 	]
 }

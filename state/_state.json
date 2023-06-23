@@ -25,6 +25,11 @@
 			"name": "list_authors_state",
 			"params": ["session", "params", "data"],
 			"source": "./author/list_authors.dx"
+		},
+		{
+			"name": "list_author_bios_state",
+			"params": ["session", "params", "data"],
+			"source": "./author_bio/list_author_bios.dx"
 		}
 	]
 }

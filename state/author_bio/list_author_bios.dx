@@ -1,0 +1,42 @@
+(# params: session: Session, params: Hash, data: Hash)
+(var state (hash
+	(is_admin false)
+	(mine (params.uuid == "mine"))
+))
+
+(if (state.mine and (!(is_nil session))) (
+	(# Check if the user is an admin)
+	(var admins (get_env "ADMINS"))
+	(var state.is_admin (admins.contains session.user_id))
+
+	(# Get the authors of the user)
+	(var authors (func get_table_objects_of_user ("Author" session.user_id)))
+
+	(# Check if the user is an author)
+	(if (authors.length == 0) (
+		(# User is an admin)
+		(func render_validation_errors ((list
+			(hash
+				(error "user_is_not_author")
+				(status 400)
+			)
+		)))
+	))
+
+	(var state.author authors#0)
+) else (
+	(# Get the author)
+	(var state.author (func get_table_object (params.uuid nil "Author")))
+
+	(if (is_nil state.author) (
+		(# Author does not exist)
+		(func render_validation_errors ((list
+			(hash
+				(error "author_does_not_exist")
+				(status 404)
+			)
+		)))
+	))
+))
+
+(return state)

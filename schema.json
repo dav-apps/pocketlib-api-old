@@ -310,7 +310,10 @@
 					"authenticated": {
 						"value": "uuid_mine_check",
 						"description": "If uuid = 'mine'"
-					}
+					},
+					"state": "list_author_bios_state",
+					"validators": ["user_is_not_admin_if_uuid_mine_validator"],
+					"selector": "author_bios_selector"
 				},
 				"set": {
 					"description": "Sets the bio for the given author in the given language. If uuid = 'mine', sets the bio for the author of the current user.",

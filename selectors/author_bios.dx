@@ -1,0 +1,9 @@
+(# params: state: Hash)
+(var author state.author)
+(var bios_uuids_string author.properties.bios)
+
+(if (is_nil bios_uuids_string) (
+	(return (list))
+))
+
+(return (bios_uuids_string.split ","))
