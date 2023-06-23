@@ -10,8 +10,8 @@ describe("ListAuthorBios endpoint", () => {
 	it("should not return bios of author of user with access token for session that does not exist", async () => {
 		try {
 			await axios({
-				method: 'get',
-				url: listAuthorBiosEndpointUrl.replace('{0}', "mine"),
+				method: "get",
+				url: listAuthorBiosEndpointUrl.replace("{0}", "mine"),
 				headers: {
 					Authorization: "asdasdasdasdasd"
 				}
@@ -19,7 +19,10 @@ describe("ListAuthorBios endpoint", () => {
 		} catch (error) {
 			assert.equal(error.response.status, 404)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.SessionDoesNotExist)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.SessionDoesNotExist
+			)
 			return
 		}
 
@@ -29,8 +32,8 @@ describe("ListAuthorBios endpoint", () => {
 	it("should not return bios of author of user with access token for another app", async () => {
 		try {
 			await axios({
-				method: 'get',
-				url: listAuthorBiosEndpointUrl.replace('{0}', "mine"),
+				method: "get",
+				url: listAuthorBiosEndpointUrl.replace("{0}", "mine"),
 				headers: {
 					Authorization: constants.testUserTestAppAccessToken
 				}
@@ -38,7 +41,10 @@ describe("ListAuthorBios endpoint", () => {
 		} catch (error) {
 			assert.equal(error.response.status, 403)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.ActionNotAllowed
+			)
 			return
 		}
 
@@ -48,8 +54,8 @@ describe("ListAuthorBios endpoint", () => {
 	it("should not return bios of author of user if the user is an admin", async () => {
 		try {
 			await axios({
-				method: 'get',
-				url: listAuthorBiosEndpointUrl.replace('{0}', "mine"),
+				method: "get",
+				url: listAuthorBiosEndpointUrl.replace("{0}", "mine"),
 				headers: {
 					Authorization: constants.davUser.accessToken
 				}
@@ -57,7 +63,7 @@ describe("ListAuthorBios endpoint", () => {
 		} catch (error) {
 			assert.equal(error.response.status, 400)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.UserIsAdmin)
+			assert.equal(error.response.data.errors[0], ErrorCodes.UserIsAdmin)
 			return
 		}
 
@@ -67,8 +73,8 @@ describe("ListAuthorBios endpoint", () => {
 	it("should not return bios of author of user if the user is not an author", async () => {
 		try {
 			await axios({
-				method: 'get',
-				url: listAuthorBiosEndpointUrl.replace('{0}', "mine"),
+				method: "get",
+				url: listAuthorBiosEndpointUrl.replace("{0}", "mine"),
 				headers: {
 					Authorization: constants.testUser.accessToken
 				}
@@ -76,7 +82,7 @@ describe("ListAuthorBios endpoint", () => {
 		} catch (error) {
 			assert.equal(error.response.status, 400)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.UserIsNotAuthor)
+			assert.equal(error.response.data.errors[0], ErrorCodes.UserIsNotAuthor)
 			return
 		}
 
@@ -86,13 +92,16 @@ describe("ListAuthorBios endpoint", () => {
 	it("should not return bios of author that does not exist", async () => {
 		try {
 			await axios({
-				method: 'get',
-				url: listAuthorBiosEndpointUrl.replace('{0}', "asdasasassad")
+				method: "get",
+				url: listAuthorBiosEndpointUrl.replace("{0}", "asdasasassad")
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 404)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.AuthorDoesNotExist)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.AuthorDoesNotExist
+			)
 			return
 		}
 
@@ -105,10 +114,10 @@ describe("ListAuthorBios endpoint", () => {
 
 		try {
 			response = await axios({
-				method: 'get',
-				url: listAuthorBiosEndpointUrl.replace('{0}', author.uuid),
+				method: "get",
+				url: listAuthorBiosEndpointUrl.replace("{0}", author.uuid),
 				params: {
-					fields: "*"
+					fields: "uuid,bio,language"
 				}
 			})
 		} catch (error) {
@@ -116,7 +125,7 @@ describe("ListAuthorBios endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 2)
+		assert.equal(Object.keys(response.data).length, 3)
 		assert.equal(response.data.items.length, author.bios.length)
 
 		for (let bio of author.bios) {
@@ -135,13 +144,13 @@ describe("ListAuthorBios endpoint", () => {
 
 		try {
 			response = await axios({
-				method: 'get',
-				url: listAuthorBiosEndpointUrl.replace('{0}', "mine"),
+				method: "get",
+				url: listAuthorBiosEndpointUrl.replace("{0}", "mine"),
 				headers: {
 					Authorization: constants.authorUser.accessToken
 				},
 				params: {
-					fields: "*"
+					fields: "uuid,bio,language"
 				}
 			})
 		} catch (error) {
@@ -149,7 +158,7 @@ describe("ListAuthorBios endpoint", () => {
 		}
 
 		assert.equal(response.status, 200)
-		assert.equal(Object.keys(response.data).length, 2)
+		assert.equal(Object.keys(response.data).length, 3)
 		assert.equal(response.data.items.length, author.bios.length)
 
 		for (let bio of author.bios) {
