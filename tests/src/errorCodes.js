@@ -77,11 +77,11 @@ export const TwitterUsernameInvalid = "twitter_username_invalid"
 export const PriceInvalid = "price_invalid"
 export const IsbnInvalid = "isbn_invalid"
 export const KeyInvalid = "key_invalid"
+export const LanguageInvalid = "language_invalid"
 
 // Generic state errors
 export const UserIsNotAuthor = "user_is_not_author"
 export const UserIsAlreadyAuthor = "user_is_already_author"
-export const LanguageNotSupported = 3002
 export const StoreBookNotPublished = 3003
 export const FreeStoreBooksMustBePurchased = 3004
 export const StoreBookIsAlreadyInLibrary = 3005

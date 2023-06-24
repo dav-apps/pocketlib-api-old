@@ -21,16 +21,21 @@ describe("SetBioOfAuthor endpoint", () => {
 	it("should not set bio without access token", async () => {
 		try {
 			await axios({
-				method: 'put',
-				url: setAuthorBioEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid).replace('{1}', "en"),
+				method: "put",
+				url: setAuthorBioEndpointUrl
+					.replace("{0}", constants.davUser.authors[0].uuid)
+					.replace("{1}", "en"),
 				headers: {
-					'Content-Type': 'application/json'
+					"Content-Type": "application/json"
 				}
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 401)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.AuthorizationHeaderMissing)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.AuthorizationHeaderMissing
+			)
 			return
 		}
 
@@ -40,17 +45,22 @@ describe("SetBioOfAuthor endpoint", () => {
 	it("should not set bio with access token for session that does not exist", async () => {
 		try {
 			await axios({
-				method: 'put',
-				url: setAuthorBioEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid).replace('{1}', "en"),
+				method: "put",
+				url: setAuthorBioEndpointUrl
+					.replace("{0}", constants.davUser.authors[0].uuid)
+					.replace("{1}", "en"),
 				headers: {
 					Authorization: "a",
-					'Content-Type': 'application/json'
+					"Content-Type": "application/json"
 				}
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 404)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.SessionDoesNotExist)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.SessionDoesNotExist
+			)
 			return
 		}
 
@@ -60,17 +70,22 @@ describe("SetBioOfAuthor endpoint", () => {
 	it("should not set bio without Content-Type json", async () => {
 		try {
 			await axios({
-				method: 'put',
-				url: setAuthorBioEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid).replace('{1}', "en"),
+				method: "put",
+				url: setAuthorBioEndpointUrl
+					.replace("{0}", constants.davUser.authors[0].uuid)
+					.replace("{1}", "en"),
 				headers: {
 					Authorization: constants.davUser.accessToken,
-					'Content-Type': 'application/xml'
+					"Content-Type": "application/xml"
 				}
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 415)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.ContentTypeNotSupported)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.ContentTypeNotSupported
+			)
 			return
 		}
 
@@ -80,17 +95,22 @@ describe("SetBioOfAuthor endpoint", () => {
 	it("should not set bio with access token for another app", async () => {
 		try {
 			await axios({
-				method: 'put',
-				url: setAuthorBioEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid).replace('{1}', "en"),
+				method: "put",
+				url: setAuthorBioEndpointUrl
+					.replace("{0}", constants.davUser.authors[0].uuid)
+					.replace("{1}", "en"),
 				headers: {
 					Authorization: constants.testUserTestAppAccessToken,
-					'Content-Type': 'application/json'
+					"Content-Type": "application/json"
 				}
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 403)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.ActionNotAllowed
+			)
 			return
 		}
 
@@ -100,17 +120,22 @@ describe("SetBioOfAuthor endpoint", () => {
 	it("should not set bio if the author does not belong to the user", async () => {
 		try {
 			await axios({
-				method: 'put',
-				url: setAuthorBioEndpointUrl.replace('{0}', constants.authorUser.author.uuid).replace('{1}', "en"),
+				method: "put",
+				url: setAuthorBioEndpointUrl
+					.replace("{0}", constants.authorUser.author.uuid)
+					.replace("{1}", "en"),
 				headers: {
 					Authorization: constants.davUser.accessToken,
-					'Content-Type': 'application/json'
+					"Content-Type": "application/json"
 				}
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 403)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.ActionNotAllowed
+			)
 			return
 		}
 
@@ -120,17 +145,22 @@ describe("SetBioOfAuthor endpoint", () => {
 	it("should not set bio if the user is not an admin", async () => {
 		try {
 			await axios({
-				method: 'put',
-				url: setAuthorBioEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid).replace('{1}', "en"),
+				method: "put",
+				url: setAuthorBioEndpointUrl
+					.replace("{0}", constants.davUser.authors[0].uuid)
+					.replace("{1}", "en"),
 				headers: {
 					Authorization: constants.testUser.accessToken,
-					'Content-Type': 'application/json'
+					"Content-Type": "application/json"
 				}
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 403)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.ActionNotAllowed
+			)
 			return
 		}
 
@@ -140,17 +170,19 @@ describe("SetBioOfAuthor endpoint", () => {
 	it("should not set bio of author of user if the user is not an author", async () => {
 		try {
 			await axios({
-				method: 'put',
-				url: setAuthorBioEndpointUrl.replace('{0}', "mine").replace('{1}', "en"),
+				method: "put",
+				url: setAuthorBioEndpointUrl
+					.replace("{0}", "mine")
+					.replace("{1}", "en"),
 				headers: {
 					Authorization: constants.testUser.accessToken,
-					'Content-Type': 'application/json'
+					"Content-Type": "application/json"
 				}
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 400)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.UserIsNotAuthor)
+			assert.equal(error.response.data.errors[0], ErrorCodes.UserIsNotAuthor)
 			return
 		}
 
@@ -160,17 +192,19 @@ describe("SetBioOfAuthor endpoint", () => {
 	it("should not set bio of author of user if the user is an admin", async () => {
 		try {
 			await axios({
-				method: 'put',
-				url: setAuthorBioEndpointUrl.replace('{0}', "mine").replace('{1}', "en"),
+				method: "put",
+				url: setAuthorBioEndpointUrl
+					.replace("{0}", "mine")
+					.replace("{1}", "en"),
 				headers: {
 					Authorization: constants.davUser.accessToken,
-					'Content-Type': 'application/json'
+					"Content-Type": "application/json"
 				}
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 400)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.UserIsAdmin)
+			assert.equal(error.response.data.errors[0], ErrorCodes.UserIsAdmin)
 			return
 		}
 
@@ -180,17 +214,19 @@ describe("SetBioOfAuthor endpoint", () => {
 	it("should not set bio without required properties", async () => {
 		try {
 			await axios({
-				method: 'put',
-				url: setAuthorBioEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid).replace('{1}', "en"),
+				method: "put",
+				url: setAuthorBioEndpointUrl
+					.replace("{0}", constants.davUser.authors[0].uuid)
+					.replace("{1}", "en"),
 				headers: {
 					Authorization: constants.davUser.accessToken,
-					'Content-Type': 'application/json'
+					"Content-Type": "application/json"
 				}
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 400)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.BioMissing)
+			assert.equal(error.response.data.errors[0], ErrorCodes.BioMissing)
 			return
 		}
 
@@ -200,11 +236,13 @@ describe("SetBioOfAuthor endpoint", () => {
 	it("should not set bio with properties with wrong types", async () => {
 		try {
 			await axios({
-				method: 'put',
-				url: setAuthorBioEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid).replace('{1}', "en"),
+				method: "put",
+				url: setAuthorBioEndpointUrl
+					.replace("{0}", constants.davUser.authors[0].uuid)
+					.replace("{1}", "en"),
 				headers: {
 					Authorization: constants.davUser.accessToken,
-					'Content-Type': 'application/json'
+					"Content-Type": "application/json"
 				},
 				data: {
 					bio: 12
@@ -213,7 +251,7 @@ describe("SetBioOfAuthor endpoint", () => {
 		} catch (error) {
 			assert.equal(error.response.status, 400)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.BioWrongType)
+			assert.equal(error.response.data.errors[0], ErrorCodes.BioWrongType)
 			return
 		}
 
@@ -223,11 +261,13 @@ describe("SetBioOfAuthor endpoint", () => {
 	it("should not set bio with too long properties", async () => {
 		try {
 			await axios({
-				method: 'put',
-				url: setAuthorBioEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid).replace('{1}', "en"),
+				method: "put",
+				url: setAuthorBioEndpointUrl
+					.replace("{0}", constants.davUser.authors[0].uuid)
+					.replace("{1}", "en"),
 				headers: {
 					Authorization: constants.davUser.accessToken,
-					'Content-Type': 'application/json'
+					"Content-Type": "application/json"
 				},
 				data: {
 					bio: "a".repeat(2100)
@@ -236,7 +276,7 @@ describe("SetBioOfAuthor endpoint", () => {
 		} catch (error) {
 			assert.equal(error.response.status, 400)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.BioTooLong)
+			assert.equal(error.response.data.errors[0], ErrorCodes.BioTooLong)
 			return
 		}
 
@@ -246,11 +286,13 @@ describe("SetBioOfAuthor endpoint", () => {
 	it("should not set bio for not supported language", async () => {
 		try {
 			await axios({
-				method: 'put',
-				url: setAuthorBioEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid).replace('{1}', "bl"),
+				method: "put",
+				url: setAuthorBioEndpointUrl
+					.replace("{0}", constants.davUser.authors[0].uuid)
+					.replace("{1}", "bl"),
 				headers: {
 					Authorization: constants.davUser.accessToken,
-					'Content-Type': 'application/json'
+					"Content-Type": "application/json"
 				},
 				data: {
 					bio: "Hello World!!"
@@ -259,7 +301,7 @@ describe("SetBioOfAuthor endpoint", () => {
 		} catch (error) {
 			assert.equal(error.response.status, 400)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.LanguageNotSupported)
+			assert.equal(error.response.data.errors[0], ErrorCodes.LanguageInvalid)
 			return
 		}
 
@@ -275,14 +317,16 @@ describe("SetBioOfAuthor endpoint", () => {
 
 		try {
 			response = await axios({
-				method: 'put',
-				url: setAuthorBioEndpointUrl.replace('{0}', author.uuid).replace('{1}', language),
+				method: "put",
+				url: setAuthorBioEndpointUrl
+					.replace("{0}", author.uuid)
+					.replace("{1}", language),
 				headers: {
 					Authorization: constants.davUser.accessToken,
-					'Content-Type': 'application/json'
+					"Content-Type": "application/json"
 				},
 				params: {
-					fields: "*"
+					fields: "uuid,bio,language"
 				},
 				data: {
 					bio
@@ -307,19 +351,23 @@ describe("SetBioOfAuthor endpoint", () => {
 
 		assert.equal(authorResponse.status, 200)
 
-		let responseAuthorBios = authorResponse.data.tableObject.GetPropertyValue("bios")
-		let responseAuthorBioUuids = responseAuthorBios.split(',')
+		let responseAuthorBios =
+			authorResponse.data.tableObject.GetPropertyValue("bios")
+		let responseAuthorBioUuids = responseAuthorBios.split(",")
 
 		let authorBioUuids = []
 		author.bios.forEach(bio => authorBioUuids.push(bio.uuid))
-		authorBioUuids.push(responseAuthorBioUuids[responseAuthorBioUuids.length - 1])
-		let authorBios = authorBioUuids.join(',')
+		authorBioUuids.push(
+			responseAuthorBioUuids[responseAuthorBioUuids.length - 1]
+		)
+		let authorBios = authorBioUuids.join(",")
 
 		assert.equal(responseAuthorBioUuids.length, authorBioUuids.length)
 		assert.equal(responseAuthorBios, authorBios)
 
 		// Get the AuthorBio
-		let newAuthorBioUuid = responseAuthorBioUuids[responseAuthorBioUuids.length - 1]
+		let newAuthorBioUuid =
+			responseAuthorBioUuids[responseAuthorBioUuids.length - 1]
 
 		let authorBioResponse = await TableObjectsController.GetTableObject({
 			accessToken: constants.davUser.accessToken,
@@ -328,8 +376,14 @@ describe("SetBioOfAuthor endpoint", () => {
 
 		assert.equal(authorBioResponse.status, 200)
 		assert.equal(authorBioResponse.data.tableObject.Uuid, newAuthorBioUuid)
-		assert.equal(authorBioResponse.data.tableObject.GetPropertyValue("bio"), bio)
-		assert.equal(authorBioResponse.data.tableObject.GetPropertyValue("language"), language)
+		assert.equal(
+			authorBioResponse.data.tableObject.GetPropertyValue("bio"),
+			bio
+		)
+		assert.equal(
+			authorBioResponse.data.tableObject.GetPropertyValue("language"),
+			language
+		)
 	})
 
 	it("should update bio of author", async () => {
@@ -343,14 +397,16 @@ describe("SetBioOfAuthor endpoint", () => {
 
 		try {
 			response = await axios({
-				method: 'put',
-				url: setAuthorBioEndpointUrl.replace('{0}', author.uuid).replace('{1}', language),
+				method: "put",
+				url: setAuthorBioEndpointUrl
+					.replace("{0}", author.uuid)
+					.replace("{1}", language),
 				headers: {
 					Authorization: constants.davUser.accessToken,
-					'Content-Type': 'application/json'
+					"Content-Type": "application/json"
 				},
 				params: {
-					fields: "*"
+					fields: "uuid,bio,language"
 				},
 				data: {
 					bio
@@ -375,12 +431,13 @@ describe("SetBioOfAuthor endpoint", () => {
 
 		assert.equal(authorResponse.status, 200)
 
-		let responseAuthorBios = authorResponse.data.tableObject.GetPropertyValue("bios")
-		let responseAuthorBioUuids = responseAuthorBios.split(',')
+		let responseAuthorBios =
+			authorResponse.data.tableObject.GetPropertyValue("bios")
+		let responseAuthorBioUuids = responseAuthorBios.split(",")
 
 		let authorBioUuids = []
 		author.bios.forEach(bio => authorBioUuids.push(bio.uuid))
-		let authorBios = authorBioUuids.join(',')
+		let authorBios = authorBioUuids.join(",")
 
 		assert.equal(responseAuthorBioUuids.length, authorBioUuids.length)
 		assert.equal(responseAuthorBios, authorBios)
@@ -393,8 +450,14 @@ describe("SetBioOfAuthor endpoint", () => {
 
 		assert.equal(authorBioResponse.status, 200)
 		assert.equal(authorBioResponse.data.tableObject.Uuid, authorBioUuid)
-		assert.equal(authorBioResponse.data.tableObject.GetPropertyValue("bio"), bio)
-		assert.equal(authorBioResponse.data.tableObject.GetPropertyValue("language"), language)
+		assert.equal(
+			authorBioResponse.data.tableObject.GetPropertyValue("bio"),
+			bio
+		)
+		assert.equal(
+			authorBioResponse.data.tableObject.GetPropertyValue("language"),
+			language
+		)
 	})
 
 	it("should create bio for author of user", async () => {
@@ -405,14 +468,16 @@ describe("SetBioOfAuthor endpoint", () => {
 
 		try {
 			response = await axios({
-				method: 'put',
-				url: setAuthorBioEndpointUrl.replace('{0}', "mine").replace('{1}', language),
+				method: "put",
+				url: setAuthorBioEndpointUrl
+					.replace("{0}", "mine")
+					.replace("{1}", language),
 				headers: {
 					Authorization: constants.authorUser.accessToken,
-					'Content-Type': 'application/json'
+					"Content-Type": "application/json"
 				},
 				params: {
-					fields: "*"
+					fields: "uuid,bio,language"
 				},
 				data: {
 					bio
@@ -437,19 +502,25 @@ describe("SetBioOfAuthor endpoint", () => {
 
 		assert.equal(authorResponse.status, 200)
 
-		let responseAuthorBios = authorResponse.data.tableObject.GetPropertyValue("bios")
-		let responseAuthorBioUuids = responseAuthorBios.split(',')
+		let responseAuthorBios =
+			authorResponse.data.tableObject.GetPropertyValue("bios")
+		let responseAuthorBioUuids = responseAuthorBios.split(",")
 
 		let authorBioUuids = []
-		constants.authorUser.author.bios.forEach(bio => authorBioUuids.push(bio.uuid))
-		authorBioUuids.push(responseAuthorBioUuids[responseAuthorBioUuids.length - 1])
-		let authorBios = authorBioUuids.join(',')
+		constants.authorUser.author.bios.forEach(bio =>
+			authorBioUuids.push(bio.uuid)
+		)
+		authorBioUuids.push(
+			responseAuthorBioUuids[responseAuthorBioUuids.length - 1]
+		)
+		let authorBios = authorBioUuids.join(",")
 
 		assert.equal(authorBioUuids.length, responseAuthorBioUuids.length)
 		assert.equal(authorBios, responseAuthorBios)
 
 		// Get the AuthorBio
-		let newAuthorBioUuid = responseAuthorBioUuids[responseAuthorBioUuids.length - 1]
+		let newAuthorBioUuid =
+			responseAuthorBioUuids[responseAuthorBioUuids.length - 1]
 
 		let authorBioResponse = await TableObjectsController.GetTableObject({
 			accessToken: constants.authorUser.accessToken,
@@ -458,8 +529,14 @@ describe("SetBioOfAuthor endpoint", () => {
 
 		assert.equal(authorBioResponse.status, 200)
 		assert.equal(authorBioResponse.data.tableObject.Uuid, newAuthorBioUuid)
-		assert.equal(authorBioResponse.data.tableObject.GetPropertyValue("bio"), bio)
-		assert.equal(authorBioResponse.data.tableObject.GetPropertyValue("language"), language)
+		assert.equal(
+			authorBioResponse.data.tableObject.GetPropertyValue("bio"),
+			bio
+		)
+		assert.equal(
+			authorBioResponse.data.tableObject.GetPropertyValue("language"),
+			language
+		)
 	})
 
 	it("should update bio of author of user", async () => {
@@ -472,14 +549,16 @@ describe("SetBioOfAuthor endpoint", () => {
 
 		try {
 			response = await axios({
-				method: 'put',
-				url: setAuthorBioEndpointUrl.replace('{0}', "mine").replace('{1}', language),
+				method: "put",
+				url: setAuthorBioEndpointUrl
+					.replace("{0}", "mine")
+					.replace("{1}", language),
 				headers: {
 					Authorization: constants.authorUser.accessToken,
-					'Content-Type': 'application/json'
+					"Content-Type": "application/json"
 				},
 				params: {
-					fields: "*"
+					fields: "uuid,bio,language"
 				},
 				data: {
 					bio
@@ -504,12 +583,15 @@ describe("SetBioOfAuthor endpoint", () => {
 
 		assert.equal(authorResponse.status, 200)
 
-		let responseAuthorBios = authorResponse.data.tableObject.GetPropertyValue("bios")
-		let responseAuthorBioUuids = responseAuthorBios.split(',')
+		let responseAuthorBios =
+			authorResponse.data.tableObject.GetPropertyValue("bios")
+		let responseAuthorBioUuids = responseAuthorBios.split(",")
 
 		let authorBioUuids = []
-		constants.authorUser.author.bios.forEach(bio => authorBioUuids.push(bio.uuid))
-		let authorBios = authorBioUuids.join(',')
+		constants.authorUser.author.bios.forEach(bio =>
+			authorBioUuids.push(bio.uuid)
+		)
+		let authorBios = authorBioUuids.join(",")
 
 		assert.equal(responseAuthorBioUuids.length, authorBioUuids.length)
 		assert.equal(responseAuthorBios, authorBios)
@@ -522,7 +604,13 @@ describe("SetBioOfAuthor endpoint", () => {
 
 		assert.equal(authorBioResponse.status, 200)
 		assert.equal(authorBioUuid, authorBioResponse.data.tableObject.Uuid)
-		assert.equal(bio, authorBioResponse.data.tableObject.GetPropertyValue("bio"))
-		assert.equal(language, authorBioResponse.data.tableObject.GetPropertyValue("language"))
+		assert.equal(
+			bio,
+			authorBioResponse.data.tableObject.GetPropertyValue("bio")
+		)
+		assert.equal(
+			language,
+			authorBioResponse.data.tableObject.GetPropertyValue("language")
+		)
 	})
 })
