@@ -17,19 +17,24 @@
 			"source": "./author/author.dx"
 		},
 		{
+			"name": "author_bio_getter",
+			"params": ["object", "state", "params"],
+			"source": "./author/bio.dx"
+		},
+		{
 			"name": "author_publisher_getter",
 			"params": ["state", "params", "data"],
 			"source": "./author/publisher.dx"
 		},
 		{
+			"name": "author_bio_author_getter",
+			"params": ["state", "params", "data"],
+			"source": "./author_bio/author.dx"
+		},
+		{
 			"name": "url_getter",
 			"params": ["object", "state", "params"],
 			"source": "./url.dx"
-		},
-		{
-			"name": "author_bio_getter",
-			"params": ["object", "state", "params"],
-			"source": "./author/bio.dx"
 		},
 		{
 			"name": "store_book_title_getter",

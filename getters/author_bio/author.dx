@@ -1,0 +1,21 @@
+(# params: state: Hash, params: Hash, data: Hash)
+(if state.mine (
+	(# Get the authors of the user)
+	(var authors (func get_table_objects_of_user ("Author" state.session.user_id)))
+
+	(# Check if the user is an author)
+	(if (authors.length == 0) (
+		(# User is an admin)
+		(func render_validation_errors ((list
+			(hash
+				(error "user_is_not_author")
+				(status 400)
+			)
+		)))
+	))
+
+	(return authors#0)
+) else (
+	(# Get the author)
+	(return (func get_table_object (params.uuid state.session.user_id "Author")))
+))

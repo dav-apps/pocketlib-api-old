@@ -284,6 +284,10 @@
 			}
 		},
 		"AuthorBio": {
+			"parent": {
+				"type": "Author",
+				"getter": "author_bio_author_getter"
+			},
 			"properties": {
 				"bio": {
 					"type": "String",
@@ -329,7 +333,8 @@
 							"description": "The language of the bio"
 						}
 					},
-					"authenticated": true
+					"validators": ["user_is_not_admin_if_uuid_mine_validator"],
+					"state": "set_author_bio_state"
 				}
 			}
 		},

@@ -1,0 +1,10 @@
+(# params: session: Session, params: Hash, data: Hash)
+(var state (hash
+	(mine (params.uuid == "mine"))
+))
+
+(# Check if the user is an admin)
+(var admins (get_env "ADMINS"))
+(var state.is_admin (admins.contains session.user_id))
+
+(return state)

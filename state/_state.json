@@ -35,6 +35,11 @@
 			"name": "list_author_bios_state",
 			"params": ["session", "params", "data"],
 			"source": "./author_bio/list_author_bios.dx"
+		},
+		{
+			"name": "set_author_bio_state",
+			"params": ["session", "params", "data"],
+			"source": "./author_bio/set_author_bio.dx"
 		}
 	]
 }
