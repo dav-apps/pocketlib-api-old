@@ -12,6 +12,11 @@
 			"source": "./publisher/list_publishers.dx"
 		},
 		{
+			"name": "update_publisher_state",
+			"params": ["session", "params", "data"],
+			"source": "./publisher/update_publisher.dx"
+		},
+		{
 			"name": "create_author_state",
 			"params": ["session", "params", "data"],
 			"source": "./author/create_author.dx"

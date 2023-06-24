@@ -85,6 +85,7 @@
 				"update": {
 					"description": "Updates the publisher with the given uuid and returns it. If uuid = 'mine', updates the publisher of the user.",
 					"authenticated": true,
+					"state": "update_publisher_state",
 					"validators": ["user_is_not_admin_if_uuid_mine_validator"],
 					"getter": "publisher_getter"
 				}
