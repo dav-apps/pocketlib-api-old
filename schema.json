@@ -288,7 +288,7 @@
 		"AuthorBio": {
 			"parent": {
 				"type": "Author",
-				"getter": "author_bio_author_getter"
+				"getter": "author_getter"
 			},
 			"properties": {
 				"bio": {

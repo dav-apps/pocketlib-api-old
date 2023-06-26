@@ -27,11 +27,6 @@
 			"source": "./author/publisher.dx"
 		},
 		{
-			"name": "author_bio_author_getter",
-			"params": ["state", "params", "data"],
-			"source": "./author_bio/author.dx"
-		},
-		{
 			"name": "url_getter",
 			"params": ["object", "state", "params"],
 			"source": "./url.dx"

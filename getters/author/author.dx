@@ -1,12 +1,14 @@
 (# params: state: Hash, params: Hash, data: Hash)
-(if ((params.uuid == "mine") and (!(is_nil state.session))) (
+(if state.mine (
+	(# Get the authors of the user)
 	(var authors (func get_table_objects_of_user (
 		"Author"
 		state.session.user_id
 	)))
 
+	(# Check if the user is an author)
 	(if (authors.length == 0) (
-		(# User is not an author)
+		(# User is an admin)
 		(func render_validation_errors ((list
 			(hash
 				(error "user_is_not_author")
@@ -15,11 +17,12 @@
 		)))
 	))
 
-	(return authors[0])
+	(return authors#0)
 ))
 
+(# Get the author)
 (return (func get_table_object (
 	params.uuid
-	nil
+	(if (is_nil state.session) nil else state.session.user_id)
 	"Author"
 )))
