@@ -1,5 +1,5 @@
 (# params: state: Hash, params: Hash, data: Hash)
-(var publisher (func publisher_getter (state params.uuid)))
+(var publisher (func publisher_getter (state params data)))
 
 (if (is_nil publisher) (
 	(# Publisher does not exist)

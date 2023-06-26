@@ -17,6 +17,11 @@
 			"source": "./publisher/update_publisher.dx"
 		},
 		{
+			"name": "publisher_logo_state",
+			"params": ["session", "params", "data"],
+			"source": "./publisher_logo/publisher_logo.dx"
+		},
+		{
 			"name": "create_author_state",
 			"params": ["session", "params", "data"],
 			"source": "./author/create_author.dx"
