@@ -45,6 +45,11 @@
 			"name": "set_author_bio_state",
 			"params": ["session", "params", "data"],
 			"source": "./author_bio/set_author_bio.dx"
+		},
+		{
+			"name": "retrieve_author_profile_image_state",
+			"params": ["session", "params", "data"],
+			"source": "./author_profile_image/retrieve_author_profile_image.dx"
 		}
 	]
 }

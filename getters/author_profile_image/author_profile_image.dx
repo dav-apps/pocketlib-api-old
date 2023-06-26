@@ -1,0 +1,19 @@
+(# params: state: Hash, params: Hash, data: Hash)
+(var author (func author_getter (state params data)))
+
+(if (is_nil author) (
+	(# Author does not exist)
+	(func render_validation_errors ((list
+		(hash
+			(error "author_does_not_exist")
+			(status 404)
+		)
+	)))
+))
+
+(# Get the profile image of the author)
+(return (func get_table_object (
+	author.properties.profile_image
+	nil
+	"AuthorProfileImage"
+)))

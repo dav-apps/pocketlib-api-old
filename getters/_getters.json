@@ -27,6 +27,11 @@
 			"source": "./author/publisher.dx"
 		},
 		{
+			"name": "author_profile_image_getter",
+			"params": ["state", "params", "data"],
+			"source": "./author_profile_image/author_profile_image.dx"
+		},
+		{
 			"name": "url_getter",
 			"params": ["object", "state", "params"],
 			"source": "./url.dx"

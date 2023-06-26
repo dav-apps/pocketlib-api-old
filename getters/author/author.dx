@@ -21,8 +21,14 @@
 ))
 
 (# Get the author)
+(var authenticated_endpoints (list "set_author_bio"))
+
 (return (func get_table_object (
 	params.uuid
-	(if (is_nil state.session) nil else state.session.user_id)
+	(if (
+		(!(is_nil state.session))
+		and (authenticated_endpoints.contains state.endpoint_name)
+	) state.session.user_id
+	else nil)
 	"Author"
 )))
