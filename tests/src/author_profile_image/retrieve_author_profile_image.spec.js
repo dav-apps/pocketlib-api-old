@@ -10,13 +10,16 @@ describe("RetrieveAuthorProfileImage endpoint", () => {
 	it("should not return profile image of author without access token", async () => {
 		try {
 			await axios({
-				method: 'get',
-				url: retrieveAuthorProfileImageEndpoint.replace('{0}', "mine")
+				method: "get",
+				url: retrieveAuthorProfileImageEndpoint.replace("{0}", "mine")
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 401)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.AuthorizationHeaderMissing)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.AuthorizationHeaderMissing
+			)
 			return
 		}
 
@@ -26,8 +29,8 @@ describe("RetrieveAuthorProfileImage endpoint", () => {
 	it("should not return profile image of author with access token for session that does not exist", async () => {
 		try {
 			await axios({
-				method: 'get',
-				url: retrieveAuthorProfileImageEndpoint.replace('{0}', "mine"),
+				method: "get",
+				url: retrieveAuthorProfileImageEndpoint.replace("{0}", "mine"),
 				headers: {
 					Authorization: "asdasdasdads"
 				}
@@ -35,7 +38,10 @@ describe("RetrieveAuthorProfileImage endpoint", () => {
 		} catch (error) {
 			assert.equal(error.response.status, 404)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.SessionDoesNotExist)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.SessionDoesNotExist
+			)
 			return
 		}
 
@@ -45,8 +51,8 @@ describe("RetrieveAuthorProfileImage endpoint", () => {
 	it("should not return profile image of author with access token for another app", async () => {
 		try {
 			await axios({
-				method: 'get',
-				url: retrieveAuthorProfileImageEndpoint.replace('{0}', "mine"),
+				method: "get",
+				url: retrieveAuthorProfileImageEndpoint.replace("{0}", "mine"),
 				headers: {
 					Authorization: constants.testUserTestAppAccessToken
 				}
@@ -54,7 +60,10 @@ describe("RetrieveAuthorProfileImage endpoint", () => {
 		} catch (error) {
 			assert.equal(error.response.status, 403)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.ActionNotAllowed
+			)
 			return
 		}
 
@@ -64,8 +73,8 @@ describe("RetrieveAuthorProfileImage endpoint", () => {
 	it("should not return profile image of author if the user is not an author", async () => {
 		try {
 			await axios({
-				method: 'get',
-				url: retrieveAuthorProfileImageEndpoint.replace('{0}', "mine"),
+				method: "get",
+				url: retrieveAuthorProfileImageEndpoint.replace("{0}", "mine"),
 				headers: {
 					Authorization: constants.testUser.accessToken
 				}
@@ -73,7 +82,7 @@ describe("RetrieveAuthorProfileImage endpoint", () => {
 		} catch (error) {
 			assert.equal(error.response.status, 400)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.UserIsNotAuthor)
+			assert.equal(error.response.data.errors[0], ErrorCodes.UserIsNotAuthor)
 			return
 		}
 
@@ -83,8 +92,8 @@ describe("RetrieveAuthorProfileImage endpoint", () => {
 	it("should not return profile image of author if the user is an admin", async () => {
 		try {
 			await axios({
-				method: 'get',
-				url: retrieveAuthorProfileImageEndpoint.replace('{0}', "mine"),
+				method: "get",
+				url: retrieveAuthorProfileImageEndpoint.replace("{0}", "mine"),
 				headers: {
 					Authorization: constants.davUser.accessToken
 				}
@@ -92,7 +101,7 @@ describe("RetrieveAuthorProfileImage endpoint", () => {
 		} catch (error) {
 			assert.equal(error.response.status, 400)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.UserIsAdmin)
+			assert.equal(error.response.data.errors[0], ErrorCodes.UserIsAdmin)
 			return
 		}
 
@@ -102,8 +111,11 @@ describe("RetrieveAuthorProfileImage endpoint", () => {
 	it("should not return profile image if the author has no profile image", async () => {
 		try {
 			await axios({
-				method: 'get',
-				url: retrieveAuthorProfileImageEndpoint.replace('{0}', constants.davUser.authors[1].uuid),
+				method: "get",
+				url: retrieveAuthorProfileImageEndpoint.replace(
+					"{0}",
+					constants.davUser.authors[1].uuid
+				),
 				headers: {
 					Authorization: constants.authorUser.accessToken
 				}
@@ -111,7 +123,10 @@ describe("RetrieveAuthorProfileImage endpoint", () => {
 		} catch (error) {
 			assert.equal(error.response.status, 404)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.AuthorProfileImageItemDoesNotExist)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.AuthorProfileImageDoesNotExist
+			)
 			return
 		}
 
@@ -121,8 +136,11 @@ describe("RetrieveAuthorProfileImage endpoint", () => {
 	it("should not return profile image of author that does not exist", async () => {
 		try {
 			await axios({
-				method: 'get',
-				url: retrieveAuthorProfileImageEndpoint.replace('{0}', "adasdasdasdasad"),
+				method: "get",
+				url: retrieveAuthorProfileImageEndpoint.replace(
+					"{0}",
+					"adasdasdasdasad"
+				),
 				headers: {
 					Authorization: constants.davUser.accessToken
 				}
@@ -130,7 +148,10 @@ describe("RetrieveAuthorProfileImage endpoint", () => {
 		} catch (error) {
 			assert.equal(error.response.status, 404)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.AuthorDoesNotExist)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.AuthorDoesNotExist
+			)
 			return
 		}
 
@@ -143,10 +164,10 @@ describe("RetrieveAuthorProfileImage endpoint", () => {
 
 		try {
 			response = await axios({
-				method: 'get',
-				url: retrieveAuthorProfileImageEndpoint.replace('{0}', author.uuid),
+				method: "get",
+				url: retrieveAuthorProfileImageEndpoint.replace("{0}", author.uuid),
 				params: {
-					fields: "*"
+					fields: "uuid,url,blurhash"
 				}
 			})
 		} catch (error) {
@@ -155,9 +176,9 @@ describe("RetrieveAuthorProfileImage endpoint", () => {
 
 		assert.equal(response.status, 200)
 		assert.equal(Object.keys(response.data).length, 3)
-		assert.equal(response.data.uuid, author.profileImageItem.uuid)
+		assert.equal(response.data.uuid, author.profileImage.uuid)
 		assert.isNotNull(response.data.url)
-		assert.equal(response.data.blurhash, author.profileImageItem.blurhash)
+		assert.equal(response.data.blurhash, author.profileImage.blurhash)
 	})
 
 	it("should return profile image of author of user", async () => {
@@ -166,13 +187,13 @@ describe("RetrieveAuthorProfileImage endpoint", () => {
 
 		try {
 			response = await axios({
-				method: 'get',
-				url: retrieveAuthorProfileImageEndpoint.replace('{0}', "mine"),
+				method: "get",
+				url: retrieveAuthorProfileImageEndpoint.replace("{0}", "mine"),
 				headers: {
 					Authorization: constants.authorUser.accessToken
 				},
 				params: {
-					fields: "*"
+					fields: "uuid,url,blurhash"
 				}
 			})
 		} catch (error) {
@@ -181,8 +202,8 @@ describe("RetrieveAuthorProfileImage endpoint", () => {
 
 		assert.equal(response.status, 200)
 		assert.equal(Object.keys(response.data).length, 3)
-		assert.equal(response.data.uuid, author.profileImageItem.uuid)
+		assert.equal(response.data.uuid, author.profileImage.uuid)
 		assert.isNotNull(response.data.url)
-		assert.equal(response.data.blurhash, author.profileImageItem.blurhash)
+		assert.equal(response.data.blurhash, author.profileImage.blurhash)
 	})
 })
