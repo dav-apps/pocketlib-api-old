@@ -2,41 +2,6 @@
 	"type": "functions",
 	"functions": [
 		{
-			"name": "website_url_validator",
-			"params": ["value"],
-			"source": "./website_url.dx"
-		},
-		{
-			"name": "facebook_username_validator",
-			"params": ["value"],
-			"source": "./facebook_username.dx"
-		},
-		{
-			"name": "instagram_username_validator",
-			"params": ["value"],
-			"source": "./instagram_username.dx"
-		},
-		{
-			"name": "twitter_username_validator",
-			"params": ["value"],
-			"source": "./twitter_username.dx"
-		},
-		{
-			"name": "language_validator",
-			"params": ["value"],
-			"source": "./language.dx"
-		},
-		{
-			"name": "isbn_validator",
-			"params": ["value"],
-			"source": "./isbn.dx"
-		},
-		{
-			"name": "status_validator",
-			"params": ["value"],
-			"source": "./status.dx"
-		},
-		{
 			"name": "user_is_publisher_validator",
 			"params": ["state", "params", "data"],
 			"source": "./user_is_publisher.dx"
