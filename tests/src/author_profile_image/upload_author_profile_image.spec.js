@@ -16,7 +16,6 @@ let resetAuthorsAndAuthorProfileImages = false
 afterEach(async () => {
 	if (resetAuthorsAndAuthorProfileImages) {
 		await utils.resetAuthors()
-		await utils.resetAuthorProfileImageItems()
 		await utils.resetAuthorProfileImages()
 		resetAuthorsAndAuthorProfileImages = false
 	}
@@ -26,16 +25,22 @@ describe("UploadAuthorProfileImage endpoint", () => {
 	it("should not set profile image without access token", async () => {
 		try {
 			await axios({
-				method: 'put',
-				url: uploadAuthorProfileImageEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
+				method: "put",
+				url: uploadAuthorProfileImageEndpointUrl.replace(
+					"{0}",
+					constants.davUser.authors[0].uuid
+				),
 				headers: {
-					'Content-Type': 'application/json'
+					"Content-Type": "application/json"
 				}
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 401)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.AuthorizationHeaderMissing)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.AuthorizationHeaderMissing
+			)
 			return
 		}
 
@@ -45,17 +50,23 @@ describe("UploadAuthorProfileImage endpoint", () => {
 	it("should not set profile image with access token for session that does not exist", async () => {
 		try {
 			await axios({
-				method: 'put',
-				url: uploadAuthorProfileImageEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
+				method: "put",
+				url: uploadAuthorProfileImageEndpointUrl.replace(
+					"{0}",
+					constants.davUser.authors[0].uuid
+				),
 				headers: {
 					Authorization: "asdasdsdaasddas",
-					'Content-Type': 'image/png'
+					"Content-Type": "image/png"
 				}
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 404)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.SessionDoesNotExist)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.SessionDoesNotExist
+			)
 			return
 		}
 
@@ -65,17 +76,23 @@ describe("UploadAuthorProfileImage endpoint", () => {
 	it("should not set profile image with access token for another app", async () => {
 		try {
 			await axios({
-				method: 'put',
-				url: uploadAuthorProfileImageEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
+				method: "put",
+				url: uploadAuthorProfileImageEndpointUrl.replace(
+					"{0}",
+					constants.davUser.authors[0].uuid
+				),
 				headers: {
 					Authorization: constants.testUserTestAppAccessToken,
-					'Content-Type': 'image/jpeg'
+					"Content-Type": "image/jpeg"
 				}
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 403)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.ActionNotAllowed
+			)
 			return
 		}
 
@@ -85,8 +102,11 @@ describe("UploadAuthorProfileImage endpoint", () => {
 	it("should not set profile image without supported image content type", async () => {
 		try {
 			await axios({
-				method: 'put',
-				url: uploadAuthorProfileImageEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
+				method: "put",
+				url: uploadAuthorProfileImageEndpointUrl.replace(
+					"{0}",
+					constants.davUser.authors[0].uuid
+				),
 				headers: {
 					Authorization: constants.davUser.accessToken
 				}
@@ -94,7 +114,10 @@ describe("UploadAuthorProfileImage endpoint", () => {
 		} catch (error) {
 			assert.equal(error.response.status, 415)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.ContentTypeNotSupported)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.ContentTypeNotSupported
+			)
 			return
 		}
 
@@ -104,17 +127,17 @@ describe("UploadAuthorProfileImage endpoint", () => {
 	it("should not set profile image of author if the user is not an author", async () => {
 		try {
 			await axios({
-				method: 'put',
-				url: uploadAuthorProfileImageEndpointUrl.replace('{0}', "mine"),
+				method: "put",
+				url: uploadAuthorProfileImageEndpointUrl.replace("{0}", "mine"),
 				headers: {
 					Authorization: constants.testUser.accessToken,
-					'Content-Type': 'image/png'
+					"Content-Type": "image/png"
 				}
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 400)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.UserIsNotAuthor)
+			assert.equal(error.response.data.errors[0], ErrorCodes.UserIsNotAuthor)
 			return
 		}
 
@@ -124,17 +147,17 @@ describe("UploadAuthorProfileImage endpoint", () => {
 	it("should not set profile image of author if the user is an admin", async () => {
 		try {
 			await axios({
-				method: 'put',
-				url: uploadAuthorProfileImageEndpointUrl.replace('{0}', "mine"),
+				method: "put",
+				url: uploadAuthorProfileImageEndpointUrl.replace("{0}", "mine"),
 				headers: {
 					Authorization: constants.davUser.accessToken,
-					'Content-Type': 'image/png'
+					"Content-Type": "image/png"
 				}
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 400)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.UserIsAdmin)
+			assert.equal(error.response.data.errors[0], ErrorCodes.UserIsAdmin)
 			return
 		}
 
@@ -144,17 +167,23 @@ describe("UploadAuthorProfileImage endpoint", () => {
 	it("should not set profile image if the user is not an admin", async () => {
 		try {
 			await axios({
-				method: 'put',
-				url: uploadAuthorProfileImageEndpointUrl.replace('{0}', constants.davUser.authors[0].uuid),
+				method: "put",
+				url: uploadAuthorProfileImageEndpointUrl.replace(
+					"{0}",
+					constants.davUser.authors[0].uuid
+				),
 				headers: {
 					Authorization: constants.authorUser.accessToken,
-					'Content-Type': 'image/png'
+					"Content-Type": "image/png"
 				}
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 403)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.ActionNotAllowed
+			)
 			return
 		}
 
@@ -164,17 +193,23 @@ describe("UploadAuthorProfileImage endpoint", () => {
 	it("should not set profile image of author that does not exist", async () => {
 		try {
 			await axios({
-				method: 'put',
-				url: uploadAuthorProfileImageEndpointUrl.replace('{0}', "asdasdasdads"),
+				method: "put",
+				url: uploadAuthorProfileImageEndpointUrl.replace(
+					"{0}",
+					"asdasdasdads"
+				),
 				headers: {
 					Authorization: constants.davUser.accessToken,
-					'Content-Type': 'image/png'
+					"Content-Type": "image/png"
 				}
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 404)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.AuthorDoesNotExist)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.AuthorDoesNotExist
+			)
 			return
 		}
 
@@ -184,17 +219,23 @@ describe("UploadAuthorProfileImage endpoint", () => {
 	it("should not set profile image if the author does not belong to the user", async () => {
 		try {
 			await axios({
-				method: 'put',
-				url: uploadAuthorProfileImageEndpointUrl.replace('{0}', constants.authorUser.author.uuid),
+				method: "put",
+				url: uploadAuthorProfileImageEndpointUrl.replace(
+					"{0}",
+					constants.authorUser.author.uuid
+				),
 				headers: {
 					Authorization: constants.davUser.accessToken,
-					'Content-Type': 'image/png'
+					"Content-Type": "image/png"
 				}
 			})
 		} catch (error) {
 			assert.equal(error.response.status, 403)
 			assert.equal(error.response.data.errors.length, 1)
-			assert.equal(error.response.data.errors[0].code, ErrorCodes.ActionNotAllowed)
+			assert.equal(
+				error.response.data.errors[0],
+				ErrorCodes.ActionNotAllowed
+			)
 			return
 		}
 
@@ -214,22 +255,27 @@ describe("UploadAuthorProfileImage endpoint", () => {
 
 		assert.equal(getAuthorObjResponse.status, 200)
 
-		// The author should not have a profile image item
-		assert.isNull(getAuthorObjResponse.data.tableObject.GetPropertyValue("profile_image_item"))
+		// The author should not have a profile image
+		assert.isNull(
+			getAuthorObjResponse.data.tableObject.GetPropertyValue("profile_image")
+		)
 
 		// Upload the profile image
-		let filePath = path.resolve(__dirname, '../files/cover.png')
+		let filePath = path.resolve(__dirname, "../files/cover.png")
 		let firstFileContent = fs.readFileSync(filePath)
 		let firstFileType = "image/png"
 		let firstFileExt = "png"
 
 		try {
 			await axios({
-				method: 'put',
-				url: uploadAuthorProfileImageEndpointUrl.replace('{0}', author.uuid),
+				method: "put",
+				url: uploadAuthorProfileImageEndpointUrl.replace(
+					"{0}",
+					author.uuid
+				),
 				headers: {
 					Authorization: accessToken,
-					'Content-Type': firstFileType
+					"Content-Type": firstFileType
 				},
 				data: firstFileContent
 			})
@@ -245,53 +291,61 @@ describe("UploadAuthorProfileImage endpoint", () => {
 
 		assert.equal(getAuthorObjResponse2.status, 200)
 
-		// The author should now have a profile image item
-		let profileImageItemUuid = getAuthorObjResponse2.data.tableObject.GetPropertyValue("profile_image_item")
-		assert.isNotNull(profileImageItemUuid)
-
-		// Get the profile image item table object
-		let getProfileImageItemResponse = await TableObjectsController.GetTableObject({
-			accessToken,
-			uuid: profileImageItemUuid
-		})
-
-		assert.equal(getProfileImageItemResponse.status, 200)
-		assert.isNotNull(getProfileImageItemResponse.data.tableObject.GetPropertyValue("blurhash"))
-
-		let profileImageUuid = getProfileImageItemResponse.data.tableObject.GetPropertyValue("profile_image")
+		// The author should now have a profile image
+		let profileImageUuid =
+			getAuthorObjResponse2.data.tableObject.GetPropertyValue(
+				"profile_image"
+			)
 		assert.isNotNull(profileImageUuid)
 
 		// Get the profile image table object file
-		let getProfileImageFileObjResponse = await TableObjectsController.GetTableObjectFile({
-			accessToken,
-			uuid: profileImageUuid
-		})
+		let getProfileImageFileObjResponse =
+			await TableObjectsController.GetTableObjectFile({
+				accessToken,
+				uuid: profileImageUuid
+			})
 
 		assert.equal(getProfileImageFileObjResponse.status, 200)
 		assert.equal(getProfileImageFileObjResponse.data, firstFileContent)
 
 		// Get the profile image table object
-		let getProfileImageObjResponse = await TableObjectsController.GetTableObject({
-			accessToken,
-			uuid: profileImageUuid
-		})
+		let getProfileImageObjResponse =
+			await TableObjectsController.GetTableObject({
+				accessToken,
+				uuid: profileImageUuid
+			})
 
 		assert.equal(getProfileImageObjResponse.status, 200)
-		assert.equal(getProfileImageObjResponse.data.tableObject.GetPropertyValue("type"), firstFileType)
-		assert.equal(getProfileImageObjResponse.data.tableObject.GetPropertyValue("ext"), firstFileExt)
+		assert.equal(
+			getProfileImageObjResponse.data.tableObject.GetPropertyValue("type"),
+			firstFileType
+		)
+		assert.equal(
+			getProfileImageObjResponse.data.tableObject.GetPropertyValue("ext"),
+			firstFileExt
+		)
+		assert.isNotNull(
+			getProfileImageObjResponse.data.tableObject.GetPropertyValue(
+				"blurhash"
+			)
+		)
 
 		// Update the profile image
 		let secondFileType = "image/jpeg"
 		let secondFileExt = "jpg"
-		let secondFileContent = "Labore dicta cupiditate culpa cum harum. Corporis voluptatem debitis eos nam nisi esse in vitae. Molestiae rerum nesciunt sunt sed et dolorum."
+		let secondFileContent =
+			"Labore dicta cupiditate culpa cum harum. Corporis voluptatem debitis eos nam nisi esse in vitae. Molestiae rerum nesciunt sunt sed et dolorum."
 
 		try {
 			await axios({
-				method: 'put',
-				url: uploadAuthorProfileImageEndpointUrl.replace('{0}', author.uuid),
+				method: "put",
+				url: uploadAuthorProfileImageEndpointUrl.replace(
+					"{0}",
+					author.uuid
+				),
 				headers: {
 					Authorization: accessToken,
-					'Content-Type': secondFileType
+					"Content-Type": secondFileType
 				},
 				data: secondFileContent
 			})
@@ -299,36 +353,53 @@ describe("UploadAuthorProfileImage endpoint", () => {
 			assert.fail()
 		}
 
-		// Get the profile image item table object
-		let getProfileImageItemResponse2 = await TableObjectsController.GetTableObject({
+		// Get the author table object
+		let getAuthorObjResponse3 = await TableObjectsController.GetTableObject({
 			accessToken,
-			uuid: profileImageItemUuid
+			uuid: author.uuid
 		})
 
-		assert.equal(getProfileImageItemResponse2.status, 200)
+		assert.equal(getAuthorObjResponse3.status, 200)
 
-		// The profile image item should have the same profile image, but no profile image blurhash
-		assert.equal(getProfileImageItemResponse2.data.tableObject.GetPropertyValue("profile_image"), profileImageUuid)
-		assert.isNull(getProfileImageItemResponse2.data.tableObject.GetPropertyValue("blurhash"))
+		// The author should have the same profile image
+		assert.equal(
+			getAuthorObjResponse3.data.tableObject.GetPropertyValue(
+				"profile_image"
+			),
+			profileImageUuid
+		)
 
 		// Get the profile image table object file
-		let getProfileImageFileObjResponse2 = await TableObjectsController.GetTableObjectFile({
-			accessToken,
-			uuid: profileImageUuid
-		})
+		let getProfileImageFileObjResponse2 =
+			await TableObjectsController.GetTableObjectFile({
+				accessToken,
+				uuid: profileImageUuid
+			})
 
 		assert.equal(getProfileImageFileObjResponse2.status, 200)
 		assert.equal(getProfileImageFileObjResponse2.data, secondFileContent)
 
 		// Get the profile image table object
-		let getProfileImageObjResponse2 = await TableObjectsController.GetTableObject({
-			accessToken,
-			uuid: profileImageUuid
-		})
+		let getProfileImageObjResponse2 =
+			await TableObjectsController.GetTableObject({
+				accessToken,
+				uuid: profileImageUuid
+			})
 
 		assert.equal(getProfileImageObjResponse2.status, 200)
-		assert.equal(getProfileImageObjResponse2.data.tableObject.GetPropertyValue("type"), secondFileType)
-		assert.equal(getProfileImageObjResponse2.data.tableObject.GetPropertyValue("ext"), secondFileExt)
+		assert.equal(
+			getProfileImageObjResponse2.data.tableObject.GetPropertyValue("type"),
+			secondFileType
+		)
+		assert.equal(
+			getProfileImageObjResponse2.data.tableObject.GetPropertyValue("ext"),
+			secondFileExt
+		)
+		assert.isNull(
+			getProfileImageObjResponse2.data.tableObject.GetPropertyValue(
+				"blurhash"
+			)
+		)
 	})
 
 	it("should create and update profile image of author of user", async () => {
@@ -344,22 +415,24 @@ describe("UploadAuthorProfileImage endpoint", () => {
 
 		assert.equal(getAuthorObjResponse.status, 200)
 
-		// The author should have a profile image item
-		assert.isNotNull(getAuthorObjResponse.data.tableObject.GetPropertyValue("profile_image_item"))
+		// The author should have a profile image
+		let profileImageUuid =
+			getAuthorObjResponse.data.tableObject.GetPropertyValue("profile_image")
+		assert.isNotNull(profileImageUuid)
 
 		// Upload the profile image (1)
-		let filePath = path.resolve(__dirname, '../files/cover.png')
+		let filePath = path.resolve(__dirname, "../files/cover.png")
 		let firstFileContent = fs.readFileSync(filePath)
 		let firstFileType = "image/png"
 		let firstFileExt = "png"
 
 		try {
 			await axios({
-				method: 'put',
-				url: uploadAuthorProfileImageEndpointUrl.replace('{0}', "mine"),
+				method: "put",
+				url: uploadAuthorProfileImageEndpointUrl.replace("{0}", "mine"),
 				headers: {
 					Authorization: accessToken,
-					'Content-Type': firstFileType
+					"Content-Type": firstFileType
 				},
 				data: firstFileContent
 			})
@@ -375,53 +448,58 @@ describe("UploadAuthorProfileImage endpoint", () => {
 
 		assert.equal(getAuthorObjResponse2.status, 200)
 
-		// The author should now have a profile image item
-		let profileImageItemUuid = getAuthorObjResponse2.data.tableObject.GetPropertyValue("profile_image_item")
-		assert.isNotNull(profileImageItemUuid)
-
-		// Get the profile image item table object
-		let getProfileImageItemResponse = await TableObjectsController.GetTableObject({
-			accessToken,
-			uuid: profileImageItemUuid
-		})
-
-		assert.equal(getProfileImageItemResponse.status, 200)
-		assert.isNotNull(getProfileImageItemResponse.data.tableObject.GetPropertyValue("blurhash"))
-
-		let profileImageUuid = getProfileImageItemResponse.data.tableObject.GetPropertyValue("profile_image")
-		assert.isNotNull(profileImageUuid)
+		// The author should still have the same profile image
+		let profileImageUuid2 =
+			getAuthorObjResponse2.data.tableObject.GetPropertyValue(
+				"profile_image"
+			)
+		assert.equal(profileImageUuid, profileImageUuid2)
 
 		// Get the profile image table object file
-		let getProfileImageFileObjResponse = await TableObjectsController.GetTableObjectFile({
-			accessToken,
-			uuid: profileImageUuid
-		})
+		let getProfileImageFileObjResponse =
+			await TableObjectsController.GetTableObjectFile({
+				accessToken,
+				uuid: profileImageUuid
+			})
 
 		assert.equal(getProfileImageFileObjResponse.status, 200)
 		assert.equal(getProfileImageFileObjResponse.data, firstFileContent)
 
 		// Get the profile image table object
-		let getProfileImageObjResponse = await TableObjectsController.GetTableObject({
-			accessToken,
-			uuid: profileImageUuid
-		})
+		let getProfileImageObjResponse =
+			await TableObjectsController.GetTableObject({
+				accessToken,
+				uuid: profileImageUuid
+			})
 
 		assert.equal(getProfileImageObjResponse.status, 200)
-		assert.equal(getProfileImageObjResponse.data.tableObject.GetPropertyValue("type"), firstFileType)
-		assert.equal(getProfileImageObjResponse.data.tableObject.GetPropertyValue("ext"), firstFileExt)
+		assert.equal(
+			getProfileImageObjResponse.data.tableObject.GetPropertyValue("type"),
+			firstFileType
+		)
+		assert.equal(
+			getProfileImageObjResponse.data.tableObject.GetPropertyValue("ext"),
+			firstFileExt
+		)
+		assert.isNotNull(
+			getProfileImageObjResponse.data.tableObject.GetPropertyValue(
+				"blurhash"
+			)
+		)
 
 		// Update the profile image
 		let secondFileType = "image/jpeg"
 		let secondFileExt = "jpg"
-		let secondFileContent = "Labore dicta cupiditate culpa cum harum. Corporis voluptatem debitis eos nam nisi esse in vitae. Molestiae rerum nesciunt sunt sed et dolorum."
+		let secondFileContent =
+			"Labore dicta cupiditate culpa cum harum. Corporis voluptatem debitis eos nam nisi esse in vitae. Molestiae rerum nesciunt sunt sed et dolorum."
 
 		try {
 			await axios({
-				method: 'put',
-				url: uploadAuthorProfileImageEndpointUrl.replace('{0}', "mine"),
+				method: "put",
+				url: uploadAuthorProfileImageEndpointUrl.replace("{0}", "mine"),
 				headers: {
 					Authorization: accessToken,
-					'Content-Type': secondFileType
+					"Content-Type": secondFileType
 				},
 				data: secondFileContent
 			})
@@ -429,35 +507,52 @@ describe("UploadAuthorProfileImage endpoint", () => {
 			assert.fail()
 		}
 
-		// Get the profile image item table object
-		let getProfileImageItemResponse2 = await TableObjectsController.GetTableObject({
+		// Get the author table object
+		let getAuthorObjResponse3 = await TableObjectsController.GetTableObject({
 			accessToken,
-			uuid: profileImageItemUuid
+			uuid: author.uuid
 		})
 
-		assert.equal(getProfileImageItemResponse2.status, 200)
+		assert.equal(getAuthorObjResponse3.status, 200)
 
-		// The profile image item should have the same profile image, but no profile image blurhash
-		assert.equal(getProfileImageItemResponse2.data.tableObject.GetPropertyValue("profile_image"), profileImageUuid)
-		assert.isNull(getProfileImageItemResponse2.data.tableObject.GetPropertyValue("blurhash"))
+		// The author should have the same profile image
+		assert.equal(
+			getAuthorObjResponse3.data.tableObject.GetPropertyValue(
+				"profile_image"
+			),
+			profileImageUuid
+		)
 
 		// Get the profile image table object file
-		let getProfileImageFileObjResponse2 = await TableObjectsController.GetTableObjectFile({
-			accessToken,
-			uuid: profileImageUuid
-		})
+		let getProfileImageFileObjResponse2 =
+			await TableObjectsController.GetTableObjectFile({
+				accessToken,
+				uuid: profileImageUuid
+			})
 
 		assert.equal(getProfileImageFileObjResponse2.status, 200)
 		assert.equal(getProfileImageFileObjResponse2.data, secondFileContent)
 
 		// Get the profile image table object
-		let getProfileImageObjResponse2 = await TableObjectsController.GetTableObject({
-			accessToken,
-			uuid: profileImageUuid
-		})
+		let getProfileImageObjResponse2 =
+			await TableObjectsController.GetTableObject({
+				accessToken,
+				uuid: profileImageUuid
+			})
 
 		assert.equal(getProfileImageObjResponse2.status, 200)
-		assert.equal(getProfileImageObjResponse2.data.tableObject.GetPropertyValue("type"), secondFileType)
-		assert.equal(getProfileImageObjResponse2.data.tableObject.GetPropertyValue("ext"), secondFileExt)
+		assert.equal(
+			getProfileImageObjResponse2.data.tableObject.GetPropertyValue("type"),
+			secondFileType
+		)
+		assert.equal(
+			getProfileImageObjResponse2.data.tableObject.GetPropertyValue("ext"),
+			secondFileExt
+		)
+		assert.isNull(
+			getProfileImageObjResponse2.data.tableObject.GetPropertyValue(
+				"blurhash"
+			)
+		)
 	})
 })
