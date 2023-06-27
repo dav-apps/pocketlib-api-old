@@ -47,9 +47,9 @@
 			"source": "./author_bio/set_author_bio.dx"
 		},
 		{
-			"name": "retrieve_author_profile_image_state",
+			"name": "author_profile_image_state",
 			"params": ["session", "params", "data"],
-			"source": "./author_profile_image/retrieve_author_profile_image.dx"
+			"source": "./author_profile_image/author_profile_image.dx"
 		}
 	]
 }

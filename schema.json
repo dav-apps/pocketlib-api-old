@@ -341,13 +341,18 @@
 			}
 		},
 		"AuthorProfileImage": {
+			"parent": {
+				"type": "Author",
+				"getter": "author_getter"
+			},
 			"properties": {
 				"url": {
 					"type": "String",
 					"getter": "url_getter"
 				},
 				"blurhash": {
-					"type": "String"
+					"type": "String",
+					"preprocessor": "blurhash_preprocessor"
 				}
 			},
 			"endpoints": {
@@ -364,7 +369,7 @@
 						"value": "uuid_mine_check",
 						"description": "If uuid = 'mine'"
 					},
-					"state": "retrieve_author_profile_image_state",
+					"state": "author_profile_image_state",
 					"validators": ["user_is_not_admin_if_uuid_mine_validator"],
 					"getter": "author_profile_image_getter"
 				},
@@ -377,7 +382,9 @@
 							"description": "The uuid of the author"
 						}
 					},
-					"contentTypes": ["image/png", "image/jpeg"]
+					"state": "author_profile_image_state",
+					"contentTypes": ["image/png", "image/jpeg"],
+					"validators": ["user_is_not_admin_if_uuid_mine_validator"]
 				}
 			}
 		},
