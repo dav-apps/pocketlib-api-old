@@ -1,4 +1,4 @@
-(# params: object: TableObject, params: Hash)
+(# params: object: TableObject, state: Hash, params: Hash)
 (return (TableObject.get_cdn_url
 	object.uuid
 	(hash (etag object.properties.etag))

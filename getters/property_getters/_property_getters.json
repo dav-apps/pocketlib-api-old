@@ -2,34 +2,9 @@
 	"type": "functions",
 	"functions": [
 		{
-			"name": "publisher_getter",
-			"params": ["state", "params", "data"],
-			"source": "./publisher/publisher.dx"
-		},
-		{
-			"name": "publisher_logo_getter",
-			"params": ["state", "params", "data"],
-			"source": "./publisher_logo/publisher_logo.dx"
-		},
-		{
-			"name": "author_getter",
-			"params": ["state", "params", "data"],
-			"source": "./author/author.dx"
-		},
-		{
 			"name": "author_bio_getter",
 			"params": ["object", "state", "params"],
 			"source": "./author/bio.dx"
-		},
-		{
-			"name": "author_publisher_getter",
-			"params": ["state", "params", "data"],
-			"source": "./author/publisher.dx"
-		},
-		{
-			"name": "author_profile_image_getter",
-			"params": ["state", "params", "data"],
-			"source": "./author_profile_image/author_profile_image.dx"
 		},
 		{
 			"name": "url_getter",
